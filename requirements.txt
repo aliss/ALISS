@@ -1,0 +1,15 @@
+Django==1.11.8
+dj-database-url==0.4.2
+gunicorn==19.6.0
+psycopg2==2.6.2
+whitenoise==3.3.0
+django-filter==1.0.4
+elasticsearch==5.2.0
+elasticsearch-dsl==5.1.0
+geopy==1.11.0
+djangorestframework==3.7.3
+certifi==2017.1.23
+django-redis==4.8.0
+django-braces==1.11.0
+django-localflavor==1.5.2
+twilio==6.4.1
