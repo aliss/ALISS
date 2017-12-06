@@ -61,7 +61,6 @@ class Service(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
     organisation = models.ForeignKey('aliss.Organisation', related_name='services')
-    program = models.ForeignKey('aliss.Program', null=True)
 
     name = models.CharField(max_length=100)
     description = models.TextField()
