@@ -111,3 +111,22 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# Custom User model
+AUTH_USER_MODEL = 'aliss.ALISSUser'
+LOGIN_URL = '/account/login/'
+LOGIN_REDIRECT_URL = '/'
+
+# Email Settings
+SERVER_EMAIL = 'info@aliss.org'
+DEFAULT_FROM_EMAIL = 'info@aliss.org'
+
+# Error Reporting
+ADMINS = (
+    ('Kevin Brolly', 'kevin@thisisbraw.co.uk'),
+)
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
