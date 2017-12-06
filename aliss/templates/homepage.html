@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main" role="main">
+    <section id="search">
+        <div class="bg"></div>
+        <div class="row">
+            <div class="columns">
+                <h1>Connecting Communities</h1>
+                <label>Looking for help? Enter your postcode to find support in your local area:</label>
+                <div class="search-box">
+                    <div class="search-holder sbs-inputs">
+                        <input type="text" placeholder="e.g. G2 4AA">
+                        <div class="search-button">
+                            <button><span>Search</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="center-section">
+        <div class="row section-title">
+            <div class="columns">
+                <h3>What is ALISS?</h3>
+                <p>ALISS (A Local Information System for Scotland) is a resource to help you find help and support close to you when you need it most.</p>
+            </div>
+        </div>
+        {% include 'partials/for-not-for.html' %}
+        <div class="row buttons">
+            <div class="columns">
+                <a href="#" class="button secondary">More About Us</a>
+            </div>
+        </div>
+    </section>
+    <section class="center-section">
+        <div class="row section-title">
+            <div class="columns">
+                <h3>Join ALISS</h3>
+                <p>Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.</p>
+            </div>
+        </div>
+        <div class="row buttons">
+            <div class="columns">
+                <a href="#" class="button primary">Sign Up</a>
+            </div>
+        </div>
+    </section>
+    {% include 'partials/share-search.html' %}
+</main>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main" role="main">
+    <section id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>Log In</h1>
+                    <p>Not got an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="login">
+        <div class="row">
+            <div class="columns">
+                <div class="login">
+                    <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="info-box">
+                            <div class="heading">
+                                <h4>Your details</h4>
+                            </div>
+                            <label for="username">Email</label>
+                            {{ form.username }}
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                            <p><a href="{% url 'password_reset' %}">I've forgotten my password</a></p>
+                        </div>
+                        <input type="submit" value="Log In">
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

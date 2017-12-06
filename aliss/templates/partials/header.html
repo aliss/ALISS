@@ -1,0 +1,63 @@
+{% load static %}
+
+<header class="header" role="banner">
+    <div class="row">
+        <div class="columns">
+            <a href="{% url 'homepage' %}">
+                <div id="branding">
+                    <svg style="fill: white">
+                        <use href="{% static 'img/svg-sprite/symbols.svg' %}#logo" />
+                        <title>ALISS</title>
+                        <desc>A Local Information System for Scotland</desc>
+                    </svg>
+                </div>
+            </a>
+            <div class="top-hat">
+                <div class="account-info">
+                    <ul>
+                        <li>
+                            <a href="{% url 'login' %}">Log In</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'signup' %}">Sign Up</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-button">
+                    <a href="#" class="button secondary">Give Feedback</a>
+                </div>
+            </div>
+            <div class="navigation">
+                <a id="menu_toggle">
+                    <span class="nav">
+                        <span class="text">Navigation</span>
+                    </span>
+                    <span class="close">
+                        <span class="text">Close</span>
+                    </span>
+                </a>
+                <div id="menu">
+                    <div class="inner">
+                        <nav role="navigation">
+                            <ul>
+                                <li class="active">
+                                    <a href="#">Search</a>
+                                </li>
+                                <li>
+                                    <a href="#">About</a>
+                                </li>
+                                <li>
+                                    <a href="#">News</a>
+                                </li>
+                                <li>
+                                    <a href="#">Add an Organisation</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        {% include 'partials/social.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
