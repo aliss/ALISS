@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main" role="main">
+    <section id="content" class="results">
+        <div class="row title">
+            <div class="columns">
+                <h1>Help &amp; Support in <span class="postcode">{{ postcode.postcode }}</span></h1>
+                <div class="buttons">
+                    <a href="#" class="button primary">Search Again</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="results">
+        <div class="row local-national">
+            <div class="columns">
+                <h4 class="toggle-heading" id="local_national_toggle">Select Proximity</h4>
+                <div class="cells three toggled" id="local_national">
+                    <a href="#" class="active">
+                        <div class="holder">
+                            <span class="radio"></span>
+                            <span class="text">
+                                Show me all services, local and national
+                            </span>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="holder">
+                            <span class="radio"></span>
+                            <span class="text">
+                                Only show the services that operate locally
+                            </span>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="holder">
+                            <span class="radio"></span>
+                            <span class="text">
+                                Only show services that operate nationally
+                            </span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row results">
+            <div class="columns filters">
+                <h4 class="toggle-heading" id="filters_toggle">Customise Results</h4>
+                <div class="filter-group toggled" id="filters">
+                    <div class="filter keyword-search">
+                        <label>Filter by keyword:</label>
+                        <div class="sbs-inputs">
+                            <input type="text" placeholder="e.g. Diabetes">
+                            <input type="submit" class="secondary" value="Search">
+                        </div>
+                    </div>
+                    <div class="filter category">
+                        <label>Filter by needs:</label>
+                        <ul class="radio-list-links cat truncate">
+                            <li class="active">
+                                <a href="#">
+                                    <span class="radio"></span>
+                                    <span class="cat">
+                                        <i class="fa fa-utensil-fork"></i>
+                                    </span>
+                                    <span class="name">
+                                        Food
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="radio"></span>
+                                    <span class="cat">
+                                        <i class="fa fa-home"></i>
+                                    </span>
+                                    <span class="name">
+                                        Housing &amp; Homelessness
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="radio"></span>
+                                    <span class="cat">
+                                        <i class="fa fa-pound-sign"></i>
+                                    </span>
+                                    <span class="name">
+                                        Money Advice
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="radio"></span>
+                                    <span class="cat">
+                                        <i class="fa fa-lightbulb"></i>
+                                    </span>
+                                    <span class="name">
+                                        Mental Health
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="columns listing">
+                <ul class="search-results">
+                    {% for result in object_list %}
+                        <li>
+                            <div class="heading">
+                                <a href="{% url 'service_report_problem' result.id %}" class="alert icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                    Report this listing
+                                </a>
+                                <a href="{% url 'service_detail' result.id %}"><h3>{{ result.name }}</h3></a>
+                            </div>
+                            <p class="org">by <a href="{% url 'organisation_detail' result.organisation.id %}">{{ result.organisation.name }}</a> <span class="claimed">Claimed</span></p>
+                            <p>{{ result.description|linebreaks }}</p>
+                            <div class="assigned-category">
+                                <span class="cat">
+                                    <i class="fa fa-utensil-fork"></i>
+                                </span>
+                                <span class="name">
+                                    Food
+                                </span>
+                            </div>
+                            <div class="location">
+                                <a class="icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                    100 Address Street, Glasgow, G11 5LY
+                                </a>
+                            </div>
+                            <ul class="contact-info">
+                                {% if result.phone %}
+                                    <li>
+                                        {{ result.phone }}
+                                    </li>
+                                {% endif %}
+                                {% if result.url %}
+                                    <li>
+                                        <a href="{{ result.url }}">Website</a>
+                                    </li>
+                                {% endif %}
+                                {% if result.service_areas %}
+                                    <li class="service-areas">
+                                        <a>Service Areas</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                            {% if result.service_areas %}
+                                <div class="service-areas-list">
+                                    <p>{% for area in result.service_areas %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="paged">
+                    <div class="holder">
+                        <p class="total">Showing 8 of 21 results</p>
+                        <div class="pages">
+                            <span class="prev">Prev</span>
+                            <span class="number">1</span>
+                            <a href="#" class="number">2</a>
+                            <a href="#" class="number">3</a>
+                            <a href="#" class="next">Next</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include 'partials/share-search.php' %}
+</main>
+{% endblock %}
