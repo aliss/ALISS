@@ -12,7 +12,7 @@ def _get_connection():
     return Elasticsearch([settings.ELASTICSEARCH_URL], http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
 
 
-organisation_properties = {
+organisation_mapping = {
     'id': {'type': 'keyword'},
     'name': {'type': 'text'},
     'description': {
@@ -27,7 +27,7 @@ organisation_properties = {
 }
 
 
-service_properties = {
+service_mapping = {
     'id': {'type': 'keyword'},
     'organisation': {
         'properties': {
