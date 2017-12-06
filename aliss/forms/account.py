@@ -61,7 +61,7 @@ class SignupForm(forms.ModelForm):
         return password2
 
 
-class UpdateForm(forms.ModelForm):
+class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = ALISSUser
         fields = ('email', 'username')

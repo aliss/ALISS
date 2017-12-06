@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://gmpg.org/xfn/11">
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106504389-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)};
+        gtag('js', new Date());
+
+        gtag('config', 'UA-106504389-1');
+    </script>
+
+    <!-- Meta Information -->
+    <meta charset="UTF-8">
+    <title>{% block title %}ALISS{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}{% endblock %}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <!-- Web Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/viv7jex.css">
+
+    {% block before_head_close %}
+    {% endblock %}
+</head>
+<body>
+    {% block header %}
+        {% include 'partials/header.html' %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+        {% include 'partials/footer.html' %}
+    {% endblock %}
+
+    <!-- Javacript -->
+    <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+    {% block before_body_close %}
+    {% endblock %}
+</body>
+</html>
