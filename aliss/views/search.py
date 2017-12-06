@@ -5,7 +5,7 @@ from django.conf import settings
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
 
-from aliss.paginator import ESPaginator
+from aliss.paginators import ESPaginator
 from aliss.forms import SearchForm
 from aliss.models import Postcode
 from aliss.search import (

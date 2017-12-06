@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 
 from braces.views import StaffuserRequiredMixin
 
-from aliss.search import index_object, delete_object
+from aliss.search import index_service, delete_service
 from aliss.models import Service, ServiceProblem, ServiceArea, Organisation
 from aliss.forms import (
     ServiceForm,
@@ -46,7 +46,7 @@ class ServiceCreateView(StaffuserRequiredMixin, CreateView):
         self.object.save()
         form.save_m2m()
 
-        index_object(self.object, 'service')
+        index_service(self.object)
 
         messages.success(
             self.request,
@@ -86,7 +86,7 @@ class ServiceUpdateView(StaffuserRequiredMixin, UpdateView):
         self.object.save()
         form.save_m2m()
 
-        index_object(self.object, 'service')
+        index_service(self.object)
 
         messages.success(
             self.request,
@@ -118,7 +118,7 @@ class ServiceDeleteView(StaffuserRequiredMixin, DeleteView):
         success_url = self.get_success_url()
 
         # Delete from search index
-        delete_object(self.object.pk, 'service')
+        delete_service(self.object.pk)
         self.object.delete()
 
         messages.success(

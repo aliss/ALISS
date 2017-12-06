@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 
 from braces.views import StaffuserRequiredMixin
 
-from aliss.search import index_object
+from aliss.search import index_service
 from aliss.models import Location, Organisation
 from aliss.forms import LocationForm
 
@@ -89,7 +89,7 @@ class LocationDeleteView(StaffuserRequiredMixin, DeleteView):
         self.object.delete()
 
         for service in self.object.services:
-            index_object(service, 'service')
+            index_service(service)
 
         messages.success(
             self.request,

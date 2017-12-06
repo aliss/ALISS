@@ -1,7 +1,6 @@
 from .account import (
-    AccountCreateView,
-    AccountSettingsView,
-    AccountListView,
+    AccountSignupView,
+    AccountUpdateView,
     AccountDetailView
 )
 from .search import SearchView
