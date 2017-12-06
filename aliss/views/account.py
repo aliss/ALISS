@@ -4,10 +4,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 
 from django_filters.views import FilterView
-from braces.views import LoginRequiredView
+from braces.views import LoginRequiredMixin
 
 from aliss.models import ALISSUser
-from aliss.forms import SignupForm, UpdateForm
+from aliss.forms import SignupForm, AccountUpdateForm
 
 
 class AccountSignupView(CreateView):
@@ -36,7 +36,7 @@ class AccountSignupView(CreateView):
 
 class AccountUpdateView(UpdateView):
     model = ALISSUser
-    form_class = UpdateForm
+    form_class = AccountUpdateForm
     template_name = 'account/update.html'
     success_url = reverse_lazy('account_update')
 
@@ -44,6 +44,6 @@ class AccountUpdateView(UpdateView):
         return self.request.user
 
 
-class AccountDetailView(LoginRequiredView, DetailView):
+class AccountDetailView(LoginRequiredMixin, DetailView):
     model = ALISSUser
     template_name = 'account/detail.html'
