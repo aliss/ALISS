@@ -3,16 +3,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head profile="http://gmpg.org/xfn/11">
-    <!-- Global Site Tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106504389-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments)};
-        gtag('js', new Date());
-
-        gtag('config', 'UA-106504389-1');
-    </script>
-
     <!-- Meta Information -->
     <meta charset="UTF-8">
     <title>{% block title %}ALISS{% endblock %}</title>
@@ -22,8 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1" />
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <!-- Web Fonts -->
-    <link rel="stylesheet" href="https://use.typekit.net/viv7jex.css">
 
     {% block before_head_close %}
     {% endblock %}
@@ -33,7 +21,7 @@
         {% include 'partials/header.html' %}
     {% endblock %}
 
-    {% block content %}
+    {% block container %}
     {% endblock %}
 
     {% block footer %}

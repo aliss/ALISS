@@ -1,6 +1,6 @@
 {% load static %}
 
-<header class="header" role="banner">
+<header class="header {% if request.user.is_authenticated %}logged-in{% endif %}" role="banner">
     <div class="row">
         <div class="columns">
             <a href="{% url 'homepage' %}">
@@ -13,16 +13,56 @@
                 </div>
             </a>
             <div class="top-hat">
-                <div class="account-info">
-                    <ul>
-                        <li>
-                            <a href="{% url 'login' %}">Log In</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'signup' %}">Sign Up</a>
-                        </li>
-                    </ul>
-                </div>
+                {% if request.user.is_authenticated %}
+                    <div class="account-info">
+                        <div class="account">
+                            <a href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
+                            <div class="notifications-holder">
+                                <a id="notifications_toggle" class="notifications-count items">1</a>
+                                <div class="notifications" id="notifications">
+                                    <div class="holder">
+                                        <ul>
+                                            <li>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, veniam minus corporis culpa. Alias porro molestias tenetur nobis ducimus, deleniti. <a href="#">Update your preferences</a>.</p>
+                                                <div class="details">
+                                                    <ul>
+                                                        <li>1 min ago</li>
+                                                        <li><a href="#" class="delete">Dismiss</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <p>Lorem ipsum dolor sit amet. <a href="#">Read More</a>.</p>
+                                                <div class="details">
+                                                    <ul>
+                                                        <li>1 min ago</li>
+                                                        <li><a href="#" class="delete">Dismiss</a></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul>
+                            <li>
+                                <a href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="account-info">
+                        <ul>
+                            <li>
+                                <a href="{% url 'organisation_edit' %}">Log In</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'signup' %}">Sign Up</a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
                 <div class="tab-button">
                     <a href="#" class="button secondary">Give Feedback</a>
                 </div>

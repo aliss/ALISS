@@ -1,7 +1,10 @@
 from .account import (
     AccountSignupView,
     AccountUpdateView,
-    AccountDetailView
+    AccountSavedServicesView,
+    AccountMyRecommendationsView,
+    AccountMyOrganisationsView,
+    AccountMySearchesView
 )
 from .search import SearchView
 from .organisation import (
