@@ -1,0 +1,98 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+<h4>My Saved Services</h4>
+<div class="copy-container">
+</div>
+<div class="my-account-details">
+    <!-- <div class="account-list none">
+        <p>You haven't saved any services yet.</p>
+        <p><a href="#">Start Searching</a></p>
+    </div> -->
+    <div class="account-list">
+        <ul class="search-results">
+            <li>
+                <div class="heading">
+                    <a href="#" class="alert icon-link">
+                        <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                        Remove
+                    </a>
+                    <a href="#" class="alert icon-link">
+                        <span class="icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </span>
+                        Report this listing
+                    </a>
+                    <a href="#"><h3>Cook 'n' Care</h3></a>
+                </div>
+                <p class="org">by <a href="#">Possobilities</a> <span class="claimed">Claimed</span></p>
+                <p>Last Updated <span class="updated alert">1 year ago</span></p>
+                <div class="assigned-category">
+                    <span class="cat">
+                        <i class="fa fa-utensil-fork"></i>
+                    </span>
+                    <span class="name">
+                        Food
+                    </span>
+                </div>
+                <div class="location">
+                    <a class="icon-link">
+                        <span class="icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </span>
+                        100 Address Street, Glasgow, G11 5LY
+                    </a>
+                </div>
+                <ul class="contact-info">
+                    <li>
+                        0141 336 3562
+                    </li>
+                    <li>
+                        <a href="#">Website</a>
+                    </li>
+                    <li class="service-areas">
+                        <a>Service Areas</a>
+                    </li>
+                </ul>
+                <div class="service-areas-list">
+                    <p>Dumfries and Galloway, East Ayrshire, East Renfrewshire, Inverclyde, North Ayrshire, South Ayrshire, South Lanarkshire, Stirling, Argyll and Bute, Renfrewshire, North Lanarkshire, Glasgow City</p>
+                </div>
+            </li>
+        </ul>
+        <div class="actions">
+            <a href="#" class="icon-link">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                Email My Saved Services
+            </a>
+            <a href="#" class="icon-link">
+                <span class="icon">
+                    <i class="fas fa-print"></i>
+                </span>
+                Print My Saved Services
+            </a>
+        </div>
+    </div>
+    <div class="screen-info">
+        <p>Your current needs require support from services in the following categories:</p>
+        <div class="category">
+            <span class="cat">
+                <i class="fa fa-utensil-fork"></i>
+            </span>
+            <span class="name">
+                Food
+            </span>
+        </div>
+        <div class="category">
+            <span class="cat">
+                <i class="fa fa-home"></i>
+            </span>
+            <span class="name">
+                Housing &amp; Homelessness
+            </span>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+<h4>My Organisations</h4>
+<div class="copy-container">
+    <p>Here you can create recommendation lists for people containing services you think would help their current situation. You can then share that list with them.</p>
+</div>
+<div class="my-account-details">
+    <div class="account-list">
+        <ul class="rep-organisations">
+            <li>
+                <div class="heading">
+                    <a href="#" class="alert icon-link">
+                        <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                        Cancel Request
+                    </a>
+                    <a href="#" class="inactive"><h3>Shelter Scotland</h3></a>
+                </div>
+                <p>Your request to represent Shelter Scotland is being reviewed. Please check back soon.</p>
+            </li>
+        </ul>
+        <div class="actions">
+            <a href="#">Represent another org</a>
+        </div>
+    </div>
+    <div class="screen-info">
+        <a href="#" class="button primary">Represent another org</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, UpdateView, DetailView
+from django.views.generic import CreateView, UpdateView, DetailView, TemplateView
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -44,6 +44,14 @@ class AccountUpdateView(UpdateView):
         return self.request.user
 
 
-class AccountDetailView(LoginRequiredMixin, DetailView):
-    model = ALISSUser
-    template_name = 'account/detail.html'
+class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/saved_services.html'
+
+class AccountMyRecommendationsView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/my_recommendations.html'
+
+class AccountMyOrganisationsView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/my_organisations.html'
+
+class AccountMySearchesView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/my_searches.html'

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="content" class="my-account">
+        <div class="row title">
+            <div class="columns">
+                <h1>Hello, John Smith</h1>
+                <div class="buttons">
+                    <a href="{% url 'account_update' %}" class="button primary">Edit Account Info</a>
+                </div>
+                <p>Your postcode: <strong>TODO</strong></p>
+            </div>
+        </div>
+    </section>
+    <section id="my_account">
+        <div class="row my-account-links">
+            <div class="columns">
+                <div class="cells four">
+                    <a href="{% url 'account_saved_services' %}" {% if request.resolver_match.url_name == 'account_saved_services' %}class="active"{% endif %}>
+                        <span class="text">
+                            My Saved Services
+                        </span>
+                    </a>
+                    <a href="{% url 'account_my_recommendations' %}" {% if request.resolver_match.url_name == 'account_my_recommendations' %}class="active"{% endif %}>
+                        <span class="text">
+                            My Recommendations
+                        </span>
+                    </a>
+                    <a href="{% url 'account_my_organisations' %}" {% if request.resolver_match.url_name == 'account_my_organisations' %}class="active"{% endif %}>
+                        <span class="text">
+                            My Organisations
+                        </span>
+                    </a>
+                    <a href="{% url 'account_my_searches' %}" {% if request.resolver_match.url_name == 'account_my_searches' %}class="active"{% endif %}>
+                        <span class="text">
+                            My Searches
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </section>
+    <section class="mobile-buttons">
+        <div class="row">
+            <div class="columns">
+                <a href="#" class="button primary">Edit Account Info</a>
+                <a href="#" class="button secondary">Logout</a>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

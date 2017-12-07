@@ -1,0 +1,32 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+<h4>My Searches</h4>
+<div class="copy-container">
+</div>
+<div class="my-account-details">
+    <!-- <div class="account-list none">
+        <p>You haven't done any searches yet.</p>
+        <p><a href="#">Start Searching</a></p>
+    </div> -->
+    <div class="account-list">
+        <ul class="searches">
+            <li>
+                <a href="#">aliss.org/G38ND/</a>
+                <div class="copy">
+                    <a href="#">Copy Link</a>
+                </div>
+            </li>
+            <li>
+                <a href="#">aliss.org/G38ND/Food</a>
+                <div class="copy">
+                    <a href="#">Copy Link</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="screen-info">
+        <a href="#" class="button primary">Clear search history</a>
+    </div>
+</div>
+{% endblock %}

@@ -6,8 +6,7 @@
         <div class="row">
             <div class="columns content">
                 <div class="copy-container">
-                    <h1>Sign Up</h1>
-                    <p>Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.</p>
+                    <h1>Edit Account Info</h1>
                 </div>
             </div>
         </div>
@@ -30,14 +29,6 @@
                         </div>
                         <div>
                             {% include 'partials/forms/field.html' with field=form.postcode %}
-                        </div>
-                    </div>
-                    <div class="f-row two">
-                        <div>
-                            {% include 'partials/forms/field.html' with field=form.password1 %}
-                        </div>
-                        <div>
-                            {% include 'partials/forms/field.html' with field=form.password2 %}
                         </div>
                     </div>
                     <div class="preferences">
@@ -199,13 +190,7 @@
                                 Prepopulate my stated postcode and needs the next time I search ALISS
                             </label>
                         </div>
-                        <div class="checkbox-agree">
-                            <label>
-                                <input type="checkbox">
-                                I have read and accept the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a>
-                            </label>
-                        </div>
-                        <input type="submit" value="Sign Up">
+                        <input type="submit" value="Update Info">
                     </div>
                 </form>
             </div>

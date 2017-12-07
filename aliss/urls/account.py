@@ -5,7 +5,10 @@ from django.views.generic import TemplateView
 from aliss.views import (
     AccountSignupView,
     AccountUpdateView,
-    AccountDetailView
+    AccountSavedServicesView,
+    AccountMyRecommendationsView,
+    AccountMyOrganisationsView,
+    AccountMySearchesView
 )
 
 
@@ -62,8 +65,20 @@ urlpatterns = [
         AccountUpdateView.as_view(),
         name='account_update'
     ),
-    url(r'^$',
-        AccountDetailView.as_view(),
-        name='account_detail'
+    url(r'^saved-services/$',
+        AccountSavedServicesView.as_view(),
+        name='account_saved_services'
+    ),
+    url(r'^my-recommendations/$',
+        AccountMyRecommendationsView.as_view(),
+        name='account_my_recommendations'
+    ),
+    url(r'^my-organisations/$',
+        AccountMyOrganisationsView.as_view(),
+        name='account_my_organisations'
+    ),
+    url(r'^my-searches/$',
+        AccountMySearchesView.as_view(),
+        name='account_my_searches'
     ),
 ]

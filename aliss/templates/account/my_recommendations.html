@@ -1,0 +1,60 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+<h4>My Recommendations</h4>
+<div class="copy-container">
+    <p>Here you can create recommendation lists for people containing services you think would help their current situation. You can then share that list with them.</p>
+</div>
+<div class="my-account-details">
+    <!-- <div class="account-list none">
+        <p>You haven’t created any recommendation lists yet.</p>
+        <p><a href="#">Add a recommendations list</a></p>
+    </div> -->
+    <div class="account-list">
+        <ul class="recommendations-lists">
+            <li>
+                <div class="heading">
+                    <a href="#" class="alert icon-link">
+                        <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                        Delete
+                    </a>
+                    <a href="#"><h3>Recommended for Jane Smith</h3></a>
+                </div>
+                <p>1 Services(s)</p>
+                <div class="options">
+                    <!-- <a href="#" class="icon-link disabled"> -->
+                    <a href="#" class="icon-link">
+                        <span class="icon">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        Email recommendations
+                    </a>
+                    <a href="#" class="icon-link">
+                        <span class="icon">
+                            <i class="fas fa-print"></i>
+                        </span>
+                        Print recommendations
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <div class="actions">
+            <a href="#">Add another recommendations list</a>
+        </div>
+    </div>
+    <div class="screen-info">
+        <h5>Create a recommendations list</h5>
+        <div class="form">
+            <form>
+                <label for="name">Who are your recommendations for? <span>(required)</span></label>
+                <input type="text" id="name" placeholder="e.g. John Smith">
+                <label for="name">What is their postcode? <span>(required)</span></label>
+                <input type="text" id="name" placeholder="e.g. G2 4AA">
+                <input type="submit" value="Create">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
