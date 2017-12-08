@@ -1,0 +1,82 @@
+
+// Social
+// ---------------------------------------
+
+// Options
+$social-height: 1.5em;
+$social-width: 1em;
+$social-pad: 0 0.35em;
+$on_white: true;
+$social-text-color: false;
+$social-bg-color: true;
+$social-hover-color: $secondary;
+$social-float: true;
+
+ul.social {
+	font-size: 1.3em;
+	@extend %no-list;
+	@if $social-float == true {
+		@include clear;
+		li {
+			float:left;
+		}
+	}
+	li {
+		@if $social-float == false {
+			display: inline-block;
+		}
+		span.text {
+			@extend .vh;
+		}
+		a {
+			display: block;
+			@include transition;
+			padding: $social-pad;
+			&:before, span.dots {
+				display: block;
+				width: $social-width;
+				line-height: $social-height;
+				text-align: center;
+			}
+		}
+		&.facebook {
+			a {
+				@include fab(facebook-f);
+			}
+		}
+		&.twitter {
+			a {
+				@include fab(twitter);
+			}
+		}
+		&.linkedin {
+			a {
+				@include fab(linkedin);
+			}
+		}
+		&.youtube {
+			a {
+				@include fab(youtube);
+			}
+		}
+		&.google-plus {
+			a {
+				@include fab(google-plus-g);
+			}
+		}
+		&.pinterest {
+			a {
+				@include fab(pinterest);
+			}
+		}
+		&.instagram {
+			a {
+				@include fab(instagram);
+			}
+		}
+	}
+}
+
+
+
+

@@ -1,0 +1,59 @@
+
+// Footer
+// ---------------------------------------
+
+.footer-holder {
+	background: $w;
+	padding-top: 6.25rem;
+	@include medium {
+		padding-top: 5.4rem;
+	}
+	@include small {
+		padding-top: 4rem;
+	}
+}
+footer {
+	background: $medium-gray;
+	padding: 1.75rem 0;
+	a {
+		color: $w;
+		font-weight: normal;
+		@include st {
+			opacity: 0.65;
+			color: $w;
+		}
+		&.button {
+			@include st {
+				opacity: 1;
+			}
+		}
+	}
+	ul {
+		font-size: $d-fs;
+		@extend %no-list;
+		li {
+			display: inline-block;
+			margin-right: 1em;
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+	@include medium {
+		text-align: center;
+	}
+	@include small {
+		text-align: center;
+		ul {
+			font-size: $d-fs-s;
+			li {
+				display: block;
+				margin: 0.25em 0;
+			}
+		}
+	}
+}
+
+
+
+

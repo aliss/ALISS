@@ -67,3 +67,6 @@ target/
 #App Specific
 .env
 staticfiles/
+
+#Node + Gulp
+node_modules/

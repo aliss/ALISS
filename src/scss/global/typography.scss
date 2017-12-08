@@ -1,0 +1,259 @@
+
+// Typography
+// ---------------------------------------
+
+// Fonts
+@import url("//hello.myfonts.net/count/354e86");
+@font-face {
+	font-family: 'Sofia Pro Soft';
+	src: url('../fonts/354E8E_0_0.eot');
+	src: url('../fonts/354E8E_0_0.eot?#iefix') format('embedded-opentype'),
+	     url('../fonts/354E8E_0_0.woff2') format('woff2'),
+	     url('../fonts/354E8E_0_0.woff') format('woff'),
+	     url('../fonts/354E8E_0_0.ttf') format('truetype'),
+	     url('../fonts/354E8E_0_0.svg#wf') format('svg');
+}
+@font-face {
+	font-family: 'Sofia Pro';
+	font-weight: bold;
+	src: url('../fonts/354E86_1_0.eot');
+	src: url('../fonts/354E86_1_0.eot?#iefix') format('embedded-opentype'),
+	     url('../fonts/354E86_1_0.woff2') format('woff2'),
+	     url('../fonts/354E86_1_0.woff') format('woff'),
+	     url('../fonts/354E86_1_0.ttf') format('truetype'),
+	     url('../fonts/354E86_1_0.svg#wf') format('svg');
+}
+@font-face {
+	font-family: 'Sofia Pro';
+	font-weight: normal;
+	src: url('../fonts/354E86_2_0.eot');
+	src: url('../fonts/354E86_2_0.eot?#iefix') format('embedded-opentype'),
+	     url('../fonts/354E86_2_0.woff2') format('woff2'),
+	     url('../fonts/354E86_2_0.woff') format('woff'),
+	     url('../fonts/354E86_2_0.ttf') format('truetype'),
+	     url('../fonts/354E86_2_0.svg#wf') format('svg');
+}
+
+@for $i from 1 through 6 {
+	h#{$i} {
+		font-weight: normal;
+		color: $medium-gray;
+		margin-bottom: 1rem;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	a h#{$i} {
+		color: $secondary;
+		@include transition;
+	}
+	a {
+		@include st {
+			h#{$i} {
+				color: $medium-gray;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+h1 {
+	color: $dark-gray;
+}
+h1+p, h1+.buttons+p {
+	margin-top: 0.75em;
+}
+h5 {
+	margin-bottom: 0.8rem;
+}
+a.inactive {
+	color: $light-gray;
+	@for $i from 1 through 6 {
+		h#{$i} {
+			color: $light-gray;
+		}
+	}
+	@include st {
+		color: $light-gray;
+		cursor: default;
+		text-decoration: none;
+		@for $i from 1 through 6 {
+			h#{$i} {
+				color: $light-gray;
+				text-decoration: none;
+			}
+		}
+	}
+}
+p {
+	font-size: $d-fs;
+	color: $medium-gray;
+	@include small {
+		font-size: $d-fs-s;
+	}
+}
+ul, ol, p {
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+i.fa, i.fas, i.fab {
+	font-style: normal;
+}
+.copy-container {
+	max-width: 710px;
+}
+.content {
+	@for $i from 1 through 6 {
+		h#{$i} {
+			margin-top: 1.35rem;
+		}
+	}
+	ul {
+	    li {
+	        @extend %list-style;
+	    }
+	}
+	ol, ul {
+		padding-left: 1.75em;
+		margin-bottom: 1.5em;
+		li {
+			font-size: $d-fs;
+			color: $medium-gray;
+			margin: 0.5em 0;
+		}
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	blockquote {
+		border-left: 0.2em solid $brand;
+		padding-left: 1.55em;
+		margin: 1.35em 0;
+		color: $dark-gray;
+		p {
+			
+		}
+	}
+}
+.content-table {
+	overflow: scroll;
+	width: 100%;
+	table {
+		min-width: 500px;
+	}
+}
+table {
+	font-size: $d-fs;
+	border: 0;
+	@include small {
+		font-size: $d-fs-s;
+	}
+	thead, tbody, tfoot {
+		border: 0;
+	}
+	th, td {
+		padding: 0.75em;
+	}
+	thead {
+		background: $brand;
+		color: $w;
+		tr {
+
+		}
+		th, td {
+
+		}
+	}
+	tbody {
+		tr {
+			background: $w;
+			&:nth-child(2n) {
+				background: $light-gray_fade;
+			}
+		}	
+		th, td {
+			color: $medium-gray;
+		}
+	}
+}
+.back-link {
+	padding-left: 1.2em;
+	display: inline-block;
+	span.icon {
+		@include fas(caret-left);
+	}
+	&:first-child {
+		margin-bottom: 1rem;
+	}
+	&:last-child {
+		margin-top: 2rem;
+	}
+	@include media(0, $search-break) {
+		display: none !important;
+	}
+}
+#content {
+	padding: 3.25rem 0 0 0;
+	h1 {
+		margin: 0;
+	}
+	.assigned-category {
+		margin: 1.25rem 0;
+	}
+	@include small {
+		padding: 2rem 0 0 0;
+	}
+}
+#banner {
+	height: 40vh;
+	display: block;
+	min-height: 350px;
+	max-height: 500px;
+	overflow: hidden;
+	position: relative;
+	.banner {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: center center;
+	}
+	img {
+		display: none;
+	}
+	@include small {
+		height: auto;
+		min-height: 0;
+		max-height: none;
+		.banner {
+			display: block;
+			position: static;
+		}
+		img {
+			display: block;
+		}
+	}
+}
+.breadcrumbs {
+	margin-top: 1.5rem;
+	margin-bottom: 0;
+	@extend h4;
+	a {
+		color: $secondary;
+		@include st {
+			color: $medium-gray;
+		}
+	}
+	span.sep {
+		@extend %vam;
+		@include fas(caret-right);
+		margin: 0 0.35em;
+		color: $light-gray;
+	}
+}
+
+
+
+

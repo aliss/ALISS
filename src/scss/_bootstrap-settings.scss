@@ -1,0 +1,101 @@
+
+// Bootstrap Settings
+// ---------------------------------------
+
+// Sizes, Colours
+$font-size-base: 16px;
+$line-height-base: $d-line-height;
+$brand-primary: $primary;
+$brand-success: $success;
+$brand-info: $secondary;
+$brand-warning: $warning;
+$brand-danger: $alert;
+
+// Grid
+$grid-columns: $cols;
+$grid-gutter-width: $gutter;
+
+// Breakpoints
+$offset: 60px;
+$screen-xs: $small;
+$screen-sm: $medium;
+$screen-md: $large;
+$screen-lg: $xlarge;
+$container-tablet: ($medium - $offset + $grid-gutter-width);
+$container-desktop: ($large - $offset + $grid-gutter-width);
+$container-large-desktop: ($xlarge - $offset + $grid-gutter-width);
+
+// Body, Default Padding + Margin
+$body-font-family: $body-font;
+$body-bg: $w;
+$text-color: $b;
+$border-radius-base: $d-rad;
+
+// Headers
+$headings-font-family: $heading-font;
+$headings-line-height: $d-heading-line-height;
+$font-size-h1: $d-heading1+px;
+$font-size-h2: $d-heading2+px;
+$font-size-h3: $d-heading3+px;
+$font-size-h4: $d-heading4+px;
+$font-size-h5: $d-heading5+px;
+$font-size-h6: $d-heading6+px;
+@media (max-width: $screen-xs) {
+	h1, .jumbotron h1 {
+		font-size: $d-heading1-small+px;
+	}
+	h2 {
+		font-size: $d-heading2-small+px;
+	}
+	h3 {
+		font-size: $d-heading3-small+px;
+	}
+	h4 {
+		font-size: $d-heading4-small+px;
+	}
+	h5 {
+		font-size: $d-heading5-small+px;
+	}
+	h6 {
+		font-size: $d-heading6-small;
+	}
+}
+
+// Paragraph
+small {
+	font-size:80%;
+}
+p {
+	line-height: $d-line-height;
+	margin-bottom: $d-margin;
+	text-rendering: optimizeLegibility;
+	&.lead {
+		font-size: $font-size-base * 1.25;
+	}
+}
+
+// Lists
+ul, ol {
+	line-height: $d-line-height;
+	margin-left: $d-margin*1.25;
+	li {
+		margin-bottom: $d-margin;
+		list-style-type: disc;
+		list-style-position: outside;
+		ul {
+			margin-left: $d-margin*1.25;
+		}
+	}
+}
+
+// Links
+$link-color: $primary;
+$link-hover-color: $d-hover;
+$link-hover-decoration: $d-hover-underline;
+
+// HR
+$hr-border: $medium-gray;
+
+
+
+
