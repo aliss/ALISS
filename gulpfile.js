@@ -19,7 +19,7 @@ var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 var browserSync = require('browser-sync').create();
 
-var URL = 'localhost/ALISSFrontEnd/build';
+var URL = 'localhost:5000';
 
 // Browsers to target when prefixing CSS.
 var COMPATIBILITY = [
@@ -120,7 +120,7 @@ gulp.task('sass', function() {
 	}))
 	// Minify CSS if run with --production flag
 	.pipe($.sourcemaps.write('.'))
-	.pipe(gulp.dest('build/css'))
+	.pipe(gulp.dest('aliss/static/css'))
 	.pipe(browserSync.stream({match: '**/*.css'}));
 });
 
@@ -160,7 +160,7 @@ gulp.task('javascript', function() {
 	.pipe(buffer())
 	.pipe(uglify)
 	.pipe($.sourcemaps.init())
-	.pipe(gulp.dest('build/js'))
+	.pipe(gulp.dest('aliss/static/js'))
 	.pipe(browserSync.stream());
 });
 
@@ -174,20 +174,15 @@ gulp.task('javascript', function() {
 
 // Move
 gulp.task('move', function() {
-	// Front End
-	gulp.src(['src/frontend/**/*', '!src/frontend/ref', '!src/frontend/ref/**'])
-		.pipe(changed('build'))
-		.pipe(gulp.dest('build'))
-		.pipe(browserSync.stream());
 	// Fonts
 	gulp.src('src/fonts/**/*')
-		.pipe(changed('build/fonts'))
-		.pipe(gulp.dest('build/fonts'))
+		.pipe(changed('aliss/static/fonts'))
+		.pipe(gulp.dest('aliss/static/fonts'))
 		.pipe(browserSync.stream());
 	// Images
 	gulp.src(['src/img/**/*', '!src/img/svg-sprite/*.svg', '!src/img/svg-sprite'])
-		.pipe(changed('build/img'))
-		.pipe(gulp.dest('build/img'))
+		.pipe(changed('aliss/static/img'))
+		.pipe(gulp.dest('aliss/static/img'))
 		.pipe(browserSync.stream());
 });
 
@@ -205,7 +200,7 @@ gulp.task('svg', function() {
 			}
 		}
 	}))
-	.pipe(gulp.dest('build/img'))
+	.pipe(gulp.dest('aliss/static/img'))
 	.pipe(browserSync.stream());
 });
 
@@ -217,23 +212,18 @@ gulp.task('clean', function(done) {
 });
 gulp.task('clean:javascript', function() {
 	return del([
-		'build/js/scripts.js'
+		'aliss/static/js/scripts.js'
 	]);
 });
 gulp.task('clean:css', function() {
 	return del([
-		'build/css/styles.css',
-		'build/css/styles.css.map'
-	]);
-});
-gulp.task('clean:javascript', function() {
-	return del([
-		'build/js/scripts.js'
+		'aliss/static/css/styles.css',
+		'aliss/static/css/styles.css.map'
 	]);
 });
 gulp.task('clean:svg', function() {
 	return del([
-		'build/img/svg-sprite/symbols.svg'
+		'aliss/static/img/svg-sprite/symbols.svg'
 	]);
 });
 
@@ -250,12 +240,6 @@ gulp.task('default', ['build', 'browser-sync'], function() {
 		var fileName = require('path').relative(__dirname, event.path);
 		console.log('[' + 'WATCH' + '] ' + fileName + ' was ' + event.type + ', running tasks...');
 	}
-	// PHP
-	gulp.watch(['src/frontend/**/*'], ['move'])
-		.on('change', function(event) {
-			logFileChange(event);
-		}
-	);
 	// SVG
 	gulp.watch(['src/img/svg-sprite/*.svg'], ['clean:svg', 'svg'])
 		.on('change', function(event) {
