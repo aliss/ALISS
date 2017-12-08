@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>Add a new organisation</h1>
+                    <p>Once approved you will be able to add and edit information about and associate services with your organisation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="search-orgs">
+        <div class="row">
+            <div class="columns">
+                <div class="org-search">
+                    <label>Search by name</label>
+                    <div class="sbs-inputs">
+                        <form>
+                            <input type="text" placeholder="e.g. The ALLIANCE" value="{{ request.GET.q }}" name="q">
+                            <input type="submit" value="Search" class="secondary">
+                        </form>
+                    </div>
+                </div>
+                <div class="org-results">
+                    <h4>Recently Added</h4>
+                    {% if object_list %}
+                        <ul class="orgs">
+                            {% for organisation in object_list %}
+                                <li>
+                                    <span class="name">{{ organisation.name }}</span>
+                                    <ul class="options">
+                                        <li>
+                                            <a href="{% url 'organisation_detail' pk=organisation.pk %}">View Page</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'organisation_claim' pk=organisation.pk %}">Request to Represent</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
