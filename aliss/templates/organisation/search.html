@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="org-results">
-                    <h4>Recently Added</h4>
+                    {% if request.GET.q %}<h4>You searched for "{{ request.GET.q }}"</h4>{% else %}<h4>Recently Added</h4>{% endif %}
                     {% if object_list %}
                         <ul class="orgs">
                             {% for organisation in object_list %}
@@ -43,9 +43,27 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
+                    {% if request.GET.q %}
+                        <div class="paged">
+                            <div class="holder">
+                                <p class="total">Showing 8 of 21 results</p>
+                                <div class="pages">
+                                    <span class="prev">Prev</span>
+                                    <span class="number">1</span>
+                                    <a href="#" class="number">2</a>
+                                    <a href="#" class="number">3</a>
+                                    <a href="#" class="next">Next</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="add-org">
+                            <p>Can't find your organisation?</p>
+                            <a href="{% url 'organisation_create' %}" class="button primary">Add your organisation</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-        </div>
+        </dv>
     </section>
 </main>
 {% endblock %}
