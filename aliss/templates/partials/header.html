@@ -54,10 +54,10 @@
                 {% else %}
                     <div class="account-info">
                         <ul>
-                            <li>
+                            <li{% if request.resolver_match.url_name == 'login' %} class="active"{% endif %}>
                                 <a href="{% url 'login' %}">Log In</a>
                             </li>
-                            <li>
+                            <li{% if request.resolver_match.url_name == 'signup' %} class="active"{% endif %}>
                                 <a href="{% url 'signup' %}">Sign Up</a>
                             </li>
                         </ul>
@@ -80,17 +80,17 @@
                     <div class="inner">
                         <nav role="navigation">
                             <ul>
-                                <li class="active">
-                                    <a href="#">Search</a>
+                                <li{% if request.resolver_match.url_name == 'homepage' or request.resolver_match.url_name == 'search' %} class="active"{% endif %}>
+                                    <a href="{% url 'homepage' %}">Search</a>
+                                </li>
+                                <li{% if request.resolver_match.url_name == 'about' %} class="active"{% endif %}>
+                                    <a href="{% url 'about' %}">About</a>
                                 </li>
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="https://medium.com/@ALISSProgramme" target="_blank">News</a>
                                 </li>
-                                <li>
-                                    <a href="#">News</a>
-                                </li>
-                                <li>
-                                    <a href="#">Add an Organisation</a>
+                                <li{% if request.resolver_match.url_name == 'organisation_create' %} class="active"{% endif %}>
+                                    <a href="{% url 'organisation_create' %}">Add an Organisation</a>
                                 </li>
                             </ul>
                         </nav>
