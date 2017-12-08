@@ -1,0 +1,151 @@
+
+// Search
+// ---------------------------------------
+
+$header-height-l: 143px;
+$header-height-s: 115px;
+%txy {
+	transform: translate(-50%, -50%);
+}
+%icon-button {
+	&:before {
+		margin-right: 0.35em;
+		font-size: 0.9em;
+	}
+	@include st {
+		text-decoration: none;
+		span {
+			text-decoration: underline;
+		}
+	}
+}
+#search {
+	height: calc(75vh - 143px);
+	position: relative;
+	text-align: center;
+	min-height: 600px;
+	max-height: 1000px;
+	overflow: hidden;
+	label {
+		@extend p;
+	}
+	.bg {
+		top: 100%;
+		height: 100%;
+		margin-top: -425px;
+		background: $w url('../img/pattern.jpg') repeat-x top center;
+		position: absolute;
+		opacity: 0.15;
+		width: 100%;
+		background-size: 1700px auto;
+	}
+	.row {
+		height: 100%;
+		position: relative;
+		.columns {
+			width: 100%;
+			max-width: 650px;
+			top: 50%;
+			position: absolute;
+			left: 50%;
+			@extend %txy;
+			padding-bottom: 4rem;
+			@include small {
+				padding-bottom: 2rem;
+			}
+		}
+	}
+	.search-box {
+		font-size: 1.1em;
+		padding: 1.15em 1.2em 1.25em 1.2em;
+		background: $brand;
+		border-radius: $d-rad*2;
+		max-width: 500px;
+		position: relative;
+		margin: 1.5rem auto;
+		margin-bottom: 0;
+	}
+	.search-holder {
+		input[type=text] {
+			border-color: $w;
+			margin-bottom: 0;
+			&:focus, &:active {
+				border-color: $w;
+			}
+		}
+	}
+	.search-button {
+		button {
+			@include fas(search);
+			@extend %icon-button;
+		}
+	}
+	@include small {
+		height: calc(100vh - 155px);
+		min-height: 500px;
+		max-height: 650px;
+		.search-box {
+			font-size: 1em;
+			input[type=text] { 
+				border-right-color: $w;
+			}
+		}
+	}
+}
+$input-w: 33%;
+.sbs-inputs {
+	padding-right: $input-w;
+	position: relative;
+	&.select {
+		padding-right: $input-w - 4.5%;
+		input[type=submit], button, .button {
+			width: $input-w - 7%;
+			border-radius: $d-rad;
+		}
+		@include small {
+			padding-right: 0;
+			input[type=submit], button, .button {
+				width: 100%;
+				margin-top: 0.35em;
+			}
+		}
+	}
+	input[type=text] {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		border-right: 0;
+		margin-bottom: 0;
+	}
+	input[type=submit], button, .button {
+		position: absolute;
+		min-width: 0;
+		top: 0;
+		right: 0;
+		padding-right: 0;
+		padding-left: 0;
+		width: $input-w;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+	@include small {
+		padding-right: 0;
+		input[type=text] {
+			border-radius: $d-rad;
+			border-right: 1px solid $light-gray;
+			border-bottom: 0;
+			border-bottom-right-radius: 0;
+			border-bottom-left-radius: 0;
+		}
+		input[type=submit], button, .button {
+			border-radius: $d-rad;
+			width: 100%;
+			border-top-right-radius: 0;
+			border-top-left-radius: 0;
+			position: static;
+		}
+	}
+}
+
+
+
+
