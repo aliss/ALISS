@@ -1,0 +1,66 @@
+
+// Buttons & Links
+// ---------------------------------------
+
+a, .btn-link {
+	@extend %link-style;
+	@include transition;
+	&:hover {
+		@extend %link-style_hover;
+	}
+}
+.btn, .button {
+	@include transition;
+	@include st() {
+		@extend %button-style_hover;
+	}
+	&.primary, &.btn-primary {
+		@extend %button-style;
+		background-color:$primary;
+		@include st() {
+			background-color:$medium-gray;
+			@extend %button-style_hover;
+		}
+	}
+	&.secondary, &.btn-secondary, &.btn-info {
+		@extend %button-style-small;
+		background-color:$secondary;
+		@include st() {
+			background-color:$medium-gray;
+			@extend %button-style_hover;
+		}
+	}
+	&.success, &.btn-success {
+		@extend %button-style;
+		background-color:$success;
+		@include st() {
+			background-color:$success;
+			@extend %button-style_hover;
+		}
+	}
+	&.warning, &.btn-warning {
+		@extend %button-style;
+		background-color:$warning;
+		@include st() {
+			background-color:$warning;
+			@extend %button-style_hover;
+		}
+	}
+	&.alert, &.btn-danger {
+		@extend %button-style;
+		background-color:$alert;
+		@include st() {
+			background-color:$alert;
+			@extend %button-style_hover;
+		}
+	}
+}
+button, input[type=submit] {
+	@extend .button;
+	@extend .button.primary;
+	@extend .btn-primary;
+	@include st() {
+		@extend %button-style_hover;
+		background-color:$medium-gray;
+	}
+}

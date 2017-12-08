@@ -1,0 +1,217 @@
+
+// Utilities
+// ---------------------------------------
+
+%white_fade {
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); 
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 );
+}
+%link-style {
+	cursor: pointer;
+	color: $secondary;
+	font-weight: bold;
+}
+%link-style_hover {
+	cursor: pointer;
+	color: $medium-gray;
+	text-decoration: underline;	
+}
+%button-style {
+	transition: none;
+	padding: 0.7em 1.15em 0.875em 1.15em;
+	font-size: 1.35em;
+	min-width: 150px;
+	color: $w;
+	margin: 0;
+	font-family: $heading-font;
+	font-weight: normal;
+	@include transition;
+	border-radius: $d-rad;
+	border:1px solid transparent;
+}
+%button-style-small {
+	@extend %button-style;
+}
+%button-style_hover {
+	text-decoration: underline;
+	color: $w;
+}
+%list-style {
+	list-style: none;
+	position: relative;
+	@include pseudo;
+	&:before {
+		width: 8px;
+		height: 8px;
+		background: $brand;
+		position: absolute;
+		left: -1.2em;
+		top: 0.45em;
+		@if $d-rad != 0 {
+			border-radius: 100%;	
+		}	
+	}
+}
+%no-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	> li {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		&:before {
+			display: none;
+		}
+	}
+}
+
+// Forms
+%form-style {
+	padding: 0.75em 1em 0.55em 1em;
+	font-size: $d-fs;
+	box-shadow: none;
+	height: auto;
+	border: 1px solid $light-gray;
+	margin: 0 0 1.35em 0;
+	appearance: none;
+	background-color: $w;
+	color: $dark-gray;
+	&.has-error {
+		border-color: $alert;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	&:focus, &:active {
+		box-shadow: none;
+		border-color: $brand;
+	}
+	@include ph-color($medium-gray_fade);
+	@include small {
+		margin-bottom: 1em;
+	}
+}
+%custom-select {
+	background-position: center right -0.1em;
+	background-size:16px 9px;
+	color: $medium-gray_fade;
+	&:focus, &:active {
+		color: $dark-gray;
+	}
+	// padding: 0.95em;
+}
+%checkbox {
+	appearance: none;
+	cursor: pointer;
+	border-radius: $d-rad;
+	width: 24px;
+	height: 24px;
+	margin: 0;
+	display: inline-block;
+	border: 1px solid $light-gray;
+	background: $w;
+	@include transition;
+	@include fas(check);
+	&:hover, &:focus, &:active {
+		border-color: $brand;
+	}
+	&:before {
+		@include transition;
+		color: $dark-gray;
+		font-size: 18px;
+		margin: 0 2px;
+		line-height: 22px;
+		opacity: 0;
+	}
+	&:checked {
+		&:before {
+			opacity: 1;
+		}
+	}
+}
+%radio {
+	appearance: none;
+	cursor: pointer;
+	border-radius: 100%;
+	width: 24px;
+	height: 24px;
+	margin: 0;
+	border: 1px solid $light-gray;
+	background: $w;
+	display: inline-block;
+	@include transition;
+	&:hover, &:focus, &:active {
+		border-color: $brand;
+	}
+	&:before {
+		content:"";
+		width: 12px;
+		height: 12px;
+		border-radius: 100%;
+		display: block;
+		margin: 5px;
+		@include transition;
+		opacity: 0;
+		background: $dark-gray;
+	}
+	&:checked {
+		&:before {
+			opacity: 1;
+		}
+	}
+}
+%filter-option {
+	padding-left:2em;
+	position: relative;
+	> span {
+		content:"";
+		display: block;
+		width: 1.25em;
+		border-radius: $d-rad;
+		height: 1.25em;
+		border: 1px solid $medium-gray;
+		position: absolute;
+		top: 0.15em;
+		left: 0;
+		@include transition;
+		@include fa(check);
+		&:before {
+			@include transition;
+			color: $primary;
+			position: relative;
+			font-size: 1.15em;
+			opacity: 0;
+			top:-0.2em;
+		}
+	}
+	&:hover, &:focus, &:active {
+		> span {
+			border-color: $dark-gray;
+		}
+	}
+}
+%filter-option-active {
+	> span:before {
+		opacity:1;
+	}
+}
+%error-message {
+	padding: 1em;
+	background: $alert;
+	color: $w;
+	border: 0;
+	font-weight: bold;
+}
+%success-message {
+	padding: 1em;
+	background: $success;
+	color: $w;
+	border: 0;
+	font-weight: bold;
+}
+
+
+
+

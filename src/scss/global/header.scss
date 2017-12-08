@@ -1,0 +1,442 @@
+
+// Header
+// ---------------------------------------
+
+%svg {
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+%vam {
+	display: inline-block;
+	vertical-align: middle;
+}
+section, article {
+	background-color: $w;
+}
+body {
+	border: 20px solid red;
+	letter-spacing: 0.025em;
+	font-weight: 400;
+	background: $medium-gray;
+	&.restrict-height {
+		height: 100vh;
+		overflow: hidden;
+	}
+}
+$header-pad: 1.25rem;
+$header-pad-s: 1.15rem;
+$logo-spacing: 0.1rem;
+$top-hat-spacing: 0.2em;
+$nav-spacing: 0.05em;
+header {
+	background: $brand;
+	padding: ($header-pad - $logo-spacing) 0 $header-pad 0;
+	position: relative;
+	.columns {
+		position: relative;
+	}
+	ul, #menu_toggle {
+		@extend %no-list;
+		font-size: $d-fs;
+	}
+	#menu_toggle {
+		display: none;
+		span.close, span.nav {
+			&:before {
+				margin-right: 0.1em;
+			}
+		}
+		span.close {
+			@include fa(times);
+		}
+		span.nav {
+			@include fas(bars);
+		}
+	}
+	.notifications-holder {
+		position: relative;
+	}
+	.notifications {
+		font-size: 1rem;
+		position: absolute;
+		background: $w;
+		color: $medium-gray;
+		width: 295px;
+		font-weight: normal;
+		border-radius: $d-rad*2;
+		top: 100%;
+		margin-top: 20px;
+		left: 50%;
+		padding-top: 1.35rem;
+		padding-bottom: 1.5rem;
+		display: none;
+		transform: translateX(-50%);
+		z-index: 3;
+		box-shadow: 0px 4px 5px rgba(20, 27, 35, 0.1);
+		@include small {
+			transform: none;
+			right: 0;
+			left: auto;
+			// border-top-right-radius: 0;
+			margin-top: 6px;
+		}
+		&.active {
+			display: block;
+		}
+		.holder {
+			max-height: 300px;
+			overflow: scroll;
+			padding: 0 1.55rem 0 1.55rem;
+			@include small {
+				max-height: 225px;
+			}
+		}
+		.holder>ul>li {
+			margin-bottom: 1em;
+			padding-bottom: 1em;
+			border-bottom: 1px solid $light-gray_fade;
+			&:last-child {
+				margin: 0;
+				padding-bottom: 0;
+				border: 0;
+			}
+		}
+		p, li {
+			font-size: 1.05rem;
+			margin: 0;
+		}
+		.details ul {
+			margin-top: 0;
+			li {
+			    border-right: 1px solid #c5c3c6;
+			    margin-right: .5em;
+			    padding-right: .75em;
+			    line-height: 1;
+			    &:last-child {
+			    	margin-right: 0;
+			    	padding-right: 0;
+			    	border: 0;
+			    }
+			}
+		}
+		a {
+			font-weight: bold;
+			color: $secondary;
+			@include st {
+				color: $medium-gray;
+				opacity: 1;
+			}
+			&.delete, &.alert {
+				color: $alert;
+				@include st {
+					color: $medium-gray;
+				}
+			}
+		}
+	}
+	.top-hat {
+		position: absolute;
+		top: -($header-pad - $logo-spacing);
+		right: rem-calc($gutter/2);
+		.tab-button, ul, .account-info, .account, .notifications-holder {
+			@extend %vam;
+			li {
+				@extend %vam;
+			}
+		}
+		.account {
+			color: $w;
+			font-weight: bold;
+			font-size: $d-fs;
+			position: relative;
+			top: $top-hat-spacing;
+			margin-right: 0.6em;
+			a.name {
+				font-weight: bold;
+				@extend %vam;
+				@include small {
+					@include truncate(150px);
+				}
+			}
+			.notifications-count {
+				background: rgba(255,255,255,0.5);
+				color: $brand;
+				line-height: 1;
+				font-weight: bold;
+				margin-left: 0.1em;
+				border-radius: 100%;
+				width: 1.7em;
+				text-align: center;
+				padding: 0.425em 0 0.3em 0;
+				position: relative;
+				@extend %vam;
+				letter-spacing: 0;
+				@include small {
+					top: -0.15em;
+					padding: 0.5em 0 0.225em 0;
+				}
+				&.items {
+					background: $alert;
+					color: $w;
+				}
+				@include st {
+					background: $medium-gray;
+					color: $w;
+					opacity: 1;
+				}
+				&.active {
+					background: $medium-gray;
+					color: $w;
+					&:before {
+						content:"";
+						top: 100%;
+						left: 50%;
+						margin-left: -20px;
+						margin-top: 3px;
+						width: 0; 
+						position: absolute;
+						height: 0; 
+						border-left: 20px solid transparent;
+						border-right: 20px solid transparent;
+						border-bottom: 20px solid $w;
+						@include small {
+							display: none;
+						}
+					}
+				}
+			}
+			@include small {
+				font-size: $d-fs-s;
+				margin-right: 0;
+			}
+		}
+		ul {
+			position: relative;
+			top: $top-hat-spacing;
+			li {
+				margin-right: 0.6em;
+				&:last-child {
+					// margin-right: 0;
+				}
+				@include small {
+					margin-right: 0.25em;
+				}
+			}
+		}
+	}
+	&.logged-in {
+		.top-hat {
+			@include small {
+				>.account-info>ul {
+					display: none;
+				}
+			}
+		}
+	}
+	.tab-button {
+		margin-left: 0.5em;
+		.button {
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+			padding-top: 0.85em + $top-hat-spacing;
+		}
+	}
+	.navigation {
+		position: absolute;
+		bottom: -$nav-spacing;
+		right: rem-calc($gutter/2);
+		ul, nav {
+			@extend %vam;
+			vertical-align: bottom;
+			li {
+				@extend %vam;
+				vertical-align: bottom;
+				margin-right: 1em;
+				&:last-child {
+					margin-right: 0;
+				}
+				&.active {
+					a {
+						opacity: 0.65;
+					}
+				}
+			}
+		}
+		ul.social {
+			margin-left: 0.25em;
+			li {
+				margin: 0;
+				a {
+					@include st {
+						text-decoration: none;
+					}
+				}
+				&:last-child {
+					a {
+						padding-right: 0;
+					}
+				}
+			}
+		}
+	}
+	a {
+		color: $w;
+		font-weight: normal;
+		@include st {
+			opacity: 0.65;
+			color: $w;
+		}
+		&.button {
+			@include st {
+				opacity: 1;
+			}
+		}
+	}
+	#branding {
+		width: 95px;
+		height: 95px;
+		display: inline-block;
+		position: relative;
+		top: $logo-spacing;
+		@extend %svg;
+	}
+	@include small {
+		$button-height-s: 2.65rem;
+		$button-spacing-s: 0.15rem;
+		padding: $header-pad-s 0 ($header-pad-s - $logo-spacing*3) 0;
+		margin-top: $button-height-s;
+		.top-hat {
+			position: static;
+			margin: 0;
+			top: auto;
+			right: auto;
+			.tab-button {
+				margin: 0;
+				top: -($header-pad-s) - $button-height-s;
+				height: $button-height-s;
+				width: 100%;
+				position: absolute;
+				left: 0;
+				.button {
+					padding: $button-spacing-s 0;
+					width: 100%;
+					border-radius: 0;
+					height: 100%;
+					font-size: 1.2em;
+					line-height: $button-height-s - $button-spacing-s;
+				}
+			}
+			ul li {
+				margin-right: 0.35em;
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+		.account-info {
+			position: absolute;
+			top: -0.45rem;
+			right: rem-calc($gutter/2);
+		}
+		#branding {
+			width: 75px;
+			height: 73px;
+		}
+		ul, #menu_toggle {
+			font-size: $d-fs-s;
+		}
+		.navigation {
+			#menu_toggle {
+				font-size: 1.2em;
+				display: block;
+				font-weight: bold;
+				@include transition(opacity, $d-time, $d-ease);
+				@include st {
+					text-decoration: none;
+					span.text {
+						text-decoration: underline;
+					}
+				}
+				span.close {
+					display: none;
+				}
+				&.active {
+					position: fixed;
+					padding-bottom: 2rem;
+					width: 100%;
+					font-size: 1.35em; 
+					left: 0;
+					bottom: 0;
+					z-index: 11;
+					text-align: center;
+					span.nav {
+						display: none;
+					}
+					span.close {
+						display: inline;
+					}
+				}
+			}
+			&.active {
+				#menu {
+					display: block;
+				}
+			}
+			#menu {
+				display: none;
+				position: fixed;
+				z-index: 10;
+				background: $secondary;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				nav {
+					display: block;
+				}
+				.inner {
+					top: 50%;
+					width: 100%;
+					position: absolute;
+					transform: translateY(-50%);
+					padding-bottom: 2rem;
+				}
+				ul {
+					display: block;
+					font-size: 1.35em;
+					li {
+						display: block;
+						margin: 0.25em 0;
+						a {
+							font-weight: bold;
+						}
+					}
+					&.social {
+						margin-top: 1rem;
+						li {
+							display: inline-block;
+							float: none;
+							text-align: center;
+							margin: 0 0.15em;
+							width: 1.25em;
+							a {
+								padding: 0;
+								display: inline-block;
+							}
+						}
+					}
+				}
+				.inner {
+
+				}
+			}
+		}
+	}
+}
+
+
+
+
