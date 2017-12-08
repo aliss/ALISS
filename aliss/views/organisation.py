@@ -47,9 +47,9 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
 
         if self.object.published:
-            index_object(self.object, 'organisation')
+            index_organisation(self.object)
         else:
-            delete_object(self.object.pk, 'organisation')
+            delete_organisation(self.object.pk)
 
         messages.success(
             self.request,
