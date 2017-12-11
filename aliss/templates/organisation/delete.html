@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>Delete organisation</h1>
+                    <p>Are you sure you want to delete <a href="{% url 'organisation_detail' pk=object.pk %}">{{ object.name }}</a>?</p>
+                    <!-- TODO if statement -->
+                    <p>The following services's and location's will be deleted if you delete this organisation:</p>
+                    <h4>Services:</h4>
+                    <ul>
+                        {% for service in object.services.all %}
+                            <li><a href="{% url 'service_detail' pk=service.pk %}">{{ service }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <h4>Locations:</h4>
+                    <ul>
+                        {% for location in object.locations.all %}
+                            <li>{{ location }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="large-form">
+        <div class="row">
+            <div class="columns">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="submit">
+                        <input type="submit" class="alert" value="Delete Service">
+                        <a href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
