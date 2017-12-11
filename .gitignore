@@ -70,3 +70,4 @@ staticfiles/
 
 #Node + Gulp
 node_modules/
+dump.rdb
