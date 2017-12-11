@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>Add a new organisation</h1>
+                    <p>Once approved you will be able to add and edit information about and associate services with your organisation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="large-form">
+        <div class="row">
+            <div class="columns">
+                {% include 'organisation/forms/organisation_form.html' %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
