@@ -149,7 +149,7 @@ input.postcode {
 	}
 }
 input {
-	&[type=text], &[type=phone], &[type=email], &[type=password] {
+	&[type=text], &[type=url], &[type=phone], &[type=email], &[type=password] {
 		@extend %form-style;
 	}
 }
