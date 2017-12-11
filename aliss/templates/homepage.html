@@ -7,13 +7,15 @@
         <div class="row">
             <div class="columns">
                 <h1>Connecting Communities</h1>
-                <label>Looking for help? Enter your postcode to find support in your  local area:</label>
+                <label for="postcode">Looking for help? Enter your postcode to find support in your  local area:</label>
                 <div class="search-box">
                     <div class="search-holder sbs-inputs">
-                        <input type="text" placeholder="e.g. G2 4AA">
-                        <div class="search-button">
-                            <button><span>Search</span></button>
-                        </div>
+                        <form action="{% url 'search' %}">
+                            <input class="postcode" type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
+                            <div class="search-button">
+                                <button type="submit"><span>Search</span></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
