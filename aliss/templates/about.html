@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="banner">
+        <div class="banner" style="background-image: url('{% static 'img/ph-banner.jpg' %}');">
+            <img src="{% static 'img/ph-banner_small.jpg' %}">
+        </div>
+    </section>
+    <article id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>About ALISS</h1>
+                    <h3>Our Aim</h3>
+                    <p>ALISS helps people find and share information about local services and resources that support health and wellbeing. Funded by the Scottish Government and delivered by the Health and Social Care Alliance Scotland (the ALLIANCE), our key objectives are:</p>
+                    <ul>
+                        <li>To increase the availability and find-ability of good quality information which can help to enhance health and wellbeing for people and communities</li>
+                        <li>To support people, communities, professionals and organisations that have information to share</li>
+                        <li>To ensure that all ALISS stakeholders are informed, skilled and confident in the use and application of ALISS and that they are connected as part of a wider ALISS community of practice</li>
+                        <li>To ensure that ALISS is used and is strategically aligned with the Scottish health and social care needs</li>
+                        <li>To capture and share learning and good practice</li>
+                    </ul>
+                    <h3>Our Services and Approach</h3>
+                    <p>We provide a digital service via our website and through our application programme interface (API) which enables the information contained within ALISS to searchable on other websites and digital platforms. ALISS is grounded in a co-production approach that enables people across Scotland to add and update resources on a continual basis. This means that information is based on the knowledge of people living and working throughout local communities and/or those involved in delivering the resources.</p>
+                    <p>The ALISS engagement team provides support, advice and guidance to our stakeholders and users so that they get the best possible experience and outcomes from using the system. We also provide tools to support activities like asset mapping and community engagement.</p>
+                    <h3>Our Work</h3>
+                    <p>There are more than 1200 users with an ALISS log-in and there has been hundreds of thousands of searches on ALISS for information about local supports and services. We work with a wide and varied range of stakeholders and organisations from both the public and third sectors.</p>
+                    <p>The work of ALISS has been endorsed by the Cabinet Secretary for Health, Wellbeing and Sport; the Chief Executive of NHS Scotland; and the Chief Medical Officer for Scotland who observes that;</p>
+                    <blockquote>
+                        <p>'ALISS is a fantastic aid to joining people to supports that fit their situation based on the needs that they have identified. ALISS has a wider value too: it has made me better appreciate the range of supports, far beyond traditional health and care services, that people rely upon to keep them well'.</p>
+                    </blockquote>
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </article>
+</main>
+{% endblock %}

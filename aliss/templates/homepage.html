@@ -29,23 +29,25 @@
         {% include 'partials/for-not-for.html' %}
         <div class="row buttons">
             <div class="columns">
-                <a href="#" class="button secondary">More About Us</a>
+                <a href="{% url 'about' %}" class="button secondary">More About Us</a>
             </div>
         </div>
     </section>
-    <section class="center-section">
-        <div class="row section-title">
-            <div class="columns">
-                <h3>Join ALISS</h3>
-                <p>Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.</p>
+    {% if not request.user.is_authenticated %}
+        <section class="center-section">
+            <div class="row section-title">
+                <div class="columns">
+                    <h3>Join ALISS</h3>
+                    <p>Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.</p>
+                </div>
             </div>
-        </div>
-        <div class="row buttons">
-            <div class="columns">
-                <a href="#" class="button primary">Sign Up</a>
+            <div class="row buttons">
+                <div class="columns">
+                    <a href="{% url 'signup' %}" class="button primary">Sign Up</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    {% endif %}
     {% include 'partials/share-search.html' %}
 </main>
 {% endblock %}
