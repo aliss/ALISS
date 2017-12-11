@@ -1,0 +1,113 @@
+
+@import 'util/util';
+
+// Foundation Settings
+// ---------------------------------------
+
+// Breakpoints, Sizes
+$global-font-size: $font-size;
+$global-width: rem-calc($xxlarge);
+$global-lineheight: $d-line-height;
+$foundation-palette: (
+	primary: $primary,
+	secondary: $secondary,
+	success: $success,
+	warning: $warning,
+	alert: $alert,
+);
+$breakpoints: (
+	small: 0,
+	medium: $medium,
+	large: $large,
+	xlarge: $xlarge,
+	xxlarge: $xxlarge,
+);
+$print-breakpoint: large;
+$breakpoint-classes: (small medium large);
+
+// Body, Default Padding + Margin
+$body-font-family: $body-font;
+$body-background: $w;
+$body-font-color: $b;
+$body-font-family: $body-font;
+$body-antialiased: true;
+$global-margin: $d-margin;
+$global-padding: $d-pad;
+$global-radius: $d-rad;
+$global-flexbox: $flexbox-settings;
+
+// Grid
+$grid-row-width: $global-width;
+$grid-column-count: $cols;
+$grid-column-gutter: (
+	small: $gutter*0.75,
+	medium: $gutter,
+);
+$grid-column-align-edge: true;
+$block-grid-max: $grid-max;
+
+// Headers
+$header-font-family: $heading-font;
+$header-lineheight: $d-heading-line-height;
+$header-margin-bottom: $d-margin/2;
+$header-styles: (
+	small: (
+		'h1': ('font-size': $d-heading1-small),
+		'h2': ('font-size': $d-heading2-small),
+		'h3': ('font-size': $d-heading3-small),
+		'h4': ('font-size': $d-heading4-small),
+		'h5': ('font-size': $d-heading5-small),
+		'h6': ('font-size': $d-heading6-small),
+	),
+	medium: (
+		'h1': ('font-size': $d-heading1-medium),
+		'h2': ('font-size': $d-heading2-medium),
+		'h3': ('font-size': $d-heading3-medium),
+		'h4': ('font-size': $d-heading4-medium),
+		'h5': ('font-size': $d-heading5-medium),
+		'h6': ('font-size': $d-heading6-medium),
+	),
+	large: (
+		'h1': ('font-size': $d-heading1),
+		'h2': ('font-size': $d-heading2),
+		'h3': ('font-size': $d-heading3),
+		'h4': ('font-size': $d-heading4),
+		'h5': ('font-size': $d-heading5),
+		'h6': ('font-size': $d-heading6),
+	),
+);
+
+// Paragraph
+$small-font-size: 80%;
+$paragraph-lineheight: $d-line-height;
+$paragraph-margin-bottom: $d-margin;
+$paragraph-text-rendering: optimizeLegibility;
+$lead-font-size: $global-font-size * 1.25;
+$lead-lineheight: $d-line-height;
+
+// Lists
+$list-lineheight: $d-line-height;
+$list-margin-bottom: $d-margin;
+$list-style-type: disc;
+$list-style-position: outside;
+$list-side-margin: $d-margin*1.25;
+$list-nested-side-margin: $d-margin*1.25;
+
+// Links
+$anchor-color: $primary;
+$anchor-color-hover: $d-hover;
+$anchor-text-decoration: none;
+$anchor-text-decoration-hover: $d-hover-underline;
+
+// HR
+$hr-border: 1px solid $medium-gray;
+$hr-margin: rem-calc($gutter) auto;
+
+// Blockquote
+$blockquote-color: inherit;
+$blockquote-padding: 0;
+$blockquote-border: 0;
+
+
+
+

@@ -1,0 +1,58 @@
+
+// Share Form
+// ---------------------------------------
+
+.share-form, .center-section .share-form {
+	// font-size: 1.1em;
+	.part-url, input, select, .button, .buttons {
+		display: inline-block;
+		vertical-align: middle;
+		margin: 0 0.2em;
+	}
+	.buttons {
+		margin: 0;
+	}
+	.button {
+		margin-right: 0;
+		margin-left: 0.4em;
+	}
+	.part-url {
+		color: $medium-gray_fade;
+		font-size: 1.4em;
+		position: relative;
+		top: 0.05em;
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+	input.postcode {
+		width: 160px;
+		margin: 0;
+	}
+	select.category {
+		width: 230px;
+		margin: 0;
+	}
+	@include small {
+		.part-url, input, select, .buttons {
+			display: block;
+			text-align: center;
+			margin: 0;
+		}
+		.part-url {
+			margin: 0.25em 0;
+		}
+		.buttons {
+			display: block;
+			margin-top: 1rem;
+		}
+		input.postcode, select.category {
+			position: relative;
+			margin: 0 auto;
+			width: 300px;
+		}
+	}
+}
+
+
+
