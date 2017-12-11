@@ -16,6 +16,9 @@ label {
 		color: $light-gray;
 	}
 }
+input.postcode {
+	// text-transform: uppercase;
+}
 .f-error {
 	color: $w;
 	font-size: $d-fs;
