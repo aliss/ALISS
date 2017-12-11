@@ -743,7 +743,7 @@ a.icon-link, a.back-link {
 		width: 0.9em;
 	}
 }
-.location > .icon-link {
+.location > .icon-link, .locations-list > .icon-link {
 	padding-left: 1.4em;
 	.icon {
 		width: 1.1em;
@@ -1095,6 +1095,43 @@ ul.search-results {
 					display: block;
 					margin-top: 0.5em;
 				}
+			}
+		}
+	}
+}
+.location.multiple {
+	a.icon-link, span {
+		@extend %vam;
+	}
+	div.more {
+		margin-top: 0.25em;
+	}
+	a.more-link {
+		@include fas(plus);
+		position: relative;
+		padding-right: 1em;
+		&.active {
+			@include fas(minus);
+			color: $medium-gray;
+		}
+		&:before {
+			font-size: 0.75em;
+			position: absolute;
+			right: 0;
+			top: -0.3em;
+		}
+	}
+	.locations-list {
+		display: none;
+		margin-top: 0.25em;
+		margin-bottom: 1.25em;
+		&.active {
+			display: block;
+		}
+		a.icon-link {
+			margin-bottom: 0.25em;
+			&:last-child {
+				margin-bottom: 0;
 			}
 		}
 	}
