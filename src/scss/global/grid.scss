@@ -1,0 +1,157 @@
+
+// Grid 
+// ---------------------------------------
+
+@for $i from 1 through $cols {
+	@if $use_foundation {
+		.row {
+			max-width: $xlarge;
+			position: relative;
+			margin-left: auto;
+			margin-right: auto;
+			min-width: 320px;
+			padding-left: rem-calc($gutter/2);
+			padding-right: rem-calc($gutter/2);
+			@include small {
+				padding-right: 0;
+				padding-left: 0;
+			}
+		}
+		.columns {
+			padding-right: rem-calc($gutter/2);
+			padding-left: rem-calc($gutter/2);
+		}
+		@include breakpoint(rem-calc(($large - 1))) {
+			.l-#{$i} {
+				@include grid-column($i);
+			}
+			.l-off-#{$i} {
+				@include grid-column-offset($i);
+			}
+			.l-off-0 {
+				margin-left:0;
+			}
+		}
+		@include breakpoint(rem-calc(($large - 1)) down) {
+			.m-#{$i} {
+				@include grid-column($i);
+			}
+			.m-off-#{$i} {
+				@include grid-column-offset($i);
+			}
+			.m-off-0 {
+				margin-left:0;
+			}
+		}
+		@include breakpoint(rem-calc(($medium - 1)) down) {
+			.s-#{$i} {
+				@include grid-column($i);
+			}
+			.s-off-#{$i} {
+				@include grid-column-offset($i);
+			}
+			.s-off-0 {
+				margin-left:0;
+			}
+		}
+		.left > div, .left > li {
+			@include grid-column-end;
+		}
+	}
+	@if $use_bootstrap {
+		.row {
+			@include make-row($gutter);
+			max-width: $large;
+			margin-left: auto;
+			margin-right: auto;
+			@include xlarge {
+				max-width: $xlarge;
+			}
+		}
+		@media (max-width: ($small - 1)) {
+			.s-#{$i} {
+				@include make-xs-column($i, $gutter);
+			}
+			.s-off-#{$i} {
+				@include make-xs-column-offset($i);
+			}
+			.s-off-0 {
+				margin-left:0;
+			}
+		}
+		@media (max-width: ($large - 1)) {
+			.m-#{$i} {
+				@include make-sm-column($i, $gutter);
+			}
+			.m-off-#{$i} {
+				@include make-sm-column-offset($i);
+			}
+			.m-off-0 {
+				margin-left:0;
+			}
+		}
+		@media (max-width: ($xlarge - 1)) {
+			.m-#{$i} {
+				@include make-md-column($i, $gutter);
+			}
+			.m-off-#{$i} {
+				@include make-md-column-offset($i);
+			}
+			.m-off-0 {
+				margin-left:0;
+			}
+		}
+		.l-#{$i} {
+			@include make-lg-column($i, $gutter);
+		}
+		.l-off-#{$i} {
+			@include make-lg-column-offset($i);
+		}
+		.l-off-0 {
+			margin-left:0;
+		}
+		.left > div, .left > li {
+			float: inherit;
+		}
+	}
+}
+
+// Grid Layouts
+%col4-2-1 {
+	@extend .l-3;
+	@extend .m-6;
+	@extend .s-12;
+}
+%col-sidebar {
+	.content {
+		@extend .l-9;
+		@extend .m-8;
+		@extend .s-12;
+	}
+	.sub {
+		@extend .l-3;
+		@extend .m-4;
+		@extend .s-12;
+	}
+}
+%col3-2-1 {
+	@extend .l-4;
+	@extend .m-6;
+	@extend .s-12;
+}
+%col6-off3 {
+	@extend .l-6;
+	@extend .l-off-3;
+	@extend .m-12;
+	@extend .m-off-0;
+	@extend .s-12;
+	@extend .m-off-0;
+}
+%col8-off2 {
+	@extend .l-8;
+	@extend .l-off-2;
+	@extend .m-12;
+	@extend .m-off-0;
+	@extend .s-12;
+	@extend .m-off-0;
+}

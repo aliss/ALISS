@@ -1,0 +1,360 @@
+
+// Mixins
+// ---------------------------------------
+
+// Clear
+@mixin clear {
+	&:after {
+		content:"";
+		clear: both;
+		display: table;
+	}
+}
+
+// Pseudo Elements
+@mixin pseudo($type: before, $display: block, $position: absolute, $content: '') {
+	@if $type == before {
+		&:before {
+			content: $content;
+			display: $display;
+			position: $position;
+		}
+	}
+	@if $type == after {
+		&:after {
+			content: $content;
+			display: $display;
+			position: $position;
+		}
+	}
+}
+
+// Truncate
+@mixin truncate($truncate) {
+    max-width: $truncate;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// Media Queries
+@mixin media($min-width: 0, $max-width: 0) {
+	@if $max-width != 0 and $max-width == 0 {
+		@media (min-width: #{$min-width}) {
+			@content;
+		}
+	}
+	@if $min-width == 0 and $max-width != 0 {
+		@media (max-width: #{$max-width - 1px}) {
+			@content;
+		}
+	}
+	@if $min-width != 0 and $max-width != 0 {
+		@media (min-width: #{$min-width}) and (max-width: #{$max-width - 1px}) {
+			@content;
+		}
+	}
+}
+@mixin xlarge {
+	@media (min-width: #{$xlarge}) {
+		@content;
+	}
+}
+@mixin xlarge-down {
+	@media (max-width: #{$xlarge}) {
+		@content;
+	}
+}
+@mixin large {
+	@media (min-width: #{$large}) and (max-width: #{$xlarge - 1px}) {
+		@content;
+	}
+}
+@mixin large-down {
+	@media (max-width: #{$large}) {
+		@content;
+	}
+}
+@mixin medium {
+	@media (min-width: #{$medium}) and (max-width: #{$large - 1px}) {
+		@content;
+	}
+}
+@mixin medium-down {
+	@media (max-width: #{$medium}) {
+		@content;
+	}
+}
+@mixin small {
+	@media (max-width: #{$medium - 1px}) {
+		@content;
+	}
+}
+@mixin print {
+	@media print {
+		@content;
+	}
+}
+@mixin retina {
+	@media
+		only screen and (-webkit-min-device-pixel-ratio: 2),
+		only screen and (min--moz-device-pixel-ratio: 2),
+		only screen and (-o-min-device-pixel-ratio: 2/1),
+		only screen and (min-device-pixel-ratio: 2),
+		only screen and (min-resolution: 192dpi),
+		only screen and (min-resolution: 2dppx) {
+		@content;
+	}
+}
+@mixin ie {
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		@content;
+	}
+}
+
+// Aspect Ratio
+@mixin aspect-ratio($width, $height) {
+	position: relative;
+	&:before {
+		display: block;
+		content: "";
+		width: 100%;
+		padding-top: ($height / $width) * 100%;
+	}
+	> .content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+// Placeholder Text
+@mixin ph-color($color) {
+	&::placeholder { 
+	    color: $color;
+	}
+	&::-webkit-input-placeholder { 
+	    color: $color;
+	}
+	&::-moz-placeholder {
+	    color: $color;
+	}
+	&:-ms-input-placeholder {
+	    color: $color;
+	}
+	&:-moz-placeholder {
+	    color: $color;
+	}
+}
+
+// Transitions
+@mixin transition($element: all, $time: $d-time, $ease: $d-ease) {
+	transition: $element $time $ease;
+}
+
+// Center
+@mixin abs-center($x-offset: 0, $y-offset: 0) {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50% - $x-offset, -50% - $y-offset);
+}
+@mixin abs-center-x($x-offset: 0) {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50% - $x-offset);
+}
+@mixin abs-center-y($y-offset: 0) {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50% - $y-offset);
+}
+
+// Padding + Absolute Positioning
+@mixin pad-abs($position: right, $padding: $gutter, $offset: 0, $classes...) {
+	@if $position == right {
+		position: relative;
+		padding-right: $padding + $offset;
+		@each $class in $classes {
+			.#{$class} {
+		       right: 0;
+		       position: absolute;
+		       top: 0;
+		       width: $padding;
+		    }
+		}
+	}
+	@if $position == left {
+		position: relative;
+		padding-left: $padding + $offset;
+		@each $class in $classes {
+			.#{$class} {
+		       left: 0;
+		       position: absolute;
+		       top: 0;
+		       width: $padding;
+		    }
+		}
+	}
+}
+@mixin clear-abs($position: right, $classes...) {
+	@if $position == right {
+		padding-right: 0;
+	}
+	@if $position == left {
+		padding-left: 0;
+	}
+	@each $class in $classes {
+		.#{$class} {
+			top: auto;
+			left: auto;
+			right: auto;
+			bottom: auto;
+			position: relative;
+		}
+	}
+}
+
+// Hover, Focus, Active States
+@mixin st($states: all) {
+	@if $states == all {
+		&:hover, &:focus, &:active {
+			@content;
+		}
+	}
+	@if $states == hover {
+		&:hover {
+			@content;
+		}
+	}
+	@if $states == focus {
+		&:focus, &:active {
+			@content;
+		}
+	}
+	@if $states == visited {
+		&:visited {
+			@content;
+		}
+	}
+}
+
+// All Headers
+@mixin all-headers {
+	@for $i from 1 through 6 {
+		h#{$i} {
+			@content;
+		}
+	}
+}
+
+// Icons
+@mixin fab($icon) {
+	&:before {
+		font-family: 'Font Awesome 5 Brands';
+		@extend .fa-#{$icon};
+	}
+}
+@mixin fa($icon) {
+	&:before {
+		font-family: 'Font Awesome 5 Pro';
+  		font-weight: 400;
+		@extend .fa-#{$icon};
+	}
+}
+@mixin fas($icon) {
+	&:before {
+		font-family: 'Font Awesome 5 Pro';
+  		font-weight: 900;
+		@extend .fa-#{$icon};
+	}
+}
+
+// Triangles
+@mixin triangle($direction: up, $size: $gutter, $color: red) {
+	width:0;
+	height:0;
+	@if $direction == up {
+		border-left: ($size/2) solid transparent;
+		border-right: ($size/2) solid transparent;
+		border-bottom: ($size/2) solid $color;
+	}
+	@if $direction == down {
+		border-left: ($size/2) solid transparent;
+		border-right: ($size/2) solid transparent;
+		border-top: ($size/2) solid $color;
+	}
+	@if $direction == left {
+		border-top: ($size/2) solid transparent;
+		border-bottom: ($size/2) solid transparent;
+		border-right: ($size/2) solid $color;
+	}
+	@if $direction == right {
+		border-top: ($size/2) solid transparent;
+		border-bottom: ($size/2) solid transparent;
+		border-left: ($size/2) solid $color;
+	}
+}
+
+// Functions
+// ---------------------------------------
+
+// Get Social Colour
+@function get-social-colour($colour) {
+	@if map-has-key($social-colours, $colour) {
+		$colour: map-get($social-colours, $colour);
+	} @else {
+		@if type-of($colour) != colour {
+			@error "Invalid colour name: `#{$colour}`.";
+		}
+	}
+	@return $colour;
+}
+
+// Get File Colour
+@function get-file-colour($colour) {
+	@if map-has-key($file-colours, $colour) {
+		$colour: map-get($file-colours, $colour);
+	} @else {
+		@if type-of($colour) != colour {
+			@error "Invalid colour name: `#{$colour}`.";
+		}
+	}
+	@return $colour;
+}
+
+// Rem Calc
+@function parseInt($n) {
+	@return $n / ($n * 0 + 1);
+}
+@mixin rem($property, $values) {
+	$px: ();
+	$rem: ();
+	@each $value in $values {
+	    @if $value == 0 or $value == auto {
+			$px: append($px , $value);
+			$rem: append($rem, $value);
+	    }
+    	@else {
+			$unit: unit($value);
+			$val: parseInt($value);
+			$default-font-size: parseInt($font-size);
+			@if $unit == "px" {
+				$px: append($px,  $value);
+				$rem: append($rem, ($val / $default-font-size + rem));
+			}
+			@if $unit == "rem" {
+				$px: append($px,  ($val * $default-font-size + px));
+				$rem: append($rem, $value);
+			}
+		}
+	}
+	@if $px == $rem {
+		#{$property}: $px;
+	} @else {
+	    #{$property}: $px;
+	    #{$property}: $rem;
+	}
+}

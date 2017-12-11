@@ -1,0 +1,298 @@
+
+// Form Styles
+// ---------------------------------------
+
+label {
+	font-size: 1em;
+	margin-bottom: 0.5em;
+	cursor: pointer;
+	font-size: $d-fs;
+	color: $medium-gray;
+	line-height: 1.4;
+	@include small {
+		font-size: $d-fs-s;
+	}
+	span {
+		color: $light-gray;
+	}
+}
+.f-error {
+	color: $w;
+	font-size: $d-fs;
+	background: $alert;
+	margin-top: -1.5em;
+	margin-bottom: 1.35em;
+	padding: 0.8rem 1.2rem;
+	border-radius: $d-rad*2;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	@include small {
+		margin-top: -1.35em;
+		font-size: $d-fs-s;
+	}
+	&.all {
+		border-radius: $d-rad*2;
+		margin-top: 0;
+		margin-bottom: 2rem;
+		padding-top: 1.2rem;
+		padding-left: 1.6rem;
+		padding-right: 1.6rem;
+		padding-bottom: 1.3rem;
+		max-width: 100 - 34.25%;
+		@include media(0, $search-break) {
+			max-width: 60%;
+		}
+		@include small {
+			max-width: none;
+			padding: 1.2rem;
+		}
+	}
+	ul {
+		margin-top: 0.5em;
+		li {
+			font-size: 1em;
+			color: $w;
+			margin: 0.35em 0;
+			&:before {
+				background: $w;
+			}
+			&:first-child {
+				margin-top: 0;
+			}
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+.messages {
+	background: $success;
+	color: $w;
+	font-size: 1.1em;
+	@include transition(all, 1s);
+	max-height: 100px;
+	@include clear;
+	overflow: hidden;
+	@include small {
+		font-size: 1em;
+		max-height: 500px;
+	}
+	.columns {
+		position: relative;
+		padding-right: 250px;
+		padding-top: 1.25rem;
+		padding-bottom: 1.1rem;
+		@include small {
+			padding-right: 0;
+			padding-top: 1.1rem;
+			padding-bottom: 1rem;
+		}
+	}
+	p {
+		color: $w;
+		display: block;
+		margin: 0;
+	}
+	a {
+		color: $w;
+		float: right;
+		font-family: $heading-font;
+		font-size: $d-fs;
+		position: absolute;
+		right: rem-calc($gutter/2);
+		top: 50%;
+		transform: translateY(-50%);
+		@include st {
+			opacity: 0.65;
+		}
+		@include small {
+			font-size: $d-fs-s;
+			position: static;
+			margin-top: 0.25rem;
+			float: none;
+			display: inline-block;
+			transform: none;
+			top: auto;
+			right: auto;
+			font-size: 1.25em;
+		}
+	}
+	&.success {
+		background: $success;
+	}
+	&.alert {
+		background: $alert;
+	}
+}
+.form {
+	margin: 1.5em 0;
+	.radio-list, .checkbox-list {
+		margin-bottom: 1.35em;
+	}
+	input[type=submit], button {
+		// margin-top: 1rem;
+		@include media(0, 480) {
+			width: 100%;
+		}
+	}
+	p {
+		margin: 0;
+	}
+	&:first-child {
+		margin-top: 0;
+	}
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+input {
+	&[type=text], &[type=phone], &[type=email], &[type=password] {
+		@extend %form-style;
+	}
+}
+textarea {
+	@extend %form-style;
+	height: 200px;
+	// width: 100%;
+}
+select {
+	@extend %form-style;
+	@extend %custom-select;
+}
+input[type=checkbox] {
+	@extend %checkbox;
+}
+input[type=radio] {
+	@extend %radio;
+}
+.date-input {
+	position: relative;
+	input[type=text] {
+		padding-right:3em;
+		&[readonly] {
+			background-color: $w;
+			cursor: pointer;
+		}
+	}
+	@include fa(calendar);
+	&:before {
+		position: absolute;
+		color: $medium-gray;
+		font-size: 1.5em;
+		right: 0.75em;
+		top: 50%;
+		margin-top: -0.6em;
+	}
+}
+$date-highlight-color: $light-gray;
+$date-highlight-border-color: $medium-gray;
+$date-highlight-focus-color: $dark-gray;
+.picker {
+	&__box {
+		border-radius: $d-rad;
+		font-size: 1.4rem;
+	}
+	&__year {
+		color: inherit;
+		font-style: normal;
+		font-size: 1em;
+	}
+	&__month {
+		margin:0;
+	}
+	&__weekday {
+		font-weight: inherit;
+	}
+	&__day {
+		font-weight: inherit;
+		&--today {
+			&:before {
+				border-top-color: $secondary;
+			}
+		}
+		&--infocus, &--outfocus {
+			@include st {
+				background-color: $date-highlight-color;
+			}
+		}
+		&--selected {
+			background-color: $date-highlight-color;
+			color: $b;
+			@include st {
+				background-color: $date-highlight-color;
+				color: $b;
+			}
+		}
+		&--highlighted {
+			background-color: $date-highlight-color;
+			border-color: $date-highlight-border-color;
+			@include st {
+				background-color: $date-highlight-color;
+			}
+		}
+	}
+	&--focused {
+		.picker__day--selected, .picker__day--highlighted {
+			background-color: $date-highlight-focus-color;
+			color: $b;
+			@include st {
+				background-color: $date-highlight-focus-color;
+				color: $b;
+			}
+		}
+	}
+	&__nav {
+		&--next {
+			@include st {
+				background-color: $date-highlight-color;
+			}
+		}
+		&--prev {
+			@include st {
+				background-color: $date-highlight-color;
+			}
+		}
+	}
+	&__button {
+		&--today, &--clear, &--close {
+			color: $b;
+			border-radius: 0;
+			@include st {
+				color: $b;
+				background: $date-highlight-color;
+				border-color: $date-highlight-color;
+			}
+		}
+		&--today {
+			&:before {
+				border-top-color: $secondary;
+			}
+		}
+		&--clear {
+			&:before {
+				border-top-color: $alert;
+			}
+		}
+		&--close {
+			&:before {
+				border-top: $dark-gray;
+			}
+		}
+	}
+}
+
+// Contact Form 7 Specific Styles
+span.wpcf7-not-valid-tip {
+	@extend %error-message;
+}
+div.wpcf7-response-output {
+	&.wpcf7-validation-errors {
+		@extend %error-message;
+	}
+	&.wpcf7-mail-sent-ok {
+		@extend %success-message;
+	}
+}
+.ajax-loader {
+	display: none !important;
+}

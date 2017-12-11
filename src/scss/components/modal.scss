@@ -1,0 +1,78 @@
+
+// Modal
+// ---------------------------------------
+
+$info-pad-d: 1.6rem 2.2rem 2.1rem 2.2rem;
+$info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
+.black {
+	background: $dark-gray_fade;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 5;
+	display: none;
+	&.show {
+		display: block;
+		cursor: pointer;
+	}
+}
+.modal {
+	position: fixed;
+	z-index: 6;
+	left: 50%;
+	top: 50%;
+	width: 90%;
+	min-width: 280px;
+	@extend %txy;
+	border-radius: $d-rad*2;
+	background: $w;
+	max-width: 450px;
+	display: none;
+	&.active {
+		display: block;
+	}
+	.pad {
+		padding: $info-pad-d;
+		@include small {
+			padding: $info-pad-d-m;
+		}
+	}
+	.buttons {
+		@include clear;
+		.button:last-child {
+			float: right;
+		}
+		@include media(0, 480) {
+			.button {
+				display: block;
+				float: none;
+				margin-bottom: 0.5em;
+			}
+			.button:last-child {
+				float: none;
+				margin-bottom: 0;
+			}
+		}
+	}
+	.heading {
+		@include clear;
+		h5 {
+			margin-bottom: 0;
+			float: left;
+			margin-top: 0.35rem;
+		}
+		.alert {
+			float: right;
+			margin-left: 1em;
+			margin-bottom: 0.35em;
+		}
+	}
+	.content {
+		margin-top: 1em;
+	}
+}
+
+
+
