@@ -1,0 +1,40 @@
+<li>
+    <div class="heading">
+        <a href="{% url 'service_report_problem' service.id %}" class="alert icon-link">
+            <span class="icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </span>
+            Report this listing
+        </a>
+        <a href="{% url 'service_detail' service.id %}"><h3>{{ service.name }}</h3></a>
+    </div>
+    <p>{{ service.description|linebreaks }}</p>
+    {% for category in service.categories.all %}
+        <div class="assigned-category">
+            <span class="cat">
+                <i class="fa fa-utensil-fork"></i>
+            </span>
+            <span class="name">
+                {{ category.name }}
+            </span>
+        </div>
+    {% endfor %}
+    <div class="location">
+        <a class="icon-link">
+            <span class="icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </span>
+            100 Address Street, Glasgow, G11 5LY
+        </a>
+    </div>
+    <ul class="contact-info">
+        {% if service.phone %}<li>0141 336 3562</li>{% endif %}
+        {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
+        {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
+    </ul>
+    {% if service.service_areas.all %}
+        <div class="service-areas-list">
+            <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+        </div>
+    {% endif %}
+</li>
