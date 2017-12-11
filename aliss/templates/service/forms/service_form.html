@@ -1,0 +1,143 @@
+<form>
+	<div class="f-row">
+		<label for="service_name">Service Name <span>(required)</span></label>
+		<input type="text" id="service_name" placeholder="e.g. Diabetes Support Group">
+		<span class="annotation">
+			Give your service a clear and concise name featuring keywords.
+		</span>
+	</div>
+	<div class="f-row">
+		<label for="service_desc">Description <span>(required)</span></label>
+		<textarea id="service_desc"></textarea>
+		<span class="annotation">
+			Make sure to include information on what your service does, who you help and important information like opening times. Always assume those reading this description have never heard of your organisation or this service.
+		</span>
+	</div>
+	<div class="f-row two">
+		<div>
+			<label for="phone_no">Phone Number</label>
+			<input type="text" id="phone_no" placeholder="e.g. 0141 404 0231">
+		</div>
+		<div>
+			<label for="email_address">Email Address</label>
+			<input type="email" id="email_address" placeholder="e.g. name@company.com">
+		</div>
+	</div>
+	<div class="f-row">
+		<label for="website_url">Website URL</label>
+		<input type="text" id="website_url" placeholder="e.g. http://www.aliss.org">
+	</div>
+	<div class="f-row">
+		<label>Category <span>(required)</span></label>
+		<div class="all-categories">
+			<ul class="radio-list cat truncate">
+				<li>
+					<label>
+						<input type="radio">
+						<span class="cat">
+							<i class="fa fa-utensil-fork"></i>
+						</span>
+						<span class="name">
+							Food
+						</span>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio">
+						<span class="cat">
+							<i class="fa fa-home"></i>
+						</span>
+						<span class="name">
+							Housing &amp; Homelessness
+						</span>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio">
+						<span class="cat">
+							<i class="fa fa-pound-sign"></i>
+						</span>
+						<span class="name">
+							Money Advice
+						</span>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio">
+						<span class="cat">
+							<i class="fa fa-lightbulb"></i>
+						</span>
+						<span class="name">
+							Mental Health
+						</span>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio">
+						<span class="cat">
+							<i class="fa fa-utensil-fork"></i>
+						</span>
+						<span class="name">
+							Food
+						</span>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio">
+						<span class="cat">
+							<i class="fa fa-home"></i>
+						</span>
+						<span class="name">
+							Housing &amp; Homelessness
+						</span>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio">
+						<span class="cat">
+							<i class="fa fa-pound-sign"></i>
+						</span>
+						<span class="name">
+							Money Advice
+						</span>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio">
+						<span class="cat">
+							<i class="fa fa-lightbulb"></i>
+						</span>
+						<span class="name">
+							Mental Health
+						</span>
+					</label>
+				</li>
+			</ul>
+		</div>
+		<span class="annotation">
+			Select the one category that best describes the needs that your service satisfies.
+		</span>
+	</div>
+	<div class="f-row">
+		<label for="locations">Locations</label>
+		<select id="locations">
+			<option value="">Select Locations</option>
+		</select>
+	</div>
+	<div class="f-row">
+		<label for="service_areas">Service Areas</label>
+		<select id="service_areas">
+			<option value="">Select Service Areas</option>
+		</select>
+	</div>
+	<div class="submit">
+		<input type="submit" value="Add Location">
+	</div>
+</form>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>Shelter Scotland</h1>
+                    <div class="breadcrumbs">
+                        <a href="#">Shelter Scotland</a>
+                        <span class="sep"></span>
+                        <span>Add service</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="large-form">
+        <div class="row">
+            <div class="columns">
+                {% include 'service/forms/service_form.html' %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
