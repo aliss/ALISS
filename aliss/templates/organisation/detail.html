@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block container %}
+<main class="main" role="main">
+    <article id="content" class="organisation">
+        <div class="row">
+            <div class="columns options">
+                <div class="info-box small toggled" id="service_actions">
+                    <div class="heading">
+                        <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+                    </div>
+                    <div class="actions toggle-content">
+                        <a href="#" class="primary icon-link">
+                            <span class="icon">
+                                <i class="fas fa-hand-paper"></i>
+                            </span>
+                            Claim this organisation
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>{{ object.name }}</h1>
+                    {% if object.claimed_by %}<p class="org"><span class="claimed">Claimed</span></p>{% endif %}
+                    <div class="desc">
+                        <p>{{ object.description|linebreaks }}</p>
+                        <p>Last updated <span class="updated alert">{{ object.updated_on }}</span></p>
+                    </div>
+                </div>
+                {% if object.services.all %}
+                    <div class="services-list">
+                        <h3>Services</h3>
+                        <ul class="search-results">
+                            {% for service in object.services.all %}
+                                {% include 'service/partials/detail.html' with service=service %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="columns contact-info">
+                {% if object.locations.all %}
+                    <h4>Locations</h4>
+                    <div class="all-locations">
+                        {% for location in object.locations.all %}
+                            {% include 'location/partials/detail.html' %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
+                    <h4>Contact Information</h4>
+                    <p>
+                        {% if object.phone %}<strong>0141 336 3562</strong><br />{% endif %}
+                        {% if object.email %}<a href="#">info@possobilities.co.uk</a><br />{% endif %}
+                        {% if object.website %}<a href="#" target="_blank">Website</a><br />{% endif %}
+                        {% if object.facebook %}<a href="#" class="fb" target="_blank">Facebook</a><br />{% endif %}
+                        {% if object.twitter %}<a href="#" class="tw" target="_blank">Twitter</a>{% endif %}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+</main>
+{% endblock %}
