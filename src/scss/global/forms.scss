@@ -16,6 +16,9 @@ label {
 		color: $light-gray;
 	}
 }
+input.postcode {
+	// text-transform: uppercase;
+}
 .f-error {
 	color: $w;
 	font-size: $d-fs;
@@ -146,7 +149,7 @@ label {
 	}
 }
 input {
-	&[type=text], &[type=phone], &[type=email], &[type=password] {
+	&[type=text], &[type=url], &[type=phone], &[type=email], &[type=password] {
 		@extend %form-style;
 	}
 }
