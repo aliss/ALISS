@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="black"></div>
+<div class="modal" id="add_list">
+    <div class="pad">
+        <div class="heading">
+            <a class="close alert icon-link">
+                <span class="icon">
+                    <i class="fas fa-times"></i>
+                </span>
+                Close
+            </a>
+            <h5>Add to new recommendations list</h5>
+        </div>
+        <div class="form">
+            {% include 'service/forms/add_recommendations_list.html' %}
+        </div>
+    </div>
+</div>
+<main class="main" role="main">
+    <article id="content" class="service">
+        <div class="row">
+            <div class="columns options">
+                <div class="info-box small toggled" id="service_actions">
+                    <div class="heading">
+                        <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+                    </div>
+                    <div class="actions toggle-content">
+                        <a href="#" class="primary icon-link">
+                            <span class="icon">
+                                <i class="fas fa-heart"></i>
+                            </span>
+                            Add to My Saved Services
+                        </a>
+                        <a href="#" class="primary icon-link" id="recommend_toggle">
+                            <span class="icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </span>
+                            Recommend this service
+                        </a>
+                        <div class="recommend-form toggled" id="recommend">
+                            <form>
+                                <div class="sbs-inputs select">
+                                    <select>
+                                        <option value="">Select list</option>
+                                        <option value="new">Create New</option>
+                                    </select>
+                                    <input type="submit" class="secondary" value="Add">
+                                    <a id="add_list_modal" class="button secondary">Add</a>
+                                </div>
+                            </form>
+                        </div>
+                        <a href="#" class="icon-link">
+                            <span class="icon">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            Email this listing
+                        </a>
+                        <a href="#" class="icon-link">
+                            <span class="icon">
+                                <i class="fas fa-print"></i>
+                            </span>
+                            Print this listing
+                        </a>
+                        <a href="#" class="alert icon-link">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </span>
+                            Report this listing
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="columns content">
+                <div class="copy-container">
+                    <a href="#" class="back-link"><span class="icon"></span> Back to results</a>
+                    <h1>{{ object.name }}</h1>
+                    <p class="org">by <a href="#">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
+                    <div class="assigned-category">
+                        <span class="cat">
+                            <i class="fa fa-utensil-fork"></i>
+                        </span>
+                        <span class="name">
+                            Food
+                        </span>
+                    </div>
+                    <div class="desc long">
+                        <p>{{ object.description|linebreaks }}</p>
+                        <p>Last updated <span class="updated alert">{{ object.updated_on }}</span></p>
+                    </div>
+                    <a href="#" class="back-link"><span class="icon"></span> Back to results</a>
+                </div>
+            </div>
+            <div class="columns contact-info">
+                <div class="all-locations">
+                    {% for location in object.locations.all %}
+                        {% include 'location/partials/detail.html' %}
+                    {% endfor %}
+                </div>
+                <h4>Contact Information</h4>
+                <p>
+                    {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+                    {% if object.url %}<a href="{{ object.url }}">Website</a>{% endif %}
+                </p>
+                {% if object.service_areas.all %}
+                    <h5>Service Areas</h5>
+                    <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                {% endif %}
+            </div>
+            <div class="columns feedback-form">
+                <h5>Was this helpful?</h5>
+                <a class="yes">
+                    Yes
+                </a>
+                <a class="no alert">
+                    No
+                </a>
+                <div class="form" style="display: none;">
+                    {% include 'service/forms/feedback.html' %}
+                </div>
+            </div>
+        </div>
+    </article>
+</main>
+{% endblock %}
