@@ -1,133 +1,133 @@
 <form method="post">
-	{% csrf_token %}
-	<div class="f-row">
-		{% include 'partials/forms/field.html' with field=form.name %}
-		<span class="annotation">
-			Give your service a clear and concise name featuring keywords.
-		</span>
-	</div>
-	<div class="f-row">
-		{% include 'partials/forms/field.html' with field=form.description %}
-		<span class="annotation">
-			Make sure to include information on what your service does, who you help and important information like opening times. Always assume those reading this description have never heard of your organisation or this service.
-		</span>
-	</div>
-	<div class="f-row two">
-		<div>
+    {% csrf_token %}
+    <div class="f-row">
+        {% include 'partials/forms/field.html' with field=form.name %}
+        <span class="annotation">
+            Give your service a clear and concise name featuring keywords.
+        </span>
+    </div>
+    <div class="f-row">
+        {% include 'partials/forms/field.html' with field=form.description %}
+        <span class="annotation">
+            Make sure to include information on what your service does, who you help and important information like opening times. Always assume those reading this description have never heard of your organisation or this service.
+        </span>
+    </div>
+    <div class="f-row two">
+        <div>
             {% include 'partials/forms/field.html' with field=form.phone %}
         </div>
         <div>
             {% include 'partials/forms/field.html' with field=form.email %}
         </div>
-	</div>
-	<div class="f-row">
-		{% include 'partials/forms/field.html' with field=form.url %}
-	</div>
-	<div class="f-row">
-		<label>Category <span>(required)</span></label>
-		<div class="all-categories">
-			<ul class="radio-list cat truncate">
-				<li>
-					<label>
-						<input type="radio">
-						<span class="cat">
-							<i class="fa fa-utensil-fork"></i>
-						</span>
-						<span class="name">
-							Food
-						</span>
-					</label>
-				</li>
-				<li>
-					<label>
-						<input type="radio">
-						<span class="cat">
-							<i class="fa fa-home"></i>
-						</span>
-						<span class="name">
-							Housing &amp; Homelessness
-						</span>
-					</label>
-				</li>
-				<li>
-					<label>
-						<input type="radio">
-						<span class="cat">
-							<i class="fa fa-pound-sign"></i>
-						</span>
-						<span class="name">
-							Money Advice
-						</span>
-					</label>
-				</li>
-				<li>
-					<label>
-						<input type="radio">
-						<span class="cat">
-							<i class="fa fa-lightbulb"></i>
-						</span>
-						<span class="name">
-							Mental Health
-						</span>
-					</label>
-				</li>
-				<li>
-					<label>
-						<input type="radio">
-						<span class="cat">
-							<i class="fa fa-utensil-fork"></i>
-						</span>
-						<span class="name">
-							Food
-						</span>
-					</label>
-				</li>
-				<li>
-					<label>
-						<input type="radio">
-						<span class="cat">
-							<i class="fa fa-home"></i>
-						</span>
-						<span class="name">
-							Housing &amp; Homelessness
-						</span>
-					</label>
-				</li>
-				<li>
-					<label>
-						<input type="radio">
-						<span class="cat">
-							<i class="fa fa-pound-sign"></i>
-						</span>
-						<span class="name">
-							Money Advice
-						</span>
-					</label>
-				</li>
-				<li>
-					<label>
-						<input type="radio">
-						<span class="cat">
-							<i class="fa fa-lightbulb"></i>
-						</span>
-						<span class="name">
-							Mental Health
-						</span>
-					</label>
-				</li>
-			</ul>
-		</div>
-		<span class="annotation">
-			Select the one category that best describes the needs that your service satisfies.
-		</span>
-	</div>
-	<div class="f-row">
-		{% include 'partials/forms/field.html' with field=form.locations %}
-	</div>
-	<div class="f-row">
-		{% include 'partials/forms/field.html' with field=form.service_areas %}
-	</div>
-	<div class="submit">
-		<input type="submit" value="Add Location">
-	</div>
+    </div>
+    <div class="f-row">
+        {% include 'partials/forms/field.html' with field=form.url %}
+    </div>
+    <div class="f-row">
+        <label>Category <span>(required)</span></label>
+        <div class="all-categories">
+            <ul class="radio-list cat truncate">
+                <li>
+                    <label>
+                        <input type="radio">
+                        <span class="cat">
+                            <i class="fa fa-utensil-fork"></i>
+                        </span>
+                        <span class="name">
+                            Food
+                        </span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio">
+                        <span class="cat">
+                            <i class="fa fa-home"></i>
+                        </span>
+                        <span class="name">
+                            Housing &amp; Homelessness
+                        </span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio">
+                        <span class="cat">
+                            <i class="fa fa-pound-sign"></i>
+                        </span>
+                        <span class="name">
+                            Money Advice
+                        </span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio">
+                        <span class="cat">
+                            <i class="fa fa-lightbulb"></i>
+                        </span>
+                        <span class="name">
+                            Mental Health
+                        </span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio">
+                        <span class="cat">
+                            <i class="fa fa-utensil-fork"></i>
+                        </span>
+                        <span class="name">
+                            Food
+                        </span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio">
+                        <span class="cat">
+                            <i class="fa fa-home"></i>
+                        </span>
+                        <span class="name">
+                            Housing &amp; Homelessness
+                        </span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio">
+                        <span class="cat">
+                            <i class="fa fa-pound-sign"></i>
+                        </span>
+                        <span class="name">
+                            Money Advice
+                        </span>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="radio">
+                        <span class="cat">
+                            <i class="fa fa-lightbulb"></i>
+                        </span>
+                        <span class="name">
+                            Mental Health
+                        </span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <span class="annotation">
+            Select the one category that best describes the needs that your service satisfies.
+        </span>
+    </div>
+    <div class="f-row">
+        {% include 'partials/forms/field.html' with field=form.locations %}
+    </div>
+    <div class="f-row">
+        {% include 'partials/forms/field.html' with field=form.service_areas %}
+    </div>
+    <div class="submit">
+        <input type="submit" value="Add Service">
+    </div>
 </form>
