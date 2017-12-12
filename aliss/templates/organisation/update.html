@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block container %}
 <main class="main" role="main">
@@ -7,11 +6,11 @@
         <div class="row">
             <div class="columns content">
                 <div class="copy-container">
-                    <h1>{{ organisation.name }}</h1>
+                    <h1>{{ object.name }}</h1>
                     <div class="breadcrumbs">
-                        <a href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
+                        <a href="{% url 'organisation_detail' pk=object.pk %}">{{ object.name }}</a>
                         <span class="sep"></span>
-                        <span>Add Service</span>
+                        <span>Update organisation</span>
                     </div>
                 </div>
             </div>
@@ -20,7 +19,7 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                {% include 'service/forms/service_form.html' %}
+                {% include 'organisation/forms/organisation_form.html' %}
             </div>
         </div>
     </section>
