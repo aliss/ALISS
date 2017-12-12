@@ -1,0 +1,24 @@
+{% load aliss %}
+
+<div class="paged">
+    <div class="holder">
+        <p class="total">Showing page {{ page_obj.number }} of {{ paginator.num_pages }}</p>
+        <div class="pages">
+            {% if page_obj.has_previous %}
+                <a href="?{% query_transform request page=page_obj.previous_page_number %}" class="prev">Prev</a>
+            {% endif %}
+
+            {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <span class="number">{{ i }}</span>
+                {% else %}
+                    <a href="?{% query_transform request page=i %}" class="number">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?{% query_transform request page=page_obj.next_page_number %}" class="next">Next</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
