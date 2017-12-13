@@ -41,8 +41,10 @@ class SignupForm(forms.ModelForm):
     class Meta:
         model = ALISSUser
         fields = (
+            'name',
             'email',
-            'username',
+            'phone_number',
+            'postcode',
             'password1',
             'password2',
             'accept_terms_and_conditions'
@@ -64,4 +66,4 @@ class SignupForm(forms.ModelForm):
 class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = ALISSUser
-        fields = ('email', 'username')
+        fields = ('name', 'email', 'phone_number', 'postcode')

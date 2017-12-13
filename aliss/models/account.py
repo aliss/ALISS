@@ -36,23 +36,6 @@ class ALISSUserManager(BaseUserManager):
 
 
 class ALISSUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(
-        _('username'),
-        max_length=150,
-        unique=True,
-        db_index=True,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-        validators=[
-            validators.RegexValidator(
-                r'^[\w.@+-]+$',
-                _('Enter a valid username. This value may contain only '
-                  'letters, numbers ' 'and @/./+/-/_ characters.')
-            ),
-        ],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
-    )
     email = models.EmailField(
         unique=True,
         error_messages={
@@ -74,10 +57,17 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
+    name = models.CharField(max_length=50)
+    postcode = models.CharField(max_length=9)
+    phone_number = models.CharField(max_length=15, blank=True)
+
+    accept_terms_and_conditions = models.BooleanField(default=True)
+    accept_privacy_policy = models.BooleanField(default=True)
+
     objects = ALISSUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['email, name, postcode']
 
     class Meta:
         verbose_name = _('user')
