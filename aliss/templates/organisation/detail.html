@@ -1,23 +1,67 @@
 {% extends "base.html" %}
 
 {% block container %}
+<div class="black"></div>
+<div class="modal" id="delete_org">
+    <div class="pad">
+        <div class="heading">
+            <a class="close alert icon-link">
+                <span class="icon">
+                    <i class="fas fa-times"></i>
+                </span>
+                Close
+            </a>
+            <h5>Delete organisation</h5>
+        </div>
+        <div class="content">
+            <p>Are you sure you want to delete your organisation?</p>
+            <p>This will also delete the associated Services and Locations.</p>
+            <div class="buttons">
+                <form method="post" action="{% url 'organisation_delete' pk=object.pk %}">
+                    {% csrf_token %}
+                    <input type="submit" class="button alert" value="Delete">
+                    <a class="button secondary cancel">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <main class="main" role="main">
     <article id="content" class="organisation">
         <div class="row">
             <div class="columns options">
-                <div class="info-box small toggled" id="service_actions">
-                    <div class="heading">
-                        <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+                {% if request.user.is_authenticated %}
+                    <div class="info-box small toggled" id="service_actions">
+                        <div class="heading">
+                            <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+                        </div>
+                        {% if request.user.is_staff %}
+                            <div class="actions toggle-content">
+                                <a href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </span>
+                                    Edit organisation info
+                                </a>
+                                <a id="delete_org_modal" class="delete icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                    Delete organisation
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="actions toggle-content">
+                                <a href="#" class="primary icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-hand-paper"></i>
+                                    </span>
+                                    Claim this organisation
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
-                    <div class="actions toggle-content">
-                        <a href="#" class="primary icon-link">
-                            <span class="icon">
-                                <i class="fas fa-hand-paper"></i>
-                            </span>
-                            Claim this organisation
-                        </a>
-                    </div>
-                </div>
+                {% endif %}
             </div>
             <div class="columns content">
                 <div class="copy-container">
