@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load aliss %}
 
 {% block container %}
 <main class="main" role="main">
@@ -36,96 +37,22 @@
                                     <h4>My needs</h4>
                                 </div>
                                 <p>Which categories are most relevant to your current needs?</p>
+                                {% get_root_categories as root_categories %}
                                 <div class="all-categories">
                                     <ul class="radio-list cat truncate">
-                                        <li>
-                                            <label>
-                                                <input type="checkbox">
-                                                <span class="cat">
-                                                    <i class="fa fa-utensil-fork"></i>
-                                                </span>
-                                                <span class="name">
-                                                    Food
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                <input type="checkbox">
-                                                <span class="cat">
-                                                    <i class="fa fa-home"></i>
-                                                </span>
-                                                <span class="name">
-                                                    Housing &amp; Homelessness
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                <input type="checkbox">
-                                                <span class="cat">
-                                                    <i class="fa fa-pound-sign"></i>
-                                                </span>
-                                                <span class="name">
-                                                    Money Advice
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                <input type="checkbox">
-                                                <span class="cat">
-                                                    <i class="fa fa-lightbulb"></i>
-                                                </span>
-                                                <span class="name">
-                                                    Mental Health
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                <input type="checkbox">
-                                                <span class="cat">
-                                                    <i class="fa fa-utensil-fork"></i>
-                                                </span>
-                                                <span class="name">
-                                                    Food
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                <input type="checkbox">
-                                                <span class="cat">
-                                                    <i class="fa fa-home"></i>
-                                                </span>
-                                                <span class="name">
-                                                    Housing &amp; Homelessness
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                <input type="checkbox">
-                                                <span class="cat">
-                                                    <i class="fa fa-pound-sign"></i>
-                                                </span>
-                                                <span class="name">
-                                                    Money Advice
-                                                </span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label>
-                                                <input type="checkbox">
-                                                <span class="cat">
-                                                    <i class="fa fa-lightbulb"></i>
-                                                </span>
-                                                <span class="name">
-                                                    Mental Health
-                                                </span>
-                                            </label>
-                                        </li>
+                                        {% for category in root_categories %}
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox">
+                                                    <span class="cat">
+                                                        <i class="fa fa-utensil-fork"></i>
+                                                    </span>
+                                                    <span class="name">
+                                                        {{ category.name }}
+                                                    </span>
+                                                </label>
+                                            </li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                                 <p><a class="clear-all">Clear All</a></p>
