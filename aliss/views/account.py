@@ -18,7 +18,6 @@ class AccountSignupView(CreateView):
 
     def form_valid(self, form):
         self.object = ALISSUser.objects.create_user(
-            username=form.cleaned_data['username'],
             email=form.cleaned_data['email'],
             password=form.cleaned_data['password1']
         )
