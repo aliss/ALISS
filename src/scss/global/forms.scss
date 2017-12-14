@@ -168,6 +168,13 @@ input[type=checkbox] {
 input[type=radio] {
 	@extend %radio;
 }
+.has-error {
+	select, textarea, input[type=text], input[type=phone], input[type=email], input[type=password], input[type=url], input[type=checkbox], input[type=radio] {
+		border-color: $alert;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+}
 .date-input {
 	position: relative;
 	input[type=text] {
