@@ -188,12 +188,7 @@
                                 Prepopulate my stated postcode and needs the next time I search ALISS
                             </label>
                         </div>
-                        <div class="checkbox-agree">
-                            <label>
-                                <input type="checkbox">
-                                I have read and accept the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a>
-                            </label>
-                        </div>
+                        {% include 'partials/forms/checkbox_agree.html' with field=form.accept_terms_and_conditions %}
                         <input type="submit" value="Sign Up">
                     </div>
                 </form>
