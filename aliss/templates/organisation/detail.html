@@ -80,6 +80,9 @@
                                 {% include 'service/partials/detail.html' with service=service %}
                             {% endfor %}
                         </ul>
+                        {% if request.user.is_staff or object.claimed_by == request.user %}
+                            <a href="{% url 'service_create' pk=object.pk %}" class="button primary">Add Service</a>
+                        {% endif %}
                     </div>
                 {% endif %}
             </div>
@@ -90,6 +93,9 @@
                         {% for location in object.locations.all %}
                             {% include 'location/partials/detail.html' %}
                         {% endfor %}
+                        {% if request.user.is_staff or object.claimed_by == request.user %}
+                            <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</div>
+                        {% endif %}
                     </div>
                 {% endif %}
                 {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
