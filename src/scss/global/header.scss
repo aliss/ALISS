@@ -198,9 +198,9 @@ header {
 						left: 50%;
 						margin-left: -20px;
 						margin-top: 3px;
-						width: 0; 
+						width: 0;
 						position: absolute;
-						height: 0; 
+						height: 0;
 						border-left: 20px solid transparent;
 						border-right: 20px solid transparent;
 						border-bottom: 20px solid $w;
@@ -325,10 +325,12 @@ header {
 				.button {
 					padding: $button-spacing-s 0;
 					width: 100%;
+					line-height: 1;
 					border-radius: 0;
 					height: 100%;
 					font-size: 1.2em;
-					line-height: $button-height-s - $button-spacing-s;
+					// line-height: $button-height-s - $button-spacing-s;
+					line-height: 2.2rem;
 				}
 			}
 			ul li {
@@ -369,7 +371,7 @@ header {
 					position: fixed;
 					padding-bottom: 2rem;
 					width: 100%;
-					font-size: 1.35em; 
+					font-size: 1.35em;
 					left: 0;
 					bottom: 0;
 					z-index: 11;
