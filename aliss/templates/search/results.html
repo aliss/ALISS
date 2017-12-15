@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load aliss %}
 
 {% block container %}
 <main class="main" role="main">
@@ -51,57 +52,27 @@
                     <div class="filter keyword-search">
                         <label>Filter by keyword:</label>
                         <div class="sbs-inputs">
-                            <input type="text" placeholder="e.g. Diabetes">
+                            <input type="text" placeholder="e.g. Diabetes" value="{{ request.GET.q }}">
                             <input type="submit" class="secondary" value="Search">
                         </div>
                     </div>
+                    {% get_root_categories as root_categories %}
                     <div class="filter category">
                         <label>Filter by needs:</label>
                         <ul class="radio-list-links cat truncate">
-                            <li class="active">
-                                <a href="#">
-                                    <span class="radio"></span>
-                                    <span class="cat">
-                                        <i class="fa fa-utensil-fork"></i>
-                                    </span>
-                                    <span class="name">
-                                        Food
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="radio"></span>
-                                    <span class="cat">
-                                        <i class="fa fa-home"></i>
-                                    </span>
-                                    <span class="name">
-                                        Housing &amp; Homelessness
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="radio"></span>
-                                    <span class="cat">
-                                        <i class="fa fa-pound-sign"></i>
-                                    </span>
-                                    <span class="name">
-                                        Money Advice
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="radio"></span>
-                                    <span class="cat">
-                                        <i class="fa fa-lightbulb"></i>
-                                    </span>
-                                    <span class="name">
-                                        Mental Health
-                                    </span>
-                                </a>
-                            </li>
+                            {% for category in root_categories %}
+                                <li{% if category.name == request.GET.category %} class='active'{% endif %}>
+                                    <a href="?{% query_transform request category=category.name page=None %}">
+                                        <span class="radio"></span>
+                                        <span class="cat">
+                                            <i class="fa fa-utensil-fork"></i>
+                                        </span>
+                                        <span class="name">
+                                            {{ category.name }}
+                                        </span>
+                                    </a>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

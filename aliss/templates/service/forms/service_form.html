@@ -13,12 +13,8 @@
         </span>
     </div>
     <div class="f-row two">
-        <div>
-            {% include 'partials/forms/field.html' with field=form.phone %}
-        </div>
-        <div>
-            {% include 'partials/forms/field.html' with field=form.email %}
-        </div>
+        {% include 'partials/forms/field.html' with field=form.phone %}
+        {% include 'partials/forms/field.html' with field=form.email %}
     </div>
     <div class="f-row">
         {% include 'partials/forms/field.html' with field=form.url %}

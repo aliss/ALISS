@@ -22,6 +22,15 @@
                             <div class="heading">
                                 <h4>Your details</h4>
                             </div>
+                            {% if form.non_field_errors %}
+                                <div class="f-error all content">
+                                    <ul>
+                                        {% for item in form.non_field_errors %}
+                                            <li>{{ item }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
                             <label for="username">Email</label>
                             {{ form.username }}
                             {{ form.password.label_tag }}

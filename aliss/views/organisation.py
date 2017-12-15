@@ -123,7 +123,13 @@ class OrganisationDetailView(DetailView):
 class OrganisationDeleteView(StaffuserRequiredMixin, DeleteView):
     model = Organisation
     template_name = 'organisation/delete.html'
-    success_url = reverse_lazy('organisation_list')
+
+    def get_success_url(self):
+        if self.request.user.is_staff:
+            # TODO change this to go to dashboard once it is developed
+            return reverse_lazy('account_my_organisations')
+        else:
+            return reverse_lazy('account_my_organisations')
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
