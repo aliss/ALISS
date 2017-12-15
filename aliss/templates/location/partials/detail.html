@@ -6,4 +6,20 @@
         </span>
         {{ location.formatted_address }}
     </a>
+    {% if request.user.is_staff or location.organisation.claimed_by == request.user %}
+        <div class="edit-options">
+            <a href="{% url 'location_update' pk=location.pk %}" class="icon-link">
+                <span class="icon">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                Edit location
+            </a>
+            <a href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                <span class="icon">
+                    <i class="fas fa-trash-alt"></i>
+                </span>
+                Delete location
+            </a>
+        </div>
+    {% endif %}
 </div>
