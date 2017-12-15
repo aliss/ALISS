@@ -6,11 +6,11 @@ from django.utils.safestring import mark_safe
 
 from aliss.models import ALISSUser
 
-
 def get_accept_terms_and_conditions_label():
     return mark_safe(
-            'I agree to the <a href="{url}">Terms and Conditions'.format(
-                url=reverse_lazy('terms_and_conditions')
+            'I have read and accept the <a href="{t_and_c_url}">Terms &amp; Conditions</a> and <a href="{privacy_url}">Privacy Policy</a>'.format(
+                t_and_c_url=reverse_lazy('terms_and_conditions'),
+                privacy_url=reverse_lazy('privacy_policy')
             )
     )
 
@@ -49,6 +49,7 @@ class SignupForm(forms.ModelForm):
             'password2',
             'accept_terms_and_conditions'
         )
+        error_css_class = 'has-error'
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -67,3 +68,4 @@ class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = ALISSUser
         fields = ('name', 'email', 'phone_number', 'postcode')
+        error_css_class = 'has-error'
