@@ -19,13 +19,17 @@
             </span>
         </div>
     {% endfor %}
-    <div class="location">
-        <a class="icon-link">
-            <span class="icon">
-                <i class="fas fa-map-marker-alt"></i>
-            </span>
-            100 Address Street, Glasgow, G11 5LY
-        </a>
+    <div class="location multiple">
+        <div class="locations-list active">
+            {% for location in service.locations.all %}
+                <a class="icon-link">
+                    <span class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    {{ location.formatted_address }}
+                </a>
+            {% endfor %}
+        </div>
     </div>
     <ul class="contact-info">
         {% if service.phone %}<li>0141 336 3562</li>{% endif %}

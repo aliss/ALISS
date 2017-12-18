@@ -8,7 +8,7 @@
     </a>
     {% if request.user.is_staff or location.organisation.claimed_by == request.user %}
         <div class="edit-options">
-            <a href="{% url 'location_update' pk=location.pk %}" class="icon-link">
+            <a href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                 <span class="icon">
                     <i class="fas fa-pencil-alt"></i>
                 </span>
