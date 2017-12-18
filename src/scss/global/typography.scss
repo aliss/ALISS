@@ -131,7 +131,7 @@ i.fa, i.fas, i.fab {
 		margin: 1.35em 0;
 		color: $dark-gray;
 		p {
-			
+
 		}
 	}
 }
@@ -170,7 +170,7 @@ table {
 			&:nth-child(2n) {
 				background: $light-gray_fade;
 			}
-		}	
+		}
 		th, td {
 			color: $medium-gray;
 		}
@@ -242,6 +242,7 @@ table {
 	@extend h4;
 	a {
 		color: $secondary;
+		font-weight: normal;
 		@include st {
 			color: $medium-gray;
 		}
