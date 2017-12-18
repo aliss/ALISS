@@ -15,7 +15,8 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                <form>
+                <form method="post">
+                    {% csrf_token %}
                     <div class="f-row two">
                         {% include 'partials/forms/field.html' with field=form.name %}
                         {% include 'partials/forms/field.html' with field=form.email %}
