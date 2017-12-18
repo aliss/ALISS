@@ -141,12 +141,36 @@
         {% include 'partials/share-search.html' %}
     {% else %}
         {% if invalid_area %}
-            <h1>Area Invalid TODO</h1>
+            <section id="error">
+                <div class="row">
+                    <div class="columns">
+                        <div class="copy-container">
+                            <h1>Sorry, ALISS is not available in your postcode.</h1>
+                            <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
+                        </div>
+                        <div class="buttons">
+                            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         {% endif %}
                 {% if errors %}
                     {% for error in errors %}
                         {% if error == 'postcode' %}
-                            <h1>{{ request.GET.postcode }} is not a valid postcode, please try again.</h1>
+                            <section id="error">
+                                <div class="row">
+                                    <div class="columns">
+                                        <div class="copy-container">
+                                            <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
+                                            <p>The postcode you entered seems to be in the wrong format, please try again:</p>
+                                        </div>
+                                        <div class="buttons">
+                                            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                         {% endif %}
                     {% endfor %}
                 {% endif %}
