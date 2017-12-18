@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="error">
+        <div class="row">
+            <div class="columns">
+                <div class="copy-container">
+                    <h1>Sorry, we couldn't find that page.</h1>
+                    <p>We couldn't find the page you're looking for. It may have been moved or deleted. If you're looking for a service you expect to be here and represent an organisation, you can help us by adding your service back to ALISS:</p>
+                </div>
+                <div class="buttons">
+                    <a href="{% url 'signup' %}" class="button primary">Sign Up</a>
+                    <a href="{% url 'homepage' %}" class="button secondary">Go to homepage</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

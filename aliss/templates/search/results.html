@@ -79,8 +79,8 @@
                     </div>
                 </div>
                 <div class="columns listing">
-                    <ul class="search-results">
-                        {% if object_list %}
+                    {% if object_list %}
+                        <ul class="search-results">
                             {% for result in object_list %}
                                 <li>
                                     <div class="heading">
@@ -134,18 +134,18 @@
                                     {% endif %}
                                 </li>
                             {% endfor %}
-                        {% else %}
-                            <div class="error">
-                                <div class="copy-container">
-                                    <h2>Sorry, we couldn't find anything using those terms.</h2>
-                                    <p>You can try again or start a fresh search below:</p>
-                                </div>
-                                <div class="buttons">
-                                    <a href="{% url 'homepage' %}" class="button primary">Search again</a>
-                                </div>
+                        </ul>
+                    {% else %}
+                        <div class="error">
+                            <div class="copy-container">
+                                <h2>Sorry, we couldn't find anything using those terms.</h2>
+                                <p>You can try again or start a fresh search below:</p>
                             </div>
-                        {% endif %}
-                    </ul>
+                            <div class="buttons">
+                                <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+                            </div>
+                        </div>
+                    {% endif %}
                     {% include 'partials/pagination.html' with page_obj=page_obj paginator=paginator %}
                 </div>
             </div>
