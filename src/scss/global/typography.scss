@@ -209,6 +209,8 @@ table {
 	@include small {
 		min-height: 0;
 	}
+}
+#error, .error {
 	.buttons {
 		margin-top: 1em;
 		.button {
