@@ -192,7 +192,7 @@ table {
 		display: none !important;
 	}
 }
-#content {
+#content, #error {
 	padding: 3.25rem 0 0 0;
 	h1 {
 		margin: 0;
@@ -202,6 +202,26 @@ table {
 	}
 	@include small {
 		padding: 2rem 0 0 0;
+	}
+}
+#error {
+	min-height: 500px;
+	@include small {
+		min-height: 0;
+	}
+	.buttons {
+		margin-top: 1em;
+		.button {
+			margin-right: .35em;
+    		margin-top: 1rem;
+    		min-width: 200px;
+    		display: inline-block;
+    		vertical-align: middle;
+    		@include small {
+    			display: block;
+    			margin-right: 0;
+    		}
+		}
 	}
 }
 #banner {
