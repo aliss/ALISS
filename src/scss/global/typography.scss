@@ -42,6 +42,9 @@
 		&:last-child {
 			margin-bottom: 0;
 		}
+		a {
+			font-weight: normal;
+		}
 	}
 	a h#{$i} {
 		color: $secondary;
@@ -111,6 +114,11 @@ i.fa, i.fas, i.fab {
 	ul {
 	    li {
 	        @extend %list-style;
+	        ul {
+	        	li {
+	        		@extend %list-style;
+	        	}
+	        }
 	    }
 	}
 	ol, ul {
@@ -120,6 +128,9 @@ i.fa, i.fas, i.fab {
 			font-size: $d-fs;
 			color: $medium-gray;
 			margin: 0.5em 0;
+	       	li {
+	       		font-size: 1em;
+	       	}
 		}
 		&:last-child {
 			margin-bottom: 0;
@@ -139,7 +150,7 @@ i.fa, i.fas, i.fab {
 	overflow: scroll;
 	width: 100%;
 	table {
-		min-width: 500px;
+		min-width: 650px;
 	}
 }
 table {
@@ -152,7 +163,7 @@ table {
 		border: 0;
 	}
 	th, td {
-		padding: 0.75em;
+		padding: 0.85em 0.95em 0.65em 0.95em;
 	}
 	thead {
 		background: $brand;
@@ -209,8 +220,6 @@ table {
 	@include small {
 		min-height: 0;
 	}
-}
-#error, .error {
 	.buttons {
 		margin-top: 1em;
 		.button {
@@ -264,7 +273,6 @@ table {
 	@extend h4;
 	a {
 		color: $secondary;
-		font-weight: normal;
 		@include st {
 			color: $medium-gray;
 		}
