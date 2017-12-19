@@ -16,9 +16,6 @@ label {
 		color: $light-gray;
 	}
 }
-input.postcode {
-	// text-transform: uppercase;
-}
 .f-error {
 	color: $w;
 	font-size: $d-fs;
@@ -149,7 +146,7 @@ input.postcode {
 	}
 }
 input {
-	&[type=text], &[type=url], &[type=phone], &[type=email], &[type=password] {
+	&[type=text], &[type=phone], &[type=email], &[type=password] {
 		@extend %form-style;
 	}
 }
@@ -162,18 +159,18 @@ select {
 	@extend %form-style;
 	@extend %custom-select;
 }
+.has-error {
+	select, textarea, input[type=text], input[type=phone], input[type=email], input[type=password], input[type=url] {
+		border-color: $alert;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+}
 input[type=checkbox] {
 	@extend %checkbox;
 }
 input[type=radio] {
 	@extend %radio;
-}
-.has-error {
-	select, textarea, input[type=text], input[type=phone], input[type=email], input[type=password], input[type=url], input[type=checkbox], input[type=radio] {
-		border-color: $alert;
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
-	}
 }
 .date-input {
 	position: relative;

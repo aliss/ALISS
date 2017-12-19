@@ -408,6 +408,144 @@ ul.searches {
 		}
 	}
 }
+#my_account.admin {
+	.stats {
+		@include clear;
+	}
+	.activity {
+		float: left;
+		@include grid-column(8);
+		@include grid-column-end;
+	}
+	.admin-actions {
+		@include grid-column(4);
+		float: right;
+		margin-top: -0.35em;
+	}
+	@include media(0, $search-break) {
+		.activity {
+			width: 100%;
+			float: none;
+		}
+		.admin-actions {
+			width: 100%;
+			float: none;
+			margin-bottom: 1.5rem;
+			max-width: 500px;
+		}
+	}
+}
+.activity {
+	ul {
+		@extend %no-list;
+		@include clear;
+		margin-top: 1.25em;
+		margin-bottom: 0.25em;
+		li {
+			float: left;
+			width: 33%;
+			padding: 1%;
+			text-align: center;
+			@extend p;
+			margin-bottom: 0.75em;
+		}
+		@include small {
+			li {
+				width: 50%;
+				font-size: 1.05em;
+			}
+		}
+	}
+	span.number {
+		display: inline-block;
+		position: relative;
+		margin: 0 auto;
+		background: $secondary_fade;
+		font-size: 2.5rem;
+		// font-weight: bold;
+		line-height: 1.1;
+		font-family: $heading-font;
+		border-radius: $d-rad;
+		color: $w;
+		padding: 0.6rem 1.2rem 0.9rem 1.2rem;
+		margin-bottom: 0.5rem;
+		@include small {
+			font-size: 2rem;
+		}
+		&.primary {
+			background: $primary_fade;
+		}
+		&.alert {
+			background: $alert_fade;
+		}
+	}
+}
+.active-services-map, .recent-services {
+	margin-top: 1.5rem;
+	#map, .map {
+		background: $light-gray;
+		width: 100%;
+		height: 420px;
+		display: block;
+		@include small {
+			height: 280px;
+		}
+	}
+	.key {
+		margin-top: 1.25rem;
+		@extend p;
+		span {
+			@extend %vam;
+			margin-right: 0.5em;
+			i {
+				font-size: 1.35em;
+				@extend %vam;
+				margin-right: 0.1em;
+				position: relative;
+				top: -0.15em;
+			}
+			&.national {
+				i.fa {
+					color: $primary;
+				}
+			}
+			&.local {
+				i.fa {
+					color: $secondary;
+				}
+			}
+		}
+	}
+}
+.content ul.areas-breakdown {
+	@extend %no-list;
+	margin-top: 1.5rem;
+	> li {
+		padding: 0;
+		padding-bottom: 0.25em;
+		> a {
+			@extend %more-link;
+		}
+		&:before {
+			display: none;
+		}
+		.region-services-list {
+			display: none;
+			&.active {
+				display: block;
+			}
+		}
+	}
+}
+.edit-users {
+	.user-search {
+		max-width: 340px;
+		margin-bottom: 1.5rem;
+		>label {
+			margin-bottom: 0.35em;
+		}
+	}
+}
 
 
 
