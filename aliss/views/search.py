@@ -10,7 +10,8 @@ from aliss.forms import SearchForm
 from aliss.models import Postcode
 from aliss.search import (
     filter_by_query,
-    filter_by_postcode
+    filter_by_postcode,
+    filter_by_location_type
 )
 
 class SearchView(MultipleObjectMixin, TemplateView):
