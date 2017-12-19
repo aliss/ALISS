@@ -19,7 +19,7 @@
                 <div class="columns">
                     <h4 class="toggle-heading" id="local_national_toggle">Select Proximity</h4>
                     <div class="cells three toggled" id="local_national">
-                        <a href="#" class="active">
+                        <a href="?{% query_transform request location_type=None %}" {% if not request.GET.location_type %}class="active"{% endif %}>
                             <div class="holder">
                                 <span class="radio"></span>
                                 <span class="text">
@@ -27,7 +27,7 @@
                                 </span>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="?{% query_transform request location_type='point' %}" {% if request.GET.location_type == 'point' %}class="active"{% endif %}>
                             <div class="holder">
                                 <span class="radio"></span>
                                 <span class="text">
@@ -35,7 +35,7 @@
                                 </span>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="?{% query_transform request location_type='area' %}" {% if request.GET.location_type == 'area' %}class="active"{% endif %}>
                             <div class="holder">
                                 <span class="radio"></span>
                                 <span class="text">
@@ -50,13 +50,18 @@
                 <div class="columns filters">
                     <h4 class="toggle-heading" id="filters_toggle">Customise Results</h4>
                     <div class="filter-group toggled" id="filters">
-                        <div class="filter keyword-search">
-                            <label>Filter by keyword:</label>
-                            <div class="sbs-inputs">
-                                <input type="text" placeholder="e.g. Diabetes" value="{{ request.GET.q }}">
-                                <input type="submit" class="secondary" value="Search">
+                        <form>
+                            <div class="filter keyword-search">
+                                <label>Filter by keyword:</label>
+                                <div class="sbs-inputs">
+                                    <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
+                                    <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                                    <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
+                                    <input type="hidden" name="category" value="{{ request.GET.category }}">
+                                    <input type="submit" class="secondary" value="Search">
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         {% get_root_categories as root_categories %}
                         <div class="filter category">
                             <label>Filter by needs:</label>

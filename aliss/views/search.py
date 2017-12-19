@@ -36,6 +36,10 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
         if search_form.is_valid():
             self.q = search_form.cleaned_data.get('q', None)
+            self.location_type = search_form.cleaned_data.get(
+                'location_type',
+                None
+            )
 
             postcode = search_form.cleaned_data.get('postcode', None)
 
@@ -72,6 +76,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
             queryset = filter_by_postcode(
                 queryset, self.postcode
             )
+        if self.location_type:
+            queryset = filter_by_location_type(queryset, self.location_type)
 
         return queryset
 
