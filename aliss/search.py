@@ -298,3 +298,11 @@ def filter_by_service_areas(queryset, service_areas):
             service_area.pk for service_area in service_areas
         ])
     )
+
+def filter_by_location_type(queryset, type):
+    if type == 'point':
+        return queryset.filter('exists', field='locations')
+    elif type == 'area':
+        return queryset.filter('exists', field='service_areas')
+    else:
+        return queryset
