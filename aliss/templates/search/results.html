@@ -97,7 +97,7 @@
                                         </a>
                                         <a href="{% url 'service_detail' result.id %}"><h3>{{ result.name }}</h3></a>
                                     </div>
-                                    <p class="org">by <a href="{% url 'organisation_detail' result.organisation.id %}">{{ result.organisation.name }}</a> <span class="claimed">Claimed</span></p>
+                                    <p class="org">by <a href="{% url 'organisation_detail' result.organisation.id %}">{{ result.organisation.name }}</a> {% if result.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
                                     <p>{{ result.description|linebreaks }}</p>
                                     <div class="assigned-category">
                                         <span class="cat">
@@ -107,13 +107,17 @@
                                             Food
                                         </span>
                                     </div>
-                                    <div class="location">
-                                        <a class="icon-link">
-                                            <span class="icon">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                            </span>
-                                            100 Address Street, Glasgow, G11 5LY
-                                        </a>
+                                    <div class="location multiple">
+                                        <div class="locations-list active">
+                                            {% for location in result.locations %}
+                                                <a class="icon-link">
+                                                    <span class="icon">
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                    </span>
+                                                    {{ location.formatted_address }}
+                                                </a>
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                     <ul class="contact-info">
                                         {% if result.phone %}
