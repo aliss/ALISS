@@ -94,7 +94,7 @@
                             {% include 'location/partials/detail.html' %}
                         {% endfor %}
                         {% if request.user.is_staff or object.claimed_by == request.user %}
-                            <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a></div>
+                            <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
                         {% endif %}
                     </div>
                 {% endif %}
