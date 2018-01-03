@@ -75,7 +75,7 @@
                 {% if object.services.all %}
                     <div class="services-list">
                         <h3>Services</h3>
-                        <ul class="search-results">
+                        <ul class="search-results{% if request.user.is_staff %} edit{% endif %}">
                             {% for service in object.services.all %}
                                 {% include 'service/partials/detail.html' with service=service %}
                             {% endfor %}
@@ -94,7 +94,7 @@
                             {% include 'location/partials/detail.html' %}
                         {% endfor %}
                         {% if request.user.is_staff or object.claimed_by == request.user %}
-                            <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a></div>
+                            <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
                         {% endif %}
                     </div>
                 {% endif %}
