@@ -146,7 +146,7 @@ label {
 	}
 }
 input {
-	&[type=text], &[type=phone], &[type=email], &[type=password] {
+	&[type=text], &[type=phone], &[type=email], &[type=password], &[type=url] {
 		@extend %form-style;
 	}
 }
