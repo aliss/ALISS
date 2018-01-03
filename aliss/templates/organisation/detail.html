@@ -94,18 +94,18 @@
                             {% include 'location/partials/detail.html' %}
                         {% endfor %}
                         {% if request.user.is_staff or object.claimed_by == request.user %}
-                            <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</div>
+                            <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a></div>
                         {% endif %}
                     </div>
                 {% endif %}
                 {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
                     <h4>Contact Information</h4>
                     <p>
-                        {% if object.phone %}<strong>0141 336 3562</strong><br />{% endif %}
-                        {% if object.email %}<a href="#">info@possobilities.co.uk</a><br />{% endif %}
-                        {% if object.website %}<a href="#" target="_blank">Website</a><br />{% endif %}
-                        {% if object.facebook %}<a href="#" class="fb" target="_blank">Facebook</a><br />{% endif %}
-                        {% if object.twitter %}<a href="#" class="tw" target="_blank">Twitter</a>{% endif %}
+                        {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+                        {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
+                        {% if object.website %}<a href="{{ object.website }}" target="_blank">Website</a><br />{% endif %}
+                        {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+                        {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
                     </p>
                 {% endif %}
             </div>
