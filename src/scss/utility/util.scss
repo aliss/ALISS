@@ -20,7 +20,7 @@
 }
 %button-style {
 	transition: none;
-	padding: 0.7em 1.15em 0.85em 1.15em;
+	padding: 0.7em 1.15em 0.875em 1.15em;
 	font-size: 1.35em;
 	min-width: 150px;
 	color: $w;
@@ -79,11 +79,6 @@
 	appearance: none;
 	background-color: $w;
 	color: $dark-gray;
-	// &.has-error {
-	// 	border-color: $alert;
-	// 	border-bottom-left-radius: 0;
-	// 	border-bottom-right-radius: 0;
-	// }
 	&:focus, &:active {
 		box-shadow: none;
 		border-color: $brand;
