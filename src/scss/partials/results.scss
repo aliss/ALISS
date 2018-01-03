@@ -437,7 +437,7 @@ span.cat {
 				}
 			}
 		}
-	
+
 		// Absolute
 		padding-left: 2.05rem;
 		input[type=checkbox], input[type=radio], span.radio, span.checkbox {
@@ -445,7 +445,7 @@ span.cat {
 			left: 0;
 			top: 0.25em;
 		}
-		
+
 		a, label {
 			font-weight: bold;
 			line-height: 1.4;
@@ -477,7 +477,7 @@ span.cat {
 		}
 		input[type=radio]:checked+span.cat+span.name, input[type=checkbox]:checked+span.cat+span.name, input[type=radio]:checked+span.name, input[type=checkbox]:checked+span.name {
 			color: $medium-gray;
-		} 
+		}
 	}
 	&.cat {
 		input[type=checkbox], input[type=radio], span.radio, span.checkbox {
@@ -568,7 +568,10 @@ span.cat {
 p.org {
 	margin-top: 0.35em;
 }
-.search-results, .content .search-results, .recommendations-lists, .rep-organisations {
+.claim-requests, .problem-reports {
+	margin-top: 2.5rem;
+}
+.search-results, .content .search-results, .recommendations-lists, .rep-organisations, .claim-requests, .problem-reports {
 	@extend %no-list;
 	padding-left: 0;
 	margin-left: 0;
@@ -608,7 +611,7 @@ p.org {
 			@include clear;
 		}
 		.heading+p {
-			margin-top: 0.35em;
+			margin-top: 0.65em;
 		}
 		h3 {
 			margin-bottom: 0;
@@ -1036,7 +1039,7 @@ a.tw {
 .edit-options {
 	margin-top: 0.5rem;
 	border: 6px solid $light-gray_fade;
-	padding: 1.2em 1.6em 1.15em 1.6em;
+	padding: 1.35em 1.6em 1.15em 1.6em;
 	border-radius: $d-rad*2;
 	>a {
 		margin: 0.5em 0;
@@ -1073,7 +1076,10 @@ a.tw {
 		}
 	}
 }
-ul.search-results {
+ul.search-results, ul.claim-requests, ul.problem-reports {
+	p+.edit-options {
+		margin-top: 0.75rem;
+	}
 	.edit-options {
 		margin-top: 1.5rem;
 		>a, >a:first-child, >a:last-child {
@@ -1099,6 +1105,28 @@ ul.search-results {
 		}
 	}
 }
+ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
+	.holder {
+		border-top: 0;
+		padding-top: 0;
+		margin-top: 1.75em;
+	}
+}
+%more-link {
+	@include fas(plus);
+	position: relative;
+	padding-right: 1em;
+	&.active {
+		@include fas(minus);
+		color: $medium-gray;
+	}
+	&:before {
+		font-size: 0.75em;
+		position: absolute;
+		right: 0;
+		top: -0.3em;
+	}
+}
 .location.multiple {
 	a.icon-link, span {
 		@extend %vam;
@@ -1107,19 +1135,7 @@ ul.search-results {
 		margin-top: 0.25em;
 	}
 	a.more-link {
-		@include fas(plus);
-		position: relative;
-		padding-right: 1em;
-		&.active {
-			@include fas(minus);
-			color: $medium-gray;
-		}
-		&:before {
-			font-size: 0.75em;
-			position: absolute;
-			right: 0;
-			top: -0.3em;
-		}
+		@extend %more-link;
 	}
 	.locations-list {
 		display: none;
