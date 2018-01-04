@@ -9,7 +9,7 @@
                 <div class="buttons">
                     <a href="{% url 'account_update' %}" class="button primary">Edit Account Info</a>
                 </div>
-                <p>Your postcode: <strong>TODO</strong></p>
+                {% if request.user.postcode %}<p>Your postcode: <strong>{{ request.user.postcode }}</strong></p>{% endif %}
             </div>
         </div>
     </section>
