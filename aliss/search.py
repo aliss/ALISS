@@ -11,22 +11,6 @@ def _get_connection():
     import certifi
     return Elasticsearch([settings.ELASTICSEARCH_URL], http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
 
-
-organisation_mapping = {
-    'id': {'type': 'keyword'},
-    'name': {'type': 'text'},
-    'description': {
-        'type': 'text',
-        'analyzer': 'description_analyzer',
-    },
-    'url': {'type': 'keyword'},
-    'phone': {'type': 'keyword'},
-    'email': {'type': 'keyword'},
-    'facebook': {'type': 'keyword'},
-    'twitter': {'type': 'keyword'}
-}
-
-
 service_mapping = {
     'id': {'type': 'keyword'},
     'organisation': {
@@ -85,9 +69,6 @@ def create_index():
         index='search',
         body={
             'mappings': {
-                'organisation': {
-                    'properties': organisation_mapping
-                },
                 'service': {
                     'properties': service_mapping
                 }
@@ -111,16 +92,6 @@ def create_index():
 def index_all():
     connection = _get_connection()
 
-    organisations = Organisation.objects.all().iterator()
-    # Index Organisations
-    for ok in bulk(connection, ({
-        '_index': 'search',
-        '_type': 'organisation',
-        '_id': organisation.pk,
-        '_source': organisation_to_body(organisation)
-    } for organisation in organisations)):
-        print("%s Organisations indexed" % ok)
-
     services = Service.objects.all().iterator()
     # Index Services
     for ok in bulk(connection, ({
@@ -135,19 +106,6 @@ def index_all():
 def delete_index():
     connection = _get_connection()
     connection.indices.delete('search', ignore=404)
-
-
-def organisation_to_body(organisation):
-    return {
-        'id': str(organisation.id),
-        'name': organisation.name,
-        'description': organisation.description,
-        'url': organisation.url,
-        'email': organisation.email,
-        'phone': organisation.phone,
-        'facebook': organisation.facebook,
-        'twitter': organisation.twitter
-    }
 
 
 def service_to_body(service):
@@ -192,19 +150,6 @@ def service_to_body(service):
     }
 
 
-def index_organisation(object):
-    connection = _get_connection()
-    body = organisation_to_body(object)
-
-    connection.index(
-        index='search',
-        doc_type='organisation',
-        id=body['id'],
-        body=body,
-        refresh=True
-    )
-
-
 def index_service(object):
     connection = _get_connection()
     body = service_to_body(object)
@@ -215,17 +160,6 @@ def index_service(object):
         id=body['id'],
         body=body,
         refresh=True
-    )
-
-
-def delete_organisation(id):
-    connection = _get_connection()
-    connection.delete(
-        index='search',
-        doc_type='organisation',
-        id=id,
-        refresh=True,
-        ignore=404
     )
 
 
