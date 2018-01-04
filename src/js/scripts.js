@@ -1,6 +1,6 @@
 
 //  ALISS
-//  ================================ 
+//  ================================
 //  Habanero + Braw Software
 //  http://habanero.digital/
 //  http://www.thisisbraw.co.uk/
@@ -55,7 +55,7 @@ import matchHeight from './partials/match-height';
 
 $(document).ready(() => {
 	matchHeight();
-	$(document).click(function(){  
+	$(document).click(function(){
     	$('.navigation').removeClass('active');
     	$('body').removeClass('restrict-height');
     	$("#menu_toggle").removeClass('active');
@@ -124,7 +124,7 @@ $(document).ready(() => {
     // Recommend Modal
     $('#recommend .button').hide();
     $('#recommend select').change(function(){
-    	if($(this).val() == 'new') { 
+    	if($(this).val() == 'new') {
 			$('#recommend input[type=submit]').hide();
 			$('#recommend .button').show();
 		} else {
@@ -133,15 +133,23 @@ $(document).ready(() => {
 		}
     });
 
+    // Toggle Children Categories
+    $('.radio-list.children .toggle-children, .checkbox-list.children .toggle-children').click(function() {
+        $(this).toggleClass('active');
+        var children = $(this).next('ul');
+        // console.log(children);
+        children.toggleClass('active');
+    });
+
     // Messages Hide
     if($('.messages').length > 0) {
-		setTimeout(function() { 
+		setTimeout(function() {
 			$('.messages').css('max-height', '0');
 		}, 5500);
 	}
 
 	// Notifications Toggle
-	$(document).click(function(){  
+	$(document).click(function(){
 		$('#notifications').removeClass('active');
 		$('#notifications_toggle').removeClass('active');
 	});
