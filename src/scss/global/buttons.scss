@@ -9,6 +9,34 @@ a, .btn-link {
 		@extend %link-style_hover;
 	}
 }
+.txt-button {
+	@extend %link-style;
+	padding: 0;
+	background: none;
+	font-weight: normal;
+	font-family: $body-font;
+	color: $secondary;
+	border: 0;
+	border-radius: 0;
+	@include st {
+		background: none;
+		color: $medium-gray;
+	}
+	&.primary {
+		color: $primary;
+		@include st {
+			background: none;
+			color: $medium-gray;
+		}
+	}
+	&.secondary {
+		color: $secondary;
+		@include st {
+			background: none;
+			color: $medium-gray;
+		}
+	}
+}
 .btn, .button {
 	@include transition;
 	@include st() {
