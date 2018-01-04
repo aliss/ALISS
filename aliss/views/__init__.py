@@ -4,7 +4,9 @@ from .account import (
     AccountSavedServicesView,
     AccountMyRecommendationsView,
     AccountMyOrganisationsView,
-    AccountMySearchesView
+    AccountMySearchesView,
+    AccountSaveServiceView,
+    AccountRemoveSavedServiceView
 )
 from .search import SearchView
 from .organisation import (

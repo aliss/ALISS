@@ -28,12 +28,29 @@
                         <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
                     </div>
                     <div class="actions toggle-content">
-                        <a href="#" class="primary icon-link">
-                            <span class="icon">
-                                <i class="fas fa-heart"></i>
-                            </span>
-                            Add to My Saved Services
-                        </a>
+                        {% if object in request.user.saved_services.all %}
+                            <form method='post' action="{% url 'account_remove_saved_service' pk=object.pk %}">
+                                {% csrf_token %}
+                                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
+                                <button type="submit" class="txt-button primary icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-heart"></i>
+                                    </span>
+                                    Remove from My Saved Services
+                                </button>
+                            </form>
+                        {% else %}
+                            <form method='post' action="{% url 'account_save_service' pk=object.pk %}">
+                                {% csrf_token %}
+                                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
+                                <button type="submit" class="txt-button primary icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-heart"></i>
+                                    </span>
+                                    Add to My Saved Services
+                                </button>
+                            </form>
+                        {% endif %}
                         <a href="#" class="primary icon-link" id="recommend_toggle">
                             <span class="icon">
                                 <i class="fas fa-bullhorn"></i>

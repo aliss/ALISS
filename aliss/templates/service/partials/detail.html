@@ -34,7 +34,7 @@
         </div>
     </div>
     <ul class="contact-info">
-        {% if service.phone %}<li>0141 336 3562</li>{% endif %}
+        {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
         {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
         {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
     </ul>
