@@ -71,7 +71,7 @@
                                         <a href="?{% query_transform request categories=category.slug page=None %}">
                                             <span class="radio"></span>
                                             <span class="cat">
-                                                <i class="fa fa-utensil-fork"></i>
+                                                <i class="fa {{ category|get_icon }}"></i>
                                             </span>
                                             <span class="name">
                                                 {{ category.name }}
@@ -102,7 +102,7 @@
                                     <div class="assigned-category">
                                         {% for category in result.categories %}
                                             <span class="cat">
-                                                <i class="fa fa-utensil-fork"></i>
+                                                <i class="fa {{ category|get_icon }}"></i>
                                             </span>
                                             <span class="name">
                                                 {{ category.name }}
