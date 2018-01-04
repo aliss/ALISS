@@ -11,7 +11,8 @@ from aliss.models import Postcode
 from aliss.search import (
     filter_by_query,
     filter_by_postcode,
-    filter_by_location_type
+    filter_by_location_type,
+    filter_by_categories
 )
 
 class SearchView(MultipleObjectMixin, TemplateView):
@@ -41,6 +42,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
                 'location_type',
                 None
             )
+            self.categories = search_form.cleaned_data.get('categories', None)
 
             postcode = search_form.cleaned_data.get('postcode', None)
 
@@ -79,6 +81,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
             )
         if self.location_type:
             queryset = filter_by_location_type(queryset, self.location_type)
+        if self.categories:
+            queryset = filter_by_categories(queryset, self.categories)
 
         return queryset
 

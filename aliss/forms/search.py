@@ -3,6 +3,7 @@ from django import forms
 from localflavor.gb.forms import GBPostcodeField
 
 from aliss.geocode import geocode_location
+from aliss.models import Category
 
 
 class SearchForm(forms.Form):
@@ -17,4 +18,9 @@ class SearchForm(forms.Form):
     postcode = GBPostcodeField(required=True)
     location_type = forms.ChoiceField(
         choices=LOCATION_TYPE_CHOICES, required=False
+    )
+    categories = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        to_field_name="slug",
+        required=False
     )
