@@ -1,0 +1,11 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="messages {{ message.tags }}">
+            <div class="row">
+                <div class="columns">
+                    <p>{{ message|safe }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

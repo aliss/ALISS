@@ -1,12 +1,14 @@
-from django.views.generic import CreateView, UpdateView, DetailView, TemplateView
+from django.views.generic import View, CreateView, UpdateView, DetailView, TemplateView
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
 
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin
 
-from aliss.models import ALISSUser
+from aliss.models import ALISSUser, Service
 from aliss.forms import SignupForm, AccountUpdateForm
 
 
@@ -41,6 +43,44 @@ class AccountUpdateView(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+class AccountSaveServiceView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        service = get_object_or_404(Service, pk=self.kwargs['pk'])
+
+        user = self.request.user
+
+        user.saved_services.add(service)
+
+        next = self.request.POST.get('next', '')
+        if next:
+            url = next
+        else:
+            url = reverse('account_saved_services')
+
+        messages.success(self.request, 'Service Added to My Saved Services')
+
+        return HttpResponseRedirect(url)
+
+
+class AccountRemoveSavedServiceView(View):
+    def post(self, request, *args, **kwargs):
+        service = get_object_or_404(Service, pk=self.kwargs['pk'])
+
+        user = self.request.user
+
+        user.saved_services.remove(service)
+
+        next = self.request.POST.get('next', '')
+        if next:
+            url = next
+        else:
+            url = reverse('account_saved_services')
+
+        messages.success(self.request, 'Service Removed from My Saved Services')
+
+        return HttpResponseRedirect(url)
 
 
 class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
