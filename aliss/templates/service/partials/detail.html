@@ -1,3 +1,5 @@
+{% load aliss %}
+
 <li>
     <div class="heading">
         <a href="{% url 'service_report_problem' service.id %}" class="alert icon-link">
@@ -12,7 +14,7 @@
     {% for category in service.categories.all %}
         <div class="assigned-category">
             <span class="cat">
-                <i class="fa fa-utensil-fork"></i>
+                <i class="fa {{ category|get_icon }}"></i>
             </span>
             <span class="name">
                 {{ category.name }}

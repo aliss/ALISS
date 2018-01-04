@@ -67,11 +67,11 @@
                             <label>Filter by needs:</label>
                             <ul class="radio-list-links cat truncate">
                                 {% for category in root_categories %}
-                                    <li{% if category.name == request.GET.category %} class='active'{% endif %}>
-                                        <a href="?{% query_transform request category=category.name page=None %}">
+                                    <li{% if category.slug == request.GET.categories %} class='active'{% endif %}>
+                                        <a href="?{% query_transform request categories=category.slug page=None %}">
                                             <span class="radio"></span>
                                             <span class="cat">
-                                                <i class="fa fa-utensil-fork"></i>
+                                                <i class="fa {{ category|get_icon }}"></i>
                                             </span>
                                             <span class="name">
                                                 {{ category.name }}
@@ -100,12 +100,14 @@
                                     <p class="org">by <a href="{% url 'organisation_detail' result.organisation.id %}">{{ result.organisation.name }}</a> {% if result.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
                                     <p>{{ result.description|linebreaks }}</p>
                                     <div class="assigned-category">
-                                        <span class="cat">
-                                            <i class="fa fa-utensil-fork"></i>
-                                        </span>
-                                        <span class="name">
-                                            Food
-                                        </span>
+                                        {% for category in result.categories %}
+                                            <span class="cat">
+                                                <i class="fa {{ category|get_icon }}"></i>
+                                            </span>
+                                            <span class="name">
+                                                {{ category.name }}
+                                            </span>
+                                        {% endfor %}
                                     </div>
                                     <div class="location multiple">
                                         <div class="locations-list active">

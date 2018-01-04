@@ -22,3 +22,18 @@ def get_root_categories():
     return Category.objects.filter(parent__isnull=True)
 
 
+@register.filter
+def get_icon(category):
+    icons = {
+        2: 'fa-home',
+        4: 'fa-pound-sign',
+        1: 'fa-utensil-fork',
+        134: 'fa-medkit',
+        135: 'fa-bus',
+        140: 'fa-gavel',
+        159: 'fa-hand-paper',
+        197: 'fa-cube',
+        203: 'fa-bolt',
+        204: 'fa-university',
+    }
+    return icons.get(category.id)
