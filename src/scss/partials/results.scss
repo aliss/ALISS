@@ -387,12 +387,12 @@ span.cat {
 				content: "";
 				width: 1.45rem;
 				display: block;
-				height: 125%;
+				height: 150%;
 				z-index: 0;
 				position: absolute;
 				right: 100%;
 				margin-right: -0.1em;
-				top: -65%;
+				top: -85%;
 				opacity: 0.5;
 				border-radius: 5px;
 				border-left: 3px solid $light-gray_fade;
@@ -416,6 +416,12 @@ span.cat {
 				@include truncate(75%);
 			}
 		}
+		// ul li span.name {
+		// 	@include truncate(75%);
+		// 	@include media(0, 480) {
+		// 		@include truncate(70%);
+		// 	}
+		// }
 	}
 	>div, li, ul li {
 		margin: 0.4em 0;
@@ -507,10 +513,18 @@ span.cat {
 		input[type=checkbox], input[type=radio], span.radio, span.checkbox {
 			top: 0.55em;
 		}
+		ul li {
+			input[type=checkbox], input[type=radio], span.radio, span.checkbox {
+				top: 0.3em;
+			}
+		}
 	}
 	&.children {
 		>div, >li {
 			padding-right: 80px;
+			@include small {
+				padding-right: 20px;
+			}
 		}
 		ul.active {
 			display: block;
@@ -543,10 +557,20 @@ span.cat {
 			}
 			&.active {
 				.less-text {
-					display: inline;
+					display: block;
 				}
 				.more-text {
 					display: none;
+				}
+			}
+			@include small {
+				font-size: $d-fs-s;
+				right: 0;
+				padding: 0 1em;
+				.more-text, .less-text {
+					width: 0;
+					overflow: hidden;
+					display: block;
 				}
 			}
 		}
