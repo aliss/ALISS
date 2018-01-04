@@ -6,3 +6,4 @@ from aliss.models import Category
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     exclude = ('id',)
+    search_fields = ['name']
