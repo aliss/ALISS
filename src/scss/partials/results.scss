@@ -378,6 +378,28 @@ span.cat {
 .radio-list, .radio-list-links, .checkbox-list, .checkbox-list-links {
 	font-size: 1em;
 	@extend %no-list;
+	ul {
+		@extend %no-list;
+		margin: 0.5rem 0 0.75rem 0;
+		display: none;
+		li {
+			&:before {
+				content: "";
+				width: 1.45rem;
+				display: block;
+				height: 125%;
+				z-index: 0;
+				position: absolute;
+				right: 100%;
+				margin-right: -0.1em;
+				top: -65%;
+				opacity: 0.5;
+				border-radius: 5px;
+				border-left: 3px solid $light-gray_fade;
+				border-bottom: 3px solid $light-gray_fade;
+			}
+		}
+	}
 	a {
 		font-size: $d-fs;
 		@include small {
@@ -395,7 +417,7 @@ span.cat {
 			}
 		}
 	}
-	>div, >li {
+	>div, li, ul li {
 		margin: 0.4em 0;
 		position: relative;
 		span.radio {
@@ -407,6 +429,8 @@ span.cat {
 		input[type=checkbox], input[type=radio], span.radio, span.checkbox {
 			@extend %vam;
 			margin-right: 0.2em;
+			position: relative;
+			z-index: 2;
 		}
 
 		// Disabled
@@ -482,6 +506,49 @@ span.cat {
 	&.cat {
 		input[type=checkbox], input[type=radio], span.radio, span.checkbox {
 			top: 0.55em;
+		}
+	}
+	&.children {
+		>div, >li {
+			padding-right: 80px;
+		}
+		ul.active {
+			display: block;
+		}
+		.toggle-children {
+			@extend %link-style;
+			font-size: $d-fs;
+			right: 0.5em;
+			top: 0.55em;
+			position: absolute;
+			padding-right: 0.95em;
+			.more-text {
+				@include fas(plus);
+			}
+			.less-text {
+				@include fas(minus);
+				display: none;
+			}
+			.more-text, .less-text {
+				&:before {
+					font-size: 0.75em;
+					right: 0;
+					top: 0.05em;
+					position: absolute;
+				}
+			}
+			@include st {
+				color: $medium-gray;
+				text-decoration: underline;
+			}
+			&.active {
+				.less-text {
+					display: inline;
+				}
+				.more-text {
+					display: none;
+				}
+			}
 		}
 	}
 }
