@@ -12,7 +12,6 @@ from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 from aliss.models import Organisation, Claim
 from aliss.forms import OrganisationClaimForm
 from aliss.filters import OrganisationFilter
-from aliss.search import index_organisation, delete_organisation
 
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
@@ -45,11 +44,6 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
             self.object.published = True
 
         self.object.save()
-
-        if self.object.published:
-            index_organisation(self.object)
-        else:
-            delete_organisation(self.object.pk)
 
         messages.success(
             self.request,
@@ -84,11 +78,6 @@ class OrganisationUpdateView(StaffuserRequiredMixin, UpdateView):
         self.object = form.save(commit=False)
         self.object.updated_by = self.request.user
         self.object.save()
-
-        if self.object.published:
-            index_organisation(self.object)
-        else:
-            delete_organisation(self.object.pk)
 
         messages.success(
             self.request,
@@ -135,8 +124,6 @@ class OrganisationDeleteView(StaffuserRequiredMixin, DeleteView):
         self.object = self.get_object()
         success_url = self.get_success_url()
 
-        # Delete from search index
-        delete_organisation(self.object.pk)
         self.object.delete()
 
         messages.success(
