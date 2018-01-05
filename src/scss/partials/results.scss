@@ -792,7 +792,7 @@ $icon-w: 1.5em;
 	font-size: $d-fs-s;
 	position: relative;
 	display: block;
-	padding-left: $icon-w + 0.2em;
+	padding-left: $icon-w + 0.2em !important;
 	line-height: 1.4;
 	color: $medium-gray;
 	font-weight: bold;
