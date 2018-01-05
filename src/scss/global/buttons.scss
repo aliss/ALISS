@@ -24,8 +24,10 @@ a, .btn-link {
 	@include st {
 		background: none;
 		color: $medium-gray;
-		font-size: $d-fs-s !important;
 	}
+	// @include small {
+	// 	font-size: $d-fs-s !important;
+	// }
 	&.primary {
 		color: $primary !important;
 		@include st {
