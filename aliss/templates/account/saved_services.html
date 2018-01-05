@@ -6,99 +6,106 @@
 <div class="copy-container">
 </div>
 <div class="my-account-details">
-    <!-- <div class="account-list none">
-        <p>You haven't saved any services yet.</p>
-        <p><a href="#">Start Searching</a></p>
-    </div> -->
-    <div class="account-list">
-        <ul class="search-results">
-            {% for service in request.user.saved_services.all %}
-                <li>
-                    <div class="heading">
-                        <form method='post' action="{% url 'account_remove_saved_service' pk=service.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="txt-button alert icon-link">
+    {% if not request.user.saved_services.all %}
+        <div class="account-list none">
+            <p>You haven't saved any services yet.</p>
+            <p><a href="{% url 'homepage' %}">Start Searching</a></p>
+        </div>
+    {% else %}
+        <div class="account-list">
+            <ul class="search-results">
+                {% for service in request.user.saved_services.all %}
+                    <li>
+                        <div class="heading">
+                            <form method='post' action="{% url 'account_remove_saved_service' pk=service.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="txt-button alert icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                    Remove
+                                </button>
+                            </form>
+                            <a href="#" class="alert icon-link">
                                 <span class="icon">
-                                    <i class="fas fa-trash-alt"></i>
+                                    <i class="fas fa-exclamation-triangle"></i>
                                 </span>
-                                Remove
-                            </button>
-                        </form>
-                        <a href="#" class="alert icon-link">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </span>
-                            Report this listing
-                        </a>
-                        <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
-                    </div>
-                    <p class="org">by <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
-                    <p>Last Updated <span class="updated alert">{{ service.updated_on }}</span></p>
-
-                    {% for category in service.categories.all %}
-                        <div class="assigned-category">
-                            <span class="cat">
-                                <i class="fa {{ category|get_icon }}"></i>
-                            </span>
-                            <span class="name">
-                                {{ category.name }}
-                            </span>
+                                Report this listing
+                            </a>
+                            <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
                         </div>
-                    {% endfor %}
+                        <p class="org">by <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
+                        <p>Last Updated <span class="updated alert">{{ service.updated_on }}</span></p>
 
-                    <div class="location">
-                        <a class="icon-link">
-                            <span class="icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </span>
-                            100 Address Street, Glasgow, G11 5LY
-                        </a>
-                    </div>
-                    <ul class="contact-info">
-                        {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
-                        {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
-                        {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
-                    </ul>
-                    {% if service.service_areas.all %}
-                        <div class="service-areas-list">
-                            <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                        {% for category in service.categories.all %}
+                            <div class="assigned-category">
+                                <span class="cat">
+                                    <i class="fa {{ category|get_icon }}"></i>
+                                </span>
+                                <span class="name">
+                                    {{ category.name }}
+                                </span>
+                            </div>
+                        {% endfor %}
+
+                        <div class="location multiple">
+                            <div class="locations-list active">
+                                {% for location in service.locations.all %}
+                                    <a class="icon-link">
+                                        <span class="icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </span>
+                                        {{ location.formatted_address }}
+                                    </a>
+                                {% endfor %}
+                            </div>
                         </div>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="actions">
-            <a href="#" class="icon-link">
-                <span class="icon">
-                    <i class="fas fa-envelope"></i>
+                        <ul class="contact-info">
+                            {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
+                            {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
+                            {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
+                        </ul>
+                        {% if service.service_areas.all %}
+                            <div class="service-areas-list">
+                                <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="actions">
+                <a href="#" class="icon-link">
+                    <span class="icon">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    Email My Saved Services
+                </a>
+                <a href="#" class="icon-link">
+                    <span class="icon">
+                        <i class="fas fa-print"></i>
+                    </span>
+                    Print My Saved Services
+                </a>
+            </div>
+        </div>
+        <div class="screen-info">
+            <p>Your current needs require support from services in the following categories:</p>
+            <div class="category">
+                <span class="cat">
+                    <i class="fa fa-utensil-fork"></i>
                 </span>
-                Email My Saved Services
-            </a>
-            <a href="#" class="icon-link">
-                <span class="icon">
-                    <i class="fas fa-print"></i>
+                <span class="name">
+                    Food
                 </span>
-                Print My Saved Services
-            </a>
+            </div>
+            <div class="category">
+                <span class="cat">
+                    <i class="fa fa-home"></i>
+                </span>
+                <span class="name">
+                    Housing &amp; Homelessness
+                </span>
+            </div>
         </div>
-    </div>
-    <div class="screen-info">
-        <p>Your current needs require support from services in the following categories:</p>
-        <div class="category">
-            <span class="cat">
-                <i class="fa fa-utensil-fork"></i>
-            </span>
-            <span class="name">
-                Food
-            </span>
-        </div>
-        <div class="category">
-            <span class="cat">
-                <i class="fa fa-home"></i>
-            </span>
-            <span class="name">
-                Housing &amp; Homelessness
-            </span>
-        </div>
-    </div>
+    {% endif %}
 {% endblock %}
