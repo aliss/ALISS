@@ -12,6 +12,7 @@ a, .btn-link {
 .txt-button {
 	@extend %link-style;
 	padding: 0;
+	text-align: left;
 	background: none;
 	font-weight: normal;
 	font-family: $body-font;
@@ -31,6 +32,13 @@ a, .btn-link {
 	}
 	&.secondary {
 		color: $secondary;
+		@include st {
+			background: none;
+			color: $medium-gray;
+		}
+	}
+	&.alert {
+		color: $alert;
 		@include st {
 			background: none;
 			color: $medium-gray;
