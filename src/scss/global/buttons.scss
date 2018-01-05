@@ -11,37 +11,40 @@ a, .btn-link {
 }
 .txt-button {
 	@extend %link-style;
-	padding: 0;
-	text-align: left;
-	background: none;
-	font-weight: normal;
-	font-family: $body-font;
+	padding: 0 !important;
+	text-align: left !important;
+	background: none !important;
+	font-weight: bold;
+	font-family: $body-font !important;
 	color: $secondary;
 	border: 0;
+	font-size: $d-fs !important;
+	min-width: 0 !important;
 	border-radius: 0;
 	@include st {
 		background: none;
 		color: $medium-gray;
+		font-size: $d-fs-s !important;
 	}
 	&.primary {
-		color: $primary;
+		color: $primary !important;
 		@include st {
 			background: none;
-			color: $medium-gray;
+			color: $medium-gray !important;
 		}
 	}
 	&.secondary {
-		color: $secondary;
+		color: $secondary !important;
 		@include st {
 			background: none;
-			color: $medium-gray;
+			color: $medium-gray !important;
 		}
 	}
 	&.alert {
-		color: $alert;
+		color: $alert !important;
 		@include st {
 			background: none;
-			color: $medium-gray;
+			color: $medium-gray !important;
 		}
 	}
 }
