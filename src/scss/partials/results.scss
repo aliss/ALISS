@@ -490,6 +490,8 @@ span.cat {
 			top: 0.65em;
 			left: 1em;
 		}
+	}
+	a.truncate {
 		span.name {
 			@include truncate(100%);
 			display: block;
