@@ -5,7 +5,7 @@
     <section id="content" class="my-account">
         <div class="row title">
             <div class="columns">
-                <h1>Hello, John Smith</h1>
+                <h1>Hello, {% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</h1>
                 <div class="buttons">
                     <a href="{% url 'account_update' %}" class="button primary">Edit Account Info</a>
                 </div>
