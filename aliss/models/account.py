@@ -78,4 +78,4 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def get_short_name(self):
-        return self.email
+        return self.name or self.email

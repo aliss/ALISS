@@ -1,0 +1,57 @@
+{% extends "account/admin_base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="columns">
+            <div class="copy-container">
+                <h4>Claim Requests</h4>
+                <ul class="claim-requests edit">
+                    {% for claim in object_list %}
+                        <li>
+                            <div class="heading">
+                                <h3>User <a href="#">{{ claim.user.get_short_name }}</a> has claimed <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}</a></h3>
+                            </div>
+                            <p>{{ claim.comment }}</p>
+                            <p>Claimed on {{ claim.created_on }}</p>
+                            <ul class="contact-info">
+                                {% if claim.phone %}
+                                    <li>
+                                        0141 336 3562
+                                    </li>
+                                {% endif %}
+                                {% if claim.email %}
+                                    <li>
+                                        <a href="mailto:{{ claim.email }}">{{ claim.email }}</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                            <div class="edit-options">
+                                <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="{{ claim.CONFIRMED }}" />
+                                    <button href="#" class="txt-button icon-link">
+                                        <span class="icon">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        Approve Claim
+                                    </button>
+                                </form>
+                                <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="{{ claim.DENIED }}" />
+                                    <button href="#" class="txt-button delete icon-link">
+                                        <span class="icon">
+                                            <i class="fas fa-times"></i>
+                                        </span>
+                                        Deny Claim
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% include 'partials/pagination.html' with page_obj=page_obj paginator=paginator %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -6,10 +6,11 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 
 from django_filters.views import FilterView
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from aliss.models import ALISSUser, Service
 from aliss.forms import SignupForm, AccountUpdateForm
+from aliss.filters import AccountFilter
 
 
 class AccountSignupView(CreateView):
@@ -43,6 +44,12 @@ class AccountUpdateView(UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+class AccountListView(StaffuserRequiredMixin, FilterView):
+    template_name = 'account/list.html'
+    paginate_by = 10
+    filterset_class = AccountFilter
 
 
 class AccountSaveServiceView(LoginRequiredMixin, View):
@@ -86,11 +93,18 @@ class AccountRemoveSavedServiceView(View):
 class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/saved_services.html'
 
+
 class AccountMyRecommendationsView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_recommendations.html'
+
 
 class AccountMyOrganisationsView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_organisations.html'
 
+
 class AccountMySearchesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_searches.html'
+
+
+class AccountAdminDashboard(StaffuserRequiredMixin, TemplateView):
+    template_name = 'account/dashboard.html'
