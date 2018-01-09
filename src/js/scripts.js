@@ -54,83 +54,78 @@ $(document).foundation();
 import matchHeight from './partials/match-height';
 
 $(document).ready(() => {
-	matchHeight();
-	$(document).click(function(){
-    	$('.navigation').removeClass('active');
-    	$('body').removeClass('restrict-height');
-    	$("#menu_toggle").removeClass('active');
-	});
-	$('.navigation a').click(function(e){
-	    e.stopPropagation();
-	});
-	$("#menu_toggle").click(function(e) {
-    	e.stopPropagation();
-		$(this).toggleClass('active');
-		$('body').toggleClass('restrict-height');
-		$(".navigation").toggleClass('active');
-	});
+    matchHeight();
+    $(document).click(function(){
+        $('.navigation').removeClass('active');
+        $('body').removeClass('restrict-height');
+        $("#menu_toggle").removeClass('active');
+        $(".category-selector .cells > ul > li").removeClass('active');
+    });
+    $('.navigation a, .category-selector .cells > ul > li a, .category-selector .cells > ul > li span').click(function(e){
+        e.stopPropagation();
+    });
+    $("#menu_toggle").click(function(e) {
+        e.stopPropagation();
+        $(this).toggleClass('active');
+        $('body').toggleClass('restrict-height');
+        $(".navigation").toggleClass('active');
+    });
 
-	// Site Wide Toggles
-	$('.toggled').each(function(index, el) {
-		var $thisToggle = $(this);
+    // Site Wide Toggles
+    $('.toggled').each(function(index, el) {
+        var $thisToggle = $(this);
         var id = $thisToggle.attr('id');
         $(`#${id}_toggle`).click(function() {
             $(`#${id}`).toggleClass('active');
             $(this).toggleClass('active');
         });
-	});
+    });
 
-	// Modals
-	$('.modal').each(function(index, el) {
-		var $thisToggle = $(this);
+    // Modals
+    $('.modal').each(function(index, el) {
+        var $thisToggle = $(this);
         var id = $thisToggle.attr('id');
         $(`#${id}_modal`).click(function() {
             $(`#${id}`).toggleClass('active');
             $('.black').toggleClass('show');
         });
-	});
-	$('.black').click(function() {
-		$(this).removeClass('show');
-		$('.modal').removeClass('active');
-	});
-	$('.modal a.close, .modal a.cancel').click(function() {
-		$('.black').removeClass('show');
-		$('.modal').removeClass('active');
-	});
+    });
+    $('.black').click(function() {
+        $(this).removeClass('show');
+        $('.modal').removeClass('active');
+    });
+    $('.modal a.close, .modal a.cancel').click(function() {
+        $('.black').removeClass('show');
+        $('.modal').removeClass('active');
+    });
 
-	// Results Areas Toggle
-	$('.service-areas a').click(function() {
-		$(this).toggleClass('active');
-		var list = $(this).closest('.contact-info').next('.service-areas-list');
-		// console.log(list);
+    // Results Areas Toggle
+    $('.service-areas a').click(function() {
+        $(this).toggleClass('active');
+        var list = $(this).closest('.contact-info').next('.service-areas-list');
+        // console.log(list);
         list.toggleClass('active');
     });
+    $('.location a.more-link').click(function() {
+        $(this).toggleClass('active');
+        var locations = $(this).parent('.more').next('.locations-list');
+        // console.log(locations);
+        locations.toggleClass('active');
+    });
+    $('ul.areas-breakdown > li > a').click(function() {
+        $(this).toggleClass('active');
+        var services = $(this).next('.region-services-list');
+        // console.log(locations);
+        services.toggleClass('active');
+    });
 
-	// Description Toggle
+    // Description Toggle
     if($('.desc.long').length > 0) {
-    	$('.desc.long').after('<p><a class="read-more"><span class="more">Read More</span><span class="less">Hide</span></a></p>');
+        $('.desc.long').after('<p><a class="read-more"><span class="more">Read More</span><span class="less">Hide</span></a></p>');
     }
     $('a.read-more').click(function() {
-    	$(this).toggleClass('active');
-    	$('.desc.long').toggleClass('active');
-    });
-
-    // Feedback Form Toggle
-    $('.feedback-form a.no').click(function() {
-    	$(this).toggleClass('active');
-    	$('.feedback-form .form').toggle();
-    });
-
-    // Recommend Modal
-    $('#recommend .button').hide();
-    $('#recommend select').change(function(){
-    	if($(this).val() == 'new') {
-			$('#recommend input[type=submit]').hide();
-			$('#recommend .button').show();
-		} else {
-			$('#recommend input[type=submit]').show();
-			$('#recommend .button').hide();
-		}
+        $(this).toggleClass('active');
+        $('.desc.long').toggleClass('active');
     });
 
     // Toggle Children Categories
@@ -141,26 +136,50 @@ $(document).ready(() => {
         children.toggleClass('active');
     });
 
+    // Cat Menu
+    $(".category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
+        var parent = $(this).parent('li');
+        parent.toggleClass('active');
+    });
+
+    // Feedback Form Toggle
+    $('.feedback-form a.no').click(function() {
+        $(this).toggleClass('active');
+        $('.feedback-form .form').toggle();
+    });
+
+    // Recommend Modal
+    $('#recommend .button').hide();
+    $('#recommend select').change(function(){
+        if($(this).val() == 'new') {
+            $('#recommend input[type=submit]').hide();
+            $('#recommend .button').show();
+        } else {
+            $('#recommend input[type=submit]').show();
+            $('#recommend .button').hide();
+        }
+    });
+
     // Messages Hide
     if($('.messages').length > 0) {
-		setTimeout(function() {
-			$('.messages').css('max-height', '0');
-		}, 5500);
-	}
+        setTimeout(function() {
+            $('.messages').css('max-height', '0');
+        }, 5500);
+    }
 
-	// Notifications Toggle
-	$(document).click(function(){
-		$('#notifications').removeClass('active');
-		$('#notifications_toggle').removeClass('active');
-	});
-	$('.notifications').click(function(e){
-	    e.stopPropagation();
-	});
-	$("#notifications_toggle").click(function(e) {
-    	e.stopPropagation();
-		$(this).toggleClass('active');
-		$("#notifications").toggleClass('active');
-	});
+    // Notifications Toggle
+    $(document).click(function(){
+        $('#notifications').removeClass('active');
+        $('#notifications_toggle').removeClass('active');
+    });
+    $('.notifications').click(function(e){
+        e.stopPropagation();
+    });
+    $("#notifications_toggle").click(function(e) {
+        e.stopPropagation();
+        $(this).toggleClass('active');
+        $("#notifications").toggleClass('active');
+    });
 });
 
 
