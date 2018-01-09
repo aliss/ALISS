@@ -6,7 +6,8 @@ from .account import (
     AccountMyOrganisationsView,
     AccountMySearchesView,
     AccountSaveServiceView,
-    AccountRemoveSavedServiceView
+    AccountRemoveSavedServiceView,
+    AccountAdminDashboard
 )
 from .search import SearchView
 from .organisation import (

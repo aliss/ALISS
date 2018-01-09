@@ -12,7 +12,7 @@ from aliss.models import Claim
 
 class ClaimListView(StaffuserRequiredMixin, ListView):
     model = Claim
-    template_name = 'claim/list.html'
+    template_name = 'account/claim/list.html'
     paginate_by = 10
 
     def get_queryset(self):

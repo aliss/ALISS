@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="row stats">
+    <div class="admin-actions">
+        <div class="info-box small toggled" id="admin_actions">
+            <div class="heading">
+                <h4 id="admin_actions_toggle" class="toggle-heading">Actions</h4>
+            </div>
+            <div class="actions toggle-content">
+                <a href="#" class="primary icon-link">
+                    <span class="icon">
+                        <i class="fas fa-plus-square"></i>
+                    </span>
+                    Add an organisation
+                </a>
+                <a href="#" class="icon-link" id="recommend_toggle">
+                    <span class="icon">
+                        <i class="fas fa-inbox"></i>
+                    </span>
+                    Approve Claim Requests
+                </a>
+                <a href="#" class="icon-link">
+                    <span class="icon">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    Manage Users
+                </a>
+                <a href="#" class="alert icon-link">
+                    <span class="icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </span>
+                    View Problem Reports
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="activity">
+        <h4>Activity this month</h4>
+        <ul>
+            <li>
+                <div>
+                    <span class="number primary">
+                        10312
+                    </span>
+                </div>
+                Searches
+            </li>
+            <li>
+                <div>
+                <span class="number">
+                    26
+                </span>
+                </div>
+                Services added
+            </li>
+            <li>
+                <div>
+                    <span class="number">
+                        11
+                    </span>
+                </div>
+                Orgs added
+            </li>
+            <li>
+                <div>
+                    <span class="number">
+                        76
+                    </span>
+                </div>
+                New users
+            </li>
+            <li>
+                <div>
+                    <span class="number">
+                        115
+                    </span>
+                </div>
+                Services saved
+            </li>
+            <li>
+                <div>
+                    <span class="number alert">
+                        12
+                    </span>
+                </div>
+                Problems report
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row active-services-map">
+    <div class="columns content">
+        <div class="copy-container">
+            <h4>661 Active Services</h4>
+            <!-- https://snazzymaps.com/style/9470/muted -->
+            <div class="map" id="map"></div>
+            <div class="key">
+                <span class="national">
+                    <i class="fa fa-map-marker-alt"></i>
+                    National
+                </span>
+                <span class="local">
+                    <i class="fa fa-map-marker-alt"></i>
+                    Local
+                </span>
+            </div>
+            <ul class="areas-breakdown">
+                <li>
+                    <a>United Kingdom (1)</a>
+                    <div class="region-services-list">
+                        <ul>
+                            <li>
+                                <a href="#">Cook 'n' Care</a>
+                            </li>
+                            <li>
+                                <a href="#">Cook 'n' Care</a>
+                            </li>
+                            <li>
+                                <a href="#">Cook 'n' Care</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a>Scotland (22)</a>
+                    <div class="region-services-list">
+                        <ul>
+                            <li>
+                                <a href="#">Cook 'n' Care</a>
+                            </li>
+                            <li>
+                                <a href="#">Cook 'n' Care</a>
+                            </li>
+                            <li>
+                                <a href="#">Cook 'n' Care</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row recent-services">
+    <div class="columns">
+        <div class="org-results copy-container">
+            <h4>Recently Added</h4>
+            <ul class="orgs">
+                <li>
+                    <span class="name">Cook 'n' Care</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Meal Makers</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Cook 'n' Care</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Meal Makers</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Cook 'n' Care</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Meal Makers</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Cook 'n' Care</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Meal Makers</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Cook 'n' Care</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="name">Meal Makers</span>
+                    <ul class="options">
+                        <li>
+                            <a href="#">View Service</a>
+                        </li>
+                        <li>
+                            <a href="#">View Parent Org</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
