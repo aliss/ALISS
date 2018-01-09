@@ -14,11 +14,11 @@ class OrganisationFilter(django_filters.FilterSet):
 
 
 class AccountFilter(django_filters.FilterSet):
-    q = django_filters.CharFilter(method='email_username_filter')
+    q = django_filters.CharFilter(method='email_name_filter')
 
     class Meta:
         model = ALISSUser
         fields = ['q']
 
-    def email_username_filter(self, queryset, name, value):
-        return queryset.filter(Q(username__icontains=value) | Q(email__icontains=value))
+    def email_name_filter(self, queryset, name, value):
+        return queryset.filter(Q(name__icontains=value) | Q(email__icontains=value))

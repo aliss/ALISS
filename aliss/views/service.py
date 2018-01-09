@@ -163,13 +163,13 @@ class ServiceReportProblemView(CreateView):
 
 class ServiceProblemListView(StaffuserRequiredMixin, ListView):
     model = ServiceProblem
-    template_name = 'service/problem-list.html'
+    template_name = 'service/problem_list.html'
     paginate_by = 10
 
 
 class ServiceProblemDetailView(StaffuserRequiredMixin, UpdateView):
     model = ServiceProblem
-    template_name = 'service/problem-detail.html'
+    template_name = 'service/problem_detail.html'
     form_class = ServiceProblemUpdateForm
 
 
