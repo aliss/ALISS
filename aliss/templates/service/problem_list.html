@@ -1,0 +1,37 @@
+{% extends "account/admin_base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="columns">
+        <div class="copy-container">
+            <h4>Problem Reports</h4>
+            <ul class="problem-reports edit">
+                {% for report in object_list %}
+                    <li>
+                        <div class="heading">
+                            <h3>Problem reported with <a href="{% url 'service_detail' pk=report.service.pk %}">{{ report.service }}</a></h3>
+                        </div>
+                        <p>{{ report.message }}</p>
+                        <p>Reported on TODO</p>
+                        <div class="edit-options">
+                            <a href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">
+                                <span class="icon">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </span>
+                                Edit Service
+                            </a>
+                            <a href="#" class="delete icon-link">
+                                <span class="icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                                Alert Claimants
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% include 'partials/pagination.html' with page_obj=page_obj paginator=paginator %}
+        </div>
+    </div>
+</div>
+{% endblock %}
