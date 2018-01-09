@@ -48,7 +48,7 @@
 	.results {
 		@include clear;
 	}
-	.local-national {
+	.local-national, .category-selector {
 		padding-top: 1.75em;
 		padding-bottom: 2em;
 		h4 {
@@ -57,14 +57,27 @@
 		@include media(0, $search-break) {
 			padding-top: 0;
 			padding-bottom: 0;
+			padding-bottom: 1rem;
 			h4 {
 				display: block;
 			}
 			.cells {
 				display: none;
+				margin-top: 0;
+				margin-bottom: 0;
 				&.active {
 					display: block;
 				}
+			}
+		}
+	}
+	.category-selector {
+		@include media(0, $search-break) {
+			h4 {
+				display: none;
+			}
+			.cells {
+				display: block;
 			}
 		}
 	}
@@ -190,9 +203,12 @@ span.cat {
 	span.checkbox {
 		@extend %checkbox;
 	}
-	>a, >label {
+	ul {
+		@extend %no-list;
+	}
+	>a, >label, > ul > li {
 		border: 3px solid $light-gray_fade;
-		padding: 1.2em 1.4em 1em 1.4em;
+		padding: 1.2em 1.2em 1em 1.2em;
 		line-height: 1.4;
 		float: left;
 		display: block;
@@ -242,8 +258,14 @@ span.cat {
 			}
 		}
 	}
+	> ul > li {
+		padding: 0;
+		> a {
+			padding: 1.2em 1.2em 1em 1.2em;
+		}
+	}
 	&.two, &.three, &.four {
-		>a, >label {
+		>a, >label, > ul > li {
 			&:first-child {
 				border-top-left-radius: $d-rad*2;
 				border-bottom-left-radius: $d-rad*2;
@@ -264,8 +286,14 @@ span.cat {
 			}
 		}
 	}
+	&.one {
+		>a, >label, > ul > li {
+			width: 100%;
+			border-radius: $d-rad*2;
+		}
+	}
 	&.two {
-		>a, >label {
+		>a, >label, > ul > li {
 			width: 50%;
 			@include small {
 				width: 100%;
@@ -284,7 +312,7 @@ span.cat {
 		}
 	}
 	&.three {
-		>a, >label {
+		>a, >label, > ul > li {
 			width: 33.333%;
 			@include media(0, $search-break) {
 				width: 50%;
@@ -320,7 +348,7 @@ span.cat {
 		}
 	}
 	&.four {
-		>a, >label {
+		>a, >label, > ul > li {
 			width: 25%;
 			@include media(0, $search-break) {
 				width: 50%;
@@ -355,6 +383,118 @@ span.cat {
 					border-bottom-right-radius: $d-rad*2;
 				}
 			}
+		}
+	}
+}
+.category-selector {
+	@include clear;
+	a.clear {
+		display: inline-block;
+		margin-top: 0.5em;
+		@include media(0, $search-break) {
+			margin-top: 0.5em;
+		}
+	}
+	ul > li {
+		@include st {
+			span.select, a.select-category {
+				color: $medium-gray;
+			}
+		}
+	}
+	span.select {
+		@include fas(caret-down);
+		display: block;
+		position: absolute;
+		right: 0;
+		top: 0;
+		padding: 0.95em 1.1em;
+		color: $secondary;
+		cursor: pointer;
+		@include transition;
+		&:before {
+			font-size: 1.2em;
+		}
+	}
+	.active {
+		span.select {
+			color: $medium-gray;
+			@include fas(caret-up);
+		}
+	}
+	li.active {
+		border-bottom-right-radius: 0px !important;
+    	border-bottom-left-radius: 0px !important;
+		> a {
+			color: $medium-gray;
+			border-bottom-right-radius: 0px !important;
+    		border-bottom-left-radius: 0px !important;
+		}
+		ul {
+			display: block;
+		}
+	}
+	ul > li > a {
+		display: block;
+		position: relative;
+		padding-right: 3.5em;
+	}
+	ul ul {
+		display: none;
+		position: absolute;
+		top: 100%;
+		// width: 100%;
+		background: $w;
+		z-index: 5;
+		margin-top: 0;
+		border: 6px solid $light-gray_fade;
+		border-top: 1px solid $light-gray_fade;
+		left: -6px;
+		right: -6px;
+		// border-top: 0;
+		max-height: 500px;
+		overflow: scroll;
+		border-bottom-left-radius: $d-rad*2;
+		border-bottom-right-radius: $d-rad*2;
+		@include small {
+			max-height: 300px;
+		}
+		> li {
+			border-top: 1px solid $light-gray_fade;
+			&:first-child {
+				border-top: 0;
+			}
+			a {
+				padding: 0.65em 1em 0.55em 1em;
+			}
+		}
+		&.cat-icons {
+			> li {
+				a {
+					padding: 1.1em 1em 0.9em 1em;
+					padding-left: 3.8em;
+					span.cat {
+						position: absolute;
+						left: 1em;
+						top: 0.65em;
+					}
+				}
+			}
+		}
+	}
+	a.active-cat {
+		padding-left: 3.8em;
+		color: $medium-gray;
+		span.cat {
+			position: absolute;
+			top: 0.65em;
+			left: 1em;
+		}
+	}
+	a.truncate {
+		span.name {
+			@include truncate(100%);
+			display: block;
 		}
 	}
 }
@@ -1219,6 +1359,7 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
 	}
 }
 .location.multiple {
+	color: $medium-gray;
 	a.icon-link, span {
 		@extend %vam;
 	}
