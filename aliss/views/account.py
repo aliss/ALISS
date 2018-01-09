@@ -6,7 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 
 from django_filters.views import FilterView
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from aliss.models import ALISSUser, Service
 from aliss.forms import SignupForm, AccountUpdateForm
@@ -94,3 +94,6 @@ class AccountMyOrganisationsView(LoginRequiredMixin, TemplateView):
 
 class AccountMySearchesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_searches.html'
+
+class AccountAdminDashboard(StaffuserRequiredMixin, TemplateView):
+    template_name = 'account/dashboard.html'
