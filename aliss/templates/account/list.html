@@ -1,0 +1,43 @@
+{% extends "account/admin_base.html" %}
+
+{% block content %}
+    <div class="row edit-users">
+        <div class="columns">
+            <h4>Users</h4>
+            <div class="filter user-search">
+                <form>
+                    <label>Search users:</label>
+                    <div class="sbs-inputs">
+                        <input name="q" type="text" placeholder="e.g. John Smith" value="{{ request.GET.q }}">
+                        <input type="submit" class="secondary" value="Search">
+                    </div>
+                </form>
+            </div>
+            <div class="content-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Email Address</td>
+                            <td>Phone No.</td>
+                            <td>Postcode</td>
+                            <td>Date Joined</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in object_list %}
+                            <tr>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.postcode }}</td>
+                                <td>{{ user.date_joined }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% include 'partials/pagination.html' with page_obj=page_obj paginator=paginator %}
+        </div>
+    </div>
+{% endblock %}

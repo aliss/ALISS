@@ -16,22 +16,22 @@
             <div class="row my-account-links">
                 <div class="columns">
                     <div class="cells four">
-                        <a href="#" {% if request.resolver_match.url_name == 'account_dashboard' %}class="active"{% endif %}>
+                        <a href="{% url 'account_dashboard' %}" {% if request.resolver_match.url_name == 'account_dashboard' %}class="active"{% endif %}>
                             <span class="text">
                                 Dashboard
                             </span>
                         </a>
-                        <a href="#" {% if request.resolver_match.url_name == 'claim_list' %}class="active"{% endif %}>
+                        <a href="{% url 'claim_list' %}" {% if request.resolver_match.url_name == 'claim_list' %}class="active"{% endif %}>
                             <span class="text">
                                 Claim Requests
                             </span>
                         </a>
-                        <a href="#" {% if request.resolver_match.url_name == 'user_list' %}class="active"{% endif %}>
+                        <a href="{% url 'account_list' %}" {% if request.resolver_match.url_name == 'account_list' %}class="active"{% endif %}>
                             <span class="text">
                                 Users
                             </span>
                         </a>
-                        <a href="#" {% if request.resolver_match.url_name == 'problem_report_list' %}class="active"{% endif %}>
+                        <a href="{% url 'service_problem_list' %}" {% if request.resolver_match.url_name == 'service_problem_list' %}class="active"{% endif %}>
                             <span class="text">
                                 Problem Reports
                             </span>
