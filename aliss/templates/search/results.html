@@ -73,7 +73,7 @@
                                         <ul {% if category.is_root %}class="cat-icons"{% endif %}>
                                             {% for sibling in item.siblings %}
                                                 {% if sibling.is_root %}
-                                                    <li>
+                                                    <li{% if sibling.pk == item.pk %} class="active"{% endif %}>
                                                         <a href="?{% query_transform request category=sibling.slug page=None %}">
                                                             <span class="cat">
                                                                 <i class="fa {{ sibling|get_icon }}"></i>
@@ -84,7 +84,7 @@
                                                         </a>
                                                     </li>
                                                 {% else %}
-                                                    <li><a href="?{% query_transform request category=sibling.slug page=None %}">{{ sibling.name }}</a></li>
+                                                    <li{% if sibling.pk == item.pk %} class="active"{% endif %}><a href="?{% query_transform request category=sibling.slug page=None %}">{{ sibling.name }}</a></li>
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
