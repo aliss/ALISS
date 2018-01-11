@@ -171,7 +171,7 @@
                                         <a href="{% url 'service_detail' result.id %}"><h3>{{ result.name }}</h3></a>
                                     </div>
                                     <p class="org">by <a href="{% url 'organisation_detail' result.organisation.id %}">{{ result.organisation.name }}</a> {% if result.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
-                                    <p>{{ result.description|linebreaks }}</p>
+                                    <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
                                     <div class="assigned-category">
                                         {% for category in result.categories %}
                                             <span class="cat">
