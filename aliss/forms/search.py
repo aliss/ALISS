@@ -19,7 +19,7 @@ class SearchForm(forms.Form):
     location_type = forms.ChoiceField(
         choices=LOCATION_TYPE_CHOICES, required=False
     )
-    categories = forms.ModelMultipleChoiceField(
+    category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
         to_field_name="slug",
         required=False
