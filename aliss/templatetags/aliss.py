@@ -21,6 +21,24 @@ def query_transform(request, **kwargs):
 def get_root_categories():
     return Category.objects.filter(parent__isnull=True)
 
+@register.simple_tag
+def get_categories():
+    return Category.objects.select_related('parent').prefetch_related('children').all()
+
+
+@register.simple_tag
+def get_category_tree(category):
+    tree = []
+    while True:
+        tree.insert(0, category)
+        if category.parent:
+            category = category.parent
+        else:
+            break
+    return tree
+
+
+
 
 @register.filter
 def get_icon(category):

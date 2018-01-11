@@ -221,9 +221,9 @@ def filter_by_postcode(queryset, postcode, radius=5000):
     return queryset
 
 
-def filter_by_categories(queryset, categories):
+def filter_by_category(queryset, category):
     return queryset.filter(
-        Q('terms', categories__id=[category.pk for category in categories])
+        Q('term', categories__id=category.pk)
     )
 
 def filter_by_service_areas(queryset, service_areas):
