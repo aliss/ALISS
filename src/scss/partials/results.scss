@@ -483,8 +483,10 @@ span.cat {
 		}
 	}
 	a.active-cat {
-		padding-left: 3.8em;
 		color: $medium-gray;
+	}
+	a.icon {
+		padding-left: 3.8em;
 		span.cat {
 			position: absolute;
 			top: 0.65em;
