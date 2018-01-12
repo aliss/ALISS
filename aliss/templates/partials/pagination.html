@@ -1,6 +1,7 @@
 {% load aliss %}
 
 {% with total=paginator.count page_num=page.number num_pages=paginator.num_pages page_range=paginator.page_range %}
+{% if num_pages > 1 %}
 <div class="paged">
     <div class="holder">
         <p class="total">Showing page {{ page.number }} of {{ paginator.num_pages }}</p>
@@ -23,4 +24,5 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endwith %}
