@@ -37,16 +37,14 @@
                         <p class="org">by <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
                         <p>Last Updated <span class="updated alert">{{ service.updated_on }}</span></p>
 
-                        {% for category in service.categories.all %}
-                            <div class="assigned-category">
-                                <span class="cat">
-                                    <i class="fa {{ category|get_icon }}"></i>
-                                </span>
+                        <div class="assigned-category">
+                            {% for category in service.categories.all %}
                                 <span class="name">
                                     {{ category.name }}
                                 </span>
-                            </div>
-                        {% endfor %}
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </div>
 
                         <div class="location multiple">
                             <div class="locations-list active">

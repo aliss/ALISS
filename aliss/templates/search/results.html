@@ -174,12 +174,10 @@
                                     <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
                                     <div class="assigned-category">
                                         {% for category in result.categories %}
-                                            <span class="cat">
-                                                <i class="fa {{ category|get_icon }}"></i>
-                                            </span>
-                                            <span class="name">
+                                            <a href="?{% query_transform request category=category.slug %}">
                                                 {{ category.name }}
-                                            </span>
+                                            </a>
+                                            {% if not forloop.last %},{% endif %}
                                         {% endfor %}
                                     </div>
                                     <div class="location multiple">

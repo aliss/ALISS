@@ -11,16 +11,16 @@
         <a href="{% url 'service_detail' service.id %}"><h3>{{ service.name }}</h3></a>
     </div>
     <p>{{ service.description|linebreaks }}</p>
-    {% for category in service.categories.all %}
-        <div class="assigned-category">
-            <span class="cat">
-                <i class="fa {{ category|get_icon }}"></i>
-            </span>
+
+    <div class="assigned-category">
+        {% for category in service.categories.all %}
             <span class="name">
                 {{ category.name }}
             </span>
-        </div>
-    {% endfor %}
+            {% if not forloop.last %},{% endif %}
+        {% endfor %}
+    </div>
+
     <div class="location multiple">
         <div class="locations-list active">
             {% for location in service.locations.all %}
