@@ -44,7 +44,7 @@
                         </ul>
                     {% endif %}
                     {% if request.GET.q %}
-                        {% include 'partials/pagination.html' with page_obj=page_obj paginator=paginator %}
+                        {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
                         <div class="add-org">
                             <p>Can't find your organisation?</p>
                             <a href="{% url 'organisation_create' %}" class="button primary">Add your organisation</a>
