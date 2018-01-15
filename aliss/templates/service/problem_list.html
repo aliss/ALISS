@@ -12,7 +12,7 @@
                             <h3>Problem reported with <a href="{% url 'service_detail' pk=report.service.pk %}">{{ report.service }}</a></h3>
                         </div>
                         <p>{{ report.message }}</p>
-                        <p>Reported on TODO</p>
+                        <p>Reported on {{ report.created_on }}</p>
                         <div class="edit-options">
                             <a href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">
                                 <span class="icon">
