@@ -1,0 +1,20 @@
+{% extends "account/admin_base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="columns">
+        <div class="breadcrumbs">
+            <a href="#">My Organisations</a>
+            <span class="sep"></span>
+            <span>Request to represent Shelter Scotland</span>
+        </div>
+    </div>
+</div>
+<section class="large-form">
+    <div class="row">
+        <div class="columns">
+            {% include 'claim/forms/claim_form.html' %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -8,10 +8,9 @@ from aliss.views import (
     OrganisationDetailView,
     OrganisationDeleteView,
     OrganisationSearchView,
+    OrganisationUnPublishedView,
     LocationCreateView,
-    ServiceCreateView,
-    OrganisationClaimView,
-    OrganisationUnPublishedView
+    ServiceCreateView
 )
 
 
@@ -55,9 +54,5 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/$',
         OrganisationDetailView.as_view(),
         name='organisation_detail'
-    ),
-    url(r'^(?P<pk>[0-9A-Za-z\-]+)/claim/$',
-        OrganisationClaimView.as_view(),
-        name='organisation_claim'
-    ),
+    )
 ]

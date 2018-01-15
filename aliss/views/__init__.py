@@ -17,7 +17,6 @@ from .organisation import (
     OrganisationListView,
     OrganisationDetailView,
     OrganisationDeleteView,
-    OrganisationClaimView,
     OrganisationSearchView,
     OrganisationUnPublishedView
 )
@@ -39,5 +38,6 @@ from .service import (
 )
 from .claim import (
     ClaimListView,
-    ClaimDetailView
+    ClaimDetailView,
+    ClaimCreateView
 )
