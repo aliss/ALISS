@@ -1,13 +1,14 @@
-from django.views.generic import UpdateView, ListView
+from django.views.generic import UpdateView, ListView, FormView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 
-from braces.views import StaffuserRequiredMixin
+from braces.views import StaffuserRequiredMixin, LoginRequiredMixin
 
-from aliss.forms import ClaimUpdateForm
-from aliss.models import Claim
+from aliss.forms import ClaimUpdateForm, ClaimForm
+from aliss.models import Claim, Organisation
 
 
 class ClaimListView(StaffuserRequiredMixin, ListView):
@@ -49,6 +50,7 @@ class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
             fail_silently=True,
         )
 
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
 
@@ -61,3 +63,29 @@ class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
         self.send_user_email(self.object)
 
         return HttpResponseRedirect(self.get_success_url())
+
+
+class ClaimCreateView(LoginRequiredMixin, FormView):
+    form_class = ClaimForm
+    template_name = 'claim/create.html'
+    success_url = reverse_lazy('claim_list')
+
+    def form_valid(self, form):
+        organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
+
+        Claim.objects.create(
+            user=self.request.user,
+            organisation=organisation,
+            email=form.cleaned_data.get('email'),
+            phone=form.cleaned_data.get('phone'),
+            comment=form.cleaned_data.get('comment'),
+            created_by=self.request.user
+        )
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get(self, request, *args, **kwargs):
+        organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
+        return self.render_to_response(
+            self.get_context_data(organisation=organisation)
+        )

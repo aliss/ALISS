@@ -92,7 +92,6 @@
             </div>
             <div class="columns content">
                 <div class="copy-container">
-                    <a href="#" class="back-link"><span class="icon"></span> Back to results</a>
                     <h1>{{ object.name }}</h1>
                     <p class="org">by <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
                     <div class="assigned-category">
@@ -107,7 +106,6 @@
                         <p>{{ object.description|linebreaks }}</p>
                         <p>Last updated <span class="updated alert">{{ object.updated_on }}</span></p>
                     </div>
-                    <a href="#" class="back-link"><span class="icon"></span> Back to results</a>
                 </div>
             </div>
             <div class="columns contact-info">

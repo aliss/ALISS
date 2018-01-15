@@ -1,5 +1,5 @@
 from django.views.generic import (
-    CreateView, UpdateView, DeleteView, DetailView, FormView
+    CreateView, UpdateView, DeleteView, DetailView
 )
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
@@ -9,8 +9,7 @@ from django.http import HttpResponseRedirect
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
-from aliss.models import Organisation, Claim
-from aliss.forms import OrganisationClaimForm
+from aliss.models import Organisation
 from aliss.filters import OrganisationFilter
 
 
@@ -133,32 +132,6 @@ class OrganisationDeleteView(StaffuserRequiredMixin, DeleteView):
             )
         )
         return HttpResponseRedirect(success_url)
-
-
-class OrganisationClaimView(LoginRequiredMixin, FormView):
-    form_class = OrganisationClaimForm
-    template_name = 'organisation/claim.html'
-    success_url = reverse_lazy('organisation_claim_thanks')
-
-    def form_valid(self, form):
-        organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
-
-        Claim.objects.create(
-            user=self.request.user,
-            organisation=organisation,
-            email=form.cleaned_data.get('email'),
-            phone=form.cleaned_data.get('phone'),
-            comment=form.cleaned_data.get('comment'),
-            created_by=self.request.user
-        )
-
-        return HttpResponseRedirect(self.get_success_url())
-
-    def get(self, request, *args, **kwargs):
-        organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
-        return self.render_to_response(
-            self.get_context_data(organisation=organisation)
-        )
 
 
 class OrganisationSearchView(LoginRequiredMixin, FilterView):

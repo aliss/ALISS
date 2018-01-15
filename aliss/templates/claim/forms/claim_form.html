@@ -1,0 +1,30 @@
+<form method="post">
+    {% csrf_token %}
+    <div class="f-row two">
+            {% include 'partials/forms/field.html' with field=form.email %}
+            {% include 'partials/forms/field.html' with field=form.phone %}
+    </div>
+    <div class="copy-container">
+        <p>These details will be used to verify you as a representative of this organisation and should not be personal.</p>
+    </div>
+    <div class="f-row">
+        <label for="why_represent">Why should you be allowed to claim this organisation? <span>(required)</span></label>
+        {{ form.comment }}
+    </div>
+    <div class="data-quality content">
+        <div class="copy-container">
+            <p>The quality of data is important to a service like ALISS. We’ll try to guide you as best we can but while you’re here, try to follow these rules when you’re adding information about your organisation and services:</p>
+            <ol>
+                <li>Lorem ipsum dolor sit amet, consectetur.</li>
+                <li>Ipsa facilis est labore qui aliquam.</li>
+                <li>Beatae expedita veritatis assumenda quos fuga.</li>
+                <li>Culpa labore, unde maxime modi aliquid!</li>
+            </ol>
+        </div>
+        {% include 'partials/for-not-for.html' %}
+    </div>
+    <div class="submit">
+        {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
+        <input type="submit" value="Send Request">
+    </div>
+</form>
