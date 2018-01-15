@@ -1,4 +1,4 @@
-from django.views.generic import View, CreateView, UpdateView, DetailView, TemplateView
+from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, TemplateView
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
-from aliss.models import ALISSUser, Service
+from aliss.models import ALISSUser, Service, Organisation
 from aliss.forms import SignupForm, AccountUpdateForm
 from aliss.filters import AccountFilter
 
@@ -98,9 +98,11 @@ class AccountMyRecommendationsView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_recommendations.html'
 
 
-class AccountMyOrganisationsView(LoginRequiredMixin, TemplateView):
+class AccountMyOrganisationsView(LoginRequiredMixin, ListView):
     template_name = 'account/my_organisations.html'
 
+    def get_queryset(self):
+        return Organisation.objects.filter(claimed_by=self.request.user)
 
 class AccountMySearchesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_searches.html'
