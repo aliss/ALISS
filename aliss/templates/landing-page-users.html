@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="banner">
+        <div class="banner" style="background-image: url('{% static 'img/lp-banner.jpg' %}');">
+            <img src="{% static 'img/lp-banner_small.jpg' %}">
+        </div>
+    </section>
+    <article id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container image">
+                    <h1>ALISS empowers people through access to information</h1>
+                    <div class="float-image right">
+                        <div class="svg how-it-works">
+                            <svg>
+                                <use xlink:href="#how_it_works" />
+                                <title>How ALISS works</title>
+                            </svg>
+                        </div>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                </div>
+            </div>
+        </div>
+    </article>
+    <section id="search" class="landing-page">
+        <div class="row">
+            <div class="columns">
+                <label for="postcode">Enter your postcode to search local help:</label>
+                <div class="search-box">
+                    <div class="search-holder sbs-inputs">
+                        <form action="{% url 'search' %}">
+                            <input class="postcode" type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
+                            <div class="search-button">
+                                <button type="submit"><span>Search</span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="benefits">
+        <div class="row">
+            <div class="columns">
+                <p>Search and find help in your local area:</p>
+                <div class="svg results">
+                    <svg>
+                        <use xlink:href="#results" />
+                        <title>Search results</title>
+                    </svg>
+                </div>
+            </div>
+            <div class="columns">
+                <p>Select categories to find services that cater to your current needs:</p>
+                <div class="svg categories">
+                    <svg>
+                        <use xlink:href="#categories" />
+                        <title>Categories</title>
+                    </svg>
+                </div>
+            </div>
+            <div class="columns">
+                <p>Save services, get updated when they change and share with others:</p>
+                <div class="svg saved-services">
+                    <svg>
+                        <use xlink:href="#saved_services" />
+                        <title>Saved Services</title>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="center-section">
+        <div class="row section-title">
+            <div class="columns">
+                <h3>Join ALISS</h3>
+                <p>Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.</p>
+            </div>
+        </div>
+        <div class="row buttons">
+            <div class="columns">
+                <a href="{% url 'signup' %}" class="button secondary">Sign Up</a>
+            </div>
+        </div>
+    </section>
+    <section class="content landing-page">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h4>More about ALISS</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
