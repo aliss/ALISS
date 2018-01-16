@@ -26,6 +26,29 @@ $header-height-s: 115px;
 	min-height: 600px;
 	max-height: 1000px;
 	overflow: hidden;
+	&.landing-page {
+		height: auto;
+		min-height: 0;
+		max-height: none;
+		overflow: visible;
+		@extend %section-pad;
+		label {
+			@extend h3;
+		}
+		.row {
+			height: auto;
+			position: relative;
+			.columns {
+				position: relative;
+				transform: none;
+				margin: 0 auto;
+				left: auto;
+				top: auto;
+				padding-bottom: 0;
+				max-width: 700px;
+			}
+		}
+	}
 	label {
 		@extend p;
 	}
@@ -86,7 +109,7 @@ $header-height-s: 115px;
 		max-height: 650px;
 		.search-box {
 			font-size: 1em;
-			input[type=text] { 
+			input[type=text] {
 				border-right-color: $w;
 			}
 		}
@@ -144,6 +167,9 @@ $input-w: 33%;
 			position: static;
 		}
 	}
+}
+#search.landing-page+.center-section {
+	padding-top: 0;
 }
 
 
