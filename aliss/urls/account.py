@@ -12,7 +12,11 @@ from aliss.views import (
     AccountSaveServiceView,
     AccountRemoveSavedServiceView,
     AccountAdminDashboard,
-    AccountListView
+    AccountListView,
+    AccountRecommendationListDetailView,
+    AccountRecommendationListAddServiceView,
+    AccountRecommendationListRemoveServiceView,
+    AccountRecommendationListDeleteView
 )
 
 
@@ -76,6 +80,22 @@ urlpatterns = [
     url(r'^my-recommendations/$',
         AccountMyRecommendationsView.as_view(),
         name='account_my_recommendations'
+    ),
+    url(r'^my-recommendations/(?P<pk>[0-9A-Za-z\-]+)/$',
+        AccountRecommendationListDetailView.as_view(),
+        name='account_my_recommendations_detail'
+    ),
+    url(r'^my-recommendations/(?P<pk>[0-9A-Za-z\-]+)/delete/$',
+        AccountRecommendationListDeleteView.as_view(),
+        name='account_my_recommendations_delete'
+    ),
+    url(r'^my-recommendations/service/add/$',
+        AccountRecommendationListAddServiceView.as_view(),
+        name='account_my_recommendations_add_service'
+    ),
+    url(r'^my-recommendations/service/remove/$',
+        AccountRecommendationListRemoveServiceView.as_view(),
+        name='account_my_recommendations_remove_service'
     ),
     url(r'^my-organisations/$',
         AccountMyOrganisationsView.as_view(),

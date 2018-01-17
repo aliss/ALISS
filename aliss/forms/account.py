@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.utils.functional import lazy
 from django.utils.safestring import mark_safe
 
-from aliss.models import ALISSUser
+from aliss.models import ALISSUser, RecommendedServiceList
 
 def get_accept_terms_and_conditions_label():
     return mark_safe(
@@ -68,4 +68,17 @@ class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = ALISSUser
         fields = ('name', 'email', 'phone_number', 'postcode')
+        error_css_class = 'has-error'
+
+
+class RecommendationServiceListForm(forms.ModelForm):
+    class Meta:
+        model = RecommendedServiceList
+        fields = ('name', 'services')
+        labels = {
+            'name': 'Who are your recommendations for?'
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'e.g. John Smith'})
+        }
         error_css_class = 'has-error'

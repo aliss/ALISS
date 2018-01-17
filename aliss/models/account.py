@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
@@ -79,3 +81,18 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.name or self.email
+
+
+class RecommendedServiceList(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+
+    user = models.ForeignKey('aliss.ALISSUser')
+    name = models.CharField(max_length=50)
+
+    services = models.ManyToManyField('aliss.Service')
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Recommended for {name}".format(name=self.name)

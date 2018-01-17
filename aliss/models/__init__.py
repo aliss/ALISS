@@ -1,4 +1,4 @@
-from .account import ALISSUser
+from .account import ALISSUser, RecommendedServiceList
 from .category import Category
 from .organisation import Organisation
 from .service import Service, ServiceArea, ServiceProblem
