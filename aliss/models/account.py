@@ -89,7 +89,7 @@ class RecommendedServiceList(models.Model):
     user = models.ForeignKey('aliss.ALISSUser')
     name = models.CharField(max_length=50)
 
-    services = models.ManyToManyField('aliss.Service')
+    services = models.ManyToManyField('aliss.Service', blank=True)
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
