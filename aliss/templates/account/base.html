@@ -22,7 +22,7 @@
                             My Saved Services
                         </span>
                     </a>
-                    <a href="{% url 'account_my_recommendations' %}" {% if request.resolver_match.url_name == 'account_my_recommendations' %}class="active"{% endif %}>
+                    <a href="{% url 'account_my_recommendations' %}" {% if request.resolver_match.url_name == 'account_my_recommendations' or request.resolver_match.url_name == 'account_my_recommendations_detail' %}class="active"{% endif %}>
                         <span class="text">
                             My Recommendations
                         </span>
