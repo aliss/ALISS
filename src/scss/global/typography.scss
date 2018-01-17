@@ -63,7 +63,7 @@ h1 {
 	color: $dark-gray;
 }
 h1+p, h1+.buttons+p {
-	margin-top: 0.75em;
+	margin-top: 1em;
 }
 h5 {
 	margin-bottom: 0.8rem;
@@ -109,6 +109,9 @@ i.fa, i.fas, i.fab {
 	@for $i from 1 through 6 {
 		h#{$i} {
 			margin-top: 1.35rem;
+			&:first-child {
+				margin-top: 0;
+			}
 		}
 	}
 	ul {
@@ -254,6 +257,11 @@ table {
 	img {
 		display: none;
 	}
+	@include medium {
+		height: 28vh;
+		min-height: 250px;
+		max-height: 400px;
+	}
 	@include small {
 		height: auto;
 		min-height: 0;
@@ -283,9 +291,6 @@ table {
 		margin: 0 0.35em;
 		color: $light-gray;
 	}
-}
-.breadcrumbs+p {
-	margin-top: 1em;
 }
 
 
