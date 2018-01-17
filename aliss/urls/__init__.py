@@ -18,6 +18,14 @@ urlpatterns = [
         TemplateView.as_view(template_name="about.html"),
         name='about'
     ),
+    url(r'^access-to-information/$',
+        TemplateView.as_view(template_name="landing-page-users.html"),
+        name='landing_page_users'
+    ),
+    url(r'^information-to-share/$',
+        TemplateView.as_view(template_name="landing-page-helpers.html"),
+        name='landing_page_helpers'
+    ),
     url(r'^account/', include('aliss.urls.account')),
     url(r'^search/', include('aliss.urls.search')),
     url(r'^organisations/', include('aliss.urls.organisation')),
