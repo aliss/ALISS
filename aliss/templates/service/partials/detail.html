@@ -10,7 +10,7 @@
         </a>
         <a href="{% url 'service_detail' service.id %}"><h3>{{ service.name }}</h3></a>
     </div>
-    <p>{{ service.description|linebreaks }}</p>
+    <p>{{ service.description|linebreaks|truncatechars:150 }}</p>
 
     <div class="assigned-category">
         {% for category in service.categories.all %}
