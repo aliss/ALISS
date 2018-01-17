@@ -8,7 +8,11 @@ from .account import (
     AccountSaveServiceView,
     AccountRemoveSavedServiceView,
     AccountAdminDashboard,
-    AccountListView
+    AccountListView,
+    AccountRecommendationListDetailView,
+    AccountRecommendationListAddServiceView,
+    AccountRecommendationListRemoveServiceView,
+    AccountRecommendationListDeleteView
 )
 from .search import SearchView
 from .organisation import (

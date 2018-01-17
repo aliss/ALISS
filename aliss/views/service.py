@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from braces.views import StaffuserRequiredMixin
 
 from aliss.search import index_service, delete_service
-from aliss.models import Service, ServiceProblem, ServiceArea, Organisation
+from aliss.models import Service, ServiceProblem, ServiceArea, Organisation, RecommendedServiceList
 from aliss.forms import (
     ServiceForm,
     ServiceProblemForm,
@@ -102,6 +102,12 @@ class ServiceDetailView(DetailView):
     model = Service
     template_name = 'service/detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ServiceDetailView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated():
+            context['recommended_service_lists'] = RecommendedServiceList.objects.filter(user=self.request.user)
+        return context
+
 
 class ServiceDeleteView(StaffuserRequiredMixin, DeleteView):
     model = Service
@@ -128,6 +134,7 @@ class ServiceDeleteView(StaffuserRequiredMixin, DeleteView):
             )
         )
         return HttpResponseRedirect(success_url)
+
 
 class ServiceReportProblemView(CreateView):
     model = ServiceProblem

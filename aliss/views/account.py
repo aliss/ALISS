@@ -1,15 +1,16 @@
-from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, TemplateView
+from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, DeleteView, TemplateView
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
+from django.contrib.messages.views import SuccessMessageMixin
 
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
-from aliss.models import ALISSUser, Service, Organisation
-from aliss.forms import SignupForm, AccountUpdateForm
+from aliss.models import ALISSUser, Service, Organisation, RecommendedServiceList
+from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm
 from aliss.filters import AccountFilter
 
 
@@ -94,8 +95,93 @@ class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/saved_services.html'
 
 
-class AccountMyRecommendationsView(LoginRequiredMixin, TemplateView):
+class AccountMyRecommendationsView(LoginRequiredMixin, CreateView):
+    form_class = RecommendationServiceListForm
     template_name = 'account/my_recommendations.html'
+    success_url = reverse_lazy('account_my_recommendations')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        form.save_m2m()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountMyRecommendationsView, self).get_context_data(**kwargs)
+        context['recommended_service_lists'] = RecommendedServiceList.objects.filter(user=self.request.user)
+        return context
+
+
+class AccountRecommendationListDetailView(LoginRequiredMixin, DetailView):
+    model = RecommendedServiceList
+    template_name = 'account/recommendation_list.html'
+
+
+class AccountRecommendationListDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+    model = RecommendedServiceList
+    success_url = reverse_lazy('account_my_recommendations')
+    success_message = "%(name)s recommendation list was deleted successfully"
+
+    def get_queryset(self):
+        return RecommendedServiceList.objects.filter(user=self.request.user)
+
+
+class AccountRecommendationListAddServiceView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        recommendation_list = get_object_or_404(
+            RecommendedServiceList,
+            user=self.request.user,
+            pk=self.request.POST.get('recommendation_list')
+        )
+        service = get_object_or_404(
+            Service,
+            pk=self.request.POST.get('service')
+        )
+
+        recommendation_list.services.add(service)
+
+        next = self.request.POST.get('next', '')
+        if next:
+            url = next
+        else:
+            url = reverse(
+                'account_my_recommendations_detail',
+                kwargs={'pk': recommendation_list.pk}
+            )
+
+        messages.success(self.request, 'Service added to {name} list'.format(name=recommendation_list.name))
+
+        return HttpResponseRedirect(url)
+
+
+class AccountRecommendationListRemoveServiceView(View):
+    def post(self, request, *args, **kwargs):
+        recommendation_list = get_object_or_404(
+            RecommendedServiceList,
+            user=self.request.user,
+            pk=self.request.POST.get('recommendation_list')
+        )
+        service = get_object_or_404(
+            Service,
+            pk=self.request.POST.get('service')
+        )
+
+        recommendation_list.services.remove(service)
+
+        next = self.request.POST.get('next', '')
+        if next:
+            url = next
+        else:
+            url = reverse(
+                'account_my_recommendations_detail',
+                kwargs={'pk': recommendation_list.pk}
+            )
+
+        messages.success(self.request, 'Service removed from {name} list'.format(name=recommendation_list.name))
+
+        return HttpResponseRedirect(url)
 
 
 class AccountMyOrganisationsView(LoginRequiredMixin, ListView):
@@ -106,7 +192,6 @@ class AccountMyOrganisationsView(LoginRequiredMixin, ListView):
 
 class AccountMySearchesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_searches.html'
-
 
 class AccountAdminDashboard(StaffuserRequiredMixin, TemplateView):
     template_name = 'account/dashboard.html'

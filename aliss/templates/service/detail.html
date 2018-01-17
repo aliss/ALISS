@@ -15,7 +15,13 @@
             <h5>Add to new recommendations list</h5>
         </div>
         <div class="form">
-            {% include 'service/forms/add_recommendations_list.html' %}
+            <form method="post" action="{% url 'account_my_recommendations' %}">
+                {% csrf_token %}
+                <label for="name">Who is this recommendation for? <span>(required)</span></label>
+                <input type="text" name="name" id="name" placeholder="e.g. John Smith">
+                <input type="hidden" name="services" value="{{ object.pk }}" />
+                <input type="submit" value="Recommend">
+            </form>
         </div>
     </div>
 </div>
@@ -51,19 +57,29 @@
                                 </button>
                             </form>
                         {% endif %}
-                        <a href="#" class="primary icon-link" id="recommend_toggle">
+
+                        {% if not request.user.is_authenticated %}
+                            <a href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
+                        {% else %}
+                            <a href="#" class="primary icon-link" id="recommend_toggle">
+                        {% endif %}
                             <span class="icon">
                                 <i class="fas fa-bullhorn"></i>
                             </span>
                             Recommend this service
                         </a>
                         <div class="recommend-form toggled" id="recommend">
-                            <form>
+                            <form method="post" action="{% url 'account_my_recommendations_add_service' %}">
+                                {% csrf_token %}
                                 <div class="sbs-inputs select">
-                                    <select>
+                                    <select name="recommendation_list">
                                         <option value="">Select list</option>
+                                        {% for recommendation_list in recommended_service_lists %}
+                                            <option value="{{ recommendation_list.pk }}">{{ recommendation_list.name }}</option>
+                                        {% endfor %}
                                         <option value="new">Create New</option>
                                     </select>
+                                    <input type="hidden" value="{{ object.pk }}" name="service" />
                                     <input type="submit" class="secondary" value="Add">
                                     <a id="add_list_modal" class="button secondary">Add</a>
                                 </div>
@@ -93,7 +109,7 @@
             <div class="columns content">
                 <div class="copy-container">
                     <h1>{{ object.name }}</h1>
-                    <p class="org">by <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
+                    <p class="org">by <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
                     <div class="assigned-category">
                         {% for category in object.categories.all %}
                             <span class="name">
