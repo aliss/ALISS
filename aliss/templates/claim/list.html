@@ -29,7 +29,7 @@
                                 <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="status" value="{{ claim.CONFIRMED }}" />
-                                    <button href="#" class="txt-button icon-link">
+                                    <button href="#" class="txt-button secondary icon-link">
                                         <span class="icon">
                                             <i class="fas fa-check"></i>
                                         </span>
@@ -39,7 +39,7 @@
                                 <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="status" value="{{ claim.DENIED }}" />
-                                    <button href="#" class="txt-button delete icon-link">
+                                    <button href="#" class="txt-button alert delete icon-link">
                                         <span class="icon">
                                             <i class="fas fa-times"></i>
                                         </span>
