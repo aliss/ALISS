@@ -975,13 +975,13 @@ a.icon-link, a.back-link {
 	}
 }
 .icon-link.close {
-	padding-left: 1.2em;
+	padding-left: 1.2em !important;
 	.icon {
 		width: 0.9em;
 	}
 }
 .location > .icon-link, .locations-list > .icon-link {
-	padding-left: 1.4em;
+	padding-left: 1.4em !important;
 	.icon {
 		width: 1.1em;
 	}
