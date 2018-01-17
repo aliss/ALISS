@@ -182,6 +182,7 @@ span.cat {
 		left: 50%;
 		// padding-bottom:0.05em;
 		@extend %txy;
+		// padding-left: 2px;
 	}
 }
 .cells {
@@ -483,7 +484,7 @@ span.cat {
 		}
 	}
 	a.active-cat {
-		color: $medium-gray;
+		color: $light-gray;
 	}
 	a.icon {
 		padding-left: 3.8em;
@@ -558,12 +559,12 @@ span.cat {
 				@include truncate(75%);
 			}
 		}
-		// ul li span.name {
-		// 	@include truncate(75%);
-		// 	@include media(0, 480) {
-		// 		@include truncate(70%);
-		// 	}
-		// }
+		ul li span.name {
+			@include truncate(75%);
+			@include media(0, 480) {
+				@include truncate(70%);
+			}
+		}
 	}
 	>div, li, ul li {
 		margin: 0.4em 0;
@@ -934,7 +935,7 @@ $icon-w: 1.5em;
 	font-size: $d-fs-s;
 	position: relative;
 	display: block;
-	padding-left: $icon-w + 0.2em !important;
+	padding-left: $icon-w + 0.2em;
 	line-height: 1.4;
 	color: $medium-gray;
 	font-weight: bold;
@@ -1034,9 +1035,9 @@ a.tw {
 	font-weight: bold;
 	color: $medium-gray;
 	position: relative;
-	padding-top: 0.4em;
-	padding-bottom: 0.4em;
-	padding-left: 2.25em + 0.45em;
+	padding-top: 0.25em;
+	padding-bottom: 0.25em;
+	// padding-left: 2.25em + 0.45em;
 	span.cat {
 		position: absolute;
 		left: 0;
