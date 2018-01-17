@@ -932,10 +932,10 @@ p.org {
 }
 $icon-w: 1.5em;
 .icon-link, .back-link {
-	font-size: $d-fs-s;
+	font-size: $d-fs-s !important;
 	position: relative;
 	display: block;
-	padding-left: $icon-w + 0.2em;
+	padding-left: $icon-w + 0.2em !important;
 	line-height: 1.4;
 	color: $medium-gray;
 	font-weight: bold;
