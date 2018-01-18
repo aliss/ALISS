@@ -9,7 +9,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
-from aliss.models import ALISSUser, Service, Organisation, RecommendedServiceList
+from aliss.models import ALISSUser, Service, ServiceArea, Organisation, RecommendedServiceList, ServiceProblem, Claim
 from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm
 from aliss.filters import AccountFilter
 
@@ -195,3 +195,24 @@ class AccountMySearchesView(LoginRequiredMixin, TemplateView):
 
 class AccountAdminDashboard(StaffuserRequiredMixin, TemplateView):
     template_name = 'account/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountAdminDashboard, self).get_context_data(**kwargs)
+
+        from datetime import datetime
+        current_month = datetime.now().month
+
+        context['service_month_count'] = Service.objects.filter(created_on__month=current_month).count()
+        context['orgs_month_count'] = Organisation.objects.filter(created_on__month=current_month).count()
+        context['user_month_count'] = ALISSUser.objects.filter(date_joined__month=current_month).count()
+        context['problem_month_count'] = ServiceProblem.objects.filter(created_on__month=current_month).count()
+        context['claim_request_count'] = Claim.objects.filter(created_on__month=current_month).count()
+
+        context['services'] = Service.objects\
+            .prefetch_related('locations', 'service_areas').all()
+        context['service_areas'] = ServiceArea.objects\
+            .prefetch_related('services')\
+            .order_by('type', 'code')
+        context['recently_added'] = Service.objects.all().order_by('-created_on')[:10]
+
+        return context

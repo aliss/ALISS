@@ -14,19 +14,19 @@
                     </span>
                     Add an organisation
                 </a>
-                <a href="#" class="icon-link" id="recommend_toggle">
+                <a href="{% url 'claim_list' %}" class="icon-link" id="recommend_toggle">
                     <span class="icon">
                         <i class="fas fa-inbox"></i>
                     </span>
                     Approve Claim Requests
                 </a>
-                <a href="#" class="icon-link">
+                <a href="{% url 'account_list' %}" class="icon-link">
                     <span class="icon">
                         <i class="fas fa-user"></i>
                     </span>
                     Manage Users
                 </a>
-                <a href="#" class="alert icon-link">
+                <a href="{% url 'service_problem_list' %}" class="alert icon-link">
                     <span class="icon">
                         <i class="fas fa-exclamation-circle"></i>
                     </span>
@@ -40,16 +40,8 @@
         <ul>
             <li>
                 <div>
-                    <span class="number primary">
-                        10312
-                    </span>
-                </div>
-                Searches
-            </li>
-            <li>
-                <div>
                 <span class="number">
-                    26
+                    {{ service_month_count }}
                 </span>
                 </div>
                 Services added
@@ -57,7 +49,7 @@
             <li>
                 <div>
                     <span class="number">
-                        11
+                        {{ orgs_month_count }}
                     </span>
                 </div>
                 Orgs added
@@ -65,7 +57,7 @@
             <li>
                 <div>
                     <span class="number">
-                        76
+                        {{ user_month_count }}
                     </span>
                 </div>
                 New users
@@ -73,18 +65,18 @@
             <li>
                 <div>
                     <span class="number">
-                        115
+                        {{ claim_request_count }}
                     </span>
                 </div>
-                Services saved
+                Claims made
             </li>
             <li>
                 <div>
                     <span class="number alert">
-                        12
+                        {{ problem_month_count }}
                     </span>
                 </div>
-                Problems report
+                Problems reported
             </li>
         </ul>
     </div>
@@ -92,52 +84,24 @@
 <div class="row active-services-map">
     <div class="columns content">
         <div class="copy-container">
-            <h4>661 Active Services</h4>
+            <h4>{{ services|length }} Active Services</h4>
             <!-- https://snazzymaps.com/style/9470/muted -->
             <div class="map" id="map"></div>
-            <div class="key">
-                <span class="national">
-                    <i class="fa fa-map-marker-alt"></i>
-                    National
-                </span>
-                <span class="local">
-                    <i class="fa fa-map-marker-alt"></i>
-                    Local
-                </span>
-            </div>
             <ul class="areas-breakdown">
-                <li>
-                    <a>United Kingdom (1)</a>
-                    <div class="region-services-list">
-                        <ul>
-                            <li>
-                                <a href="#">Cook 'n' Care</a>
-                            </li>
-                            <li>
-                                <a href="#">Cook 'n' Care</a>
-                            </li>
-                            <li>
-                                <a href="#">Cook 'n' Care</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a>Scotland (22)</a>
-                    <div class="region-services-list">
-                        <ul>
-                            <li>
-                                <a href="#">Cook 'n' Care</a>
-                            </li>
-                            <li>
-                                <a href="#">Cook 'n' Care</a>
-                            </li>
-                            <li>
-                                <a href="#">Cook 'n' Care</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                {% for area in service_areas %}
+                    <li>
+                        <a>{{ area.name }} - {{ area.get_type_display }} - ({{ area.services.count }})</a>
+                        <div class="region-services-list">
+                            <ul>
+                                {% for service in area.services.all %}
+                                    <li>
+                                        <a href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
@@ -147,118 +111,64 @@
         <div class="org-results copy-container">
             <h4>Recently Added</h4>
             <ul class="orgs">
-                <li>
-                    <span class="name">Cook 'n' Care</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Meal Makers</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Cook 'n' Care</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Meal Makers</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Cook 'n' Care</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Meal Makers</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Cook 'n' Care</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Meal Makers</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Cook 'n' Care</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="name">Meal Makers</span>
-                    <ul class="options">
-                        <li>
-                            <a href="#">View Service</a>
-                        </li>
-                        <li>
-                            <a href="#">View Parent Org</a>
-                        </li>
-                    </ul>
-                </li>
+                {% for service in recently_added %}
+                    <li>
+                        <span class="name">{{ service.name }}</span>
+                        <ul class="options">
+                            <li>
+                                <a href="{% url 'service_detail' pk=service.pk %}">View Service</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">View Parent Org</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block before_body_close %}
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById("map"), {
+              zoom: 7,
+              center: {lat: 55.864, lng: -4.251}
+            });
+
+            var infowindow = new google.maps.InfoWindow({maxWidth: 200});
+            // Add some markers to the map.
+            // Note: The code uses the JavaScript Array.prototype.map() method to
+            // create an array of markers based on a given "locations" array.
+            // The map() method here has nothing to do with the Google Maps API.
+            locations.map(function(location, i) {
+                var marker = new google.maps.Marker({
+                    position: location.position,
+                    map: map,
+                    title: location.label
+                });
+                google.maps.event.addListener(marker, 'click', (function(mm, tt) {
+                    return function() {
+                        infowindow.setContent(tt);
+                        infowindow.open(map, mm);
+                    }
+                })(marker, location.label));
+            });
+        }
+
+        var locations = [
+        {% for service in services %}
+            {% for location in service.locations.all %}
+            {
+                label: "<a href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>",
+                position: {lat: {{ location.latitude }}, lng: {{ location.longitude}} },
+            },
+            {% endfor %}
+        {% endfor %}
+        ]
+    </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLV1ovM_9BAIJXHo7M7n8Xgfv9Ksjglt8&callback=initMap&libraries=geometry"></script>
+
 {% endblock %}
