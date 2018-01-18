@@ -51,15 +51,14 @@ require('foundation-sites/dist/js/foundation.min.js');
 $(document).foundation();
 
 // Select2
-require('select2/dist/js/select2.full.min.js');
+// require('select2/dist/js/select2.full.min.js');
 
 // Imports
 import matchHeight from './partials/match-height';
+// import select2 from 'select2/dist/js/select2.min.js';
 
 $(document).ready(() => {
     matchHeight();
-
-    $('.select2 select').select2();
 
     $(document).click(function(){
         $('.navigation').removeClass('active');
