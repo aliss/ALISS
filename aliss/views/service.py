@@ -63,6 +63,11 @@ class ServiceCreateView(StaffuserRequiredMixin, CreateView):
             kwargs={'pk': self.object.organisation.pk}
         )
 
+    def get_context_data(self, **kwargs):
+        context = super(ServiceCreateView, self).get_context_data(**kwargs)
+        context['organisation'] = self.organisation
+        return context
+
 
 class ServiceUpdateView(StaffuserRequiredMixin, UpdateView):
     model = Service
@@ -96,6 +101,12 @@ class ServiceUpdateView(StaffuserRequiredMixin, UpdateView):
         )
 
         return HttpResponseRedirect(self.get_success_url())
+
+
+    def get_context_data(self, **kwargs):
+        context = super(ServiceUpdateView, self).get_context_data(**kwargs)
+        context['organisation'] = self.object.organisation
+        return context
 
 
 class ServiceDetailView(DetailView):
