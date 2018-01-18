@@ -1,3 +1,5 @@
+{% load aliss %}
+
 <form method="post">
     {% csrf_token %}
     <div class="f-row">
@@ -20,97 +22,13 @@
         {% include 'partials/forms/field.html' with field=form.url %}
     </div>
     <div class="f-row">
-        <label>Category <span>(required)</span></label>
+        <label>Categories <span>(required)</span></label>
         <div class="all-categories">
-            <ul class="radio-list cat truncate">
-                <li>
-                    <label>
-                        <input type="radio">
-                        <span class="cat">
-                            <i class="fa fa-utensil-fork"></i>
-                        </span>
-                        <span class="name">
-                            Food
-                        </span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio">
-                        <span class="cat">
-                            <i class="fa fa-home"></i>
-                        </span>
-                        <span class="name">
-                            Housing &amp; Homelessness
-                        </span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio">
-                        <span class="cat">
-                            <i class="fa fa-pound-sign"></i>
-                        </span>
-                        <span class="name">
-                            Money Advice
-                        </span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio">
-                        <span class="cat">
-                            <i class="fa fa-lightbulb"></i>
-                        </span>
-                        <span class="name">
-                            Mental Health
-                        </span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio">
-                        <span class="cat">
-                            <i class="fa fa-utensil-fork"></i>
-                        </span>
-                        <span class="name">
-                            Food
-                        </span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio">
-                        <span class="cat">
-                            <i class="fa fa-home"></i>
-                        </span>
-                        <span class="name">
-                            Housing &amp; Homelessness
-                        </span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio">
-                        <span class="cat">
-                            <i class="fa fa-pound-sign"></i>
-                        </span>
-                        <span class="name">
-                            Money Advice
-                        </span>
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        <input type="radio">
-                        <span class="cat">
-                            <i class="fa fa-lightbulb"></i>
-                        </span>
-                        <span class="name">
-                            Mental Health
-                        </span>
-                    </label>
-                </li>
+            {% get_root_categories as root_categories %}
+            <ul class="radio-list cat truncate children">
+                {% for category in root_categories %}
+                    {% include 'service/forms/partials/category.html' with category=category %}
+                {% endfor %}
             </ul>
         </div>
         <span class="annotation">

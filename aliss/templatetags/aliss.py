@@ -19,7 +19,7 @@ def query_transform(request, **kwargs):
 
 @register.simple_tag
 def get_root_categories():
-    return Category.objects.filter(parent__isnull=True)
+    return Category.objects.prefetch_related('children').filter(parent__isnull=True)
 
 
 @register.simple_tag
