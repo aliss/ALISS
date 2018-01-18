@@ -50,11 +50,17 @@ require('foundation-sites/dist/js/foundation.min.js');
 // Foundation
 $(document).foundation();
 
+// Select2
+require('select2/dist/js/select2.full.min.js');
+
 // Imports
 import matchHeight from './partials/match-height';
 
 $(document).ready(() => {
     matchHeight();
+
+    $('.select2 select').select2();
+
     $(document).click(function(){
         $('.navigation').removeClass('active');
         $('body').removeClass('restrict-height');
