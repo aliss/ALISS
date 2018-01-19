@@ -27,7 +27,7 @@
             {% get_root_categories as root_categories %}
             <ul class="radio-list cat truncate children">
                 {% for category in root_categories %}
-                    {% include 'service/forms/partials/category.html' with category=category %}
+                    {% include 'service/forms/partials/category.html' with category=category selected_categories=form.categories.value %}
                 {% endfor %}
             </ul>
         </div>
