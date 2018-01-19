@@ -13,7 +13,6 @@ class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
         fields = (
-            'organisation',
             'name',
             'description',
             'street_address',
@@ -28,6 +27,7 @@ class LocationForm(forms.ModelForm):
             'region': 'Local Authority',
             'postal_code': 'Post Code'
         }
+        error_css_class = 'has-error'
 
     def clean(self):
         cleaned_data = super(LocationForm, self).clean()
