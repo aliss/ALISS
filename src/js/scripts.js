@@ -60,6 +60,58 @@ import matchHeight from './partials/match-height';
 $(document).ready(() => {
     matchHeight();
 
+    function check_three() {
+        var $check_three = $('.all-categories input');
+        $check_three.each(function(index, el) {
+            var $thisCheck = $(this);
+            var name = $thisCheck.attr('name');
+            console.log(name);
+            var limit = 4;
+            $(`input[name='${name}']`).on('change', function(evt) {
+                if($(`input[name='${name}']:checked`).length >= limit) {
+                   this.checked = false;
+               }
+            });
+        });
+    }
+    check_three();
+
+    $('input[name="categories"]').on('change', function(evt) {
+        if($('input[name="categories"]').prop('checked')) {
+            $('.selected-categories').addClass('active');
+        } else {
+            $('.selected-categories').removeClass('active');
+        }
+        var $thisCheck = $(this);
+        var value = $thisCheck.attr('value');
+        var label = $thisCheck.parent().children('span.name').html();
+        console.log(label);
+        if($thisCheck.prop('checked')) {
+            console.log('checked');
+            $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+        } else {
+            console.log('unchecked');
+            $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
+        }
+        $('.selected-cat span.remove').click(function(){
+            var value = $(this).parent().attr('data-cat');
+            console.log(value);
+            $(this).parent().remove();
+            $(`input[value="${value}"]`).prop('checked', false);
+        });
+    });
+    if($('input[name="categories"]').prop('checked')) {
+        $('.selected-categories').addClass('active');
+        $checked_cats.each(function(index, el) {
+            var $thisCheck = $(this);
+            var value = $thisCheck.attr('value');
+            var label = $thisCheck.parent().children('span.name').html();
+            $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+        });
+    } else {
+        $('.selected-categories').removeClass('active');
+    }
+
     // Select2
     $('.multiselect select').hide();
     $('#id_locations').select2({
