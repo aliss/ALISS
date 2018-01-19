@@ -77,7 +77,7 @@ $(document).ready(() => {
     check_three();
 
     $('input[name="categories"]').on('change', function(evt) {
-        if($('input[name="categories"]').prop('checked')) {
+        if($('.all-categories input:checkbox:checked').length > 0) {
             $('.selected-categories').addClass('active');
         } else {
             $('.selected-categories').removeClass('active');
@@ -100,9 +100,9 @@ $(document).ready(() => {
             $(`input[value="${value}"]`).prop('checked', false);
         });
     });
-    if($('input[name="categories"]').prop('checked')) {
+    if($('.all-categories input:checkbox:checked').length > 0) {
         $('.selected-categories').addClass('active');
-        $checked_cats.each(function(index, el) {
+        $('.all-categories input:checkbox:checked').each(function(index, el) {
             var $thisCheck = $(this);
             var value = $thisCheck.attr('value');
             var label = $thisCheck.parent().children('span.name').html();
