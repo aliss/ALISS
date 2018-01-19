@@ -2,7 +2,7 @@
 
 <li>
     <label>
-        <input type="checkbox" name="categories" value={{ category.pk }}>
+        <input type="checkbox" name="categories" value="{{ category.pk }}" {% if category.pk in selected_categories %}checked{% endif %}>
         {% if category.is_root %}
             <span class="cat">
                 <i class="fa {{ category|get_icon }}"></i>
