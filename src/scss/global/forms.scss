@@ -16,6 +16,104 @@ label {
 		color: $light-gray;
 	}
 }
+.select2 {
+	margin-bottom: 1em;
+	width: 100% !important;
+	ul {
+		@extend %no-list;
+	}
+	&.selecton {
+		@extend %custom-select;
+	}
+}
+.select2-results {
+	font-size: $d-fs;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+	padding: 0.5em 0.5em;
+	display: block;
+}
+.select2-container .select2-selection--multiple {
+	min-height: 0;
+}
+.select2-container--default .select2-search--inline .select2-search__field {
+	@extend %form-style;
+	@extend %custom-select;
+	font-size: $d-fs;
+	margin: 0;
+	border: 0;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	padding-top: 0.325em;
+	padding-bottom: 0.15em;
+}
+.select2-container--default .select2-selection--multiple {
+	border: 1px solid $light-gray;
+	border-radius: $d-rad;
+	// height: 57px !important;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+	border: 1px solid $brand;
+}
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+	background: $light-gray_fade;
+	color: $medium-gray;
+}
+.select2-container--default .select2-results__option[aria-selected=true] {
+	background: $medium-gray;
+	color: $w !important;
+}
+.select2-container--default .select2-results__option .select2-results__option, .select2-container--default .select2-results__option {
+	padding: 0.75em 0.8em 0.55em 1.25em;
+	color: $medium-gray;
+}
+.select2-container--default .select2-results__group {
+	padding: 0.75em 1em 0.55em 0.5em;
+	color: $dark-gray;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	border-radius: $d-rad;
+	background: $w;
+	color: $medium-gray;
+	border: 1px solid $medium-gray;
+	// border: 0;
+	font-weight: bold;
+	position: relative;
+	font-size: $d-fs;
+	padding: 0.4em 0.6em 0.2em 0.6em;
+	margin: 0.2em 0.2em;
+	padding-left: 2.35em;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+	// overflow: hidden;
+	// width: 0px;
+	@include fas(times);
+	width: 1.6em;
+	height: 1.6em;
+	position: relative;
+	color: $alert;
+	background: $alert;
+	position: absolute;
+	top: 0.25em;
+	left: 0.35em;
+	border-radius: 100%;
+	&:before {
+		font-size: 1em;
+		color: $w;
+		position: absolute;
+		top: 50%;
+		z-index: 2;
+		left: 50%;
+		@extend %txy;
+	}
+	@include st {
+		background: $medium-gray;
+		color: $medium-gray;
+	}
+}
+.select2-container .select2-search--inline {
+	// height: 57px !important;
+}
 .f-error {
 	color: $w;
 	font-size: $d-fs;

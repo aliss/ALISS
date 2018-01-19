@@ -12,18 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1" />
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <!-- Javacript -->
-    <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
 
     {% block before_head_close %}
     {% endblock %}
 </head>
 <body>
-    <script type="text/javascript" src="{% static 'js/select2.full.min.js' %}"></script>
-    <script type="text/javascript">
-        $('#id_locations').select2();
-        $('#id_service_areas').select2();
-    </script>
     {% block header %}
         {% include 'partials/header.html' %}
     {% endblock %}
@@ -38,7 +31,7 @@
     {% endblock %}
 
     <!-- Javacript -->
-
+    <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
     {% block before_body_close %}
     {% endblock %}
 </body>

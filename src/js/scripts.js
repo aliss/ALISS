@@ -51,14 +51,25 @@ require('foundation-sites/dist/js/foundation.min.js');
 $(document).foundation();
 
 // Select2
-// require('select2/dist/js/select2.full.min.js');
+require('./partials/select2.min.js');
 
 // Imports
 import matchHeight from './partials/match-height';
-// import select2 from 'select2/dist/js/select2.min.js';
+// import 'select2/dist/js/select2.min.js';
 
 $(document).ready(() => {
     matchHeight();
+
+    // Select2
+    $('.multiselect select').hide();
+    $('#id_locations').select2({
+        placeholder: "Select Locations",
+        mutliple: true
+    });
+    $('#id_service_areas').select2({
+        placeholder: "Select Service Areas",
+        mutliple: true
+    });
 
     $(document).click(function(){
         $('.navigation').removeClass('active');
