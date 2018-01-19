@@ -26,14 +26,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
         context['category'] = self.category
         return context
 
-    def postcode_valid(self):
-        if not self.postcode or \
-        self.postcode.health_board_area_2014_code not in \
-        ['S08000021', 'S08000023', 'S08000020', 'S08000015']:
-            return False
-        else:
-            return True
-
     def get(self, request, *args, **kwargs):
         search_form = SearchForm(data=self.request.GET)
 
@@ -51,9 +43,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
                 try:
                     self.postcode = Postcode.objects.get(postcode=postcode)
                 except Postcode.DoesNotExist:
-                    self.postcode = None
-
-                if not self.postcode_valid():
                     return self.render_to_response(context={'invalid_area': True})
 
             self.object_list = self.filter_queryset(self.get_queryset())
