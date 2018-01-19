@@ -4,6 +4,9 @@
 
 #login {
 	padding-top: 2rem;
+	.f-error.all {
+		max-width: none;
+	}
 	.info-box {
 		max-width: 460px;
 		margin-bottom: 2rem;
@@ -545,6 +548,28 @@ ul.searches {
 		>label {
 			margin-bottom: 0.35em;
 		}
+	}
+}
+.selected-categories {
+	display: none;
+	margin-top: -0.5em;
+	margin-bottom: 1.25em;
+	overflow: hidden;
+	p {
+		margin-bottom: 0;
+	}
+	.cats {
+		@include clear;
+		display: block;
+		margin-left: -0.2em;
+		margin-right: -0.2em;
+	}
+	.selected-cat {
+		float: left;
+		white-space: nowrap;
+	}
+	&.active {
+		display: block;
 	}
 }
 
