@@ -13,26 +13,13 @@ from aliss.forms import (
     ServiceProblemForm,
     ServiceProblemUpdateForm
 )
+from aliss.views import OrganisationMixin
 
 
-class ServiceCreateView(StaffuserRequiredMixin, CreateView):
+class ServiceCreateView(StaffuserRequiredMixin, OrganisationMixin, CreateView):
     model = Service
     form_class = ServiceForm
     template_name = 'service/create.html'
-
-    def get_organisation(self):
-        return get_object_or_404(
-            Organisation,
-            pk=self.kwargs.get('pk')
-        )
-
-    def get(self, request, *args, **kwargs):
-        self.organisation = self.get_organisation()
-        return super(ServiceCreateView, self).get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        self.organisation = self.get_organisation()
-        return super(ServiceCreateView, self).post(request, *args, **kwargs)
 
     def get_form_kwargs(self):
         kwargs = super(ServiceCreateView, self).get_form_kwargs()
@@ -62,11 +49,6 @@ class ServiceCreateView(StaffuserRequiredMixin, CreateView):
             'organisation_detail',
             kwargs={'pk': self.object.organisation.pk}
         )
-
-    def get_context_data(self, **kwargs):
-        context = super(ServiceCreateView, self).get_context_data(**kwargs)
-        context['organisation'] = self.organisation
-        return context
 
 
 class ServiceUpdateView(StaffuserRequiredMixin, UpdateView):
@@ -101,7 +83,6 @@ class ServiceUpdateView(StaffuserRequiredMixin, UpdateView):
         )
 
         return HttpResponseRedirect(self.get_success_url())
-
 
     def get_context_data(self, **kwargs):
         context = super(ServiceUpdateView, self).get_context_data(**kwargs)

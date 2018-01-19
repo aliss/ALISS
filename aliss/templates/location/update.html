@@ -18,7 +18,13 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                {% include 'location/forms/location_form.html' %}
+                <form method="post">
+                    {% csrf_token %}
+                    {% include 'location/forms/location_form.html' %}
+                    <div class="submit">
+                        <input type="submit" value="Update Location">
+                    </div>
+                </form>
             </div>
         </div>
     </section>
