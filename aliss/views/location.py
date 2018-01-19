@@ -9,30 +9,23 @@ from braces.views import StaffuserRequiredMixin
 from aliss.search import index_service
 from aliss.models import Location, Organisation
 from aliss.forms import LocationForm
+from aliss.views import OrganisationMixin
 
 
-class LocationCreateView(StaffuserRequiredMixin, CreateView):
+class LocationCreateView(StaffuserRequiredMixin, OrganisationMixin, CreateView):
     model = Location
     form_class = LocationForm
     template_name = 'location/create.html'
 
-    def get_initial(self):
-        organisation = get_object_or_404(
-            Organisation,
-            pk=self.kwargs.get('pk')
-        )
-        return {
-            'organisation': organisation
-        }
-
     def get_success_url(self):
         return reverse(
             'organisation_detail',
-            kwargs={'pk': self.object.organisation.pk}
+            kwargs={'pk': self.organisation.pk}
         )
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+        self.object.organisation = self.organisation
         self.object.created_by = self.request.user
         self.object.save()
 
@@ -67,6 +60,10 @@ class LocationUpdateView(StaffuserRequiredMixin, UpdateView):
 
         return HttpResponseRedirect(self.get_success_url())
 
+    def get_context_data(self, **kwargs):
+        context = super(LocationUpdateView, self).get_context_data(**kwargs)
+        context['organisation'] = self.object.organisation
+        return context
 
 class LocationDetailView(StaffuserRequiredMixin, DetailView):
     model = Location
@@ -85,10 +82,14 @@ class LocationDeleteView(StaffuserRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
+
+        # Get services to reindex
+        services = self.object.services.all()
+
         success_url = self.get_success_url()
         self.object.delete()
 
-        for service in self.object.services:
+        for service in services:
             index_service(service)
 
         messages.success(
