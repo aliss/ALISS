@@ -71,7 +71,7 @@ label {
 	padding: 0.75em 1em 0.55em 0.5em;
 	color: $dark-gray;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
+.select2-container--default .select2-selection--multiple .select2-selection__choice, .selected-cat {
 	border-radius: $d-rad;
 	background: $w;
 	color: $dark-gray;
@@ -80,11 +80,11 @@ label {
 	// font-weight: bold;
 	position: relative;
 	font-size: $d-fs;
-	padding: 0.4em 0.6em 0.2em 0.6em;
+	padding: 0.475em 0.6em 0.325em 0.6em;
 	margin: 0.2em 0.2em;
-	padding-left: 2.35em;
+	padding-left: 2.4em;
 }
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove, .selected-cat span.remove {
 	// overflow: hidden;
 	// width: 0px;
 	@include fas(times);
@@ -94,7 +94,8 @@ label {
 	color: $alert;
 	background: $alert;
 	position: absolute;
-	top: 0.25em;
+	cursor: pointer;
+	top: 0.4em;
 	left: 0.35em;
 	border-radius: 100%;
 	&:before {
