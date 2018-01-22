@@ -34,6 +34,13 @@ service_mapping = {
             'slug': {'type': 'keyword'}
         }
     },
+    'parent_categories': {
+        'properties': {
+            'id': {'type': 'integer'},
+            'name': {'type': 'keyword'},
+            'slug': {'type': 'keyword'}
+        }
+    },
     'locations': {
         'properties': {
             'id': {'type': 'keyword'},
@@ -109,6 +116,12 @@ def delete_index():
 
 
 def service_to_body(service):
+    parent_categories =[]
+    for category in service.categories.all():
+        while category.parent:
+            parent_categories.append(category.parent)
+            category = category.parent
+
     return {
         'id': str(service.id),
         'organisation': {
@@ -125,6 +138,11 @@ def service_to_body(service):
             'name': category.name,
             'slug': category.slug
         } for category in service.categories.all()],
+        'parent_categories': [{
+            'id': category.pk,
+            'name': category.name,
+            'slug': category.slug
+        } for category in parent_categories],
         'locations': [{
             'id': location.id,
             'name': location.name,
@@ -222,9 +240,17 @@ def filter_by_postcode(queryset, postcode, radius=5000):
 
 
 def filter_by_category(queryset, category):
-    return queryset.filter(
-        Q('term', categories__id=category.pk)
+    return queryset.query('function_score',
+        query=Q('term', categories__id=category.pk) | Q('term', parent_categories__id=category.pk),
+        functions=[
+            {
+                'weight': 2,
+                'filter': Q('term', categories__id=category.pk)
+            }
+        ],
+        score_mode="sum",
     )
+
 
 def filter_by_service_areas(queryset, service_areas):
     return queryset.filter(
