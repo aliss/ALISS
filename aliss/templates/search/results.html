@@ -84,10 +84,7 @@
                                     <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
                                     <div class="assigned-category">
                                         {% for category in result.categories %}
-                                            <a href="?{% query_transform request category=category.slug %}">
-                                                {{ category.name }}
-                                            </a>
-                                            {% if not forloop.last %},{% endif %}
+                                            <a href="?{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
                                         {% endfor %}
                                     </div>
                                     <div class="location multiple">
