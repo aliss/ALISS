@@ -799,9 +799,6 @@ span.cat {
 		}
 	}
 }
-p.org {
-	margin-top: 0.35em;
-}
 .claim-requests, .problem-reports {
 	margin-top: 2.5rem;
 }
@@ -868,6 +865,10 @@ p.org {
 			}
 		}
 		.service-areas {
+			@media print {
+				display: none !important;
+				margin-top: 0.35em;
+			}
 			a {
 				@include fas(plus);
 				position: relative;
@@ -884,9 +885,25 @@ p.org {
 				}
 			}
 		}
+		p.last-updated {
+			@media print {
+				display: none;
+			}
+		}
+		p.org {
+			margin-top: 0.35em;
+			@media print {
+				a[href]:after {
+				    content: none !important;
+				}
+			}
+		}
 		.service-areas-list {
 			margin-top: 1em;
 			display: none;
+			@media print {
+				display: block;
+			}
 			&.active {
 				display: block;
 			}
@@ -969,7 +986,7 @@ a.icon-link, a.back-link {
 	}
 }
 .back-link  {
-	padding-left: 1.1em;
+	padding-left: 1.1em !important;
 	.icon {
 		width: 0.8em;
 	}
@@ -1045,6 +1062,12 @@ a.tw {
 	}
 	@include small {
 		font-size: $d-fs-s;
+	}
+	@media print {
+		display: none;
+		margin-top: 0.35em;
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 }
 .updated {

@@ -235,11 +235,15 @@ ul.orgs {
 		}
 	}
 }
-
 ul.orgs+.paged {
 	.holder {
 		border-top: 0;
 		margin-top: 0;
+	}
+}
+#content.my-account {
+	@media print {
+		display: none;
 	}
 }
 #my_account {
@@ -257,6 +261,11 @@ ul.orgs+.paged {
 	}
 	.breadcrumbs {
 		margin-top: 0;
+		@media print {
+			a, span.sep {
+				display: none;
+			}
+		}
 	}
 	.my-account-links {
 		padding-top: 1.75em;
@@ -268,13 +277,16 @@ ul.orgs+.paged {
 			padding-top: 0;
 			padding-bottom: 2em;
 		}
+		@media print {
+			display: none;
+		}
 		// @include media(0, $search-break) {
 		// 	padding-top: 1rem;
 		// }
 	}
 }
 .mobile-buttons {
-	padding-top: 3.5rem;
+	padding-top: 1.5rem;
 	display: none;
 	.button {
 		display: inline-block;
@@ -288,12 +300,25 @@ ul.orgs+.paged {
 	@include small {
 		display: block;
 	}
+	@media print {
+		display: none;
+	}
 }
 $account-list-pad: 1.5rem 1.6rem 2rem 1.6rem;
 $account-list-pad-m: 1.25rem 1.2rem 1.5rem 1.2rem;
 .my-account-details {
 	@include clear;
 	margin-top: 1.5rem;
+	.heading {
+		a[href]:after {
+		    content: none !important;
+		}
+		.icon-link {
+			@media print {
+				display: none;
+			}
+		}
+	}
 	.account-list {
 		border: 6px solid $light-gray_fade;
 		border-radius: $d-rad*2;
@@ -320,12 +345,20 @@ $account-list-pad-m: 1.25rem 1.2rem 1.5rem 1.2rem;
 					font-size: $d-fs-s;
 				}
 			}
+			@media print {
+				display: none;
+			}
 		}
 		ul.search-results > li, .recommendations-lists > li, .rep-organisations > li {
 			padding: $account-list-pad;
 			border-bottom: 6px solid $light-gray_fade;
 			@include small {
 				padding: $account-list-pad-m;
+			}
+		}
+		@media print {
+			ul.search-results > li:last-child, .recommendations-lists > li:last-child, .rep-organisations > li:last-child {
+				border-bottom: 0;
 			}
 		}
 		@include medium {
