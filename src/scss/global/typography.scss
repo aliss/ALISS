@@ -292,6 +292,11 @@ table {
 		color: $light-gray;
 	}
 }
+@media print {
+	a {
+		text-decoration: none !important;
+	}
+}
 
 
 
