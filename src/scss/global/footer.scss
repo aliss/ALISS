@@ -11,6 +11,9 @@
 	@include small {
 		padding-top: 4rem;
 	}
+	@media print {
+		display: none;
+	}
 }
 footer {
 	background: $medium-gray;

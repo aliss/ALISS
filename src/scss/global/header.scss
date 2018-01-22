@@ -37,15 +37,32 @@ header {
 	background: $brand;
 	padding: ($header-pad - $logo-spacing) 0 $header-pad 0;
 	position: relative;
+	@media print {
+		background: none;
+		padding: 0;
+		padding-bottom: 2em !important;
+	}
+	.row {
+		@media print {
+			height: 0;
+			display: none !important;
+		}
+	}
 	.columns {
 		position: relative;
 	}
 	ul, #menu_toggle {
+		@media print {
+			display: none;
+		}
 		@extend %no-list;
 		font-size: $d-fs;
 	}
 	#menu_toggle {
 		display: none;
+		@media print {
+			display: none;
+		}
 		span.close, span.nav {
 			&:before {
 				margin-right: 0.1em;
@@ -438,6 +455,29 @@ header {
 
 				}
 			}
+		}
+	}
+	#branding_print {
+		display: none;
+		margin: 0 $gutter/1.5;
+		margin-top: -2em !important;
+		h2, img {
+			margin: 0;
+			// display: inline-block;
+			// vertical-align: middle;
+		}
+		h2 {
+			float: right;
+			margin-top: 1.5em;
+			margin-right: 1rem;
+		}
+		img {
+			width: 95px;
+			height: 95px;
+			margin-right: 1em !important;
+		}
+		@media print {
+			display: block !important;
 		}
 	}
 }
