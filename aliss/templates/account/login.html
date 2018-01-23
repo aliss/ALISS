@@ -35,6 +35,14 @@
                             {{ form.username }}
                             {{ form.password.label_tag }}
                             {{ form.password }}
+                            <p>
+                                <div class="checkbox-agree">
+                                    <label>
+                                        <input type="checkbox">
+                                        Remember Me
+                                    </label>
+                                </div>
+                            </p>
                             <p><a href="{% url 'password_reset' %}">I've forgotten my password</a></p>
                         </div>
                         <input type="submit" value="Log In">
