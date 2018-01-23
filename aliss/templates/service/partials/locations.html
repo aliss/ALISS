@@ -1,0 +1,27 @@
+<div class="location multiple">
+    {% for location in locations %}
+        {% if forloop.first and not forloop.last %}
+            <span>First location:</span>
+            <a class="icon-link">
+                <span class="icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </span>
+                {{ location.formatted_address }}
+            </a>
+            <div class="more">
+                <a class="more-link">More Locations</a>
+            </div>
+            <div class="locations-list">
+        {% else %}
+            <a class="icon-link">
+                <span class="icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </span>
+                {{ location.formatted_address }}
+            </a>
+        {% endif %}
+        {% if forloop.last and not forloop.first %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
