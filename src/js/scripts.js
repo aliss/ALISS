@@ -52,6 +52,8 @@ $(document).foundation();
 
 // Select2
 require('./partials/select2.min.js');
+require('svg4everybody/dist/svg4everybody.js');
+require('svg4everybody/dist/svg4everybody.legacy.js');
 
 // Imports
 import matchHeight from './partials/match-height';
@@ -227,6 +229,8 @@ $(document).ready(() => {
             $('#recommend .button').hide();
         }
     });
+
+    svg4everybody();
 
     // Messages Hide
     if($('.messages').length > 0) {
