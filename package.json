@@ -41,6 +41,7 @@
     "run-sequence": "^1.2.2",
     "select2": "^4.0.6-rc.1",
     "slick-carousel": "^1.6.0",
+    "svg4everybody": "^2.1.9",
     "video.js": "^5.16.0",
     "videojs-vimeo": "^2.0.2",
     "videojs-youtube": "^2.3.0",
