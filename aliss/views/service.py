@@ -131,7 +131,8 @@ class ServiceDeleteView(StaffuserRequiredMixin, DeleteView):
 class ServiceReportProblemView(CreateView):
     model = ServiceProblem
     form_class = ServiceProblemForm
-    template_name = 'service/report-problem.html'
+    template_name = 'service/report_problem.html'
+    success_url = reverse_lazy('service_report_problem_thanks')
 
     def get_service(self):
         return get_object_or_404(
@@ -145,6 +146,7 @@ class ServiceReportProblemView(CreateView):
 
     def post(self, request, *args, **kwargs):
         self.service = self.get_service()
+
         return super(ServiceReportProblemView, self).post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -165,11 +167,14 @@ class ServiceProblemListView(StaffuserRequiredMixin, ListView):
     template_name = 'service/problem_list.html'
     paginate_by = 10
 
+    def get_queryset(self):
+        return ServiceProblem.objects.all().order_by('status', 'created_on')
 
-class ServiceProblemDetailView(StaffuserRequiredMixin, UpdateView):
+
+class ServiceProblemUpdateView(StaffuserRequiredMixin, UpdateView):
     model = ServiceProblem
-    template_name = 'service/problem_detail.html'
     form_class = ServiceProblemUpdateForm
+    success_url = reverse_lazy('service_problem_list')
 
 
 class ServiceCoverageView(StaffuserRequiredMixin, TemplateView):

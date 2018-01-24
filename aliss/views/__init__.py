@@ -37,7 +37,7 @@ from .service import (
     ServiceDetailView,
     ServiceDeleteView,
     ServiceReportProblemView,
-    ServiceProblemDetailView,
+    ServiceProblemUpdateView,
     ServiceProblemListView,
     ServiceCoverageView
 )

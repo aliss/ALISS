@@ -7,7 +7,7 @@ from aliss.views import (
     ServiceDeleteView,
     ServiceReportProblemView,
     ServiceProblemListView,
-    ServiceProblemDetailView,
+    ServiceProblemUpdateView,
     ServiceCoverageView
 
 )
@@ -26,8 +26,8 @@ urlpatterns = [
         name='service_problem_list'
     ),
     url(r'^problems/(?P<pk>[0-9A-Za-z\-]+)/$',
-        ServiceProblemDetailView.as_view(),
-        name='service_problem_detail'
+        ServiceProblemUpdateView.as_view(),
+        name='service_problem_update'
     ),
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/$',
         ServiceDetailView.as_view(),
@@ -40,5 +40,11 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/report-problem/$',
         ServiceReportProblemView.as_view(),
         name='service_report_problem'
+    ),
+    url(r'^report-problem/thanks/$',
+        TemplateView.as_view(
+            template_name='service/report_problem_thanks.html'
+        ),
+        name='service_report_problem_thanks'
     )
 ]
