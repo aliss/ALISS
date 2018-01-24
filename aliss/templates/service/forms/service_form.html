@@ -1,48 +1,45 @@
 {% load aliss %}
 
-<form method="post">
-    {% csrf_token %}
-    <div class="f-row">
-        {% include 'partials/forms/field.html' with field=form.name %}
-        <span class="annotation">
-            Give your service a clear and concise name featuring keywords.
-        </span>
+<div class="f-row">
+    {% include 'partials/forms/field.html' with field=form.name %}
+    <span class="annotation">
+        Give your service a clear and concise name featuring keywords.
+    </span>
+</div>
+<div class="f-row">
+    {% include 'partials/forms/field.html' with field=form.description %}
+    <span class="annotation">
+        Make sure to include information on what your service does, who you help and important information like opening times. Always assume those reading this description have never heard of your organisation or this service.
+    </span>
+</div>
+<div class="f-row two">
+    {% include 'partials/forms/field.html' with field=form.phone %}
+    {% include 'partials/forms/field.html' with field=form.email %}
+</div>
+<div class="f-row">
+    {% include 'partials/forms/field.html' with field=form.url %}
+</div>
+<div class="f-row">
+    <label>Categories <span>(required)</span></label>
+    <div class="all-categories">
+        {% get_root_categories as root_categories %}
+        <ul class="radio-list cat truncate children">
+            {% for category in root_categories %}
+                {% include 'service/forms/partials/category.html' with category=category selected_categories=form.categories.value %}
+            {% endfor %}
+        </ul>
     </div>
-    <div class="f-row">
-        {% include 'partials/forms/field.html' with field=form.description %}
-        <span class="annotation">
-            Make sure to include information on what your service does, who you help and important information like opening times. Always assume those reading this description have never heard of your organisation or this service.
-        </span>
+    <div class="selected-categories active">
+        <p>You have selected the following categories:</p>
+        <div class="cats"></div>
     </div>
-    <div class="f-row two">
-        {% include 'partials/forms/field.html' with field=form.phone %}
-        {% include 'partials/forms/field.html' with field=form.email %}
-    </div>
-    <div class="f-row">
-        {% include 'partials/forms/field.html' with field=form.url %}
-    </div>
-    <div class="f-row">
-        <label>Categories <span>(required)</span></label>
-        <div class="all-categories">
-            {% get_root_categories as root_categories %}
-            <ul class="radio-list cat truncate children">
-                {% for category in root_categories %}
-                    {% include 'service/forms/partials/category.html' with category=category selected_categories=form.categories.value %}
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="selected-categories active">
-            <p>You have selected the following categories:</p>
-            <div class="cats"></div>
-        </div>
-        <span class="annotation">
-            Select up to three categories that best describe the needs that your service satisfies.
-        </span>
-    </div>
-    <div class="f-row">
-        {% include 'partials/forms/multiselect_field.html' with field=form.locations %}
-    </div>
-    <div class="f-row">
-        {% include 'partials/forms/multiselect_field.html' with field=form.service_areas %}
-    </div>
-</form>
+    <span class="annotation">
+        Select up to three categories that best describe the needs that your service satisfies.
+    </span>
+</div>
+<div class="f-row">
+    {% include 'partials/forms/multiselect_field.html' with field=form.locations %}
+</div>
+<div class="f-row">
+    {% include 'partials/forms/multiselect_field.html' with field=form.service_areas %}
+</div>

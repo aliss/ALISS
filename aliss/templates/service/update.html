@@ -19,10 +19,13 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                {% include 'service/forms/service_form.html' %}
-                <div class="submit">
-                    <input type="submit" value="Update Service">
-                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    {% include 'service/forms/service_form.html' %}
+                    <div class="submit">
+                        <input type="submit" value="Update Service">
+                    </div>
+                </form>
             </div>
         </div>
     </section>

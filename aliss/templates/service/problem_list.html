@@ -12,21 +12,27 @@
                             <h3>Problem reported with <a href="{% url 'service_detail' pk=report.service.pk %}">{{ report.service }}</a></h3>
                         </div>
                         <p>{{ report.message }}</p>
-                        <p>Reported on {{ report.created_on }}</p>
-                        <div class="edit-options">
-                            <a href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">
-                                <span class="icon">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </span>
-                                Edit Service
-                            </a>
-                            <a href="#" class="delete icon-link">
-                                <span class="icon">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </span>
-                                Alert Claimants
-                            </a>
-                        </div>
+                        <p>Reported by <a href="mailto:{{ report.email }}">{{ report.email }}</a> on {{ report.created_on }}</p>
+                        {% if report.status == report.UNRESOLVED %}
+                            <div class="edit-options">
+                                <a href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </span>
+                                    Edit Service
+                                </a>
+                                <form method="post" action="{% url 'service_problem_update' pk=report.pk %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="status" value="{{ report.RESOLVED }}" />
+                                    <button type="submit" class="txt-button secondary icon-link">
+                                        <span class="icon">
+                                            <i class="fas fa-check"></i>
+                                        </span>
+                                        Mark as Resolved
+                                    </button>
+                                </form>
+                            </div>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>
