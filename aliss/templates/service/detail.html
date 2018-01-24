@@ -125,11 +125,13 @@
                 </div>
             </div>
             <div class="columns contact-info">
-                <div class="all-locations">
-                    {% for location in object.locations.all %}
-                        {% include 'location/partials/detail.html' %}
-                    {% endfor %}
-                </div>
+                {% if object.locations.all %}
+                    <div class="all-locations">
+                        {% for location in object.locations.all %}
+                            {% include 'location/partials/detail.html' %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <h4>Contact Information</h4>
                 <p>
                     {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
