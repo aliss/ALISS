@@ -52,11 +52,12 @@ $(document).foundation();
 
 // Select2
 require('./partials/select2.min.js');
-require('svg4everybody/dist/svg4everybody.js');
-require('svg4everybody/dist/svg4everybody.legacy.js');
+// require('svg4everybody/dist/svg4everybody.js');
+// require('svg4everybody/dist/svg4everybody.legacy.js');
 
 // Imports
 import matchHeight from './partials/match-height';
+import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
 // import 'select2/dist/js/select2.min.js';
 
 $(document).ready(() => {
