@@ -1,5 +1,5 @@
 from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, DeleteView, TemplateView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, views as auth_views
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
@@ -12,6 +12,13 @@ from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 from aliss.models import ALISSUser, Service, ServiceArea, Organisation, RecommendedServiceList, ServiceProblem, Claim
 from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm
 from aliss.filters import AccountFilter
+
+
+def login_view(request, *args, **kwargs):
+    if request.method == 'POST':
+        if not request.POST.get('remember_me', None):
+            request.session.set_expiry(0)
+    return auth_views.login(request, *args, **kwargs)
 
 
 class AccountSignupView(CreateView):
