@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 from aliss.views import (
+    login_view,
     AccountSignupView,
     AccountUpdateView,
     AccountSavedServicesView,
@@ -30,7 +31,7 @@ urlpatterns = [
         name='signup_success'
     ),
     url(r'^login/$',
-        auth_views.login,
+        login_view,
         {'template_name': 'account/login.html'},
         name='login'
     ),

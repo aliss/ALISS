@@ -1,5 +1,6 @@
 from .mixins import OrganisationMixin
 from .account import (
+    login_view,
     AccountSignupView,
     AccountUpdateView,
     AccountSavedServicesView,
