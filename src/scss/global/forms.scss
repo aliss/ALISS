@@ -247,6 +247,7 @@ label {
 input {
 	&[type=text], &[type=phone], &[type=email], &[type=password], &[type=url] {
 		@extend %form-style;
+		height: 2.95em;
 	}
 }
 textarea {
@@ -257,6 +258,7 @@ textarea {
 select {
 	@extend %form-style;
 	@extend %custom-select;
+	height: 2.95em;
 }
 .has-error {
 	select, textarea, input[type=text], input[type=phone], input[type=email], input[type=password], input[type=url] {
