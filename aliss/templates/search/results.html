@@ -46,16 +46,16 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li {% if request.GET.location_type == 'point' %}class="active"{% endif %}>
-                                    <a href="?{% query_transform request location_type='point' %}">
+                                <li {% if request.GET.location_type == 'local' %}class="active"{% endif %}>
+                                    <a href="?{% query_transform request location_type='local' %}">
                                         <span class="radio"></span>
                                         <span class="name">
                                             Only show the services that operate locally
                                         </span>
                                     </a>
                                 </li>
-                                <li {% if request.GET.location_type == 'area' %}class="active"{% endif %}>
-                                    <a href="?{% query_transform request location_type='area' %}">
+                                <li {% if request.GET.location_type == 'national' %}class="active"{% endif %}>
+                                    <a href="?{% query_transform request location_type='national' %}">
                                         <span class="radio"></span>
                                         <span class="name">
                                             Only show services that operate nationally
