@@ -105,7 +105,7 @@
                             </span>
                             Print this listing
                         </a>
-                        <a href="{% url 'service_report_problem' object.pk %}" class="alert icon-link">
+                        <a href="#" class="alert icon-link">
                             <span class="icon">
                                 <i class="fas fa-exclamation-triangle"></i>
                             </span>
@@ -144,6 +144,8 @@
                 <p>
                     {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
                     {% if object.url %}<a href="{{ object.url }}">Website</a>{% endif %}
+                    {% if object.facebook %}<a href="{{ object.facebook }}">Facebook</a>{% endif %}
+                    {% if object.twitter %}<a href="{{ object.twitter }}">Twitter</a>{% endif %}
                 </p>
                 {% if object.service_areas.all %}
                     <h5>Service areas</h5>
@@ -159,7 +161,11 @@
                     No
                 </a>
                 <div class="form" style="display: none;">
-                    {% include 'service/forms/feedback.html' %}
+                    {% if request.user.is_authenticated %}
+                        {% include 'service/forms/feedback.html' with service=object %}
+                    {% else %}
+                        <p>Please <a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

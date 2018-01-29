@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 from aliss.views import (
+    login_view,
     AccountSignupView,
     AccountUpdateView,
     AccountSavedServicesView,
@@ -13,6 +14,7 @@ from aliss.views import (
     AccountRemoveSavedServiceView,
     AccountAdminDashboard,
     AccountListView,
+    AccountDetailView,
     AccountRecommendationListDetailView,
     AccountRecommendationListAddServiceView,
     AccountRecommendationListRemoveServiceView,
@@ -30,7 +32,7 @@ urlpatterns = [
         name='signup_success'
     ),
     url(r'^login/$',
-        auth_views.login,
+        login_view,
         {'template_name': 'account/login.html'},
         name='login'
     ),
@@ -120,6 +122,10 @@ urlpatterns = [
     url(r'^list/$',
         AccountListView.as_view(),
         name='account_list'
+    ),
+    url(r'^(?P<pk>[0-9A-Za-z\-]+)/$',
+        AccountDetailView.as_view(),
+        name='account_detail'
     ),
 ]
 

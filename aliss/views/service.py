@@ -128,7 +128,7 @@ class ServiceDeleteView(StaffuserRequiredMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class ServiceReportProblemView(CreateView):
+class ServiceReportProblemView(StaffuserRequiredMixin, CreateView):
     model = ServiceProblem
     form_class = ServiceProblemForm
     template_name = 'service/report_problem.html'
@@ -157,6 +157,7 @@ class ServiceReportProblemView(CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.service = self.service
+        self.object.user = self.request.user
         self.object.save()
 
         return HttpResponseRedirect(self.get_success_url())

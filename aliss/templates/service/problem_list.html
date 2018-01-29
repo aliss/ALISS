@@ -11,8 +11,9 @@
                         <div class="heading">
                             <h3>Problem reported with <a href="{% url 'service_detail' pk=report.service.pk %}">{{ report.service }}</a></h3>
                         </div>
+                        <p>Reason: {{ report.get_type_display }}</p>
                         <p>{{ report.message }}</p>
-                        <p>Reported by <a href="mailto:{{ report.email }}">{{ report.email }}</a> on {{ report.created_on }}</p>
+                        <p>Reported by <a href="{% url 'account_detail' pk=report.user.pk %}">{{ report.user.get_full_name }}</a> on {{ report.created_on }}</p>
                         {% if report.status == report.UNRESOLVED %}
                             <div class="edit-options">
                                 <a href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">

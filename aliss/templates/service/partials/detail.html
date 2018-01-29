@@ -26,6 +26,8 @@
     <ul class="contact-info">
         {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
         {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
+        {% if service.facebook %}<a href="{{ service.facebook }}">Facebook</a>{% endif %}
+        {% if service.twitter %}<a href="{{ service.twitter }}">Twitter</a>{% endif %}
         {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
     </ul>
     {% if service.service_areas.all %}

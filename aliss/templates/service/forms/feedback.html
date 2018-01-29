@@ -1,9 +1,10 @@
-<form>
+<form method='post' action="{% url 'service_report_problem' pk=service.pk %}">
+    {% csrf_token %}
     <p>What would you like to report?</p>
     <div class="radio-list">
         <div>
             <label>
-                <input type="radio">
+                <input type="radio" name="type" value="0">
                 <span class="name">
                     Information provided is unclear
                 </span>
@@ -11,7 +12,7 @@
         </div>
         <div>
             <label>
-                <input type="radio">
+                <input type="radio" name="type" value="10">
                 <span class="name">
                     Contact information incorrect or no response
                 </span>
@@ -19,7 +20,7 @@
         </div>
         <div>
             <label>
-                <input type="radio">
+                <input type="radio" name="type" value="20">
                 <span class="name">
                     This service no longer exists
                 </span>
@@ -27,12 +28,13 @@
         </div>
         <div>
             <label>
-                <input type="radio">
+                <input type="radio" name="type" value="30">
                 <span class="name">
                     This service does not operate in my area
                 </span>
             </label>
         </div>
     </div>
+    <label>Give us more information</label><textarea name="message"></textarea>
     <input type="submit" value="Submit Feedback">
 </form>
