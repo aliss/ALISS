@@ -60,6 +60,11 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length=15, blank=True)
 
     saved_services = models.ManyToManyField('aliss.Service', blank=True)
+    helpful_services = models.ManyToManyField(
+        'aliss.Service',
+        blank=True,
+        related_name='helped_users'
+    )
 
     accept_terms_and_conditions = models.BooleanField(default=True)
     accept_privacy_policy = models.BooleanField(default=True)

@@ -12,6 +12,7 @@ from .account import (
     AccountAdminDashboard,
     AccountListView,
     AccountDetailView,
+    AccountServiceHelpfulView,
     AccountRecommendationListDetailView,
     AccountRecommendationListAddServiceView,
     AccountRecommendationListRemoveServiceView,
