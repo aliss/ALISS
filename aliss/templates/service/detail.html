@@ -38,7 +38,7 @@
                             <form method='post' action="{% url 'account_remove_saved_service' pk=object.pk %}">
                                 {% csrf_token %}
                                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                                <button type="submit" class="txt-button primary icon-link">
+                                <button type="submit" class="txt-button alert icon-link">
                                     <span class="icon">
                                         <i class="fas fa-heart"></i>
                                     </span>
@@ -61,7 +61,7 @@
                         {% if not request.user.is_authenticated %}
                             <a href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
                         {% else %}
-                            <a href="#" class="primary icon-link" id="recommend_toggle">
+                            <a class="primary icon-link" id="recommend_toggle">
                         {% endif %}
                             <span class="icon">
                                 <i class="fas fa-bullhorn"></i>
@@ -77,7 +77,7 @@
                                         {% for recommendation_list in recommended_service_lists %}
                                             <option value="{{ recommendation_list.pk }}">{{ recommendation_list.name }}</option>
                                         {% endfor %}
-                                        <option value="new">Create New</option>
+                                        <option value="new">Create new</option>
                                     </select>
                                     <input type="hidden" value="{{ object.pk }}" name="service" />
                                     <input type="submit" class="secondary" value="Add">
@@ -85,12 +85,20 @@
                                 </div>
                             </form>
                         </div>
-                        <a href="#" class="icon-link">
+                        <a class="icon-link" id="email_service_toggle">
                             <span class="icon">
                                 <i class="fas fa-envelope"></i>
                             </span>
                             Email this listing
                         </a>
+                        <div class="email-listing-form toggled" id="email_service">
+                            <form>
+                                <div class="sbs-inputs">
+                                    <input type="email" placeholder="email@company.com">
+                                    <input type="submit" class="secondary" value="Send">
+                                </div>
+                            </form>
+                        </div>
                         <a href="#" class="icon-link">
                             <span class="icon">
                                 <i class="fas fa-print"></i>
@@ -132,13 +140,13 @@
                         {% endfor %}
                     </div>
                 {% endif %}
-                <h4>Contact Information</h4>
+                <h4>Contact information</h4>
                 <p>
                     {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
                     {% if object.url %}<a href="{{ object.url }}">Website</a>{% endif %}
                 </p>
                 {% if object.service_areas.all %}
-                    <h5>Service Areas</h5>
+                    <h5>Service areas</h5>
                     <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
                 {% endif %}
             </div>
