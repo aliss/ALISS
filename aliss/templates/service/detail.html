@@ -162,7 +162,9 @@
                 </a>
                 <div class="form" style="display: none;">
                     {% if request.user.is_authenticated %}
-                        {% include 'service/forms/feedback.html' with service=object %}
+                        <div class="copy-container">
+                            {% include 'service/forms/feedback.html' with service=object %}
+                        </div>
                     {% else %}
                         <p>Please <a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
                     {% endif %}
