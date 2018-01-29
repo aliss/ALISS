@@ -27,8 +27,8 @@
                     <tbody>
                         {% for user in object_list %}
                             <tr>
-                                <td>{{ user.name }}</td>
-                                <td>{{ user.email }}</td>
+                                <td><a href="{% url 'account_detail' pk=user.pk %}">{{ user.name }}</a></td>
+                                <td><a href="{% url 'account_detail' pk=user.pk %}">{{ user.email }}</a></td>
                                 <td>{{ user.phone }}</td>
                                 <td>{{ user.postcode }}</td>
                                 <td>{{ user.date_joined }}</td>

@@ -77,7 +77,7 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
         return reverse('user_detail', args=[str(self.username)])
 
     def get_full_name(self):
-        return self.email
+        return self.name or self.email
 
     def get_short_name(self):
         return self.name or self.email

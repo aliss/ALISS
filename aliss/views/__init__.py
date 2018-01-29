@@ -11,6 +11,7 @@ from .account import (
     AccountRemoveSavedServiceView,
     AccountAdminDashboard,
     AccountListView,
+    AccountDetailView,
     AccountRecommendationListDetailView,
     AccountRecommendationListAddServiceView,
     AccountRecommendationListRemoveServiceView,
