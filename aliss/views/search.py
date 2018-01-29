@@ -1,6 +1,8 @@
-from django.views.generic import TemplateView
+from django.views.generic import View, TemplateView
 from django.views.generic.list import MultipleObjectMixin
 from django.conf import settings
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
@@ -76,3 +78,13 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
         return queryset
 
+
+class SearchShareView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(
+            "{url}?postcode={postcode}&q={query}".format(
+                url=reverse('search'),
+                postcode=self.kwargs.get('postcode'),
+                query=self.kwargs.get('query')
+            )
+        )

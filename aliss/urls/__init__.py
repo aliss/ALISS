@@ -1,6 +1,9 @@
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
 
+from aliss.views import SearchShareView
+
+
 urlpatterns = [
     url(r'^$',
         TemplateView.as_view(template_name="homepage.html"),
@@ -32,4 +35,6 @@ urlpatterns = [
     url(r'^locations/', include('aliss.urls.location')),
     url(r'^services/', include('aliss.urls.service')),
     url(r'^claims/', include('aliss.urls.claim')),
+
+    url(r'(?P<postcode>[0-9A-Za-z ]+)/?((?P<query>.+)/)$', SearchShareView.as_view(), name='search_share')
 ]
