@@ -855,7 +855,7 @@ span.cat {
 			margin-bottom: 0.35em;
 		}
 		.location {
-			margin: 1em 0;
+			margin: 0.5em 0 1em 0;
 			font-size: $d-fs;
 			@include small {
 				font-size: $d-fs-s;
@@ -947,6 +947,11 @@ span.cat {
 					}
 					&:last-child {
 						margin-bottom: 0;
+					}
+					&.service-areas {
+						display: inline-block;
+						margin-top: 0;
+						margin-top: -0.05em;
 					}
 				}
 			}
@@ -1058,8 +1063,8 @@ a.tw {
 	font-weight: bold;
 	color: $medium-gray;
 	position: relative;
-	padding-top: 0.25em;
-	padding-bottom: 0.25em;
+	// padding-top: 0.25em;
+	// padding-bottom: 0.25em;
 	// padding-left: 2.25em + 0.45em;
 	span.cat {
 		position: absolute;
@@ -1074,6 +1079,9 @@ a.tw {
 		margin-top: 0.35em;
 		padding-top: 0;
 		padding-bottom: 0;
+	}
+	&:empty {
+		display: none;
 	}
 }
 .updated {
@@ -1128,19 +1136,29 @@ a.tw {
 		}
 	}
 	.services-list {
-		margin-top: 3rem;
+		margin-top: 2.5rem;
 		@include small {
-			margin-top: 2rem;
+			margin-top: 1.5rem;
 		}
 	}
 	.columns {
-		&.content {
+		&.content, &.contact-info {
 			@include grid-column(8);
+			@include grid-column-end;
+			min-height: 350px;
 			.copy-container, .services-list {
 				padding-right: rem-calc($gutter);
 			}
+			@include small {
+				min-height: 0;
+			}
 		}
-		&.options, &.contact-info {
+		&.contact-info {
+			min-height: 0;
+			margin-top: 1.25rem;
+		}
+		// &.options, &.contact-info {
+		&.options {
 			@include grid-column(4);
 			float: right;
 		}
@@ -1339,7 +1357,8 @@ a.tw {
 		}
 	}
 }
-ul.search-results, ul.claim-requests, ul.problem-reports {
+
+ul.search-results, ul.claim-requests, ul.problem-reports, .contact-info {
 	p+.edit-options {
 		margin-top: 0.75rem;
 	}
