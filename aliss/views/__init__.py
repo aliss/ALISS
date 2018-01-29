@@ -18,7 +18,7 @@ from .account import (
     AccountRecommendationListRemoveServiceView,
     AccountRecommendationListDeleteView
 )
-from .search import SearchView
+from .search import SearchView, SearchShareView
 from .organisation import (
     OrganisationCreateView,
     OrganisationUpdateView,
