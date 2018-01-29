@@ -133,7 +133,7 @@ $input-w: 33%;
 			}
 		}
 	}
-	input[type=text] {
+	input[type=text], input[type=email] {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 		border-right: 0;

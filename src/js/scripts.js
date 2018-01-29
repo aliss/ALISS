@@ -253,6 +253,35 @@ $(document).ready(() => {
         $(this).toggleClass('active');
         $("#notifications").toggleClass('active');
     });
+
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+    var report = getUrlVars().report;
+    console.log(report);
+    if(report == 'True') {
+        // console.log('test');
+        $(".feedback-form a.no").click();
+        $('html, body').animate({
+            scrollTop: ($('.feedback-form').offset().top)
+        }, 500);
+    }
+    $('#report_listing').click(function(e){
+        // console.log('test');
+        $(".feedback-form a.no").click();
+        $('html, body').animate({
+            scrollTop: ($('.feedback-form').offset().top)
+        }, 500);
+    });
+
 });
 
 
