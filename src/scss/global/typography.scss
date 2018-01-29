@@ -62,7 +62,7 @@
 h1 {
 	color: $dark-gray;
 }
-h1+p, h1+.buttons+p {
+h1+p, h1+.buttons+p, h1+.desc, .heading+p:empty+p {
 	margin-top: 1em;
 }
 h5 {
@@ -212,7 +212,7 @@ table {
 		margin: 0;
 	}
 	.assigned-category {
-		margin: 1.25rem 0;
+		margin: 1rem 0 1.1rem 0;
 	}
 	@include small {
 		padding: 2rem 0 0 0;

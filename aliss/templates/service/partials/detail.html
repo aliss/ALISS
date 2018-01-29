@@ -12,14 +12,16 @@
     </div>
     <p>{{ service.description|linebreaks|truncatechars:150 }}</p>
 
-    <div class="assigned-category">
-        {% for category in service.categories.all %}
-            <span class="name">
-                {{ category.name }}
-            </span>
-            {% if not forloop.last %},{% endif %}
-        {% endfor %}
-    </div>
+    {% if service.categories.all %}
+        <div class="assigned-category">
+            {% for category in service.categories.all %}
+                <span class="name">
+                    {{ category.name }}
+                </span>
+                {% if not forloop.last %},{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
 
     {% include 'service/partials/locations.html' with locations=service.locations.all %}
 
