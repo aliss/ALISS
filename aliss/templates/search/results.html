@@ -72,7 +72,7 @@
                             {% for result in object_list %}
                                 <li>
                                     <div class="heading">
-                                        <a href="{% url 'service_report_problem' result.id %}" class="alert icon-link">
+                                        <a href="{% url 'service_detail' result.id %}#report-problem" class="alert icon-link">
                                             <span class="icon">
                                                 <i class="fas fa-exclamation-triangle"></i>
                                             </span>

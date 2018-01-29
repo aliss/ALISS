@@ -14,6 +14,7 @@ from aliss.views import (
     AccountRemoveSavedServiceView,
     AccountAdminDashboard,
     AccountListView,
+    AccountDetailView,
     AccountRecommendationListDetailView,
     AccountRecommendationListAddServiceView,
     AccountRecommendationListRemoveServiceView,
@@ -121,6 +122,10 @@ urlpatterns = [
     url(r'^list/$',
         AccountListView.as_view(),
         name='account_list'
+    ),
+    url(r'^(?P<pk>[0-9A-Za-z\-]+)/$',
+        AccountDetailView.as_view(),
+        name='account_detail'
     ),
 ]
 

@@ -60,6 +60,11 @@ class AccountListView(StaffuserRequiredMixin, FilterView):
     filterset_class = AccountFilter
 
 
+class AccountDetailView(StaffuserRequiredMixin, DetailView):
+    model = ALISSUser
+    template_name = 'account/detail.html'
+
+
 class AccountSaveServiceView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         service = get_object_or_404(Service, pk=self.kwargs['pk'])
