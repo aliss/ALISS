@@ -13,6 +13,9 @@ let matchHeight = () => {
    if (doesExist($('.cells a'))) {
        $('.cells a').matchHeight({byRow: true});
    }
+   // if (doesExist($('#content.service .height-fix'))) {
+   //     $('#content.service .height-fix').matchHeight({byRow: true});
+   // }
 
 };
 export default matchHeight;
