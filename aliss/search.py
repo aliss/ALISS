@@ -4,7 +4,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 
-from aliss.models import Organisation, Service
+from aliss.models import Organisation, Service, ServiceArea
 
 
 def _get_connection():
@@ -163,6 +163,7 @@ def service_to_body(service):
             'id': service_area.pk,
             'code': service_area.code,
             'type': service_area.get_type_display(),
+            'type_code': service_area.type,
             'name': service_area.name,
         } for service_area in service.service_areas.all()]
     }
@@ -259,10 +260,17 @@ def filter_by_service_areas(queryset, service_areas):
         ])
     )
 
+
 def filter_by_location_type(queryset, type):
-    if type == 'point':
-        return queryset.filter('exists', field='locations')
-    elif type == 'area':
-        return queryset.filter('exists', field='service_areas')
+    if type == 'local':
+        return queryset.exclude('terms', service_areas__type_code=[
+            ServiceArea.COUNTRY,
+            ServiceArea.REGION
+        ])
+    elif type == 'national':
+        return queryset.filter('terms', service_areas__type_code=[
+            ServiceArea.COUNTRY,
+            ServiceArea.REGION
+        ])
     else:
         return queryset

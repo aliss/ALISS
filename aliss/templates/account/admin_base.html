@@ -26,7 +26,7 @@
                                 Claim Requests
                             </span>
                         </a>
-                        <a href="{% url 'account_list' %}" {% if request.resolver_match.url_name == 'account_list' %}class="active"{% endif %}>
+                        <a href="{% url 'account_list' %}" {% if request.resolver_match.url_name == 'account_list' or request.resolver_match.url_name == 'account_detail' %}class="active"{% endif %}>
                             <span class="text">
                                 Users
                             </span>

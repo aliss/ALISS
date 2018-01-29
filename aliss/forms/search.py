@@ -7,11 +7,11 @@ from aliss.models import Category
 
 
 class SearchForm(forms.Form):
-    LOCAL = 'point'
-    AREA = 'area'
+    LOCAL = 'local'
+    NATIONAL = 'national'
     LOCATION_TYPE_CHOICES = (
         (LOCAL, LOCAL),
-        (AREA, AREA)
+        (NATIONAL, NATIONAL)
     )
 
     q = forms.CharField(required=False)

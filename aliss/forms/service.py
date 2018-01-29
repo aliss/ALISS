@@ -41,12 +41,9 @@ class ServiceForm(forms.ModelForm):
 
 
 class ServiceProblemForm(forms.ModelForm):
-    email = forms.EmailField(label='Your email')
-    message = forms.CharField(widget=forms.Textarea, help_text='Tell us about the problem')
-
     class Meta:
         model = ServiceProblem
-        fields = ('email', 'message')
+        fields = ('type', 'message')
 
 
 class ServiceProblemUpdateForm(forms.ModelForm):

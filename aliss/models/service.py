@@ -38,11 +38,26 @@ class ServiceProblem(models.Model):
         (RESOLVED, "Resolved")
     )
 
+    INFORMATION_UNCLEAR = 0
+    CONTACT_INFORMATION_INCORRECT = 10
+    SERVICE_CLOSED = 20
+    AREA_INCORRECT = 30
+
+    REPORT_TYPES = (
+        (INFORMATION_UNCLEAR, "Information provided is unclear"),
+        (CONTACT_INFORMATION_INCORRECT, "Contact information incorrect or no response"),
+        (SERVICE_CLOSED, "This service no longer exists"),
+        (AREA_INCORRECT, "This service does not operate in my area")
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
     service = models.ForeignKey('aliss.Service')
-    email = models.EmailField()
-    message = models.TextField()
+    user = models.ForeignKey('aliss.ALISSUser')
+
+    type = models.IntegerField(choices=REPORT_TYPES)
+
+    message = models.TextField(blank=True)
 
     status = models.IntegerField(
         choices=STATUS_TYPES,
