@@ -159,7 +159,7 @@
                 {% if user.is_authenticated %}
                     <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
                         {% csrf_token %}
-                        <button type="submit" class="txt-button yes">
+                        <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
                             Yes
                         </button>
                     </form>
