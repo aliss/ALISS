@@ -103,6 +103,34 @@ class AccountRemoveSavedServiceView(View):
         return HttpResponseRedirect(url)
 
 
+class AccountServiceHelpfulView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        service = get_object_or_404(Service, pk=self.kwargs['pk'])
+
+        user = self.request.user
+
+        if service in user.helpful_services.all():
+            messages.success(
+                self.request,
+                'Service removed from helpful services'
+            )
+            user.helpful_services.remove(service)
+        else:
+            messages.success(
+                self.request,
+                'Service marked as helpful'
+            )
+            user.helpful_services.add(service)
+
+        next = self.request.POST.get('next', '')
+        if next:
+            url = next
+        else:
+            url = reverse('service_detail', kwargs={'pk': service.pk})
+
+        return HttpResponseRedirect(url)
+
+
 class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/saved_services.html'
 

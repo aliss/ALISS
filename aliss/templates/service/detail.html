@@ -154,9 +154,18 @@
             </div>
             <div class="columns feedback-form">
                 <h5>Was this helpful?</h5>
-                <a class="yes">
-                    Yes
-                </a>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="txt-button yes">
+                            Yes
+                        </button>
+                    </form>
+                {% else %}
+                    <a class="yes">
+                        Yes
+                    </a>
+                {% endif %}
                 <a class="no alert">
                     No
                 </a>
