@@ -1,5 +1,5 @@
 {% if locations %}
-    <div class="location multiple">
+    <div class="location{% if locations|length > 1 %} multiple{% endif %}">
         {% for location in locations %}
             {% if forloop.first and not forloop.last %}
                 <span>First location:</span>
