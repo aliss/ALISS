@@ -57,7 +57,7 @@ class ServiceProblem(models.Model):
 
     type = models.IntegerField(choices=REPORT_TYPES)
 
-    message = models.TextField(blank=False)
+    message = models.TextField(blank=True)
 
     status = models.IntegerField(
         choices=STATUS_TYPES,
