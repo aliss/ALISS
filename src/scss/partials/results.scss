@@ -1228,7 +1228,7 @@ a.tw {
 	}
 }
 .feedback-form {
-	a {
+	> a {
 		font-size: $d-fs;
 		@include small {
 			font-style: $d-fs-s;
@@ -1274,7 +1274,7 @@ a.tw {
 		}
 	}
 }
-.recommend-form {
+.recommend-form, .email-listing-form {
 	margin: 0.5em 0 1em 0;
 	display: none;
 	select, input {
