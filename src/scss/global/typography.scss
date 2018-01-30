@@ -48,7 +48,7 @@
 	}
 	a h#{$i} {
 		color: $secondary;
-		@include transition;
+		@include transition(color, $d-time);
 	}
 	a {
 		@include st {
