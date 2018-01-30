@@ -79,7 +79,9 @@ class AccountSaveServiceView(LoginRequiredMixin, View):
         else:
             url = reverse('account_saved_services')
 
-        messages.success(self.request, 'Service Added to My Saved Services')
+        messages.success(
+            self.request,
+            '<p>{name} added to My Saved Services.</p><a href="{url}">View saved services</a>'.format(name=service.name, url=reverse('account_saved_services')))
 
         return HttpResponseRedirect(url)
 
@@ -98,7 +100,9 @@ class AccountRemoveSavedServiceView(View):
         else:
             url = reverse('account_saved_services')
 
-        messages.success(self.request, 'Service Removed from My Saved Services')
+        messages.success(
+            self.request,
+            '<p>{name} removed from My Saved Services.</p><a href="{url}">View saved services</a>'.format(name=service.name, url=reverse('account_saved_services')))
 
         return HttpResponseRedirect(url)
 
@@ -191,7 +195,9 @@ class AccountRecommendationListAddServiceView(LoginRequiredMixin, View):
                 kwargs={'pk': recommendation_list.pk}
             )
 
-        messages.success(self.request, 'Service added to {name} list'.format(name=recommendation_list.name))
+        messages.success(
+            self.request,
+            '<p>{name} added to {list_name} list.</p><a href="{url}">View {list_name} list</a>'.format(name=service.name, list_name=recommendation_list.name, url=reverse('account_my_recommendations_detail', kwargs={'pk': recommendation_list.pk})))
 
         return HttpResponseRedirect(url)
 
@@ -219,7 +225,9 @@ class AccountRecommendationListRemoveServiceView(View):
                 kwargs={'pk': recommendation_list.pk}
             )
 
-        messages.success(self.request, 'Service removed from {name} list'.format(name=recommendation_list.name))
+        messages.success(
+            self.request,
+            '<p>{name} removed from {list_name} list.</p><a href="{url}">View {list_name} list</a>'.format(name=service.name, list_name=recommendation_list.name, url=reverse('account_my_recommendations_detail', kwargs={'pk': recommendation_list.pk})))
 
         return HttpResponseRedirect(url)
 
