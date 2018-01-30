@@ -38,6 +38,7 @@
                         {% include 'partials/forms/field.html' with field=form.password1 %}
                         {% include 'partials/forms/field.html' with field=form.password2 %}
                     </div>
+                    {% comment %}
                     <div class="preferences">
                         <div class="pad">
                             <div class="info-box needs">
@@ -116,6 +117,7 @@
                             <p>You can change these preferences at any time. Email notifications are sent in the form of one weekly digest so we don’t overload your inbox.</p>
                         </div>
                     </div>
+                    {% endcomment %}
                     <div class="submit">
                         <div class="checkbox-agree">
                             <label>
