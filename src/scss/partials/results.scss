@@ -216,6 +216,8 @@ span.cat {
 		display: block;
 		position: relative;
 		background: $w;
+		transition: none;
+		@include transition(color, $d-time)
 		@include small {
 			min-height: 70px;
 		}
