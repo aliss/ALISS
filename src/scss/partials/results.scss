@@ -1263,6 +1263,9 @@ a.tw {
 	@media print {
 		display: none;
 	}
+	h5 {
+		margin-bottom: 1.15rem;
+	}
 	form {
 		@extend %vam;
 		// margin-right: 0.65em;
