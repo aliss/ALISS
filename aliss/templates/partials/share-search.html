@@ -1,8 +1,8 @@
 <section class="center-section">
     <div class="row section-title">
         <div class="columns">
-            <h3>Share a Search</h3>
-            <p>Know someone looking for help? You can use the form below to create a website link to a custom ALISS search tailored to their location and needs:</p>
+            <h3>Share Search</h3>
+            <p>Know someone looking for help? Create a link to a custom ALISS search tailored to their location and needs using a postcode and a single word term:</p>
         </div>
     </div>
     <div class="row share-form">
@@ -10,16 +10,26 @@
             <span class="part-url">
                 aliss.org/
             </span>
-            <input type="text" placeholder="e.g. G2 4AA" class="postcode">
+            <input type="text" placeholder="e.g. G24AA" class="postcode" value="{{ postcode.postcode }}" maxlength="8">
             <span class="part-url">
                 /
             </span>
-            <select class="category">
-                <option value="">Select Category</option>
-            </select>
+            <input type="text" placeholder="e.g. housing OR food" class="category" value="{{ request.GET.q }}">
             <div class="buttons">
-                <a href="#" class="button secondary">Copy Link</a>
+                <button id="copy_search_link" class="button secondary" data-clipboard-target="#share_url">Copy Link</button>
             </div>
+        </div>
+        <input id="share_url" type="hidden" value="https://aliss.org/">
+    </div>
+    <div class="row">
+        <div class="columns share-success">
+            <p>Link copied.</p>
+        </div>
+        <div class="columns share-error">
+            <p>Please enter a value in the postcode field.</p>
+        </div>
+        <div class="columns copy-error">
+            <p>Oops, we couldn't copy your link. Please try again.</p>
         </div>
     </div>
 </section>

@@ -126,7 +126,7 @@
 	}
 	.listing {
 		@include grid-column(8);
-		.search-results, .paged {
+		.search-results, .paged, .error {
 			padding-left: rem-calc($gutter);
 			@include media(0, $search-break) {
 				padding-left: 0;

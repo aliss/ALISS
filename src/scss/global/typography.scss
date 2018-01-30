@@ -218,13 +218,13 @@ table {
 		padding: 2rem 0 0 0;
 	}
 }
-#error {
+#error, .error {
 	min-height: 500px;
 	@include small {
 		min-height: 0;
 	}
 	.buttons {
-		margin-top: 1em;
+		// margin-top: 1em;
 		.button {
 			margin-right: .35em;
     		margin-top: 1rem;

@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}{{ object.name }} - ALISS{% endblock %}
+{% block meta_schema %}
+    <meta property="og:title" content="{{ object.name }} - ALISS" />
+    <meta name="twitter:title" content="{{ object.name }} - ALISS" />
+{% endblock %}
+
 {% block container %}
 <div class="black"></div>
 <div class="modal" id="delete_org">
