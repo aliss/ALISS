@@ -1153,13 +1153,13 @@ a.tw {
 		&.content, &.contact-info {
 			@include grid-column(8);
 			@include grid-column-end;
-			min-height: 350px;
+			// min-height: 350px;
 			.copy-container, .services-list {
 				padding-right: rem-calc($gutter);
 			}
-			@include small {
-				min-height: 0;
-			}
+			// @include small {
+			// 	min-height: 0;
+			// }
 		}
 		&.contact-info {
 			min-height: 0;
@@ -1262,6 +1262,9 @@ a.tw {
 .feedback-form {
 	@media print {
 		display: none;
+	}
+	h5 {
+		margin-bottom: 1.15rem;
 	}
 	form {
 		@extend %vam;
@@ -1438,8 +1441,20 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
 		top: -0.3em;
 	}
 }
+.location {
+	@media print {
+		a[href]:after {
+		    content: none !important;
+		}
+	}
+}
 .location.multiple {
 	color: $medium-gray;
+	@media print {
+		> span {
+			display: none;
+		}
+	}
 	a.icon-link, span {
 		@extend %vam;
 	}
@@ -1448,11 +1463,17 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
 	}
 	a.more-link {
 		@extend %more-link;
+		@media print {
+			display: none;
+		}
 	}
 	.locations-list {
 		display: none;
 		margin-top: 0.25em;
 		margin-bottom: 1.25em;
+		@media print {
+			display: block !important;
+		}
 		&.active {
 			display: block;
 		}
