@@ -52,12 +52,13 @@ $(document).foundation();
 
 // Select2
 require('./partials/select2.min.js');
-// require('svg4everybody/dist/svg4everybody.js');
+// require('clipboard/lib/clipboard.js');
 // require('svg4everybody/dist/svg4everybody.legacy.js');
 
 // Imports
 import matchHeight from './partials/match-height';
 import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
+import Clipboard from 'clipboard/lib/clipboard.js';
 // import 'select2/dist/js/select2.min.js';
 
 $(document).ready(() => {
@@ -266,7 +267,6 @@ $(document).ready(() => {
         return vars;
     }
     var report = getUrlVars().report;
-    console.log(report);
     if(report == 'True') {
         // console.log('test');
         $(".feedback-form a.no").click();
@@ -281,6 +281,76 @@ $(document).ready(() => {
             scrollTop: ($('.feedback-form').offset().top)
         }, 500);
     });
+
+    var newvalue = $('.share-form input.postcode').val().replace(/\s+/g, '');
+    $('.share-form input.postcode').val(newvalue);
+    $(function(){
+        $('.share-form input.postcode, .share-form input.category').bind('input', function(){
+            $(this).val(function(_, v){
+                return v.replace(/\s+/g, '');
+            });
+        });
+    });
+    var default_url = $('#share_url').val();
+    console.log(default_url);
+    var postcode = $('.share-form input.postcode').val();
+    console.log(postcode);
+    var category = $('.share-form input.category').val();
+    console.log(category);
+    if(category == '') {
+        $('#share_url').val(default_url + postcode);
+    } else {
+        $('#share_url').val(default_url + postcode + '/' + category);
+    }
+    $('.share-form input.postcode').on('input', function() {
+        if($(this).val() != "") {
+            $('.share-form input.category').prop('disabled', false);
+        } else {
+            $('.share-form input.category').prop('disabled', true);
+        }
+    });
+    $('.share-form input.postcode').on('change', function() {
+        var postcode = $(this).val();
+        $('#share_url').val(default_url + postcode);
+    });
+    $('.share-form input.category').on('change', function() {
+        var category = $(this).val();
+        var postcode = $('.share-form input.postcode').val();
+        $('#share_url').val(default_url + postcode + '/' + category);
+    });
+    if($('.share-form input.postcode').val() != "") {
+        $('.share-form input.category').prop('disabled', false);
+    } else {
+        $('.share-form input.category').prop('disabled', true);
+    }
+    $('#copy_search_link').click(function(){
+        if($('.share-form input.postcode').val() == "") {
+            $(".share-error").addClass('active');
+        } else {
+            $(".share-error").removeClass('active');
+            $(".copy-error").removeClass('active');
+            var copy_link = new Clipboard('#copy_search_link', {
+                text: function() {
+                    return document.querySelector('input#share_url').value;
+                }
+            });
+            copy_link.on('success', function(e) {
+                // console.log(e);
+                $(".share-success").addClass('active');
+                $(".copy-error").removeClass('active');
+            });
+            copy_link.on('error', function(e) {
+                console.log(e);
+                $(".copy-error").addClass('active');
+            });
+        }
+    });
+
+    if($('.share-success').hasClass('active')) {
+        setTimeout(function() {
+            $('.share-success').removeClass('active');
+        }, 2500);
+    }
 
 });
 

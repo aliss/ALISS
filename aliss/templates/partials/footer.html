@@ -1,3 +1,4 @@
+{% load static %}
 <div class="footer-holder">
     <footer class="footer" role="contentinfo">
         <div class="row">
@@ -6,16 +7,17 @@
                     <li>
                         <a href="{% url 'terms_and_conditions' %}">Terms &amp; Conditions</a>
                     </li>
-                   <!--  <li>
-                        <a href="#">Contact Us</a>
-                    </li> -->
                     <li>
                         <a href="{% url 'privacy_policy' %}">Privacy Policy</a>
                     </li>
                     <li>
-                        <a href="#">ALISS Data Standards</a>
+                        <a href="{% static 'pdf/ALISS_data-standards.pdf' %}">ALISS Data Standards</a>
                     </li>
                 </ul>
+                <div class="copy-container">
+                    <address>Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA</address>
+                    <p>© Copyright Health and Social Care Alliance Scotland (the ALLIANCE) 2018. All Rights Reserved.</p>
+                </div>
             </div>
         </div>
     </footer>

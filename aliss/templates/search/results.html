@@ -2,13 +2,19 @@
 {% load aliss %}
 {% load humanize %}
 
+{% block title %}{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} - ALISS{% endblock %}
+{% block meta_schema %}
+    <meta property="og:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} - ALISS" />
+    <meta name="twitter:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} - ALISS" />
+{% endblock %}
+
 {% block container %}
 <main class="main" role="main">
     {% if not invalid_area and not errors %}
         <section id="content" class="results">
             <div class="row title">
                 <div class="columns">
-                    <h1>Help &amp; Support in <span class="postcode">{{ postcode.postcode }}</span></h1>
+                    <h1>Help &amp; support in <span class="postcode">{{ postcode.postcode }}</span></h1>
                     <div class="buttons">
                         <a href="{% url 'homepage' %}" class="button primary">Search Again</a>
                     </div>

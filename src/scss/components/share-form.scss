@@ -2,6 +2,26 @@
 // Share Form
 // ---------------------------------------
 
+#share_url {
+
+}
+.share-success, .share-error, .copy-error {
+	margin-top: 1.5em;
+	display: none;
+	&.active {
+		display: block;
+	}
+}
+.share-success {
+	p {
+		color: $success;
+	}
+}
+.share-error, .copy-error {
+	p {
+		color: $alert;
+	}
+}
 .share-form, .center-section .share-form {
 	// font-size: 1.1em;
 	.part-url, input, select, .button, .buttons {
@@ -29,7 +49,7 @@
 		width: 160px;
 		margin: 0;
 	}
-	select.category {
+	select.category, input.category {
 		width: 230px;
 		margin: 0;
 	}
@@ -46,7 +66,7 @@
 			display: block;
 			margin-top: 1rem;
 		}
-		input.postcode, select.category {
+		input.postcode, select.category, input.category {
 			position: relative;
 			margin: 0 auto;
 			width: 300px;

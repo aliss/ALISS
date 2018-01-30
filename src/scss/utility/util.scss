@@ -79,6 +79,10 @@
 	appearance: none;
 	background-color: $w;
 	color: $dark-gray;
+	&[disabled] {
+		background-color: $light-gray_fade;
+		border-color: $light-gray_fade;
+	}
 	&:focus, &:active {
 		box-shadow: none;
 		border-color: $brand;
