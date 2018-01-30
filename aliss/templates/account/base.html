@@ -16,7 +16,7 @@
     <section id="my_account">
         <div class="row my-account-links">
             <div class="columns">
-                <div class="cells four">
+                <div class="cells three">
                     <a href="{% url 'account_saved_services' %}" {% if request.resolver_match.url_name == 'account_saved_services' %}class="active"{% endif %}>
                         <span class="text">
                             My Saved Services
@@ -30,11 +30,6 @@
                     <a href="{% url 'account_my_organisations' %}" {% if request.resolver_match.url_name == 'account_my_organisations' %}class="active"{% endif %}>
                         <span class="text">
                             My Organisations
-                        </span>
-                    </a>
-                    <a href="{% url 'account_my_searches' %}" {% if request.resolver_match.url_name == 'account_my_searches' %}class="active"{% endif %}>
-                        <span class="text">
-                            My Searches
                         </span>
                     </a>
                 </div>
