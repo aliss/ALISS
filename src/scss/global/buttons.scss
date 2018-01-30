@@ -22,6 +22,7 @@ a, .btn-link {
 	min-width: 0 !important;
 	border-radius: 0;
 	line-height: 1.6;
+	@include transition(color, $d-time);
 	@include st {
 		background: none;
 		color: $medium-gray;
@@ -52,7 +53,7 @@ a, .btn-link {
 	}
 }
 .btn, .button {
-	@include transition;
+	@include transition(color, $d-time);
 	@include st() {
 		@extend %button-style_hover;
 	}
