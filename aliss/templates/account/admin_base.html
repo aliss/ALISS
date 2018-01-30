@@ -13,6 +13,9 @@
             </div>
         </section>
         <section id="my_account" class="admin">
+            {% if request.user.is_staff %}
+                {% include 'account/partials/admin_menu.html' %}
+            {% endif %}
             <div class="row my-account-links">
                 <div class="columns">
                     <div class="cells four">
