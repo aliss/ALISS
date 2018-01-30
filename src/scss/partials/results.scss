@@ -1153,13 +1153,13 @@ a.tw {
 		&.content, &.contact-info {
 			@include grid-column(8);
 			@include grid-column-end;
-			min-height: 350px;
+			// min-height: 350px;
 			.copy-container, .services-list {
 				padding-right: rem-calc($gutter);
 			}
-			@include small {
-				min-height: 0;
-			}
+			// @include small {
+			// 	min-height: 0;
+			// }
 		}
 		&.contact-info {
 			min-height: 0;
