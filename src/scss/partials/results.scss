@@ -211,10 +211,14 @@ span.cat {
 		border: 3px solid $light-gray_fade;
 		padding: 1.2em 1.2em 1em 1.2em;
 		line-height: 1.4;
+		min-height: 74px;
 		float: left;
 		display: block;
 		position: relative;
 		background: $w;
+		@include small {
+			min-height: 70px;
+		}
 		.holder {
 			padding-left: 2em;
 			position: relative;
@@ -1397,6 +1401,11 @@ ul.search-results, ul.claim-requests, ul.problem-reports, .contact-info {
 				}
 			}
 		}
+	}
+}
+.contact-info {
+	.edit-options {
+		margin-top: 1rem;
 	}
 }
 ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
