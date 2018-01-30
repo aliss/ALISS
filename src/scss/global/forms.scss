@@ -168,7 +168,7 @@ label {
 	background: $success;
 	color: $w;
 	font-size: 1.1em;
-	@include transition(max-height, 1s);
+	@include transition(all, 1s);
 	max-height: 100px;
 	@include clear;
 	overflow: hidden;
