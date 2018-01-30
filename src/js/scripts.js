@@ -326,6 +326,8 @@ $(document).ready(() => {
     $('#copy_search_link').click(function(){
         if($('.share-form input.postcode').val() == "") {
             $(".share-error").addClass('active');
+            $(".copy-error").removeClass('active');
+            $(".share-success").removeClass('active');
         } else {
             $(".share-error").removeClass('active');
             $(".copy-error").removeClass('active');
