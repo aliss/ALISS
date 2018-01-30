@@ -46,18 +46,8 @@
                             {% endfor %}
                         </div>
 
-                        <div class="location multiple">
-                            <div class="locations-list active">
-                                {% for location in service.locations.all %}
-                                    <a class="icon-link">
-                                        <span class="icon">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                        </span>
-                                        {{ location.formatted_address }}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        {% include 'service/partials/locations.html' with locations=service.locations.all %}
+
                         <ul class="contact-info">
                             {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
                             {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
