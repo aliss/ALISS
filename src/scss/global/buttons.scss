@@ -53,7 +53,7 @@ a, .btn-link {
 	}
 }
 .btn, .button {
-	@include transition(color, $d-time);
+	@include transition(background, $d-time);
 	@include st() {
 		@extend %button-style_hover;
 	}
