@@ -1,0 +1,18 @@
+{% with url_name=request.resolver_match.url_name %}
+<div class="row account-switch">
+    <div class="columns">
+        <div class="cells two">
+            <a href="{% url 'account_saved_services' %}" {% if url_name == 'account_saved_services' or url_name == 'account_my_recommendations' or url_name == 'account_my_organisations' %}class="active"{% endif %}>
+                <span class="text">
+                    User Dashboard
+                </span>
+            </a>
+            <a href="{% url 'account_dashboard' %}" {% if url_name == 'account_dashboard' or url_name == 'claim_list' or url_name == 'account_list' or url_name == 'service_problem_list' %}class="active"{% endif %}>
+                <span class="text">
+                    Admin Dashboard
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endwith %}
