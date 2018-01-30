@@ -41,7 +41,13 @@
                                     <span class="icon">
                                         <i class="fas fa-plus"></i>
                                     </span>
-                                    Add Service
+                                    Add service
+                                </a>
+                                <a href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+                                    <span class="icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </span>
+                                    Add location
                                 </a>
                                 <a href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
                                     <span class="icon">
