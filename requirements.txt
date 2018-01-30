@@ -1,7 +1,7 @@
 Django==1.11.8
 dj-database-url==0.4.2
 gunicorn==19.6.0
-psycopg2==2.6.2
+psycopg2==2.7.3.2
 whitenoise==3.3.0
 django-filter==1.0.4
 elasticsearch==5.2.0
