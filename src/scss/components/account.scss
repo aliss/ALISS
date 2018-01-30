@@ -2,6 +2,13 @@
 // Account
 // ---------------------------------------
 
+// #my_account {
+// 	overflow: hidden;
+// }
+// span.large-email {
+// 	display: block;
+// 	@include truncate(100%);
+// }
 #login {
 	padding-top: 2rem;
 	.f-error.all {
@@ -267,7 +274,7 @@ ul.orgs+.paged {
 			}
 		}
 	}
-	.my-account-links {
+	.my-account-links, .account-switch {
 		padding-top: 1.75em;
 		padding-bottom: 3em;
 		.cells {
@@ -283,6 +290,12 @@ ul.orgs+.paged {
 		// @include media(0, $search-break) {
 		// 	padding-top: 1rem;
 		// }
+	}
+	.account-switch {
+		padding-bottom: 1em;
+	}
+	.account-switch+.my-account-links {
+		padding-top: 0;
 	}
 }
 .mobile-buttons {

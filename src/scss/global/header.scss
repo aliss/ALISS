@@ -173,6 +173,9 @@ header {
 			position: relative;
 			top: $top-hat-spacing;
 			margin-right: 0.6em;
+			&.hide-notifications {
+				top: 0.35em;
+			}
 			a.name {
 				font-weight: bold;
 				@extend %vam;

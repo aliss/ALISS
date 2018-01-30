@@ -4,12 +4,12 @@
 <div class="row">
     <div class="columns">
         <div class="copy-container">
-            <h4>Problem Reports</h4>
+            <h3>Problem Reports</h3>
             <ul class="problem-reports edit">
                 {% for report in object_list %}
                     <li>
                         <div class="heading">
-                            <h3>Problem reported with <a href="{% url 'service_detail' pk=report.service.pk %}">{{ report.service }}</a></h3>
+                            <h4>Problem reported with <a href="{% url 'service_detail' pk=report.service.pk %}">{{ report.service }}</a></h4>
                         </div>
                         <p>Reason: {{ report.get_type_display }}</p>
                         <p>{{ report.message }}</p>
