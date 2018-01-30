@@ -4,7 +4,7 @@
 
 a, .btn-link {
 	@extend %link-style;
-	@include transition;
+	@include transition(color, $d-time);
 	&:hover {
 		@extend %link-style_hover;
 	}
