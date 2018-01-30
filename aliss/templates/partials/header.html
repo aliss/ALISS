@@ -15,7 +15,7 @@
             <div class="top-hat">
                 {% if request.user.is_authenticated %}
                     <div class="account-info">
-                        <div class="account">
+                        <div class="account hide-notifications">
                             <a href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
                             {% comment %}
                             <div class="notifications-holder">

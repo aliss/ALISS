@@ -19,9 +19,11 @@
                         <tr>
                             <td>Name</td>
                             <td>Email Address</td>
-                            <td>Phone No.</td>
+                            <td>Phone</td>
                             <td>Postcode</td>
                             <td>Date Joined</td>
+                            <td align="center">Services</td>
+                            <td align="center">Orgs</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,6 +34,8 @@
                                 <td>{{ user.phone }}</td>
                                 <td>{{ user.postcode }}</td>
                                 <td>{{ user.date_joined }}</td>
+                                <td align="center">0</td>
+                                <td align="center">0</td>
                             </tr>
                         {% endfor %}
                     </tbody>

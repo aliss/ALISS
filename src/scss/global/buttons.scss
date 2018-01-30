@@ -21,6 +21,7 @@ a, .btn-link {
 	font-size: $d-fs !important;
 	min-width: 0 !important;
 	border-radius: 0;
+	line-height: 1.6;
 	@include st {
 		background: none;
 		color: $medium-gray;

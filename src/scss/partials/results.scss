@@ -800,7 +800,14 @@ span.cat {
 	}
 }
 .claim-requests, .problem-reports {
-	margin-top: 2.5rem;
+	margin-top: 2rem;
+}
+p.org {
+	@media print {
+		a[href]:after {
+		    content: none !important;
+		}
+	}
 }
 .search-results, .content .search-results, .recommendations-lists, .rep-organisations, .claim-requests, .problem-reports {
 	@extend %no-list;
@@ -898,11 +905,6 @@ span.cat {
 		}
 		p.org {
 			margin-top: 0.35em;
-			@media print {
-				a[href]:after {
-				    content: none !important;
-				}
-			}
 		}
 		.service-areas-list {
 			margin-top: 1em;
@@ -1161,6 +1163,9 @@ a.tw {
 		&.options {
 			@include grid-column(4);
 			float: right;
+			@media print {
+				display: none;
+			}
 		}
 		&.options {
 			margin-bottom: 2rem;
@@ -1246,7 +1251,14 @@ a.tw {
 	}
 }
 .feedback-form {
-	> a {
+	@media print {
+		display: none;
+	}
+	form {
+		@extend %vam;
+		// margin-right: 0.65em;
+	}
+	> a, button.txt-button {
 		font-size: $d-fs;
 		@include small {
 			font-style: $d-fs-s;
@@ -1254,7 +1266,7 @@ a.tw {
 		@extend %vam;
 		margin-right: 0.65em;
 		position: relative;
-		padding-left: 2.175em;
+		padding-left: 2.175em !important;
 		&:before {
 			@extend %check-cross;
 			position: absolute;
@@ -1364,13 +1376,13 @@ ul.search-results, ul.claim-requests, ul.problem-reports, .contact-info {
 	}
 	.edit-options {
 		margin-top: 1.5rem;
-		>a, >a:first-child, >a:last-child {
+		>a, >a:first-child, >a:last-child, >form {
 			@extend %vam;
 			margin: 0em 0;
 			margin-right: 0.5em;
 		}
 		@include small {
-			>a {
+			>a, >form {
 				margin: 0.5em 0;
 				display: block;
 				&:first-child {
