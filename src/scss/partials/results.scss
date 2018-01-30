@@ -1239,6 +1239,9 @@ a.tw {
 	display: none;
 	margin-top: 1em;
 	margin-bottom: 0.5em;
+	@media print {
+		display: none;
+	}
 	span.less {
 		display: none;
 	}
@@ -1336,6 +1339,9 @@ a.tw {
 	}
 }
 .edit-options {
+	@media print {
+		display: none;
+	}
 	margin-top: 0.5rem;
 	border: 6px solid $light-gray_fade;
 	padding: 1.35em 1.6em 1.15em 1.6em;
