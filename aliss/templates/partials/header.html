@@ -17,6 +17,7 @@
                     <div class="account-info">
                         <div class="account">
                             <a href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
+                            {% comment %}
                             <div class="notifications-holder">
                                 <a id="notifications_toggle" class="notifications-count items">1</a>
                                 <div class="notifications" id="notifications">
@@ -44,6 +45,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endcomment %}
                         </div>
                         <ul>
                             <li>
