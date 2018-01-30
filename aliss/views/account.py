@@ -44,7 +44,7 @@ class AccountSignupView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class AccountUpdateView(UpdateView):
+class AccountUpdateView(LoginRequiredMixin, UpdateView):
     model = ALISSUser
     form_class = AccountUpdateForm
     template_name = 'account/update.html'
