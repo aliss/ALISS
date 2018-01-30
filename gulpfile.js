@@ -112,9 +112,9 @@ gulp.task('sass', function() {
 		title: "Sass Error"
 	}))
 	.pipe(cleanCSS())
-	.pipe($.autoprefixer({
-		browsers: COMPATIBILITY
-	}))
+	// .pipe($.autoprefixer({
+		// browsers: COMPATIBILITY
+	// }))
 	.pipe($.concat('styles.css', {
 		newLine:'\n;'
 	}))
