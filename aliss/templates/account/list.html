@@ -34,8 +34,8 @@
                                 <td>{{ user.phone }}</td>
                                 <td>{{ user.postcode }}</td>
                                 <td>{{ user.date_joined }}</td>
-                                <td align="center">0</td>
-                                <td align="center">0</td>
+                                <td align="center">{{ user.created_organisations.count }}</td>
+                                <td align="center">{{ user.created_services.count }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
