@@ -27,27 +27,25 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
     ]
 
     def get_success_url(self):
-        if self.object.published:
-            return reverse(
-                'organisation_detail',
-                kwargs={'pk': self.object.pk}
-            )
-        else:
-            return reverse('organisation_create_thanks')
+        return reverse(
+            'organisation_detail',
+            kwargs={'pk': self.object.pk}
+        )
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
 
-        if self.request.user.is_staff:
-            self.object.published = True
-
         self.object.save()
 
         messages.success(
             self.request,
-            '{name} has been successfully created.'.format(
-                name=self.object.name
+            '<p>{name} has been successfully created.</p><a href="{url}">Claim this organisation</a>'.format(
+                name=self.object.name,
+                url=reverse(
+                    'claim_create',
+                    kwargs={'pk': self.object.pk}
+                )
             )
         )
 
