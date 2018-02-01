@@ -282,20 +282,22 @@ $(document).ready(() => {
         }, 500);
     });
 
-    var newvalue = $('.share-form input.postcode').val().replace(/\s+/g, '');
-    $('.share-form input.postcode').val(newvalue);
-    $(function(){
-        $('.share-form input.postcode, .share-form input.category').bind('input', function(){
-            $(this).val(function(_, v){
-                return v.replace(/\s+/g, '');
-            });
-        });
-    });
+    // var newvalue = $('.share-form input.postcode').val().replace(/\s+/g, '');
+    // $('.share-form input.postcode').val(newvalue);
+    // $(function(){
+    //     $('.share-form input.postcode').bind('input', function(){
+    //         $(this).val(function(_, v){
+    //             return v.replace(/\s+/g, '');
+    //         });
+    //     });
+    // });
     var default_url = $('#share_url').val();
     console.log(default_url);
-    var postcode = $('.share-form input.postcode').val();
+    var postcodeGet = $('.share-form input.postcode').val();
+    var postcode = postcodeGet.replace(/\s/g,"");
     console.log(postcode);
-    var category = $('.share-form input.category').val();
+    var categoryGet = $('.share-form input.category').val();
+    var category = categoryGet.replace(/\s/g,"+");
     console.log(category);
     if(category == '') {
         $('#share_url').val(default_url + postcode);
@@ -310,12 +312,15 @@ $(document).ready(() => {
         }
     });
     $('.share-form input.postcode').on('change', function() {
-        var postcode = $(this).val();
+        var postcodeGet = $(this).val();
+        var postcode = postcodeGet.replace(/\s/g,"");
         $('#share_url').val(default_url + postcode);
     });
     $('.share-form input.category').on('change', function() {
-        var category = $(this).val();
-        var postcode = $('.share-form input.postcode').val();
+        var categoryGet = $(this).val();
+        var category = categoryGet.replace(/\s/g,"+");
+        var postcodeGet = $('.share-form input.postcode').val();
+        var postcode = postcodeGet.replace(/\s/g,"");
         $('#share_url').val(default_url + postcode + '/' + category);
     });
     if($('.share-form input.postcode').val() != "") {
