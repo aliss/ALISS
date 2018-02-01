@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from django.views.generic import TemplateView
 
 from aliss.views import (
     OrganisationCreateView,
@@ -18,10 +17,6 @@ urlpatterns = [
     url(r'^create/$',
         OrganisationCreateView.as_view(),
         name='organisation_create'
-    ),
-    url(r'^create/thanks/$',
-        TemplateView.as_view(template_name="organisation/create_thanks.html"),
-        name='organisation_create_thanks'
     ),
     url(r'^edit/(?P<pk>[0-9A-Za-z\-]+)/$',
         OrganisationUpdateView.as_view(),
