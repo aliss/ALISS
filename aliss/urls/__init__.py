@@ -36,5 +36,5 @@ urlpatterns = [
     url(r'^services/', include('aliss.urls.service')),
     url(r'^claims/', include('aliss.urls.claim')),
 
-    url(r'(?P<postcode>[0-9A-Za-z ]+)/?((?P<query>.+)/)$', SearchShareView.as_view(), name='search_share')
+    url(r'(?P<postcode>[0-9A-Za-z ]+)/((?P<query>.+)/)?$', SearchShareView.as_view(), name='search_share')
 ]
