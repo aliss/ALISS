@@ -15,10 +15,7 @@
     {% if service.categories.all %}
         <div class="assigned-category">
             {% for category in service.categories.all %}
-                <span class="name">
-                    {{ category.name }}
-                </span>
-                {% if not forloop.last %},{% endif %}
+                <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
             {% endfor %}
         </div>
     {% endif %}
