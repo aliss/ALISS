@@ -2,7 +2,7 @@
     <div class="row section-title">
         <div class="columns">
             <h3>Share Search</h3>
-            <p>Know someone looking for help? Create a link to a custom ALISS search tailored to their location and needs using a postcode and a single word term:</p>
+            <p>Know someone looking for help? Create a link to a custom ALISS search tailored to their location and needs using a postcode and a term:</p>
         </div>
     </div>
     <div class="row share-form">
@@ -14,7 +14,7 @@
             <span class="part-url">
                 /
             </span>
-            <input type="text" placeholder="e.g. housing OR food" class="category" value="{{ request.GET.q }}">
+            <input type="text" placeholder="e.g. food OR mental health" class="category" value="{{ request.GET.q }}">
             <div class="buttons">
                 <button id="copy_search_link" class="button secondary" data-clipboard-target="#share_url">Copy Link</button>
             </div>
