@@ -20,7 +20,7 @@
                 <div class="search-box">
                     <div class="search-holder sbs-inputs">
                         <form action="{% url 'search' %}">
-                            <input class="postcode" type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
+                            <input class="postcode" type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA" {% if request.user.postcode and request.user.prepopulate_postcode %}value="{{ request.user.postcode }}"{% endif %}>
                             <div class="search-button">
                                 <button type="submit"><span>Search</span></button>
                             </div>

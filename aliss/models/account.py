@@ -69,6 +69,8 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
     accept_terms_and_conditions = models.BooleanField(default=True)
     accept_privacy_policy = models.BooleanField(default=True)
 
+    prepopulate_postcode = models.BooleanField(default=False)
+
     objects = ALISSUserManager()
 
     USERNAME_FIELD = 'email'

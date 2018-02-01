@@ -47,8 +47,12 @@ class SignupForm(forms.ModelForm):
             'postcode',
             'password1',
             'password2',
-            'accept_terms_and_conditions'
+            'accept_terms_and_conditions',
+            'prepopulate_postcode'
         )
+        labels = {
+            'prepopulate_postcode': 'Prepopulate my stated postcode the next time I search ALISS'
+        }
         error_css_class = 'has-error'
 
     def clean_password2(self):
@@ -67,7 +71,16 @@ class SignupForm(forms.ModelForm):
 class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = ALISSUser
-        fields = ('name', 'email', 'phone_number', 'postcode')
+        fields = (
+            'name',
+            'email',
+            'phone_number',
+            'postcode',
+            'prepopulate_postcode'
+        )
+        labels = {
+            'prepopulate_postcode': 'Prepopulate my stated postcode the next time I search ALISS'
+        }
         error_css_class = 'has-error'
 
 
