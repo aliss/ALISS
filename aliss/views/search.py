@@ -81,10 +81,12 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
 class SearchShareView(View):
     def get(self, request, *args, **kwargs):
+        postcode = self.kwargs.get('postcode')
+        query = self.kwargs.get('query')
         return HttpResponseRedirect(
-            "{url}?postcode={postcode}&q={query}".format(
+            "{url}?postcode={postcode}{query}".format(
                 url=reverse('search'),
-                postcode=self.kwargs.get('postcode'),
-                query=self.kwargs.get('query')
+                postcode=postcode,
+                query="&q={query}".format(query=query) if query else ''
             )
         )
