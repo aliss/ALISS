@@ -231,7 +231,7 @@ table {
     		min-width: 200px;
     		display: inline-block;
     		vertical-align: middle;
-    		@include small {
+    		@include media(0, 480) {
     			display: block;
     			margin-right: 0;
     		}
