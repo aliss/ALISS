@@ -66,6 +66,7 @@ header {
 		span.close, span.nav {
 			&:before {
 				margin-right: 0.1em;
+				display: inline-block;
 			}
 		}
 		span.close {
