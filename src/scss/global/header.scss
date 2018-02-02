@@ -167,6 +167,13 @@ header {
 				@extend %vam;
 			}
 		}
+		ul li {
+			&.active {
+				a {
+					opacity: 0.65;
+				}
+			}
+		}
 		.account {
 			color: $w;
 			font-weight: bold;
