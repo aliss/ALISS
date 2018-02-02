@@ -1,8 +1,19 @@
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
+from django.contrib.sitemaps.views import sitemap
 
 from aliss.views import SearchShareView
+from aliss.sitemap import (
+    ServiceSitemap,
+    OrganisationSitemap,
+    StaticViewSitemap
+)
 
+sitemaps = {
+    'services': ServiceSitemap,
+    'organisations': OrganisationSitemap,
+    'static': StaticViewSitemap,
+}
 
 urlpatterns = [
     url(r'^$',
@@ -35,6 +46,12 @@ urlpatterns = [
     url(r'^locations/', include('aliss.urls.location')),
     url(r'^services/', include('aliss.urls.service')),
     url(r'^claims/', include('aliss.urls.claim')),
+
+    url(r'^sitemap\.xml$',
+        sitemap,
+        {'sitemaps': sitemaps},
+        name='django.contrib.sitemaps.views.sitemap'
+    ),
 
     url(r'(?P<postcode>[0-9A-Za-z ]+)/((?P<query>.+)/)?$', SearchShareView.as_view(), name='search_share')
 ]
