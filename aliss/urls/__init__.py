@@ -53,5 +53,5 @@ urlpatterns = [
         name='django.contrib.sitemaps.views.sitemap'
     ),
 
-    url(r'(?P<postcode>[0-9A-Za-z ]+)/((?P<query>.+)/)?$', SearchShareView.as_view(), name='search_share')
+    url(r'^(?P<postcode>[0-9A-Za-z ]+)/((?P<query>.+)/)?$', SearchShareView.as_view(), name='search_share')
 ]
