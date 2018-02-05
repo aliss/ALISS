@@ -40,6 +40,14 @@ urlpatterns = [
         TemplateView.as_view(template_name="landing-page-helpers.html"),
         name='landing_page_helpers'
     ),
+    url(r'^promote-assess-demand-charity-services/$',
+        TemplateView.as_view(template_name="landing-page-charity.html"),
+        name='landing_page_charity'
+    ),
+    url(r'^lightening-the-load-on-your-organisation/$',
+        TemplateView.as_view(template_name="landing-page-leaders.html"),
+        name='landing_page_leaders'
+    ),
     url(r'^account/', include('aliss.urls.account')),
     url(r'^search/', include('aliss.urls.search')),
     url(r'^organisations/', include('aliss.urls.organisation')),
