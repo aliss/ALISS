@@ -53,12 +53,13 @@
                                 </span>
                                 Email recommendations
                             </a> -->
-                            <a href="javascript:window.print();" class="icon-link">
+                            <a onclick="frames['recommendation_list_{{ recommendation_list.pk }}'].print()" class="icon-link">
                                 <span class="icon">
                                     <i class="fas fa-print"></i>
                                 </span>
                                 Print recommendations
                             </a>
+                            <iframe src="{% url 'account_my_recommendations_detail' pk=recommendation_list.pk %}" name="recommendation_list_{{ recommendation_list.pk }}" style="display:none !important"></iframe>
                         </div>
                     </li>
                 {% endfor %}

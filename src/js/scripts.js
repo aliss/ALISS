@@ -291,72 +291,74 @@ $(document).ready(() => {
     //         });
     //     });
     // });
-    var default_url = $('#share_url').val();
-    console.log(default_url);
-    var postcodeGet = $('.share-form input.postcode').val();
-    var postcode = postcodeGet.replace(/\s/g,"");
-    console.log(postcode);
-    var categoryGet = $('.share-form input.category').val();
-    var category = categoryGet.replace(/\s/g,"+");
-    console.log(category);
-    if(category == '') {
-        $('#share_url').val(default_url + postcode);
-    } else {
-        $('#share_url').val(default_url + postcode + '/' + category);
-    }
-    $('.share-form input.postcode').on('input', function() {
-        if($(this).val() != "") {
+    if($('.share-form').length > 0) {
+        var default_url = $('#share_url').val();
+        console.log(default_url);
+        var postcodeGet = $('.share-form input.postcode').val();
+        var postcode = postcodeGet.replace(/\s/g,"");
+        console.log(postcode);
+        var categoryGet = $('.share-form input.category').val();
+        var category = categoryGet.replace(/\s/g,"+");
+        console.log(category);
+        if(category == '') {
+            $('#share_url').val(default_url + postcode);
+        } else {
+            $('#share_url').val(default_url + postcode + '/' + category);
+        }
+        $('.share-form input.postcode').on('input', function() {
+            if($(this).val() != "") {
+                $('.share-form input.category').prop('disabled', false);
+            } else {
+                $('.share-form input.category').prop('disabled', true);
+            }
+        });
+        $('.share-form input.postcode').on('change', function() {
+            var postcodeGet = $(this).val();
+            var postcode = postcodeGet.replace(/\s/g,"");
+            $('#share_url').val(default_url + postcode);
+        });
+        $('.share-form input.category').on('change', function() {
+            var categoryGet = $(this).val();
+            var category = categoryGet.replace(/\s/g,"+");
+            var postcodeGet = $('.share-form input.postcode').val();
+            var postcode = postcodeGet.replace(/\s/g,"");
+            $('#share_url').val(default_url + postcode + '/' + category);
+        });
+        if($('.share-form input.postcode').val() != "") {
             $('.share-form input.category').prop('disabled', false);
         } else {
             $('.share-form input.category').prop('disabled', true);
         }
-    });
-    $('.share-form input.postcode').on('change', function() {
-        var postcodeGet = $(this).val();
-        var postcode = postcodeGet.replace(/\s/g,"");
-        $('#share_url').val(default_url + postcode);
-    });
-    $('.share-form input.category').on('change', function() {
-        var categoryGet = $(this).val();
-        var category = categoryGet.replace(/\s/g,"+");
-        var postcodeGet = $('.share-form input.postcode').val();
-        var postcode = postcodeGet.replace(/\s/g,"");
-        $('#share_url').val(default_url + postcode + '/' + category);
-    });
-    if($('.share-form input.postcode').val() != "") {
-        $('.share-form input.category').prop('disabled', false);
-    } else {
-        $('.share-form input.category').prop('disabled', true);
-    }
-    $('#copy_search_link').click(function(){
-        if($('.share-form input.postcode').val() == "") {
-            $(".share-error").addClass('active');
-            $(".copy-error").removeClass('active');
-            $(".share-success").removeClass('active');
-        } else {
-            $(".share-error").removeClass('active');
-            $(".copy-error").removeClass('active');
-            var copy_link = new Clipboard('#copy_search_link', {
-                text: function() {
-                    return document.querySelector('input#share_url').value;
-                }
-            });
-            copy_link.on('success', function(e) {
-                // console.log(e);
-                $(".share-success").addClass('active');
+        $('#copy_search_link').click(function(){
+            if($('.share-form input.postcode').val() == "") {
+                $(".share-error").addClass('active');
                 $(".copy-error").removeClass('active');
-            });
-            copy_link.on('error', function(e) {
-                console.log(e);
-                $(".copy-error").addClass('active');
-            });
-        }
-    });
+                $(".share-success").removeClass('active');
+            } else {
+                $(".share-error").removeClass('active');
+                $(".copy-error").removeClass('active');
+                var copy_link = new Clipboard('#copy_search_link', {
+                    text: function() {
+                        return document.querySelector('input#share_url').value;
+                    }
+                });
+                copy_link.on('success', function(e) {
+                    // console.log(e);
+                    $(".share-success").addClass('active');
+                    $(".copy-error").removeClass('active');
+                });
+                copy_link.on('error', function(e) {
+                    console.log(e);
+                    $(".copy-error").addClass('active');
+                });
+            }
+        });
 
-    if($('.share-success').hasClass('active')) {
-        setTimeout(function() {
-            $('.share-success').removeClass('active');
-        }, 2500);
+        if($('.share-success').hasClass('active')) {
+            setTimeout(function() {
+                $('.share-success').removeClass('active');
+            }, 2500);
+        }
     }
 
 });
