@@ -1,37 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}ALISS helps you promote your services - ALISS{% endblock %}
 {% block meta_schema %}
-<meta name="description" content="" />
-<link rel="canonical" href="" />
-<meta property="og:locale" content="en_GB" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="" />
-<meta property="og:description" content="" />
-<meta property="og:url" content="" />
-<meta property="og:site_name" content="" />
-<meta property="og:image" content="" />
-<meta property="og:image:secure_url" content="" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:description" content="" />
-<meta name="twitter:title" content="" />
-<meta name="twitter:site" content="@alissprogramme" />
-<meta name="twitter:image" content="" />
-<meta name="twitter:creator" content="@alissprogramme" />
+    <meta property="og:title" content="ALISS helps you promote your services - ALISS" />
+    <meta name="twitter:title" content="ALISS helps you promote your services - ALISS" />
+    <meta name="description" content="">
+    <meta property="og:description" content="" />
+    <meta name="twitter:description" content="" />
 {% endblock %}
 
 {% block container %}
 <main class="main" role="main">
     <section id="banner">
-        <div class="banner" style="background-image: url('{% static 'img/lp2-banner.jpg' %}');">
-            <img src="{% static 'img/lp2-banner_small.jpg' %}">
+        <div class="banner" style="background-image: url('{% static 'img/lp3-banner.jpg' %}'); background-position: center bottom -80px;">
+            <img src="{% static 'img/lp3-banner_small.jpg' %}">
         </div>
     </section>
     <article id="content">
         <div class="row">
             <div class="columns content">
                 <div class="copy-container image">
-                    <h1>ALISS supports communities with information to share</h1>
+                    <h1>ALISS helps you promote and assess demand for your services</h1>
                     <div class="float-image right">
                         <div class="svg how-it-works">
                             <svg>
@@ -79,29 +69,29 @@
     <section class="benefits">
         <div class="row">
             <div class="columns">
-                <p>Search and find help in your local area:</p>
-                <div class="svg results">
+                <p>ALISS is mapping services across Scotland so people can find help in their local area:</p>
+                <div class="svg mapping">
                     <svg>
-                        <use xlink:href="#results" />
-                        <title>Search results</title>
+                        <use xlink:href="#mapping_services" />
+                        <title>Mapping Services</title>
                     </svg>
                 </div>
             </div>
             <div class="columns">
-                <p>Create lists of local services for people in your community:</p>
+                <p>ALISS creates direct links to services, meaning less time wasted with referrals:</p>
                 <div class="svg recommendations">
                     <svg>
-                        <use xlink:href="#recommendations" />
-                        <title>Recommendations</title>
+                        <use xlink:href="#results" />
+                        <title>Service Links</title>
                     </svg>
                 </div>
             </div>
             <div class="columns">
-                <p>Print, email and share those lists to people who could use them:</p>
-                <div class="svg share-print">
+                <p>ALISS can provide meaningful data about what people in Scotland need the most:</p>
+                <div class="svg analytics">
                     <svg>
-                        <use xlink:href="#share_print" />
-                        <title>Share Print</title>
+                        <use xlink:href="#analytics" />
+                        <title>Analytics</title>
                     </svg>
                 </div>
             </div>

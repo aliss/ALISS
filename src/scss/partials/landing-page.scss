@@ -60,7 +60,7 @@
 			max-height: 225/1.1+px;
 		}
 	}
-	&.saved-services, &.recommendations {
+	&.saved-services, &.recommendations, &.analytics {
 		@include aspect-ratio(31, 26);
 		max-height: 260px;
 		@include media(0, 1150) {
@@ -72,6 +72,13 @@
 		max-height: 230px;
 		@include media(0, 1150) {
 			max-height: 230/1.1+px;
+		}
+	}
+	&.mapping {
+		@include aspect-ratio(16, 26);
+		max-height: 260px;
+		@include media(0, 1150) {
+			max-height: 260/1.1+px;
 		}
 	}
 }
@@ -108,6 +115,9 @@
 	}
 }
 .benefits+.center-section {
+	padding-top: 0;
+}
+.center-section+#search {
 	padding-top: 0;
 }
 
