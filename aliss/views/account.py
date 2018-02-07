@@ -178,6 +178,16 @@ class AccountRecommendationListDeleteView(LoginRequiredMixin,SuccessMessageMixin
 
 class AccountRecommendationListAddServiceView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
+        recommendation_list_pk = self.request.POST.get('recommendation_list')
+        service_pk = self.request.POST.get('service')
+
+        if not recommendation_list_pk:
+            url = reverse(
+                'service_detail',
+                kwargs={'pk': service_pk}
+            )
+            return HttpResponseRedirect(url)
+
         recommendation_list = get_object_or_404(
             RecommendedServiceList,
             user=self.request.user,
