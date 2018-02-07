@@ -48,11 +48,12 @@ class AccountSignupView(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class AccountUpdateView(LoginRequiredMixin, UpdateView):
+class AccountUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = ALISSUser
     form_class = AccountUpdateForm
     template_name = 'account/update.html'
     success_url = reverse_lazy('account_update')
+    success_message = "Account updated successfully"
 
     def get_object(self):
         return self.request.user
