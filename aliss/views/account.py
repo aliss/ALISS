@@ -31,7 +31,7 @@ class AccountSignupView(CreateView):
         self.object = ALISSUser.objects.create_user(
             email=form.cleaned_data['email'],
             password=form.cleaned_data['password1'],
-            name=form.cleaned_data['prepopulate_postcode'],
+            name=form.cleaned_data['name'],
             phone_number=form.cleaned_data['phone_number'],
             postcode=form.cleaned_data['postcode'],
             prepopulate_postcode=form.cleaned_data['prepopulate_postcode']
