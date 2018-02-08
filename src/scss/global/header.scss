@@ -381,9 +381,11 @@ header {
 			font-size: $d-fs-s;
 		}
 		.navigation {
+			width: 50%;
+			text-align: right;
 			#menu_toggle {
 				font-size: 1.2em;
-				display: block;
+				display: inline-block;
 				font-weight: bold;
 				@include transition(opacity, $d-time, $d-ease);
 				@include st {
