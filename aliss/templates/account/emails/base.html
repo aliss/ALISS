@@ -9,32 +9,32 @@
         @font-face {
             font-family: 'Sofia Pro Soft';
             font-weight: bold;
-            src: url('http://aliss.org/static/fonts/354E8E_0_0.eot');
-            src: url('http://aliss.org/static/fonts/354E8E_0_0.eot?#iefix') format('embedded-opentype'),
-                 url('http://aliss.org/static/fonts/354E8E_0_0.woff2') format('woff2'),
-                 url('http://aliss.org/static/fonts/354E8E_0_0.woff') format('woff'),
-                 url('http://aliss.org/static/fonts/354E8E_0_0.ttf') format('truetype'),
-                 url('http://aliss.org/static/fonts/354E8E_0_0.svg#wf') format('svg');
+            src: url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E8E_0_0.eot' %}');
+            src: url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E8E_0_0.eot?#iefix' %}') format('embedded-opentype'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E8E_0_0.woff2' %}') format('woff2'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E8E_0_0.woff' %}') format('woff'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E8E_0_0.ttf' %}') format('truetype'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E8E_0_0.svg#wf' %}') format('svg');
         }
         @font-face {
             font-family: 'Sofia Pro';
             font-weight: bold;
-            src: url('http://aliss.org/static/fonts/354E86_1_0.eot');
-            src: url('http://aliss.org/static/fonts/354E86_1_0.eot?#iefix') format('embedded-opentype'),
-                 url('http://aliss.org/static/fonts/354E86_1_0.woff2') format('woff2'),
-                 url('http://aliss.org/static/fonts/354E86_1_0.woff') format('woff'),
-                 url('http://aliss.org/static/fonts/354E86_1_0.ttf') format('truetype'),
-                 url('http://aliss.org/static/fonts/354E86_1_0.svg#wf') format('svg');
+            src: url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_1_0.eot' %}');
+            src: url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_1_0.eot?#iefix' %}') format('embedded-opentype'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_1_0.woff2' %}') format('woff2'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_1_0.woff' %}') format('woff'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_1_0.ttf' %}') format('truetype'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_1_0.svg#wf' %}') format('svg');
         }
         @font-face {
             font-family: 'Sofia Pro';
             font-weight: normal;
-            src: url('http://aliss.org/static/fonts/354E86_2_0.eot');
-            src: url('http://aliss.org/static/fonts/354E86_2_0.eot?#iefix') format('embedded-opentype'),
-                 url('http://aliss.org/static/fonts/354E86_2_0.woff2') format('woff2'),
-                 url('http://aliss.org/static/fonts/354E86_2_0.woff') format('woff'),
-                 url('http://aliss.org/static/fonts/354E86_2_0.ttf') format('truetype'),
-                 url('http://aliss.org/static/fonts/354E86_2_0.svg#wf') format('svg');
+            src: url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_2_0.eot' %}');
+            src: url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_2_0.eot?#iefix' %}') format('embedded-opentype'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_2_0.woff2' %}') format('woff2'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_2_0.woff' %}') format('woff'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_2_0.ttf' %}') format('truetype'),
+                 url('{{ request.scheme }}://{{ request.get_host }}{% static 'fonts/354E86_2_0.svg#wf' %}') format('svg');
         }
 
         #outlook a {padding:0;}
