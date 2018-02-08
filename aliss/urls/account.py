@@ -44,7 +44,9 @@ urlpatterns = [
     ),
     url(r'^password/reset/$',
         auth_views.password_reset,
-        {'template_name': 'account/password_reset.html'},
+        {
+            'template_name': 'account/password_reset.html',
+            'email_template_name': 'account/emails/password_reset_email.html'},
         name='password_reset'
     ),
     url(r'^password/reset/done/$',
