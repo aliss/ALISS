@@ -211,12 +211,24 @@ def filter_by_query(queryset, q):
 
 
 def filter_by_postcode(queryset, postcode, radius=5000):
+    # Give us everything that:
+    # A) has a service area that is connected to our postcode
+    # B) is within radius distance AND has either no service_areas or a
+    #    service area in our postcode
+    # This ensures that all returned results serve the postcode in some way
+    # Results that are within radius but have a service area that is not
+    # connected to the postcode, such as a close by service that serves a
+    # different council area will not be shown.
+
     queryset = queryset.filter(
         Q('terms', service_areas__code=postcode.codes) |
-        Q('geo_distance', distance="{0}m".format(radius), locations__point={
-            "lat": postcode.latitude,
-            "lon": postcode.longitude
-        })
+        (
+            (~Q('exists', field='service_areas') | Q('terms', service_areas__code=postcode.codes)) &
+             Q('geo_distance', distance="{0}m".format(radius), locations__point={
+                "lat": postcode.latitude,
+                "lon": postcode.longitude
+            })
+        )
     )
 
     queryset = queryset.query(
