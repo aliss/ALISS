@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}ALISS email{% endblock %}</title>
+    <style type="text/css">
+        @import url("//hello.myfonts.net/count/354e86");
+        @font-face {
+            font-family: 'Sofia Pro Soft';
+            font-weight: bold;
+            src: url('http://aliss.org/static/fonts/354E8E_0_0.eot');
+            src: url('http://aliss.org/static/fonts/354E8E_0_0.eot?#iefix') format('embedded-opentype'),
+                 url('http://aliss.org/static/fonts/354E8E_0_0.woff2') format('woff2'),
+                 url('http://aliss.org/static/fonts/354E8E_0_0.woff') format('woff'),
+                 url('http://aliss.org/static/fonts/354E8E_0_0.ttf') format('truetype'),
+                 url('http://aliss.org/static/fonts/354E8E_0_0.svg#wf') format('svg');
+        }
+        @font-face {
+            font-family: 'Sofia Pro';
+            font-weight: bold;
+            src: url('http://aliss.org/static/fonts/354E86_1_0.eot');
+            src: url('http://aliss.org/static/fonts/354E86_1_0.eot?#iefix') format('embedded-opentype'),
+                 url('http://aliss.org/static/fonts/354E86_1_0.woff2') format('woff2'),
+                 url('http://aliss.org/static/fonts/354E86_1_0.woff') format('woff'),
+                 url('http://aliss.org/static/fonts/354E86_1_0.ttf') format('truetype'),
+                 url('http://aliss.org/static/fonts/354E86_1_0.svg#wf') format('svg');
+        }
+        @font-face {
+            font-family: 'Sofia Pro';
+            font-weight: normal;
+            src: url('http://aliss.org/static/fonts/354E86_2_0.eot');
+            src: url('http://aliss.org/static/fonts/354E86_2_0.eot?#iefix') format('embedded-opentype'),
+                 url('http://aliss.org/static/fonts/354E86_2_0.woff2') format('woff2'),
+                 url('http://aliss.org/static/fonts/354E86_2_0.woff') format('woff'),
+                 url('http://aliss.org/static/fonts/354E86_2_0.ttf') format('truetype'),
+                 url('http://aliss.org/static/fonts/354E86_2_0.svg#wf') format('svg');
+        }
+
+        #outlook a {padding:0;}
+        body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
+        .ExternalClass {width:100%;}
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+        #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+        img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
+        a img {border:none;}
+        .image_fix {display:block;}
+        p {margin: 1em 0;}
+        h1 {
+            color: #141B23; !important
+        }
+        h2, h3, h4, h5, h6 {color: #4C5C68 !important;}
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif;
+            /*font-family: Helvetica, Arial, sans-serif;*/
+            font-weight: bold;
+        }
+        h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: #22B2AA !important; text-decoration: none;}
+        h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
+            color: #4C5C68 !important;
+            text-decoration: underline;
+         }
+        h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
+            color: #22B2AA !important;
+        }
+        h2 {
+            font-size: 24px;
+            line-height: 30px;
+        }
+        table td {border-collapse: collapse;}
+        table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+        a {color: #22B2AA; font-weight: bold; text-decoration: none;}
+        a:active {color: #4C5C68; text-decoration: underline;}
+
+        html, body, #backgroundTable {
+            font-family: 'Sofia Pro', Helvetica, Arial, sans-serif;
+            /*font-family: Helvetica, Arial, sans-serif;*/
+            letter-spacing: 0.015em;
+        }
+        .brand {
+            color: #1E7ABD;
+        }
+        p {
+            font-size: 16px;
+            line-height: 22px;
+        }
+        .brand-bg {
+            background-color: #1E7ABD;
+            color: #ffffff;
+        }
+        h1.email-heading {
+            color: #ffffff;
+            font-size: 30px;
+            line-height: 34px;
+            margin-bottom: 2px !important;
+        }
+        .primary {
+            color: #F49C27;
+        }
+        .primary-bg {
+            background-color: #F49C27;
+        }
+        .secondary {
+            color: #22B2AA;
+        }
+        .secondary-bg {
+            background-color: #22B2AA;
+        }
+        .dark-gray {
+            color: #141B23;
+        }
+        .medium-gray {
+            color: #4C5C68;
+        }
+        .medium-gray-bg {
+            background-color: #4C5C68;
+        }
+        .light-gray {
+            color: #22B2AA;
+        }
+        .light-gray-fade {
+            color: #F2F2F2;
+        }
+        .light-gray-fade-bg, #backgroundTable, html, body {
+            background-color: #F2F2F2;
+            color: #4C5C68;
+        }
+        .white-bg, #mainTable {
+            background-color: #ffffff;
+        }
+        .d-pad {
+            padding: 25px 35px;
+        }
+        .d-pad-alt {
+            padding: 0 35px 0 35px;
+        }
+        #termsTable, #mainTable {
+            width: 700px;
+        }
+        .added {
+            margin-top: 25px;
+            margin-bottom: 40px;
+        }
+        .service {
+            margin: 20px 0 25px 0 !important;
+        }
+        .section-head {
+            margin-bottom: 30px;
+            margin-top: 0;
+        }
+        div.button {
+            padding: 20px 32px 18px 32px;
+            font-size: 22px;
+            line-height: 22px;
+            background: #F49C27;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        @media only screen and (max-width: 480px) {
+        /*@media only screen and (max-device-width: 480px) {*/
+
+            #termsTable, #mainTable {
+                width: 300px !important;
+            }
+            p.date {
+                margin-bottom: 10px !important;
+            }
+            h1.email-heading {
+                font-size: 22px !important;
+                line-height: 26px !important;
+            }
+            .d-pad {
+                padding: 20px 25px !important;
+            }
+            .d-pad-alt {
+                padding: 0 20px 0 20px !important;
+            }
+            div.button {
+                display: block !important;
+            }
+
+            a[href^="tel"], a[href^="sms"] {
+                        text-decoration: none;
+                        color: black; /* or whatever your want */
+                        pointer-events: none;
+                        cursor: default;
+                    }
+            .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+                        text-decoration: default;
+                        color: orange !important; /* or whatever your want */
+                        pointer-events: auto;
+                        cursor: default;
+                    }
+        }
+        @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+            a[href^="tel"], a[href^="sms"] {
+                        text-decoration: none;
+                        color: blue;
+                        pointer-events: none;
+                        cursor: default;
+                    }
+            .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+                        text-decoration: default;
+                        color: orange !important;
+                        pointer-events: auto;
+                        cursor: default;
+                    }
+        }
+        @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+            /* Put your iPhone 4g styles in here */
+        }
+        @media only screen and (-webkit-device-pixel-ratio:.75){
+            /* Put CSS for low density (ldpi) Android layouts in here */
+        }
+        @media only screen and (-webkit-device-pixel-ratio:1){
+            /* Put CSS for medium density (mdpi) Android layouts in here */
+        }
+        @media only screen and (-webkit-device-pixel-ratio:1.5){
+            /* Put CSS for high density (hdpi) Android layouts in here */
+        }
+    </style>
+    <!--[if IEMobile 7]>
+    <style type="text/css">
+        /* Targeting Windows Mobile */
+    </style>
+    <![endif]-->
+    <!--[if gte mso 9]>
+    <style>
+        /* Target Outlook 2007 and 2010 */
+    </style>
+    <![endif]-->
+</head>
+<body>
+    <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" align="center">
+    <tr><td height="45"></td></tr>
+    <tr>
+        <td>
+            {% block container %}
+            {% endblock %}
+        </td>
+    </tr>
+    <tr><td height="15"></td></tr>
+    <tr>
+        <td>
+            <table cellpadding="0" cellspacing="0" border="0" align="center" id="termsTable" width="800">
+                <tr>
+                    <td valign="top" align="center" style="color: #4C5C68;">
+                        <p>ALISS is a service run by The ALLIANCE Scotland and funded by the Scottish Government.</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td height="60"></td></tr>
+    </table>
+</body>
+</html>
