@@ -132,10 +132,10 @@
 
 // Placeholder Text
 @mixin ph-color($color) {
-	&::placeholder { 
+	&::placeholder {
 	    color: $color;
 	}
-	&::-webkit-input-placeholder { 
+	&::-webkit-input-placeholder {
 	    color: $color;
 	}
 	&::-moz-placeholder {
