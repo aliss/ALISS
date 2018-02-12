@@ -1,0 +1,41 @@
+{% extends "emails/base.html" %}
+
+% block title %}{{ service.name }} - ALISS{% endblock %}
+{% block container %}
+    <table cellpadding="0" cellspacing="0" border="0" align="center" id="mainTable" style="background: #ffffff; width: 700px;">
+        <tr style="background: #1E7ABD; color: #ffffff" class="brand-bg head">
+            <td valign="top" align="left" style="background: #1E7ABD; color: #ffffff; padding: 25px 35px;" class="brand-bg d-pad">
+                <img src="{{ protocol }}://{{ domain }}{% static 'img/email_logo.png' %}" alt="ALISS" />
+            </td>
+            <td valign="bottom" align="right" style="background: #1E7ABD; color: #ffffff; padding: 25px 35px; padding-left: 0 !important" class="brand-bg d-pad">
+                <p style="margin-top: 0; margin-bottom: 5px;" class="date">&nbsp;</p>
+                <h1 class="email-heading" style="color: #ffffff; margin: 0; font-size: 30px; line-height: 34px; font-family: 'Sofia Pro', Helvetica, Arial, sans-serif !important;">Share Service</h1>
+            </td>
+        </tr>
+        <tr><td height="30"></td></tr>
+        <tr>
+            <td valign="top" align="left" style="background: #ffffff; padding: 0 35px 0 35px;" height="100" colspan="2" class="d-pad-alt">
+                <h2 class="section-head" style="margin-bottom: 30px;">Someone has shared an ALISS service with you:</h2>
+                <div class="added category" style="margin-top:25px; margin-bottom: 40px">
+                    <div class="service" style="margin: 20px 0 25px 0;">
+                        <h2 style="margin-bottom: 0;"><a href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #4C5C68 !important; font-weight: bold; text-decoration: underline;">{{ service.name }}</a></h2>
+                        <p style="margin-top: 10px;">by <a href="{{ protocol }}://{{ domain }}{% url 'organisation_detail' pk=service.organisation.pk %}" style="color: #4C5C68 !important; font-weight: bold; text-decoration: underline;">{{ service.organisation.name }}</a></p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" align="left" style="background: #ffffff; padding: 0 35px;" colspan="2" class="d-pad-alt">
+                <a href="{{ protocol }}://{{ domain }}{% url 'login' %}" style="color: #22B2AA !important; font-weight: bold !important;"><div class="button" style="width: 210px; padding: 20px 32px 18px 32px; font-size: 20px; line-height: 20px; background: #F49C27; text-align: center; color: #fff; text-decoration: none; border-radius: 5px; display: inline-block; font-family: 'Sofia Pro', Helvetica, Arial, sans-serif !important;">Login to ALISS</div></a>
+            </td>
+        </tr>
+        <tr>
+            <td height="50"></td>
+        </tr>
+        <tr style="background: #4C5C68; color: #ffffff" class="brand-bg head">
+            <td valign="center" align="center" style="background: #4C5C68; color: #ffffff; padding: 25px 35px; padding-bottom: 30px !important;" colspan="2" class="brand-bg d-pad">
+                <p style="font-size: 16px; line-height: 22px; margin-top: 0px !important">You're receiving this email because someone has sent you a service on ALISS.</p>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
