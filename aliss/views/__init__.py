@@ -42,7 +42,8 @@ from .service import (
     ServiceReportProblemView,
     ServiceProblemUpdateView,
     ServiceProblemListView,
-    ServiceCoverageView
+    ServiceCoverageView,
+    ServiceEmailView
 )
 from .claim import (
     ClaimListView,
