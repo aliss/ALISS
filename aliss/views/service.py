@@ -2,6 +2,7 @@ from django.views.generic import CreateView, UpdateView, ListView, DetailView, F
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -209,9 +210,34 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
         )
 
     def form_valid(self, form):
+        for user in self.get_users(email):
+            if not domain_override:
+                current_site = get_current_site(request)
+                site_name = current_site.name
+                domain = current_site.domain
+            else:
+                site_name = domain = domain_override
+            context = {
+                'email': email,
+                'domain': domain,
+                'site_name': site_name,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'user': user,
+                'token': token_generator.make_token(user),
+                'protocol': 'https' if use_https else 'http',
+            }
+
+
         self.service = form.cleaned_data.get('service')
+
+        current_site = get_current_site(self.request)
+        site_name = current_site.name
+        domain = current_site.domain
+
         context = {
-            'service': self.service
+            'service': self.service,
+            'domain': domain
+            'protocol': 'https'
         }
         subject = "Someone has emailed you a resource from ALISS"
         body = loader.render_to_string("service/email/single.txt", context)
