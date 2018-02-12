@@ -51,3 +51,7 @@ class ServiceProblemUpdateForm(forms.ModelForm):
         model = ServiceProblem
         fields = ('status',)
 
+
+class ServiceEmailForm(forms.Form):
+    email = forms.EmailField()
+    service = forms.ModelChoiceField(queryset=Service.objects.all())

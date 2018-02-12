@@ -8,14 +8,18 @@ from aliss.views import (
     ServiceReportProblemView,
     ServiceProblemListView,
     ServiceProblemUpdateView,
-    ServiceCoverageView
-
+    ServiceCoverageView,
+    ServiceEmailView
 )
 
 urlpatterns = [
     url(r'^coverage/$',
         ServiceCoverageView.as_view(),
         name='service_coverage'
+    ),
+    url(r'^email/$',
+        ServiceEmailView.as_view(),
+        name='service_email'
     ),
     url(r'^edit/(?P<pk>[0-9A-Za-z\-]+)/$',
         ServiceUpdateView.as_view(),

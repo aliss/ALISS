@@ -1,8 +1,12 @@
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, FormView, DeleteView, TemplateView
 from django.contrib import messages
+from django.conf import settings
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
+from django.core.mail import EmailMultiAlternatives
+from django.template import loader
 
 from braces.views import StaffuserRequiredMixin
 
@@ -11,7 +15,8 @@ from aliss.models import Service, ServiceProblem, ServiceArea, Organisation, Rec
 from aliss.forms import (
     ServiceForm,
     ServiceProblemForm,
-    ServiceProblemUpdateForm
+    ServiceProblemUpdateForm,
+    ServiceEmailForm
 )
 from aliss.views import OrganisationMixin
 
@@ -191,3 +196,35 @@ class ServiceCoverageView(StaffuserRequiredMixin, TemplateView):
         context['service_areas'] = ServiceArea.objects.prefetch_related('services').order_by('type', 'code')
 
         return context
+
+
+class ServiceEmailView(SuccessMessageMixin, FormView):
+    form_class = ServiceEmailForm
+    success_message = "Service emailed successfully"
+
+    def get_success_url(self):
+        return reverse(
+            'service_detail',
+            kwargs={'pk': self.service.pk}
+        )
+
+    def form_valid(self, form):
+        self.service = form.cleaned_data.get('service')
+        context = {
+            'service': self.service
+        }
+        subject = "Someone has emailed you a resource from ALISS"
+        body = loader.render_to_string("service/email/single.txt", context)
+
+        email_message = EmailMultiAlternatives(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [form.cleaned_data.get('email')]
+        )
+        html_email = loader.render_to_string("service/email/single.html", context)
+        email_message.attach_alternative(html_email, 'text/html')
+
+        email_message.send()
+
+        return super(ServiceEmailView, self).form_valid(form)
