@@ -216,7 +216,7 @@ class AccountRecommendationListAddServiceView(LoginRequiredMixin, View):
 
         messages.success(
             self.request,
-            '<p>{name} added to {list_name} list.</p><a href="{url}">View {list_name} list</a>'.format(name=service.name, list_name=recommendation_list.name, url=reverse('account_my_recommendations_detail', kwargs={'pk': recommendation_list.pk})))
+            '<p>{name} added to {list_name} list.</p><a href="{url}">View list</a>'.format(name=service.name, list_name=recommendation_list.name, url=reverse('account_my_recommendations_detail', kwargs={'pk': recommendation_list.pk})))
 
         return HttpResponseRedirect(url)
 
@@ -246,7 +246,7 @@ class AccountRecommendationListRemoveServiceView(View):
 
         messages.success(
             self.request,
-            '<p>{name} removed from {list_name} list.</p><a href="{url}">View {list_name} list</a>'.format(name=service.name, list_name=recommendation_list.name, url=reverse('account_my_recommendations_detail', kwargs={'pk': recommendation_list.pk})))
+            '<p>{name} removed from {list_name} list.</p><a href="{url}">View list</a>'.format(name=service.name, list_name=recommendation_list.name, url=reverse('account_my_recommendations_detail', kwargs={'pk': recommendation_list.pk})))
 
         return HttpResponseRedirect(url)
 
