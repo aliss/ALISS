@@ -16,7 +16,7 @@
         <tr><td height="30"></td></tr>
         <tr>
             <td valign="top" align="left" style="background: #ffffff; padding: 0 35px 0 35px;" height="100" colspan="2" class="d-pad-alt">
-                <h2 class="section-head" style="margin-bottom: 30px;  font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;">Hi {{ recommendation_list.name }}, {% if user.name %}{{ user.name }}{% else %}{{ user.email }}{% endif %} has recommended some ALISS services for you:</h2>
+                <h2 class="section-head" style="margin-bottom: 30px; font-size: 24px; line-height: 30px; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;">Hi {{ recommendation_list.name }}, {% if user.name %}{{ user.name }}{% else %}{{ user.email }}{% endif %} has recommended some ALISS services for you:</h2>
                 <div class="added category" style="margin-top:25px; margin-bottom: 40px">
                     {% for service in recommendation_list.services.all %}
                         <div class="service" style="margin: 20px 0 25px 0;">
