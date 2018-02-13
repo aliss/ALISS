@@ -19,8 +19,10 @@
                 <h2 class="section-head" style="margin-bottom: 30px;  font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;">Someone has shared an ALISS service with you:</h2>
                 <div class="added category" style="margin-top:25px; margin-bottom: 40px">
                     <div class="service" style="margin: 20px 0 25px 0;">
-                        <h2 style="margin-bottom: 0;"><a href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration: underline;">{{ service.name }}</a></h2>
-                        <p style="margin-top: 10px;">by <a href="{{ protocol }}://{{ domain }}{% url 'organisation_detail' pk=service.organisation.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration: underline;">{{ service.organisation.name }}</a></p>
+                        <div class="service" style="margin: 20px 0 25px 0;">
+                            <h2 style="margin-bottom: 0; font-size: 24px; line-height: 30px;"><a href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration:  none !important;">{{ service.name }}</a></h2>
+                            <p style="margin-top: 10px; font-size: 16px; line-height: 22px; ">by <a href="{{ protocol }}://{{ domain }}{% url 'organisation_detail' pk=service.organisation.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration: none !important;">{{ service.organisation.name }}</a></p>
+                        </div>
                     </div>
                 </div>
             </td>
