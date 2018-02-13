@@ -18,7 +18,7 @@
                     {% csrf_token %}
                     <label for="email">Enter an email address to send your recommendations for {{ recommendation_list.name }}:</label>
                     <input name="recommendation_list" type="hidden" value="{{ recommendation_list.pk }}">
-                    <input name="email" type="email" placeholder="email@company.com">
+                    <input name="email" type="email" placeholder="email@company.com" required>
                     <input type="submit" class="secondary" value="Send">
                 </form>
             </div>
