@@ -20,16 +20,15 @@
                                     </span>
                                     Close
                                 </a>
-                                <h5>Email recommendation list for {{ recommendation_list.name }}</h5>
+                                <h5>Email recommendations</h5>
                             </div>
                             <div class="form">
                                 <form method="post" action="{% url 'account_my_recommendations_email' %}">
                                     {% csrf_token %}
-                                    <div class="sbs-inputs">
-                                        <input name="recommendation_list" type="hidden" value="{{ recommendation_list.pk }}">
-                                        <input name="email" type="email" placeholder="email@company.com">
-                                        <input type="submit" class="secondary" value="Send">
-                                    </div>
+                                    <label for="email">Enter an email address to send your recommendations for {{ recommendation_list.name }}:</label>
+                                    <input name="recommendation_list" type="hidden" value="{{ recommendation_list.pk }}">
+                                    <input name="email" type="email" placeholder="email@company.com">
+                                    <input type="submit" class="secondary" value="Send">
                                 </form>
                             </div>
                         </div>
