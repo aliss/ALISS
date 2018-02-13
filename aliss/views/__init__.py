@@ -16,7 +16,8 @@ from .account import (
     AccountRecommendationListDetailView,
     AccountRecommendationListAddServiceView,
     AccountRecommendationListRemoveServiceView,
-    AccountRecommendationListDeleteView
+    AccountRecommendationListDeleteView,
+    AccountRecommendationListPrintView
 )
 from .search import SearchView, SearchShareView
 from .organisation import (

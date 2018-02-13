@@ -1,6 +1,30 @@
 {% extends "account/base.html" %}
 
 {% block content %}
+    <div class="black"></div>
+    <div class="modal" id="email_list">
+        <div class="pad">
+            <div class="heading">
+                <a class="close alert icon-link">
+                    <span class="icon">
+                        <i class="fas fa-times"></i>
+                    </span>
+                    Close
+                </a>
+                <h5>Email recommendation list for {{ object.name }}</h5>
+            </div>
+            <div class="form">
+                <form method="post" action="{% url 'account_my_recommendations_email' %}">
+                    {% csrf_token %}
+                    <div class="sbs-inputs">
+                        <input name="recommendation_list" type="hidden" value="{{ object.pk }}">
+                        <input name="email" type="email" placeholder="email@company.com">
+                        <input type="submit" class="secondary" value="Send">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="breadcrumbs">
         <a href="{% url 'account_my_recommendations' %}">My Recommendations</a>
         <span class="sep"></span>
@@ -62,12 +86,12 @@
                     {% endfor %}
                 </ul>
                 <div class="actions">
-                    <!-- <a href="#" class="icon-link">
+                    <a id="email_list_modal" class="icon-link">
                         <span class="icon">
                             <i class="fas fa-envelope"></i>
                         </span>
                         Email recommendations
-                    </a> -->
+                    </a>
                     <a href="javascript:window.print();" class="icon-link">
                         <span class="icon">
                             <i class="fas fa-print"></i>

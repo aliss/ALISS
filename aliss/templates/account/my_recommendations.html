@@ -11,6 +11,29 @@
         <div class="account-list">
             <ul class="recommendations-lists">
                 {% for recommendation_list in recommended_service_lists %}
+                    <div class="modal" id="email_list_{{ recommendation_list.pk }}">
+                        <div class="pad">
+                            <div class="heading">
+                                <a class="close alert icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-times"></i>
+                                    </span>
+                                    Close
+                                </a>
+                                <h5>Email recommendation list for {{ recommendation_list.name }}</h5>
+                            </div>
+                            <div class="form">
+                                <form method="post" action="{% url 'account_my_recommendations_email' %}">
+                                    {% csrf_token %}
+                                    <div class="sbs-inputs">
+                                        <input name="recommendation_list" type="hidden" value="{{ recommendation_list.pk }}">
+                                        <input name="email" type="email" placeholder="email@company.com">
+                                        <input type="submit" class="secondary" value="Send">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     <li>
                         <div class="heading">
                             <a id="delete_recommendation_list_{{ recommendation_list.pk }}_modal" class="alert icon-link">
@@ -47,12 +70,12 @@
                         <p>{{ recommendation_list.services.count }} Service{{ recommendation_list.services.count|pluralize }}</p>
                         <div class="options">
                             <!-- <a href="#" class="icon-link disabled"> -->
-                            <!-- <a href="#" class="icon-link">
+                            <a id="email_list_{{ recommendation_list.pk }}_modal" class="icon-link">
                                 <span class="icon">
                                     <i class="fas fa-envelope"></i>
                                 </span>
                                 Email recommendations
-                            </a> -->
+                            </a>
                             <a onclick="frames['recommendation_list_{{ recommendation_list.pk }}'].print()" class="icon-link">
                                 <span class="icon">
                                     <i class="fas fa-print"></i>

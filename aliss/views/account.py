@@ -1,16 +1,20 @@
-from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, DeleteView, TemplateView
+from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, DeleteView, TemplateView, FormView
 from django.contrib.auth import authenticate, login, views as auth_views
 from django.contrib import messages
+from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import EmailMultiAlternatives
+from django.template import loader
 
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from aliss.models import ALISSUser, Service, ServiceArea, Organisation, RecommendedServiceList, ServiceProblem, Claim
-from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm
+from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm
 from aliss.filters import AccountFilter
 
 
@@ -245,6 +249,61 @@ class AccountRecommendationListRemoveServiceView(View):
             '<p>{name} removed from {list_name} list.</p><a href="{url}">View {list_name} list</a>'.format(name=service.name, list_name=recommendation_list.name, url=reverse('account_my_recommendations_detail', kwargs={'pk': recommendation_list.pk})))
 
         return HttpResponseRedirect(url)
+
+
+class AccountRecommendationListPrintView(
+    LoginRequiredMixin,
+    SuccessMessageMixin,
+    FormView
+):
+    form_class = RecommendationListEmailForm
+    success_message = "Recommendation list emailed successfully"
+
+    def get_success_url(self):
+        return reverse(
+            'account_my_recommendations_detail',
+            kwargs={'pk': self.recommendation_list.pk}
+        )
+
+    def get_form_kwargs(self):
+        kwargs = super(AccountRecommendationListPrintView, self).get_form_kwargs()
+
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        self.recommendation_list = form.cleaned_data.get('recommendation_list')
+
+        current_site = get_current_site(self.request)
+        site_name = current_site.name
+        domain = current_site.domain
+
+        context = {
+            'recommendation_list': self.recommendation_list,
+            'domain': domain,
+            'protocol': 'https'
+        }
+        subject = "Someone has emailed you a list of recommended resources from ALISS"
+        body = loader.render_to_string(
+            "account/emails/recommendations.txt",
+            context
+        )
+
+        email_message = EmailMultiAlternatives(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [form.cleaned_data.get('email')]
+        )
+        html_email = loader.render_to_string(
+            "account/emails/recommendations.html",
+            context
+        )
+        email_message.attach_alternative(html_email, 'text/html')
+
+        email_message.send()
+
+        return super(AccountRecommendationListPrintView, self).form_valid(form)
 
 
 class AccountMyOrganisationsView(LoginRequiredMixin, ListView):
