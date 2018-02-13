@@ -281,7 +281,8 @@ class AccountRecommendationListPrintView(
         context = {
             'recommendation_list': self.recommendation_list,
             'domain': domain,
-            'protocol': 'https'
+            'protocol': 'https',
+            'user': self.request.user
         }
         subject = "Someone has emailed you a list of recommended resources from ALISS"
         body = loader.render_to_string(
