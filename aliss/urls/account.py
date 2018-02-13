@@ -19,7 +19,8 @@ from aliss.views import (
     AccountRecommendationListDetailView,
     AccountRecommendationListAddServiceView,
     AccountRecommendationListRemoveServiceView,
-    AccountRecommendationListDeleteView
+    AccountRecommendationListDeleteView,
+    AccountRecommendationListPrintView
 )
 
 
@@ -86,6 +87,10 @@ urlpatterns = [
     url(r'^my-recommendations/$',
         AccountMyRecommendationsView.as_view(),
         name='account_my_recommendations'
+    ),
+    url(r'^my-recommendations/email/$',
+        AccountRecommendationListPrintView.as_view(),
+        name='account_my_recommendations_email'
     ),
     url(r'^my-recommendations/(?P<pk>[0-9A-Za-z\-]+)/$',
         AccountRecommendationListDetailView.as_view(),

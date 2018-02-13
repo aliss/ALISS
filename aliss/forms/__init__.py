@@ -1,4 +1,9 @@
-from .account import SignupForm, AccountUpdateForm, RecommendationServiceListForm
+from .account import (
+    SignupForm,
+    AccountUpdateForm,
+    RecommendationServiceListForm,
+    RecommendationListEmailForm
+)
 from .search import SearchForm
 from .location import LocationForm
 from .service import (

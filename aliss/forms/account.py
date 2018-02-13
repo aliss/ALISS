@@ -95,3 +95,19 @@ class RecommendationServiceListForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'placeholder': 'e.g. John Smith'})
         }
         error_css_class = 'has-error'
+
+
+
+class RecommendationListEmailForm(forms.Form):
+    email = forms.EmailField()
+    recommendation_list = forms.ModelChoiceField(
+        queryset=RecommendedServiceList.objects.all()
+    )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+
+        super(RecommendationListEmailForm, self).__init__(*args, **kwargs)
+
+        self.fields['recommendation_list'].queryset = RecommendedServiceList.\
+            objects.filter(user=user)
