@@ -102,6 +102,9 @@ $(document).ready(() => {
             console.log(value);
             $(this).parent().remove();
             $(`input[value="${value}"]`).prop('checked', false);
+            if($('.selected-categories .cats').is(':empty')) {
+                $('.selected-categories').removeClass('active');
+            }
         });
     });
     if($('.all-categories input:checkbox:checked').length > 0) {
@@ -115,6 +118,15 @@ $(document).ready(() => {
     } else {
         $('.selected-categories').removeClass('active');
     }
+    $('.selected-cat span.remove').click(function(){
+        var value = $(this).parent().attr('data-cat');
+        console.log(value);
+        $(this).parent().remove();
+        $(`input[value="${value}"]`).prop('checked', false);
+        if($('.selected-categories .cats').is(':empty')) {
+            $('.selected-categories').removeClass('active');
+        }
+    });
 
     // Select2
     $('.multiselect select').hide();
