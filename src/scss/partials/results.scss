@@ -844,6 +844,10 @@ p.org {
 		}
 		padding: 1.75em 0 2.25em 0;
 		border-bottom: 1px solid $light-gray;
+		&.modal {
+			padding: 0;
+			border: 0;
+		}
 		&:first-child {
 			padding-top: 0;
 		}
