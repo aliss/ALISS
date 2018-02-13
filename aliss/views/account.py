@@ -210,8 +210,8 @@ class AccountRecommendationListAddServiceView(LoginRequiredMixin, View):
             url = next
         else:
             url = reverse(
-                'account_my_recommendations_detail',
-                kwargs={'pk': recommendation_list.pk}
+                'service_detail',
+                kwargs={'pk': service_pk}
             )
 
         messages.success(
@@ -240,8 +240,8 @@ class AccountRecommendationListRemoveServiceView(View):
             url = next
         else:
             url = reverse(
-                'account_my_recommendations_detail',
-                kwargs={'pk': recommendation_list.pk}
+                'service_detail',
+                kwargs={'pk': service_pk}
             )
 
         messages.success(
