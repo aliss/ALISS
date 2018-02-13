@@ -1,0 +1,7 @@
+aliss.org
+
+Hi {{ recommendation_list.name }}, {% if user.name %}{{ user.name }}{% else %}{{ user.email }}{% endif %} has recommended some ALISS services for you:
+
+{% for service in services %}
+{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}
+{% endfor %}
