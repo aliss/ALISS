@@ -20,7 +20,7 @@
                 <div class="added category" style="margin-top:25px; margin-bottom: 40px">
                     {% for service in recommendation_list.services.all %}
                         <div class="service" style="margin: 20px 0 25px 0;">
-                            <h2 style="margin-bottom: 0; font-size: 24px; line-height: 30px;"><a href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration:  none !important;">{{ service.name }}</a></h2>
+                            <h2 style="margin-bottom: 0; font-size: 24px; line-height: 30px; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;"><a href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration:  none !important;">{{ service.name }}</a></h2>
                             <p style="margin-top: 10px; font-size: 16px; line-height: 22px; ">by <a href="{{ protocol }}://{{ domain }}{% url 'organisation_detail' pk=service.organisation.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration: none !important;">{{ service.organisation.name }}</a></p>
                         </div>
                     {% endfor %}
