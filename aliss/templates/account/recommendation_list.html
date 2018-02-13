@@ -16,11 +16,10 @@
             <div class="form">
                 <form method="post" action="{% url 'account_my_recommendations_email' %}">
                     {% csrf_token %}
-                    <div class="sbs-inputs">
-                        <input name="recommendation_list" type="hidden" value="{{ object.pk }}">
-                        <input name="email" type="email" placeholder="email@company.com">
-                        <input type="submit" class="secondary" value="Send">
-                    </div>
+                    <label for="email">Enter an email address to send your recommendations for {{ recommendation_list.name }}:</label>
+                    <input name="recommendation_list" type="hidden" value="{{ recommendation_list.pk }}">
+                    <input name="email" type="email" placeholder="email@company.com" required>
+                    <input type="submit" class="secondary" value="Send">
                 </form>
             </div>
         </div>
