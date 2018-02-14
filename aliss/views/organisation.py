@@ -138,7 +138,9 @@ class OrganisationSearchView(LoginRequiredMixin, FilterView):
     filterset_class = OrganisationFilter
 
     def get_queryset(self):
-        return Organisation.objects.filter(published=True)
+        return Organisation.objects.filter(
+            published=True
+        ).order_by('-created_on')
 
 
 class OrganisationUnPublishedView(StaffuserRequiredMixin, FilterView):
