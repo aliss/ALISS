@@ -70,7 +70,7 @@
                             </div>
                         {% else %}
                             <div class="actions toggle-content">
-                                <a href="#" class="primary icon-link">
+                                <a href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                                     <span class="icon">
                                         <i class="fas fa-hand-paper"></i>
                                     </span>
