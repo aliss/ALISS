@@ -4,10 +4,12 @@ from aliss.models import Organisation
 
 class OrganisationMixin(object):
     def get_organisation(self):
-        return get_object_or_404(
-            Organisation,
-            pk=self.kwargs.get('pk')
-        )
+        if not self.organisation:
+            self.organisation = get_object_or_404(
+                Organisation,
+                pk=self.kwargs.get('pk')
+            )
+        return self.organisation
 
     def get(self, request, *args, **kwargs):
         self.organisation = self.get_organisation()

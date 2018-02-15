@@ -9,7 +9,11 @@ from django.http import HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 
-from braces.views import StaffuserRequiredMixin
+from braces.views import (
+    LoginRequiredMixin,
+    StaffuserRequiredMixin,
+    UserPassesTestMixin
+)
 
 from aliss.search import index_service, delete_service
 from aliss.models import Service, ServiceProblem, ServiceArea, Organisation, RecommendedServiceList
@@ -22,10 +26,18 @@ from aliss.forms import (
 from aliss.views import OrganisationMixin
 
 
-class ServiceCreateView(StaffuserRequiredMixin, OrganisationMixin, CreateView):
+class ServiceCreateView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    OrganisationMixin,
+    CreateView
+):
     model = Service
     form_class = ServiceForm
     template_name = 'service/create.html'
+
+    def test_func(self, user):
+        return (user.is_staff or self.get_organisation().claimed_by == user)
 
     def get_form_kwargs(self):
         kwargs = super(ServiceCreateView, self).get_form_kwargs()
@@ -57,10 +69,19 @@ class ServiceCreateView(StaffuserRequiredMixin, OrganisationMixin, CreateView):
         )
 
 
-class ServiceUpdateView(StaffuserRequiredMixin, UpdateView):
+class ServiceUpdateView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    UpdateView
+):
     model = Service
     form_class = ServiceForm
     template_name = 'service/update.html'
+
+    def test_func(self, user):
+        return (
+            user.is_staff or self.get_object().organisation.claimed_by == user
+        )
 
     def get_form_kwargs(self):
         kwargs = super(ServiceUpdateView, self).get_form_kwargs()

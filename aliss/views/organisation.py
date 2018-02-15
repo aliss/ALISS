@@ -7,7 +7,11 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
 from django_filters.views import FilterView
-from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
+from braces.views import (
+    LoginRequiredMixin,
+    StaffuserRequiredMixin,
+    UserPassesTestMixin
+)
 
 from aliss.models import Organisation
 from aliss.filters import OrganisationFilter
@@ -52,7 +56,11 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class OrganisationUpdateView(StaffuserRequiredMixin, UpdateView):
+class OrganisationUpdateView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    UpdateView
+):
     model = Organisation
     template_name = 'organisation/update.html'
     fields = [
@@ -64,6 +72,9 @@ class OrganisationUpdateView(StaffuserRequiredMixin, UpdateView):
         'facebook',
         'twitter',
     ]
+
+    def test_func(self, user):
+        return (user.is_staff or self.get_object().claimed_by == user)
 
     def get_success_url(self):
         return reverse(
