@@ -9,6 +9,10 @@ urlpatterns = [
         ClaimListView.as_view(),
         name='claim_list'
     ),
+    url(r'^thanks/$',
+        TemplateView.as_view(template_name="claim/thanks.html"),
+        name='claim_thanks'
+    ),
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/$',
         ClaimDetailView.as_view(),
         name='claim_detail'
