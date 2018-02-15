@@ -68,7 +68,7 @@ class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
 class ClaimCreateView(LoginRequiredMixin, FormView):
     form_class = ClaimForm
     template_name = 'claim/create.html'
-    success_url = reverse_lazy('claim_list')
+    success_url = reverse_lazy('claim_thanks')
 
     def form_valid(self, form):
         organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
