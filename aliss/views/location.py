@@ -4,7 +4,11 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
-from braces.views import StaffuserRequiredMixin
+from braces.views import (
+    LoginRequiredMixin,
+    StaffuserRequiredMixin,
+    UserPassesTestMixin
+)
 
 from aliss.search import index_service
 from aliss.models import Location, Organisation
@@ -12,10 +16,18 @@ from aliss.forms import LocationForm
 from aliss.views import OrganisationMixin
 
 
-class LocationCreateView(StaffuserRequiredMixin, OrganisationMixin, CreateView):
+class LocationCreateView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    OrganisationMixin,
+    CreateView
+):
     model = Location
     form_class = LocationForm
     template_name = 'location/create.html'
+
+    def test_func(self, user):
+        return (user.is_staff or self.get_organisation().claimed_by == user)
 
     def get_success_url(self):
         return reverse(
@@ -37,10 +49,19 @@ class LocationCreateView(StaffuserRequiredMixin, OrganisationMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class LocationUpdateView(StaffuserRequiredMixin, UpdateView):
+class LocationUpdateView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    UpdateView
+):
     model = Location
     form_class = LocationForm
     template_name = 'location/update.html'
+
+    def test_func(self, user):
+        return (
+            user.is_staff or self.get_object().organisation.claimed_by == user
+        )
 
     def get_success_url(self):
         return reverse(

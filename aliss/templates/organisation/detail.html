@@ -41,7 +41,7 @@
                         <div class="heading">
                             <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
                         </div>
-                        {% if request.user.is_staff %}
+                        {% if request.user.is_staff or object.claimed_by == request.user %}
                             <div class="actions toggle-content">
                                 <a href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                                     <span class="icon">
@@ -68,7 +68,7 @@
                                     Delete organisation
                                 </a>
                             </div>
-                        {% else %}
+                        {% elif not object.claimed_by %}
                             <div class="actions toggle-content">
                                 <a href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                                     <span class="icon">
