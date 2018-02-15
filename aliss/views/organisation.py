@@ -15,6 +15,7 @@ from braces.views import (
 
 from aliss.models import Organisation
 from aliss.filters import OrganisationFilter
+from aliss.search import delete_service
 
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
@@ -130,6 +131,12 @@ class OrganisationDeleteView(StaffuserRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
+
+        # Delete services from search index
+        for service in self.object.services.all():
+            # Delete from search index
+            delete_service(service.pk)
+
         success_url = self.get_success_url()
 
         self.object.delete()
