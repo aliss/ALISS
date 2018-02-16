@@ -635,6 +635,13 @@ ul.searches {
 				display: block;
 				margin-bottom: 0.5em;
 			}
+			a.active {
+				color: $medium-gray;
+				@include st {
+					text-decoration: none;
+					color: $medium-gray;
+				}
+			}
 		}
 	}
 }
