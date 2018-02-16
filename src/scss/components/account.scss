@@ -621,6 +621,23 @@ ul.searches {
 		display: block;
 	}
 }
+.claim-type {
+	ul {
+		@extend %no-list;
+		li {
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: 0.7rem;
+			&:last-child {
+				margin: 0;
+			}
+			@include small {
+				display: block;
+				margin-bottom: 0.5em;
+			}
+		}
+	}
+}
 
 
 
