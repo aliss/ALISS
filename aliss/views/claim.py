@@ -16,6 +16,13 @@ class ClaimListView(StaffuserRequiredMixin, ListView):
     template_name = 'claim/list.html'
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context = super(ClaimListView, self).get_context_data(**kwargs)
+        context['unreviewed_count'] = Claim.objects.filter(status=Claim.UNREVIEWED).count()
+        context['confirmed_count'] = Claim.objects.filter(status=Claim.CONFIRMED).count()
+        context['denied_count'] = Claim.objects.filter(status=Claim.DENIED).count()
+        return context
+
     def get_queryset(self):
         queryset = super(ClaimListView, self).get_queryset()
 
