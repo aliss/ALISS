@@ -21,6 +21,8 @@ class ClaimListView(StaffuserRequiredMixin, ListView):
 
         if self.request.GET.get('status', None) and int(self.request.GET.get('status', None)) in [Claim.UNREVIEWED, Claim.CONFIRMED, Claim.DENIED]:
             queryset = queryset.filter(status=self.request.GET['status'])
+        else:
+            queryset = queryset.filter(status=Claim.UNREVIEWED)
 
         return queryset
 
