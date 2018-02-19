@@ -4,6 +4,13 @@ from aliss.models import Postcode, Category, ServiceArea
 
 
 class SearchInputSerializer(serializers.Serializer):
+    LOCAL = 'local'
+    NATIONAL = 'national'
+    LOCATION_TYPE_CHOICES = (
+        (LOCAL, LOCAL),
+        (NATIONAL, NATIONAL)
+    )
+
     query = serializers.CharField(required=False)
     postcode = serializers.SlugRelatedField(
         required=True,
@@ -11,17 +18,16 @@ class SearchInputSerializer(serializers.Serializer):
         queryset=Postcode.objects.all()
     )
 
-    categories = serializers.SlugRelatedField(
+    category = serializers.SlugRelatedField(
         required=False,
-        many=True,
+        many=False,
         slug_field='slug',
         queryset=Category.objects.all()
     )
-    service_areas = serializers.SlugRelatedField(
-        required=False,
-        many=True,
-        slug_field='code',
-        queryset=ServiceArea.objects.all()
+
+    location_type = serializers.ChoiceField(
+        choices=LOCATION_TYPE_CHOICES,
+        required=False
     )
 
     radius = serializers.IntegerField(default=5000)
@@ -32,9 +38,16 @@ class OrganisationSerializer(serializers.Serializer):
     name = serializers.CharField()
 
 
-class CategorySerializer(serializers.Serializer):
+class CategorySearchSerializer(serializers.Serializer):
     name = serializers.CharField()
     slug = serializers.SlugField()
+
+
+class CategorySerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+    parent = serializers.PrimaryKeyRelatedField(read_only=True)
 
 
 class LocationSerializer(serializers.Serializer):
@@ -54,7 +67,7 @@ class LocationSerializer(serializers.Serializer):
 
 class ServiceAreaSerializer(serializers.Serializer):
     code = serializers.CharField()
-    type = serializers.CharField(source='get_type_display')
+    type = serializers.CharField()
     name = serializers.CharField()
 
 
@@ -66,6 +79,6 @@ class SearchSerializer(serializers.Serializer):
     url = serializers.URLField(required=False)
     phone = serializers.CharField(required=False)
     email = serializers.CharField(required=False)
-    categories = CategorySerializer(many=True, required=False)
+    categories = CategorySearchSerializer(many=True, required=False)
     locations = LocationSerializer(many=True, required=False)
     service_areas = ServiceAreaSerializer(many=True, required=False)

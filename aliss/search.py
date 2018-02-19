@@ -265,14 +265,6 @@ def filter_by_category(queryset, category):
     )
 
 
-def filter_by_service_areas(queryset, service_areas):
-    return queryset.filter(
-        Q('terms', service_areas__id=[
-            service_area.pk for service_area in service_areas
-        ])
-    )
-
-
 def filter_by_location_type(queryset, type):
     if type == 'local':
         return queryset.exclude('terms', service_areas__type_code=[
