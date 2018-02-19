@@ -79,6 +79,7 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
+        ordering = ['-date_joined']
 
     def get_absolute_url(self):
         return reverse('user_detail', args=[str(self.username)])
