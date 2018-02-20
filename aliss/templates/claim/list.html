@@ -8,13 +8,13 @@
                 <h3>Claim Requests</h3>
                 <ul class="claim-type">
                     <li>
-                        <a href="?{% query_transform request status=0 %}" {% if request.GET.status == '0' or request.GET.status == None %}class="active"{% endif %}>Unreviewed ({{ unreviewed_count }})</a>
+                        <a href="?{% query_transform request status=0 page=None %}" {% if request.GET.status == '0' or request.GET.status == None %}class="active"{% endif %}>Unreviewed ({{ unreviewed_count }})</a>
                     </li>
                     <li>
-                        <a href="?{% query_transform request status=10 %}" {% if request.GET.status == '10' %}class="active"{% endif %}>Approved Request ({{ confirmed_count }})</a>
+                        <a href="?{% query_transform request status=10 page=None %}" {% if request.GET.status == '10' %}class="active"{% endif %}>Approved Request ({{ confirmed_count }})</a>
                     </li>
                     <li>
-                        <a href="?{% query_transform request status=20 %}" {% if request.GET.status == '20' %}class="active"{% endif %}>Denied Requests ({{ denied_count }})</a>
+                        <a href="?{% query_transform request status=20 page=None %}" {% if request.GET.status == '20' %}class="active"{% endif %}>Denied Requests ({{ denied_count }})</a>
                     </li>
                 </ul>
                 <ul class="claim-requests edit">
