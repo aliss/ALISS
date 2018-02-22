@@ -2,6 +2,40 @@
 
 {% block content %}
     <div class="row">
+        <div class="admin-actions">
+            <div class="info-box small toggled" id="user_actions">
+                <div class="heading">
+                    <h4 id="user_actions_toggle" class="toggle-heading">Actions</h4>
+                </div>
+                <div class="actions toggle-content">
+                    {% if request.user.is_staff %}
+                        {% if object.is_editor %}
+                            <form method='post' action="{% url 'account_is_editor' pk=object.pk %}">
+                                {% csrf_token %}
+                                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
+                                <button type="submit" class="txt-button alert icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                    Cancel editorial privilege
+                                </button>
+                            </form>
+                        {% else %}
+                            <form method='post' action="{% url 'account_is_editor' pk=object.pk %}">
+                                {% csrf_token %}
+                                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
+                                <button type="submit" class="txt-button icon-link">
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                    Make user editor
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
         <div class="columns content">
             <div class="copy-container">
                 {% if object.username %}

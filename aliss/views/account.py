@@ -64,9 +64,30 @@ class AccountUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 
 class AccountListView(StaffuserRequiredMixin, FilterView):
+    model = ALISSUser
     template_name = 'account/list.html'
     paginate_by = 10
     filterset_class = AccountFilter
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountListView, self).get_context_data(**kwargs)
+        context['editor_count'] = ALISSUser.objects.filter(
+            is_editor=True).count()
+        context['user_count'] = ALISSUser.objects.filter(
+            is_editor=False).count()
+
+        return context
+
+    def get_queryset(self):
+        queryset = super(AccountListView, self).get_queryset()
+
+        if self.request.GET.get('editor', None):
+            if self.request.GET.get('editor') == 'true':
+                queryset = queryset.filter(is_editor=True)
+            elif self.request.GET.get('editor') == 'false':
+                queryset = queryset.filter(is_editor=False)
+
+        return queryset
 
 
 class AccountDetailView(StaffuserRequiredMixin, DetailView):
@@ -339,3 +360,35 @@ class AccountAdminDashboard(StaffuserRequiredMixin, TemplateView):
         context['recently_added'] = Service.objects.all().order_by('-created_on')[:10]
 
         return context
+
+
+class AccountIsEditor(StaffuserRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = get_object_or_404(ALISSUser, pk=self.kwargs['pk'])
+
+        if user.is_editor:
+            user.is_editor = False
+            user.save()
+            messages.success(
+                self.request,
+                'User {username} no longer editor'.format(
+                    username=user.get_full_name()
+                )
+            )
+        else:
+            user.is_editor = True
+            user.save()
+            messages.success(
+                self.request,
+                'User {username} is now an editor'.format(
+                    username=user.get_full_name()
+                )
+            )
+
+        next = self.request.POST.get('next', '')
+        if next:
+            url = next
+        else:
+            url = reverse('account_detail', kwargs={'pk': user.pk})
+
+        return HttpResponseRedirect(url)

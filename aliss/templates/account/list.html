@@ -1,9 +1,18 @@
 {% extends "account/admin_base.html" %}
+{% load aliss %}
 
 {% block content %}
     <div class="row edit-users">
         <div class="columns">
             <h4>Users</h4>
+            <ul class="claim-type">
+                <li>
+                    <a href="?{% query_transform request editor='true' page=None %}" {% if request.GET.editor == 'true' %}class="active"{% endif %}>Editors ({{ editor_count }})</a>
+                </li>
+                <li>
+                    <a href="?{% query_transform request editor='false' page=None %}" {% if request.GET.editor == 'false' %}class="active"{% endif %}>Non-editors ({{ user_count }})</a>
+                </li>
+            </ul>
             <div class="filter user-search">
                 <form>
                     <label>Search users:</label>

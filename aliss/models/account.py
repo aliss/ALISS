@@ -53,6 +53,11 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
             'Unselect this instead of deleting accounts.'
         ),
     )
+
+    is_editor = models.BooleanField(
+        default=False
+    )
+
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     name = models.CharField(max_length=50)

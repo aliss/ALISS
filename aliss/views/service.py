@@ -37,7 +37,11 @@ class ServiceCreateView(
     template_name = 'service/create.html'
 
     def test_func(self, user):
-        return (user.is_staff or self.get_organisation().claimed_by == user)
+        return (
+            user.is_staff or \
+            user.is_editor or \
+            self.get_organisation().claimed_by == user
+        )
 
     def get_form_kwargs(self):
         kwargs = super(ServiceCreateView, self).get_form_kwargs()
@@ -80,7 +84,9 @@ class ServiceUpdateView(
 
     def test_func(self, user):
         return (
-            user.is_staff or self.get_object().organisation.claimed_by == user
+            user.is_staff or \
+            user.is_editor or \
+            self.get_object().organisation.claimed_by == user
         )
 
     def get_form_kwargs(self):

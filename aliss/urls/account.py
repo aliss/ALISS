@@ -20,7 +20,8 @@ from aliss.views import (
     AccountRecommendationListAddServiceView,
     AccountRecommendationListRemoveServiceView,
     AccountRecommendationListDeleteView,
-    AccountRecommendationListPrintView
+    AccountRecommendationListPrintView,
+    AccountIsEditor
 )
 
 
@@ -139,6 +140,10 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/$',
         AccountDetailView.as_view(),
         name='account_detail'
+    ),
+    url(r'^user/(?P<pk>[0-9A-Za-z\-]+)/editor/$',
+        AccountIsEditor.as_view(),
+        name='account_is_editor'
     ),
 ]
 
