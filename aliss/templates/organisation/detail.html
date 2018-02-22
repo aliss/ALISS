@@ -41,7 +41,7 @@
                         <div class="heading">
                             <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
                         </div>
-                        {% if request.user.is_staff or object.claimed_by == request.user %}
+                        {% if request.user.is_staff or request.user.is_editor or object.claimed_by == request.user %}
                             <div class="actions toggle-content">
                                 <a href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                                     <span class="icon">
@@ -112,7 +112,7 @@
                         {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
                         {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
                     </p>
-                    {% if request.user.is_staff or object.claimed_by == request.user %}
+                    {% if request.user.is_staff or request.user.is_editor or object.claimed_by == request.user %}
                         <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
                     {% endif %}
                 {% endif %}
@@ -126,7 +126,7 @@
                                 {% include 'service/partials/detail.html' with service=service %}
                             {% endfor %}
                         </ul>
-                        {% if request.user.is_staff or object.claimed_by == request.user %}
+                        {% if request.user.is_staff or request.user.is_editor or object.claimed_by == request.user %}
                             <a href="{% url 'service_create' pk=object.pk %}" class="button primary">Add Service</a>
                         {% endif %}
                     </div>
