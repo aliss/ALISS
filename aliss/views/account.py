@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
+from django.db.models import Q
 
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
@@ -72,7 +73,7 @@ class AccountListView(StaffuserRequiredMixin, FilterView):
     def get_context_data(self, **kwargs):
         context = super(AccountListView, self).get_context_data(**kwargs)
         context['editor_count'] = ALISSUser.objects.filter(
-            is_editor=True).count()
+            Q(is_editor=True) | Q(is_staff=True)).count()
         context['user_count'] = ALISSUser.objects.filter(
             is_editor=False).count()
 
@@ -83,7 +84,9 @@ class AccountListView(StaffuserRequiredMixin, FilterView):
 
         if self.request.GET.get('editor', None):
             if self.request.GET.get('editor') == 'true':
-                queryset = queryset.filter(is_editor=True)
+                queryset = queryset.filter(
+                    Q(is_editor=True) | Q(is_staff=True)
+                )
             elif self.request.GET.get('editor') == 'false':
                 queryset = queryset.filter(is_editor=False)
 
