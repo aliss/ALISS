@@ -61,7 +61,7 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     name = models.CharField(max_length=50)
-    postcode = models.CharField(max_length=9)
+    postcode = models.CharField(max_length=9, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
 
     saved_services = models.ManyToManyField('aliss.Service', blank=True)
