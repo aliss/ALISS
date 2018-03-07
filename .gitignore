@@ -71,3 +71,5 @@ staticfiles/
 #Node + Gulp
 node_modules/
 dump.rdb
+
+devnotes.md
