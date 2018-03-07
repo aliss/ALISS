@@ -16,6 +16,9 @@
                     <li>
                         <a href="?{% query_transform request status=20 page=None %}" {% if request.GET.status == '20' %}class="active"{% endif %}>Denied Requests ({{ denied_count }})</a>
                     </li>
+                    <li>
+                        <a href="?{% query_transform request status=30 page=None %}" {% if request.GET.status == '30' %}class="active"{% endif %}>Revoked Requests ({{ revoked_count }})</a>
+                    </li>
                 </ul>
                 <ul class="claim-requests edit">
                     {% for claim in object_list %}
@@ -24,7 +27,11 @@
                                 <h4>User <a href="{% url 'account_detail' pk=claim.user.pk %}">{{ claim.user.get_short_name }}</a> has claimed <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}</a></h4>
                             </div>
                             <p>{{ claim.comment }}</p>
-                            <p>Claimed on {{ claim.created_on }}</p>
+                            <p>Request made on {{ claim.created_on }}</p>
+
+                            {% if claim.reviewed_by != None %}
+                            <p>Last reviewed on {{ claim.reviewed_on }} by {{ claim.reviewed_by.name }} ({{ claim.reviewed_by }}) </p>
+                            {% endif %}
                             <ul class="contact-info">
                                 {% if claim.phone %}
                                     <li>
@@ -62,20 +69,22 @@
                                 </div>
                             {% elif claim.status == claim.CONFIRMED %}
                                 <div class="edit-options">
-                                    <form method="post" action="">
+                                    <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
                                         {% csrf_token %}
+                                        <input type="hidden" name="status" value="{{ claim.REVOKED }}" />
                                         <button href="#" class="txt-button alert icon-link">
                                             <span class="icon">
                                                 <i class="fas fa-minus-hexagon"></i>
                                             </span>
-                                            Remove Representation
+                                            Revoke Representation
                                         </button>
                                     </form>
                                 </div>
-                            {% elif claim.status == claim.DENIED %}
+                            {% elif claim.status == claim.DENIED or claim.status == claim.REVOKED %}
                                 <div class="edit-options">
-                                    <form method="post" action="">
+                                    <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
                                         {% csrf_token %}
+                                        <input type="hidden" name="status" value="{{ claim.UNREVIEWED }}" />
                                         <button href="#" class="txt-button primary icon-link">
                                             <span class="icon">
                                                 <i class="fas fa-hand-paper"></i>

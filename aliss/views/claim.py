@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from datetime import datetime
 
 from braces.views import StaffuserRequiredMixin, LoginRequiredMixin
 
@@ -21,12 +22,13 @@ class ClaimListView(StaffuserRequiredMixin, ListView):
         context['unreviewed_count'] = Claim.objects.filter(status=Claim.UNREVIEWED).count()
         context['confirmed_count'] = Claim.objects.filter(status=Claim.CONFIRMED).count()
         context['denied_count'] = Claim.objects.filter(status=Claim.DENIED).count()
+        context['revoked_count'] = Claim.objects.filter(status=Claim.REVOKED).count()
         return context
 
     def get_queryset(self):
         queryset = super(ClaimListView, self).get_queryset()
 
-        if self.request.GET.get('status', None) and int(self.request.GET.get('status', None)) in [Claim.UNREVIEWED, Claim.CONFIRMED, Claim.DENIED]:
+        if self.request.GET.get('status', None) and int(self.request.GET.get('status', None)) in [Claim.UNREVIEWED, Claim.CONFIRMED, Claim.DENIED, Claim.REVOKED]:
             queryset = queryset.filter(status=self.request.GET['status'])
         else:
             queryset = queryset.filter(status=Claim.UNREVIEWED)
@@ -42,12 +44,17 @@ class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
 
     def send_user_email(self, claim):
         if claim.status == Claim.CONFIRMED:
-            message = 'Congratulations, your claim of ownership for {organisation} on ALISS has been confirmed.'.format(organisation=claim.organisation
+            message = 'Congratulations, your claim of ownership for {organisation} on ALISS has been confirmed.'.format(organisation=claim.organisation)
+        elif claim.status == Claim.REVOKED:
+            message = 'We are sorry, but your claim of ownership for {organisation} on ALISS has been revoked.'.format(
+                organisation=claim.organisation
             )
-        else:
+        elif claim.status == Claim.DENIED:
             message = 'We are sorry, but your claim of ownership for {organisation} on ALISS has been denied.'.format(
                 organisation=claim.organisation
             )
+        else:
+            return False
 
         send_mail(
             'Your ownership claim of {organisation} on ALISS'.format(
@@ -62,9 +69,14 @@ class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+        self.object.reviewed_on = datetime.now()
+        self.object.reviewed_by = self.request.user
 
         if self.object.status == Claim.CONFIRMED:
             self.object.organisation.claimed_by = self.object.user
+            self.object.organisation.save()
+        elif self.object.status == Claim.REVOKED:
+            self.object.organisation.claimed_by = None
             self.object.organisation.save()
 
         self.object.save()

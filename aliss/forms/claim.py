@@ -20,7 +20,9 @@ class ClaimUpdateForm(forms.ModelForm):
     status = forms.ChoiceField(
                 choices=(
                     (Claim.CONFIRMED, "Confirm Claim"),
+                    (Claim.REVOKED, "Revoke Claim"),
                     (Claim.DENIED, "Deny Claim"),
+                    (Claim.UNREVIEWED, "Review Claim"),
                 ),
                 widget=forms.RadioSelect()
              )
