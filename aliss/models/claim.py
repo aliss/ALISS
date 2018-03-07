@@ -9,11 +9,13 @@ class Claim(models.Model):
     UNREVIEWED = 0
     CONFIRMED = 10
     DENIED = 20
+    REVOKED = 30
 
     STATUS_CHOICES = (
         (UNREVIEWED, "Un-reviewed"),
         (CONFIRMED, "Confirmed"),
-        (DENIED, "Denied")
+        (DENIED, "Denied"),
+        (REVOKED, "Revoked")
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
