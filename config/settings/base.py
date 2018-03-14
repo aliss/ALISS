@@ -125,10 +125,14 @@ DEFAULT_FROM_EMAIL = 'info@aliss.org'
 
 # Error Reporting
 ADMINS = (
-    ('Kevin Brolly', 'kevin@thisisbraw.co.uk'),
+    ('Rory Gianni', 'hello@rgianni.cc'),
 )
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+se = os.environ.get('SESSION_ENGINE')
+if se != None: 
+    SESSION_ENGINE = se
+
 SESSION_CACHE_ALIAS = "default"
 
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
