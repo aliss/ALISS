@@ -97,9 +97,17 @@ class LocationDetailView(StaffuserRequiredMixin, DetailView):
     template_name = 'location/detail.html'
 
 
-class LocationDeleteView(StaffuserRequiredMixin, DeleteView):
+class LocationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+
     model = Location
     template_name = 'location/delete.html'
+
+    def test_func(self, user):
+        return (
+            user.is_staff or \
+            user.is_editor or \
+            self.get_object().organisation.claimed_by == user
+        )
 
     def get_success_url(self):
         return reverse(

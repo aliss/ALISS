@@ -32,6 +32,7 @@ class ServiceCreateView(
     OrganisationMixin,
     CreateView
 ):
+
     model = Service
     form_class = ServiceForm
     template_name = 'service/create.html'
@@ -134,9 +135,17 @@ class ServiceDetailView(DetailView):
         return context
 
 
-class ServiceDeleteView(StaffuserRequiredMixin, DeleteView):
+class ServiceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+
     model = Service
     template_name = 'service/delete.html'
+
+    def test_func(self, user):
+        return (
+            user.is_staff or \
+            user.is_editor or \
+            self.get_object().organisation.claimed_by == user
+        )
 
     def get_success_url(self):
         return reverse(
