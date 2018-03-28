@@ -166,7 +166,7 @@ class OrganisationSearchView(LoginRequiredMixin, FilterView):
 
 
 class OrganisationUnPublishedView(StaffuserRequiredMixin, FilterView):
-    template_name = 'organisation/unpublished_list.html'
+    template_name = 'organisation/unpublished.html'
     paginate_by = 10
     filterset_class = OrganisationFilter
 
