@@ -75,7 +75,7 @@
                                     Claim this organisation
                                 </a>
                             {% endif %}
-                        {% else %}
+                        {% elif not object.claimed_by %}
                             <a title="Log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                                 <span class="icon">
                                     <i class="fas fa-hand-paper"></i>
