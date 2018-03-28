@@ -36,13 +36,13 @@
     <article id="content" class="organisation">
         <div class="row">
             <div class="columns options">
-                {% if request.user.is_authenticated %}
-                    <div class="info-box small toggled" id="service_actions">
-                        <div class="heading">
-                            <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
-                        </div>
-                        {% if request.user.is_staff or request.user.is_editor or object.claimed_by == request.user %}
-                            <div class="actions toggle-content">
+                <div class="info-box small toggled" id="service_actions">
+                    <div class="heading">
+                        <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+                    </div>
+                    <div class="actions toggle-content">
+                        {% if request.user.is_authenticated %}
+                            {% if request.user.is_staff or request.user.is_editor or object.claimed_by == request.user %}
                                 <a href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                                     <span class="icon">
                                         <i class="fas fa-plus"></i>
@@ -67,19 +67,24 @@
                                     </span>
                                     Delete organisation
                                 </a>
-                            </div>
-                        {% elif not object.claimed_by %}
-                            <div class="actions toggle-content">
-                                <a href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
+                            {% elif not object.claimed_by %}
+                                <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                                     <span class="icon">
                                         <i class="fas fa-hand-paper"></i>
                                     </span>
                                     Claim this organisation
                                 </a>
-                            </div>
+                            {% endif %}
+                        {% else %}
+                            <a title="Log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
+                                <span class="icon">
+                                    <i class="fas fa-hand-paper"></i>
+                                </span>
+                                Claim this organisation
+                            </a>
                         {% endif %}
                     </div>
-                {% endif %}
+                </div>
             </div>
             <div class="columns content">
                 <div class="copy-container">
