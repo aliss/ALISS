@@ -40,12 +40,15 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
-
         self.object.save()
 
+        msg = '<p>{name} has been successfully created.</p> <a href="{url}">claim the organisation</a>'
+
+        if self.request.user.is_editor or self.request.user.is_staff:
+            msg = '<p>{name} has been successfully created.</p>'
+
         messages.success(
-            self.request,
-            '<p>{name} has been successfully created.</p><a href="{url}">Claim this organisation</a>'.format(
+            self.request, msg.format(
                 name=self.object.name,
                 url=reverse(
                     'claim_create',

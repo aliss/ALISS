@@ -24,11 +24,6 @@
         {% include 'partials/forms/field.html' with field=form.twitter %}
     </div>
     <div class="submit">
-        {% if not request.user.is_staff %}
-            <input type="submit" class="secondary" value="Submit for Approval">
-            <input type="submit" value="Also Claim this Org">
-        {% else %}
-            <input type="submit" class="secondary" value="Submit">
-        {% endif %}
+        <input type="submit" class="secondary" value="Submit">
     </div>
 </form>
