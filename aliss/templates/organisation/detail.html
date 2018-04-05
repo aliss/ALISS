@@ -88,6 +88,16 @@
             </div>
             <div class="columns content">
                 <div class="copy-container">
+
+                    {% if is_new and not request.user.is_editor and not request.user.is_staff  %}
+                        <p>
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <i>
+                        To edit this organisation, please submit a claim to represent it.
+                        </i>
+                        </p>
+                    {% endif %}
+
                     <h1>{{ object.name }}</h1>
                     {% if object.claimed_by %}<p class="org"><span class="claimed">Claimed</span></p>{% endif %}
                     <div class="desc">
