@@ -16,7 +16,8 @@ from braces.views import (
 from aliss.models import Organisation
 from aliss.filters import OrganisationFilter
 from aliss.search import delete_service
-
+from django.utils import timezone
+from datetime import timedelta
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -34,7 +35,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse(
             'organisation_detail',
-            kwargs={'pk': self.object.pk}
+            kwargs={'pk': self.object.pk }
         )
 
     def form_valid(self, form):
@@ -43,7 +44,6 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
 
         msg = '<p>{name} has been successfully created.</p> <a href="{url}">claim the organisation</a>'
-
         if self.request.user.is_editor or self.request.user.is_staff:
             msg = '<p>{name} has been successfully created.</p>'
 
@@ -117,6 +117,11 @@ class OrganisationListView(StaffuserRequiredMixin, FilterView):
 class OrganisationDetailView(DetailView):
     model = Organisation
     template_name = 'organisation/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context['is_new'] = self.object.created_on >= timezone.now()-timedelta(minutes=10)
+        return context
 
     def get_queryset(self):
         if self.request.user.is_staff:
