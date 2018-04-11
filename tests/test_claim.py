@@ -14,7 +14,6 @@ class ClaimTestCase(TestCase):
           email="claimant@aliss.org",
           organisation=o,
           user=c,
-          created_by=c,
           reviewed_by=u
         )
 

@@ -28,11 +28,6 @@ class Claim(models.Model):
     status = models.IntegerField(choices=STATUS_CHOICES, default=UNREVIEWED)
 
     created_on = models.DateTimeField(default=timezone.now, editable=False)
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        related_name='claims',
-        editable=False
-    )
 
     reviewed_on = models.DateTimeField(default=timezone.now, editable=False)
     reviewed_by = models.ForeignKey(
