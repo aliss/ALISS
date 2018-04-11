@@ -99,8 +99,7 @@ class ClaimCreateView(LoginRequiredMixin, FormView):
             organisation=organisation,
             email=form.cleaned_data.get('email'),
             phone=form.cleaned_data.get('phone'),
-            comment=form.cleaned_data.get('comment'),
-            created_by=self.request.user
+            comment=form.cleaned_data.get('comment')
         )
 
         return HttpResponseRedirect(self.get_success_url())
