@@ -24,13 +24,16 @@ class Location(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         'aliss.ALISSUser',
-        related_name='created_locations'
+        related_name='created_locations',
+        null=True,
+        on_delete=models.SET_NULL
     )
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
         'aliss.ALISSUser',
         related_name='updated_locations',
-        null=True
+        null=True,
+        on_delete=models.SET_NULL
     )
 
     def __str__(self):

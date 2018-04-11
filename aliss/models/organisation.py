@@ -14,18 +14,24 @@ class Organisation(models.Model):
     facebook = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
 
-    claimed_by = models.ForeignKey('aliss.ALISSUser', null=True)
-
+    claimed_by = models.ForeignKey(
+        'aliss.ALISSUser',
+        null=True,
+        on_delete=models.SET_NULL
+    )
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         'aliss.ALISSUser',
-        related_name='created_organisations'
+        related_name='created_organisations',
+        null=True,
+        on_delete=models.SET_NULL
     )
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
         'aliss.ALISSUser',
         related_name='updated_organisations',
-        null=True
+        null=True,
+        on_delete=models.SET_NULL
     )
 
     published = models.BooleanField(default=True)
