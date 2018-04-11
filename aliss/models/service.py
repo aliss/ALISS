@@ -98,13 +98,16 @@ class Service(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         'aliss.ALISSUser',
-        related_name='created_services'
+        related_name='created_services',
+        null=True,
+        on_delete=models.SET_NULL
     )
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
         'aliss.ALISSUser',
         related_name='updated_services',
-        null=True
+        null=True,
+        on_delete=models.SET_NULL
     )
 
     def __str__(self):

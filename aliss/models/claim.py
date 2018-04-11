@@ -39,5 +39,6 @@ class Claim(models.Model):
         settings.AUTH_USER_MODEL,
         related_name='reviewed_claims',
         editable=False,
-        null=True
+        null=True,
+        on_delete=models.SET_NULL
     )
