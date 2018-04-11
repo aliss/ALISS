@@ -12,6 +12,7 @@ class ClaimForm(forms.Form):
                 widget=forms.Textarea(),
                 label="Tell us why you should be allowed to claim this organisation")
     data_quality = forms.BooleanField(label="I understand and acknowledge the importance of data quality and agree to follow the guidance outlined in the ALISS Data Standards")
+    name = forms.CharField(label="Name")
 
     class Meta:
         error_css_class = 'has-error'
