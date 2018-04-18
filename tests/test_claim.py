@@ -29,5 +29,14 @@ class ClaimTestCase(TestCase):
     def test_org_delete_cascades(self):
         Organisation.objects.get(name="TestOrg").delete()
         cl = ALISSUser.objects.get(email="claimant@aliss.org")
-        c = Claim.objects.filter(comment="I'm in charge", user=cl).exists()
-        self.assertFalse(c)
+        exists = Claim.objects.filter(comment="I'm in charge", user=cl).exists()
+        self.assertFalse(exists)
+
+    def test_quit_representation(self):
+        cl = ALISSUser.objects.get(email="claimant@aliss.org")
+        c = Claim.objects.get(comment="I'm in charge", user=cl)
+        o = Organisation.objects.get(name="TestOrg")
+        c.quit_representation()
+        exists = Claim.objects.filter(comment="I'm in charge", user=cl).exists()
+        self.assertFalse(exists)
+        self.assertIsNone(o.claimed_by)
