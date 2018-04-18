@@ -1,12 +1,17 @@
-from django.views.generic import UpdateView, ListView, FormView
+from django.views.generic import UpdateView, ListView, FormView, DeleteView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 
-from braces.views import StaffuserRequiredMixin, LoginRequiredMixin
+from braces.views import (
+    LoginRequiredMixin,
+    StaffuserRequiredMixin,
+    UserPassesTestMixin
+)
 
 from aliss.forms import ClaimUpdateForm, ClaimForm
 from aliss.models import Claim, Organisation
@@ -115,3 +120,24 @@ class ClaimCreateView(LoginRequiredMixin, FormView):
         return self.render_to_response(
             self.get_context_data(organisation=organisation, form=form)
         )
+
+
+class ClaimDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Claim
+    template_name = 'claim/delete.html'
+    success_url = reverse_lazy('account_my_organisations')
+
+    def test_func(self, user):
+        return (self.get_object().user == user)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.quit_representation():
+            messages.success(self.request,
+                'You have stopped representing this organisation.'
+            )
+        else:
+            messages.error(self.request,
+                'Error: could not remove representation.'
+            )
+        return HttpResponseRedirect(self.get_success_url())

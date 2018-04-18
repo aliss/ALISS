@@ -9,18 +9,18 @@
     {% if object_list %}
         <div class="account-list">
             <ul class="rep-organisations">
-                {% for organisation in object_list %}
+                {% for claim in object_list %}
                     <li>
                         <div class="heading">
-                            <a href="#" class="alert icon-link">
+                            <a href="{% url 'claim_delete' pk=claim.pk %}" class="alert icon-link">
                                 <span class="icon">
                                     <i class="fas fa-minus-hexagon"></i>
                                 </span>
                                 Stop Representing
                             </a>
-                            <a href="{% url 'organisation_detail' pk=organisation.pk %}"><h3>{{ organisation.name }}</h3></a><span class="claimed">Claimed</span>
+                            <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}"><h3>{{ claim.organisation.name }}</h3></a><span class="claimed">Claimed</span>
                         </div>
-                        <p>Last updated <span class="updated">{{ organisation.updated_on }}</span></p>
+                        <p>Last updated <span class="updated">{{ claim.organisation.updated_on }}</span></p>
                     </li>
                 {% endfor %}
             </ul>

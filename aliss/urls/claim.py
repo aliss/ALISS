@@ -1,8 +1,12 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
-from aliss.views import ClaimListView, ClaimDetailView, ClaimCreateView
-
+from aliss.views import (
+    ClaimListView,
+    ClaimDetailView,
+    ClaimCreateView,
+    ClaimDeleteView,
+)
 
 urlpatterns = [
     url(r'^$',
@@ -20,5 +24,9 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/claim/$',
         ClaimCreateView.as_view(),
         name='claim_create'
+    ),
+    url(r'^(?P<pk>[0-9A-Za-z\-]+)/delete/$',
+        ClaimDeleteView.as_view(),
+        name='claim_delete'
     ),
 ]

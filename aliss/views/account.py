@@ -335,7 +335,7 @@ class AccountMyOrganisationsView(LoginRequiredMixin, ListView):
     template_name = 'account/my_organisations.html'
 
     def get_queryset(self):
-        return Organisation.objects.filter(claimed_by=self.request.user)
+        return Claim.objects.filter(user=self.request.user, status=10)
 
 class AccountMySearchesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_searches.html'
