@@ -50,5 +50,6 @@ from .service import (
 from .claim import (
     ClaimListView,
     ClaimDetailView,
-    ClaimCreateView
+    ClaimCreateView,
+    ClaimDeleteView
 )
