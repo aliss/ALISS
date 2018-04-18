@@ -18,13 +18,13 @@
                     <span class="icon">
                         <i class="fas fa-inbox"></i>
                     </span>
-                    Approve Claim Requests
+                    Approve claim requests
                 </a>
                 <a href="{% url 'account_list' %}" class="icon-link">
                     <span class="icon">
                         <i class="fas fa-user"></i>
                     </span>
-                    Manage Users
+                    Manage users
                 </a>
                 <a href="{% url 'service_problem_list' %}" class="alert icon-link">
                     <span class="icon">
@@ -116,10 +116,10 @@
                         <span class="name">{{ service.name }}</span>
                         <ul class="options">
                             <li>
-                                <a href="{% url 'service_detail' pk=service.pk %}">View Service</a>
+                                <a href="{% url 'service_detail' pk=service.pk %}">View service</a>
                             </li>
                             <li>
-                                <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">View Parent Org</a>
+                                <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">View organisation</a>
                             </li>
                         </ul>
                     </li>
