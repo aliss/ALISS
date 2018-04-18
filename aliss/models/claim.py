@@ -37,3 +37,14 @@ class Claim(models.Model):
         null=True,
         on_delete=models.SET_NULL
     )
+
+    def quit_representation(self):
+        o = self.organisation
+        try:
+            o.claimed_by=None
+            o.save()
+            self.delete()
+            return True
+        except IntegrityError:
+            transaction.rollback()
+            return False
