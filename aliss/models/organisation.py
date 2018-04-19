@@ -37,7 +37,7 @@ class Organisation(models.Model):
     published = models.BooleanField(default=True)
 
     def is_edited_by(self, user):
-        if user == None:
+        if user == None or user.pk == None:
             return False
         return (
             user.is_staff or \
