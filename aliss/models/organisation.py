@@ -36,5 +36,13 @@ class Organisation(models.Model):
 
     published = models.BooleanField(default=True)
 
+    def is_edited_by(self, user):
+        return (
+            user.is_staff or \
+            user.is_editor or \
+            self.created_by == user or \
+            self.claimed_by == user
+        )
+
     def __str__(self):
         return self.name

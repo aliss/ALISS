@@ -110,5 +110,13 @@ class Service(models.Model):
         on_delete=models.SET_NULL
     )
 
+    def is_edited_by(self, user):
+        return (
+            user.is_staff or \
+            user.is_editor or \
+            self.organisation.created_by == user or \
+            self.organisation.claimed_by == user
+        )
+
     def __str__(self):
         return self.name
