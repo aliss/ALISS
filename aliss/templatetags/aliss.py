@@ -5,6 +5,11 @@ from aliss.models import Category
 register = template.Library()
 
 
+@register.assignment_tag #Becomes simple_tag in django 2.0
+def can_edit(user, object):
+    return object.is_edited_by(user)
+
+
 @register.simple_tag
 def query_transform(request, **kwargs):
     updated = request.GET.copy()
