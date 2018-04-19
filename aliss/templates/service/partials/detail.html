@@ -34,7 +34,9 @@
             <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
         </div>
     {% endif %}
-    {% if request.user.is_staff or request.user.is_editor or service.organisation.claimed_by == request.user %}
+
+    {% can_edit request.user service as user_can_edit %}
+    {% if user_can_edit %}
         <div class="edit-options">
             <a href="{% url 'service_edit' pk=service.pk %}" class="icon-link">
                 <span class="icon">

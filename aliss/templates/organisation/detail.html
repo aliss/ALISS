@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load aliss %}
 
 {% block title %}{{ object.name }} - ALISS{% endblock %}
 {% block meta_schema %}
@@ -42,7 +43,9 @@
                     </div>
                     <div class="actions toggle-content">
                         {% if request.user.is_authenticated %}
-                            {% if request.user.is_staff or request.user.is_editor or object.claimed_by == request.user %}
+                            {% can_edit request.user object as user_can_edit %}
+
+                            {% if user_can_edit %}
                                 <a href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                                     <span class="icon">
                                         <i class="fas fa-plus"></i>
@@ -89,7 +92,7 @@
             <div class="columns content">
                 <div class="copy-container">
 
-                    {% if is_new and not request.user.is_editor and not request.user.is_staff  %}
+                    {% if is_new and not user_can_edit %}
                         <p>
                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                         <i>
@@ -113,7 +116,7 @@
                         {% for location in object.locations.all %}
                             {% include 'location/partials/detail.html' %}
                         {% endfor %}
-                        {% if request.user.is_staff or object.claimed_by == request.user %}
+                        {% if user_can_edit %}
                             <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
                         {% endif %}
                     </div>
@@ -127,7 +130,7 @@
                         {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
                         {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
                     </p>
-                    {% if request.user.is_staff or request.user.is_editor or object.claimed_by == request.user %}
+                    {% if user_can_edit %}
                         <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
                     {% endif %}
                 {% endif %}
@@ -136,12 +139,12 @@
                 {% if object.services.all %}
                     <div class="services-list">
                         <h3>Services</h3>
-                        <ul class="search-results{% if request.user.is_staff %} edit{% endif %}">
+                        <ul class="search-results{% if user_can_edit %} edit{% endif %}">
                             {% for service in object.services.all %}
                                 {% include 'service/partials/detail.html' with service=service %}
                             {% endfor %}
                         </ul>
-                        {% if request.user.is_staff or request.user.is_editor or object.claimed_by == request.user %}
+                        {% if user_can_edit %}
                             <a href="{% url 'service_create' pk=object.pk %}" class="button primary">Add Service</a>
                         {% endif %}
                     </div>
