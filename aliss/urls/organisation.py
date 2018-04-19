@@ -7,7 +7,7 @@ from aliss.views import (
     OrganisationDetailView,
     OrganisationDeleteView,
     OrganisationSearchView,
-    OrganisationUnPublishedView,
+    OrganisationUnpublishedView,
     LocationCreateView,
     ServiceCreateView
 )
@@ -31,7 +31,7 @@ urlpatterns = [
         name='organisation_list'
     ),
     url(r'^unpublished/$',
-        OrganisationUnPublishedView.as_view(),
+        OrganisationUnpublishedView.as_view(),
         name='organisation_unpublished_list'
     ),
     url(r'^search/$',
