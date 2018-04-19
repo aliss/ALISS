@@ -38,7 +38,7 @@ class ServiceCreateView(
     template_name = 'service/create.html'
 
     def test_func(self, user):
-        return self.get_object().is_edited_by(user)
+        return self.get_organisation().is_edited_by(user)
 
     def get_form_kwargs(self):
         kwargs = super(ServiceCreateView, self).get_form_kwargs()
