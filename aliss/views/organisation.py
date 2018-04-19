@@ -41,12 +41,15 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
-        self.object.save()
 
-        msg = '<p>{name} has been successfully created.</p> <a href="{url}">claim the organisation</a>'
         if self.request.user.is_editor or self.request.user.is_staff:
+            self.object.published = True
             msg = '<p>{name} has been successfully created.</p>'
+        else:
+            self.object.published = False
+            msg = '<p>{name} has been successfully created.</p> <a href="{url}">claim the organisation</a>'
 
+        self.object.save()
         messages.success(
             self.request, msg.format(
                 name=self.object.name,
@@ -60,11 +63,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class OrganisationUpdateView(
-    LoginRequiredMixin,
-    UserPassesTestMixin,
-    UpdateView
-):
+class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Organisation
     template_name = 'organisation/update.html'
     fields = [
@@ -78,11 +77,7 @@ class OrganisationUpdateView(
     ]
 
     def test_func(self, user):
-        return (
-            user.is_staff or \
-            user.is_editor or \
-            self.get_object().claimed_by == user
-        )
+        return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
         return reverse(
@@ -173,7 +168,7 @@ class OrganisationSearchView(LoginRequiredMixin, FilterView):
         ).order_by('-created_on')
 
 
-class OrganisationUnPublishedView(StaffuserRequiredMixin, FilterView):
+class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
     template_name = 'organisation/unpublished.html'
     paginate_by = 10
     filterset_class = OrganisationFilter

@@ -27,11 +27,7 @@ class LocationCreateView(
     template_name = 'location/create.html'
 
     def test_func(self, user):
-        return (
-            user.is_staff or \
-            user.is_editor or \
-            self.get_organisation().claimed_by == user
-        )
+        return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
         return reverse(
@@ -63,11 +59,7 @@ class LocationUpdateView(
     template_name = 'location/update.html'
 
     def test_func(self, user):
-        return (
-            user.is_staff or \
-            user.is_editor or \
-            self.get_object().organisation.claimed_by == user
-        )
+        return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
         return reverse(
@@ -103,11 +95,7 @@ class LocationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'location/delete.html'
 
     def test_func(self, user):
-        return (
-            user.is_staff or \
-            user.is_editor or \
-            self.get_object().organisation.claimed_by == user
-        )
+        return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
         return reverse(

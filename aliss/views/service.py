@@ -38,11 +38,7 @@ class ServiceCreateView(
     template_name = 'service/create.html'
 
     def test_func(self, user):
-        return (
-            user.is_staff or \
-            user.is_editor or \
-            self.get_organisation().claimed_by == user
-        )
+        return self.get_object().is_edited_by(user)
 
     def get_form_kwargs(self):
         kwargs = super(ServiceCreateView, self).get_form_kwargs()
@@ -84,11 +80,7 @@ class ServiceUpdateView(
     template_name = 'service/update.html'
 
     def test_func(self, user):
-        return (
-            user.is_staff or \
-            user.is_editor or \
-            self.get_object().organisation.claimed_by == user
-        )
+        return self.get_object().is_edited_by(user)
 
     def get_form_kwargs(self):
         kwargs = super(ServiceUpdateView, self).get_form_kwargs()
@@ -141,11 +133,7 @@ class ServiceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'service/delete.html'
 
     def test_func(self, user):
-        return (
-            user.is_staff or \
-            user.is_editor or \
-            self.get_object().organisation.claimed_by == user
-        )
+        return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
         return reverse(
