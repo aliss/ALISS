@@ -13,7 +13,8 @@
             <div class="columns content">
                 <div class="copy-container">
                     <h1>Add a new organisation</h1>
-                    <p>Once approved you will be able to add and edit information about and associate services with your organisation.</p>
+                    <h3>The process</h3>
+                    {% include 'partials/breadcrumb.html' %}
                 </div>
             </div>
         </div>
@@ -22,7 +23,7 @@
         <div class="row">
             <div class="columns">
                 <div class="org-search">
-                    <label>Search by name</label>
+                    <label>First, check if your organisation is already listed: </label>
                     <div class="sbs-inputs">
                         <form>
                             <input type="text" placeholder="e.g. The ALLIANCE" value="{{ request.GET.q }}" name="q">
@@ -31,8 +32,9 @@
                     </div>
                 </div>
                 <div class="org-results">
-                    {% if request.GET.q %}<h4>You searched for "{{ request.GET.q }}"</h4>{% else %}<h4>Recently Added</h4>{% endif %}
-                    {% if object_list %}
+
+                    {% if request.GET.q and object_list %}
+                        <h4>You searched for "{{ request.GET.q }}"</h4>
                         <ul class="orgs">
                             {% for organisation in object_list %}
                                 <li>
@@ -49,6 +51,7 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
+
                     {% if request.GET.q %}
                         {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
                         <div class="add-org">
