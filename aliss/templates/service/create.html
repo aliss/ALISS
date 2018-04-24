@@ -17,16 +17,25 @@
             </div>
         </div>
     </section>
-    <section class="large-form">
+    <section>
         <div class="row">
             <div class="columns">
-                <form method="post">
-                    {% csrf_token %}
-                    {% include 'service/forms/service_form.html' %}
-                    <div class="submit">
-                        <input type="submit" value="Add Service">
-                    </div>
-                </form>
+                <div class="progress-container">
+                    {% if not organisation.published %}
+                        <br/>
+                        <h4>Publish progress</h4>
+                        {% include 'partials/breadcrumb.html' with progress=3 %}
+                    {% endif %}
+                </div>
+                <div class="new-service large-form">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% include 'service/forms/service_form.html' %}
+                        <div class="submit">
+                            <input type="submit" value="Add Service">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>

@@ -1,16 +1,10 @@
 {% load aliss %}
 
 <div class="f-row">
-    {% include 'partials/forms/field.html' with field=form.name %}
-    <span class="annotation">
-        Give your service a clear and concise name featuring keywords.
-    </span>
+    {% include 'partials/forms/field.html' with field=form.name annotation="Give your service a clear and concise name featuring keywords." %}
 </div>
 <div class="f-row">
-    {% include 'partials/forms/field.html' with field=form.description %}
-    <span class="annotation">
-        Make sure to include information on what your service does, who you help and important information like opening times. Always assume those reading this description have never heard of your organisation or this service.
-    </span>
+    {% include 'partials/forms/field.html' with field=form.description annotation="Make sure to include information on what your service does, who you help and important information like opening times. Always assume those reading this description have never heard of your organisation or this service." %}
 </div>
 <div class="f-row two">
     {% include 'partials/forms/field.html' with field=form.phone %}
