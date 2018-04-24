@@ -1,0 +1,64 @@
+// Organisation
+// ---------------------------------------
+
+ul.progress-breadcrumb {
+
+  margin-left:0;
+  margin-top:1em;
+  margin-bottom:1em;
+  padding: 0px;
+  list-style: none;
+
+  $elements: 15;
+  @for $i from 0 to $elements {
+    li:nth-child(#{$i + 1}) {
+      z-index: ($elements - $i);
+    }
+  }
+
+  li {
+    width: 65%;
+    text-align:left;
+    padding: 0.5em;
+    position: relative;
+    background: #ebebeb;
+    border: 3px solid #ffffff;
+    margin-top: 0.01em;
+
+    i.fa {  
+      margin-right: 0.5em;
+      margin-left: 0.5em;
+    }
+  }
+
+  li:after, li:before {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    background: none;
+  }
+
+  li:after {
+    border-color: rgba(235, 235, 235, 0);
+    border-top-color: #ebebeb;
+    border-width: 18px;
+    margin-left: -18px;
+  }
+
+  li:before {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #ffffff;
+    border-width: 20px;
+    margin-left: -20px;
+  }
+
+  li:last-child:after,
+  li:last-child:before { 
+    border:none;
+  }
+}
