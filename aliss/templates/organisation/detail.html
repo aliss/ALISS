@@ -90,12 +90,11 @@
                     </div>
                 </div>
 
-                {% if not object.published and is_new %}
+                {% if not object.published %}
                     <br/>
                     <h4>Publish progress</h4>
-                    {% include 'partials/breadcrumb.html' %}
+                    {% include 'partials/breadcrumb.html' with progress=progress %}
                 {% endif %}
-
             </div>
             <div class="columns content">
                 <div class="copy-container">
