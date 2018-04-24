@@ -11,13 +11,16 @@
         </div>
 
         <div class="row">
-            <div class="s-12 l-7 columns">
-                <p>Once approved you will be able to add and edit information about and associate services with your organisation.</p>
+            <div class="columns">
+                <div class="progress-container">
+                    {% include 'partials/breadcrumb.html' %}
+                </div>
 
-                {% include 'organisation/forms/organisation_form.html' %}  
-            </div>
-            <div class="s-12 l-5 columns">
-                {% include 'partials/breadcrumb.html' %}
+                <div class="large-form new-org">
+                    <p>Once approved you will be able to add and edit information about and associate services with your organisation.</p>
+
+                    {% include 'organisation/forms/organisation_form.html' %}  
+                </div>
             </div>
         </div>
     </section>

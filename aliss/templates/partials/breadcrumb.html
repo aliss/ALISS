@@ -1,4 +1,9 @@
-<ul class="progress-breadcrumb">
+{% load aliss %}
+
+{% with request.resolver_match.view_name as view_name %}
+<ul class="progress-breadcrumb step-{{ view_name|completed_steps }}">
+{% endwith %}
+
     <li>
        <i class="fa fa-search" aria-hidden="true"></i> Check organisation isn't listed
     </li>
