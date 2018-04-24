@@ -18,6 +18,8 @@ from aliss.filters import OrganisationFilter
 from aliss.search import delete_service
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q
+
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -44,14 +46,12 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
         if self.request.user.is_editor or self.request.user.is_staff:
             self.object.published = True
-            msg = '<p>{name} has been successfully created.</p>'
         else:
             self.object.published = False
-            msg = '<p>{name} has been successfully created.</p> <a href="{url}">claim the organisation</a>'
 
         self.object.save()
         messages.success(
-            self.request, msg.format(
+            self.request, '<p>{name} has been successfully created.</p>'.format(
                 name=self.object.name,
                 url=reverse(
                     'claim_create',
@@ -115,14 +115,14 @@ class OrganisationDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        context['is_new'] = self.object.created_on >= timezone.now()-timedelta(minutes=10)
+        context['is_new'] = (self.object.services.count() == 0) and (self.object.locations.count() == 0) # self.object.created_on >= timezone.now()-timedelta(minutes=10)
         return context
 
     def get_queryset(self):
         if self.request.user.is_staff:
             return Organisation.objects.all()
         else:
-            return Organisation.objects.filter(published=True)
+            return Organisation.objects.filter(Q(created_by=self.request.user) | Q(claimed_by=self.request.user))
 
 
 class OrganisationDeleteView(StaffuserRequiredMixin, DeleteView):

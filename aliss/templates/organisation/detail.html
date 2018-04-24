@@ -35,6 +35,7 @@
 </div>
 <main class="main" role="main">
     <article id="content" class="organisation">
+
         <div class="row">
             <div class="columns options">
                 <div class="info-box small toggled" id="service_actions">
@@ -88,19 +89,16 @@
                         {% endif %}
                     </div>
                 </div>
+
+                {% if not object.published and is_new %}
+                    <br/>
+                    <h4>Publish progress</h4>
+                    {% include 'partials/breadcrumb.html' %}
+                {% endif %}
+
             </div>
             <div class="columns content">
                 <div class="copy-container">
-
-                    {% if is_new and not user_can_edit %}
-                        <p>
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
-                        <i>
-                        You need to claim this organisation before you can add more details.
-                        </i>
-                        </p>
-                    {% endif %}
-
                     <h1>{{ object.name }}</h1>
                     {% if object.claimed_by %}<p class="org"><span class="claimed">Claimed</span></p>{% endif %}
                     <div class="desc">
