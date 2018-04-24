@@ -2,7 +2,51 @@
 // ---------------------------------------
 
 .content ul.progress-breadcrumb:last-child {
-    margin-bottom: 2em;
+  margin-bottom: 2em;
+}
+
+ul.progress-breadcrumb.step-none li {}
+
+ul.progress-breadcrumb.step-1 {
+  li:nth-child(1) { text-decoration: line-through; } 
+}
+
+ul.progress-breadcrumb.step-2 {
+  li:nth-child(1), li:nth-child(2) { text-decoration: line-through; }
+}
+
+ul.progress-breadcrumb.step-3 {
+  li:nth-child(1), li:nth-child(2), 
+  li:nth-child(3) { text-decoration: line-through; }
+}
+
+ul.progress-breadcrumb.step-4 {
+  li:nth-child(1), li:nth-child(2), 
+  li:nth-child(3), li:nth-child(4) { text-decoration: line-through; }
+}
+
+.new-org.large-form {
+  width:62%;
+
+  .f-row { 
+    position: relative;
+    margin-right: 5%;
+    padding-right: 0;
+  }
+
+  .f-row:after { content: none; } 
+}
+
+.progress-container {
+  float:right;
+  width:36%;
+}
+
+@media (max-width: 830px) {
+  .progress-container {
+    float:none;
+    width:100%;
+  }
 }
 
 ul.progress-breadcrumb {
