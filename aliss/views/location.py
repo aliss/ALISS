@@ -22,12 +22,13 @@ class LocationCreateView(
     OrganisationMixin,
     CreateView
 ):
+
     model = Location
     form_class = LocationForm
     template_name = 'location/create.html'
 
     def test_func(self, user):
-        return self.get_object().is_edited_by(user)
+        return self.get_organisation().is_edited_by(user)
 
     def get_success_url(self):
         return reverse(
