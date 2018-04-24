@@ -23,6 +23,15 @@
                         <p>Last updated <span class="updated">{{ claim.organisation.updated_on }}</span></p>
                     </li>
                 {% endfor %}
+
+                {% for organisation in orgs_list %}
+                    <li>
+                        <div class="heading">
+                            <a href="{% url 'organisation_detail' pk=organisation.pk %}"><h3>{{ organisation.name }}</h3></a>
+                        </div>
+                        <p>Last updated <span class="updated">{{ organisation.updated_on }}</span></p>
+                    </li>
+                {% endfor %}
             </ul>
             <div class="actions">
                 <a href="{% url 'organisation_search' %}">Represent another org</a>

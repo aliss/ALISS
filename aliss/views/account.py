@@ -337,6 +337,12 @@ class AccountMyOrganisationsView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Claim.objects.filter(user=self.request.user, status=10)
 
+    def get_context_data(self,**kwargs):
+        context = super(AccountMyOrganisationsView,self).get_context_data(**kwargs)
+        context['orgs_list'] = Organisation.objects.filter(created_by=self.request.user).exclude(claimed_by=self.request.user)
+        return context
+
+
 class AccountMySearchesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_searches.html'
 
