@@ -115,7 +115,11 @@ class OrganisationDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        context['is_new'] = (self.object.services.count() == 0) and (self.object.locations.count() == 0) # self.object.created_on >= timezone.now()-timedelta(minutes=10)
+        context['progress'] = 2
+        if (self.object.locations.count() > 0):
+            context['progress'] = 3
+        if (self.object.services.count() > 0):
+            context['progress'] = 4
         return context
 
     def get_queryset(self):

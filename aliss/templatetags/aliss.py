@@ -59,20 +59,3 @@ def get_icon(category):
         204: 'fa-university',
     }
     return icons.get(category.id)
-
-
-@register.filter
-def completed_steps(view):
-    views = {
-        'organisation_create': '1',
-        'organisation_detail': '2',
-        'location_create': '3',
-        'location_detail': '4',
-        'service_create': '5',
-        'organisation_approve': '6'
-    }
-    s = views.get(view)
-    if s == None:
-        return 'none'
-    else:
-        return s
