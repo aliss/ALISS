@@ -25,9 +25,12 @@ ul.progress-breadcrumb.step-4 {
   li:nth-child(3), li:nth-child(4) { text-decoration: line-through; }
 }
 
+.new-service.large-form,
 .new-location.large-form,
 .new-org.large-form {
   width:62%;
+
+  .annotation { right :-40%; width: 37%; }
 
   .f-row { 
     position: relative;
