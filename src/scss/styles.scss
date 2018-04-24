@@ -78,6 +78,9 @@
     cursor: pointer;
 }
 
-
-
-
+hr.clear { 
+  clear: both;
+  visibility: hidden;
+  display: block;
+  height: 1em;
+}

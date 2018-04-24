@@ -2,22 +2,26 @@
 
 {% block container %}
 <main class="main" role="main">
-    <section id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>Add a new organisation</h1>
-                    <p>Once approved you will be able to add and edit information about and associate services with your organisation.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="large-form">
+    <section id="content" class="content">
         <div class="row">
             <div class="columns">
-                {% include 'organisation/forms/organisation_form.html' %}
+                <h1>Add a new organisation</h1>
+                <br/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="s-12 l-7 columns">
+                <p>Once approved you will be able to add and edit information about and associate services with your organisation.</p>
+
+                {% include 'organisation/forms/organisation_form.html' %}  
+            </div>
+            <div class="s-12 l-5 columns">
+                {% include 'partials/breadcrumb.html' %}
             </div>
         </div>
     </section>
+
+    <hr class="clear" />
 </main>
 {% endblock %}
