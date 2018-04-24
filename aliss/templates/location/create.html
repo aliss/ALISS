@@ -16,16 +16,26 @@
             </div>
         </div>
     </section>
-    <section class="large-form">
+    <section>
         <div class="row">
-            <div class="columns">
-                <form method="post">
-                    {% csrf_token %}
-                    {% include 'location/forms/location_form.html' %}
-                    <div class="submit">
-                        <input type="submit" value="Add Location">
-                    </div>
-                </form>
+            <div class="columns content">
+                <div class="progress-container">
+                    {% if not organisation.published %}
+                        <br/>
+                        <h4>Publish progress</h4>
+                        {% include 'partials/breadcrumb.html' with progress=2 %}
+                    {% endif %}
+                </div>
+
+                <div class="new-location large-form">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% include 'location/forms/location_form.html' %}
+                        <div class="submit">
+                            <input type="submit" value="Add Location">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
