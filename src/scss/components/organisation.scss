@@ -62,3 +62,101 @@ ul.progress-breadcrumb {
     border:none;
   }
 }
+
+.search-orgs {
+  padding-top: 2rem;
+  h4 {
+    margin-bottom: 0.5rem;
+  }
+  .org-search {
+    max-width: 450px;
+  }
+  .org-results {
+    margin-top: 2rem;
+    max-width: 900px;
+  }
+  .add-org {
+    margin-top: 2.5rem;
+    p {
+      margin-bottom: 0.5em;
+    }
+    @include media(0, 480) {
+      .button {
+        display: block;
+      }
+    }
+  }
+}
+
+ul.orgs {
+  @extend %no-list;
+  >li {
+    @include clear;
+    @extend p;
+    @extend %no-list;
+    padding: 0.95em 0.75em 0.55em 0.75em;
+    @include media(0, 480) {
+      padding: 0.95em 0.75em 0.95em 0.75em;
+    }
+    &:nth-child(2n) {
+      background: $light-gray_fade;
+    }
+    span.name {
+      float: left;
+      margin-right: 2%;
+      margin-bottom: 0.25em;
+      @include media(0, $search-break) {
+        float: none;
+        display: block;
+      }
+    }
+    >ul {
+      float: right;
+      @extend %no-list;
+      @include media(0, $search-break) {
+        float: none;
+        display: block;
+      }
+      >li {
+        @extend %vam;
+        border-right: 1px solid $light-gray;
+        line-height: 100%;
+        padding-right: 0.5em;
+        margin-right: 0.35em;
+        &:last-child {
+          margin: 0;
+          padding: 0;
+          border-right: 0;
+        }
+        @include media(0, 480) {
+          border-right: 0;
+          padding-right: 0;
+          margin-right: 0;
+          display: block;
+          margin: 0.5em 0;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+ul.orgs+.paged {
+  .holder {
+    border-top: 0;
+    margin-top: 0;
+  }
+}
+
+.org-results {
+  .has-tip { 
+    border:none;
+    .fa { opacity: 0.3; }
+  }
+
+  .has-tip:hover {
+    .fa { opacity: 1.0; }
+  }
+}
