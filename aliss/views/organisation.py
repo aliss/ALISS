@@ -126,7 +126,7 @@ class OrganisationDetailView(DetailView):
         if self.request.user.is_staff:
             return Organisation.objects.all()
         else:
-            return Organisation.objects.filter(Q(created_by=self.request.user) | Q(claimed_by=self.request.user))
+            return Organisation.objects.filter(Q(published=True) | Q(created_by=self.request.user) | Q(claimed_by=self.request.user))
 
 
 class OrganisationDeleteView(StaffuserRequiredMixin, DeleteView):
