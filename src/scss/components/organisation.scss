@@ -25,6 +25,7 @@ ul.progress-breadcrumb.step-4 {
   li:nth-child(3), li:nth-child(4) { text-decoration: line-through; }
 }
 
+.new-location.large-form,
 .new-org.large-form {
   width:62%;
 
@@ -64,6 +65,8 @@ ul.progress-breadcrumb {
   }
 
   li {
+    font-size: 1.1em;
+    color: #4c5c68;
     width: 100%;
     text-align:left;
     padding: 0.5em;
@@ -71,6 +74,7 @@ ul.progress-breadcrumb {
     background: #ebebeb;
     border: 3px solid #ffffff;
     margin-top: 0.01em;
+    margin-bottom: 0em;
 
     i.fa {  
       margin-right: 0.5em;

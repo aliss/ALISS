@@ -38,7 +38,7 @@
 
         <div class="row">
             <div class="columns options">
-                <div class="info-box small toggled" id="service_actions">
+                <div class="info-box toggled" id="service_actions">
                     <div class="heading">
                         <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
                     </div>
@@ -89,12 +89,14 @@
                         {% endif %}
                     </div>
                 </div>
-
                 {% if not object.published %}
+                <div class="content">
                     <br/>
                     <h4>Publish progress</h4>
                     {% include 'partials/breadcrumb.html' with progress=progress %}
+                </div>
                 {% endif %}
+
             </div>
             <div class="columns content">
                 <div class="copy-container">
