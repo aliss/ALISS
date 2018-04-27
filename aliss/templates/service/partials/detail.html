@@ -2,12 +2,14 @@
 
 <li>
     <div class="heading">
+        {% if service.organisation.is_published %}
         <a href="{% url 'service_report_problem' service.id %}" class="alert icon-link">
             <span class="icon">
                 <i class="fas fa-exclamation-triangle"></i>
             </span>
             Report this listing
         </a>
+        {% endif %}
         <a href="{% url 'service_detail' service.id %}"><h3>{{ service.name }}</h3></a>
     </div>
     <p>{{ service.description|linebreaks|truncatechars:150 }}</p>
