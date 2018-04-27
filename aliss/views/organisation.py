@@ -19,6 +19,7 @@ from aliss.search import delete_service
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Q
+from aliss.views import ProgressMixin
 
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
@@ -109,18 +110,9 @@ class OrganisationListView(StaffuserRequiredMixin, FilterView):
         return Organisation.objects.filter(published=True)
 
 
-class OrganisationDetailView(DetailView):
+class OrganisationDetailView(DetailView, ProgressMixin):
     model = Organisation
     template_name = 'organisation/detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
-        context['progress'] = 2
-        if (self.object.locations.count() > 0):
-            context['progress'] = 3
-        if (self.object.services.count() > 0):
-            context['progress'] = 4
-        return context
 
     def get_queryset(self):
         if self.request.user.is_staff:

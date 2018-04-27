@@ -13,13 +13,14 @@ from braces.views import (
 from aliss.search import index_service
 from aliss.models import Location, Organisation
 from aliss.forms import LocationForm
-from aliss.views import OrganisationMixin
+from aliss.views import OrganisationMixin, ProgressMixin
 
 
 class LocationCreateView(
     LoginRequiredMixin,
     UserPassesTestMixin,
     OrganisationMixin,
+    ProgressMixin,
     CreateView
 ):
 

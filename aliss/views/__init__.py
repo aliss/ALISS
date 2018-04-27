@@ -1,4 +1,4 @@
-from .mixins import OrganisationMixin
+from .mixins import OrganisationMixin, ProgressMixin
 from .account import (
     login_view,
     AccountSignupView,
