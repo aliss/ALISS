@@ -1,5 +1,5 @@
 from django.views.generic import (
-    CreateView, UpdateView, DeleteView, DetailView
+    View, CreateView, UpdateView, DeleteView, DetailView
 )
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
@@ -158,9 +158,7 @@ class OrganisationSearchView(LoginRequiredMixin, FilterView):
     filterset_class = OrganisationFilter
 
     def get_queryset(self):
-        return Organisation.objects.filter(
-            published=True
-        ).order_by('-created_on')
+        return Organisation.objects.filter(published=True).order_by('-created_on')
 
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
@@ -169,4 +167,16 @@ class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
     filterset_class = OrganisationFilter
 
     def get_queryset(self):
-        return Organisation.objects.filter(published=False)
+        return Organisation.objects.filter(published=False).order_by('-created_on')
+
+
+class OrganisationPublishView(StaffuserRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        organisation = get_object_or_404(Organisation, pk=self.kwargs['pk'])
+
+        if Organisation.objects.filter(pk=organisation.pk).update(published=True, updated_by=self.request.user):
+            messages.success(self.request, '{name} has been successfully published.'.format(name=organisation.name))
+        else:
+            messages.error(self.request, 'Could not publish {name}.'.format(name=organisation.name))
+
+        return HttpResponseRedirect(reverse('organisation_detail', kwargs={'pk': organisation.pk}))
