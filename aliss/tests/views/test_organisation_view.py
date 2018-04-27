@@ -28,6 +28,10 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.get(reverse('organisation_create'))
         self.assertEqual(response.status_code, 200)
 
+    def test_organisation_delete(self):
+        response = self.client.delete((reverse('organisation_delete', kwargs={'pk': self.organisation.pk})))
+        self.assertRedirects(response, (reverse('account_my_organisations')))
+
     def test_logout_organisation_create(self):
         self.client.logout()
         response = self.client.get(reverse('organisation_create'))
