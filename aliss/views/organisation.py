@@ -121,27 +121,26 @@ class OrganisationDetailView(ProgressMixin, DetailView):
             return Organisation.objects.filter(Q(published=True) | Q(created_by=self.request.user) | Q(claimed_by=self.request.user))
 
 
-class OrganisationDeleteView(StaffuserRequiredMixin, DeleteView):
+class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
     model = Organisation
     template_name = 'organisation/delete.html'
 
+    def test_func(self, user):
+        return self.get_object().is_edited_by(user)
+
     def get_success_url(self):
         if self.request.user.is_staff:
-            # TODO change this to go to dashboard once it is developed
             return reverse_lazy('account_my_organisations')
         else:
             return reverse_lazy('account_my_organisations')
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-
         # Delete services from search index
         for service in self.object.services.all():
-            # Delete from search index
             delete_service(service.pk)
 
         success_url = self.get_success_url()
-
         self.object.delete()
 
         messages.success(
