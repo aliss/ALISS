@@ -63,6 +63,7 @@
   }
   .f-row {
     @include clear;
+    clear:both;
     position: relative;
     padding-right: 34.25%;
     @include media(0, $search-break) {
