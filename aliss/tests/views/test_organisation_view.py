@@ -1,12 +1,12 @@
-from django.test import TestCase
-from django.test import Client
+from django.test import TestCase, Client
 from django.urls import reverse
 from aliss.models import Organisation, ALISSUser, Service, Location
 
 class OrganisationViewTestCase(TestCase):
     def setUp(self):
-        self.user = ALISSUser.objects.create_user("main@user.org", "passwurd")
-        self.punter = ALISSUser.objects.create_user("random@random.org", "passwurd")
+        self.user     = ALISSUser.objects.create_user("main@user.org", "passwurd")
+        self.punter   = ALISSUser.objects.create_user("random@random.org", "passwurd")
+        self.editor   = ALISSUser.objects.create_user("updater@aliss.org", "passwurd",  is_editor=True)
         self.claimant = ALISSUser.objects.create_user("claimant@random.org", "passwurd")
         self.client.login(username='main@user.org', password='passwurd')
         self.organisation = Organisation.objects.create(
@@ -28,9 +28,29 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.get(reverse('organisation_create'))
         self.assertEqual(response.status_code, 200)
 
-    def test_organisation_delete(self):
-        response = self.client.delete((reverse('organisation_delete', kwargs={'pk': self.organisation.pk})))
-        self.assertRedirects(response, (reverse('account_my_organisations')))
+    def test_organisation_invalid_creation(self):
+        response = self.client.post(reverse('organisation_create'), { 'name': '' })
+        self.assertEqual(Organisation.objects.count(), 1)
+        self.assertEqual(response.status_code, 200)
+
+    def test_organisation_valid_creation(self):
+        response = self.client.post(reverse('organisation_create'), 
+            { 'name': 'an organisation', 'description': 'a full description' })
+        o = Organisation.objects.latest('created_on')
+
+        self.assertEqual(o.name, 'an organisation')
+        self.assertEqual(o.published, False)
+        self.assertEqual(response.status_code, 302)
+
+    def test_organisation_valid_creation_with_editor(self):
+        self.client.login(username='updater@aliss.org', password='passwurd')
+        response = self.client.post(reverse('organisation_create'), 
+            { 'name': 'an organisation', 'description': 'a full description' })
+        o = Organisation.objects.latest('created_on')
+
+        self.assertEqual(o.name, 'an organisation')
+        self.assertEqual(o.published, True)
+        self.assertEqual(response.status_code, 302)
 
     def test_logout_organisation_create(self):
         self.client.logout()
@@ -50,3 +70,7 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response_1.status_code, 200)
         self.assertEqual(response_2.status_code, 404)
         self.assertEqual(response_3.status_code, 200)
+
+    def test_organisation_delete(self):
+        response = self.client.delete((reverse('organisation_delete', kwargs={'pk': self.organisation.pk})))
+        self.assertRedirects(response, (reverse('account_my_organisations')))
