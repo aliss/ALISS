@@ -6,6 +6,7 @@ class OrganisationViewTestCase(TestCase):
     def setUp(self):
         self.user     = ALISSUser.objects.create_user("main@user.org", "passwurd")
         self.punter   = ALISSUser.objects.create_user("random@random.org", "passwurd")
+        self.staff   = ALISSUser.objects.create_user("staff@aliss.org", "passwurd",  is_staff=True)
         self.editor   = ALISSUser.objects.create_user("updater@aliss.org", "passwurd",  is_editor=True)
         self.claimant = ALISSUser.objects.create_user("claimant@random.org", "passwurd")
         self.client.login(username='main@user.org', password='passwurd')
@@ -74,3 +75,19 @@ class OrganisationViewTestCase(TestCase):
     def test_organisation_delete(self):
         response = self.client.delete((reverse('organisation_delete', kwargs={'pk': self.organisation.pk})))
         self.assertRedirects(response, (reverse('account_my_organisations')))
+
+    def test_organisation_unpublished(self):
+        response = self.client.get(reverse('organisation_unpublished'))
+        self.assertEqual(response.status_code, 302)
+        self.client.login(username='staff@aliss.org', password='passwurd')
+        response = self.client.get(reverse('organisation_unpublished'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_organisation_publish(self):
+        self.organisation.published = False
+        self.organisation.save()
+        self.client.login(username='staff@aliss.org', password='passwurd')
+        response = self.client.post(reverse('organisation_publish', kwargs={'pk': self.organisation.pk}))
+        self.organisation.refresh_from_db()
+        self.assertTrue(self.organisation.published)
+        self.assertRedirects(response, (reverse('organisation_detail', kwargs={'pk': self.organisation.pk})))

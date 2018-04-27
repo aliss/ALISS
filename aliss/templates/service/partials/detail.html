@@ -2,7 +2,7 @@
 
 <li>
     <div class="heading">
-        {% if service.organisation.is_published %}
+        {% if service.organisation.published %}
         <a href="{% url 'service_report_problem' service.id %}" class="alert icon-link">
             <span class="icon">
                 <i class="fas fa-exclamation-triangle"></i>

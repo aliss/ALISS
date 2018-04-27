@@ -28,7 +28,8 @@ from .organisation import (
     OrganisationDetailView,
     OrganisationDeleteView,
     OrganisationSearchView,
-    OrganisationUnpublishedView
+    OrganisationUnpublishedView,
+    OrganisationPublishView
 )
 from .location import (
     LocationCreateView,

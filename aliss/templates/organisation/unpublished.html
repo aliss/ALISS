@@ -9,7 +9,7 @@
             <div class="columns content">
                 <div class="copy-container">
                     <h1>Unpublished organisations</h1>
-                    <p>Organisations that have been hidden for any reason.</p>
+                    <p>Organisations not yet available on ALISS.</p>
                 </div>
             </div>
         </div>
@@ -26,27 +26,54 @@
                         </form>
                     </div>
                 </div>
-                <div class="org-results">
+                <div class="">
                     {% if request.GET.q %}
                     <h4>You searched for "{{ request.GET.q }}"</h4>
                     {% endif %}
 
+                    <hr class="clear" />
                     {% if object_list %}
-                        <ul class="orgs">
+                        <table class="orgs">
+                            <col width="25%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="15%">
+                            <col width="20%">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Details</th>
+                                <th>Create date</th>
+                                <th>User</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
                             {% for organisation in object_list %}
-                                <li>
-                                    <span class="name">{{ organisation.name }}</span>
-                                    <ul class="options">
-                                        <li>
-                                            <a href="{% url 'organisation_detail' pk=organisation.pk %}">View Page</a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'claim_create' pk=organisation.pk %}">Request to Represent</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                <tr>
+                                    <td class="name">
+                                        <a href="{% url 'organisation_detail' pk=organisation.pk %}">
+                                        {{ organisation.name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ organisation.services.count }} Service(s) <br/>
+                                        {{ organisation.locations.count }} Locations(s)
+                                    </td>
+                                    <td>
+                                        {{ organisation.created_on }}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'account_detail' pk=user.pk %}">{{ organisation.created_by }}</a>
+                                    </td>
+                                    <td class="options">
+                                        <form action="{% url 'organisation_publish' pk=organisation.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="submit" value="Approve &amp; publish" />
+                                        </form>
+                                    </td>
+                                </tr>
                             {% endfor %}
-                        </ul>
+                        </table>
                     {% endif %}
                     {% if request.GET.q %}
                         {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
