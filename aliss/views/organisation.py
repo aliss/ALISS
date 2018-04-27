@@ -110,7 +110,7 @@ class OrganisationListView(StaffuserRequiredMixin, FilterView):
         return Organisation.objects.filter(published=True)
 
 
-class OrganisationDetailView(DetailView, ProgressMixin):
+class OrganisationDetailView(ProgressMixin, DetailView):
     model = Organisation
     template_name = 'organisation/detail.html'
 

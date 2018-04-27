@@ -27,8 +27,10 @@ class ProgressMixin(object):
     def get_context_data(self, **kwargs):
         if isinstance(self.object, Organisation):
             organisation = self.object
-        else:
+        elif isinstance(self.organisation, Organisation):
             organisation = self.organisation
+        else:
+            organisation = self.get_object()
 
         context = super(ProgressMixin, self).get_context_data(**kwargs)
         context['progress'] = 2
