@@ -80,10 +80,8 @@
                     {% if request.GET.q %}
                         {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
                     {% endif %}
-                    <div class="add-org">
-                        <p>Can't find your organisation?</p>
-                        <a href="{% url 'organisation_create' %}" class="button primary">Add your organisation</a>
-                    </div>
+                    <br/>
+                    <a href="{% url 'account_dashboard' %}" class="button primary">Back to dashboard</a>
                 </div>
             </div>
         </dv>
