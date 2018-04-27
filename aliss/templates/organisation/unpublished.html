@@ -27,11 +27,13 @@
                     </div>
                 </div>
                 <div class="">
+                    <br/>
+
                     {% if request.GET.q %}
                     <h4>You searched for "{{ request.GET.q }}"</h4>
+                    <br/>
                     {% endif %}
 
-                    <hr class="clear" />
                     {% if object_list %}
                         <table class="orgs">
                             <col width="25%">

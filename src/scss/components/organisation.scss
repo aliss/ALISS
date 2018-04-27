@@ -214,3 +214,9 @@ ul.orgs+.paged {
     .fa { opacity: 1.0; }
   }
 }
+
+/* Unpublished Orgs */
+
+table td.options { 
+  input[type="submit"] { font-size:100%; }
+}
