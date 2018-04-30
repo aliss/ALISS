@@ -11,9 +11,11 @@
     <li>
         <i class="fa fa-users" aria-hidden="true"></i> Add your organisation's services
     </li>
+    {% if not request.user.is_staff and not request.user.is_editor %}
     <li>
         <i class="fa fa-hourglass-half" aria-hidden="true"></i> Await approval by ALISS staff
     </li>
+    {% endif %}
     <li>
         <i title="Once approved your organisation and related services will be published on ALISS." class="fa fa-check-circle"></i> Approved and available on ALISS
     </li>
