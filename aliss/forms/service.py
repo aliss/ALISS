@@ -27,6 +27,9 @@ class ServiceForm(forms.ModelForm):
             'locations',
             'service_areas'
         ]
+        labels = {
+            'name': 'Service name'
+        }
 
     def __init__(self, *args, **kwargs):
         organisation = kwargs.pop('organisation')
