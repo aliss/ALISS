@@ -54,6 +54,7 @@
 @import "components/account";
 @import "components/organisation";
 
+
 /* Partials
    ================================ */
 @import "partials/search";
@@ -90,7 +91,7 @@ hr.clear {
 fieldset {
   border: 1px solid silver;
   width: 100%;
-  padding: 4%;
+  padding: 1%;
   margin-bottom: 2em;
   border-radius: 5px;
 }
@@ -102,4 +103,32 @@ legend {
   font-size: 1.2em;
   color: #4c5c68;
   line-height: 1.4;
+}
+
+fieldset#add-location-fieldset {
+  border:none;
+  legend {
+    cursor: pointer;
+    color: #22b2aa;
+    font-weight: 700;
+  }
+
+  legend::before { 
+    content: "+ ";
+  }
+
+  button {
+    float:right; margin-bottom:0.9em;
+  }
+}
+
+fieldset#add-location-fieldset.active {
+  border: 1px solid silver;
+  legend::before { 
+    content: "- ";
+  }
+}
+
+div.add-location-form {
+  padding:3%;
 }

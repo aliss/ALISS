@@ -150,6 +150,7 @@ $(document).ready(() => {
                 var selection = $('#id_locations').val();
                 selection.push(json.pk);
                 $('#id_locations').val(selection);
+                $('#add-location-fieldset').removeClass('active');
                 $('.add-location-form').slideUp();
             },
             error : function(xhr,errmsg,err) {
@@ -177,6 +178,7 @@ $(document).ready(() => {
     $('#show-add-location').click(function(e){
         e.stopPropagation();
         e.preventDefault();
+        $('#add-location-fieldset').toggleClass('active');
         $('.add-location-form').slideToggle();
     });
     $('#add-location').click(function(e){

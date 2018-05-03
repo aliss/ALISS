@@ -32,13 +32,13 @@
     </span>
 </div>
 <div class="f-row">
-    <button id="show-add-location">Add location</button>
     {% include 'partials/forms/multiselect_field.html' with field=form.locations %}
 </div>
 
 <div class="f-row">
-    <fieldset class="add-location-form" style="display:none;">
-    <legend>New location</legend>
+    <fieldset id="add-location-fieldset">
+    <legend id="show-add-location">Add new location</legend>
+    <div  class="add-location-form" style="display:none;">
     <input type="hidden" id="location_csrf" value="{{ csrf_token }}">
 
     <label for="location_name">
@@ -61,7 +61,8 @@
     </label>
     <input type="text" name="location_postal_code" maxlength="10" id="location_postal_code">
 
-    <button style="float:right;" data-create-endpoint="{% url 'location_create' pk=organisation.pk %}" id="add-location" class="btn">Add location</button>
+    <button data-create-endpoint="{% url 'location_create' pk=organisation.pk %}" id="add-location" class="btn">Add location</button>
+    </div>
     </fieldset>
 </div>
 <div class="f-row">
