@@ -32,11 +32,12 @@
     </span>
 </div>
 <div class="f-row">
+    <button id="show-add-location">Add location</button>
     {% include 'partials/forms/multiselect_field.html' with field=form.locations %}
 </div>
 
 <div class="f-row">
-    <fieldset class="add-location-form">
+    <fieldset class="add-location-form" style="display:none;">
     <legend>New location</legend>
     <input type="hidden" id="location_csrf" value="{{ csrf_token }}">
 

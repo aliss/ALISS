@@ -133,6 +133,7 @@ $(document).ready(() => {
             headers: { 'X-CSRFToken': $('#location_csrf').val() },
             url: createEndpoint,
             type: "POST",
+            dataType: 'json',
             data: {
                 name: $('#location_name').val(),
                 street_address: $('#location_street_address').val(),
@@ -140,19 +141,24 @@ $(document).ready(() => {
                 postal_code: $('#location_postal_code').val()
             },
             success : function(json) {
-                console.log(json);
                 $('#location_name').val('');
                 $('#location_street_address').val('');
                 $('#location_locality').val('');
                 $('#location_postal_code').val('');
                 var newOption = new Option(json.address, json.pk, false, false);
-                $('#id_locations').append().trigger('change');
-                $('#id_locations').select2('open');
+                $('#id_locations').append(newOption).trigger('change');
+                var selection = $('#id_locations').val();
+                selection.push(json.pk);
+                $('#id_locations').val(selection);
+                $('.add-location-form').slideUp();
             },
             error : function(xhr,errmsg,err) {
                 $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
                     " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
                 console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            },
+            complete: function(){
+                $('#add-location').removeAttr('disabled');
             }
         });
     };
@@ -163,17 +169,22 @@ $(document).ready(() => {
         placeholder: "Select Locations",
         mutliple: true
     });
+    $('#id_service_areas').select2({
+        placeholder: "Select Service Areas",
+        mutliple: true
+    });
+
+    $('#show-add-location').click(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        $('.add-location-form').slideToggle();
+    });
     $('#add-location').click(function(e){
         e.stopPropagation();
         e.preventDefault();
         var endpoint = $(this).attr('data-create-endpoint');
         $('#add-location').attr('disabled', 'disabled');
         createLocation(endpoint);
-    });
-
-    $('#id_service_areas').select2({
-        placeholder: "Select Service Areas",
-        mutliple: true
     });
 
     $(document).click(function(){

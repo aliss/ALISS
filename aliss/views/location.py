@@ -2,7 +2,7 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 from braces.views import (
     LoginRequiredMixin,
@@ -42,13 +42,11 @@ class LocationCreateView(
         self.object.created_by = self.request.user
         self.object.save()
 
-        if self.request.content_type == 'application/json':
-            return HttpResponse(
-                json.dumps({
+        if self.request.is_ajax():
+            return JsonResponse({
                     'pk': self.object.pk,
                     'address': self.object.formatted_address
-                }), content_type="application/json"
-            )
+                })
         else:
             messages.success(
                 self.request,
