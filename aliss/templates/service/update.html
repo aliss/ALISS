@@ -21,7 +21,7 @@
             <div class="columns">
                 <form method="post">
                     {% csrf_token %}
-                    {% include 'service/forms/service_form.html' %}
+                    {% include 'service/forms/service_form.html' with  organisation=organisation %}
                     <div class="submit">
                         <input type="submit" value="Update Service">
                     </div>

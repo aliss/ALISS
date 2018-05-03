@@ -1,7 +1,7 @@
 {% load aliss %}
 
 <div class="f-row">
-    {% include 'partials/forms/field.html' with field=form.name annotation="Give your service a clear and concise name featuring keywords." %}
+    {% include 'partials/forms/field.html' with field=form.name %}
 </div>
 <div class="f-row">
     {% include 'partials/forms/field.html' with field=form.description annotation="Make sure to include information on what your service does, who you help and important information like opening times. Always assume those reading this description have never heard of your organisation or this service." %}
@@ -33,6 +33,35 @@
 </div>
 <div class="f-row">
     {% include 'partials/forms/multiselect_field.html' with field=form.locations %}
+</div>
+
+<div class="f-row">
+    <fieldset class="add-location-form">
+    <legend>New location</legend>
+    <input type="hidden" id="location_csrf" value="{{ csrf_token }}">
+
+    <label for="location_name">
+        Location name <span>(required)</span>
+    </label>
+    <input type="text" name="location_name" maxlength="100" id="location_name">
+
+    <label for="location_street_address">
+        Street address <span>(required)</span>
+    </label>
+    <input type="text" name="location_street_address" maxlength="100" id="location_street_address">
+
+    <label for="location_locality">
+        City/town <span>(required)</span>
+    </label>
+    <input type="text" name="location_locality" maxlength="30" id="location_locality">
+
+    <label for="location_postal_code">
+        Post code <span>(required)</span>
+    </label>
+    <input type="text" name="location_postal_code" maxlength="10" id="location_postal_code">
+
+    <button style="float:right;" data-create-endpoint="{% url 'location_create' pk=organisation.pk %}" id="add-location" class="btn">Add location</button>
+    </fieldset>
 </div>
 <div class="f-row">
     {% include 'partials/forms/multiselect_field.html' with field=form.service_areas %}

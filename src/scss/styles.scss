@@ -65,17 +65,17 @@
 	display: none;
 }
 .vh {
-    overflow: hidden;
-    position: absolute;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
 }
 .select-full, .select-full-blank {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 hr.clear { 
@@ -86,3 +86,20 @@ hr.clear {
 }
 
 .small { font-size: 95%; }
+
+fieldset {
+  border: 1px solid silver;
+  width: 100%;
+  padding: 4%;
+  margin-bottom: 2em;
+  border-radius: 5px;
+}
+
+legend {
+  padding: 0px 5px;
+  margin-bottom: .5em;
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #4c5c68;
+  line-height: 1.4;
+}

@@ -128,12 +128,49 @@ $(document).ready(() => {
         }
     });
 
+    var createLocation = function(createEndpoint) {
+        $.ajax({
+            headers: { 'X-CSRFToken': $('#location_csrf').val() },
+            url: createEndpoint,
+            type: "POST",
+            data: {
+                name: $('#location_name').val(),
+                street_address: $('#location_street_address').val(),
+                locality: $('#location_locality').val(),
+                postal_code: $('#location_postal_code').val()
+            },
+            success : function(json) {
+                console.log(json);
+                $('#location_name').val('');
+                $('#location_street_address').val('');
+                $('#location_locality').val('');
+                $('#location_postal_code').val('');
+                var newOption = new Option(json.address, json.pk, false, false);
+                $('#id_locations').append().trigger('change');
+                $('#id_locations').select2('open');
+            },
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
+
     // Select2
     $('.multiselect select').hide();
     $('#id_locations').select2({
         placeholder: "Select Locations",
         mutliple: true
     });
+    $('#add-location').click(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var endpoint = $(this).attr('data-create-endpoint');
+        $('#add-location').attr('disabled', 'disabled');
+        createLocation(endpoint);
+    });
+
     $('#id_service_areas').select2({
         placeholder: "Select Service Areas",
         mutliple: true

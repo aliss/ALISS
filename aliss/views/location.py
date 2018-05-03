@@ -23,7 +23,6 @@ class LocationCreateView(
     ProgressMixin,
     CreateView
 ):
-
     model = Location
     form_class = LocationForm
     template_name = 'location/create.html'
@@ -43,12 +42,19 @@ class LocationCreateView(
         self.object.created_by = self.request.user
         self.object.save()
 
-        messages.success(
-            self.request,
-            'Location has been successfully created.'
-        )
-
-        return HttpResponseRedirect(self.get_success_url())
+        if self.request.content_type == 'application/json':
+            return HttpResponse(
+                json.dumps({
+                    'pk': self.object.pk,
+                    'address': self.object.formatted_address
+                }), content_type="application/json"
+            )
+        else:
+            messages.success(
+                self.request,
+                'Location has been successfully created.'
+            )
+            return HttpResponseRedirect(self.get_success_url())
 
 
 class LocationUpdateView(
