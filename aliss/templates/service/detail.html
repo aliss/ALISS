@@ -149,6 +149,7 @@
                     <h4>Contact information</h4>
                     <p>
                         {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+                        {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
                         {% if object.url %}<a href="{{ object.url }}">Website</a>{% endif %}
                         {% if object.facebook %}<a href="{{ object.facebook }}">Facebook</a>{% endif %}
                         {% if object.twitter %}<a href="{{ object.twitter }}">Twitter</a>{% endif %}
