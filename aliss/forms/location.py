@@ -23,6 +23,7 @@ class LocationForm(forms.ModelForm):
             'longitude'
         )
         labels = {
+            'name': 'Location name',
             'locality': 'City/Town',
             'region': 'Local Authority',
             'postal_code': 'Post Code'
