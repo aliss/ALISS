@@ -74,6 +74,11 @@
                             </span>
                             Recommend this service
                         </a>
+
+                        <a id="report_listing" class="improve">
+                            <i class="fas fa-comment"></i> Improve this listing
+                        </a>
+
                         <div class="recommend-form toggled" id="recommend">
                             <form method="post" action="{% url 'account_my_recommendations_add_service' %}">
                                 {% csrf_token %}
@@ -112,12 +117,6 @@
                                 <i class="fas fa-print"></i>
                             </span>
                             Print this listing
-                        </a>
-                        <a id="report_listing" class="alert icon-link">
-                            <span class="icon">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </span>
-                            Report this listing
                         </a>
                     </div>
                 </div>

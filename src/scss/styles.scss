@@ -132,3 +132,16 @@ fieldset#add-location-fieldset.active {
 div.add-location-form {
   padding:3%;
 }
+
+div.actions {
+  a.improve {
+    float:none;
+  }
+}
+
+a.improve {
+  font-size: 1.15em;
+  color: #f49c27;
+  float: right;
+  margin-bottom: 0.35em;
+}

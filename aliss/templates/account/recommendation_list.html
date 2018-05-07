@@ -50,11 +50,11 @@
                                         Remove
                                     </button>
                                 </form>
-                                <a href="{% url 'service_detail' pk=service.pk %}?report=True" class="alert icon-link">
+                                <a href="{% url 'service_detail' pk=service.pk %}?report=True" class="improve icon-link">
                                     <span class="icon">
-                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <i class="fas fa-comment"></i>
                                     </span>
-                                    Report this listing
+                                    Improve this listing
                                 </a>
                                 <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
                             </div>

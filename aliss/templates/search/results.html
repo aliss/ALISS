@@ -78,11 +78,8 @@
                             {% for result in object_list %}
                                 <li>
                                     <div class="heading">
-                                        <a href="{% url 'service_detail' result.id %}?report=True" class="alert icon-link">
-                                            <span class="icon">
-                                                <i class="fas fa-exclamation-triangle"></i>
-                                            </span>
-                                            Report this listing
+                                        <a href="{% url 'service_detail' result.id %}?report=True" class="improve">
+                                            Improve this listing <i class="fas fa-comment"></i>
                                         </a>
                                         <a href="{% url 'service_detail' result.id %}"><h3>{{ result.name }}</h3></a>
                                     </div>
