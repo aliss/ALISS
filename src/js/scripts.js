@@ -128,6 +128,23 @@ $(document).ready(() => {
         }
     });
 
+    var isLocationValid = function(){
+        var result = true;
+        $('div.add-location-form input[type="text"]').each(function(i,e){
+            e.setCustomValidity('');
+            if (e.value == ""){
+                e.setCustomValidity("Please fill in this field");
+            }
+            if (e.checkValidity() == false){
+                e.reportValidity();
+                result = false;
+                return false;
+            }
+        });
+        return result;
+    };
+
+
     var createLocation = function(createEndpoint) {
         $.ajax({
             headers: { 'X-CSRFToken': $('#location_csrf').val() },
@@ -184,9 +201,11 @@ $(document).ready(() => {
     $('#add-location').click(function(e){
         e.stopPropagation();
         e.preventDefault();
-        var endpoint = $(this).attr('data-create-endpoint');
-        $('#add-location').attr('disabled', 'disabled');
-        createLocation(endpoint);
+        if (isLocationValid()){
+            var endpoint = $(this).attr('data-create-endpoint');
+            $('#add-location').attr('disabled', 'disabled');
+            createLocation(endpoint);    
+        }
     });
 
     $(document).click(function(){
