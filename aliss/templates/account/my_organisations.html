@@ -6,7 +6,7 @@
     <p>If you are a member of an organisation, you can search for them below then request to represent them. Once approved by the ALISS moderation team, you will be able to update your organisation’s details and services.</p>
 </div>
 <div class="my-account-details">
-    {% if object_list %}
+    {% if object_list or orgs_list %}
         <div class="account-list">
             <ul class="rep-organisations">
                 {% for claim in object_list %}
