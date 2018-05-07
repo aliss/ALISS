@@ -26,7 +26,7 @@
                         </a>
                         <a href="{% url 'claim_list' %}" {% if request.resolver_match.url_name == 'claim_list' %}class="active"{% endif %}>
                             <span class="text">
-                                Claim Requests
+                                Claim requests
                             </span>
                         </a>
                         <a href="{% url 'account_list' %}" {% if request.resolver_match.url_name == 'account_list' or request.resolver_match.url_name == 'account_detail' %}class="active"{% endif %}>
@@ -36,7 +36,7 @@
                         </a>
                         <a href="{% url 'service_problem_list' %}" {% if request.resolver_match.url_name == 'service_problem_list' %}class="active"{% endif %}>
                             <span class="text">
-                                Problem Reports
+                                Suggested improvements
                             </span>
                         </a>
                     </div>
