@@ -32,10 +32,10 @@
     <div class="copy-container">
     </div>
     <div class="my-account-details">
-        {% if object.services.all %}
+        {% if services.all %}
             <div class="account-list">
                 <ul class="search-results">
-                    {% for service in object.services.all %}
+                    {% for service in services.all %}
                         <li>
                             <div class="heading">
                                 <form method='post' action="{% url 'account_my_recommendations_remove_service' %}">

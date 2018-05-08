@@ -171,6 +171,11 @@ class AccountServiceHelpfulView(LoginRequiredMixin, View):
 class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
     template_name = 'account/saved_services.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AccountSavedServicesView, self).get_context_data(**kwargs)
+        context['saved_services'] = self.request.user.saved_services.order_by('name')
+        return context
+
 
 class AccountMyRecommendationsView(LoginRequiredMixin, CreateView):
     form_class = RecommendationServiceListForm
@@ -194,6 +199,11 @@ class AccountMyRecommendationsView(LoginRequiredMixin, CreateView):
 class AccountRecommendationListDetailView(LoginRequiredMixin, DetailView):
     model = RecommendedServiceList
     template_name = 'account/recommendation_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountRecommendationListDetailView, self).get_context_data(**kwargs)
+        context['services'] = self.object.services.order_by('name')
+        return context
 
 
 class AccountRecommendationListDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):

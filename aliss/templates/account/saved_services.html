@@ -6,7 +6,7 @@
 <div class="copy-container">
 </div>
 <div class="my-account-details">
-    {% if not request.user.saved_services.all %}
+    {% if not saved_services.all %}
         <div class="account-list none">
             <p>You haven't saved any services yet.</p>
             <p><a href="{% url 'homepage' %}">Start Searching</a></p>
@@ -14,7 +14,7 @@
     {% else %}
         <div class="account-list">
             <ul class="search-results">
-                {% for service in request.user.saved_services.all %}
+                {% for service in saved_services.all %}
                     <li>
                         <div class="heading">
                             <form method='post' action="{% url 'account_remove_saved_service' pk=service.pk %}">
