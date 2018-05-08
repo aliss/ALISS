@@ -2,7 +2,7 @@
 {% load aliss %}
 {% load humanize %}
 
-{% block title %}{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} - ALISS{% endblock %}
+{% block title %}{% if not request.GET.q %}Help &amp; support{% else %}'{{ request.GET.q }}' help &amp; support{% endif %} in {{ postcode.postcode }} - ALISS{% endblock %}
 {% block meta_schema %}
     <meta property="og:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} - ALISS" />
     <meta name="twitter:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} - ALISS" />
@@ -78,9 +78,6 @@
                             {% for result in object_list %}
                                 <li>
                                     <div class="heading">
-                                        <a href="{% url 'service_detail' result.id %}?report=True" class="improve">
-                                            Improve this listing <i class="fas fa-comment"></i>
-                                        </a>
                                         <a href="{% url 'service_detail' result.id %}"><h3>{{ result.name }}</h3></a>
                                     </div>
                                     <p class="org">by <a href="{% url 'organisation_detail' result.organisation.id %}">{{ result.organisation.name }}</a> {% if result.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
