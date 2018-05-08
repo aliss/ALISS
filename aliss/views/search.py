@@ -1,3 +1,4 @@
+import string
 from django.views.generic import View, TemplateView
 from django.views.generic.list import MultipleObjectMixin
 from django.conf import settings
@@ -33,6 +34,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
         if search_form.is_valid():
             self.q = search_form.cleaned_data.get('q', None)
+            puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
+            self.q = self.q.translate(puncstripper)
             self.location_type = search_form.cleaned_data.get(
                 'location_type',
                 None
