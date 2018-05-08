@@ -2,6 +2,8 @@ from django.views.generic import (
     View, CreateView, UpdateView, DeleteView, DetailView
 )
 from django.contrib import messages
+from django.conf import settings
+from django.core.mail import send_mail
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -158,7 +160,10 @@ class OrganisationSearchView(LoginRequiredMixin, FilterView):
     filterset_class = OrganisationFilter
 
     def get_queryset(self):
-        return Organisation.objects.filter(published=True).order_by('-created_on')
+        if self.request.user.is_editor or self.request.user.is_staff:
+            return Organisation.objects.order_by('-created_on')
+        else:
+            return Organisation.objects.filter(published=True).order_by('-created_on')
 
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
@@ -171,11 +176,23 @@ class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
 
 
 class OrganisationPublishView(StaffuserRequiredMixin, View):
+
+    def send_published_email(self, organisation):
+        message = '{organisation} has been approved and published on ALISS.'.format(organisation=organisation)
+        send_mail(
+            '{organisation} now on ALISS'.format(organisation=organisation),
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [organisation.created_by.email, organisation.claimed_by],
+            fail_silently=True,
+        )
+
     def post(self, request, *args, **kwargs):
         organisation = get_object_or_404(Organisation, pk=self.kwargs['pk'])
 
         if Organisation.objects.filter(pk=organisation.pk).update(published=True, updated_by=self.request.user):
             messages.success(self.request, '{name} has been successfully published.'.format(name=organisation.name))
+            self.send_published_email(organisation)
         else:
             messages.error(self.request, 'Could not publish {name}.'.format(name=organisation.name))
 
