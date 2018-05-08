@@ -39,7 +39,34 @@
                     <div class="heading">
                         <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
                     </div>
+
+                    <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. -->
                     <div class="actions toggle-content">
+
+                        <a class="icon-link" id="email_service_toggle">
+                            <span class="icon">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            Email this listing
+                        </a>
+                        <div class="email-listing-form toggled" id="email_service">
+                            <form action="{% url 'service_email' %}" method="post">
+                                {% csrf_token %}
+                                <div class="sbs-inputs">
+                                    <input name="service" type="hidden" value="{{ object.pk }}">
+                                    <input name="email" type="email" placeholder="email@company.com">
+                                    <input type="submit" class="secondary" value="Send">
+                                </div>
+                            </form>
+                        </div>
+
+                        <a href="javascript:window.print();" class="icon-link">
+                            <span class="icon">
+                                <i class="fas fa-print"></i>
+                            </span>
+                            Print this listing
+                        </a>
+
                         {% if object in request.user.saved_services.all %}
                             <form method='post' action="{% url 'account_remove_saved_service' pk=object.pk %}">
                                 {% csrf_token %}
@@ -75,10 +102,6 @@
                             Recommend this service
                         </a>
 
-                        <a id="report_listing" class="improve">
-                            <i class="fas fa-comment"></i> Improve this listing
-                        </a>
-
                         <div class="recommend-form toggled" id="recommend">
                             <form method="post" action="{% url 'account_my_recommendations_add_service' %}">
                                 {% csrf_token %}
@@ -96,27 +119,9 @@
                                 </div>
                             </form>
                         </div>
-                        <a class="icon-link" id="email_service_toggle">
-                            <span class="icon">
-                                <i class="fas fa-envelope"></i>
-                            </span>
-                            Email this listing
-                        </a>
-                        <div class="email-listing-form toggled" id="email_service">
-                            <form action="{% url 'service_email' %}" method="post">
-                                {% csrf_token %}
-                                <div class="sbs-inputs">
-                                    <input name="service" type="hidden" value="{{ object.pk }}">
-                                    <input name="email" type="email" placeholder="email@company.com">
-                                    <input type="submit" class="secondary" value="Send">
-                                </div>
-                            </form>
-                        </div>
-                        <a href="javascript:window.print();" class="icon-link">
-                            <span class="icon">
-                                <i class="fas fa-print"></i>
-                            </span>
-                            Print this listing
+
+                        <a id="report_listing" class="improve">
+                            <i class="fas fa-comment"></i> Improve this listing
                         </a>
                     </div>
                 </div>
