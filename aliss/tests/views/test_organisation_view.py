@@ -69,7 +69,7 @@ class OrganisationViewTestCase(TestCase):
         response_3 = self.client.get(reverse('organisation_detail', kwargs={'pk': self.organisation.pk}))
 
         self.assertEqual(response_1.status_code, 200)
-        self.assertEqual(response_2.status_code, 404)
+        self.assertEqual(response_2.status_code, 403)
         self.assertEqual(response_3.status_code, 200)
 
     def test_organisation_delete(self):
