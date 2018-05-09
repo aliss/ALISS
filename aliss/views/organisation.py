@@ -4,6 +4,7 @@ from django.views.generic import (
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -116,11 +117,11 @@ class OrganisationDetailView(ProgressMixin, DetailView):
     model = Organisation
     template_name = 'organisation/detail.html'
 
-    def get_queryset(self):
-        if self.request.user.is_staff:
-            return Organisation.objects.all()
-        else:
-            return Organisation.objects.filter(Q(published=True) | Q(created_by=self.request.user) | Q(claimed_by=self.request.user))
+    def get_object(self, queryset=None):
+        obj = super(OrganisationDetailView, self).get_object(queryset=queryset)
+        if not obj.published and not obj.is_edited_by(self.request.user):
+            raise PermissionDenied
+        return obj
 
 
 class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
