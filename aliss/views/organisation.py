@@ -44,6 +44,17 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
             kwargs={'pk': self.object.pk }
         )
 
+    def send_new_org_email(self, organisation):
+        message = '{organisation} has been added to ALISS by {user}.'.format(organisation=organisation, user=organisation.created_by)
+        message += 'Go to {link} to approve it.'.format(link=self.request.build_absolute_uri(reverse('organisation_unpublished')))
+        send_mail(
+            'A new organisation: {organisation} requires approval'.format(organisation=organisation),
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            ['hello@aliss.org'],
+            fail_silently=True,
+        )
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
@@ -52,6 +63,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
             self.object.published = True
         else:
             self.object.published = False
+            self.send_new_org_email(self.object)
 
         self.object.save()
         messages.success(
