@@ -34,8 +34,6 @@ class ProgressMixin(object):
 
         context = super(ProgressMixin, self).get_context_data(**kwargs)
         context['progress'] = 2
-        if (organisation.locations.count() > 0):
-            context['progress'] = 3
         if (organisation.services.count() > 0):
-            context['progress'] = 4
+            context['progress'] = 3
         return context
