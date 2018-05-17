@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="s-11 m-8 l-6 columns">
+            <div class="s-12 m-9 l-8 columns">
                 {% include 'partials/breadcrumb.html' %}
             </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="columns">
                 <div class="org-search">
                     <br/>
-                    <label>First, check if your organisation is already listed: </label>
+                    <label>First, check if your organisation is already listed by searching for it: </label>
                     <div class="sbs-inputs">
                         <form>
                             <input type="text" placeholder="e.g. The ALLIANCE" value="{{ request.GET.q }}" name="q">
@@ -35,8 +35,8 @@
                         </form>
                     </div>
                 </div>
-                <div class="org-results">
 
+                <div class="org-results">
                     {% if request.GET.q and object_list %}
                         <h4>You searched for "{{ request.GET.q }}"</h4>
                         <ul class="orgs">
@@ -56,17 +56,28 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-
                     {% if request.GET.q %}
                         {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
-                        <div class="add-org">
-                            <p>Can't find your organisation?</p>
+
+                        <hr class="clear"/>
+
+                        {% if object_list %}
+                        <div class="s-12 m-6 l-6 columns">
+                            <h5>Found your organisation?</h5>
+                            <p>Click 'Request to represent' to claim representation of the organisation. Once approved you'll be able to edit and publish services on ALISS.</p>
+                        </div>
+                        {% endif %}
+
+                        <div class="s-12 m-6 l-6 columns">
+                            <h5>Couldn't find your organisation?</h5>
+                            <p>Start the process by adding your organisation: </p>
                             <a href="{% url 'organisation_create' %}" class="button primary">Add your organisation</a>
                         </div>
                     {% endif %}
+                    <hr class="clear"/>
                 </div>
             </div>
-        </dv>
+        </div>
     </section>
 </main>
 {% endblock %}
