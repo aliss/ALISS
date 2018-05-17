@@ -79,11 +79,13 @@
   cursor: pointer;
 }
 
+.clear { clear:both; }
+
 hr.clear { 
   clear: both;
   visibility: hidden;
   display: block;
-  height: 1em;
+  height: 0.5em;
 }
 
 .small { font-size: 95%; }

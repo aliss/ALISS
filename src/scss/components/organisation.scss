@@ -7,6 +7,10 @@
 
 ul.progress-breadcrumb.step-none li {}
 
+ul.progress-breadcrumb {
+  li.half { display: inline-block; width:49.6%; text-align:center; }
+}
+
 ul.progress-breadcrumb.step-1 {
   li:nth-child(1) { text-decoration: line-through; } 
 }
