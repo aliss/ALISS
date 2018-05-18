@@ -579,11 +579,15 @@ table.users-listing tr {
   td:nth-child(6) { width: 5%; text-align:center; }
   td:nth-child(7) { width: 8%; }
 
-  button {
+  a.button {
     width: 100%;
     display: inline-block;
     font-size: 0.9em;
     padding: 0.7em 0.1em;
     min-width: 0px;
   }
+}
+
+.user-modals {
+  .modal { max-width: 45vw; }
 }

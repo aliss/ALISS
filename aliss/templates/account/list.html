@@ -44,7 +44,7 @@
                                 <td>{{ user.date_joined|date:"j M Y" }}</td>
                                 <td align="center">{{ user.claimed_organisations.count }}</td>
                                 <td align="center">{{ user.created_organisations.count }}</td>
-                                <td><button>Show details</button></td>
+                                <td><a id="user-{{user.pk}}_modal" class="button primary">Show details</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -52,5 +52,51 @@
             </div>
             {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
         </div>
+    </div>
+
+    <div class="black"></div>
+    <div class="user-modals">
+        {% for user in object_list %}
+        <div class="modal" id="user-{{user.pk}}">
+        <div class="pad">
+            <div class="heading">
+                <a class="close alert icon-link">
+                    <span class="icon">
+                        <i class="fas fa-times"></i>
+                    </span>
+                    Close
+                </a>
+                <h5>{{ user.name }} ({{ user.email }})</h5>
+            </div>
+            <br class="clear"/>
+            <div class="row">
+                <div class="s-12 m-6 l-6">
+                    <p>Postcode: {{ user.postal_code }}</p>
+                    <p>Phone no: {{ user.phone }}</p>
+                </div>
+                <div class="s-12 m-6 l-6">
+                    <p>Is staff? {{ user.is_editor }}</p>
+                    <p>Is editor? {{ user.is_staff }}</p>
+                </div>
+            </div>
+            <hr class="clear"/>
+            <div class="row">
+                <div class="s-12 m-6 l-6">
+                    <p><b>Organisations created</b></p>
+                    {% for org in user.created_organisations.all %}
+                        <p><a target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
+                    {% endfor %}
+                </div>
+                <div class="s-12 m-6 l-6">
+                    <p><b>Organisations claimed</b></p>
+                    {% for org in user.claimed_organisations %}
+                        <p><a target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
+                    {% endfor %}
+                </div>
+            </div>
+            <br class="clear"/>
+        </div>
+        </div>
+        {% endfor %}
     </div>
 {% endblock %}
