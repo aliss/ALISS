@@ -86,7 +86,7 @@ class Service(models.Model):
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=15, blank=True)
 
-    categories = models.ManyToManyField('aliss.Category')
+    categories = models.ManyToManyField('aliss.Category', related_name='services')
 
     locations = models.ManyToManyField(
         'aliss.Location',
