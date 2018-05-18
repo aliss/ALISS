@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core import validators
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from .organisation import Organisation
 
 
 class ALISSUserManager(BaseUserManager):
@@ -94,6 +95,9 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.name or self.email
+
+    def claimed_organisations(self):
+        return Organisation.objects.filter(claimed_by=self)
 
 
 class RecommendedServiceList(models.Model):

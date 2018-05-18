@@ -23,16 +23,16 @@
                 </form>
             </div>
             <div class="content-table">
-                <table>
+                <table class="users-listing">
                     <thead>
                         <tr>
                             <td>Name</td>
                             <td>Email Address</td>
-                            <td>Phone</td>
                             <td>Postcode</td>
                             <td>Date Joined</td>
-                            <td align="center">Services</td>
-                            <td align="center">Orgs</td>
+                            <td align="center">Orgs claimed</td>
+                            <td align="center">Orgs created</td>
+                            <td>Actions</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,11 +40,11 @@
                             <tr>
                                 <td><a href="{% url 'account_detail' pk=user.pk %}">{{ user.name }}</a></td>
                                 <td><a href="{% url 'account_detail' pk=user.pk %}">{{ user.email }}</a></td>
-                                <td>{{ user.phone }}</td>
                                 <td>{{ user.postcode }}</td>
-                                <td>{{ user.date_joined }}</td>
-                                <td align="center">{{ user.created_services.count }}</td>
+                                <td>{{ user.date_joined|date:"j M Y" }}</td>
+                                <td align="center">{{ user.claimed_organisations.count }}</td>
                                 <td align="center">{{ user.created_organisations.count }}</td>
+                                <td><button>Show details</button></td>
                             </tr>
                         {% endfor %}
                     </tbody>

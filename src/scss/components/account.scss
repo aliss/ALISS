@@ -564,6 +564,26 @@ ul.searches {
   }
 }
 
+table.users-listing { table-layout: fixed; }
+table.users-listing thead tr td { overflow: visible; }
+table.users-listing tr {
+  td {
+    width: 7%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  td:hover {}
+  td:nth-child(2) { width: 10%; }
+  td:nth-child(4) { width: 7%; }
+  td:nth-child(5) { width: 5%; text-align:center; }
+  td:nth-child(6) { width: 5%; text-align:center; }
+  td:nth-child(7) { width: 8%; }
 
-
-
+  button {
+    width: 100%;
+    display: inline-block;
+    font-size: 0.9em;
+    padding: 0.7em 0.1em;
+    min-width: 0px;
+  }
+}
