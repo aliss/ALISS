@@ -21,3 +21,7 @@ class Category(models.Model):
     @property
     def siblings(self):
         return Category.objects.filter(parent=self.parent)
+
+    @property
+    def subcategories(self):
+        return Category.objects.filter(parent=self)
