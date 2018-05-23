@@ -68,3 +68,9 @@ class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = None
+
+
+class ServiceAreaListView(generics.ListAPIView):
+    queryset = ServiceArea.objects.all()
+    serializer_class = ServiceAreaSerializer
+    pagination_class = None
