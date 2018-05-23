@@ -38,7 +38,7 @@ class ClaimListView(StaffuserRequiredMixin, ListView):
         else:
             queryset = queryset.filter(status=Claim.UNREVIEWED)
 
-        return queryset
+        return queryset.order_by('-created_on')
 
 
 class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
