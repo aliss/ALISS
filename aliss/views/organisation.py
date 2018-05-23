@@ -192,6 +192,7 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
 
     def send_published_email(self, organisation):
         message = '{organisation} has been approved and published on ALISS.'.format(organisation=organisation)
+        message += "\n\n-----\nThanks from the ALISS team\nIf you need to get in touch please contact us at:\nhello@aliss.org or 0141 404 0239"
         send_mail(
             '{organisation} now on ALISS'.format(organisation=organisation),
             message,
