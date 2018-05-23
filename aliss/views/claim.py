@@ -61,7 +61,7 @@ class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
         else:
             return False
 
-        message += "\n\n-----\nThanks from the ALISS team\nIf you need to get in touch please contact us at:\nhello@aliss.org or 0141 404 0239"
+        message += "\n\n-----\n\n\nThanks from the ALISS team\n\nIf you need to get in touch please contact us at:\n\nhello@aliss.org or 0141 404 0239"
 
         send_mail(
             'Your ownership claim of {organisation} on ALISS'.format(
