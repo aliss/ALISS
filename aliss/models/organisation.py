@@ -46,5 +46,9 @@ class Organisation(models.Model):
             self.claimed_by == user
         )
 
+    @property
+    def is_claimed(self):
+        return not (self.claimed_by == None)
+
     def __str__(self):
         return self.name

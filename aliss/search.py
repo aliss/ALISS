@@ -127,6 +127,7 @@ def service_to_body(service):
         'organisation': {
             'id': service.organisation.pk,
             'name': service.organisation.name,
+            'is_claimed': service.organisation.is_claimed
         },
         'name': service.name,
         'description': service.description,
