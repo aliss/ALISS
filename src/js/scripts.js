@@ -61,6 +61,15 @@ import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
 import Clipboard from 'clipboard/lib/clipboard.js';
 // import 'select2/dist/js/select2.min.js';
 
+$.urlParam = function(name){
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results==null){
+    return null;
+  } else{
+    return decodeURI(results[1]) || 0;
+  }
+};
+
 $(document).ready(() => {
     matchHeight();
 
