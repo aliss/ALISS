@@ -6,11 +6,23 @@
         <div class="row">
             <div class="columns content">
                 <div class="copy-container" style="min-height: 350px;">
-                    <h1>Suggesting improvements</h1>
+                    <h1>Thanks you for your help</h1>
+
                     <p>Thank you for helping us with our listings, we will get back to you once we've reviewed your suggestions.</p>
+
+                    <p><a id="backbtn" href="#">Back</a></p>
                 </div>
             </div>
         </div>
     </section>
 </main>
+{% endblock %}
+
+{% block before_body_close %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#backbtn').attr('href', $.urlParam('back'));
+});
+</script>
+
 {% endblock %}

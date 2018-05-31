@@ -158,7 +158,7 @@ class ServiceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class ServiceReportProblemView(StaffuserRequiredMixin, CreateView):
+class ServiceReportProblemView(LoginRequiredMixin, CreateView):
     model = ServiceProblem
     form_class = ServiceProblemForm
     template_name = 'service/report_problem.html'
@@ -176,7 +176,6 @@ class ServiceReportProblemView(StaffuserRequiredMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         self.service = self.get_service()
-
         return super(ServiceReportProblemView, self).post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -189,8 +188,7 @@ class ServiceReportProblemView(StaffuserRequiredMixin, CreateView):
         self.object.service = self.service
         self.object.user = self.request.user
         self.object.save()
-
-        return HttpResponseRedirect(self.get_success_url())
+        return HttpResponseRedirect(self.get_success_url() + '?back='+reverse('service_detail', kwargs={'pk': self.object.service_id}))
 
 
 class ServiceProblemListView(StaffuserRequiredMixin, ListView):
