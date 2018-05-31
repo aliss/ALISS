@@ -120,5 +120,9 @@ class Service(models.Model):
             self.organisation.claimed_by == user
         )
 
+    @property
+    def is_claimed(self):
+        return self.organisation.is_claimed
+
     def __str__(self):
         return self.name
