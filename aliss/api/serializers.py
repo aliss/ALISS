@@ -93,6 +93,7 @@ class SearchSerializer(serializers.Serializer):
 
 class v4OrganisationSerializer(OrganisationSerializer):
     aliss_url = serializers.SerializerMethodField()
+    is_claimed = serializers.BooleanField()
 
     def get_aliss_url(self, obj):
         return self.context['request'].build_absolute_uri(reverse('organisation_detail', args=[obj.id]))
@@ -101,9 +102,13 @@ class v4OrganisationSerializer(OrganisationSerializer):
 class v4SearchSerializer(SearchSerializer):
     aliss_url = serializers.SerializerMethodField()
     organisation = v4OrganisationSerializer()
+    last_updated = serializers.DateTimeField(source='updated_on')
 
     def get_aliss_url(self, obj):
         return self.context['request'].build_absolute_uri(reverse('service_detail', args=[obj.id]))
+
+    def get_last_updated(self, obj):
+        return obj.updated_on
 
 
 class RecursiveField(serializers.Serializer):

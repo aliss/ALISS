@@ -129,6 +129,7 @@ def service_to_body(service):
             'name': service.organisation.name,
             'is_claimed': service.organisation.is_claimed
         },
+        'updated_on': service.updated_on,
         'name': service.name,
         'description': service.description,
         'url': service.url,
