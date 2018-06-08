@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from django.urls import reverse
 from aliss.models import Postcode, Category, ServiceArea
 
 
@@ -82,3 +82,30 @@ class SearchSerializer(serializers.Serializer):
     categories = CategorySearchSerializer(many=True, required=False)
     locations = LocationSerializer(many=True, required=False)
     service_areas = ServiceAreaSerializer(many=True, required=False)
+
+
+class v4OrganisationSerializer(OrganisationSerializer):
+    aliss_url = serializers.SerializerMethodField()
+
+    def get_aliss_url(self, obj):
+        return self.context['request'].build_absolute_uri(reverse('organisation_detail', args=[obj.id]))
+
+
+class v4SearchSerializer(SearchSerializer):
+    aliss_url = serializers.SerializerMethodField()
+    organisation = v4OrganisationSerializer()
+
+    def get_aliss_url(self, obj):
+        return self.context['request'].build_absolute_uri(reverse('service_detail', args=[obj.id]))
+
+
+class RecursiveField(serializers.Serializer):
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+
+class v4CategorySerializer(serializers.Serializer):
+    name = serializers.CharField()
+    slug = serializers.SlugField()
+    sub_categories = RecursiveField(many=True, source='children')
