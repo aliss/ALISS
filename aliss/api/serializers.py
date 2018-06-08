@@ -71,6 +71,13 @@ class ServiceAreaSerializer(serializers.Serializer):
     name = serializers.CharField()
 
 
+class v4ServiceAreaSerializer(ServiceAreaSerializer):
+    type_name = serializers.SerializerMethodField()
+
+    def get_type_name(self, obj):
+        return ServiceArea.AREA_TYPES[obj.type][1]
+
+
 class SearchSerializer(serializers.Serializer):
     id = serializers.UUIDField()
     organisation = OrganisationSerializer()
