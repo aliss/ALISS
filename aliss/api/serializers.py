@@ -72,9 +72,9 @@ class ServiceAreaSerializer(serializers.Serializer):
 
 
 class v4ServiceAreaSerializer(ServiceAreaSerializer):
-    type_name = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
 
-    def get_type_name(self, obj):
+    def get_type(self, obj):
         return ServiceArea.AREA_TYPES[obj.type][1]
 
 
