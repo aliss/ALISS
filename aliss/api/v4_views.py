@@ -6,7 +6,7 @@ from .serializers import (
     v4SearchSerializer,
     SearchInputSerializer,
     v4CategorySerializer,
-    ServiceAreaSerializer
+    v4ServiceAreaSerializer
 )
 
 class APIv4():
@@ -45,7 +45,7 @@ class SearchView(v3.SearchView):
 class ServiceAreaListView(v3.ServiceAreaListView):
     def list(self, request):
         queryset = self.get_queryset()
-        serializer = ServiceAreaSerializer(queryset, many=True)
+        serializer = v4ServiceAreaSerializer(queryset, many=True)
         data = { 'meta': APIv4.META, 'data': serializer.data }
         return Response(data)
 
