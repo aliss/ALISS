@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from . import views as v3
 from aliss.models import Category, ServiceArea
 from collections import OrderedDict
+from copy import deepcopy
 
 from .serializers import (
     v4SearchSerializer,
@@ -38,7 +39,7 @@ class SearchView(v3.SearchView):
     def get(self, request, *args, **kwargs):
         response = self.list(request, *args, **kwargs)
         data = OrderedDict()
-        data['meta'] = APIv4.META
+        data['meta'] = deepcopy(APIv4.META)
         data['data'] = response.data['results']
         return Response(data)
 
@@ -48,7 +49,9 @@ class ServiceAreaListView(v3.ServiceAreaListView):
         queryset = self.get_queryset()
         serializer = v4ServiceAreaSerializer(queryset, many=True)
         data = OrderedDict()
-        data['meta'] = APIv4.META
+        data['meta'] = deepcopy(APIv4.META)
+        data['meta']['attribution'].pop()
+        data['meta']['attribution'].pop()
         data['data'] = serializer.data
         return Response(data)
 
@@ -62,6 +65,7 @@ class CategoryListView(v3.CategoryListView):
         queryset = self.get_queryset()
         serializer = v4CategorySerializer(queryset, many=True)
         data = OrderedDict()
-        data['meta'] = APIv4.META
+        data['meta'] = deepcopy(APIv4.META)
+        data['meta']['attribution'] = []
         data['data'] = serializer.data
         return Response(data)
