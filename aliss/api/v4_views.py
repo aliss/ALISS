@@ -38,10 +38,9 @@ class SearchView(v3.SearchView):
 
     def get(self, request, *args, **kwargs):
         response = self.list(request, *args, **kwargs)
-        data = OrderedDict()
-        data['meta'] = deepcopy(APIv4.META)
-        data['data'] = response.data['results']
-        return Response(data)
+        response.data['data'] = response.data.pop('results')
+        response.data.update({'meta': APIv4.META})
+        return Response(response.data)
 
 
 class ServiceAreaListView(v3.ServiceAreaListView):
