@@ -41,9 +41,6 @@ class SearchView(generics.ListAPIView):
     def filter_queryset(self, queryset):
         radius = self.input_data.get('radius')
         postcode = self.input_data.get('postcode')
-
-        queryset = filter_by_postcode(queryset, postcode, radius)
-
         query = self.input_data.get('query', None)
         category = self.input_data.get('category', None)
         location_type = self.input_data.get('location_type', None)
@@ -55,6 +52,7 @@ class SearchView(generics.ListAPIView):
         if location_type:
             queryset = filter_by_location_type(queryset, location_type)
 
+        queryset = filter_by_postcode(queryset, postcode, radius)
         return queryset
 
     def get_queryset(self, *args, **kwargs):
