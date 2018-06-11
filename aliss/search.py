@@ -251,6 +251,13 @@ def filter_by_postcode(queryset, postcode, radius=5000):
         )
     )
 
+    queryset = queryset.sort({ 
+        '_geo_distance': { 
+            "locations.point": {"lat": postcode.latitude, "lon": postcode.longitude },
+            "order":"asc", "unit":"m"
+        }
+    })
+
     return queryset
 
 
