@@ -38,9 +38,12 @@ class SearchView(v3.SearchView):
 
     def get(self, request, *args, **kwargs):
         response = self.list(request, *args, **kwargs)
-        response.data['data'] = response.data.pop('results')
-        response.data.update({'meta': APIv4.META})
-        return Response(response.data)
+        data = OrderedDict({'meta': APIv4.META})
+        data['count'] = response.data['count']
+        data['next'] = response.data['next']
+        data['previous'] = response.data['previous']
+        data['data'] = response.data['results']
+        return Response(data)
 
 
 class ServiceAreaListView(v3.ServiceAreaListView):
