@@ -70,14 +70,14 @@ class SearchView(MultipleObjectMixin, TemplateView):
     def filter_queryset(self, queryset):
         if self.q:
             queryset = filter_by_query(queryset, self.q)
-        if self.postcode:
-            queryset = filter_by_postcode(
-                queryset, self.postcode
-            )
         if self.location_type:
             queryset = filter_by_location_type(queryset, self.location_type)
         if self.category:
             queryset = filter_by_category(queryset, self.category)
+        if self.postcode:
+            queryset = filter_by_postcode(
+                queryset, self.postcode
+            )
 
         return queryset
 
