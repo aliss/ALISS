@@ -18,6 +18,8 @@ from aliss.search import (
     filter_by_location_type,
     filter_by_category
 )
+import logging
+
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
@@ -40,6 +42,9 @@ class SearchView(MultipleObjectMixin, TemplateView):
             self.location_type = search_form.cleaned_data.get('location_type',None)
             self.keyword_sort = search_form.cleaned_data.get('keyword_sort', None)
             self.category = search_form.cleaned_data.get('category', None)
+            self.radius = search_form.cleaned_data.get('radius', None)
+            if self.radius == None:
+                self.radius = 20000
 
             postcode = search_form.cleaned_data.get('postcode', None)
 
@@ -72,7 +77,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
         if self.location_type:
             queryset = filter_by_location_type(queryset, self.location_type)
         if self.postcode:
-            queryset = filter_by_postcode(queryset, self.postcode)
+            queryset = filter_by_postcode(queryset, self.postcode, self.radius)
         if self.postcode and not self.keyword_sort:
             queryset = sort_by_postcode(queryset, self.postcode)
         if self.category:

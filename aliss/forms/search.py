@@ -25,3 +25,4 @@ class SearchForm(forms.Form):
         to_field_name="slug",
         required=False
     )
+    radius = forms.IntegerField(required=False, min_value=1)
