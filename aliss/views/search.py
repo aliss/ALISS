@@ -18,7 +18,6 @@ from aliss.search import (
     filter_by_location_type,
     filter_by_category
 )
-import logging
 
 
 class SearchView(MultipleObjectMixin, TemplateView):
@@ -30,6 +29,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
         context = super(SearchView, self).get_context_data(**kwargs)
         context['postcode'] = self.postcode
         context['category'] = self.category
+        context['expanded_radius'] = self.radius * 2
         return context
 
     def get(self, request, *args, **kwargs):
