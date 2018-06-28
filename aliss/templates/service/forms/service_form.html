@@ -42,24 +42,24 @@
     <input type="hidden" id="location_csrf" value="{{ csrf_token }}">
 
     <label for="location_name">
-        Location name <span>(required)</span>
+        Location name</span>
     </label>
     <input type="text" name="location_name" minlength="2" maxlength="100" id="location_name">
 
     <label for="location_street_address">
         Street address <span>(required)</span>
     </label>
-    <input type="text" name="location_street_address" minlength="2" maxlength="100" id="location_street_address">
+    <input type="text" class="required" name="location_street_address" minlength="2" maxlength="100" id="location_street_address">
 
     <label for="location_locality">
         City/town <span>(required)</span>
     </label>
-    <input type="text" name="location_locality" minlength="2" maxlength="30" id="location_locality">
+    <input type="text" class="required" name="location_locality" minlength="2" maxlength="30" id="location_locality">
 
     <label for="location_postal_code">
         Post code <span>(required)</span>
     </label>
-    <input type="text" name="location_postal_code" minlength="4" maxlength="10" id="location_postal_code">
+    <input type="text" class="required" name="location_postal_code" minlength="4" maxlength="10" id="location_postal_code">
 
     <button data-create-endpoint="{% url 'location_create' pk=organisation.pk %}" id="add-location" class="btn">Add location</button>
     </div>
