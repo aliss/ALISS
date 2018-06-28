@@ -69,6 +69,30 @@
                             </ul>
                         </div>
                     </div>
+
+                    {% if request.GET.q %}
+                    <div class="filter sorting">
+                        <label>Sort by location or by keyword match:</label>
+                        <ul class="radio-list-links">
+                        <li {% if not request.GET.keyword_sort %}class="active"{% endif %}>
+                            <a href="?{% query_transform request keyword_sort=None %}">
+                                <span class="radio"></span>
+                                <span class="name">
+                                    By nearest first
+                                </span>
+                            </a>
+                        </li>
+                        <li {% if request.GET.keyword_sort %}class="active"{% endif %}>
+                            <a href="?{% query_transform request keyword_sort=True %}">
+                                <span class="radio"></span>
+                                <span class="name">
+                                    By best keyword match
+                                </span>
+                            </a>
+                        </li>
+                        </ul>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="columns listing">
                     {% if object_list %}
