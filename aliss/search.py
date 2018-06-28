@@ -196,20 +196,15 @@ def delete_service(id):
 
 
 def filter_by_query(queryset, q):
-    return queryset.query({
-        "bool": {
-            "should": [
-                { "match": {
-                    "categories.name": q
-                }},
-                {"multi_match": {
-                    "query": q,
-                    "fields": ["name", "description"]
-                }}
-            ],
-            "minimum_should_match": 1
+    queryset = queryset.query({
+        "multi_match" : {
+            "query" : q,
+            "type": "most_fields",
+            "fields" : ["categories.name", "name", "description"]
         }
     })
+
+    return queryset
 
 
 def filter_by_postcode(queryset, postcode, radius=5000):
@@ -251,8 +246,12 @@ def filter_by_postcode(queryset, postcode, radius=5000):
         )
     )
 
-    queryset = queryset.sort({ 
-        '_geo_distance': { 
+    return queryset
+
+
+def sort_by_postcode(queryset, postcode):
+    queryset = queryset.sort({
+        '_geo_distance': {
             "locations.point": {"lat": postcode.latitude, "lon": postcode.longitude },
             "order":"asc", "unit":"m"
         }
