@@ -139,7 +139,7 @@ $(document).ready(() => {
 
     var isLocationValid = function(){
         var result = true;
-        $('div.add-location-form input[type="text"]').each(function(i,e){
+        $('div.add-location-form input.required').each(function(i,e){
             e.setCustomValidity('');
             if (e.value == ""){
                 e.setCustomValidity("Please fill in this field");
