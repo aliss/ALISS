@@ -73,7 +73,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
             queryset = filter_by_location_type(queryset, self.location_type)
         if self.postcode:
             queryset = filter_by_postcode(queryset, self.postcode)
-        if self.q and not self.keyword_sort:
+        if self.postcode and not self.keyword_sort:
             queryset = sort_by_postcode(queryset, self.postcode)
         if self.category:
             queryset = filter_by_category(queryset, self.category)
