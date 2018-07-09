@@ -22,7 +22,8 @@ from aliss.search import (
     filter_by_query,
     filter_by_postcode,
     filter_by_category,
-    filter_by_location_type
+    filter_by_location_type,
+    sort_by_postcode
 )
 
 
@@ -53,6 +54,7 @@ class SearchView(generics.ListAPIView):
             queryset = filter_by_location_type(queryset, location_type)
 
         queryset = filter_by_postcode(queryset, postcode, radius)
+        queryset = sort_by_postcode(queryset, postcode)
         return queryset
 
     def get_queryset(self, *args, **kwargs):
