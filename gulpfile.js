@@ -12,7 +12,6 @@ var svg = require('gulp-svg-sprite');
 var sequence = require('run-sequence');
 var del = require('del');
 var cleanCSS = require('gulp-clean-css');
-var merge = require('merge-stream');
 var browserify = require('browserify');
 var babel = require('babelify');
 var buffer = require('vinyl-buffer');

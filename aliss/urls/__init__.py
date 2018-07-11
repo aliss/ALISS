@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.views.generic import TemplateView
 from django.contrib.sitemaps.views import sitemap
 
-from aliss.views import SearchShareView
+from aliss.views import SearchShareView, ReportsView
 from aliss.sitemap import (
     ServiceSitemap,
     OrganisationSitemap,
@@ -48,6 +48,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="landing-page-leaders.html"),
         name='landing_page_leaders'
     ),
+    url(r'^reports/$', ReportsView.as_view(), name='reports'),
     url(r'^account/', include('aliss.urls.account')),
     url(r'^search/', include('aliss.urls.search')),
     url(r'^organisations/', include('aliss.urls.organisation')),

@@ -16,32 +16,46 @@
             {% if request.user.is_staff %}
                 {% include 'account/partials/admin_menu.html' %}
             {% endif %}
+
             <div class="row my-account-links">
-                <div class="columns">
-                    <div class="cells four">
-                        <a href="{% url 'account_dashboard' %}" {% if request.resolver_match.url_name == 'account_dashboard' %}class="active"{% endif %}>
-                            <span class="text">
-                                Dashboard
-                            </span>
-                        </a>
-                        <a href="{% url 'claim_list' %}" {% if request.resolver_match.url_name == 'claim_list' %}class="active"{% endif %}>
-                            <span class="text">
-                                Claim requests
-                            </span>
-                        </a>
-                        <a href="{% url 'account_list' %}" {% if request.resolver_match.url_name == 'account_list' or request.resolver_match.url_name == 'account_detail' %}class="active"{% endif %}>
-                            <span class="text">
-                                Users
-                            </span>
-                        </a>
-                        <a href="{% url 'service_problem_list' %}" {% if request.resolver_match.url_name == 'service_problem_list' %}class="active"{% endif %}>
-                            <span class="text">
-                                Suggested improvements
-                            </span>
-                        </a>
-                    </div>
+                <div class="columns s-6 m-4 l-2">
+                    <a href="{% url 'account_dashboard' %}" {% if request.resolver_match.url_name == 'account_dashboard' %}class="active"{% endif %}>
+                        <span class="text">
+                            Dashboard
+                        </span>
+                    </a>
+                </div>
+                <div class="columns s-6 m-4 l-2">
+                    <a href="{% url 'claim_list' %}" {% if request.resolver_match.url_name == 'claim_list' %}class="active"{% endif %}>
+                        <span class="text">
+                            Claim requests
+                        </span>
+                    </a>
+                </div>
+                <div class="columns s-6 m-4 l-2">
+                    <a href="{% url 'account_list' %}" {% if request.resolver_match.url_name == 'account_list' or request.resolver_match.url_name == 'account_detail' %}class="active"{% endif %}>
+                        <span class="text">
+                            Users
+                        </span>
+                    </a>
+                </div>
+                <div class="columns s-6 m-6 l-3">
+                    <a href="{% url 'service_problem_list' %}" {% if request.resolver_match.url_name == 'service_problem_list' %}class="active"{% endif %}>
+                        <span class="text">
+                            Suggested improvements
+                        </span>
+                    </a>
+                </div>
+                <div class="columns s-12 m-6 l-3">
+                    <a href="{% url 'reports' %}" {% if request.resolver_match.url_name == 'reports' %}class="active"{% endif %}>
+                        <span class="text">
+                            Activity reports
+                        </span>
+                    </a>
                 </div>
             </div>
+            <hr class="clear"/>
+
             {% block content %}
             {% endblock %}
         </section>

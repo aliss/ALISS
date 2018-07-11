@@ -47,6 +47,10 @@ require('foundation-sites/dist/js/foundation.min.js');
 // require('bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
 // require('bootstrap-sass/assets/javascripts/bootstrap/transition.js');
 
+//Date
+require('pickadate/lib/picker.js');
+require('pickadate/lib/picker.date.js');
+
 // Foundation
 $(document).foundation();
 

@@ -27,6 +27,9 @@
 // @import "font-awesome";
 // @import "slick";
 @import "select2/src/scss/core.scss";
+@import "pickadate/lib/compressed/themes/classic";
+@import "pickadate/lib/compressed/themes/classic.date";
+
 
 /* Font Awesome 5
    ================================ */
@@ -61,6 +64,7 @@
 @import "partials/results";
 @import "partials/center-section";
 @import "partials/landing-page";
+
 
 .svg-sprite {
 	display: none;
@@ -146,4 +150,37 @@ a.improve {
   color: #1e79bd;
   float: right;
   margin-bottom: 0.35em;
+}
+
+.picker--focused { 
+  .picker__day--highlighted:active, 
+  .picker__day--highlighted:focus, 
+  .picker__day--highlighted:hover, 
+  .picker__day--selected:active, 
+  .picker__day--selected:focus, 
+  .picker__day--selected:hover {
+    background-color: rgba(34,178,170,.6);
+    color: white;
+  }
+}
+
+td {
+  div.picker__day.picker__day--infocus.picker__day--selected.picker__day--highlighted{
+    background-color: rgba(34,178,170,.6);
+    color: white;
+  }
+}
+
+div.picker table thead {
+  background-color: #1e7abd;
+  .picker__weekday { color: white; }
+}
+
+input.picker__input {
+  font-size: 1.3em;
+  padding: 0.3em;
+  border-radius: 4px;
+  text-align: center;
+  border-style: solid;
+  border: none;
 }

@@ -54,3 +54,6 @@ from .claim import (
     ClaimCreateView,
     ClaimDeleteView
 )
+from .reports import (
+    ReportsView,
+)
