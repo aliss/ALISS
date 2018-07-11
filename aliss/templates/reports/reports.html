@@ -1,0 +1,67 @@
+{% extends "account/admin_base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <input name="start-date" id="start-datepicker">
+    <input name="end-date" id="end-datepicker">
+</div>
+
+<div class="row stats">
+    <div class="activity">
+        <h4>Activity for X</h4>
+        <ul>
+            <li>
+                <div>
+                <span class="number">
+                    {{ service_month_count }}
+                </span>
+                </div>
+                Services added
+            </li>
+            <li>
+                <div>
+                    <span class="number">
+                        {{ orgs_month_count }}
+                    </span>
+                </div>
+                Organisations added
+            </li>
+            <li>
+                <div>
+                    <span class="number">
+                        {{ user_month_count }}
+                    </span>
+                </div>
+                New users
+            </li>
+            <li>
+                <div>
+                    <span class="number">
+                        {{ claim_request_count }}
+                    </span>
+                </div>
+                Claims made
+            </li>
+            <li>
+                <div>
+                    <span class="number alert">
+                        {{ problem_month_count }}
+                    </span>
+                </div>
+                Improvements suggested
+            </li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block before_body_close %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#start-datepicker').pickadate();
+    $('#end-datepicker').pickadate();
+});
+</script>
+{% endblock %}

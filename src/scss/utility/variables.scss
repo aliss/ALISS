@@ -12,7 +12,7 @@ $use_bootstrap: false;
 
 // Grid variables
 // ---------------------------------------
-$gutter:30px;
+$gutter:15px;
 $cols: 12;
 $grid-max: 8;
 
@@ -44,7 +44,7 @@ $success: $secondary;
 $alert: rgba(190, 34, 31, 1);
 $alert_fade: rgba(190, 34, 31, 0.5);
 $warning: $alert_fade;
-$light-gray_fade: rgba(226, 225, 226, 1);
+$light-gray_fade: rgba(211, 211, 211, 1);
 $light-gray: rgba(197, 195, 198, 1);
 $medium-gray: rgba(76, 92, 104, 1);
 $medium-gray_fade: rgba(76, 92, 104, 0.75);
