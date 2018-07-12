@@ -1,20 +1,28 @@
 {% extends "account/admin_base.html" %}
 
 {% block content %}
+<div class="row">
+<h2>Activity reports</h2>
+<hr class="clear"/>
+</div>
 
 <div class="row">
-    <input name="start-date" id="start-datepicker">
-    <input name="end-date" id="end-datepicker">
+<form action="">
+    <input name="start_date" id="start-datepicker" placholder="{{ start_date|date:"Y/m/d" }}">
+    <input name="end_date" id="end-datepicker" placeholder="{{ end_date|date:"Y/m/d"}}">
+    <input type="submit" name="Filter">
+</form>
 </div>
 
 <div class="row stats">
+    <hr class="clear"/>
     <div class="activity">
         <h4>Activity for X</h4>
         <ul>
             <li>
                 <div>
                 <span class="number">
-                    {{ service_month_count }}
+                    {{ service_count }}
                 </span>
                 </div>
                 Services added
@@ -22,7 +30,7 @@
             <li>
                 <div>
                     <span class="number">
-                        {{ orgs_month_count }}
+                        {{ orgs_count }}
                     </span>
                 </div>
                 Organisations added
@@ -30,7 +38,7 @@
             <li>
                 <div>
                     <span class="number">
-                        {{ user_month_count }}
+                        {{ user_count }}
                     </span>
                 </div>
                 New users
@@ -46,7 +54,7 @@
             <li>
                 <div>
                     <span class="number alert">
-                        {{ problem_month_count }}
+                        {{ problem_count }}
                     </span>
                 </div>
                 Improvements suggested
@@ -60,8 +68,13 @@
 {% block before_body_close %}
 <script type="text/javascript">
 $(document).ready(function(){
-    $('#start-datepicker').pickadate();
-    $('#end-datepicker').pickadate();
+    $('#start-datepicker').pickadate({ formatSubmit: 'yyyy/mm/dd' })
+        .pickadate('picker')
+        .set('select', new Date('{{ start_date|date:"Y/m/d" }}'));
+
+    $('#end-datepicker').pickadate({ formatSubmit: 'yyyy/mm/dd' })
+        .pickadate('picker')
+        .set('select', new Date('{{ end_date|date:"Y/m/d" }}'));
 });
 </script>
 {% endblock %}
