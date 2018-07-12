@@ -8,8 +8,18 @@
 
 <div class="row">
 <form action="">
+
     <input name="start_date" id="start-datepicker" placholder="{{ start_date|date:"Y/m/d" }}">
     <input name="end_date" id="end-datepicker" placeholder="{{ end_date|date:"Y/m/d"}}">
+
+    <div style="display:inline-block; ">
+        <input id="filter_unpublished" type="checkbox" name="filter_unpublished" value="true" {% if filter_unpublished == 'true' %} checked {% endif %} />
+        <label for="filter_unpublished">Filter out unpublished orgs/services</label>
+    </div>
+
+    <br/>
+    <br/>
+
     <input type="submit" name="Filter">
 </form>
 </div>
