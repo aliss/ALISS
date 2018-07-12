@@ -12,7 +12,7 @@ from aliss.models import ALISSUser, Service, ServiceArea, Organisation, Recommen
 from datetime import datetime
 
 
-class ReportsView(TemplateView):
+class ReportsView(StaffuserRequiredMixin, TemplateView):
     template_name = 'reports/reports.html'
 
     def get(self, request, *args, **kwargs):
