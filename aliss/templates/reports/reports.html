@@ -1,33 +1,30 @@
 {% extends "account/admin_base.html" %}
 
 {% block content %}
-<div class="row">
-<h2>Activity reports</h2>
-<hr class="clear"/>
-</div>
 
-<div class="row">
-<form action="">
 
-    <input name="start_date" id="start-datepicker" placholder="{{ start_date|date:"Y/m/d" }}">
-    <input name="end_date" id="end-datepicker" placeholder="{{ end_date|date:"Y/m/d"}}">
+<div class="activity-report row">
+<div class="cell">
+    <h2>Activity reports</h2>
 
-    <div style="display:inline-block; ">
+    <form action="">
+        <p>
+        <label for="start-datepicker">Show activity from</label> 
+        <input name="start_date" id="start-datepicker" placholder="{{ start_date|date:"Y/m/d" }}">
+        <label for="end-datepicker"> to </label>
+        <input name="end_date" id="end-datepicker" placeholder="{{ end_date|date:"Y/m/d"}}">
+        </p>
+        <p>
         <input id="filter_unpublished" type="checkbox" name="filter_unpublished" value="true" {% if filter_unpublished == 'true' %} checked {% endif %} />
         <label for="filter_unpublished">Filter out unpublished orgs/services</label>
-    </div>
+        </p>
 
-    <br/>
-    <br/>
+        <input type="submit" name="Filter" value="View results">
+    </form>
 
-    <input type="submit" name="Filter">
-</form>
-</div>
-
-<div class="row stats">
     <hr class="clear"/>
+
     <div class="activity">
-        <h4>Activity for X</h4>
         <ul>
             <li>
                 <div>
@@ -71,6 +68,39 @@
             </li>
         </ul>
     </div>
+    <hr class="no-margin clear"/>
+
+</div>
+</div>
+
+<hr class="clear"/>
+
+<div class="activity-report row">
+<div class="cell">
+    <h2>Most helpful services</h2>
+    <br/>
+    <table>
+    <thead>
+        <th>Count</th><th>Service</th><th>Organisation</th>
+    </thead>
+
+    {% for service in helpful_services %}
+    <tr>
+        <td>
+            {{ service.helped_users.count }}
+        </td>
+        <td>
+            <a href="{% url 'service_detail' service.id %}">{{ service.name|truncatechars:47 }}</a>
+        </td>
+        <td>
+            <a href="{% url 'organisation_detail' service.organisation_id %}">{{ service.organisation.name|truncatechars:47 }}</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+
+    <hr class="clear"/>
+</div>
 </div>
 
 {% endblock %}
