@@ -84,6 +84,8 @@
 }
 
 .clear { clear:both; }
+.no-margin,
+hr.no-margin { margin: 0px; }
 
 hr.clear { 
   clear: both;
@@ -92,7 +94,10 @@ hr.clear {
   height: 0.5em;
 }
 
+.center,
+.centre { text-align:center; }
 .small { font-size: 95%; }
+.smaller { font-size: 85%; }
 
 fieldset {
   border: 1px solid silver;
@@ -176,11 +181,20 @@ div.picker table thead {
   .picker__weekday { color: white; }
 }
 
+.activity-report {
+  label { display: inline-block; }
+}
+
 input.picker__input {
-  font-size: 1.3em;
+  width: 8em;
+  font-size: 1.15em;
   padding: .8em 0px;
   border-radius: 7px;
   text-align: center;
   border-style: solid;
   border: none;
+}
+
+input.picker__input:hover {
+  cursor: pointer;
 }

@@ -5,6 +5,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
+from django.db.models import Count
 
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
@@ -51,4 +52,5 @@ class ReportsView(StaffuserRequiredMixin, TemplateView):
         context['problem_count'] = ServiceProblem.objects.filter(created_on__gte=context['start_date']).filter(created_on__lte=context['end_date']).count()
         context['claim_request_count'] = Claim.objects.filter(created_on__gte=context['start_date']).filter(created_on__lte=context['end_date']).count()
 
+        context['helpful_services'] = Service.objects.annotate(num_helped=Count('helped_users')).order_by('-num_helped')[:10]
         return context

@@ -421,6 +421,23 @@ ul.searches {
       max-width: 500px;
     }
   }
+
+  .activity-report {
+    form {
+    }
+    .activity {
+      width:100%;
+      padding:0px;
+      ul { width:100%; }
+      ul li { width:auto; min-width:18%; }
+    }
+
+    .cell {
+      padding: 1em;
+      border-radius: 8px;
+      border: .5vw solid #d3d3d3;
+    }
+  }
 }
 .activity {
   ul {
@@ -467,6 +484,7 @@ ul.searches {
     }
   }
 }
+
 .active-services-map, .recent-services {
   margin-top: 1.5rem;
   #map, .map {
