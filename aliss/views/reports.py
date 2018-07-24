@@ -37,7 +37,8 @@ class ReportsView(StaffuserRequiredMixin, TemplateView):
             context['end_date'] = datetime.strptime(end_str, '%Y/%m/%d')
 
         context['start_date'] = context['start_date'].replace(tzinfo=pytz.UTC)
-        context['end_date'] = context['end_date'].replace(tzinfo=pytz.UTC) + timedelta(days=1, microseconds=-1)
+        context['end_date'] = context['end_date'] + timedelta(days=1, microseconds=-1) 
+        context['end_date'] = context['end_date'].replace(tzinfo=pytz.UTC)
 
         orgs = Organisation.objects.filter(created_on__gte=context['start_date']).filter(created_on__lte=context['end_date'])
         services = Service.objects.filter(created_on__gte=context['start_date']).filter(created_on__lte=context['end_date'])
