@@ -11,6 +11,7 @@ from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from aliss.models import ALISSUser, Service, ServiceArea, Organisation, RecommendedServiceList, ServiceProblem, Claim
 from datetime import datetime
+from datetime import timedelta
 import pytz
 
 
@@ -27,8 +28,8 @@ class ReportsView(StaffuserRequiredMixin, TemplateView):
         end_str   = self.request.GET.get('end_date_submit',None)
         context['filter_unpublished'] = self.request.GET.get('filter_unpublished', '')
 
-        context['start_date'] = datetime.now().replace(day=1)
-        context['end_date'] = datetime.now()
+        context['start_date'] = datetime.now().date().replace(day=1)
+        context['end_date'] = datetime.now().date()
 
         if start_str:
             context['start_date'] = datetime.strptime(start_str, '%Y/%m/%d')
@@ -36,7 +37,7 @@ class ReportsView(StaffuserRequiredMixin, TemplateView):
             context['end_date'] = datetime.strptime(end_str, '%Y/%m/%d')
 
         context['start_date'] = context['start_date'].replace(tzinfo=pytz.UTC)
-        context['end_date'] = context['end_date'].replace(tzinfo=pytz.UTC)
+        context['end_date'] = context['end_date'].replace(tzinfo=pytz.UTC) + timedelta(days=1, microseconds=-1)
 
         orgs = Organisation.objects.filter(created_on__gte=context['start_date']).filter(created_on__lte=context['end_date'])
         services = Service.objects.filter(created_on__gte=context['start_date']).filter(created_on__lte=context['end_date'])
