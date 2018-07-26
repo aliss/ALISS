@@ -11,7 +11,7 @@ class SearchInputSerializer(serializers.Serializer):
         (NATIONAL, NATIONAL)
     )
 
-    query = serializers.CharField(required=False)
+    q = serializers.CharField(required=False)
     postcode = serializers.SlugRelatedField(
         required=True,
         slug_field='postcode',
