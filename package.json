@@ -1,17 +1,17 @@
 {
-  "name": "default-project",
+  "name": "ALISS",
   "version": "1.0.0",
-  "description": "Default files and layout for client projects",
+  "description": "Packages for the ALISS project",
   "main": "src/js/scripts.js",
   "scripts": {
     "test": "echo \"ERROR: No test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://stevenalanclark@bitbucket.org/thisishabanero/default-template.git"
+    "url": "git@github.com:aliss/ALISS.git"
   },
-  "author": "Habanero Digital",
-  "license": "ISC",
+  "author": "ALLIANCE Scotland",
+  "license": "CC-BY-4.0",
   "devDependencies": {
     "babel-preset-es2015": "^6.22.0",
     "babelify": "^7.3.0",
