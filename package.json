@@ -1,6 +1,6 @@
 {
   "name": "ALISS",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Packages for the ALISS project",
   "main": "src/js/scripts.js",
   "scripts": {
