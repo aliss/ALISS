@@ -13,7 +13,7 @@ from .serializers import (
 
 class APIv4():
     META = {
-        'licence': 'https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode',
+        'licence': 'https://creativecommons.org/licenses/by/4.0/',
         'attribution': [{
             'text': 'Contains National Statistics data © Crown copyright and database right 2018',
             'url': 'http://geoportal.statistics.gov.uk/datasets/local-authority-districts-december-2016-generalised-clipped-boundaries-in-the-uk/'
