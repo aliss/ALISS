@@ -1,4 +1,4 @@
-Django==1.11.8
+django==1.11.8
 dj-database-url==0.4.2
 gunicorn==19.6.0
 psycopg2==2.7.3.2
@@ -12,5 +12,4 @@ certifi==2017.1.23
 django-redis==4.8.0
 django-braces==1.11.0
 django-localflavor==1.5.2
-twilio==6.4.1
 django-cors-headers==2.3.0
