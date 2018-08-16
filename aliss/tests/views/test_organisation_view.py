@@ -91,3 +91,7 @@ class OrganisationViewTestCase(TestCase):
         self.organisation.refresh_from_db()
         self.assertTrue(self.organisation.published)
         self.assertRedirects(response, (reverse('organisation_detail', kwargs={'pk': self.organisation.pk})))
+
+    def test_organisation_search(self):
+        response = self.client.get(reverse('organisation_search')+'?q=tes\'t')
+        self.assertEqual(response.status_code, 200)
