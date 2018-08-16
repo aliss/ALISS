@@ -90,6 +90,7 @@ class LocationUpdateView(
         context['organisation'] = self.object.organisation
         return context
 
+
 class LocationDetailView(StaffuserRequiredMixin, DetailView):
     model = Location
     template_name = 'location/detail.html'
