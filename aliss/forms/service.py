@@ -4,7 +4,6 @@ from django import forms
 
 from aliss.models import Service, ServiceArea, ServiceProblem, Location
 
-
 def service_areas_as_choices():
     choices = []
     data = ServiceArea.objects.order_by('type', 'code')
@@ -36,11 +35,17 @@ class ServiceForm(forms.ModelForm):
 
         super(ServiceForm, self).__init__(*args, **kwargs)
 
-        self.fields['locations'].queryset = Location.objects.filter(
-            organisation=organisation.pk
-        )
-
+        self.fields['locations'].queryset = Location.objects.filter(organisation=organisation.pk)
         self.fields['service_areas'].choices = service_areas_as_choices()
+
+    def clean(self):
+        cleaned_data = super(ServiceForm, self).clean()
+        locations = cleaned_data.get("locations")
+        service_areas = cleaned_data.get("service_areas")
+
+        if (locations.count() == 0) and (service_areas.count() == 0):
+            raise forms.ValidationError('Please provide a location and/or a service area for this service.')
+        return cleaned_data
 
 
 class ServiceProblemForm(forms.ModelForm):
