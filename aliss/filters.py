@@ -18,7 +18,7 @@ class OrganisationFilter(django_filters.FilterSet):
         value = value.translate(puncstripper)
         stopwords = ['the', 'a', 'and', '&']
         stopped_arr = filter(lambda stopword : stopword not in stopwords, value.split())
-        return queryset.filter(**{ name: " ".join(stopped_arr), })
+        return queryset.filter(Q(name__icontains=" ".join(stopped_arr)))
 
 
 class AccountFilter(django_filters.FilterSet):
