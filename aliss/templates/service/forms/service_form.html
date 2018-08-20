@@ -1,9 +1,9 @@
 {% load aliss %}
 
+{% if form.errors %}
 <div class="f-row">
     <fieldset class="errors">
     <legend>Form invalid</legend>
-    {% if form.errors %}
         {% for field in form %}
             {% for error in field.errors %}
                 <ul class="alert alert-danger">
@@ -16,9 +16,9 @@
                 <li>{{ error|escape }}</li>
             </ul>
         {% endfor %}
-    {% endif %}
     </fieldset>
 </div>
+{% endif %}
 
 <div class="f-row">
     {% include 'partials/forms/field.html' with field=form.name %}
