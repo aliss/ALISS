@@ -27,7 +27,7 @@
                         {% include 'partials/breadcrumb.html' with progress=2 %}
                     {% endif %}
                 </div>
-                <div class="new-service large-form">
+                <div class="large-form">
                     <form method="post">
                         {% csrf_token %}
                         {% include 'service/forms/service_form.html' with organisation=organisation %}
