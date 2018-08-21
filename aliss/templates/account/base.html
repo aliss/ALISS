@@ -39,6 +39,14 @@
                         My Organisations
                     </span>
                 </a>
+            </div>
+            <div class="columns s-4 m-4 l-4">
+              <!--Need to add the code to link the digest view to detail view etc.  -->
+                <a href="" {% if url_name == '' or url_name == '' %}class="active"{% endif %}>
+                    <span class="text">
+                        My Digest
+                    </span>
+                </a>
                 {% endwith %}
             </div>
         </div>
