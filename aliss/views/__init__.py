@@ -18,7 +18,8 @@ from .account import (
     AccountRecommendationListRemoveServiceView,
     AccountRecommendationListDeleteView,
     AccountRecommendationListPrintView,
-    AccountIsEditor
+    AccountIsEditor,
+    AccountMyDigestView
 )
 from .search import SearchView, SearchShareView
 from .organisation import (
