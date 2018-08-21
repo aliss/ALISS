@@ -413,6 +413,7 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
-class AccountDigestView(LoginRequiredMixin, TemplateView):
-    template_name = 'account/my_digest.html'
+class AccountMyDigestView(LoginRequiredMixin)
+# Needs to access saved services and display the ones which have been updated in the past x amount of time.
     model = ALISSUser
+    
