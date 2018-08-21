@@ -22,6 +22,7 @@ from aliss.views import (
     AccountRecommendationListDeleteView,
     AccountRecommendationListPrintView,
     AccountIsEditor
+    AccountDigestView
 )
 
 
@@ -145,5 +146,8 @@ urlpatterns = [
         AccountIsEditor.as_view(),
         name='account_is_editor'
     ),
+    url(r'my-digest/$',
+        AccountDigestView.as_view(),
+        name='account_my_digest'
+    )
 ]
-
