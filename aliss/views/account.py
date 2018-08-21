@@ -412,3 +412,7 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
             url = reverse('account_detail', kwargs={'pk': user.pk})
 
         return HttpResponseRedirect(url)
+
+class AccountDigestView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/my_digest.html'
+    model = ALISSUser
