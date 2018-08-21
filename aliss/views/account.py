@@ -413,14 +413,9 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
-class AccountMyDigestView(LoginRequiredMixin, ListView):
+from django.shortcuts import render
+
+class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 # Needs to access saved services and display the ones which have been updated in the past x amount of time.
+    model = ALISSUser
     template_name = 'account/my_digest.html'
-
-    def get_queryset(self):
-        return Claim.objects.filter(user=self.request.user, status=10)
-
-    def get_context_data(self,**kwargs):
-        context = super(AccountMyDigestView,self).get_context_data(**kwargs)
-        context['orgs_list'] = Organisation.objects.filter(created_by=self.request.user).exclude(claimed_by=self.request.user)
-        return context
