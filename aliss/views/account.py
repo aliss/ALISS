@@ -422,3 +422,11 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         # logger.error('Something went wrong!')
         context['saved_services'] =self.request.user.saved_services.all()
         return context
+
+# class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
+#     template_name = 'account/saved_services.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(AccountSavedServicesView, self).get_context_data(**kwargs)
+#         context['saved_services'] = self.request.user.saved_services.order_by('name')
+#         return context
