@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from aliss.views import (
     login_view,
+    AccountMyDigestView,
     AccountSignupView,
     AccountUpdateView,
     AccountSavedServicesView,
@@ -21,8 +22,7 @@ from aliss.views import (
     AccountRecommendationListRemoveServiceView,
     AccountRecommendationListDeleteView,
     AccountRecommendationListPrintView,
-    AccountIsEditor,
-    AccountMyDigestView
+    AccountIsEditor
 )
 
 
@@ -30,6 +30,10 @@ urlpatterns = [
     url(r'^signup/$',
         AccountSignupView.as_view(),
         name='signup'
+    ),
+    url(r'^my-digest/$',
+        AccountMyDigestView.as_view(),
+        name='account_my_digest'
     ),
     url(r'^signup/success/$',
         TemplateView.as_view(template_name="account/signup_success.html"),
@@ -145,9 +149,5 @@ urlpatterns = [
     url(r'^user/(?P<pk>[0-9A-Za-z\-]+)/editor/$',
         AccountIsEditor.as_view(),
         name='account_is_editor'
-    ),
-    url(r'^my-digest/$',
-        AccountMyDigestView.as_view(),
-        name='account_my_digest'
     )
 ]

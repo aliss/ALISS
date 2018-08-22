@@ -413,10 +413,12 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
-class AccountMyDigestView(ListView):
-    model = ALISSUser
+class AccountMyDigestView(TemplateView):
+    template_name = 'account/my_digest.html'
 
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
+        # logger = logging.getLogger(__name__)
+        # logger.error('Something went wrong!')
         context['saved_services'] =self.request.user.saved_services.all()
         return context
