@@ -413,7 +413,7 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
-class AccountMyDigestView(LoginRequiredMixin, ListView):
+class AccountMyDigestView(ListView):
     model = ALISSUser
 
     def get_context_data(self, **kwargs):
