@@ -3,8 +3,10 @@
 
 {% block content%}
 <h4>My Digest</h4>
+<div class="copy-container">
+  <p>A list of saved services which have been update in the last week.</p>
+</div>
 <div class=my-digest-details>
-  <p>Test</p>
   {% if not saved_services.all %}
   <div class="updated-digest-list none">
     <p>You haven't saved any services yet.</p>
@@ -12,7 +14,6 @@
   </div>
   {% else %}
   <div class="updated-digest-list">
-    <p>Test 2</p>
     <ul class="updated-services">
       {% for service in saved_services.all %}
         <p>{{ service.name }}</p>

@@ -420,7 +420,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
         # logger = logging.getLogger(__name__)
         # logger.error('Something went wrong!')
-        context['saved_services'] =self.request.user.saved_services.all()
+        context['saved_services'] =self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
         return context
 
 # class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
