@@ -414,9 +414,9 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
         return HttpResponseRedirect(url)
 
 class AccountMyDigestView(LoginRequiredMixin, ListView):
-    template_name = 'account/my_digest.html/'
-    
+    model = ALISSUser
+
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
-        context['saved_services'] = self.request.user.saved_services.order_by('name')
+        context['saved_services'] =self.request.user.saved_services.all()
         return context
