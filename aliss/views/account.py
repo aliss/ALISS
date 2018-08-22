@@ -413,10 +413,10 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
-class AccountMyDigestView(LoginRequiredMixin, TemplateView):
-    template_name = 'account/my_digest.html'
-
+class AccountMyDigestView(LoginRequiredMixin, ListView):
+    template_name = 'account/my_digest.html/'
+    
     def get_context_data(self, **kwargs):
-        context = super(AccountSavedServicesView, self).get_context_data(**kwargs)
+        context = super(AccountMyDigestView, self).get_context_data(**kwargs)
         context['saved_services'] = self.request.user.saved_services.order_by('name')
         return context
