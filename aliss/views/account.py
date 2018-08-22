@@ -416,17 +416,22 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'
 
+
+# get the current date
+    from datetime import datetime
+    current_day = datetime.now().day
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+
+# Return 3 most recently updated saved services
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
-        # logger = logging.getLogger(__name__)
-        # logger.error('Something went wrong!')
         context['saved_services'] =self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
         return context
 
-# class AccountSavedServicesView(LoginRequiredMixin, TemplateView):
-#     template_name = 'account/saved_services.html'
-#
+
+# # Return 3 most recently updated saved services
 #     def get_context_data(self, **kwargs):
-#         context = super(AccountSavedServicesView, self).get_context_data(**kwargs)
-#         context['saved_services'] = self.request.user.saved_services.order_by('name')
+#         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
+#         context['saved_services'] =self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
 #         return context
