@@ -413,7 +413,7 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
-class AccountMyDigestView(TemplateView):
+class AccountMyDigestView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'
 
     def get_context_data(self, **kwargs):
