@@ -415,48 +415,61 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'
-# Return 3 most recently updated saved services
+
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
-        context['updated_services'] =self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
-        return context
+        # Get the saved services in order of most recently updated filterset_class
+        updated_in_x_weeks = self.request.user.saved_services.all().order_by('updated_on').reverse()
+
+        # Import Datetime module for getting the current time.
+        from datetime import datetime
+        from datetime import timedelta
+        import pytz
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        # Create the historical date to compare against i.e. one week ago
+        comparison_date = current_date - timedelta(minutes=30)
+
+        # Iterate through the services and compare the updated_on date with the historical date
+        count = 0
+        for service in updated_in_x_weeks:
+            if (service.updated_on > comparison_date):
+                count += 1
+                if count >= 3:
+                    context['updated_services'] = self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
+                    return context
+            if (service.updated_on < comparison_date):
+                context['updated_services'] = updated_in_x_weeks.exclude(updated_on = service.updated_on)[:count]
+                return context
+                break
 
 
+        # context['updated_services'] = updated_in_x_weeks
+        # return context
+
+        # count = 0
+        # for service in updated_in_x_weeks:
+        #     if count = 3:
+        #         context['updated_services'] = updated_in_x_weeks[:3]
+        #         return context
+        #     if service.updated_on > comparison_date:
+        #         count += 1
+        #     if service.updated_on < comparison_date:
+        #         context['updated_services'] = updated_in_x_weeks.exclude(updated_on = service.updated_on)[:count]
+        #         return context
+        # return context
 
 
+        # context['updated_services'] = updated_in_x_weeks
+        # return context
+        # Trying to filter using date conditional
+        # context['updated_services'] = self.request.user.saved_services.all().filter(updated_on > comparison_date)
+        # return context
 
+
+    # Return 3 most recently updated saved services no dates taked into account
     # def get_context_data(self, **kwargs):
     #     context = super(AccountMyDigestView, self).get_context_data(**kwargs)
-    #     context['updated_services'] = self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
+    #     context['updated_services'] =self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
     #     return context
-        # most_recently_updated = self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
-        # updated_in_x_weeks = self.request.user.saved_services.all().order_by('updated_on').reverse()
-
-        # from datetime import datetime
-        # from datetime import timedelta
-        # import pytz
-        # utc = pytz.UTC
-        # current_date = datetime.now()
-        # current_date = utc.localize(current_date)
-        # comparison_date = current_date - timedelta(weeks=1)
-
-        # for service in updated_in_x_weeks:
-        #     if (service.updated_on < comparison_date):
-        #         updated_in_x_weeks.exclude(updated_on = service.updated_on)
-        # return updated_in_x_weeks
-        #
-        # context['updated_services'] = self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
-        # return context
-        # context['updated_services'] = self.request.user.saved_services.all().filter(updated_on > comparison_date)
-
-
-
-
-
-
-
-# # Return 3 most recently updated saved services
-#     def get_context_data(self, **kwargs):
-#         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
-#         context['saved_services'] =self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
-#         return context
