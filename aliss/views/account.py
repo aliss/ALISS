@@ -419,14 +419,30 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
 # get the current date
     from datetime import datetime
-    current_day = datetime.now().day
-    current_month = datetime.now().month
-    current_year = datetime.now().year
+
+
 
 # Return 3 most recently updated saved services
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
-        context['saved_services'] =self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
+        most_recently_updated = self.request.user.saved_services.all().order_by('updated_on').reverse()[:3]
+
+        from datetime import datetime
+        from datetime import timedelta
+        import pytz
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        comparison_date = current_date - timedelta(days=7)
+
+        updated_in_x_weeks = dict()
+
+        for service in most_recently_updated:
+            if (service.updated_on > comparison_date):
+                updated_in_x_weeks.update(service)
+            else: break
+            return updated_in_x_weeks
+        context['updated_services'] = updated_in_x_weeks
         return context
 
 

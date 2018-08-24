@@ -7,7 +7,7 @@
   <p>A list of saved services which have been update in the last week.</p>
 </div>
 <div class=my-digest-details>
-  {% if not saved_services.all %}
+  {% if not updated_services.all %}
   <div class="updated-digest-list none">
     <p>You haven't saved any services yet.</p>
     <p><a href="{% url 'homepage' %}">Start Searching</a></p>
@@ -15,7 +15,7 @@
   {% else %}
   <div class="updated-digest-list">
     <ul class="updated-services">
-      {% for service in saved_services.all %}
+      {% for service in updated_services.all %}
         <p>{{ service.name }}</p>
       {% endfor %}
     </ul>
