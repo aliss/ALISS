@@ -22,5 +22,25 @@
   </div>
   {% endif %}
 </div>
-
+<!--Create a DIV to render the updated services at EH21 6UW in Money Category  -->
+<div>
+  <h4>Most Recently Updated Services</h4>
+    <p>Postcode: EH21 6UW</p>
+    <p>Category: Conditions</p>
+  <div class=my-digest-details>
+    {% if not updated_services.all %}
+    <div class="updated-digest-list none">
+      <p>You haven't saved any services yet.</p>
+      <p><a href="{% url 'homepage' %}">Start Searching</a></p>
+    </div>
+    {% else %}
+    <div class="updated-digest-list">
+      <ul class="updated-services">
+        {% for service in updated_services.all %}
+          <p>{{ service.name }}</p>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

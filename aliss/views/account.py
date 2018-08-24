@@ -418,7 +418,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
-        # Get the saved services in order of most recently updated filterset_class
+        # Get the saved services in order of most recently updated
         updated_in_x_weeks = self.request.user.saved_services.all().order_by('updated_on').reverse()
 
         # Import Datetime module for getting the current time.
@@ -439,7 +439,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         for service in updated_in_x_weeks:
             if (service.updated_on > comparison_date):
                 count += 1
-                # Sets the number of records to be iterated through when
+                # Sets the number of records to be iterated through
                 if count >= 3:
                     context['updated_services'] = self.request.user.saved_services.all().order_by('updated_on').reverse()[:number_of_services]
                     return context
