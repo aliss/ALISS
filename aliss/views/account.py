@@ -18,6 +18,9 @@ from aliss.models import ALISSUser, Service, ServiceArea, Organisation, Recommen
 from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm
 from aliss.filters import AccountFilter
 
+from datetime import datetime
+from datetime import timedelta
+import pytz
 
 def login_view(request, *args, **kwargs):
     if request.method == 'POST':
@@ -362,7 +365,6 @@ class AccountAdminDashboard(StaffuserRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AccountAdminDashboard, self).get_context_data(**kwargs)
 
-        from datetime import datetime
         current_month = datetime.now().month
         current_year = datetime.now().year
 
@@ -419,12 +421,10 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
         # Get the saved services in order of most recently updated
-        updated_in_x_weeks = self.request.user.saved_services.all().order_by('updated_on').reverse()
+        updated_in_x_weeks = self.request.user.saved_services.all().order_by('-updated_on')
 
-        # Import Datetime module for getting the current time.
-        from datetime import datetime
-        from datetime import timedelta
-        import pytz
+        # Import Datetime module for getting the current time. Add to the top!!!
+
         utc = pytz.UTC
         current_date = datetime.now()
         current_date = utc.localize(current_date)
@@ -433,17 +433,22 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         # Create the historical date to compare against i.e. one week ago
         comparison_date = current_date - timedelta(weeks=number_of_weeks)
 
-        # Iterate through the services and compare the updated_on date with the historical date
-        number_of_services = 3
-        count = 0
-        for service in updated_in_x_weeks:
-            if (service.updated_on > comparison_date):
-                count += 1
-                # Sets the number of records to be iterated through
-                if count >= 3:
-                    context['updated_services'] = self.request.user.saved_services.all().order_by('updated_on').reverse()[:number_of_services]
-                    return context
-            if (service.updated_on < comparison_date):
-                context['updated_services'] = updated_in_x_weeks.exclude(updated_on = service.updated_on)[:count]
-                return context
-                break
+        service_query = self.request.user.saved_services
+        service_query = service_query.filter(updated_on__gte=comparison_date)
+
+        context['updated_services'] = service_query.order_by('-updated_on')[:3]
+        return context
+        # # Iterate through the services and compare the updated_on date with the historical date
+        # number_of_services = 3
+        # count = 0
+        # for service in updated_in_x_weeks:
+        #     if (service.updated_on > comparison_date):
+        #         count += 1
+        #         # Sets the number of records to be iterated through
+        #         if count >= 3:
+        #             context['updated_services'] = self.request.user.saved_services.all().order_by('-updated_on')[:number_of_services]
+        #             return context
+        #     if (service.updated_on < comparison_date):
+        #         context['updated_services'] = updated_in_x_weeks.exclude(updated_on = service.updated_on)[:count]
+        #         return context
+        #         break
