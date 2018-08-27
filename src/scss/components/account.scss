@@ -628,3 +628,11 @@ table.users-listing tr {
 .user-modals {
   .modal { max-width: 45vw; }
 }
+
+@media (max-width: 425px) {
+  .f-row {
+    > .all-categories {
+      font-size: 0.75em;
+    }
+  }
+}
