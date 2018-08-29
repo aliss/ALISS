@@ -15,10 +15,13 @@ class OrganisationFilter(django_filters.FilterSet):
 
     def name_filter(self, queryset, name, value):
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
-        value = value.translate(puncstripper)
-        stopwords = ['the', 'a', 'and', '&']
-        stopped_arr = filter(lambda stopword : stopword not in stopwords, value.split())
-        return queryset.filter(Q(name__icontains=" ".join(stopped_arr)))
+        stripped = value.translate(puncstripper)
+        return queryset.filter(
+            Q(name__icontains = value.replace("and", "&")) |
+            Q(name__icontains = value.replace("&", "and")) |
+            Q(name__icontains = stripped.replace("&", "and")) |
+            Q(name__icontains = stripped.replace("and", "&"))
+        )
 
 
 class AccountFilter(django_filters.FilterSet):
