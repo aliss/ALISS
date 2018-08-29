@@ -438,6 +438,8 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
         context['updated_services'] = service_query.order_by('-updated_on')[:3]
         return context
+
+
         # # Iterate through the services and compare the updated_on date with the historical date
         # number_of_services = 3
         # count = 0
