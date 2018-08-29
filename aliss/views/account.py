@@ -22,6 +22,15 @@ from datetime import datetime
 from datetime import timedelta
 import pytz
 
+# Import the necessary search code
+from elasticsearch_dsl import Search
+from django.conf import settings
+from elasticsearch_dsl.connections import connections
+from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category
+
+# Import all models
+from aliss.models import *
+
 def login_view(request, *args, **kwargs):
     if request.method == 'POST':
         if not request.POST.get('remember_me', None):
@@ -420,25 +429,44 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
-        # Get the saved services in order of most recently updated
-        updated_in_x_weeks = self.request.user.saved_services.all().order_by('-updated_on')
 
-        # Import Datetime module for getting the current time. Add to the top!!!
-
+        # Setup the date in past to compare results against
         utc = pytz.UTC
         current_date = datetime.now()
         current_date = utc.localize(current_date)
-        # Define the number of weeks
+
+        # Define the number of weeks to include in results
         number_of_weeks = 1
+
         # Create the historical date to compare against i.e. one week ago
         comparison_date = current_date - timedelta(weeks=number_of_weeks)
 
         service_query = self.request.user.saved_services
         service_query = service_query.filter(updated_on__gte=comparison_date)
-
         context['updated_services'] = service_query.order_by('-updated_on')[:3]
-        return context
 
+        # Create connection to elastic search
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+
+        # Create a new key on context updated_services_user_selection use Elastic search to query and filter by postcode and category
+        user_selected_postcode = "EH21 6UW"
+        user_selected_category_slug = "conditions"
+        default_radius = 5000
+
+        # Get postcode object based on user selected postcode
+        p = Postcode.objects.get(postcode=user_selected_postcode)
+
+        #  Get category object based on user sleected user selected category
+        c = Category.objects.get(slug=user_selected_category_slug)
+
+        # Create new Elastic search
+        queryset = Search(index='search', doc_type='service')
+        queryset = filter_by_postcode(queryset, p, default_radius)
+        queryset = filter_by_category(queryset, c)
+        r = queryset.execute()
+        context['updated_selection'] = r
+        return context
 
         # # Iterate through the services and compare the updated_on date with the historical date
         # number_of_services = 3

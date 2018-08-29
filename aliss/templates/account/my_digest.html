@@ -28,7 +28,7 @@
     <p>Postcode: EH21 6UW</p>
     <p>Category: Conditions</p>
   <div class=my-digest-details>
-    {% if not updated_services.all %}
+    {% if not updated_selection %}
     <div class="updated-digest-list none">
       <p>You haven't saved any services yet.</p>
       <p><a href="{% url 'homepage' %}">Start Searching</a></p>
@@ -36,8 +36,8 @@
     {% else %}
     <div class="updated-digest-list">
       <ul class="updated-services">
-        {% for service in updated_services.all %}
-          <p>{{ service.name }}</p>
+        {% for selected in updated_selection %}
+          <p>{{selected.name}}</p>
         {% endfor %}
       </ul>
     </div>
