@@ -443,7 +443,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
         service_query = self.request.user.saved_services
         service_query = service_query.filter(updated_on__gte=comparison_date)
-        context['updated_services'] = service_query.order_by('-updated_on')[:3]
+
 
         # Create connection to elastic search
         connections.create_connection(
@@ -465,7 +465,10 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         queryset = filter_by_postcode(queryset, p, default_radius)
         queryset = filter_by_category(queryset, c)
         r = queryset.execute()
-        context['updated_selection'] = r
+
+
+        context['updated_services'] = service_query.order_by('-updated_on')[:3]
+        context['selected_updated'] = r
         return context
 
         # # Iterate through the services and compare the updated_on date with the historical date
