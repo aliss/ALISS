@@ -22,11 +22,11 @@ from datetime import datetime
 from datetime import timedelta
 import pytz
 
-# Import the necessary search code
+# Import the necessary search codes
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category
+from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category, filter_by_updated_on
 
 # Import all models
 from aliss.models import *
@@ -465,6 +465,9 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         queryset = filter_by_postcode(queryset, p, default_radius)
         queryset = filter_by_category(queryset, c)
         queryset = queryset.sort({ "updated_on" : {"order" : "desc"}})
+        comparison_date_string = comparison_date.strftime('%Y/%m/%d/%h/%m/%s')
+        queryset = filter_by_updated_on(queryset, comparison_date_string)
+
         r = queryset.execute()
 
 
