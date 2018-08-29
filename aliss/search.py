@@ -286,3 +286,8 @@ def filter_by_location_type(queryset, type):
         ])
     else:
         return queryset
+
+# def sort_by_updated_on(queryset):
+#     queryset = queryset.sort({
+#
+#     })

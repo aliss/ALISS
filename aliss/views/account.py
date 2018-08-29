@@ -464,6 +464,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         queryset = Search(index='search', doc_type='service')
         queryset = filter_by_postcode(queryset, p, default_radius)
         queryset = filter_by_category(queryset, c)
+        queryset = queryset.sort({ "updated_on" : {"order" : "desc"}})
         r = queryset.execute()
 
 
