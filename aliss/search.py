@@ -289,11 +289,6 @@ def filter_by_location_type(queryset, type):
 
 def filter_by_updated_on(queryset, comparison_date):
     queryset = queryset.query({
-        Q("query":{
-            "bool": {
-                "filter": {"range":{"updated_on":{"gte":comparison_date}}}
-            }
-        }
-
-    }))
+        "filter": {"range":{"updated_on":{"gte":comparison_date}}}
+    })
     return queryset
