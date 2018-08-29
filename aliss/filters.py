@@ -5,7 +5,6 @@ import string
 
 from aliss.models import ALISSUser, Organisation
 
-
 class OrganisationFilter(django_filters.FilterSet):
     q = django_filters.CharFilter(name='name', lookup_expr='icontains', method='name_filter')
 
@@ -14,8 +13,15 @@ class OrganisationFilter(django_filters.FilterSet):
         fields = ['q']
 
     def name_filter(self, queryset, name, value):
+        stopwords = ["the", "The", "THE", "a", "A"]
+        value_arr = value.split()
+        if (len(value_arr) > 1) and (value_arr[0] in stopwords):
+            del value_arr[0]
+        value = " ".join(value_arr)
+
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
         stripped = value.translate(puncstripper)
+
         return queryset.filter(
             Q(name__icontains = value.replace("and", "&")) |
             Q(name__icontains = value.replace("&", "and")) |
