@@ -7,6 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mail
 from django.template import loader
 
 from braces.views import (
@@ -204,6 +205,31 @@ class ServiceProblemUpdateView(StaffuserRequiredMixin, UpdateView):
     model = ServiceProblem
     form_class = ServiceProblemUpdateForm
     success_url = reverse_lazy('service_problem_list')
+
+    def send_resolved_email(self, issue):
+        link = self.request.build_absolute_uri(reverse('service_detail', kwargs={'pk': self.object.service_id}))
+
+        message = "Thank you for submitting a suggestion on ALISS. "
+        message += "This request for improvement has now been resolved, thank you for helping us improve ALISS."
+        message += "\n\nYou can view the updated service on ALISS by following this link: {link}".format(link=link)
+        message += "\n\n-----\n\n\nRegards from the ALISS team\n\nIf you need to get in touch please contact us at:\n\nhello@aliss.org or 0141 404 0239"
+
+        send_mail(
+            "Resolved: Your suggested improvement for \"{service}\" on ALISS".format(service=issue.service.name),
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [issue.user.email],
+            fail_silently=True,
+        )
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+
+        if self.object.status == 1:
+            self.send_resolved_email(self.object)
+            messages.success(self.request, 'Service issue has been resolved.')
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class ServiceCoverageView(StaffuserRequiredMixin, TemplateView):
