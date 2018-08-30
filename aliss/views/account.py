@@ -439,7 +439,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         number_of_weeks = 1
 
         # Create the historical date to compare against i.e. one week ago
-        comparison_date = current_date - timedelta(weeks=number_of_weeks)
+        comparison_date = current_date - timedelta(hours=5)
 
         service_query = self.request.user.saved_services
         service_query = service_query.filter(updated_on__gte=comparison_date)
@@ -465,7 +465,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         queryset = filter_by_postcode(queryset, p, default_radius)
         queryset = filter_by_category(queryset, c)
         queryset = queryset.sort({ "updated_on" : {"order" : "desc"}})
-        comparison_date_string = comparison_date.strftime('%Y/%m/%d/%h/%m/%s')
+        comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
         queryset = filter_by_updated_on(queryset, comparison_date_string)
 
         r = queryset.execute()
