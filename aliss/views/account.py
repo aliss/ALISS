@@ -439,7 +439,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         number_of_weeks = 1
 
         # Create the historical date to compare against i.e. one week ago
-        comparison_date = current_date - timedelta(hours=5)
+        comparison_date = current_date - timedelta(weeks=number_of_weeks)
 
         service_query = self.request.user.saved_services
         service_query = service_query.filter(updated_on__gte=comparison_date)
@@ -472,7 +472,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
 
         context['updated_services'] = service_query.order_by('-updated_on')[:3]
-        context['selected_updated'] = r
+        context['selected_updated'] = r[:3]
         return context
 
         # # Iterate through the services and compare the updated_on date with the historical date
