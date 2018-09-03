@@ -59,3 +59,7 @@ def get_icon(category):
         204: 'fa-university',
     }
     return icons.get(category.id)
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
