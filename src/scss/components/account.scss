@@ -626,7 +626,11 @@ table.users-listing tr {
 }
 
 .user-modals {
-  .modal { max-width: 45vw; }
+  .modal {
+    max-width: 45vw;
+    height: 95vh;
+    overflow-y: scroll;
+  }
 }
 
 @media (max-width: 425px) {
