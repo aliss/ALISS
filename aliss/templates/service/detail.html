@@ -197,4 +197,29 @@
         </div>
     </article>
 </main>
+
+<script type="application/ld+json">
+{% url 'organisation_detail' pk=object.organisation.pk as org_path %}
+{% url 'service_detail' pk=object.pk as service_path %}
+{
+  "@context": "http://schema.org",
+  "@type": "Service",
+  "name": "{{ object.name }}",
+  "url": "{% absolute service_path %}",
+  {% if object.service_areas.all %}
+  "areaServed": [{% for area in object.service_areas.all %}"{{ area.name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+  {% endif %}
+  "provider": {
+    "@type": "Organization",
+    "name": "{{ object.organisation.name }}",
+    {% if object.email %}
+    "email": "{{ object.email }}",
+    {% endif %}
+    {% if object.phone %}
+    "telephone": "{{ object.phone }}",
+    {% endif %}
+    "url": "{% absolute org_path %}"
+  }
+}
+</script>
 {% endblock %}

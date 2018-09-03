@@ -155,4 +155,20 @@
         </div>
     </article>
 </main>
+
+<script type="application/ld+json">
+{% url 'organisation_detail' pk=object.pk as org_path %}
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "{{ object.name }}",
+  {% if object.email %}
+  "email": "{{ object.email }}",
+  {% endif %}
+  {% if object.phone %}
+  "telephone": "{{ object.phone }},
+  {% endif %}
+  "url": "{% absolute org_path %}"
+}
+</script>
 {% endblock %}
