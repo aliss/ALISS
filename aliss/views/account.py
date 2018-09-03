@@ -443,50 +443,17 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
         service_query = self.request.user.saved_services
         service_query = service_query.filter(updated_on__gte=comparison_date)
-
-
-        # Create connection to elastic search
-        connections.create_connection(
-            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+        context['updated_services'] = service_query.order_by('-updated_on')[:3]
 
         # Create a new key on context updated_services_user_selection use Elastic search to query and filter by postcode and category
-        user_selected_postcode = "EH21 6UW"
-        user_selected_category_slug = "conditions"
-        default_radius = 5000
 
-        # Get postcode object based on user selected postcode
-        p = Postcode.objects.get(postcode=user_selected_postcode)
+        digest_object = self.request.user.digest_selections.first()
+        r = digest_object.retrieve(comparison_date)
 
-        #  Get category object based on user selected user selected category
-        c = Category.objects.get(slug=user_selected_category_slug)
-
-        # Create new Elastic search
-        queryset = Search(index='search', doc_type='service')
-        queryset = filter_by_postcode(queryset, p, default_radius)
-        queryset = filter_by_category(queryset, c)
-        queryset = queryset.sort({ "updated_on" : {"order" : "desc"}})
-        comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
-        queryset = filter_by_updated_on(queryset, comparison_date_string)
-
-        r = queryset.execute()
-
-
-        context['updated_services'] = service_query.order_by('-updated_on')[:3]
         context['selected_updated'] = []
-        context['selected_updated'].append({"values": r[:3], "Postcode": "EH21 6UW", "Category": "conditions"})
-        return context
 
-        # # Iterate through the services and compare the updated_on date with the historical date
-        # number_of_services = 3
-        # count = 0
-        # for service in updated_in_x_weeks:
-        #     if (service.updated_on > comparison_date):
-        #         count += 1
-        #         # Sets the number of records to be iterated through
-        #         if count >= 3:
-        #             context['updated_services'] = self.request.user.saved_services.all().order_by('-updated_on')[:number_of_services]
-        #             return context
-        #     if (service.updated_on < comparison_date):
-        #         context['updated_services'] = updated_in_x_weeks.exclude(updated_on = service.updated_on)[:count]
-        #         return context
-        #         break
+        for digest_object in self.request.user.digest_selections.all():
+            r = digest_object.retrieve(comparison_date)
+            context['selected_updated'].append({"values": r[:3], "Postcode": digest_object.postcode, "Category": digest_object.category})
+
+        return context
