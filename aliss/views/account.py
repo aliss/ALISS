@@ -457,7 +457,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         # Get postcode object based on user selected postcode
         p = Postcode.objects.get(postcode=user_selected_postcode)
 
-        #  Get category object based on user sleected user selected category
+        #  Get category object based on user selected user selected category
         c = Category.objects.get(slug=user_selected_category_slug)
 
         # Create new Elastic search
@@ -472,7 +472,8 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
 
         context['updated_services'] = service_query.order_by('-updated_on')[:3]
-        context['selected_updated'] = r[:3]
+        context['selected_updated'] = []
+        context['selected_updated'].append({"values": r[:3], "Postcode": "EH21 6UW", "Category": "conditions"})
         return context
 
         # # Iterate through the services and compare the updated_on date with the historical date

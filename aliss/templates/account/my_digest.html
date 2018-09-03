@@ -36,8 +36,10 @@
     {% else %}
     <div class="updated-digest-list">
       <ul class="updated-services">
-        {% for selected in selected_updated %}
-          <p>{{selected.name}}</p>
+        {% for selection_option in selected_updated %}
+          {% for service in selection_option|get_item:"values" %}
+            <p>{{ service.name }}</p>
+          {% endfor %}
         {% endfor %}
       </ul>
     </div>
