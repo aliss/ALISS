@@ -6,6 +6,8 @@
 {% block meta_schema %}
     <meta property="og:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} - ALISS" />
     <meta name="twitter:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} - ALISS" />
+    <meta name="og:description" content="{{ paginator.count }} search results for services in {{ postcode.postcode }}" />
+    <meta name="twitter:description" content="{{ paginator.count }} search results for services in {{ postcode.postcode }}" />
 {% endblock %}
 
 {% block container %}
