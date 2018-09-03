@@ -5,3 +5,4 @@ from .service import Service, ServiceArea, ServiceProblem
 from .location import Location
 from .postcode import Postcode
 from .claim import Claim
+from .digest_selection import DigestSelection
