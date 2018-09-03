@@ -59,3 +59,9 @@ def get_icon(category):
         204: 'fa-university',
     }
     return icons.get(category.id)
+
+
+@register.simple_tag(takes_context=True)
+def absolute(context, path):
+    request = context["request"]
+    return request.scheme + "://" + request.get_host() + path
