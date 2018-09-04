@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load aliss %}
 
-{% block title %}{{ object.name }} - ALISS{% endblock %}
+{% block title %}{{ object.organisation.name }} - {{ object.name }} - ALISS{% endblock %}
 {% block meta_schema %}
     <meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
     <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
