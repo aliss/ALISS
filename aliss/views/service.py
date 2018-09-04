@@ -200,7 +200,7 @@ class ServiceProblemListView(StaffuserRequiredMixin, ListView):
     def get_queryset(self):
         if self.request.GET.get('f') == "all":
             return ServiceProblem.objects.filter(status=1).all().order_by('created_on')
-        else if self.request.GET.get('f') == "resolved":
+        elif self.request.GET.get('f') == "resolved":
             return ServiceProblem.objects.all().order_by('created_on')
         else:
             return ServiceProblem.objects.filter(status=0).all()
