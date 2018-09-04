@@ -198,7 +198,10 @@ class ServiceProblemListView(StaffuserRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return ServiceProblem.objects.all().order_by('status', 'created_on')
+        if self.request.GET.get('all'):
+            return ServiceProblem.objects.filter().all().order_by('created_on')
+        else:
+            return ServiceProblem.objects.filter(status=0).all().order_by('created_on')
 
 
 class ServiceProblemUpdateView(StaffuserRequiredMixin, UpdateView):
