@@ -432,18 +432,23 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     #
     def post(self,request, *args, **kwargs):
         # Extract the form parameters i.e. category and post code
-        postcode_string = request.POST.get("postcode")
-        category_slug = request.POST.get("category")
-        user_email = self.request.user.email
+        if request.POST.is_valid():
+            postcode_string = request.POST.get("postcode")
+            category_slug = request.POST.get("category")
+            user_email = self.request.user.email
 
+        # If user input passes validation
         #Saved the digest selection to the database
-        if user_email:
             DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
             url = reverse('account_my_digest')
+        # Redirect to my-digest page
             return HttpResponseRedirect(url)
-        # Redirect on completion to the my-digest page
+
         else:
-            return HttpResponseRedirect('account_create_my_digest')
+            HttpResponse("Failed")
+
+        # If input fails validation redirect to self with error notices
+
 
     #     # If successful
     #         # Redirect to account/my_digest
