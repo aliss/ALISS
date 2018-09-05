@@ -429,7 +429,6 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
-
     #
     def post(self,request, *args, **kwargs):
         # Extract the form parameters i.e. category and post code
@@ -437,22 +436,21 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
         category_slug = request.POST.get("category")
         user_email = self.request.user.email
 
-        #find them in the database self.
-        DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
+        #Saved the digest selection to the database
+        if user_email:
+            DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
+            url = reverse('account_my_digest')
+            return HttpResponseRedirect(url)
+        # Redirect on completion to the my-digest page
+        else:
+            return HttpResponseRedirect('account_create_my_digest')
 
-        url = reverse('account_my_digest')
-        return HttpResponseRedirect(url)
-
-
-
-    #     # Assign a new DigestSelection object and save in the database
     #     # If successful
     #         # Redirect to account/my_digest
     #     # else
     #         # Redirect to self
     #     # Write normal HTML
     #     # Gotcha it might throw up a cross site request forgery use the inspector/developer tools
-    #
 
     # The GET is not necessary as it is handled by TemplateView
     # def get(self, request, *args, **kwargs):
