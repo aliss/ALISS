@@ -1,2 +1,14 @@
 {% extends "account/base.html" %}
 {% load aliss %}
+
+{% block content %}
+<div class="form">
+            <form method="post" action="{% url 'account_my_recommendations' %}">
+                {% csrf_token %}
+                <label for="name">Who is this recommendation for? <span>(required)</span></label>
+                <input type="text" name="name" id="name" placeholder="e.g. John Smith">
+                <input type="hidden" name="services" value="{{ object.pk }}" />
+                <input type="submit" value="Recommend">
+            </form>
+</div>
+{% endblock %}

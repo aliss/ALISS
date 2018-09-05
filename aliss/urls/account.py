@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from aliss.views import (
     login_view,
     AccountMyDigestView,
+    AccountCreateDigestSelection,
     AccountSignupView,
     AccountUpdateView,
     AccountSavedServicesView,
@@ -35,6 +36,12 @@ urlpatterns = [
         AccountMyDigestView.as_view(),
         name='account_my_digest'
     ),
+
+    url(r'^create-my-digest/$',
+        AccountCreateDigestSelection.as_view(),
+        name='account_create_my_digest'
+        ),
+
     url(r'^signup/success/$',
         TemplateView.as_view(template_name="account/signup_success.html"),
         name='signup_success'
