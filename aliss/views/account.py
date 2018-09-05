@@ -429,14 +429,21 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
-    #
+
+    def clean_post_code(postcode_string):
+
+
     def post(self,request, *args, **kwargs):
         # Extract the form parameters i.e. category and post code
-        if request.POST.is_valid():
-            postcode_string = request.POST.get("postcode")
-            category_slug = request.POST.get("category")
-            user_email = self.request.user.email
+        postcode_string = request.POST.get("postcode")
+        category_slug = request.POST.get("category")
+        user_email = self.request.user.email
 
+        # Try to validate postcode
+        postcode_valid = request.POST.cleaned_data.get('postcode', None)
+
+        if postcode_valid:
+        
         # If user input passes validation
         #Saved the digest selection to the database
             DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
