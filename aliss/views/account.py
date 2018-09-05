@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
@@ -424,11 +425,12 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
-class AccountCreateDigestSelection(LoginRequiredMixin, View):
+class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
-
-    # def post(self,request, args, kwargs):
+    #
+    def post(self,request, *args, **kwargs):
+        return HttpResponse('Test')
     #     # Extract the form parameters i.e. category and post code and find them in the database self.
     #     # Assign a new DigestSelection object and save in the database
     #     # If successful
@@ -438,13 +440,12 @@ class AccountCreateDigestSelection(LoginRequiredMixin, View):
     #     # Write normal HTML
     #     # Gotcha it might throw up a cross site request forgery use the inspector/developer tools
     #
-    # def get(post):
-    #     # pull in categories and display slugs
-    #     # Selector can be found in create service?
-    #     # Django loggers
 
-
-
+    # The GET is not necessary as it is handled by TemplateView
+    # def get(self, request, *args, **kwargs):
+        # pull in categories and display slugs
+        # Selector can be found in create service?
+        # Django loggers
 
 
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
