@@ -14,6 +14,8 @@ from datetime import datetime
 from datetime import timedelta
 import pytz
 
+from aliss.models import *
+
 class DigestSelection(models.Model):
 
     user = models.ForeignKey('aliss.ALISSUser', related_name='digest_selections')
@@ -37,3 +39,13 @@ class DigestSelection(models.Model):
         queryset = filter_by_updated_on(queryset, comparison_date_string)
 
         return queryset.execute()
+
+    def create_digest_selection(self, postcode_string, category_slug, user_email):
+
+        # Retrieve the category, postcode and user objects
+        category_object = Category.objects.get(slug=category_slug)
+        postcode_object = Postcode.objects.get(postcode=postcode_string)
+        user_object = ALISSUser.objects.get(email=user_email)
+
+        # Create new DigestSelection record
+        DigestSelection.objects.create(postcode=postcode_object, category=category_object, user=user_object)
