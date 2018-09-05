@@ -3,12 +3,12 @@
 
 {% block content %}
 <div class="form">
-            <form method="post" action="{% url 'account_my_recommendations' %}">
+            <form method="post" action="{% url 'account_create_my_digest' %}">
                 {% csrf_token %}
-                <label for="name">Who is this recommendation for? <span>(required)</span></label>
-                <input type="text" name="name" id="name" placeholder="e.g. John Smith">
-                <input type="hidden" name="services" value="{{ object.pk }}" />
-                <input type="submit" value="Recommend">
+                <label for="name">What Category and Postcode would you like to add? <span>(required)</span></label>
+                <input type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
+                <input type="text" name="category" id="category" placeholder="e.g. conditions">
+                <input type="submit" value="Create Digest">
             </form>
 </div>
 {% endblock %}
