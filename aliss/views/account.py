@@ -428,13 +428,23 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
+    model = DigestSelection
+
     #
     def post(self,request, *args, **kwargs):
-        postcode = request.POST.get("postcode")
-        category = request.POST.get("category")
-        return HttpResponse(postcode + " " + category)
+        # Extract the form parameters i.e. category and post code
+        postcode_string = request.POST.get("postcode")
+        category_slug = request.POST.get("category")
+        user_email = self.request.user.email
 
-    #     # Extract the form parameters i.e. category and post code and find them in the database self.
+        #find them in the database self.
+        DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
+
+        url = reverse('account_my_digest')
+        return HttpResponseRedirect(url)
+
+
+
     #     # Assign a new DigestSelection object and save in the database
     #     # If successful
     #         # Redirect to account/my_digest
