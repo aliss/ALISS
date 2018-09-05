@@ -430,7 +430,10 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     template_name = 'account/create_my_digest.html'
     #
     def post(self,request, *args, **kwargs):
-        return HttpResponse('Test')
+        postcode = request.POST.get("postcode")
+        category = request.POST.get("category")
+        return HttpResponse(postcode + " " + category)
+
     #     # Extract the form parameters i.e. category and post code and find them in the database self.
     #     # Assign a new DigestSelection object and save in the database
     #     # If successful
