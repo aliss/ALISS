@@ -16,7 +16,7 @@ from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from aliss.models import ALISSUser, Service, ServiceArea, Organisation, RecommendedServiceList, ServiceProblem, Claim
-from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm
+from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm, DigestSelectionForm
 from aliss.filters import AccountFilter
 
 from datetime import datetime
@@ -430,7 +430,8 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
 
-    def clean_post_code(postcode_string):
+    # def clean_post_code(postcode_string):
+    # def clean_post_code(postcode_string):
 
 
     def post(self,request, *args, **kwargs):
@@ -443,7 +444,7 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
         postcode_valid = request.POST.cleaned_data.get('postcode', None)
 
         if postcode_valid:
-        
+
         # If user input passes validation
         #Saved the digest selection to the database
             DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
