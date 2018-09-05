@@ -425,23 +425,23 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
         return HttpResponseRedirect(url)
 
 class AccountCreateDigestSelection(LoginRequiredMixin, View):
-    # Need to create a new template with a form form action points to this view
+    # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
 
-    def post(self,request, args, kwargs):
-        # Extract the form parameters i.e. category and post code and find them in the database self.
-        # Assign a new DigestSelection object and save in the database
-        # If successful
-            # Redirect to account/my_digest
-        # else
-            # Redirect to self
-        # Write normal HTML
-        # Gotcha it might throw up a cross site request forgery use the inspector/developer tools
-
-    def get(post):
-        # pull in categories and display slugs
-        # Selector can be found in create service?
-        # Django logger
+    # def post(self,request, args, kwargs):
+    #     # Extract the form parameters i.e. category and post code and find them in the database self.
+    #     # Assign a new DigestSelection object and save in the database
+    #     # If successful
+    #         # Redirect to account/my_digest
+    #     # else
+    #         # Redirect to self
+    #     # Write normal HTML
+    #     # Gotcha it might throw up a cross site request forgery use the inspector/developer tools
+    #
+    # def get(post):
+    #     # pull in categories and display slugs
+    #     # Selector can be found in create service?
+    #     # Django loggers
 
 
 
