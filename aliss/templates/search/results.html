@@ -2,13 +2,13 @@
 {% load aliss %}
 {% load humanize %}
 
-{% block title %}{% if not request.GET.q %}Help &amp; support{% else %}'{{ request.GET.q }}' help &amp; support{% endif %} in {{ postcode.postcode }} - ALISS{% endblock %}
+{% block title %}{% if not request.GET.q %}Help &amp; support{% else %}'{{ request.GET.q }}' help &amp; support{% endif %} in {{ postcode.postcode }}, {{ service_area.name }} - ALISS{% endblock %}
 {% block meta_schema %}
     <meta property="og:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
-    <meta property="og:description" content="{{ paginator.count }} search results for services in {{ postcode.postcode }}" />
+    <meta property="og:description" content="{{ paginator.count }} search results for services in {% firstof service_area.name postcode.postcode %}" />
     <meta name="twitter:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
-    <meta name="twitter:description" content="{{ paginator.count }} search results for services in {{ postcode.postcode }}" />
-    <meta name="description" content="Search results for help and support in {{ postcode.postcode }}">
+    <meta name="twitter:description" content="{{ paginator.count }} search results for services in {% firstof service_area.name postcode.postcode %}" />
+    <meta name="description" content="Search results for help and support in {{ postcode.postcode }}, {{ service_area.name }}">
 {% endblock %}
 
 {% block container %}
