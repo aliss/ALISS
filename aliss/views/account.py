@@ -16,7 +16,7 @@ from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
 from aliss.models import ALISSUser, Service, ServiceArea, Organisation, RecommendedServiceList, ServiceProblem, Claim
-from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm
+from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm, DigestSelectionForm
 from aliss.filters import AccountFilter
 
 from datetime import datetime
@@ -429,7 +429,7 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
-
+    form_class = DigestSelectionForm
     # def clean_post_code(postcode_string):
     # def clean_post_code(postcode_string):
 
