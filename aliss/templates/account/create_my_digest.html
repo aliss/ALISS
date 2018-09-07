@@ -7,7 +7,6 @@
                 {% csrf_token %}
                 <label for="name">What Category and Postcode would you like to add? <span>(required)</span></label>
                 <input type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
-                {{ form.postcode }}
                 <input type="text" name="category" id="category" placeholder="e.g. conditions">
                 <input type="submit" value="Create Digest">
             </form>
