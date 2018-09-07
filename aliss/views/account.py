@@ -430,30 +430,37 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
     form_class = DigestSelectionForm
-    # def clean_post_code(postcode_string):
-    # def clean_post_code(postcode_string):
+
+    def form_valid(self, form):
+        self.object = DigestSelection.objects.create_digest_selection(
+            postcode_string = form.cleaned_data['postcode'],
+            category_slug = form.cleaned_data['category'],
+            user_email=self.request.user.email
+        )
+        url = reverse('account_my_digest')
+        return HttpResponseRedirect(url)
 
 
-    def post(self,request, *args, **kwargs):
-        # Extract the form parameters i.e. category and post code
-        postcode_string = request.POST.get("postcode")
-        category_slug = request.POST.get("category")
-        user_email = self.request.user.email
-
-        # Try to validate postcode
-        postcode_valid = request.POST.cleaned_data.get('postcode', None)
-
-        if postcode_valid:
-
-        # If user input passes validation
-        #Saved the digest selection to the database
-            DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
-            url = reverse('account_my_digest')
-        # Redirect to my-digest page
-            return HttpResponseRedirect(url)
-
-        else:
-            HttpResponse("Failed")
+    # def post(self,request, *args, **kwargs):
+    #     # Extract the form parameters i.e. category and post code
+    #     postcode_string = request.POST.get("postcode")
+    #     category_slug = request.POST.get("category")
+    #     user_email = self.request.user.email
+    #
+    #     # Try to validate postcode
+    #     postcode_valid = request.POST.cleaned_data.get('postcode', None)
+    #
+    #     if postcode_valid:
+    #
+    #     # If user input passes validation
+    #     #Saved the digest selection to the database
+    #         DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
+    #         url = reverse('account_my_digest')
+    #     # Redirect to my-digest page
+    #         return HttpResponseRedirect(url)
+    #
+    #     else:
+    #         HttpResponse("Failed")
 
         # If input fails validation redirect to self with error notices
 
