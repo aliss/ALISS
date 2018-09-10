@@ -431,6 +431,15 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
 
+    def get_context_data(self, **kwargs):
+        context = super(AccountCreateDigestSelection, self).get_context_data(**kwargs)
+        slug = self.request.GET.get('category')
+        if slug:
+            context['category'] = Category.objects.get(slug=slug)
+        else:
+            context['category'] = None
+        return context
+
     def post(self,request, *args, **kwargs):
         form = DigestSelectionForm(request.POST)
 
