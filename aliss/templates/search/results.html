@@ -103,9 +103,9 @@
                         {% for result in object_list %}
                             <li>
                                 <div class="heading">
-                                    <a href="{% url 'service_detail' result.id %}"><h3>{{ result.name }}</h3></a>
+                                    <a href="{% url 'service_detail_slug' result.slug %}"><h3>{{ result.name }}</h3></a>
                                 </div>
-                                <p class="org">by <a href="{% url 'organisation_detail' result.organisation.id %}">{{ result.organisation.name }}</a>
+                                <p class="org">by <a href="{% url 'organisation_detail_slug' result.organisation.slug %}">{{ result.organisation.name }}</a>
                                 {% if result.organisation.is_claimed %}
                                 <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
                                 {% endif %}
