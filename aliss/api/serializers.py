@@ -83,6 +83,7 @@ class SearchSerializer(serializers.Serializer):
     organisation = OrganisationSerializer()
     name = serializers.CharField()
     description = serializers.CharField()
+    slug = serializers.CharField()
     url = serializers.URLField(required=False)
     phone = serializers.CharField(required=False)
     email = serializers.CharField(required=False)
@@ -94,6 +95,7 @@ class SearchSerializer(serializers.Serializer):
 class v4OrganisationSerializer(OrganisationSerializer):
     aliss_url = serializers.SerializerMethodField()
     is_claimed = serializers.BooleanField()
+    slug = serializers.CharField()
 
     def get_aliss_url(self, obj):
         return self.context['request'].build_absolute_uri(reverse('organisation_detail', args=[obj.id]))
