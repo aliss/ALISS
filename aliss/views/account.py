@@ -6,7 +6,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
@@ -429,7 +429,6 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
-    # form_class = DigestSelectionForm
 
     def post(self,request, *args, **kwargs):
         form = DigestSelectionForm(request.POST)
@@ -441,29 +440,9 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
             url = reverse('account_my_digest')
             return HttpResponseRedirect(url)
 
-        # If user input passes validation
-        #Saved the digest selection to the database
         else:
-            return HttpResponse("Failed")
-        # else:
-        #     HttpResponse("Failed")
-
-        # If input fails validation redirect to self with error notices
-
-
-    #     # If successful
-    #         # Redirect to account/my_digest
-    #     # else
-    #         # Redirect to self
-    #     # Write normal HTML
-    #     # Gotcha it might throw up a cross site request forgery use the inspector/developer tools
-
-    # The GET is not necessary as it is handled by TemplateView
-    # def get(self, request, *args, **kwargs):
-        # pull in categories and display slugs
-        # Selector can be found in create service?
-        # Django loggers
-
+            # Return a re render of the form with error messages on non-conforming fields.
+            return render(request, self.template_name, {'form': form})
 
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'

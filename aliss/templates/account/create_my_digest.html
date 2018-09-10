@@ -2,6 +2,25 @@
 {% load aliss %}
 
 {% block content %}
+{% if form.errors %}
+<div class="f-row">
+    <fieldset class="errors">
+    <legend>Form invalid</legend>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <ul class="alert alert-danger">
+                    <li>{{ field.name|title }}: {{ error|escape }}</li>
+                </ul>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <ul class="alert alert-danger">
+                <li>{{ error|escape }}</li>
+            </ul>
+        {% endfor %}
+    </fieldset>
+</div>
+{% endif %}
 <div class="form">
             <form method="post" action="{% url 'account_create_my_digest' %}">
                 {% csrf_token %}
