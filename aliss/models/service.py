@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.urls import reverse
 from django.dispatch import receiver
+from django.utils.text import slugify
 
 
 class ServiceArea(models.Model):
@@ -119,6 +120,18 @@ class Service(models.Model):
             self.organisation.created_by == user or \
             self.organisation.claimed_by == user
         )
+
+    def generate_slug(self, force=False):
+        if force or self.slug == None:
+            s = slugify(self.name)
+            sCount = Service.objects.filter(slug__icontains=s).count()
+            self.slug = s + "-" + str(sCount)
+            return self.slug
+        return False
+
+    def save(self, *args, **kwargs):
+        self.generate_slug()
+        super(Service, self).save(*args, **kwargs)
 
     @property
     def is_claimed(self):
