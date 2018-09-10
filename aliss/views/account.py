@@ -429,36 +429,22 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
-    form_class = DigestSelectionForm
-
-    # def form_valid(self, form):
-    #     self.object = DigestSelection.objects.create_digest_selection(
-    #         postcode_string = form.cleaned_data['postcode'],
-    #         category_slug = form.cleaned_data['category'],
-    #         user_email=self.request.user.email
-    #     )
-    #     url = reverse('account_my_digest')
-    #     return HttpResponseRedirect(url)
-
+    # form_class = DigestSelectionForm
 
     def post(self,request, *args, **kwargs):
-        # Extract the form parameters i.e. category and post code
-        postcode_string = request.POST.get("postcode")
-        category_slug = request.POST.get("category")
-        user_email = self.request.user.email
+        form = DigestSelectionForm(request.POST)
 
-        # Try to validate postcode
-        # postcode_valid = request.POST.cleaned_data.get('postcode', None)
-
-        # if postcode_valid:
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.user = self.request.user
+            self.object.save()
+            url = reverse('account_my_digest')
+            return HttpResponseRedirect(url)
 
         # If user input passes validation
         #Saved the digest selection to the database
-        DigestSelection.create_digest_selection(self, postcode_string, category_slug, user_email)
-        url = reverse('account_my_digest')
-        # Redirect to my-digest page
-        return HttpResponseRedirect(url)
-
+        else:
+            return HttpResponse("Failed")
         # else:
         #     HttpResponse("Failed")
 

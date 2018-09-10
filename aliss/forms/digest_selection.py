@@ -2,8 +2,19 @@ from django import forms
 from localflavor.gb.forms import GBPostcodeField
 from aliss.models import DigestSelection, Postcode, Category, ALISSUser
 
-class DigestSelectionForm(forms.Form):
-    postcode = GBPostcodeField(required=True)
+class DigestSelectionForm(forms.ModelForm):
+    class Meta:
+        model = DigestSelection
+        fields = [
+            'postcode',
+            'category'
+        ]
+
+    postcode = forms.ModelChoiceField(
+        queryset=Postcode.objects.all(),
+        to_field_name="pk",
+        required=True
+    )
 
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
