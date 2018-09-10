@@ -12,7 +12,8 @@ class Organisation(models.Model):
     email = models.EmailField(blank=True)
     url = models.URLField(blank=True)
     facebook = models.URLField(blank=True)
-    twitter = models.URLField(blank=True)
+    twitter  = models.URLField(blank=True)
+    slug     = models.CharField(max_length=120, null=True, blank=True, default=None)
 
     claimed_by = models.ForeignKey(
         'aliss.ALISSUser',
