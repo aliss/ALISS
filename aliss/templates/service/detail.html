@@ -9,7 +9,7 @@
     <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
     <meta name="description" content="{{ object.description }}">
     {% if view.kwargs.slug %}
-        <link rel="canonical" href="{% url 'service_detail' object..pk %}" />
+        <link rel="canonical" href="{% url 'service_detail' object.pk %}" />
     {% else %}
         <link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" />
     {% endif %}
@@ -137,7 +137,7 @@
             <div class="columns content">
                 <div class="copy-container">
                     <h1>{{ object.name }}</h1>
-                    <p class="org">by <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
+                    <p class="org">by <a href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
                     <div class="assigned-category">
                         {% for category in object.categories.all %}
                             <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}

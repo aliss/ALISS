@@ -40,8 +40,8 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.pk }
+            'organisation_detail_slug',
+            kwargs={'slug': self.object.slug }
         )
 
     def send_new_org_email(self, organisation):
@@ -97,8 +97,8 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 
     def get_success_url(self):
         return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.pk}
+            'organisation_detail_slug',
+            kwargs={'pk': self.object.slug}
         )
 
     def form_valid(self, form):
@@ -210,4 +210,4 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
         else:
             messages.error(self.request, 'Could not publish {name}.'.format(name=organisation.name))
 
-        return HttpResponseRedirect(reverse('organisation_detail', kwargs={'pk': organisation.pk}))
+        return HttpResponseRedirect(reverse('organisation_detail_slug', kwargs={'slug': organisation.slug}))

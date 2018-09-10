@@ -47,6 +47,10 @@ urlpatterns = [
         ServiceCreateView.as_view(),
         name='service_create'
     ),
+    url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})/publish/",
+        OrganisationPublishView.as_view(),
+        name='organisation_publish'
+    ),
     url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})",
         OrganisationDetailView.as_view(),
         name='organisation_detail'
@@ -54,9 +58,5 @@ urlpatterns = [
     url(r'^(?P<slug>[0-9A-Za-z\-]+)/$',
         OrganisationDetailView.as_view(),
         name='organisation_detail_slug'
-    ),
-    url(r'^publish/(?P<pk>[0-9A-Za-z\-]+)/$',
-        OrganisationPublishView.as_view(),
-        name='organisation_publish'
     ),
 ]
