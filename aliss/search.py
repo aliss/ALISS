@@ -16,9 +16,11 @@ service_mapping = {
     'organisation': {
         'properties': {
             'id': {'type': 'keyword'},
-            'name': {'type': 'text'}
+            'name': {'type': 'text'},
+            'slug': {'type': 'keyword'}
         }
     },
+    'slug': {'type': 'keyword'},
     'name': {'type': 'text'},
     'description': {
         'type': 'text',
@@ -96,6 +98,16 @@ def create_index():
     )
 
 
+def create_slugs(force=False):
+    for s in Service.objects.all():
+        s.generate_slug(force)
+        s.save()
+        print("Slug saved: ", s.slug)
+    for o in Organisation.objects.all():
+        o.generate_slug(force)
+        o.save()
+        print("Slug saved: ", o.slug)
+
 def index_all():
     connection = _get_connection()
 
@@ -127,11 +139,13 @@ def service_to_body(service):
         'organisation': {
             'id': service.organisation.pk,
             'name': service.organisation.name,
-            'is_claimed': service.organisation.is_claimed
+            'is_claimed': service.organisation.is_claimed,
+            'slug': service.organisation.slug
         },
         'updated_on': service.updated_on,
         'name': service.name,
         'description': service.description,
+        'slug': service.slug,
         'url': service.url,
         'email': service.email,
         'phone': service.phone,
