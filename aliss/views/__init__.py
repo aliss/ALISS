@@ -20,7 +20,8 @@ from .account import (
     AccountRecommendationListPrintView,
     AccountIsEditor,
     AccountMyDigestView,
-    AccountCreateDigestSelection
+    AccountCreateDigestSelection,
+    AccountMyDigestDelete
 )
 from .search import SearchView, SearchShareView
 from .organisation import (

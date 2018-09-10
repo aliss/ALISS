@@ -5,7 +5,7 @@
 <h4>My Digest</h4>
 <div class="screen-info">
     <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest selection</a>
-  </div>
+</div>
 <div class="copy-container">
   <p>A list of saved services which have been update in the last week.</p>
 </div>
@@ -38,6 +38,9 @@
     <div class="updated-digest-list">
       <ul class="updated-services">
         {% for selection_option in selected_updated %}
+        <form action="{% url 'account_my_digest_delete' selection_option.pk %}" method="post">{% csrf_token %}
+            <input type="submit" value="Delete"/>
+        </form>
         <h5>Postcode: {{selection_option|get_item:"Postcode"}}</h5>
         <h5>Category: {{selection_option|get_item:"Category"}}</h5>
         {% for service in selection_option|get_item:"values" %}

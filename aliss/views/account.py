@@ -15,7 +15,6 @@ from django.db.models import Q
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
-from aliss.models import ALISSUser, Service, ServiceArea, Organisation, RecommendedServiceList, ServiceProblem, Claim
 from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm, DigestSelectionForm
 from aliss.filters import AccountFilter
 
@@ -31,6 +30,8 @@ from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,f
 
 # Import all models
 from aliss.models import *
+
+import logging
 
 def login_view(request, *args, **kwargs):
     if request.method == 'POST':
@@ -467,13 +468,27 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
 
         # Create a new key on context updated_services_user_selection use Elastic search to query and filter by postcode and category
 
-        digest_object = self.request.user.digest_selections.first()
-        r = digest_object.retrieve(comparison_date)
-
         context['selected_updated'] = []
 
         for digest_object in self.request.user.digest_selections.all():
             r = digest_object.retrieve(comparison_date)
-            context['selected_updated'].append({"values": r[:3], "Postcode": digest_object.postcode, "Category": digest_object.category})
-
+            context['selected_updated'].append({"values": r[:3], "Postcode": digest_object.postcode, "Category": digest_object.category, "pk":digest_object.pk})
         return context
+
+class AccountMyDigestDelete(LoginRequiredMixin, DeleteView):
+    model = DigestSelection
+    success_url = reverse_lazy('account_my_digest')
+
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        messages.success(
+            self.request,
+            'Digest for {postcode} and {category} has been successfully deleted.'.format(
+                postcode=self.object.postcode,
+                category=self.object.category
+            )
+        )
+        return HttpResponseRedirect(success_url)
