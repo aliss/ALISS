@@ -120,6 +120,7 @@ class ServiceUpdateView(
 class ServiceDetailView(DetailView):
     model = Service
     template_name = 'service/detail.html'
+    query_pk_and_slug = True
 
     def get_context_data(self, **kwargs):
         context = super(ServiceDetailView, self).get_context_data(**kwargs)

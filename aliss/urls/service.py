@@ -33,9 +33,13 @@ urlpatterns = [
         ServiceProblemUpdateView.as_view(),
         name='service_problem_update'
     ),
-    url(r'^(?P<pk>[0-9A-Za-z\-]+)/$',
+    url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})",
         ServiceDetailView.as_view(),
         name='service_detail'
+    ),
+    url(r'^(?P<slug>[0-9A-Za-z\-]+)/$',
+        ServiceDetailView.as_view(),
+        name='service_detail_slug'
     ),
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/delete/$',
         ServiceDeleteView.as_view(),
