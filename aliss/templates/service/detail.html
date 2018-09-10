@@ -8,6 +8,11 @@
     <meta property="og:title" content="{{ object.name }} on ALISS.org" />
     <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
     <meta name="description" content="{{ object.description }}">
+    {% if view.kwargs.slug %}
+        <link rel="canonical" href="{% url 'service_detail' object..pk %}" />
+    {% else %}
+        <link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" />
+    {% endif %}
 {% endblock %}
 
 {% block container %}
