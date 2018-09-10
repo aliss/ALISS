@@ -99,14 +99,26 @@ def create_index():
 
 
 def create_slugs(force=False):
-    for s in Service.objects.all():
+    services = Service.objects
+    organisations = Organisation.objects
+
+    if force:
+        services = services.all()
+        organisations = organisations.all()
+    else:
+        services = services.filter(slug=None).all()
+        organisations = organisations.filter(slug=None).all()
+
+    print("No. of service slugs to update: ", services.count())
+    for s in services:
         s.generate_slug(force)
         s.save()
-        print("Slug saved: ", s.slug)
-    for o in Organisation.objects.all():
+
+    print("No. of org slugs to update: ", organisations.count())
+    for o in organisations:
         o.generate_slug(force)
         o.save()
-        print("Slug saved: ", o.slug)
+
 
 def index_all():
     connection = _get_connection()
