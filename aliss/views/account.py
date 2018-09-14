@@ -292,6 +292,7 @@ class AccountRecommendationListPrintView(
 ):
     form_class = RecommendationListEmailForm
     success_message = "Recommendation list emailed successfully"
+    template_name = "account/recommendation_sent.html"
 
     def get_success_url(self):
         return reverse(
@@ -301,7 +302,6 @@ class AccountRecommendationListPrintView(
 
     def get_form_kwargs(self):
         kwargs = super(AccountRecommendationListPrintView, self).get_form_kwargs()
-
         kwargs['user'] = self.request.user
         return kwargs
 
@@ -335,9 +335,7 @@ class AccountRecommendationListPrintView(
             context
         )
         email_message.attach_alternative(html_email, 'text/html')
-
         email_message.send()
-
         return super(AccountRecommendationListPrintView, self).form_valid(form)
 
 
