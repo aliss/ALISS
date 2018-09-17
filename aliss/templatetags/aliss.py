@@ -66,6 +66,7 @@ def absolute(context, path):
     request = context["request"]
     return request.scheme + "://" + request.get_host() + path
 
+
 @register.simple_tag()
 def meta_description(service):
     categories = []
@@ -81,3 +82,22 @@ def meta_description(service):
     if remaining > 15:
         description += " - " + service.description[:remaining] + '...' * (len(service.description) > remaining)
     return description
+
+
+@register.simple_tag()
+def meta_location(service, brackets=True):
+    txt = ''
+    if service.locations.count() == 1:
+        location = service.locations.first()
+        if location.name:
+            txt = location.name + ", " + location.locality
+        else:
+            txt = location.locality
+    else:
+        areas = []
+        for area in service.service_areas.filter(type=2).all():
+            areas.append(area.name)
+        txt = ", ".join(areas)
+    if brackets and txt:
+        txt = "(" + txt + ")"
+    return txt
