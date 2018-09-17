@@ -76,7 +76,7 @@ def meta_description(service):
     description = service.name
     if m_location:
         description += " " + m_location
-    description += ", ".join(categories)
+    description += ", ".join(categories) + " "
     remaining = 297 - len(description)
     if remaining > 15:
         description += " - " + service.description[:remaining] + '...' * (len(service.description) > remaining)
