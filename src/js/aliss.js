@@ -1,12 +1,20 @@
 const ALISS = function() {
+  this.config = null;
   var context = this;
+
+  ALISS.prototype.init = function() {
+    context.config = {
+      categoryTarget: '#aliss-category-selector-div',
+      categoryChanged: function(event){ console.log("Replace with a callback fn."); }
+    };
+  };
 
   ALISS.prototype.renderCategoryDropdown = function() {
     $.ajax({
       url: "https://www.aliss.org/api/v4/categories/",
       data: {},
       success: function(response){
-        $('#aliss-category-selector-div').empty();
+        $(context.config.categoryTarget).empty();
         context.renderCategoryOptions(response);
       }
     });
@@ -16,7 +24,7 @@ const ALISS = function() {
     var dropdownDiv = document.createElement('div');
     dropdownDiv.id = "aliss-dropdown-div";
     dropdownDiv.className = "aliss-category-dropdown-div";
-    $('#aliss-category-selector-div').append(dropdownDiv);
+    $(context.config.categoryTarget).append(dropdownDiv);
     var dropdownSelect = document.createElement('select');
     dropdownSelect.id = "aliss-dropdown";
     dropdownSelect.className = "aliss-dropdown";
@@ -40,10 +48,15 @@ const ALISS = function() {
   ALISS.prototype.handleFilterByCategory = (event) => {
     $(event.target).siblings().remove();
 
+    if (context.config.categoryChanged){
+      context.config.categoryChanged(event);
+    }
+
     if (event.target.value == "categories"){
       context.renderCategoryDropdown();
       return;
     }
+
     var categoryObject;
     var parent = $(event.target).parent();
     if (event.target.value == "sub-categories"){
@@ -89,6 +102,7 @@ const ALISS = function() {
     $(subCategoryDropDown).change(context.handleFilterByCategory);
   };
 
+  context.init(config);
 };
 
 module.exports = ALISS;
