@@ -7,7 +7,7 @@
     <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
     <meta property="og:title" content="{{ object.name }} on ALISS.org" />
     <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
-    <meta name="description" content="{{ object.description }}">
+    <meta name="description" content="{% meta_description service %}">
     {% if view.kwargs.slug %}
         <link rel="canonical" href="{% url 'service_detail' object.pk %}" />
     {% else %}

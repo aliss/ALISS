@@ -65,3 +65,19 @@ def get_icon(category):
 def absolute(context, path):
     request = context["request"]
     return request.scheme + "://" + request.get_host() + path
+
+@register.simple_tag()
+def meta_description(service):
+    categories = []
+    areas = []
+    for c in service.categories.all():
+        categories.append(c.name)
+    for area in service.service_areas.filter(type=2).all():
+        areas.append(area.name)
+    description = service.name
+    description += " (" + ", ".join(areas) + "), "
+    description += ", ".join(categories)
+    remaining = 297 - len(description)
+    if remaining > 15:
+        description += " - " + service.description[:remaining] + '...' * (len(service.description) > remaining)
+    return description
