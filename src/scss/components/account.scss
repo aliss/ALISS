@@ -65,7 +65,7 @@
     @include clear;
     clear:left;
     position: relative;
-    padding-right: 34.25%;
+    padding-right: 36.25%;
     @include media(0, $search-break) {
       padding-right: 40%;
     }
@@ -112,6 +112,7 @@
     }
   }
 }
+
 .preferences {
   padding: 1rem 0;
   max-width: 950px;
@@ -625,5 +626,17 @@ table.users-listing tr {
 }
 
 .user-modals {
-  .modal { max-width: 45vw; }
+  .modal {
+    max-width: 45vw;
+    height: 95vh;
+    overflow-y: scroll;
+  }
+}
+
+@media (max-width: 425px) {
+  .f-row {
+    > .all-categories {
+      font-size: 0.75em;
+    }
+  }
 }

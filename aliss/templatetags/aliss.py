@@ -60,6 +60,48 @@ def get_icon(category):
     }
     return icons.get(category.id)
 
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+
+@register.simple_tag(takes_context=True)
+def absolute(context, path):
+    request = context["request"]
+    return request.scheme + "://" + request.get_host() + path
+
+
+@register.simple_tag()
+def meta_description(service):
+    m_location = meta_location(service)
+    categories = []
+    for c in service.categories.all():
+        categories.append(c.name)
+    description = service.name
+    if m_location:
+        description += " " + m_location
+    description += ", ".join(categories)
+    remaining = 297 - len(description)
+    if remaining > 15:
+        description += " - " + service.description[:remaining] + '...' * (len(service.description) > remaining)
+    return description
+
+
+@register.simple_tag()
+def meta_location(service, brackets=True):
+    txt = ''
+    if service.locations.count() == 1:
+        location = service.locations.first()
+        if location.name:
+            txt = location.name + ", " + location.locality
+        else:
+            txt = location.locality
+    else:
+        areas = []
+        for area in service.service_areas.filter(type=2).all():
+            areas.append(area.name)
+        txt = ", ".join(areas)
+    if brackets and txt:
+        txt = "(" + txt + ")"
+    return txt

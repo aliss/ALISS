@@ -3,6 +3,10 @@
 > ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most. 
 
 
+## JS Plugin
+
+Embed ALISS search features on your own site with the [aliss.js plugin](https://github.com/aliss/aliss.js).
+
 ## Links
 
 - Production site: https://www.aliss.org

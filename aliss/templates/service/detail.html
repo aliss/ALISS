@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 {% load aliss %}
 
-{% block title %}{{ object.name }} - ALISS{% endblock %}
+{% block title %}{{ object.name }} {% meta_location service %} - {{ object.organisation.name }} - ALISS{% endblock %}
 {% block meta_schema %}
-    <meta property="og:title" content="{{ object.name }} - ALISS" />
-    <meta name="twitter:title" content="{{ object.name }} - ALISS" />
+    <meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
+    <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
+    <meta property="og:title" content="{{ object.name }} on ALISS.org" />
+    <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
+    <meta name="description" content="{% meta_description service %}">
+    {% if view.kwargs.slug %}
+        <link rel="canonical" href="{% url 'service_detail' object.pk %}" />
+    {% else %}
+        <link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" />
+    {% endif %}
 {% endblock %}
 
 {% block container %}
@@ -129,7 +137,7 @@
             <div class="columns content">
                 <div class="copy-container">
                     <h1>{{ object.name }}</h1>
-                    <p class="org">by <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
+                    <p class="org">by <a href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
                     <div class="assigned-category">
                         {% for category in object.categories.all %}
                             <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
@@ -194,4 +202,29 @@
         </div>
     </article>
 </main>
+
+<script type="application/ld+json">
+{% url 'organisation_detail' pk=object.organisation.pk as org_path %}
+{% url 'service_detail' pk=object.pk as service_path %}
+{
+  "@context": "http://schema.org",
+  "@type": "Service",
+  "name": "{{ object.name }}",
+  "url": "{% absolute service_path %}",
+  {% if object.service_areas.all %}
+  "areaServed": [{% for area in object.service_areas.all %}"{{ area.name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
+  {% endif %}
+  "provider": {
+    "@type": "Organization",
+    "name": "{{ object.organisation.name }}",
+    {% if object.email %}
+    "email": "{{ object.email }}",
+    {% endif %}
+    {% if object.phone %}
+    "telephone": "{{ object.phone }}",
+    {% endif %}
+    "url": "{% absolute org_path %}"
+  }
+}
+</script>
 {% endblock %}

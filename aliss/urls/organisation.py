@@ -47,12 +47,16 @@ urlpatterns = [
         ServiceCreateView.as_view(),
         name='service_create'
     ),
-    url(r'^(?P<pk>[0-9A-Za-z\-]+)/$',
+    url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})/publish/",
+        OrganisationPublishView.as_view(),
+        name='organisation_publish'
+    ),
+    url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})",
         OrganisationDetailView.as_view(),
         name='organisation_detail'
     ),
-    url(r'^publish/(?P<pk>[0-9A-Za-z\-]+)/$',
-        OrganisationPublishView.as_view(),
-        name='organisation_publish'
+    url(r'^(?P<slug>[0-9A-Za-z\-]+)/$',
+        OrganisationDetailView.as_view(),
+        name='organisation_detail_slug'
     ),
 ]

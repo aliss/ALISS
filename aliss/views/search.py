@@ -28,6 +28,9 @@ class SearchView(MultipleObjectMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(SearchView, self).get_context_data(**kwargs)
         context['postcode'] = self.postcode
+        service_area = self.postcode.get_local_authority()
+        if service_area:
+            context['service_area'] = service_area.name
         context['category'] = self.category
         context['expanded_radius'] = self.radius * 2
         return context

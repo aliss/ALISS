@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.dispatch import receiver
+from django.utils.text import slugify
 
 
 class Organisation(models.Model):
@@ -12,7 +13,8 @@ class Organisation(models.Model):
     email = models.EmailField(blank=True)
     url = models.URLField(blank=True)
     facebook = models.URLField(blank=True)
-    twitter = models.URLField(blank=True)
+    twitter  = models.URLField(blank=True)
+    slug     = models.CharField(max_length=120, null=True, blank=True, default=None)
 
     claimed_by = models.ForeignKey(
         'aliss.ALISSUser',
@@ -45,6 +47,18 @@ class Organisation(models.Model):
             self.created_by == user or \
             self.claimed_by == user
         )
+
+    def generate_slug(self, force=False):
+        if force or self.slug == None:
+            s = slugify(self.name)
+            sCount = Organisation.objects.filter(slug__icontains=s).count()
+            self.slug = s + "-" + str(sCount)
+            return self.slug
+        return False
+
+    def save(self, *args, **kwargs):
+        self.generate_slug()
+        super(Organisation, self).save(*args, **kwargs)
 
     @property
     def is_claimed(self):
