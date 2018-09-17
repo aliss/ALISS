@@ -102,7 +102,7 @@ const ALISS = function() {
     $(subCategoryDropDown).change(context.handleFilterByCategory);
   };
 
-  context.init(config);
+  context.init();
 };
 
 module.exports = ALISS;
