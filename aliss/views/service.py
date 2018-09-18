@@ -90,8 +90,8 @@ class ServiceUpdateView(
 
     def get_success_url(self):
         return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.organisation.pk}
+            'organisation_detail_slug',
+            kwargs={'slug': self.object.organisation.slug}
         )
 
     def form_valid(self, form):
