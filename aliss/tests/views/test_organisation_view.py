@@ -58,6 +58,13 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.get(reverse('organisation_create'))
         self.assertEqual(response.status_code, 302)
 
+    def test_organisation_valid_update(self):
+        response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
+            { 'name': 'an updated organisation', 'description': 'a full description' })
+        self.organisation.refresh_from_db()
+        self.assertEqual(self.organisation.name, 'an updated organisation')
+        self.assertEqual(response.status_code, 302)
+
     def test_unpublished_organisation_detail(self):
         self.organisation.published = False
         self.organisation.save()
