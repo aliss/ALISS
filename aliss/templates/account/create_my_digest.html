@@ -28,7 +28,7 @@
                 <input type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
                 <div id="js-categories">
                 </div>
-                <input type="hidden" value={{category.slug}} name="category" id="category" placeholder="e.g. conditions">
+                <input type="hidden" name="category" id="category" placeholder="e.g. conditions">
                 <input type="submit" value="Create Digest">
             </form>
 </div>
@@ -41,8 +41,9 @@ $(document).ready(function(){
   a = new ALISS()
   a.init()
   a.config.categoryTarget = '#js-categories'
+  b = function(event){$('#category').empty().append(event.target.value)}
+  a.config.categoryChanged = b
   a.renderCategoryDropdown()
-
 })
 </script>
 {% endblock %}
