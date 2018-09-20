@@ -26,9 +26,23 @@
                 {% csrf_token %}
                 <label for="name">What Category and Postcode would you like to add? <span>(required)</span></label>
                 <input type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
+                <div id="js-categories">
+                </div>
                 <input type="hidden" value={{category.slug}} name="category" id="category" placeholder="e.g. conditions">
-                {% include 'search/partials/categories.html' with category=category %}
                 <input type="submit" value="Create Digest">
             </form>
 </div>
+
+{% endblock %}
+
+{% block before_body_close %}
+<script type="text/javascript">
+$(document).ready(function(){
+  a = new ALISS()
+  a.init()
+  a.config.categoryTarget = '#js-categories'
+  a.renderCategoryDropdown()
+
+})
+</script>
 {% endblock %}
