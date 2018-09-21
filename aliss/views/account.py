@@ -39,6 +39,9 @@ def login_view(request, *args, **kwargs):
             request.session.set_expiry(0)
     return auth_views.login(request, *args, **kwargs)
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class AccountSignupView(CreateView):
     model = ALISSUser
@@ -431,16 +434,10 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AccountCreateDigestSelection, self).get_context_data(**kwargs)
-        slug = self.request.GET.get('category')
-        if slug:
-            context['category'] = Category.objects.get(slug=slug)
-        else:
-            context['category'] = None
         return context
 
     def post(self,request, *args, **kwargs):
         form = DigestSelectionForm(request.POST)
-
         if form.is_valid():
             self.object = form.save(commit=False)
             self.object.user = self.request.user
