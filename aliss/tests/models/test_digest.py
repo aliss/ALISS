@@ -16,3 +16,15 @@ class DigestTestCase(TestCase):
     def test_can_create_digest_without_category(self):
         d = DigestSelection.objects.create(user=self.user, postcode=self.postcode)
         self.assertTrue(isinstance(d,DigestSelection))
+
+    def test_user_delete_cascades(self):
+        d = DigestSelection.objects.create(user=self.user, postcode=self.postcode, category=self.category)
+        self.assertTrue(isinstance(d,DigestSelection))
+        ALISSUser.objects.get(email="random@random.org").delete()
+        self.assertFalse(DigestSelection.objects.all().count() >  0)
+
+    def test_category_delete_cascades(self):
+        d = DigestSelection.objects.create(user=self.user, postcode=self.postcode, category=self.category)
+        self.assertTrue(isinstance(d,DigestSelection))
+        Category.objects.get(slug="conditions").delete()
+        self.assertFalse(DigestSelection.objects.all().count() >  0)
