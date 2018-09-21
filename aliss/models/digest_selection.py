@@ -19,7 +19,7 @@ from aliss.models import *
 class DigestSelection(models.Model):
 
     user = models.ForeignKey('aliss.ALISSUser', related_name='digest_selections')
-    category = models.ForeignKey('aliss.Category', related_name='digest_selections', blank=True)
+    category = models.ForeignKey('aliss.Category', related_name='digest_selections', blank=True, null=True)
     postcode = models.ForeignKey('aliss.Postcode')
 
     def __str__(self):
@@ -33,7 +33,8 @@ class DigestSelection(models.Model):
 
         queryset = Search(index='search', doc_type='service')
         queryset = filter_by_postcode(queryset, self.postcode)
-        queryset = filter_by_category(queryset, self.category)
+        if (self.category):
+            queryset = filter_by_category(queryset, self.category)    
         queryset = queryset.sort({ "updated_on" : {"order" : "desc"}})
         comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
         queryset = filter_by_updated_on(queryset, comparison_date_string)
