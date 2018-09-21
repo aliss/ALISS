@@ -21,10 +21,16 @@ class DigestTestCase(TestCase):
         d = DigestSelection.objects.create(user=self.user, postcode=self.postcode, category=self.category)
         self.assertTrue(isinstance(d,DigestSelection))
         ALISSUser.objects.get(email="random@random.org").delete()
-        self.assertFalse(DigestSelection.objects.all().count() >  0)
+        self.assertTrue(DigestSelection.objects.all().count() < 1)
 
     def test_category_delete_cascades(self):
         d = DigestSelection.objects.create(user=self.user, postcode=self.postcode, category=self.category)
         self.assertTrue(isinstance(d,DigestSelection))
         Category.objects.get(slug="conditions").delete()
-        self.assertFalse(DigestSelection.objects.all().count() >  0)
+        self.assertTrue(DigestSelection.objects.all().count() < 1)
+
+    def test_postcode_delte_cascades(self):
+        d = DigestSelection.objects.create(user=self.user, postcode=self.postcode, category=self.category)
+        self.assertTrue(isinstance(d,DigestSelection))
+        Postcode.objects.get(pk="G2 1AL").delete()
+        self.assertTrue(DigestSelection.objects.all().count() < 1)
