@@ -19,7 +19,7 @@ from aliss.models import *
 class DigestSelection(models.Model):
 
     user = models.ForeignKey('aliss.ALISSUser', related_name='digest_selections')
-    category = models.ForeignKey('aliss.Category', related_name='digest_selections')
+    category = models.ForeignKey('aliss.Category', related_name='digest_selections', blank=True)
     postcode = models.ForeignKey('aliss.Postcode')
 
     def __str__(self):
