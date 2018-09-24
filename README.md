@@ -1,4 +1,4 @@
-# ALISS
+# ALISS [![Build Status](https://travis-ci.org/aliss/ALISS.svg?branch=master)](https://travis-ci.org/aliss/ALISS)
 
 > ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most. 
 
