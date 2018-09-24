@@ -11,4 +11,5 @@ install:
 before_script:
   - sleep 10
 script:
+  - python manage.py collectstatic
   - python manage.py test
