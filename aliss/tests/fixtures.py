@@ -34,17 +34,20 @@ class Fixtures():
         )
         s.locations.add(l)
         s.save()
+        return s
 
     @classmethod
     def create(self):
-        Postcode.objects.create(
-          postcode="G2 4AA", postcode_district="G2",  postcode_sector="4",
-          latitude="55.86529182", longitude="-4.2684418",
-          council_area_2011_code="S12000046",
-          health_board_area_2014_code="S08000021",
-          integration_authority_2016_code="S37000015"
-        )
+        if Postcode.objects.filter(pk="G2 4AA").count() == 0:
+          Postcode.objects.create(
+            postcode="G2 4AA", postcode_district="G2",  postcode_sector="4",
+            latitude="55.86529182", longitude="-4.2684418",
+            council_area_2011_code="S12000046",
+            health_board_area_2014_code="S08000021",
+            integration_authority_2016_code="S37000015"
+          )
 
         t,u,c,_ = Fixtures.create_users()
         o = Fixtures.create_organisation(t,u,c)
         s = Fixtures.create_service(o)
+        return s
