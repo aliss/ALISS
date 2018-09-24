@@ -447,6 +447,7 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
 
         else:
             # Return a re render of the form with error messages on non-conforming fields.
+            
             return render(request, self.template_name, {'form': form})
 
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
