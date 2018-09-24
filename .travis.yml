@@ -1,0 +1,17 @@
+language: python
+    python:
+      - "3.6.5"
+    services:
+      - postgres
+      - elasticsearch
+    env:
+      - DB=postgres
+      - DJANGO_VERSION=1.11.8
+      - DJANGO_SETTINGS_MODULE='config.settings.local'
+      - SECRET_KEY='thisisasecrettkey'
+    install:
+      - pip install -r requirements.txt
+    before_script:
+      - sleep 10
+    script:
+      - python manage.py test
