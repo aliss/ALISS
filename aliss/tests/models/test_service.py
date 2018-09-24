@@ -1,18 +1,11 @@
 from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Service, Location
+from aliss.tests.fixtures import Fixtures
 
 class ServiceTestCase(TestCase):
     def setUp(self):
-        t = ALISSUser.objects.create(name="Mr Test", email="tester@aliss.org")
-        u = ALISSUser.objects.create(name="Mr Updater", email="updater@aliss.org", is_editor=True)
-        c = ALISSUser.objects.create(name="Mr Claimant", email="claimant@aliss.org")
-        o = Organisation.objects.create(
-          name="TestOrg",
-          description="A test description",
-          created_by=t,
-          updated_by=u,
-          claimed_by=c
-        )
+        t,u,c,_ = Fixtures.create_users()
+        o = Fixtures.create_organisation(t, u, c)
         s = Service.objects.create(name="My First Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
 
     def test_service_exists(self):
@@ -37,7 +30,7 @@ class ServiceTestCase(TestCase):
 
     def test_is_edited_by(self):
         s = Service.objects.get(name="My First Service")
-        rep    = ALISSUser.objects.get(email="claimant@aliss.org")
+        rep    = ALISSUser.objects.get(email="claimant@user.org")
         editor = ALISSUser.objects.filter(is_editor=True).first()
         punter = ALISSUser.objects.create(name="Ms Random", email="random@random.org")
         staff  = ALISSUser.objects.create(name="Ms Staff", email="msstaff@aliss.org", is_staff=True)

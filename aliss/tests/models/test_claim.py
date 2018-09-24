@@ -1,24 +1,20 @@
 from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Claim
+from aliss.tests.fixtures import Fixtures
 
 class ClaimTestCase(TestCase):
     def setUp(self):
-        t = ALISSUser.objects.create(name="Mr Test", email="tester@aliss.org")
-        u = ALISSUser.objects.create(name="Mr Updater", email="updater@aliss.org")
-        c = ALISSUser.objects.create(name="Mr Claimant", email="claimant@aliss.org")
-        o = Organisation.objects.create(
-          name="TestOrg", description="A test description",
-          created_by=t, updated_by=u
-        )
+        t,u,c,s = Fixtures.create_users()
+        o = Fixtures.create_organisation(t)
         Claim.objects.create(comment="I'm in charge",
-          email="claimant@aliss.org",
+          email="claimant@user.org",
           organisation=o,
           user=c,
           reviewed_by=u
         )
 
     def test_claim_exists(self):
-        cl = ALISSUser.objects.get(email="claimant@aliss.org")
+        cl = ALISSUser.objects.get(email="claimant@user.org")
         c = Claim.objects.get(comment="I'm in charge", user=cl)
         self.assertTrue(isinstance(c, Claim))
 
@@ -28,12 +24,12 @@ class ClaimTestCase(TestCase):
 
     def test_org_delete_cascades(self):
         Organisation.objects.get(name="TestOrg").delete()
-        cl = ALISSUser.objects.get(email="claimant@aliss.org")
+        cl = ALISSUser.objects.get(email="claimant@user.org")
         exists = Claim.objects.filter(comment="I'm in charge", user=cl).exists()
         self.assertFalse(exists)
 
     def test_quit_representation(self):
-        cl = ALISSUser.objects.get(email="claimant@aliss.org")
+        cl = ALISSUser.objects.get(email="claimant@user.org")
         c = Claim.objects.get(comment="I'm in charge", user=cl)
         o = Organisation.objects.get(name="TestOrg")
         c.quit_representation()
