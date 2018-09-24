@@ -11,5 +11,6 @@ install:
 before_script:
   - sleep 10
 script:
+  - python manage.py shell --command="from aliss.search import create_index; create_index()"
   - python manage.py collectstatic
   - python manage.py test
