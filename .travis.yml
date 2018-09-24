@@ -9,6 +9,10 @@ env:
   - DJANGO_VERSION=1.11.8
   - DJANGO_SETTINGS_MODULE='config.settings.local'
   - SECRET_KEY='thisisasecrettkey'
+  - ALLOWED_HOSTS='localhost,www.localhost'
+  - ELASTICSEARCH_URL=http://localhost:9200
+  - ELASTICSEARCH_USERNAME=''
+  - ELASTICSEARCH_PASSWORD=''
 install:
   - pip install -r requirements.txt
 before_script:
