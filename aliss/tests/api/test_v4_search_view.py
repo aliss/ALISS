@@ -3,11 +3,13 @@ from django.test import Client
 from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import *
+from aliss.search import index_service, delete_service
 
 class v4SearchViewTestCase(TestCase):
 
     def setUp(self):
-      Fixtures.create()
+      self.service = Fixtures.create()
+      index_service(self.service)
       self.client = Client()
 
     def test_get(self):
@@ -23,3 +25,6 @@ class v4SearchViewTestCase(TestCase):
         self.assertTrue('data' in response.data)
         self.assertTrue(response.data['count'] > 0)
         self.assertTrue(response.data['count'] > response2.data['count'])
+
+    def tearDown(self):
+        delete_service(self.service.pk)

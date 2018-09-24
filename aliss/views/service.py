@@ -90,8 +90,8 @@ class ServiceUpdateView(
 
     def get_success_url(self):
         return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.organisation.pk}
+            'organisation_detail_slug',
+            kwargs={'slug': self.object.organisation.slug}
         )
 
     def form_valid(self, form):
@@ -213,7 +213,7 @@ class ServiceProblemUpdateView(StaffuserRequiredMixin, UpdateView):
     success_url = reverse_lazy('service_problem_list')
 
     def send_resolved_email(self, issue):
-        link = self.request.build_absolute_uri(reverse('service_detail', kwargs={'pk': self.object.service_id}))
+        link = self.request.build_absolute_uri(reverse('service_detail_slug', kwargs={ 'slug': self.object.service.slug }))
 
         message = "Thank you for submitting a suggestion on ALISS. "
         message += "This request for improvement has now been resolved, thank you for helping us improve ALISS."
