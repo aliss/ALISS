@@ -98,7 +98,7 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
     def get_success_url(self):
         return reverse(
             'organisation_detail_slug',
-            kwargs={'pk': self.object.slug}
+            kwargs={'slug': self.object.slug}
         )
 
     def form_valid(self, form):
