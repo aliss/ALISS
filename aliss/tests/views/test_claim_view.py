@@ -1,19 +1,13 @@
 from django.test import TestCase, Client
 from django.urls import reverse
+from aliss.tests.fixtures import Fixtures
 from aliss.models import Organisation, ALISSUser, Service, Location, Claim
 
 class ClaimViewTestCase(TestCase):
     def setUp(self):
-        self.user     = ALISSUser.objects.create_user("main@user.org", "passwurd")
-        self.punter   = ALISSUser.objects.create_user("random@random.org", "passwurd")
-        self.staff   = ALISSUser.objects.create_user("staff@aliss.org", "passwurd",  is_staff=True)
-        self.editor   = ALISSUser.objects.create_user("updater@aliss.org", "passwurd",  is_editor=True)
-        self.client.login(username='main@user.org', password='passwurd')
-        self.organisation = Organisation.objects.create(
-          name="TestOrg",
-          description="A test description",
-          created_by=self.punter
-        )
+        self.tester, _, self.claimant, self.staff = Fixtures.create_users()
+        self.client.login(username='claimant@user.org', password='passwurd')
+        self.organisation = Fixtures.create_organisation(self.tester)
 
     def test_claim_list(self):
         response = self.client.get(reverse('claim_list', kwargs={}))

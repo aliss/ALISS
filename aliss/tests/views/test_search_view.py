@@ -1,19 +1,15 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
+from aliss.tests.fixtures import Fixtures
 from aliss.models import Organisation, ALISSUser, Service, Location, ServiceArea, Postcode
 
 class SearchViewTestCase(TestCase):
     fixtures = ['service_areas.json', 'g2_postcodes.json']
 
     def setUp(self):
-        t = ALISSUser.objects.create(name="Mr Test", email="tester@aliss.org")
-        u = ALISSUser.objects.create(name="Mr Updater", email="updater@aliss.org", is_editor=True)
-        o = Organisation.objects.create(
-          name="TestOrg",
-          description="A test description",
-          created_by=t, updated_by=u
-        )
+        t, u, c, _ = Fixtures.create_users()
+        o = Fixtures.create_organisation(t, u, c)
         s = Service.objects.create(name="My First Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
         s.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
 

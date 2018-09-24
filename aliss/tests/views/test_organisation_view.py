@@ -1,21 +1,14 @@
 from django.test import TestCase, Client
 from django.urls import reverse
+from aliss.tests.fixtures import Fixtures
 from aliss.models import Organisation, ALISSUser, Service, Location
 
 class OrganisationViewTestCase(TestCase):
     def setUp(self):
-        self.user     = ALISSUser.objects.create_user("main@user.org", "passwurd")
-        self.punter   = ALISSUser.objects.create_user("random@random.org", "passwurd")
-        self.staff   = ALISSUser.objects.create_user("staff@aliss.org", "passwurd",  is_staff=True)
-        self.editor   = ALISSUser.objects.create_user("updater@aliss.org", "passwurd",  is_editor=True)
-        self.claimant = ALISSUser.objects.create_user("claimant@random.org", "passwurd")
-        self.client.login(username='main@user.org', password='passwurd')
-        self.organisation = Organisation.objects.create(
-          name="TestOrg",
-          description="A test description",
-          created_by=self.user,
-          claimed_by=self.claimant
-        )
+        self.random = ALISSUser.objects.create_user("random@random.org", "passwurd")
+        self.user, self.editor, self.claimant, self.staff = Fixtures.create_users()
+        self.client.login(username='tester@aliss.org', password='passwurd')
+        self.organisation = Fixtures.create_organisation(self.user, self.editor, self.claimant)
 
     def test_organisation_detail(self):
         response = self.client.get(reverse('organisation_detail', kwargs={'pk': self.organisation.pk}))
@@ -72,7 +65,7 @@ class OrganisationViewTestCase(TestCase):
         response_1 = self.client.get(reverse('organisation_detail', kwargs={'pk': self.organisation.pk}))
         self.client.login(username='random@random.org', password='passwurd')
         response_2 = self.client.get(reverse('organisation_detail', kwargs={'pk': self.organisation.pk}))
-        self.client.login(username='claimant@random.org', password='passwurd')
+        self.client.login(username='claimant@user.org', password='passwurd')
         response_3 = self.client.get(reverse('organisation_detail', kwargs={'pk': self.organisation.pk}))
 
         self.assertEqual(response_1.status_code, 200)

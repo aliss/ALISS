@@ -1,17 +1,14 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
+from aliss.tests.fixtures import Fixtures
 from aliss.models import Organisation, ALISSUser, Service, Location
 
 class ServiceViewTestCase(TestCase):
     def setUp(self):
         self.user = ALISSUser.objects.create_user("random@random.org", "passwurd")
         self.client.login(username='random@random.org', password='passwurd')
-        self.organisation = Organisation.objects.create(
-          name="TestOrg",
-          description="A test description",
-          created_by=self.user
-        )
+        self.organisation = Fixtures.create_organisation(self.user)
 
     def test_service_create(self):
         x=reverse('service_create', kwargs={'pk':self.organisation.pk})
