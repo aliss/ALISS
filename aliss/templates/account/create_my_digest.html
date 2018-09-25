@@ -26,6 +26,10 @@
                 {% csrf_token %}
                 <label for="name">What Category and Postcode would you like to add? <span>(required)</span></label>
                 <input type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
+                {% if form.cleaned_data.category.slug %}
+                  <p>Previously Selected Category: {{form.cleaned_data.category.name}}</p>
+                  <br>
+                {% endif %}
                 <div id="js-categories">
                 </div>
                 <input type="hidden" name="category" id="category" value={{form.cleaned_data.category.slug}}>
