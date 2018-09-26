@@ -3,6 +3,7 @@ from django.db.models import Q
 import django_filters
 import string
 
+from re import sub as regexsub
 from aliss.models import ALISSUser, Organisation
 
 class OrganisationFilter(django_filters.FilterSet):
@@ -18,7 +19,7 @@ class OrganisationFilter(django_filters.FilterSet):
         if (len(value_arr) > 1) and (value_arr[0] in stopwords):
             del value_arr[0]
         value = " ".join(value_arr)
-        reg_value = '('+value.replace("s ", "'?s? ")+')'
+        reg_value = '('+regexsub('s$', "'?s?", value).replace("s ", "'?s? ")+')'
 
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
         stripped = value.translate(puncstripper)
