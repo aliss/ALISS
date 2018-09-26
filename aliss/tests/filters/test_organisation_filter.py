@@ -28,8 +28,14 @@ class OrganisationFilterTestCase(TestCase):
         self.assertEqual(exists, True)
         self.assertEqual(f.qs.count(), 2)
 
-    def test_more_query(self):
+    def test_apostrophe_query(self):
         f = OrganisationFilter({ "q": "another\'s test" })
+        exists = f.qs.filter(pk=self.org2.pk).exists()
+        self.assertEqual(exists, True)
+        self.assertEqual(f.qs.count(), 1)
+
+    def test_no_apostrophe_query(self):
+        f = OrganisationFilter({ "q": "anothers test" })
         exists = f.qs.filter(pk=self.org2.pk).exists()
         self.assertEqual(exists, True)
         self.assertEqual(f.qs.count(), 1)
