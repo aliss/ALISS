@@ -17,7 +17,8 @@ class OrganisationFilter(django_filters.FilterSet):
         value_arr = value.split()
         if (len(value_arr) > 1) and (value_arr[0] in stopwords):
             del value_arr[0]
-        value = " ".join(value_arr).replace("'s", '')
+        value = " ".join(value_arr)
+        reg_value = '('+value.replace("'s", '..')+')'
 
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
         stripped = value.translate(puncstripper)
@@ -26,7 +27,8 @@ class OrganisationFilter(django_filters.FilterSet):
             Q(name__icontains = value.replace("and", "&")) |
             Q(name__icontains = value.replace("&", "and")) |
             Q(name__icontains = stripped.replace("&", "and")) |
-            Q(name__icontains = stripped.replace("and", "&"))
+            Q(name__icontains = stripped.replace("and", "&")) |
+            Q(name__iregex = reg_value)
         )
 
 
