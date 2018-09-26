@@ -29,5 +29,12 @@ class OrganisationFilterTestCase(TestCase):
         self.assertEqual(f.qs.count(), 2)
 
     def test_more_query(self):
-        f = OrganisationFilter({ "q": "another\'s" })
+        f = OrganisationFilter({ "q": "another\'s test" })
+        exists = f.qs.filter(pk=self.org2.pk).exists()
+        self.assertEqual(exists, True)
         self.assertEqual(f.qs.count(), 1)
+
+    def test_fail_query(self):
+        f = OrganisationFilter({ "q": "test\'s test" })
+        self.assertEqual(f.qs.count(), 0)
+
