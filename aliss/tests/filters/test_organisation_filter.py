@@ -36,9 +36,13 @@ class OrganisationFilterTestCase(TestCase):
 
     def test_no_apostrophe_query(self):
         f = OrganisationFilter({ "q": "anothers test" })
+        f2 = OrganisationFilter({ "q": "anothers" })
         exists = f.qs.filter(pk=self.org2.pk).exists()
+        exists2 = f2.qs.filter(pk=self.org2.pk).exists()
         self.assertEqual(exists, True)
+        self.assertEqual(exists2, True)
         self.assertEqual(f.qs.count(), 1)
+        self.assertEqual(f2.qs.count(), 1)
 
     def test_fail_query(self):
         f = OrganisationFilter({ "q": "test\'s test" })
