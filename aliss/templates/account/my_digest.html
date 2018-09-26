@@ -2,10 +2,12 @@
 {% load aliss %}
 
 {% block content%}
-<h4>My Digest</h4>
+
 <div class="screen-info">
     <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest selection</a>
 </div>
+<br>
+<h2>My Digest</h2>
 <div class="copy-container">
   <p>A list of your saved services and digest selections which have been update in the last week.</p>
 </div>
@@ -23,7 +25,6 @@
       <li>
       <h6><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></h6>
       <p>Last Updated: <span class="updated alert">{{service.updated_on}}</span></p>
-      <br>
     </li>
       {% endfor %}
     </ul>
