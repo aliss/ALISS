@@ -7,8 +7,9 @@
     <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest selection</a>
 </div>
 <div class="copy-container">
-  <p>A list of your saved services which have been update in the last week.</p>
+  <p>A list of your saved services and digest selections which have been update in the last week.</p>
 </div>
+<h3>Updated Saved Services</h3>
 <div class=my-digest-details>
   {% if not updated_services.all %}
   <div class="updated-digest-list none">
@@ -31,7 +32,7 @@
 </div>
 <!--Create a DIV to render the updated services at EH21 6UW in Money Category  -->
 <div>
-  <h3>Most Recently Updated Services</h3>
+  <h3>Digest Selections</h3>
   <div class=my-digest-details>
     {% if not selected_updated %}
     <div class="updated-digest-list none">
@@ -53,25 +54,22 @@
                       Remove
                   </button>
               </form>
-              <h5>Postcode: {{selection_option|get_item:"Postcode"}}</h5>
-              <h5>Category: {{selection_option|get_item:"Category"}}</h5>
+              <h5>Postcode: {{selection_option|get_item:"Postcode"}} & Category: {{selection_option|get_item:"Category"}}</h5>
+              <h5></h5>
             </div>
-            <ul class="updated-services">
-            {% for service in updated_services.all %}
-              <li>
-              <h6><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></h6>
-              <p>Last Updated: <span class="updated alert">{{service.updated_on}}</span></p>
-              <br>
-            </li>
-              {% endfor %}
-            </ul>
           <ul>
+             {% if not selection_option|get_item:"values" %}
+             <li>
+               <p>None of the services in this digest have been updated in the last week.</p>
+             </li>
+             {% else %}
              {% for service in selection_option|get_item:"values" %}
               <li>
                 <p class="org"><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></p>
                 <p>Last Updated: <span class="updated alert">{{ service.updated_on|format_time_string }} </span></p>
               </li>
               {% endfor %}
+              {% endif %}
             </ul>
             </li>
             {% endfor %}
