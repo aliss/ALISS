@@ -9,6 +9,7 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404, render
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mail
 from django.template import loader
 from django.db.models import Q
 
@@ -453,6 +454,15 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'
 
+    def process_datetime_string(self, datetime_string):
+        utc = pytz.UTC
+        datetime_string = datetime_string.split('+')
+        datetime_string = datetime_string[0]
+        d = datetime.strptime(datetime_string, '%Y-%m-%dT%H:%M:%S.%f')
+        utc.localize(d)
+        d = datetime.strftime(d, '%d %b %Y, %I:%M %p')
+        return d
+
     def get_context_data(self, **kwargs):
         context = super(AccountMyDigestView, self).get_context_data(**kwargs)
 
@@ -478,7 +488,43 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         for digest_object in self.request.user.digest_selections.all():
             r = digest_object.retrieve(comparison_date)
             context['selected_updated'].append({"values": r[:3], "Postcode": digest_object.postcode, "Category": digest_object.category, "pk":digest_object.pk})
+            self.send_digest_email()
         return context
+
+    #Generate an email to be sent to the user with the updated services in the Digest Selection
+    def send_digest_email(self):
+        #Need to setup the comparison date:
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        number_of_weeks = 4
+        comparison_date = current_date - timedelta(weeks=number_of_weeks)
+
+
+        # Focus on the situation where Digest Selections have been created and have updated services.
+        message = "\n\n-----\n\n\nYour Weekly Digest Selection\n\n"
+
+        for digest_object in self.request.user.digest_selections.all():
+            message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} updated services:".format(
+                digest_postcode=digest_object.postcode,
+                digest_category=digest_object.category,)
+            r = digest_object.retrieve(comparison_date)[:3]
+            if not r:
+                message += '\n\n No updated services for this Digiest Selection'
+            else:
+                for service in r:
+                    message += '\n\n {service_name} \n\n {service_updated_on}'.format(
+                        service_name=service.name,
+                        service_updated_on=self.process_datetime_string(service.updated_on),
+                        )
+    #Send the email to the user.
+        send_mail(
+            'Subject: Test Test Test',
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [self.request.user.email],
+            fail_silently=True,
+            )
 
 class AccountMyDigestDelete(LoginRequiredMixin, DeleteView):
     model = DigestSelection
