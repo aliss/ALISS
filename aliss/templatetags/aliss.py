@@ -1,5 +1,7 @@
 from django import template
 
+from datetime import datetime
+
 from aliss.models import Category
 
 register = template.Library()
@@ -65,12 +67,17 @@ def get_icon(category):
 def get_item(dictionary, key):
     return dictionary.get(key)
 
+@register.filter
+def format_time_string(value):
+    value = value.split('+')
+    value = value[0]
+    d = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+    return d
 
 @register.simple_tag(takes_context=True)
 def absolute(context, path):
     request = context["request"]
     return request.scheme + "://" + request.get_host() + path
-
 
 @register.simple_tag()
 def meta_description(service):
