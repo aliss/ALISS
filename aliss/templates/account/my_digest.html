@@ -7,7 +7,7 @@
     <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest selection</a>
 </div>
 <div class="copy-container">
-  <p>A list of saved services which have been update in the last week.</p>
+  <p>A list of your saved services which have been update in the last week.</p>
 </div>
 <div class=my-digest-details>
   {% if not updated_services.all %}
@@ -19,7 +19,11 @@
   <div class="updated-digest-list">
     <ul class="updated-services">
       {% for service in updated_services.all %}
-      <p>{{ service.name }}</p>
+      <li>
+      <h6><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></h6>
+      <p>Last Updated: <span class="updated alert">{{service.updated_on}}</span></p>
+      <br>
+    </li>
       {% endfor %}
     </ul>
   </div>
@@ -27,28 +31,53 @@
 </div>
 <!--Create a DIV to render the updated services at EH21 6UW in Money Category  -->
 <div>
-  <h4>Most Recently Updated Services</h4>
+  <h3>Most Recently Updated Services</h3>
   <div class=my-digest-details>
     {% if not selected_updated %}
     <div class="updated-digest-list none">
-      <p>You haven't saved any services yet.</p>
+      <p>You haven't created any digest selections yet.</p>
       <p><a href="{% url 'homepage' %}">Start Searching</a></p>
     </div>
     {% else %}
-    <div class="updated-digest-list">
-      <ul class="updated-services">
+    <div class="account-list">
+      <ul class="search-results">
         {% for selection_option in selected_updated %}
-        <form action="{% url 'account_my_digest_delete' selection_option.pk %}" method="post">{% csrf_token %}
-            <input type="submit" value="Delete"/>
-        </form>
-        <h5>Postcode: {{selection_option|get_item:"Postcode"}}</h5>
-        <h5>Category: {{selection_option|get_item:"Category"}}</h5>
-        {% for service in selection_option|get_item:"values" %}
-        <p>{{ service.name }}</p>
-        {% endfor %}
-        {% endfor %}
-      </ul>
-    </div>
+          <li>
+            <div class="heading">
+              <form method='post' action="{% url 'account_my_digest_delete' selection_option.pk %}">
+                  {% csrf_token %}
+                  <button type="submit" class="txt-button alert icon-link">
+                      <span class="icon">
+                          <i class="fas fa-trash-alt"></i>
+                      </span>
+                      Remove
+                  </button>
+              </form>
+              <h5>Postcode: {{selection_option|get_item:"Postcode"}}</h5>
+              <h5>Category: {{selection_option|get_item:"Category"}}</h5>
+            </div>
+            <ul class="updated-services">
+            {% for service in updated_services.all %}
+              <li>
+              <h6><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></h6>
+              <p>Last Updated: <span class="updated alert">{{service.updated_on}}</span></p>
+              <br>
+            </li>
+              {% endfor %}
+            </ul>
+          <ul>
+             {% for service in selection_option|get_item:"values" %}
+              <li>
+                <p class="org"><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></p>
+                <p>Last Updated: <span class="updated alert">{{ service.updated_on|format_time_string }} </span></p>
+              </li>
+              {% endfor %}
+            </ul>
+            </li>
+            {% endfor %}
+          </ul>
+          </div>
+        </div>
     {% endif %}
-  </div>
+
   {% endblock %}

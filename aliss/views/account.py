@@ -447,7 +447,7 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
 
         else:
             # Return a re render of the form with error messages on non-conforming fields.
-            
+
             return render(request, self.template_name, {'form': form})
 
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
@@ -462,7 +462,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         current_date = utc.localize(current_date)
 
         # Define the number of weeks to include in results
-        number_of_weeks = 1
+        number_of_weeks = 4
 
         # Create the historical date to compare against i.e. one week ago
         comparison_date = current_date - timedelta(weeks=number_of_weeks)
