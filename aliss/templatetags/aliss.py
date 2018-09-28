@@ -1,5 +1,4 @@
 from django import template
-
 from aliss.models import Category
 
 register = template.Library()
