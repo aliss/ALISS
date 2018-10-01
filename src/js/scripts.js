@@ -312,7 +312,7 @@ $(document).ready(() => {
     });
 
     // Cat Menu
-    $(".category-selector .cells > ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
+    $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
         var parent = $(this).parent('li');
         parent.toggleClass('active');
     });
