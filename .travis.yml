@@ -1,16 +1,33 @@
 language: python
 python:
-  - "3.6.5"
+- 3.6.5
 services:
-  - postgres
-  - elasticsearch
+- postgres
+- elasticsearch
 env:
-  - DB=postgres DATABASE_URL='postgresql://postgres@127.0.0.1:5432/alissproject' DJANGO_VERSION=1.11.8 DJANGO_SETTINGS_MODULE='config.settings.local' SECRET_KEY='thisisasecrettkey' ALLOWED_HOSTS='localhost,www.localhost' ELASTICSEARCH_URL=http://localhost:9200 ELASTICSEARCH_USERNAME='' ELASTICSEARCH_PASSWORD=''
+- DB=postgres DATABASE_URL='postgresql://postgres@127.0.0.1:5432/alissproject' DJANGO_VERSION=1.11.8
+  DJANGO_SETTINGS_MODULE='config.settings.local' SECRET_KEY='thisisasecrettkey' ALLOWED_HOSTS='localhost,www.localhost'
+  ELASTICSEARCH_URL=http://localhost:9200 ELASTICSEARCH_USERNAME='' ELASTICSEARCH_PASSWORD=''
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 before_script:
-  - sleep 10
+- sleep 10
 script:
-  - python manage.py shell --command="from aliss.search import create_index; create_index()"
-  - python manage.py collectstatic
-  - python manage.py test
+- python manage.py shell --command="from aliss.search import create_index; create_index()"
+- python manage.py collectstatic
+- python manage.py test
+deploy:
+  provider: heroku
+  api_key:
+    secure: BWMfE40cTZobWVdBZw6NQNqc8OMPCXsepn0KDfg7cVMUUHcWhUkY3QAjizLbVZ6hhaNRlz/SaBDlZjlWpX+IlYONVR5odVl04q+gvLzLlWUzB5KPeD6ISPCDqH80cORS42tEhyv+eB4+Th80dPcBc4Ls0HlCDRmIvZCzudvVBJwTxVWyEJRMWMU47xvztFnFHXCJSrGsQwNR7qT0bnAZ2htfdE60gtH5iniWu717kvTgs1NI/nOkSnv3Y9YX2+9/ylLACpg1JaRTmNlP7kofrnBDrxzdvTEi14PkvaeCFMrSUO9hx7kdbAXy0DGsRCrSWz6+Eojq8WGEPxBGD4+FapWmGPBLqtE+r2RlrN3ZgyGPj/hK4cjMTpISIiyoWTqRHmm3hRQ00CuMfqcZ6kVJqirdTBZ+qpiYGI7TbTZQF89l0NrIaL7yIHuRqCFwCWmTTH+9edjR1Md2hxVUrs5Q1hiJD8nbSFHVZOMwSitprmng0BZAK0sWGGk8yHHsAWt9sUfO/5pOZz7mPb1pJhS1AO0FXBqivBqxbotmOQT4ogrEqjV8GL5LsY0SmEWpCJvtFpgiyEMZDM1ISrkhGykGp51UbpZENJV39pfxpQJwjYSXAz/EyUnwTBtWbPLQHPvzAM0ZKl2qDOm9oj3+O+kXdZefami/AiYAQPRpblsXQ3U=
+  app: staging-aliss
+  on:
+    repo: staging
+  before_deploy:
+    - curl -X POST -H 'Content-type: application/json' --data '{"text":"Now deploying on Heroku"}' $NOTIFY_WEBHOOK
+  after_deploy:
+    - curl -X POST -H 'Content-type: application/json' --data '{"text":"Successfully deplooyed on Heroku"}' $NOTIFY_WEBHOOK
+notifications:
+  email: false
+  slack:
+    secure: IFSqAotwjmkfFmLLYw0pvjkP6/5t9qNuO6Hy71IUQA/Bao/4iTTGE217JiIvSZiFFBFvhCWdHY0zpNYlQNg7m1c/hw5Frs1I920oFZLvfCmxI7qFESWqc3WcEQo1FXi+cPapyIPLHihLJ+PfncSZgRiBXUo1zUqXG/iFQYt6UM5+6X6Di8XVqsyCbOYUDBQrdFgrIef6sHlz7SjETbzoLlt7voMD6rrNgtCWrnoSG/1dp6e+C+NkQA6zpRnUfvrrZYWmIGfjE9OltQ1YGZZ7UuloPCp1nzT7ZlIzC75UycZMi8uEqsHdmHzeF1oH/LmElyUJISUyh1qA02j5cQmoYznzJoTKp0t5kbB1GAX3U4okzTtrUTokh7elUnyQGisLpCkyEC4VwuCzcrxWcJBwG/rn2VnRuTCZcMd5tvhjHPBg/Y2c8JtLsHcd/lX0jZ6lVEyiOOYk70dllAH+dmFY5cv9//+bZ8rBLpynbpCD/rBaTJSMFCN/9c9IXQWa1HBOclyHLc/ooQFa5JpzgD3IUb2J6wSMWXAuvA9WAXVGv5XH8cxT00Zl7kaDWJZ8oDv+HmDgsKiliViOuKOXiR9A317XWgtfU+0IpyCZi+XcDKK8mwadquq0Au6oiv0rIIYa7Qwe+g4MGAdARf5wjpPQd1PbaKiEckRRoNDEvR0VfAo=
