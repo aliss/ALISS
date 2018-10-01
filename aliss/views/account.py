@@ -244,8 +244,8 @@ class AccountRecommendationListAddServiceView(LoginRequiredMixin, View):
             url = next
         else:
             url = reverse(
-                'service_detail',
-                kwargs={'pk': service_pk}
+                'service_detail_slug',
+                kwargs={'slug': service.slug}
             )
 
         messages.success(
