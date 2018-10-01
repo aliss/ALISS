@@ -510,7 +510,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
                 digest_category=digest_object.category,)
             r = digest_object.retrieve(comparison_date)[:3]
             if not r:
-                message += '\n\n No updated services for this Digiest Selection'
+                message += '\n\n No updated services for this Digest Selection'
             else:
                 for service in r:
                     message += '\n\n {service_name} \n\n {service_updated_on}'.format(
