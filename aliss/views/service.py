@@ -97,8 +97,6 @@ class ServiceUpdateView(
         self.object.save()
         form.save_m2m()
 
-        index_service(self.object)
-
         messages.success(
             self.request,
             '{name} has been successfully updated.'.format(
