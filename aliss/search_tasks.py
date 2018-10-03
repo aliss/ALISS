@@ -5,7 +5,7 @@ from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 
 from aliss.models import Organisation, Service
-from search import _get_connection, service_to_body, service_mapping
+from aliss.search import _get_connection, service_to_body, service_mapping
 
 def create_index():
     connection = _get_connection()
