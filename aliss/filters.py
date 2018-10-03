@@ -19,7 +19,7 @@ class OrganisationFilter(django_filters.FilterSet):
         if (len(value_arr) > 1) and (value_arr[0] in stopwords):
             del value_arr[0]
         value = " ".join(value_arr)
-        reg_value = '('+regexsub('s$', "'?s?", value).replace("s ", "'?s? ")+')'
+        reg_value = '('+regexsub('s$', "'?s?", value).replace(" ", " ?").replace("s ", "'?s? ")+')'
 
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
         stripped = value.translate(puncstripper)
