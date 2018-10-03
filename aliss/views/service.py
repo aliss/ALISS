@@ -16,7 +16,6 @@ from braces.views import (
     UserPassesTestMixin
 )
 
-from aliss.search import index_service, delete_service
 from aliss.models import Service, ServiceProblem, ServiceArea, Organisation, RecommendedServiceList
 from aliss.forms import (
     ServiceForm,
@@ -52,8 +51,6 @@ class ServiceCreateView(
         self.object.created_by = self.request.user
         self.object.save()
         form.save_m2m()
-
-        index_service(self.object)
 
         messages.success(
             self.request,
@@ -146,9 +143,6 @@ class ServiceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         success_url = self.get_success_url()
-
-        # Delete from search index
-        delete_service(self.object.pk)
         self.object.delete()
 
         messages.success(
