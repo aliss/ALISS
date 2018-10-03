@@ -312,3 +312,10 @@ def filter_by_location_type(queryset, type):
         ])
     else:
         return queryset
+
+
+def get_service(queryset, service_id):
+    return queryset.query(Q({
+        "term" : { "id" : service_id }
+    })).execute()
+    
