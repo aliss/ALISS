@@ -35,9 +35,13 @@ class ServiceTestCase(TestCase):
         return Search(index='search', doc_type='service')
 
     def test_org_delete_cascades(self):
+        queryset = self.es_connection()
+        service_id = self.service.id
         Organisation.objects.get(name="TestOrg").delete()
         s = Service.objects.filter(name="My First Service").exists()
         self.assertFalse(s)
+        result = get_service(queryset, service_id)
+        self.assertEqual(len(result), 0)
 
     def test_new_service_is_indexed(self):
         queryset = self.es_connection()
@@ -46,9 +50,9 @@ class ServiceTestCase(TestCase):
 
     def test_deleted_service_is_not_in_index(self):
         queryset = self.es_connection()
-        serivce_id = self.service.id
+        service_id = self.service.id
         self.service.delete()
-        result = get_service(queryset, serivce_id)
+        result = get_service(queryset, service_id)
         self.assertEqual(len(result), 0)
 
     def test_is_edited_by(self):

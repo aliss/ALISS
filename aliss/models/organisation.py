@@ -60,6 +60,11 @@ class Organisation(models.Model):
         self.generate_slug()
         super(Organisation, self).save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        for s in self.services.all():
+            s.remove_from_index()
+        super(Organisation, self).delete(*args, **kwargs)
+
     @property
     def is_claimed(self):
         return not (self.claimed_by == None)
