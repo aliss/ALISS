@@ -42,6 +42,7 @@ class ServiceForm(forms.ModelForm):
         self.fields['locations'].queryset = Location.objects.filter(organisation=organisation.pk)
         self.fields['service_areas'].choices = service_areas_as_choices()
         self.instance.updated_by = updated_by_user
+        self.instance.organisation = organisation
         if created_by_user:
             self.instance.created_by = created_by_user
 
