@@ -66,3 +66,12 @@ class ServiceTestCase(TestCase):
         self.service.save()
         result = get_service(queryset, self.service.id)[0]
         self.assertEqual(result['name'], self.service.name)
+
+    def test_adding_category_triggers_reindex(self):
+        c = Category.objects.create(name='Children', slug='children')
+        self.service.categories.add(c)
+        self.service.save()
+        queryset = Fixtures.es_connection()
+        result = get_service(queryset, self.service.id)[0]
+        self.assertEqual(result['categories'][0]['name'], 'Children')
+
