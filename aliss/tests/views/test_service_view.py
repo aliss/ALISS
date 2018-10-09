@@ -29,6 +29,18 @@ class ServiceViewTestCase(TestCase):
         response = self.client.get(x)
         self.assertEqual(response.status_code, 200)
 
+    def test_service_valid_create(self):
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_create', kwargs={'pk':self.organisation.pk}),{
+            'name': 'A whole new service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk]
+        })
+        queryset = Service.objects.filter(name='A whole new service')
+        self.assertEqual(queryset.count(), 1)
+        self.assertEqual(response.status_code, 302)
+
     def test_service_valid_update(self):
         service = Fixtures.create_service(self.organisation)
         category = Category.objects.first()
