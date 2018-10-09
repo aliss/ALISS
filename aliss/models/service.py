@@ -122,8 +122,12 @@ class Service(models.Model):
 
     def save(self, *args, **kwargs):
         self.generate_slug()
-        super(Service, self).save(*args, **kwargs)
-        self.add_to_index()
+        do_index = True
+        if 'skip_index' in kwargs:
+            do_index = False; kwargs.pop('skip_index')
+        super(Service, self).save(*args)
+        if do_index:
+            self.add_to_index()
 
     def delete(self, *args, **kwargs):
         self.remove_from_index()

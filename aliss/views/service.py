@@ -42,15 +42,15 @@ class ServiceCreateView(
 
     def get_form_kwargs(self):
         kwargs = super(ServiceCreateView, self).get_form_kwargs()
-        kwargs.update({'organisation': self.organisation})
+        kwargs.update({
+            'organisation': self.get_organisation(),
+            'updated_by': self.request.user,
+            'created_by': self.request.user
+        })
         return kwargs
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.organisation = self.organisation
-        self.object.created_by = self.request.user
-        self.object.save()
-        form.save_m2m()
+        self.object = form.save()
 
         messages.success(
             self.request,
@@ -82,7 +82,10 @@ class ServiceUpdateView(
 
     def get_form_kwargs(self):
         kwargs = super(ServiceUpdateView, self).get_form_kwargs()
-        kwargs.update({'organisation': self.object.organisation})
+        kwargs.update({
+            'organisation': self.object.organisation,
+            'updated_by': self.request.user
+        })
         return kwargs
 
     def get_success_url(self):
@@ -92,10 +95,7 @@ class ServiceUpdateView(
         )
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.updated_by = self.request.user
-        self.object.save()
-        form.save_m2m()
+        self.object = form.save()
 
         messages.success(
             self.request,
@@ -221,8 +221,7 @@ class ServiceProblemUpdateView(StaffuserRequiredMixin, UpdateView):
         )
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.save()
+        self.object = form.save()
 
         if self.object.status == 1:
             self.send_resolved_email(self.object)

@@ -75,3 +75,7 @@ class ServiceTestCase(TestCase):
         result = get_service(queryset, self.service.id)[0]
         self.assertEqual(result['categories'][0]['name'], 'Children')
 
+    def test_service_exists(self):
+        s = Service.objects.get(name="My First Service")
+        s.save(kwargs={'skip_index': True})
+        self.assertTrue(isinstance(s, Service))
