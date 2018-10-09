@@ -29,10 +29,12 @@ class CategoryTestCase(TestCase):
         self.assertTrue(is_reindexed)
 
     def test_service_not_in_removed_category(self):
+        queryset = Fixtures.es_connection()
         c = Category.objects.get(slug='food-nutrition')
         self.service.categories.add(c)
         self.service.save()
+        indexed_service = get_service(queryset, self.service.id)[0]
+        self.assertEqual(len(indexed_service['categories']), 1)
         c.delete()
-        queryset = Fixtures.es_connection()
         indexed_service = get_service(queryset, self.service.id)[0]
         self.assertEqual(len(indexed_service['categories']), 0)
