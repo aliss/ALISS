@@ -43,7 +43,7 @@ class ServiceCreateView(
     def get_form_kwargs(self):
         kwargs = super(ServiceCreateView, self).get_form_kwargs()
         kwargs.update({
-            'organisation': self.get_organisation(),
+            'organisation': self.organisation,
             'updated_by': self.request.user,
             'created_by': self.request.user
         })
