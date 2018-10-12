@@ -15,11 +15,9 @@ class DigestTestCase(TestCase):
         # Setup for basic DigestSelection creation and deletion
         self.user = ALISSUser.objects.create_user("random@random.org", "passwurd", name="Mike")
         self.postcode = Postcode.objects.get(pk="G2 4AA")
-
         self.category = Category.objects.get(slug="conditions")
 
         category2 = Category.objects.get(slug="housing-and-homelessness")
-
 
         # Setup for checking the retieve method in the model works
         t = ALISSUser.objects.create(name="Mr Test", email="tester@aliss.org")
