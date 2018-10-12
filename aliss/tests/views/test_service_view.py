@@ -61,3 +61,6 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(service.name, 'an updated service')
         self.assertEqual(service.updated_by, self.user)
         self.assertEqual(response.status_code, 302)
+
+    def tearDown(self):
+        Service.objects.get(name="My First Service").delete()

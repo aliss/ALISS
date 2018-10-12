@@ -22,3 +22,6 @@ class SearchViewTestCase(TestCase):
         response = self.client.get('/search/?postcode=G2+4AA')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Help &amp; support in <span class="postcode">G2 4AA</span>')
+
+    def tearDown(self):
+        Service.objects.get(name="My First Service").delete()
