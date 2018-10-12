@@ -42,28 +42,24 @@ class DigestTestCase(TestCase):
         service1.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
         service1.categories.add(self.category)
         service1.locations.add(l)
-        index_service(service1)
         service1.save()
 
         service2 = Service.objects.create(name="My Second Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
         service2.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
         service2.categories.add(self.category)
         service2.locations.add(l)
-        index_service(service2)
         service2.save()
 
         service3 = Service.objects.create(name="My Third Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
         service3.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
         service3.categories.add(self.category)
         service3.locations.add(l)
-        index_service(service3)
         service3.save()
 
         service4 = Service.objects.create(name="My Fourth Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
         service4.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
         service4.categories.add(category2)
         service4.locations.add(l)
-        index_service(service4)
         service4.save()
 
         # Need to create string comparison datetime
@@ -118,7 +114,7 @@ class DigestTestCase(TestCase):
         self.assertTrue(DigestSelection.objects.all().count() < 1)
 
     def tearDown(self):
-        delete_service(Service.objects.get(name="My First Service").id)
-        delete_service(Service.objects.get(name="My Second Service").id)
-        delete_service(Service.objects.get(name="My Third Service").id)
-        delete_service(Service.objects.get(name="My Fourth Service").id)
+        Service.objects.get(name="My First Service").delete()
+        Service.objects.get(name="My Second Service").delete()
+        Service.objects.get(name="My Third Service").delete()
+        Service.objects.get(name="My Fourth Service").delete()
