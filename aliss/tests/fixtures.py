@@ -1,6 +1,16 @@
 from aliss.models import *
+from django.test import TestCase
+from django.conf import settings
+from elasticsearch_dsl import Search
+from elasticsearch_dsl.connections import connections
 
-class Fixtures():
+class Fixtures(TestCase):
+
+    @classmethod
+    def es_connection(self):
+        connections.create_connection(
+          hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+        return Search(index='search', doc_type='service')
 
     @classmethod
     def create_users(self):
@@ -32,6 +42,7 @@ class Fixtures():
           description="A handy service",
           organisation=o, created_by=o.created_by, updated_by=o.updated_by
         )
+
         s.locations.add(l)
         s.save()
         return s

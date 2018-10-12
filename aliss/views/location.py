@@ -10,7 +10,6 @@ from braces.views import (
     UserPassesTestMixin
 )
 
-from aliss.search import index_service
 from aliss.models import Location, Organisation
 from aliss.forms import LocationForm
 from aliss.views import OrganisationMixin, ProgressMixin
@@ -41,6 +40,10 @@ class LocationCreateView(
         self.object.organisation = self.organisation
         self.object.created_by = self.request.user
         self.object.save()
+
+        services = self.object.services.all()
+        for service in services:
+            service.add_to_index()
 
         if self.request.is_ajax():
             return JsonResponse({
@@ -77,6 +80,10 @@ class LocationUpdateView(
         self.object = form.save(commit=False)
         self.object.updated_by = self.request.user
         self.object.save()
+
+        services = self.object.services.all()
+        for service in services:
+            service.add_to_index()
 
         messages.success(
             self.request,
@@ -120,7 +127,7 @@ class LocationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         self.object.delete()
 
         for service in services:
-            index_service(service)
+            service.add_to_index()
 
         messages.success(
             self.request,

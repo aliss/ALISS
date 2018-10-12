@@ -25,3 +25,14 @@ class Category(models.Model):
     @property
     def subcategories(self):
         return Category.objects.filter(parent=self)
+
+    def save(self, *args, **kwargs):
+        super(Category, self).save(*args, **kwargs)
+        for s in self.services.all():
+            s.add_to_index()
+
+    def delete(self, *args, **kwargs):
+        services = list(self.services.all())
+        super(Category, self).delete(*args, **kwargs)
+        for s in services:
+            s.add_to_index()
