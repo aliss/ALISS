@@ -97,8 +97,6 @@ class DigestTestCase(TestCase):
         # Check that the list of services which do not have "conditions" has a length of zero
         self.assertTrue(service_without_category_conditions.count() == 0)
 
-
-
     def test_can_create_digest_without_category(self):
         d = DigestSelection.objects.create(user=self.user, postcode=self.postcode)
         self.assertTrue(isinstance(d,DigestSelection))
@@ -115,7 +113,7 @@ class DigestTestCase(TestCase):
         Category.objects.get(slug="conditions").delete()
         self.assertTrue(DigestSelection.objects.all().count() < 1)
 
-    def test_postcode_delte_cascades(self):
+    def test_postcode_delete_cascades(self):
         d = DigestSelection.objects.create(user=self.user, postcode=self.postcode, category=self.category)
         self.assertTrue(isinstance(d,DigestSelection))
         Postcode.objects.get(pk="G2 4AA").delete()
