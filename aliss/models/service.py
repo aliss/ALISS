@@ -5,30 +5,9 @@ from django.urls import reverse
 from django.dispatch import receiver
 from django.utils.text import slugify
 
-
-class ServiceArea(models.Model):
-    COUNTRY = 0
-    REGION = 1
-    LOCAL_AUTHORITY = 2
-    HEALTH_BOARD = 3
-    INTEGRATION_AUTHORITY = 4
-
-    AREA_TYPES = (
-        (COUNTRY, "Country"),
-        (REGION, "Region"),
-        (LOCAL_AUTHORITY, "Local Authority"),
-        (HEALTH_BOARD, "Health Board"),
-        (INTEGRATION_AUTHORITY, "Integration Authority (HSCP)")
-    )
-
-    name = models.CharField(max_length=100)
-    alternative_name = models.CharField(max_length=100, blank=True)
-    code = models.CharField(max_length=9)
-    type = models.IntegerField(choices=AREA_TYPES, blank=True)
-
-    def __str__(self):
-        return self.name
-
+from aliss.models import ServiceArea
+from elasticsearch_dsl import Search
+from aliss.search import get_connection, service_to_body
 
 class ServiceProblem(models.Model):
     UNRESOLVED = 0
@@ -129,9 +108,30 @@ class Service(models.Model):
             return self.slug
         return False
 
+    def add_to_index(self):
+        connection = get_connection()
+        return connection.index(index='search', doc_type='service',
+            id=self.id, body=service_to_body(self), refresh=True
+        )
+
+    def remove_from_index(self):
+        connection = get_connection()
+        return connection.delete(index='search', doc_type='service',
+            id=self.id, refresh=True, ignore=404
+        )
+
     def save(self, *args, **kwargs):
         self.generate_slug()
-        super(Service, self).save(*args, **kwargs)
+        do_index = True
+        if 'skip_index' in kwargs:
+            do_index = False; kwargs.pop('skip_index')
+        super(Service, self).save(*args)
+        if do_index:
+            self.add_to_index()
+
+    def delete(self, *args, **kwargs):
+        self.remove_from_index()
+        super(Service, self).delete(*args, **kwargs)
 
     @property
     def is_claimed(self):

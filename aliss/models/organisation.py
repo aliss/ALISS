@@ -59,6 +59,13 @@ class Organisation(models.Model):
     def save(self, *args, **kwargs):
         self.generate_slug()
         super(Organisation, self).save(*args, **kwargs)
+        for s in self.services.all():
+            s.add_to_index()
+
+    def delete(self, *args, **kwargs):
+        for s in self.services.all():
+            s.remove_from_index()
+        super(Organisation, self).delete(*args, **kwargs)
 
     @property
     def is_claimed(self):

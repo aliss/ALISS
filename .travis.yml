@@ -13,7 +13,7 @@ install:
 before_script:
 - sleep 10
 script:
-- python manage.py shell --command="from aliss.search import create_index; create_index()"
+- python manage.py shell --command="from aliss.search_tasks import create_index; create_index()"
 - python manage.py collectstatic
 - python manage.py test
 deploy:
@@ -23,10 +23,6 @@ deploy:
   app: staging-aliss
   on:
     repo: staging
-  before_deploy:
-    - curl -X POST -H 'Content-type: application/json' --data '{"text":"Now deploying on Heroku"}' $NOTIFY_WEBHOOK
-  after_deploy:
-    - curl -X POST -H 'Content-type: application/json' --data '{"text":"Successfully deplooyed on Heroku"}' $NOTIFY_WEBHOOK
 notifications:
   email: false
   slack:

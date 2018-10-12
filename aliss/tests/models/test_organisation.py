@@ -1,11 +1,13 @@
 from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Service, Location
 from aliss.tests.fixtures import Fixtures
+from aliss.search import (get_service)
 
 class OrganisationTestCase(TestCase):
     def setUp(self):
         t,u,c,s = Fixtures.create_users()
-        o = Fixtures.create_organisation(t, u, c)
+        self.org = Fixtures.create_organisation(t, u, c)
+        self.service = Fixtures.create_service(self.org)
 
     def test_org_exists(self):
         o = Organisation.objects.get(name="TestOrg")
@@ -28,3 +30,10 @@ class OrganisationTestCase(TestCase):
         self.assertTrue(o.is_edited_by(editor))
         self.assertTrue(o.is_edited_by(rep))
         self.assertFalse(o.is_edited_by(punter))
+
+    def test_rename_is_reflected_in_index(self):
+        self.org.name = "Renamed Test Org"
+        self.org.save()
+        queryset = Fixtures.es_connection()
+        indexed_service = get_service(queryset, self.service.id)[0]
+        self.assertEqual(indexed_service['organisation']['name'], self.org.name)

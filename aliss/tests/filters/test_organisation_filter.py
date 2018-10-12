@@ -22,6 +22,12 @@ class OrganisationFilterTestCase(TestCase):
         self.assertEqual(exists, True)
         self.assertEqual(f.qs.count(), 2)
 
+    def test_space_query(self):
+        f = OrganisationFilter({ "q": "te st" })
+        exists = f.qs.filter(pk=self.organisation.pk).exists()
+        self.assertEqual(exists, True)
+        self.assertEqual(f.qs.count(), 2)
+
     def test_stripping_query(self):
         f = OrganisationFilter({ "q": "tes't" })
         exists = f.qs.filter(pk=self.organisation.pk).exists()
