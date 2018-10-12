@@ -37,3 +37,7 @@ class OrganisationTestCase(TestCase):
         queryset = Fixtures.es_connection()
         indexed_service = get_service(queryset, self.service.id)[0]
         self.assertEqual(indexed_service['organisation']['name'], self.org.name)
+
+    def tearDown(self):
+        for service in Service.objects.filter(name="My First Service"):
+            service.delete()
