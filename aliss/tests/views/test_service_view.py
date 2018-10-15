@@ -63,4 +63,4 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def tearDown(self):
-        Service.objects.get(name="My First Service").delete()
+        Service.objects.filter(name="My First Service").delete()
