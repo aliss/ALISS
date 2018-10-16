@@ -82,7 +82,14 @@
 
     {% block base_js %}
       <script>
-        $(document).ready(function(){$('.top-hat').append("<h1>bla bla bla</h1>")})
+        $(document).ready(function(){
+          locationURL = $(location).attr('href')
+          console.log("hit")
+          if (locationURL.includes('search')){
+            localStorage.setItem('searchURL',locationURL)
+            console.log(locationURL)
+          }
+        })
       </script>
     {% endblock%}
 
