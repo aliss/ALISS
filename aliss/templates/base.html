@@ -85,7 +85,7 @@
         $(document).ready(function(){
           locationURL = $(location).attr('href')
           console.log("hit")
-          if (locationURL.includes('search')){
+          if (locationURL.includes('search' && 'postcode')){
             localStorage.setItem('searchURL',locationURL)
             console.log(locationURL)
           }
@@ -95,5 +95,6 @@
 
     {% block before_body_close %}
     {% endblock %}
+
 </body>
 </html>
