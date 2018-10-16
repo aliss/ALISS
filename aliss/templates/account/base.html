@@ -10,6 +10,7 @@
                     <a href="{% url 'account_update' %}" class="button primary">Edit Account Info</a>
                 </div>
                 {% if request.user.postcode %}<p>Your postcode: <strong>{{ request.user.postcode }}</strong></p>{% endif %}
+                <p id="your_last_search" style="display:none">Your last search: <strong><a id="last_search_link"></a></strong></p>
             </div>
         </div>
     </section>
@@ -60,3 +61,17 @@
     </section>
 </main>
 {% endblock %}
+
+
+{% block before_body_close %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      searchURL = localStorage.getItem('searchURL')
+      if (searchURL != null){
+        $('#last_search_link').attr('href', searchURL)
+        $('#last_search_link').text('test test test')
+        $('#your_last_search').show()
+      }
+    })
+  </script>
+{% endblock%}
