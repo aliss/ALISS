@@ -95,6 +95,14 @@
                                 Claim this organisation
                             </a>
                         {% endif %}
+
+                        <a id="back_to_seach" class="icon-link" style = "display:none">
+                          <span class="icon">
+                            <i class="fas fa-arrow-left"></i>
+                          </span>
+                          Back To Last Search
+                        </a>
+                        
                     </div>
                 </div>
                 {% if not object.published %}
@@ -177,3 +185,14 @@
 }
 </script>
 {% endblock %}
+
+{% block before_body_close %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      searchURL = localStorage.getItem('searchURL')
+      if (searchURL != null){
+        $('#back_to_seach').attr('href', searchURL).show()
+      }
+    })
+  </script>
+{% endblock%}
