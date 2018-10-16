@@ -84,10 +84,8 @@
       <script>
         $(document).ready(function(){
           locationURL = $(location).attr('href')
-          console.log("hit")
           if (locationURL.includes('search' && 'postcode')){
             localStorage.setItem('searchURL',locationURL)
-            console.log(locationURL)
           }
         })
       </script>
