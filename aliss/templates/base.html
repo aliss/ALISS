@@ -79,6 +79,13 @@
 
     <!-- Javacript -->
     <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+
+    {% block base_js %}
+      <script>
+        $(document).ready(function(){$('.top-hat').append("<h1>bla bla bla</h1>")})
+      </script>
+    {% endblock%}
+
     {% block before_body_close %}
     {% endblock %}
 </body>
