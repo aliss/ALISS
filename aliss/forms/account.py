@@ -73,11 +73,6 @@ class SignupForm(forms.ModelForm):
         password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
         return password2
 
-    # def clean_postcode(self):
-    #     postcode = self.cleaned_data.get("postcode")
-    #     return postcode
-
-
 class AccountUpdateForm(forms.ModelForm):
     class Meta:
         model = ALISSUser
