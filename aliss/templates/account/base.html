@@ -71,21 +71,27 @@
       if (searchURL != null){
         query_section = searchURL.split('?')
         query_section = query_section[1]
-        query_section = query_section.replace("+", " ")
-        query_section = query_section.replace("-", " ")
+        console.log(query_section)
+        query_section = query_section.replace(/\+/gi, " ")
+        query_section = query_section.replace(/-/gi, " ")
         query_section = query_section.split('&')
         console.log(query_section)
         query_section.every(function(query){
           query_pair = query.split("=")
           if (query_pair[1] != "") {
             hash[query_pair[0]] = query_pair[1][0].toUpperCase() + query_pair[1].slice(1)
-            console.log(query_pair)
-            console.log(hash)
           }
           return hash
         })
+        last_search_string = hash['postcode']
+        if (hash['category']){
+          last_search_string = last_search_string + " and " + hash['category']
+        }
+        if (hash['q']){
+          last_search_string = last_search_string + " for " + hash['q']
+        }
       $('#last_search_link').attr('href', searchURL)
-      $('#last_search_link').text(hash['postcode'] + " and " + hash['category'] + " for "+ hash['q'])
+      $('#last_search_link').text(last_search_string)
       $('#your_last_search').show()
       }
     })
