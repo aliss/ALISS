@@ -71,24 +71,40 @@
       if (searchURL != null){
         query_section = searchURL.split('?')
         query_section = query_section[1]
-        console.log(query_section)
         query_section = query_section.replace(/\+/gi, " ")
         query_section = query_section.replace(/-/gi, " ")
         query_section = query_section.split('&')
-        console.log(query_section)
         query_section.every(function(query){
           query_pair = query.split("=")
           if (query_pair[1] != "") {
+
+            if (query_pair[1].includes(" ")){
+              query_pair[1] = query_pair[1].trim()
+              uncapped_words = query_pair[1].split(" ")
+              capped_words = uncapped_words.map(function(word){
+                if (word == "and") {
+                  return word
+                }
+                else {
+                word =  word[0].toUpperCase() + word.slice(1)
+                return word
+                }
+              })
+              capped_words = capped_words.join(" ")
+              hash[query_pair[0]] = capped_words
+            }
+          else {
             hash[query_pair[0]] = query_pair[1][0].toUpperCase() + query_pair[1].slice(1)
-          }
+            }
+        }
           return hash
         })
         last_search_string = hash['postcode']
         if (hash['category']){
-          last_search_string = last_search_string + " and " + hash['category']
+          last_search_string = last_search_string + " and \"" + hash['category'] + "\""
         }
         if (hash['q']){
-          last_search_string = last_search_string + " for " + hash['q']
+          last_search_string = last_search_string + " for \"" + hash['q'] + "\""
         }
       $('#last_search_link').attr('href', searchURL)
       $('#last_search_link').text(last_search_string)
