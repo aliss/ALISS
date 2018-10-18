@@ -9,39 +9,53 @@
                     <h1>Sign up</h1>
                     <p>You have been signed up and logged in successfully!</p>
 
-                    <a href="{% url 'search' %}" class="icon-link">
-                      <span class="icon">
-                          <i class="fas fa-search"></i>
-                      </span>
-                      Start a New Search
-                    </a>
-
-                    <a id="back_to_seach" class="icon-link" style = "display:none">
-                      <span class="icon">
-                        <i class="fas fa-arrow-left"></i>
-                      </span>
-                      Back To Last Search
-                    </a>
-
-                    <a href="{% url 'account_saved_services' %}" id="back_to_seach" class="icon-link">
-                      <span class="icon">
-                        <i class="fas fa-home"></i>
-                      </span>
-                      Go to My Account
-                    </a>
-
-                    <a href="{% url 'organisation_create' %}" class="button primary">Add an Organisation</a>
-                    </br>
-
                     <div class="info-box small toggled" id="service_actions">
                         <div class="heading">
-                            <h4 id="service_actions_toggle" class="toggle-heading">Add a Service</h4>
+                            <h4 id="service_actions_toggle" class="toggle-heading">Get Started</h4>
                         </div>
+
                         <div class="actions toggle-content">
-                          <p>You will first need to add the organisation that provides service</p>
-                          </div>
+
+                          <a href="{% url 'search' %}" class="icon-link">
+                            <span class="icon">
+                              <i class="fas fa-search"></i>
+                            </span>
+                            Start a New Search
+                          </a>
+
+                          <a id="back_to_seach" class="icon-link" style = "display:none">
+                            <span class="icon">
+                              <i class="fas fa-arrow-left"></i>
+                            </span>
+                            Back To Last Search
+                          </a>
+
+                          <a href="{% url 'account_saved_services' %}" id="back_to_seach" class="icon-link">
+                            <span class="icon">
+                              <i class="fas fa-home"></i>
+                            </span>
+                            Go to My Account
+                          </a>
+
+                          <a href="{% url 'organisation_create' %}" class="icon-link">
+                            <span class="icon">
+                              <i class="far fa-handshake"></i>
+                            </span>
+                            Add an Organisation
+                          </a>
+
+                          <a class="icon-link" id="add_service">
+                            <span class="icon">
+                              <i class="far fa-paper-plane"></i>
+                            </span>
+                            Add a Service
+                          </a>
+
+                          <p id="add_explanation" style="display:none">
+                            You will first need to <a href="{% url 'organisation_create' %}">add the organisation</a> that provides the service.
+                          </p>
+
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -56,6 +70,10 @@
       if (searchURL != null){
         $('#back_to_seach').attr('href', searchURL).show()
       }
+
+      $('#add_service').on('click', function(){
+        $('#add_explanation').show()
+      })
     })
   </script>
 {% endblock%}
