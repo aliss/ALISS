@@ -59,7 +59,8 @@ class Command(BaseCommand):
 
         users = ALISSUser.objects.all()
         for user in users:
-            send_digest_email(user)
+            if DigestSelection.objects.filter(user=user):
+                send_digest_email(user)
 
         self.stdout.write(
             self.style.SUCCESS('Successfully sent Digest Emails')
