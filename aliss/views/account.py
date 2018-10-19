@@ -488,11 +488,11 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         for digest_object in self.request.user.digest_selections.all():
             r = digest_object.retrieve(comparison_date)
             context['selected_updated'].append({"values": r[:3], "Postcode": digest_object.postcode, "Category": digest_object.category, "pk":digest_object.pk})
-            self.send_digest_email()
+            send_digest_email(self.request.user)
         return context
 
     #Generate an email to be sent to the user with the updated services in the Digest Selection
-    def send_digest_email(self):
+    def send_digest_email(user):
         #Need to setup the comparison date:
         utc = pytz.UTC
         current_date = datetime.now()
@@ -504,7 +504,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         # Focus on the situation where Digest Selections have been created and have updated services.
         message = "\n\n-----\n\n\nYour Weekly Digest Selection\n\n"
 
-        for digest_object in self.request.user.digest_selections.all():
+        for digest_object in user.digest_selections.all():
             message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} updated services:".format(
                 digest_postcode=digest_object.postcode,
                 digest_category=digest_object.category,)
@@ -522,7 +522,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
             'Subject: Test Test Test',
             message,
             settings.DEFAULT_FROM_EMAIL,
-            [self.request.user.email],
+            [user.email],
             fail_silently=True,
             )
 
