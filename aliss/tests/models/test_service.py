@@ -79,3 +79,7 @@ class ServiceTestCase(TestCase):
         s = Service.objects.get(name="My First Service")
         s.save(kwargs={'skip_index': True})
         self.assertTrue(isinstance(s, Service))
+
+    def tearDown(self):
+        for service in Service.objects.filter(name="My First Service"):
+            service.delete()
