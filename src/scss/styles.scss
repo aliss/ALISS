@@ -1,4 +1,3 @@
-
 /*  ALISS
     ================================
     Habanero + Braw Software
@@ -66,9 +65,8 @@
 @import "partials/landing-page";
 
 
-.svg-sprite {
-	display: none;
-}
+.svg-sprite { display: none; }
+
 .vh {
   overflow: hidden;
   position: absolute;
@@ -79,9 +77,8 @@
   padding: 0;
   border: 0;
 }
-.select-full, .select-full-blank {
-  cursor: pointer;
-}
+
+.select-full, .select-full-blank { cursor: pointer; }
 
 .clear { clear:both; }
 .no-margin,
@@ -124,30 +121,20 @@ fieldset#add-location-fieldset {
     font-weight: 700;
   }
 
-  legend::before { 
-    content: "+ ";
-  }
+  legend::before { content: "+ "; }
 
-  button {
-    float:right; margin-bottom:0.9em;
-  }
+  button { float:right; margin-bottom:0.9em; }
 }
 
 fieldset#add-location-fieldset.active {
   border: 1px solid silver;
-  legend::before { 
-    content: "- ";
-  }
+  legend::before { content: "- "; }
 }
 
-div.add-location-form {
-  padding:3%;
-}
+div.add-location-form { padding:3%; }
 
 div.actions {
-  a.improve {
-    float:none;
-  }
+  a.improve { float:none; }
 }
 
 a.improve {
@@ -195,6 +182,4 @@ input.picker__input {
   border: none;
 }
 
-input.picker__input:hover {
-  cursor: pointer;
-}
+input.picker__input:hover { cursor: pointer; }
