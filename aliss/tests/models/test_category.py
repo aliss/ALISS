@@ -38,3 +38,6 @@ class CategoryTestCase(TestCase):
         c.delete()
         indexed_service = get_service(queryset, self.service.id)[0]
         self.assertEqual(len(indexed_service['categories']), 0)
+
+    def tearDown(self):
+        Service.objects.get(name="My First Service").delete()
