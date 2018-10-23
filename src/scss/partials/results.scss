@@ -1446,6 +1446,7 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
   @include fas(plus);
   position: relative;
   padding-right: 1em;
+  color: $primary;
   &.active {
     @include fas(minus);
     color: $medium-gray;
