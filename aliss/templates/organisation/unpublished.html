@@ -65,7 +65,7 @@
                                         {{ organisation.created_on }}
                                     </td>
                                     <td>
-                                        <a href="{% url 'account_detail' pk=user.pk %}">{{ organisation.created_by }}</a>
+                                        <a href="{% url 'account_detail' pk=organisation.created_by.pk %}">{{ organisation.created_by }}</a>
                                     </td>
                                     <td class="options">
                                         <form action="{% url 'organisation_publish' pk=organisation.pk %}" method="post">
