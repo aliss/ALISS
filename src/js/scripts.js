@@ -230,9 +230,15 @@ $(document).ready(() => {
         $("#menu_toggle").removeClass('active');
         $(".category-selector .cells > ul > li").removeClass('active');
     });
+
     $('.navigation a, .category-selector .cells > ul > li a, .category-selector .cells > ul > li span').click(function(e){
         e.stopPropagation();
     });
+
+    $('.category-selector a.active-cat').click(function(e){
+        e.preventDefault();
+    });
+
     $("#menu_toggle").click(function(e) {
         e.stopPropagation();
         $(this).toggleClass('active');
@@ -306,7 +312,7 @@ $(document).ready(() => {
     });
 
     // Cat Menu
-    $(".category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
+    $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
         var parent = $(this).parent('li');
         parent.toggleClass('active');
     });

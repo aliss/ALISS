@@ -7,7 +7,7 @@ from aliss.models import *
 class v3SearchViewTestCase(TestCase):
 
     def setUp(self):
-      Fixtures.create()
+      self.service = Fixtures.create()
       self.client = Client()
 
     def test_get(self):
@@ -16,3 +16,8 @@ class v3SearchViewTestCase(TestCase):
         self.assertEqual(response['Content-Type'], 'application/json')
         self.assertTrue('count' in response.data)
         self.assertTrue('results' in response.data)
+        service_result = response.data['results'][0]
+        self.assertTrue('url' in service_result)
+
+    def tearDown(self):
+        self.service.delete()

@@ -94,19 +94,27 @@ class SearchSerializer(serializers.Serializer):
 
 class v4OrganisationSerializer(OrganisationSerializer):
     aliss_url = serializers.SerializerMethodField()
+    permalink = serializers.SerializerMethodField()
     is_claimed = serializers.BooleanField()
     slug = serializers.CharField()
 
     def get_aliss_url(self, obj):
+        return self.context['request'].build_absolute_uri(reverse('organisation_detail_slug', args=[obj.slug]))
+
+    def get_permalink(self, obj):
         return self.context['request'].build_absolute_uri(reverse('organisation_detail', args=[obj.id]))
 
 
 class v4SearchSerializer(SearchSerializer):
     aliss_url = serializers.SerializerMethodField()
+    permalink = serializers.SerializerMethodField()
     organisation = v4OrganisationSerializer()
     last_updated = serializers.DateTimeField(source='updated_on')
 
     def get_aliss_url(self, obj):
+        return self.context['request'].build_absolute_uri(reverse('service_detail_slug', args=[obj.slug]))
+
+    def get_permalink(self, obj):
         return self.context['request'].build_absolute_uri(reverse('service_detail', args=[obj.id]))
 
     def get_last_updated(self, obj):

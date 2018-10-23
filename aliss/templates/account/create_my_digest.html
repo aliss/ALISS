@@ -1,0 +1,54 @@
+{% extends "account/base.html" %}
+{% load aliss %}
+
+{% block content %}
+{% if form.errors %}
+<div class="f-row">
+    <fieldset class="errors">
+    <legend>Form invalid</legend>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <ul class="alert alert-danger">
+                    <li>{{ field.name|title }}: {{ error|escape }}</li>
+                </ul>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <ul class="alert alert-danger">
+                <li>{{ error|escape }}</li>
+            </ul>
+        {% endfor %}
+    </fieldset>
+</div>
+{% endif %}
+<div class="form">
+            <form method="post" action="{% url 'account_create_my_digest' %}">
+                {% csrf_token %}
+                <label for="name">What Category and Postcode would you like to add? <span>(required)</span></label>
+                <input type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
+                {% if form.cleaned_data.category.slug %}
+                  <p>Previously Selected Category: {{form.cleaned_data.category.name}}</p>
+                  <br>
+                {% endif %}
+                <div id="js-categories">
+                </div>
+                <input type="hidden" name="category" id="category" value={{form.cleaned_data.category.slug}}>
+                <input type="submit" value="Create Digest">
+            </form>
+</div>
+
+
+{% endblock %}
+
+{% block before_body_close %}
+<script type="text/javascript">
+$(document).ready(function(){
+  a = new ALISS()
+  a.init()
+  a.config.categoryTarget = '#js-categories'
+  b = function(event){$('#category').empty().val(event.target.value)}
+  a.config.categoryChanged = b
+  a.renderCategoryDropdown()
+})
+</script>
+{% endblock %}
