@@ -22,6 +22,12 @@
                                 </a>
                                 <h5>Email recommendations</h5>
                             </div>
+                            {% if not recommendation_list.services.all%}
+                            <div class="form">
+                              <p>You haven't recommended any services for {{recommendation_list.name}} yet.</p>
+                              <p><a href="{% url 'homepage' %}">Start Searching</a></p>
+                            </div>
+                            {% else %}
                             <div class="form">
                                 <form method="post" action="{% url 'account_my_recommendations_email' %}">
                                     {% csrf_token %}
@@ -31,6 +37,7 @@
                                     <input type="submit" class="secondary" value="Send">
                                 </form>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <li>
