@@ -56,7 +56,8 @@ def get_icon(category):
         'goods': 'fa-cube',
         'activity': 'fa-bolt',
         'education-employability': 'fa-university',
-        'children-families': 'fa-child'
+        'children-families': 'fa-child',
+        'sexual-health-issues': 'fa-heart'
     }
     return icons.get(category.slug)
 
