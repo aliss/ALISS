@@ -1,10 +1,11 @@
 from django import forms
+from localflavor.gb.forms import GBPostcodeField
 from django.contrib.auth import password_validation
 from django.urls import reverse_lazy
 from django.utils.functional import lazy
 from django.utils.safestring import mark_safe
 
-from aliss.models import ALISSUser, RecommendedServiceList
+from aliss.models import ALISSUser, RecommendedServiceList, Postcode
 
 def get_accept_terms_and_conditions_label():
     return mark_safe(
@@ -21,6 +22,11 @@ class SignupForm(forms.ModelForm):
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
     }
+
+    postcode = GBPostcodeField(
+        label="Postcode",
+        required=False
+    )
 
     password1 = forms.CharField(
         label="Password",
@@ -66,7 +72,6 @@ class SignupForm(forms.ModelForm):
         self.instance.username = self.cleaned_data.get('username')
         password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
         return password2
-
 
 class AccountUpdateForm(forms.ModelForm):
     class Meta:
