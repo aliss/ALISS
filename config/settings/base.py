@@ -133,7 +133,7 @@ ADMINS = (
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 se = os.environ.get('SESSION_ENGINE')
-if se != None: 
+if se != None:
     SESSION_ENGINE = se
 
 SESSION_CACHE_ALIAS = "default"

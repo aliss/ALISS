@@ -4,12 +4,16 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 
-from aliss.models import Organisation, Service, ServiceArea
-
+from aliss.models import ServiceArea
 
 def _get_connection():
     import certifi
     return Elasticsearch([settings.ELASTICSEARCH_URL], http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+
+
+def get_connection():
+    return _get_connection()
+
 
 service_mapping = {
     'id': {'type': 'keyword'},
@@ -72,73 +76,6 @@ service_mapping = {
 }
 
 
-def create_index():
-    connection = _get_connection()
-    connection.indices.create(
-        index='search',
-        body={
-            'mappings': {
-                'service': {
-                    'properties': service_mapping
-                }
-            },
-            'settings': {
-                'analysis': {
-                    'analyzer': {
-                        'description_analyzer': {
-                            'type': 'custom',
-                            'tokenizer': 'standard',
-                            'char_filter': ['html_strip'],
-                            'filter': ['standard', 'lowercase', 'stop']
-                        }
-                    }
-                }
-            }
-        }
-    )
-
-
-def create_slugs(force=False):
-    services = Service.objects
-    organisations = Organisation.objects
-
-    if force:
-        services = services.all()
-        organisations = organisations.all()
-    else:
-        services = services.filter(slug=None).all()
-        organisations = organisations.filter(slug=None).all()
-
-    print("No. of service slugs to update: ", services.count())
-    for s in services:
-        s.generate_slug(force)
-        s.save()
-
-    print("No. of org slugs to update: ", organisations.count())
-    for o in organisations:
-        o.generate_slug(force)
-        o.save()
-
-
-def index_all():
-    connection = _get_connection()
-
-    services = Service.objects.all().iterator()
-    # Index Services
-    for ok in bulk(connection, ({
-        '_index': 'search',
-        '_type': 'service',
-        '_id': service.pk,
-        '_source': service_to_body(service)
-    } for service in services)):
-        print("%s Services indexed" % ok)
-
-
-def delete_index():
-    connection = _get_connection()
-    connection.indices.delete('search', ignore=404)
-
-
 def service_to_body(service):
     parent_categories =[]
     for category in service.categories.all():
@@ -195,30 +132,6 @@ def service_to_body(service):
             'name': service_area.name,
         } for service_area in service.service_areas.all()]
     }
-
-
-def index_service(object):
-    connection = _get_connection()
-    body = service_to_body(object)
-
-    connection.index(
-        index='search',
-        doc_type='service',
-        id=body['id'],
-        body=body,
-        refresh=True
-    )
-
-
-def delete_service(id):
-    connection = _get_connection()
-    connection.delete(
-        index='search',
-        doc_type='service',
-        id=id,
-        refresh=True,
-        ignore=404
-    )
 
 
 def filter_by_query(queryset, q):
@@ -312,3 +225,16 @@ def filter_by_location_type(queryset, type):
         ])
     else:
         return queryset
+
+
+def get_service(queryset, service_id):
+    return queryset.query(Q({
+        "term" : { "id" : service_id }
+    })).execute()
+
+def filter_by_updated_on(queryset, comparison_date):
+    queryset = queryset.query({
+        "bool": {
+            "filter": {"range":{"updated_on":{"gte":comparison_date}}}
+    }})
+    return queryset

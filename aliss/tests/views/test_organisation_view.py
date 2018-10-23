@@ -93,5 +93,6 @@ class OrganisationViewTestCase(TestCase):
         self.assertRedirects(response, (reverse('organisation_detail_slug', kwargs={'slug': self.organisation.slug})))
 
     def test_organisation_search(self):
-        response = self.client.get(reverse('organisation_search')+'?q=tes\'t')
+        response = self.client.get(reverse('organisation_search')+'?q=TestOrg')
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "TestOrg")

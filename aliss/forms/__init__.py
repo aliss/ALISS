@@ -2,7 +2,7 @@ from .account import (
     SignupForm,
     AccountUpdateForm,
     RecommendationServiceListForm,
-    RecommendationListEmailForm
+    RecommendationListEmailForm,
 )
 from .search import SearchForm
 from .location import LocationForm
@@ -13,3 +13,5 @@ from .service import (
     ServiceEmailForm
 )
 from .claim import ClaimForm, ClaimUpdateForm
+
+from .digest_selection import DigestSelectionForm

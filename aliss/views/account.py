@@ -4,26 +4,44 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mail
 from django.template import loader
 from django.db.models import Q
 
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
 
-from aliss.models import ALISSUser, Service, ServiceArea, Organisation, RecommendedServiceList, ServiceProblem, Claim
-from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm
+from aliss.forms import SignupForm, AccountUpdateForm, RecommendationServiceListForm, RecommendationListEmailForm, DigestSelectionForm
 from aliss.filters import AccountFilter
 
+from datetime import datetime
+from datetime import timedelta
+import pytz
+
+# Import the necessary search codes
+from elasticsearch_dsl import Search
+from django.conf import settings
+from elasticsearch_dsl.connections import connections
+from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category, filter_by_updated_on
+
+# Import all models
+from aliss.models import *
+
+import logging
 
 def login_view(request, *args, **kwargs):
     if request.method == 'POST':
         if not request.POST.get('remember_me', None):
             request.session.set_expiry(0)
     return auth_views.login(request, *args, **kwargs)
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 class AccountSignupView(CreateView):
@@ -244,8 +262,8 @@ class AccountRecommendationListAddServiceView(LoginRequiredMixin, View):
             url = next
         else:
             url = reverse(
-                'service_detail',
-                kwargs={'pk': service_pk}
+                'service_detail_slug',
+                kwargs={'slug': service.slug}
             )
 
         messages.success(
@@ -360,7 +378,6 @@ class AccountAdminDashboard(StaffuserRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AccountAdminDashboard, self).get_context_data(**kwargs)
 
-        from datetime import datetime
         current_month = datetime.now().month
         current_year = datetime.now().year
 
@@ -410,3 +427,75 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
             url = reverse('account_detail', kwargs={'pk': user.pk})
 
         return HttpResponseRedirect(url)
+
+class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
+    # Need to create a new template with a form action points to this view
+    template_name = 'account/create_my_digest.html'
+    model = DigestSelection
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountCreateDigestSelection, self).get_context_data(**kwargs)
+        return context
+
+    def post(self,request, *args, **kwargs):
+        form = DigestSelectionForm(request.POST)
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.user = self.request.user
+            self.object.save()
+            url = reverse('account_my_digest')
+            return HttpResponseRedirect(url)
+
+        else:
+            # Return a re render of the form with error messages on non-conforming fields.
+
+            return render(request, self.template_name, {'form': form})
+
+class AccountMyDigestView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/my_digest.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountMyDigestView, self).get_context_data(**kwargs)
+
+        # Setup the date in past to compare results against
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+
+        # Define the number of weeks to include in results
+        number_of_weeks = 4
+
+        # Create the historical date to compare against i.e. one week ago
+        comparison_date = current_date - timedelta(weeks=number_of_weeks)
+
+        service_query = self.request.user.saved_services
+        service_query = service_query.filter(updated_on__gte=comparison_date)
+        context['updated_services'] = service_query.order_by('-updated_on')[:3]
+
+        # Create a new key on context updated_services_user_selection use Elastic search to query and filter by postcode and category
+
+        context['selected_updated'] = []
+
+        for digest_object in self.request.user.digest_selections.all():
+            r = digest_object.retrieve(comparison_date)
+            context['selected_updated'].append({"values": r[:3], "Postcode": digest_object.postcode, "Category": digest_object.category, "pk":digest_object.pk})
+        return context
+
+
+class AccountMyDigestDelete(LoginRequiredMixin, DeleteView):
+    model = DigestSelection
+    success_url = reverse_lazy('account_my_digest')
+
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        messages.success(
+            self.request,
+            'Digest for {postcode} and {category} has been successfully deleted.'.format(
+                postcode=self.object.postcode,
+                category=self.object.category
+            )
+        )
+        return HttpResponseRedirect(success_url)
