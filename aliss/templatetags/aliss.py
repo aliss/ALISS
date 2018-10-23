@@ -50,18 +50,20 @@ def get_category_tree(category):
 @register.filter
 def get_icon(category):
     icons = {
-        2: 'fa-home',
-        4: 'fa-pound-sign',
-        1: 'fa-utensil-fork',
-        134: 'fa-medkit',
-        135: 'fa-bus',
-        140: 'fa-gavel',
-        159: 'fa-hand-paper',
-        197: 'fa-cube',
-        203: 'fa-bolt',
-        204: 'fa-university',
+        'housing-and-homelessness': 'fa-home',
+        'money': 'fa-pound-sign',
+        'food-nutrition': 'fa-utensil-fork',
+        'conditions': 'fa-medkit',
+        'transport-mobility': 'fa-bus',
+        'rights-representation': 'fa-gavel',
+        'health-social-care-services': 'fa-hand-paper',
+        'goods': 'fa-cube',
+        'activity': 'fa-bolt',
+        'education-employability': 'fa-university',
+        'children-families': 'fa-child',
+        'sexual-health-issues': 'fa-heart'
     }
-    return icons.get(category.id)
+    return icons.get(category.slug)
 
 
 @register.filter
