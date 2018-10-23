@@ -245,7 +245,7 @@ header {
 		}
 		ul {
 			position: relative;
-			top: $top-hat-spacing;
+			top: (0.1em + $top-hat-spacing);
 			li {
 				margin-right: 0.6em;
 				&:last-child {
@@ -261,6 +261,7 @@ header {
 		.top-hat {
 			@include small {
 				>.account-info>ul {
+					top: $top-hat-spacing;
 					display: none;
 				}
 			}
@@ -494,7 +495,3 @@ header {
 		}
 	}
 }
-
-
-
-
