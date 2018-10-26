@@ -14,3 +14,4 @@ class ServiceAdmin(admin.ModelAdmin):
     exclude = ('id',)
     list_display = ('name', 'organisation', 'created_by', 'created_on', 'updated_on')
     ordering = ('-created_on',)
+    search_fields = ['name']
