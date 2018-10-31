@@ -79,7 +79,20 @@
 
     <!-- Javacript -->
     <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+
+    {% block base_js %}
+      <script>
+        $(document).ready(function(){
+          locationURL = $(location).attr('href')
+          if (locationURL.includes('search' && 'postcode')){
+            localStorage.setItem('searchURL',locationURL)
+          }
+        })
+      </script>
+    {% endblock%}
+
     {% block before_body_close %}
     {% endblock %}
+
 </body>
 </html>
