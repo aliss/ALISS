@@ -9,8 +9,12 @@
                 <div class="buttons">
                     <a href="{% url 'account_update' %}" class="button primary">Edit Account Info</a>
                 </div>
-                {% if request.user.postcode %}<p>Your postcode: <strong>{{ request.user.postcode }}</strong></p>{% endif %}
-                <p id="your_last_search" style="display:none">Your last search: <strong><a id="last_search_link"></a></strong></p>
+                {% if request.user.postcode %}
+                  <p>Your postcode: <strong>{{ request.user.postcode }}</strong></p>
+                {% endif %}
+                <p id="your_last_search" style="display:none">Your last search: 
+                  <strong><a id="last_search_link"></a></strong>
+                </p>
             </div>
         </div>
     </section>
@@ -42,13 +46,14 @@
                 </a>
             </div>
             <div class="columns s-3 m-3 l-3">
-              <!--Need to add the code to link the digest view to detail view etc.  -->
+                <!--    
                 <a href="{% url 'account_my_digest'%}" {% if url_name == 'account_my_digest'%}class="active"{% endif %}>
                     <span class="text">
                         My Digest
                     </span>
                 </a>
                 {% endwith %}
+                -->
             </div>
         </div>
         <hr class = "clear"/>
@@ -69,7 +74,6 @@
     </section>
 </main>
 {% endblock %}
-
 
 {% block before_body_close %}
   <script type="text/javascript">
