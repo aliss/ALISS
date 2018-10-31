@@ -66,6 +66,10 @@
                             <h5>Found your organisation?</h5>
                             <p>Click 'Request to represent' to claim representation of the organisation. Once approved you'll be able to edit and publish services on ALISS.</p>
                         </div>
+                        {% else %}
+                        <div class="s-12 m-6 l-6 columns">
+                            <h5>No organisations were found with the name '{{ request.GET.q }}'</h5>
+                        </div>
                         {% endif %}
 
                         <div class="s-12 m-6 l-6 columns">
