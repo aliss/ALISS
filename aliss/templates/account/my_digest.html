@@ -4,40 +4,16 @@
 
 <h2>My Digest</h2>
 <div class="copy-container">
-  <p>A list of your saved services and digest selections which have been update in the last week.</p>
-</div>
-<div class="my-account-details">
-  <h3>Updated Saved Services</h3>
-    <div class=my-saved-services-details>
-      {% if not updated_services.all %}
-      <div class="updated-digest-list none">
-        <p>You haven't saved any services yet.</p>
-        <p><a href="{% url 'homepage' %}">Start Searching</a></p>
-      </div>
-      {% else %}
-      <div class="account-list">
-        <ul class="search-results">
-          {% for service in updated_services.all %}
-          <li>
-            <h6><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></h6>
-            <p>Last Updated: <span class="updated alert">{{service.updated_on}}</span></p>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
-    </div>
+  <p>Keep up to date with new services in your area. Create a digest to receive email updates about services.</p>
 </div>
 
 <div class="my-account-details">
-    <h3>Digest Selections</h3>
     <div class=my-digest-details>
       {% if not selected_updated %}
-      <div class="updated-digest-list none">
-        <p>You haven't created any digest selections yet.</p>
-        <p><a href="{% url 'homepage' %}">Start Searching</a></p>
-      </div>
-        {% else %}
+        <div class="updated-digest-list none">
+          <p><b>You haven't selected any postcode areas to form your digest yet.</b></p>
+        </div>
+      {% else %}
         <div class="account-list">
           <ul class="search-results">
             {% for selection_option in selected_updated %}
@@ -74,8 +50,8 @@
           </div>
           {% endif %}
         </div>
-      <div class="screen-info">
-          <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest selection</a>
-      </div>
+
+        <hr class="clear" />
+        <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest selection</a>
     </div>
   {% endblock %}
