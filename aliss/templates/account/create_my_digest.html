@@ -21,34 +21,38 @@
     </fieldset>
 </div>
 {% endif %}
+
 <div class="form">
-            <form method="post" action="{% url 'account_create_my_digest' %}">
-                {% csrf_token %}
-                <label for="name">What Category and Postcode would you like to add? <span>(required)</span></label>
-                <input type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA">
-                {% if form.cleaned_data.category.slug %}
-                  <p>Previously Selected Category: {{form.cleaned_data.category.name}}</p>
-                  <br>
-                {% endif %}
-                <div id="js-categories">
-                </div>
-                <input type="hidden" name="category" id="category" value={{form.cleaned_data.category.slug}}>
-                <input type="submit" value="Create Digest">
-            </form>
+    <h3>Digest selection</h3>
+    <form method="post" action="{% url 'account_create_my_digest' %}">
+        {% csrf_token %}
+        <label for="postcode">What postcode area would you like to get updates about? <span>(required)</span>
+        </label>
+        <input type="text" name="postcode" id="postcode" placeholder="Postcode e.g. G2 4AA">
+        {% if form.cleaned_data.category.slug %}
+          <p>Previously Selected Category: {{form.cleaned_data.category.name}}</p>
+          <br/>
+        {% endif %}
+
+        <label for="aliss-dropdown">What category would you like to filter by? <span>(optional)</span>
+        </label>
+        <div id="js-categories">
+          <select disabled="disabled"><option value="categories">Select category</option></select>
+        </div>
+        <input type="hidden" name="category" id="category" value={{form.cleaned_data.category.slug}}>
+        <input type="submit" value="Create Digest">
+    </form>
 </div>
-
-
 {% endblock %}
 
 {% block before_body_close %}
 <script type="text/javascript">
 $(document).ready(function(){
-  a = new ALISS()
-  a.init()
-  a.config.categoryTarget = '#js-categories'
-  b = function(event){$('#category').empty().val(event.target.value)}
-  a.config.categoryChanged = b
-  a.renderCategoryDropdown()
-})
+  var a = new ALISS(); a.init();
+  a.config.categoryTarget = '#js-categories';
+  var b = function(event){ $('#category').empty().val(event.target.value) };
+  a.config.categoryChanged = b;
+  a.renderCategoryDropdown();
+});
 </script>
 {% endblock %}

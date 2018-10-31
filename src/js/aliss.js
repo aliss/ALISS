@@ -26,11 +26,11 @@ const ALISS = function() {
     dropdownDiv.className = "aliss-category-dropdown-div";
     $(context.config.categoryTarget).append(dropdownDiv);
     var dropdownSelect = document.createElement('select');
-    dropdownSelect.id = "aliss-dropdown";
+    dropdownSelect.id = "aliss-category-dropdown";
     dropdownSelect.className = "aliss-dropdown";
 
     $('#aliss-dropdown-div').append(dropdownSelect);
-    $('#aliss-dropdown').append("<option value=categories>Categories</option>");
+    $('#aliss-category-dropdown').append("<option value=categories>Categories</option>");
 
     $.each(response.data, function(index, category){
       var option = document.createElement("option");
@@ -38,11 +38,11 @@ const ALISS = function() {
       option.id = category.slug;
       option.className = "aliss-category-option";
       option.value = category.slug;
-      $('#aliss-dropdown').append(option);
+      $('#aliss-category-dropdown').append(option);
       $('#' + option.id).data(category);
     });
 
-    $('#aliss-dropdown').change(context.handleFilterByCategory);
+    $('#aliss-category-dropdown').change(context.handleFilterByCategory);
   };
 
   ALISS.prototype.handleFilterByCategory = (event) => {
