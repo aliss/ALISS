@@ -4,7 +4,7 @@
 
 <h2>My Digest</h2>
 <div class="copy-container">
-  <p>Keep up to date with new services in your area. Create a digest to receive email updates about services.</p>
+  <p>Keep up to date with new &amp; existing services. Create a digest by selecting postcodes and categories you're interested in.</p>
 </div>
 
 <div class="my-account-details">
@@ -13,6 +13,8 @@
         <div class="updated-digest-list none">
           <p><b>You haven't selected any postcode areas to form your digest yet.</b></p>
         </div>
+        <hr class="clear" />
+        <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest</a>
       {% else %}
         <div class="account-list">
           <ul class="search-results">
@@ -32,9 +34,7 @@
                 </div>
                 <div>
                     {% if not selection_option|get_item:"values" %}
-
                       <p>None of the services in this digest have been updated in the last week.</p>
-
                     {% else %}
                       {% for service in selection_option|get_item:"values" %}
 
@@ -48,10 +48,9 @@
             {% endfor %}
           </ul>
           </div>
+          <hr class="clear" />
+          <a href="{% url 'account_create_my_digest' %}" class="button primary">Add selection to digest</a>
           {% endif %}
         </div>
-
-        <hr class="clear" />
-        <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest selection</a>
     </div>
   {% endblock %}
