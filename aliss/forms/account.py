@@ -57,7 +57,8 @@ class SignupForm(forms.ModelForm):
             'prepopulate_postcode'
         )
         labels = {
-            'prepopulate_postcode': 'Prepopulate my stated postcode the next time I search ALISS'
+            'prepopulate_postcode': 'Use my stated postcode to help me quickly search ALISS',
+            'name': 'Your name'
         }
         error_css_class = 'has-error'
 
