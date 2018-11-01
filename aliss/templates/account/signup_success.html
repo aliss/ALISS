@@ -67,7 +67,7 @@
 {% block before_body_close %}
   <script type="text/javascript">
     $(document).ready(function(){
-      searchURL = localStorage.getItem('searchURL')
+      searchURL = localStorage.getItem('searchURL');
       if (searchURL != null){
         $('#back_to_seach').attr('href', searchURL).show()
       }
