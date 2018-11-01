@@ -68,17 +68,54 @@ import Clipboard from 'clipboard/lib/clipboard.js';
 var ALISS = require('./aliss');
 
 $.urlParam = function(name){
-  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-  if (results==null){
-    return null;
-  } else{
-    return decodeURI(results[1]) || 0;
-  }
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+        return null;
+    } else{
+        return decodeURI(results[1]) || 0;
+    }
 };
+
+$.urlParams = function(urlString){
+    if (!urlString){ urlString = window.location.href; }
+    var hash = {};
+    var query_section = urlString.split('?');
+    query_section = query_section[1];
+    query_section = query_section.replace(/\+/gi, " ");
+    query_section = query_section.replace(/-/gi, " ");
+    query_section = query_section.split('&');
+    query_section.every(function(query){
+        var query_pair = query.split("=");
+        if (query_pair[1] != "") {
+            if (query_pair[1].includes(" ")){
+                query_pair[1] = query_pair[1].trim();
+                var uncapped_words = query_pair[1].split(" ");
+                var capped_words = uncapped_words.map(function(word){
+                    if (word == "and") {
+                        return word;
+                    } else {
+                        word =  word[0].toUpperCase() + word.slice(1);
+                        return word;
+                    }
+                });
+                capped_words = capped_words.join(" ");
+                hash[query_pair[0]] = capped_words;
+            } else {
+                hash[query_pair[0]] = query_pair[1][0].toUpperCase() + query_pair[1].slice(1);
+            }
+        }
+    });
+    return hash;
+}
 
 $(document).ready(() => {
     window.ALISS = ALISS;
     matchHeight();
+
+    var locationURL = $(location).attr('href');
+    if (locationURL.includes('search' && 'postcode')){
+        localStorage.setItem('searchURL',locationURL);
+    };
 
     function check_three() {
         var $check_three = $('.all-categories input');
@@ -123,6 +160,7 @@ $(document).ready(() => {
             }
         });
     });
+
     if($('.all-categories input:checkbox:checked').length > 0) {
         $('.selected-categories').addClass('active');
         $('.all-categories input:checkbox:checked').each(function(index, el) {
