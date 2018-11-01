@@ -71,7 +71,7 @@ $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results==null){
         return null;
-    } else{
+    } else {
         return decodeURI(results[1]) || 0;
     }
 };
@@ -106,7 +106,7 @@ $.urlParams = function(urlString){
         }
     });
     return hash;
-}
+};
 
 $(document).ready(() => {
     window.ALISS = ALISS;
