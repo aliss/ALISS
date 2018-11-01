@@ -115,7 +115,7 @@ $(document).ready(() => {
     var locationURL = $(location).attr('href');
     if (locationURL.includes('search' && 'postcode')){
         localStorage.setItem('searchURL',locationURL);
-    };
+    }
 
     function check_three() {
         var $check_three = $('.all-categories input');
@@ -432,6 +432,7 @@ $(document).ready(() => {
     //         });
     //     });
     // });
+
     if($('.share-form').length > 0) {
         var default_url = $('#share_url').val();
         // console.log(default_url);
@@ -502,4 +503,9 @@ $(document).ready(() => {
         }
     }
 
+    $('ul.progress-breadcrumb label[for="org-search-input"]').click(function(e){
+        var target = '#' + $(this).attr('for');
+        $(target).addClass('start-glow');
+        setTimeout(function(){ $(target).removeClass('start-glow'); }, 2000);
+    });
 });

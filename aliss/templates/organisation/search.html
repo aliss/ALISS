@@ -27,10 +27,10 @@
             <div class="columns">
                 <div class="org-search">
                     <br/>
-                    <label>First, check if your organisation is already listed by searching for it: </label>
+                    <label for="org-search-input">First, check if your organisation is already listed by searching for it: </label>
                     <div class="sbs-inputs">
                         <form>
-                            <input type="text" placeholder="e.g. The ALLIANCE" value="{{ request.GET.q }}" name="q">
+                            <input id="org-search-input" class="glow" type="text" placeholder="e.g. The ALLIANCE" value="{{ request.GET.q }}" name="q">
                             <input type="submit" value="Search" class="secondary">
                         </form>
                     </div>
