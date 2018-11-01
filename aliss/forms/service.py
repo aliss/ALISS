@@ -16,6 +16,8 @@ def service_areas_as_choices():
 class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
+        url = forms.URLField()
+
         fields = [
             'name',
             'description',
@@ -26,8 +28,12 @@ class ServiceForm(forms.ModelForm):
             'locations',
             'service_areas'
         ]
+
         labels = {
-            'name': 'Service name'
+            'name': 'Service name',
+            'description': 'Service description',
+            'phone': 'Service phone number',
+            'url': 'Service web address'
         }
 
     def __init__(self, *args, **kwargs):
