@@ -3,10 +3,10 @@
        <label for="org-search-input"><i class="fa fa-search" aria-hidden="true"></i> Check organisation isn't listed</label>
     </li>
     <li>
-        <i class="fa fa-pencil" aria-hidden="true"></i> Add organisation details
+        <label for="id_name"><i class="fa fa-pencil" aria-hidden="true"></i> Add organisation details</label>
     </li>
     <li>
-        <i class="fa fa-users" aria-hidden="true"></i> Add your organisation's services
+        <label for="add-service-action"><i class="fa fa-users" aria-hidden="true"></i> Add your organisation's services</label>
     </li>
     {% if not request.user.is_staff and not request.user.is_editor %}
     <li>

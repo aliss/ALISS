@@ -55,7 +55,7 @@
                             {% can_edit request.user object as user_can_edit %}
 
                             {% if user_can_edit %}
-                                <a href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
+                                <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                                     <span class="icon">
                                         <i class="fas fa-plus"></i>
                                     </span>
