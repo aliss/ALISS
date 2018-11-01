@@ -503,9 +503,13 @@ $(document).ready(() => {
         }
     }
 
-    $('ul.progress-breadcrumb label[for="org-search-input"]').click(function(e){
-        var target = '#' + $(this).attr('for');
-        $(target).addClass('start-glow');
-        setTimeout(function(){ $(target).removeClass('start-glow'); }, 2000);
+    $('ul.progress-breadcrumb label').each(function(i,l){
+        $(l).click(function(e){
+            var target = '#' + $(l).attr('for');
+            $(target).addClass('glow');
+            $(target).addClass('start-glow');
+            setTimeout(function(){ $(target).removeClass('glow'); }, 2000);
+            setTimeout(function(){ $(target).removeClass('start-glow'); }, 2000);
+        });
     });
 });
