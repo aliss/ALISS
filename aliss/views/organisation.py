@@ -124,7 +124,7 @@ class OrganisationListView(StaffuserRequiredMixin, FilterView):
         return Organisation.objects.filter(published=True)
 
 
-class OrganisationDetailView(LoginRequiredMixin, ProgressMixin, DetailView):
+class OrganisationDetailView(ProgressMixin, DetailView):
     model = Organisation
     template_name = 'organisation/detail.html'
 
@@ -133,6 +133,8 @@ class OrganisationDetailView(LoginRequiredMixin, ProgressMixin, DetailView):
         #logger = logging.getLogger(__name__)
         #logger.error('Detail view')
         obj = super(OrganisationDetailView, self).get_object(queryset=queryset)
+        if not obj.published and not obj.is_edited_by(self.request.user):
+            raise PermissionDenied
         return obj
 
 
