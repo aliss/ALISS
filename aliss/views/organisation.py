@@ -39,8 +39,8 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse(
-            'organisation_detail_slug',
-            kwargs={'slug': self.object.slug }
+            'organisation_confirm',
+            kwargs={'pk': self.object.pk }
         )
 
     def send_new_org_email(self, organisation):
@@ -130,6 +130,17 @@ class OrganisationDetailView(ProgressMixin, DetailView):
 
     def get_object(self, queryset=None):
         obj = super(OrganisationDetailView, self).get_object(queryset=queryset)
+        if not obj.published and not obj.is_edited_by(self.request.user):
+            raise PermissionDenied
+        return obj
+
+
+class OrganisationConfirmView(LoginRequiredMixin, ProgressMixin, DetailView):
+    model = Organisation
+    template_name = 'organisation/confirm.html'
+
+    def get_object(self, queryset=None):
+        obj = super(OrganisationConfirmView, self).get_object(queryset=queryset)
         if not obj.published and not obj.is_edited_by(self.request.user):
             raise PermissionDenied
         return obj

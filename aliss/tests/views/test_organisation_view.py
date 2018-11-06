@@ -13,6 +13,8 @@ class OrganisationViewTestCase(TestCase):
     def test_organisation_detail(self):
         response = self.client.get(reverse('organisation_detail', kwargs={'pk': self.organisation.pk}))
         self.assertEqual(response.status_code, 200)
+        response = self.client.get(reverse('organisation_detail_slug', kwargs={'slug': self.organisation.slug}))
+        self.assertEqual(response.status_code, 200)
 
     def test_organisation_edit(self):
         response = self.client.get(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}))
@@ -20,6 +22,10 @@ class OrganisationViewTestCase(TestCase):
 
     def test_organisation_create(self):
         response = self.client.get(reverse('organisation_create'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_organisation_confirm(self):
+        response = self.client.get(reverse('organisation_confirm', kwargs={'pk': self.organisation.pk}))
         self.assertEqual(response.status_code, 200)
 
     def test_organisation_invalid_creation(self):
