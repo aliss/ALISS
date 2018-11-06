@@ -95,10 +95,10 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
         return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
-        return reverse(
-            'organisation_detail_slug',
-            kwargs={'slug': self.object.slug}
-        )
+        if (self.object.services.count() == 0):
+            return reverse('organisation_confirm', kwargs={ 'pk': self.object.pk })
+        else:
+            return reverse('organisation_detail_slug', kwargs={ 'slug': self.object.slug })
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -129,9 +129,9 @@ class OrganisationDetailView(LoginRequiredMixin, ProgressMixin, DetailView):
     template_name = 'organisation/detail.html'
 
     def get_object(self, queryset=None):
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.error('Detail view')
+        #import logging
+        #logger = logging.getLogger(__name__)
+        #logger.error('Detail view')
         obj = super(OrganisationDetailView, self).get_object(queryset=queryset)
         return obj
 
@@ -144,9 +144,6 @@ class OrganisationConfirmView(UserPassesTestMixin, ProgressMixin, DetailView):
         return self.get_object().is_edited_by(user)
 
     def get_object(self, queryset=None):
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.error('Confirm view')
         obj = super(OrganisationConfirmView, self).get_object(queryset=queryset)
         return obj
 
