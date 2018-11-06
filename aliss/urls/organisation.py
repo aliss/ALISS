@@ -44,6 +44,10 @@ urlpatterns = [
         OrganisationPublishView.as_view(),
         name='organisation_publish'
     ),
+    url(r'^confirm/(?P<pk>[0-9A-Za-z\-]+)/$',
+        OrganisationConfirmView.as_view(),
+        name='organisation_confirm'
+    ),
     url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})",
         OrganisationDetailView.as_view(),
         name='organisation_detail'
@@ -51,9 +55,5 @@ urlpatterns = [
     url(r'^(?P<slug>[0-9A-Za-z\-]+)/$',
         OrganisationDetailView.as_view(),
         name='organisation_detail_slug'
-    ),
-    url(r'^confirm/(?P<pk>[0-9A-Za-z\-]+)/$',
-        OrganisationConfirmView.as_view(),
-        name='organisation_confirm'
     ),
 ]
