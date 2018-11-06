@@ -1,18 +1,11 @@
 from django.conf.urls import url
 
+from aliss.views.organisation import *
+
 from aliss.views import (
-    OrganisationCreateView,
-    OrganisationUpdateView,
-    OrganisationListView,
-    OrganisationDetailView,
-    OrganisationDeleteView,
-    OrganisationSearchView,
-    OrganisationUnpublishedView,
-    OrganisationPublishView,
     LocationCreateView,
     ServiceCreateView
 )
-
 
 urlpatterns = [
     url(r'^create/$',
@@ -58,5 +51,9 @@ urlpatterns = [
     url(r'^(?P<slug>[0-9A-Za-z\-]+)/$',
         OrganisationDetailView.as_view(),
         name='organisation_detail_slug'
+    ),
+    url(r'^confirm/(?P<pk>[0-9A-Za-z\-]+)/$',
+        OrganisationConfirmView.as_view(),
+        name='organisation_confirm'
     ),
 ]

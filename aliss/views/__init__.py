@@ -24,16 +24,7 @@ from .account import (
     AccountMyDigestDelete
 )
 from .search import SearchView, SearchShareView
-from .organisation import (
-    OrganisationCreateView,
-    OrganisationUpdateView,
-    OrganisationListView,
-    OrganisationDetailView,
-    OrganisationDeleteView,
-    OrganisationSearchView,
-    OrganisationUnpublishedView,
-    OrganisationPublishView
-)
+from .organisation import *
 from .location import (
     LocationCreateView,
     LocationUpdateView,
