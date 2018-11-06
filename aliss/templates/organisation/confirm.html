@@ -5,30 +5,17 @@
 
 {% block container %}
 <main class="main" role="main">
-    <article id="content" class="organisation">
-        <div class="row">
-            <div class="columns options">
-                {% if not object.published %}
-                <div class="content">
-                    <br/>
-                    <h4>Publish progress</h4>
-                    {% include 'partials/breadcrumb.html' with progress=progress %}
-                </div>
-                {% endif %}
-            </div>
-
-            <div class="columns content">
+    <article id="content" class="organisation grid-container">
+        <div class="grid-x">
+            <div class="cell small-8 medium-8">
                 <div class="copy-container">
-                    <h1>{{ object.name }}</h1>
-                    {% if object.claimed_by %}<p class="org"><span class="claimed">Claimed</span></p>{% endif %}
+                    <h1>Confirm: {{ object.name }}</h1>
                     <div class="desc">
                         <p>{{ object.description|linebreaks }}</p>
                         <p>Last updated <span class="updated alert">{{ object.updated_on }}</span></p>
                     </div>
                 </div>
-            </div>
 
-            <div class="columns contact-info">
                 {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
                     <h4>Contact Information</h4>
                     <p>
@@ -41,22 +28,33 @@
                 {% endif %}
             </div>
 
-            <div class="row">
-                <h3>Does this information look correct?</h3>
-                <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">
-                    <span class="icon">
-                        <i class="fas fa-pencil-alt"></i>
-                    </span>
-                    No, let me edit it
-                </a>
-                <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
-                    <span class="icon">
-                        <i class="fas fa-plus"></i>
-                    </span>
-                    Yes, let me add a service
-                </a>
+            <div class="cell small-4 medium-4">
+                {% if not object.published %}
+                <div class="content">
+                    <br/>
+                    <h4>Publish progress</h4>
+                    {% include 'partials/breadcrumb.html' with progress=progress %}
+                </div>
+                {% endif %}
             </div>
+        </div>
 
+        <div class="">
+            <h3>Does this information look correct?</h3>
+            <br/>
+            <a href="{% url 'organisation_edit' pk=object.pk %}" class="button primary">
+                <span class="icon">
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+                No, let me edit it
+            </a>
+            <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="button secondary">
+                <span class="icon">
+                    <i class="fas fa-check"></i>
+                </span>
+                Yes, let's continue &amp; add a service
+            </a>
         </div>
     </article>
 </main>
+{% endblock %}

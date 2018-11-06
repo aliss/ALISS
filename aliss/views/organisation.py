@@ -124,25 +124,30 @@ class OrganisationListView(StaffuserRequiredMixin, FilterView):
         return Organisation.objects.filter(published=True)
 
 
-class OrganisationDetailView(ProgressMixin, DetailView):
+class OrganisationDetailView(LoginRequiredMixin, ProgressMixin, DetailView):
     model = Organisation
     template_name = 'organisation/detail.html'
 
     def get_object(self, queryset=None):
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error('Detail view')
         obj = super(OrganisationDetailView, self).get_object(queryset=queryset)
-        if not obj.published and not obj.is_edited_by(self.request.user):
-            raise PermissionDenied
         return obj
 
 
-class OrganisationConfirmView(LoginRequiredMixin, ProgressMixin, DetailView):
+class OrganisationConfirmView(UserPassesTestMixin, ProgressMixin, DetailView):
     model = Organisation
     template_name = 'organisation/confirm.html'
+    
+    def test_func(self, user):
+        return self.get_object().is_edited_by(user)
 
     def get_object(self, queryset=None):
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error('Confirm view')
         obj = super(OrganisationConfirmView, self).get_object(queryset=queryset)
-        if not obj.published and not obj.is_edited_by(self.request.user):
-            raise PermissionDenied
         return obj
 
 
