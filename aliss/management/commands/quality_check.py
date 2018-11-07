@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
     def check_organisations(self, results):
         self.stderr.write(self.style.SUCCESS('Checking organisation urls'))
-        organisations = Organisation.objects.all()[:100]
+        organisations = Organisation.objects.all()
         for org in organisations:
             if org.url == None or org.url == "":
                 continue
@@ -58,7 +58,7 @@ class Command(BaseCommand):
 
     def check_services(self, results):
         self.stderr.write(self.style.SUCCESS('Checking service urls'))
-        services = Service.objects.all()[:100]
+        services = Service.objects.all()
         for s in services:
             if s.url == None or s.url == "":
                 continue
