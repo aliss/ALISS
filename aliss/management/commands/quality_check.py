@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.conf import settings
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
+import ssl
 from django.urls import reverse
 import csv
 
@@ -24,6 +25,9 @@ class Command(BaseCommand):
         except ConnectionResetError as e:
             self.stderr.write("Connection Reset Error\n")
             return "ConnectionResetError"
+        except ssl.CertificateError as e:
+            self.stderr.write("SSL Certificate Error\n")
+            return "SSL Certificate Error"
         else:
             return response.status
 
