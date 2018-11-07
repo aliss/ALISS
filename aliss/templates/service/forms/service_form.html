@@ -35,6 +35,10 @@
 </div>
 <div class="f-row">
     <label>Categories <span>(required)</span></label>
+    <p class="small">
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+        Select up to three categories that best describe the needs that your service satisfies.
+    </p>
     <div class="all-categories">
         {% get_root_categories as root_categories %}
         <ul class="radio-list cat truncate children">
@@ -47,9 +51,6 @@
         <p>You have selected the following categories:</p>
         <div class="cats"></div>
     </div>
-    <span class="annotation">
-        Select up to three categories that best describe the needs that your service satisfies.
-    </span>
 </div>
 <div class="f-row">
     {% include 'partials/forms/multiselect_field.html' with field=form.locations %}
@@ -86,8 +87,5 @@
     </fieldset>
 </div>
 <div class="f-row">
-    {% include 'partials/forms/multiselect_field.html' with field=form.service_areas %}
-    <span class="annotation">
-        If you select Scotland or United Kingdom as a service area, your listing will not appear when a user filters their search to only show local - not national - services.
-    </span>
+    {% include 'partials/forms/multiselect_field.html' with field=form.service_areas annotation="If you select Scotland or United Kingdom as a service area, your listing will not appear when a user filters their search to only show local - not national - services." %}
 </div>

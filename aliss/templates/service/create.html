@@ -3,39 +3,36 @@
 
 {% block container %}
 <main class="main" role="main">
-    <section id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>{{ organisation.name }}</h1>
-                    <div class="breadcrumbs">
-                        <a href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
-                        <span class="sep"></span>
-                        <span>Add Service</span>
-                    </div>
+    <section class="grid-container" id="content">
+        <div class="grid-x">
+            <div class="cell small-12 medium-12">
+                <h1>{{ organisation.name }}</h1>
+                <div class="breadcrumbs">
+                    <a href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
+                    <span class="sep"></span>
+                    <span>Add Service</span>
                 </div>
             </div>
         </div>
-    </section>
-    <section>
-        <div class="row">
-            <div class="columns">
-                <div class="progress-container">
-                    {% if not organisation.published %}
+
+        <div class="grid-x">
+            <div class="cell small-12 medium-8">
+                <form method="post" class="">
+                    {% csrf_token %}
+                    {% include 'service/forms/service_form.html' with organisation=organisation %}
+                    <div class="submit">
+                        <input type="submit" value="Add Service">
+                    </div>
+                </form>
+            </div>
+            <div class="cell small-12 medium-4">
+                {% if not organisation.published %}
+                    <div class="pad">
                         <br/>
                         <h4>Publish progress</h4>
                         {% include 'partials/breadcrumb.html' with progress=2 %}
-                    {% endif %}
-                </div>
-                <div class="large-form">
-                    <form method="post">
-                        {% csrf_token %}
-                        {% include 'service/forms/service_form.html' with organisation=organisation %}
-                        <div class="submit">
-                            <input type="submit" value="Add Service">
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </section>

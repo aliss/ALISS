@@ -1,5 +1,8 @@
 <div class="multiselect{% if field.errors %} has-error{% endif %}">
     <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span>(required)</span>{% endif %}</label>
+    {% if annotation %}
+      <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ annotation }}</p>
+    {% endif %}
     {{ field }}
     {% if field.errors %}
         <div class="f-error">
