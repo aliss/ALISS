@@ -33,6 +33,16 @@
     }
   }
 }
+
+.all-categories {
+  border: 1px solid $light-gray;
+  border-radius: $d-rad;
+  margin-bottom: 1.35em;
+  padding: 0.35em 1em 0.35em 1em;
+  overflow: auto;
+  max-height: 75vh;
+}
+
 .large-form {
   padding-top: 2rem;
   .copy-container {
@@ -71,14 +81,6 @@
     }
     @include small {
       padding-right: 0;
-    }
-    > .all-categories {
-      border: 1px solid $light-gray;
-      border-radius: $d-rad;
-      margin-bottom: 1.35em;
-      padding: 0.35em 1em 0.35em 1em;
-      overflow: scroll;
-      max-height: 200px;
     }
     &.two {
       >div {

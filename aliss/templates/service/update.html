@@ -2,23 +2,20 @@
 
 {% block container %}
 <main class="main" role="main">
-    <section id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>{{ organisation.name }}</h1>
-                    <div class="breadcrumbs">
-                        <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a>
-                        <span class="sep"></span>
-                        <span>Update Service</span>
-                    </div>
+    <section class="grid-container" id="content">
+        <div class="grid-x">
+            <div class="cell small-12 medium-8">
+                <h1>{{ organisation.name }}</h1>
+                <div class="breadcrumbs">
+                    <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a>
+                    <span class="sep"></span>
+                    <span>Update Service</span>
                 </div>
             </div>
         </div>
-    </section>
-    <section class="large-form">
-        <div class="row">
-            <div class="columns">
+
+        <div class="grid-x">
+            <div class="cell small-12 medium-8">
                 <form method="post">
                     {% csrf_token %}
                     {% include 'service/forms/service_form.html' with  organisation=organisation %}
