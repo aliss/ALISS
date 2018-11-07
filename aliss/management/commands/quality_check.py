@@ -22,8 +22,8 @@ class Command(BaseCommand):
             self.stderr.write("Reason: {0}\n".format(e.reason))
             return e.reason
         except ConnectionResetError as e:
-            self.stderr.write("Connection Reset Error: {0}\n".format(e.reason))
-            return e.reason
+            self.stderr.write("Connection Reset Error\n")
+            return "ConnectionResetError"
         else:
             return response.status
 
