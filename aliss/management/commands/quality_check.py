@@ -10,6 +10,10 @@ import csv
 
 class Command(BaseCommand):
 
+    def add_arguments(self, parser):
+        parser.add_argument('-p', '--verbose', type=bool, help='Print more details',)
+        parser.add_argument('-w', '--csv', type=bool, help='Write to csv',)
+
     def check_url(self, url):
         req = Request(url)
         try:
@@ -38,39 +42,38 @@ class Command(BaseCommand):
             for line in collection:
                 csv_writer.writerow([line['type'], line['name'], line['url'], line['object_url']])
 
-    def write_result_out(self, collection):
-        self.stdout.write("\nType,Name,Failed Url,Object Url\n")
-        for line in collection:
-            self.stdout.write("{0},{1},{2},{3}\n".format(line['type'], line['name'], line['url'], line['object_url']))
-
-    def check_organisations(self, results):
-        self.stderr.write(self.style.SUCCESS('Checking organisation urls'))
-        organisations = Organisation.objects.all()
-        for org in organisations:
-            if org.url == None or org.url == "":
+    def perform_check(self, results, collection, type='organisation'):
+        for obj in collection:
+            if obj.url == None or obj.url == "":
                 continue
-            self.stderr.write("\tChecking {0}\n".format(org.url))
-            result = self.check_url(org.url)
-            request_failed = str(result) != "200"
+            self.stderr.write("\tChecking {0}\n".format(obj.url))
+            result = self.check_url(obj.url)
+            request_failed = (str(result) != "200") or ("SSL" not in str(result))
             if request_failed:
-                results.append({ 'type': 'organisation', 'name': org.name, 'object_url': "https://www.aliss.org" + reverse('organisation_detail', kwargs={ 'pk': org.pk }), 'url': org.url })
-        return results
-
-    def check_services(self, results):
-        self.stderr.write(self.style.SUCCESS('Checking service urls'))
-        services = Service.objects.all()
-        for s in services:
-            if s.url == None or s.url == "":
-                continue
-            self.stderr.write("\tChecking {0}\n".format(s.url))
-            result = self.check_url(s.url)
-            request_failed = str(result) != "200"
-            if request_failed:
-                results.append({ 'type': 'service', 'name': s.name, 'object_url': "https://www.aliss.org" + reverse('service_detail', kwargs={ 'pk': s.pk }), 'url': s.url })
+                rd = { 'type': type, 'name': obj.name, 'object_url': "https://www.aliss.org" + reverse((type+'_detail'), kwargs={ 'pk': obj.pk }), 'url': obj.url }
+                results.append(rd)
+                if self.verbose:
+                    self.stdout.write("{0},{1},{2},{3}\n".format(rd['type'], rd['name'], rd['url'], rd['object_url']))
         return results
 
     def handle(self, *args, **options):
+        print(options)
+        self.verbose = options['verbose']
+        self.write_csv = options['csv']
+
         results = []
-        results = self.check_organisations(results)
-        results = self.check_services(results)
-        self.write_result_out(results)
+        self.stderr.write(self.style.SUCCESS('Checking service urls'))
+        services = Service.objects.order_by('-created_on').all()[:20]
+        if self.verbose:
+            self.stdout.write("\nType,Name,Failed Url,Object Url\n")
+        results = self.perform_check(results, services, 'service')
+
+        self.stderr.write(self.style.SUCCESS('Checking organisation urls'))
+        organisations = Organisation.objects.order_by('-created_on').all()[:20]
+        if self.verbose:
+            self.stdout.write("\nType,Name,Failed Url,Object Url\n")
+        results = self.perform_check(results, organisations, 'organisation')
+
+        if self.write_csv:
+            self.stdout.write("\nWriting CSV\n")
+            self.write_result_csv(results)
