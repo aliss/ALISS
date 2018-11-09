@@ -7,18 +7,19 @@ from urllib.error import URLError, HTTPError
 import ssl
 from django.urls import reverse
 import csv
+import socket
 
 class Command(BaseCommand):
 
     def add_arguments(self, parser):
-        parser.add_argument('-p', '--verbose', type=bool, help='Print more details',)
-        parser.add_argument('-w', '--csv', type=bool, help='Write to csv',)
-        parser.add_argument('-o', '--offset', type=float, help='Percent of results to offset by',)
+        parser.add_argument('-p', '--verbose', type=bool, help='Print more details -p 1',)
+        parser.add_argument('-w', '--csv', type=bool, help='Write to csv e.g. -w 1 ',)
+        parser.add_argument('-o', '--offset', type=float, help='Percent of results to offset by e.g. -o 50',)
 
     def check_url(self, url):
         req = Request(url)
         try:
-            response = urlopen(req, timeout=4)
+            response = urlopen(req, timeout=7)
         except HTTPError as e:
             self.stderr.write('The server couldn\'t fulfill the request.')
             self.stderr.write("Error code: {0}\n".format(e.code))
@@ -33,6 +34,9 @@ class Command(BaseCommand):
         except ssl.CertificateError as e:
             self.stderr.write("SSL Certificate Error\n")
             return "SSL Certificate Error"
+        except socket.timeout as e:
+            self.stderr.write("Socket timeout\n")
+            return "Timeout (too slow)"
         else:
             return response.status
 
@@ -68,17 +72,15 @@ class Command(BaseCommand):
 
         results = []
         self.stderr.write(self.style.SUCCESS('Checking service urls'))
-        service_offset = int(Service.objects.count() * (offset/100))
-        print("Org offset", service_offset)
-        services = Service.objects.order_by('created_on').all()[service_offset:]
+        service_offset = int(Service.objects.exclude(organisation__published=False).count() * (offset/100))
+        services = Service.objects.exclude(organisation__published=False).order_by('created_on').all()[service_offset:]
         if self.verbose:
             self.stdout.write("\nType,Name,Failed Url,Object Url\n")
         results = self.perform_check(results, services, 'service')
 
         self.stderr.write(self.style.SUCCESS('Checking organisation urls'))
-        org_offset = int(Organisation.objects.count() * (offset/100))
-        print("Org offset", org_offset)
-        organisations = Organisation.objects.order_by('created_on').all()[org_offset:]
+        org_offset = int(Organisation.objects.exclude(published=False).count() * (offset/100))
+        organisations = Organisation.objects.exclude(published=False).order_by('created_on').all()[org_offset:]
         if self.verbose:
             self.stdout.write("\nType,Name,Failed Url,Object Url\n")
         results = self.perform_check(results, organisations, 'organisation')
