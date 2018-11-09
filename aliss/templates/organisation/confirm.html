@@ -15,11 +15,17 @@
                 </span>
                 No, let me edit it
             </a>
-            <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="button secondary">
+            <a href="{% url 'service_create' pk=object.pk %}" class="button secondary">
                 <span class="icon">
                     <i class="fas fa-check"></i>
                 </span>
-                Yes, let's continue &amp; add a service
+                Yes, continue &amp; add a service
+            </a>
+            <a href="{% url 'account_my_organisations' %}" class="button secondary">
+                <span class="icon">
+                    <i class="fas fa-check"></i>
+                </span>
+                Yes, save &amp; add a service later
             </a>
         </div>
         <br/><br/>
