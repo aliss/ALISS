@@ -15,7 +15,7 @@
           <h3>
           {% url 'organisation_search' as src %}
           {% if request.GET.next == src %}
-            To add an organisation you will need to <a href="{% url 'signup' %}">sign up</a> or login:
+            Before adding an organisation you will need to <a href="{% url 'signup' %}">sign up</a> or login:
           {% else %}
             Not got an account? <a href="{% url 'signup' %}">Sign up</a>
           {% endif %}
