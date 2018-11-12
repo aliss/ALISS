@@ -22,16 +22,24 @@
             <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}
             </a>
           </td>
-          <td>{{ claim.organisation.services.count }}</td>
+          <td>
+            {% if claim.organisation.services.count > 0 %}
+              {{ claim.organisation.services.count }}
+            {% else %}
+              <span style="color:red;">{{ claim.organisation.services.count }}
+                <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="Until you add services that belong to the organisation it won't be published on ALISS.">
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+              </span></span>
+            {% endif %}
+          </td>
           <td>{{ claim.organisation.updated_on }}</td>
           <td>
-            <a href="#">Edit</a>
-            <a href="{% url 'claim_delete' pk=claim.pk %}" class="alert icon-link">
-                <span class="icon">
-                  <i class="fas fa-minus-hexagon"></i>
-                </span>
-                Stop representing
-              </a>
+            <a href="{% url 'organisation_edit' pk=claim.organisation.pk %}">
+              <i class="fa fa-edit" aria-hidden="true"></i> Edit
+            </a>
+            <a href="{% url 'claim_delete' pk=claim.pk %}" class="alert">
+              <i class="fas fa-minus-hexagon"></i> Stop representing
+            </a>
           </td>
         </tr>
         {% endfor %}
@@ -46,7 +54,7 @@
             {% if organisation.services.count > 0 %}
               {{ organisation.services.count }}
             {% else %}
-              <span style="color:red;">{{ organisation.services.count }}
+              <span class="alert">{{ organisation.services.count }}
                 <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="Until you add services that belong to the organisation it won't be published on ALISS.">
                 <i class="fa fa-question-circle" aria-hidden="true"></i>
               </span></span>
