@@ -3,169 +3,174 @@
 
 {% block title %}{{ object.name }} - ALISS{% endblock %}
 {% block meta_schema %}
-    <meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
-    <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
-    <meta property="og:title" content="{{ object.name }} on ALISS.org" />
-    <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
-    <meta name="description" content="{{ object.description }}">
-    {% if view.kwargs.slug %}
-        <link rel="canonical" href="{% url 'organisation_detail' object.pk %}" />
-    {% else %}
-        <link rel="canonical" href="{% url 'organisation_detail_slug' object.slug %}" />
-    {% endif %}
+  <meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
+  <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
+  <meta property="og:title" content="{{ object.name }} on ALISS.org" />
+  <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
+  <meta name="description" content="{{ object.description }}">
+  {% if view.kwargs.slug %}
+    <link rel="canonical" href="{% url 'organisation_detail' object.pk %}" />
+  {% else %}
+    <link rel="canonical" href="{% url 'organisation_detail_slug' object.slug %}" />
+  {% endif %}
 {% endblock %}
 
 {% block container %}
 <div class="black"></div>
 <div class="modal" id="delete_org">
-    <div class="pad">
-        <div class="heading">
-            <a class="close alert icon-link">
-                <span class="icon">
-                    <i class="fas fa-times"></i>
-                </span>
-                Close
-            </a>
-            <h5>Delete organisation</h5>
-        </div>
-        <div class="content">
-            <p>Are you sure you want to delete your organisation?</p>
-            <p>This will also delete the associated Services and Locations.</p>
-            <div class="buttons">
-                <form method="post" action="{% url 'organisation_delete' pk=object.pk %}">
-                    {% csrf_token %}
-                    <input type="submit" class="button alert" value="Delete">
-                    <a class="button secondary cancel">Cancel</a>
-                </form>
-            </div>
-        </div>
+  <div class="pad">
+    <div class="heading">
+      <a class="close alert icon-link">
+        <span class="icon">
+          <i class="fas fa-times"></i>
+        </span>
+        Close
+      </a>
+      <h5>Delete organisation</h5>
     </div>
+    <div class="content">
+      <p>Are you sure you want to delete your organisation?</p>
+      <p>This will also delete the associated Services and Locations.</p>
+      <div class="buttons">
+        <form method="post" action="{% url 'organisation_delete' pk=object.pk %}">
+          {% csrf_token %}
+          <input type="submit" class="button alert" value="Delete">
+          <a class="button secondary cancel">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 <main class="main" role="main">
-    <article id="content" class="organisation">
+  <article id="content" class="organisation">
 
-        <div class="row">
-            <div class="columns options">
-                <div class="info-box toggled" id="service_actions">
-                    <div class="heading">
-                        <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
-                    </div>
-                    <div class="actions toggle-content">
-                        {% if request.user.is_authenticated %}
-                            {% can_edit request.user object as user_can_edit %}
+    <div class="row">
+      <div class="columns options">
+        <div class="info-box toggled" id="service_actions">
+          <div class="heading">
+            <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+          </div>
+          <div class="actions toggle-content">
+            {% if request.user.is_authenticated %}
+              {% can_edit request.user object as user_can_edit %}
 
-                            {% if user_can_edit %}
-                                <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
-                                    <span class="icon">
-                                        <i class="fas fa-plus"></i>
-                                    </span>
-                                    Add service
-                                </a>
-                                <a href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
-                                    <span class="icon">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </span>
-                                    Add location
-                                </a>
-                                <a href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
-                                    <span class="icon">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </span>
-                                    Edit organisation
-                                </a>
-                                <a id="delete_org_modal" class="delete icon-link">
-                                    <span class="icon">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </span>
-                                    Delete organisation
-                                </a>
-                            {% elif not object.claimed_by %}
-                                <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
-                                    <span class="icon">
-                                        <i class="fas fa-hand-paper"></i>
-                                    </span>
-                                    Claim this organisation
-                                </a>
-                            {% endif %}
-                        {% elif not object.claimed_by %}
-                            <a title="Log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
-                                <span class="icon">
-                                    <i class="fas fa-hand-paper"></i>
-                                </span>
-                                Claim this organisation
-                            </a>
-                        {% endif %}
+              {% if user_can_edit %}
+                <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
+                  <span class="icon">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  Add service
+                </a>
+                <a href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+                  <span class="icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </span>
+                  Add location
+                </a>
+                <a href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
+                  <span class="icon">
+                    <i class="fas fa-pencil-alt"></i>
+                  </span>
+                  Edit organisation
+                </a>
+                <a id="delete_org_modal" class="delete icon-link">
+                  <span class="icon">
+                    <i class="fas fa-trash-alt"></i>
+                  </span>
+                  Delete organisation
+                </a>
+              {% elif not object.claimed_by %}
+                <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
+                  <span class="icon">
+                    <i class="fas fa-hand-paper"></i>
+                  </span>
+                  Claim this organisation
+                </a>
+              {% endif %}
+            {% elif not object.claimed_by %}
+              <a title="Log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
+                <span class="icon">
+                  <i class="fas fa-hand-paper"></i>
+                </span>
+                Claim this organisation
+              </a>
+            {% endif %}
 
-                        <a id="back_to_seach" class="icon-link" style = "display:none">
-                          <span class="icon">
-                            <i class="fas fa-arrow-left"></i>
-                          </span>
-                          Back to last search
-                        </a>
-                    </div>
-                </div>
-                {% if not object.published %}
-                <div class="content">
-                    <br/>
-                    <h4>Publish progress</h4>
-                    {% include 'partials/breadcrumb.html' with progress=progress %}
-                </div>
-                {% endif %}
-            </div>
-
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>{{ object.name }}</h1>
-                    {% if object.claimed_by %}<p class="org"><span class="claimed">Claimed</span></p>{% endif %}
-                    <div class="desc">
-                        <p>{{ object.description|linebreaks }}</p>
-                        <p>Last updated <span class="updated alert">{{ object.updated_on }}</span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="columns contact-info">
-                {% if object.locations.all %}
-                    <h4>Locations</h4>
-                    <div class="all-locations">
-                        {% for location in object.locations.all %}
-                            {% include 'location/partials/detail.html' %}
-                        {% endfor %}
-                        {% if user_can_edit %}
-                            <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
-                        {% endif %}
-                    </div>
-                {% endif %}
-                {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
-                    <h4>Contact Information</h4>
-                    <p>
-                        {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-                        {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
-                        {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
-                        {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
-                        {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
-                    </p>
-                    {% if user_can_edit %}
-                        <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
-                    {% endif %}
-                {% endif %}
-            </div>
-            <div class="columns content">
-                {% if object.services.all %}
-                    <div class="services-list">
-                        <h3>Services</h3>
-                        <ul class="search-results{% if user_can_edit %} edit{% endif %}">
-                            {% for service in object.services.all %}
-                                {% include 'service/partials/detail.html' with service=service %}
-                            {% endfor %}
-                        </ul>
-                        {% if user_can_edit %}
-                            <a href="{% url 'service_create' pk=object.pk %}" class="button primary">Add Service</a>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            </div>
+            <a id="back_to_seach" class="icon-link" style = "display:none">
+              <span class="icon">
+              <i class="fas fa-arrow-left"></i>
+              </span>
+              Back to last search
+            </a>
+          </div>
         </div>
-    </article>
+        {% if not object.published %}
+        <div class="content">
+          <br/>
+          <h4>Publish progress</h4>
+          {% include 'partials/breadcrumb.html' with progress=progress %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="columns content">
+        <div class="copy-container">
+          <h1>{{ object.name }}</h1>
+          {% if object.claimed_by %}
+            <p class="org"><span class="claimed">Claimed</span></p>
+          {% endif %}
+          <div class="desc">
+            <p>{{ object.description|linebreaks }}</p>
+            <p>Last updated <span class="updated">{{ object.updated_on }}</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="columns contact-info">
+        {% if object.locations.all %}
+          <h4>Locations</h4>
+          <div class="all-locations">
+            {% for location in object.locations.all %}
+              {% include 'location/partials/detail.html' %}
+            {% endfor %}
+            {% if user_can_edit %}
+              <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
+            {% endif %}
+          </div>
+        {% endif %}
+        {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
+          <h4>Contact Information</h4>
+          <p>
+            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+            {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
+            {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
+            {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+            {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+          </p>
+          {% if user_can_edit %}
+            <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="columns content">
+        <div class="services-list">
+          <h3>Services</h3>
+          {% if object.services.all %}
+            <ul class="search-results{% if user_can_edit %} edit{% endif %}">
+              {% for service in object.services.all %}
+                {% include 'service/partials/detail.html' with service=service %}
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="">
+              <span class="icon">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+              </span> No services have been added for this organisation. Until a service has been added this organisation won't be visible on ALISS. {% if user_can_edit %}<p><a href="{% url 'service_create' pk=object.pk %}" class="">Add a service</a></p>
+            </p>{% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </article>
 </main>
 
 <script type="application/ld+json">
@@ -187,11 +192,11 @@
 
 {% block before_body_close %}
   <script type="text/javascript">
-    $(document).ready(function(){
-      var searchURL = localStorage.getItem('searchURL');
-      if (searchURL != null){
-        $('#back_to_seach').attr('href', searchURL).show();
-      }
-    })
+  $(document).ready(function(){
+    var searchURL = localStorage.getItem('searchURL');
+    if (searchURL != null){
+    $('#back_to_seach').attr('href', searchURL).show();
+    }
+  })
   </script>
 {% endblock%}
