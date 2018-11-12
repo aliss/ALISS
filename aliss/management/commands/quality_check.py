@@ -79,8 +79,9 @@ class Command(BaseCommand):
         results = self.perform_check(results, services, 'service')
 
         self.stderr.write(self.style.SUCCESS('Checking organisation urls'))
-        org_offset = int(Organisation.objects.exclude(published=False).count() * (offset/100))
-        organisations = Organisation.objects.exclude(published=False).order_by('created_on').all()[org_offset:]
+        query = Organisation.objects.exclude(services=None).filter(published=True)
+        org_offset = int(query.count() * (offset/100))
+        organisations = query.order_by('created_on').all()[org_offset:]
         if self.verbose:
             self.stdout.write("\nType,Name,Failed Url,Object Url\n")
         results = self.perform_check(results, organisations, 'organisation')
