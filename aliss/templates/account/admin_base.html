@@ -7,7 +7,7 @@
                 <div class="columns">
                     <h1>Hello, {% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</h1>
                     <div class="buttons">
-                        <a href="{% url 'account_update' %}" class="button primary">Edit Account Info</a>
+                        <a href="{% url 'account_update' %}" class="button primary">Edit account</a>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
         <section class="mobile-buttons">
             <div class="row">
                 <div class="columns">
-                    <a href="{% url 'account_update' %}" class="button primary">Edit Account Info</a>
+                    <a href="{% url 'account_update' %}" class="button primary">Edit account</a>
                     <a href="{% url 'logout' %}" class="button secondary">Logout</a>
                 </div>
             </div>

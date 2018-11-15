@@ -9,7 +9,7 @@
     {% if not saved_services.all %}
         <div class="account-list none">
             <p>You haven't saved any services yet.</p>
-            <p><a href="{% url 'homepage' %}">Start Searching</a></p>
+            <p><a href="{% url 'homepage' %}">Start searching</a></p>
         </div>
     {% else %}
         <div class="account-list">
@@ -29,7 +29,7 @@
                             <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
                         </div>
                         <p class="org">by <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
-                        <p>Last Updated <span class="updated alert">{{ service.updated_on }}</span></p>
+                        <p>Last updated <span class="updated alert">{{ service.updated_on }}</span></p>
 
                         <div class="assigned-category">
                             {% for category in service.categories.all %}
@@ -45,7 +45,7 @@
                         <ul class="contact-info">
                             {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
                             {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
-                            {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
+                            {% if service.service_areas.all %}<li class="service-areas"><a>Service areas</a></li>{% endif %}
                         </ul>
                         {% if service.service_areas.all %}
                             <div class="service-areas-list">
@@ -60,13 +60,13 @@
                     <span class="icon">
                         <i class="fas fa-envelope"></i>
                     </span>
-                    Email My Saved Services
+                    Email saved services
                 </a> -->
                 <a href="javascript:window.print();" class="icon-link">
                     <span class="icon">
                         <i class="fas fa-print"></i>
                     </span>
-                    Print My Saved Services
+                    Print saved services
                 </a>
             </div>
         </div>
