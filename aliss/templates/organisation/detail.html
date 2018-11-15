@@ -54,10 +54,10 @@
 
         {% if user_can_edit %}
           <p class="message">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            </span> No services have been added for this organisation. Until a service is added this organisation won't be visible on ALISS.
-            <a href="{% url 'service_create' pk=object.pk %}">Add a service.</a>
             <span class="icon">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            </span> No services have been added for this organisation. Until a service is added this organisation won't be visible on ALISS.
+            <a style="font-size: 0.9em; margin-left: 6px;" href="{% url 'service_create' pk=object.pk %}">Add a service.</a>
           </p>
         {% endif %}
 
