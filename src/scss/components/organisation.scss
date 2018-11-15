@@ -60,6 +60,11 @@ ul.progress-breadcrumb.step-4 {
             box-shadow: 0 0 6px 2px $brand;
 }
 
+div.claim-representation { display: none; }
+.new-org {
+  div.claim-representation { display: block; }
+}
+
 .new-service.large-form,
 .new-location.large-form,
 .new-org.large-form {
