@@ -16,12 +16,13 @@ from braces.views import (
     UserPassesTestMixin
 )
 
-from aliss.models import Organisation
+from aliss.models import Organisation, Claim
 from aliss.filters import OrganisationFilter
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Q
 from aliss.views import ProgressMixin
+from aliss.forms import ClaimForm
 
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
@@ -37,11 +38,14 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         'twitter',
     ]
 
+    def get_context_data(self, **kwargs):
+        context = super(OrganisationCreateView, self).get_context_data(**kwargs)
+        if 'claim_form' not in kwargs:
+            context['claim_form'] = ClaimForm(prefix="claim")
+        return context
+
     def get_success_url(self):
-        return reverse(
-            'organisation_confirm',
-            kwargs={'pk': self.object.pk }
-        )
+        return reverse('organisation_confirm', kwargs={'pk': self.object.pk })
 
     def send_new_org_email(self, organisation):
         message = '{organisation} has been added to ALISS by {user}.'.format(organisation=organisation, user=organisation.created_by)
@@ -54,27 +58,39 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
             fail_silently=True,
         )
 
-    def form_valid(self, form):
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        claim_form = None
+        self.object = None
+
+        if request.POST.get('claim'):
+            claim_form = ClaimForm({
+                'comment': request.POST['claim-comment'],
+                'data_quality': request.POST['claim-data_quality']
+            })
+
+        if (form.is_valid() and (claim_form == None or claim_form.is_valid())):
+            return self.form_valid(form, claim_form)
+        else:
+            return self.form_invalid(form, claim_form)
+
+    def form_invalid(self, form, claim_form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def form_valid(self, form, claim_form):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
-
-        if self.request.user.is_editor or self.request.user.is_staff:
-            self.object.published = True
-        else:
-            self.object.published = False
-            self.send_new_org_email(self.object)
-
+        self.object.published = self.request.user.is_editor or self.request.user.is_staff
         self.object.save()
-        messages.success(
-            self.request, '<p>{name} has been successfully created.</p>'.format(
-                name=self.object.name,
-                url=reverse(
-                    'claim_create',
-                    kwargs={'pk': self.object.pk}
-                )
-            )
-        )
 
+        if claim_form:
+            Claim.objects.create(
+                user=self.request.user, organisation=self.object,
+                comment=claim_form.cleaned_data.get('comment'))
+
+        self.send_new_org_email(self.object)
+        msg = '<p>{name} has been successfully created.</p>'.format(name=self.object.name)
+        messages.success(self.request, msg)
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -141,7 +157,7 @@ class OrganisationDetailView(ProgressMixin, DetailView):
 class OrganisationConfirmView(UserPassesTestMixin, ProgressMixin, DetailView):
     model = Organisation
     template_name = 'organisation/confirm.html'
-    
+
     def test_func(self, user):
         return self.get_object().is_edited_by(user)
 
