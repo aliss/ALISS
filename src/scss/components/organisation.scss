@@ -76,6 +76,8 @@ div.inline-claim.active {
   div.claim-form { display:block; }
 }
 
+.claim-form textarea { height: 5em; }
+
 .new-service.large-form,
 .new-location.large-form {
   width:62%;

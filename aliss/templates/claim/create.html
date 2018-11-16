@@ -13,7 +13,7 @@
 <section class="large-form">
   <div class="row">
     <div class="columns">
-      <form method="post">
+      <form method="post" class="claim-form">
         {% csrf_token %}
         {% include 'claim/forms/claim_form.html' %}
         <div class="submit">

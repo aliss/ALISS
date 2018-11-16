@@ -21,9 +21,6 @@ class Claim(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey('aliss.ALISSUser')
     organisation = models.ForeignKey('aliss.Organisation')
-
-    email = models.EmailField()
-    phone = models.CharField(max_length=30)
     comment = models.TextField()
     status = models.IntegerField(choices=STATUS_CHOICES, default=UNREVIEWED)
 
