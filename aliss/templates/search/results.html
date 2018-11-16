@@ -227,7 +227,7 @@ $(document).ready(function(){
 
   var checkword = function(){
     var new_term = $("input[name='q']").val()
-    $(".category-selector a").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&")})
+    $(".category-selector a").not(":eq(0)").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&")})
   }
 
   if($("input[name='q']").val() != ""){
