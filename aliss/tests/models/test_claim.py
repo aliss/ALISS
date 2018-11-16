@@ -7,7 +7,6 @@ class ClaimTestCase(TestCase):
         t,u,c,s = Fixtures.create_users()
         o = Fixtures.create_organisation(t)
         Claim.objects.create(comment="I'm in charge",
-          email="claimant@user.org",
           organisation=o,
           user=c,
           reviewed_by=u

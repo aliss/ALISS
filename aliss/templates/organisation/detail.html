@@ -42,116 +42,60 @@
   </div>
 </div>
 <main class="main" role="main">
-  <article id="content" class="organisation">
+  <article id="content" class="organisation grid-container">
 
-    <div class="row">
-      <div class="columns options">
-        <div class="info-box toggled" id="service_actions">
-          <div class="heading">
-            <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
-          </div>
-          <div class="actions toggle-content">
-            {% if request.user.is_authenticated %}
-              {% can_edit request.user object as user_can_edit %}
-
-              {% if user_can_edit %}
-                <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
-                  <span class="icon">
-                    <i class="fas fa-plus"></i>
-                  </span>
-                  Add service
-                </a>
-                <a href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
-                  <span class="icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                  </span>
-                  Add location
-                </a>
-                <a href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
-                  <span class="icon">
-                    <i class="fas fa-pencil-alt"></i>
-                  </span>
-                  Edit organisation
-                </a>
-                <a id="delete_org_modal" class="delete icon-link">
-                  <span class="icon">
-                    <i class="fas fa-trash-alt"></i>
-                  </span>
-                  Delete organisation
-                </a>
-              {% elif not object.claimed_by %}
-                <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
-                  <span class="icon">
-                    <i class="fas fa-hand-paper"></i>
-                  </span>
-                  Claim this organisation
-                </a>
-              {% endif %}
-            {% elif not object.claimed_by %}
-              <a title="Log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
-                <span class="icon">
-                  <i class="fas fa-hand-paper"></i>
-                </span>
-                Claim this organisation
-              </a>
-            {% endif %}
-
-            <a id="back_to_seach" class="icon-link" style = "display:none">
-              <span class="icon">
-              <i class="fas fa-arrow-left"></i>
-              </span>
-              Back to last search
-            </a>
-          </div>
-        </div>
-        {% if not object.published %}
-        <div class="content">
-          <br/>
-          <h4>Publish progress</h4>
-          {% include 'partials/breadcrumb.html' with progress=progress %}
-        </div>
+    <div class="grid-x">
+      <div class="cell small-12 medium-8 large-8">
+        <h1>{{ object.name }}</h1>
+      
+        {% if request.user.is_authenticated %}
+          {% can_edit request.user object as user_can_edit %}
         {% endif %}
-      </div>
 
-      <div class="columns content">
-        <div class="copy-container">
-          <h1>{{ object.name }}</h1>
-          {% if object.claimed_by %}
-            <p class="org"><span class="claimed">Claimed</span></p>
-          {% endif %}
-          <div class="desc">
-            <p>{{ object.description|linebreaks }}</p>
-            <p>Last updated <span class="updated">{{ object.updated_on }}</span></p>
-          </div>
-        </div>
-      </div>
-      <div class="columns contact-info">
-        {% if object.locations.all %}
-          <h4>Locations</h4>
-          <div class="all-locations">
-            {% for location in object.locations.all %}
-              {% include 'location/partials/detail.html' %}
-            {% endfor %}
-            {% if user_can_edit %}
-              <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
-            {% endif %}
-          </div>
-        {% endif %}
-        {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
-          <h4>Contact Information</h4>
-          <p>
-            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-            {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
-            {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
-            {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
-            {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+        {% if user_can_edit %}
+          <p class="message">
+            <span class="icon">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            </span> No services have been added for this organisation. Until a service is added this organisation won't be visible on ALISS.
+            <a style="font-size: 0.9em; margin-left: 6px;" href="{% url 'service_create' pk=object.pk %}">Add a service.</a>
           </p>
-          {% if user_can_edit %}
-            <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
-          {% endif %}
         {% endif %}
-      </div>
-      <div class="columns content">
+
+        {% if object.claimed_by %}
+          <p class="org"><span class="claimed">Claimed</span></p>
+        {% endif %}
+        <div class="desc">
+          <p>{{ object.description|linebreaks }}</p>
+          <p>Last updated <span class="updated">{{ object.updated_on }}</span></p>
+        </div>
+
+        <div class="contact-info">
+          {% if object.locations.all %}
+            <h4>Locations</h4>
+            <div class="all-locations">
+              {% for location in object.locations.all %}
+                {% include 'location/partials/detail.html' %}
+              {% endfor %}
+              {% if user_can_edit %}
+                <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
+              {% endif %}
+            </div>
+          {% endif %}
+          {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
+            <h4>Contact Information</h4>
+            <p>
+              {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+              {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
+              {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
+              {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+              {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+            </p>
+            {% if user_can_edit %}
+              <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
+            {% endif %}
+          {% endif %}
+        </div>
+
         <div class="services-list">
           <h3>Services</h3>
           {% if object.services.all %}
@@ -161,11 +105,75 @@
               {% endfor %}
             </ul>
           {% else %}
-            <p class="">
-              <span class="icon">
-                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-              </span> No services have been added for this organisation. Until a service has been added this organisation won't be visible on ALISS. {% if user_can_edit %}<p><a href="{% url 'service_create' pk=object.pk %}" class="">Add a service</a></p>
-            </p>{% endif %}
+            <p>No services have been added to this organisation</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="cell small-12 medium-4 large-4">
+        <div class="pad">
+          <div class="info-box toggled" id="service_actions">
+            <div class="heading">
+              <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+            </div>
+            <div class="actions toggle-content">
+              {% if request.user.is_authenticated %}
+                {% if user_can_edit %}
+                  <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
+                    <span class="icon">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    Add service
+                  </a>
+                  <a href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+                    <span class="icon">
+                      <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    Add location
+                  </a>
+                  <a href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
+                    <span class="icon">
+                      <i class="fas fa-pencil-alt"></i>
+                    </span>
+                    Edit organisation
+                  </a>
+                  <a id="delete_org_modal" class="delete icon-link">
+                    <span class="icon">
+                      <i class="fas fa-trash-alt"></i>
+                    </span>
+                    Delete organisation
+                  </a>
+                {% elif not object.claimed_by %}
+                  <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
+                    <span class="icon">
+                      <i class="fas fa-hand-paper"></i>
+                    </span>
+                    Claim this organisation
+                  </a>
+                {% endif %}
+              {% elif not object.claimed_by %}
+                <a title="Log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
+                  <span class="icon">
+                    <i class="fas fa-hand-paper"></i>
+                  </span>
+                  Claim this organisation
+                </a>
+              {% endif %}
+
+              <a id="back_to_seach" class="icon-link" style = "display:none">
+                <span class="icon">
+                <i class="fas fa-arrow-left"></i>
+                </span>
+                Back to last search
+              </a>
+            </div>
+          </div>
+          {% if not object.published %}
+          <div class="content">
+            <br/>
+            <h4>Publish progress</h4>
+            {% include 'partials/breadcrumb.html' with progress=progress %}
+          </div>
           {% endif %}
         </div>
       </div>

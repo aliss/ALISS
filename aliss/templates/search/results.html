@@ -2,11 +2,11 @@
 {% load aliss %}
 {% load humanize %}
 
-{% block title %}{% if not request.GET.q %}Help &amp; support{% else %}'{{ request.GET.q }}' help &amp; support{% endif %} in {{ postcode.postcode }}, {{ service_area }} - ALISS{% endblock %}
+{% block title %}{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }}, {{ service_area }} - ALISS{% endblock %}
 {% block meta_schema %}
-    <meta property="og:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
+    <meta property="og:title" content="{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
     <meta property="og:description" content="{{ paginator.count }} search results for services in {% firstof service_area postcode.postcode %}" />
-    <meta name="twitter:title" content="{% if not request.GET.q %}Help & support{% else %}'{{ request.GET.q }}' help & support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
+    <meta name="twitter:title" content="{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
     <meta name="twitter:description" content="{{ paginator.count }} search results for services in {% firstof service_area postcode.postcode %}" />
     <meta name="description" content="Search results for help and support in {{ postcode.postcode }}, {{ service_area }}">
 {% endblock %}
@@ -17,7 +17,7 @@
         <section id="content" class="results">
             <div class="row title">
                 <div class="columns">
-                    <h1>Help &amp; support in <span class="postcode">{{ postcode.postcode }}</span></h1>
+                    <h1>Help and support in <span class="postcode">{{ postcode.postcode }}</span></h1>
                     <div class="buttons">
                         <a href="{% url 'homepage' %}" class="button primary">New Search</a>
                     </div>
