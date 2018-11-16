@@ -219,3 +219,21 @@
     {% endif %}
 </main>
 {% endblock %}
+
+
+{% block before_body_close %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+  var checkword = function(){
+    var new_term = $("input[name='q']").val()
+    $(".category-selector a").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&")})
+  }
+
+  if($("input[name='q']").val() != ""){
+    $(".category-selector *").click(function(){checkword()})
+  }
+
+});
+</script>
+{% endblock %}
