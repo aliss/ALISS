@@ -33,7 +33,7 @@ class Command(BaseCommand):
 
 
             # Focus on the situation where Digest Selections have been created and have updated services.
-            message = "\n\n-----\n\n\nYour Weekly Digest Selection\n\n"
+            message = "\n\nLatest service updates from ALISS\n\n"
 
             for digest_object in user.digest_selections.all():
                 message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} updated services:".format(
@@ -41,7 +41,7 @@ class Command(BaseCommand):
                     digest_category=digest_object.category,)
                 r = digest_object.retrieve(comparison_date)[:3]
                 if not r:
-                    message += '\n\n No updated services for this Digest Selection'
+                    message += '\n\n No updated services for this selection'
                 else:
                     for service in r:
                         message += '\n\n {service_name} \n\n {service_updated_on}'.format(
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                             )
         #Send the email to the user.
             send_mail(
-                'Subject: Test Test Test',
+                'Subject: ALISS digest selection test',
                 message,
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],

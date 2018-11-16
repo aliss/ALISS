@@ -2,52 +2,84 @@
 
 {% block content %}
 <h4>My Organisations</h4>
-<div class="copy-container">
-    <p>If you are a member of an organisation, you can search for them below then request to represent them. Once approved by the ALISS moderation team, you will be able to update your organisation’s details and services.</p>
-</div>
-<div class="my-account-details">
+<p><a href="{% url 'organisation_search' %}">Add or edit another organisation</a></p>
+<table class="stack">
+  <thead>
+    <tr>
+      <th width="">Name</th>
+      <th width="">No. of services</th>
+      <th width="">Last updated</th>
+      <th width="">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
     {% if object_list or orgs_list %}
-        <div class="account-list">
-            <ul class="rep-organisations">
-                {% for claim in object_list %}
-                    <li>
-                        <div class="heading">
-                            <a href="{% url 'claim_delete' pk=claim.pk %}" class="alert icon-link">
-                                <span class="icon">
-                                    <i class="fas fa-minus-hexagon"></i>
-                                </span>
-                                Stop Representing
-                            </a>
-                            <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}"><h3>{{ claim.organisation.name }}</h3></a><span class="claimed">Claimed</span>
-                        </div>
-                        <p>Last updated <span class="updated">{{ claim.organisation.updated_on }}</span></p>
-                    </li>
-                {% endfor %}
+    {% for claim in object_list %}
+    <tr>
+      <td>
+        <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}
+        </a>
+      </td>
+      <td>
+        {% if claim.organisation.services.count > 0 %}
+          {{ claim.organisation.services.count }}
+        {% else %}
+          <span style="color:red;">{{ claim.organisation.services.count }}
+            <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="Until you add services that belong to the organisation it won't be published on ALISS.">
+            <i class="fa fa-question-circle" aria-hidden="true"></i>
+          </span></span>
+        {% endif %}
+      </td>
+      <td>{{ claim.organisation.updated_on }}</td>
+      <td>
+        <a href="{% url 'organisation_edit' pk=claim.organisation.pk %}">
+          <i class="fa fa-edit" aria-hidden="true"></i> Edit
+        </a>&nbsp;
+        <a href="{% url 'claim_delete' pk=claim.pk %}" class="alert">
+          <i class="fas fa-minus-hexagon"></i> Stop representing
+        </a>&nbsp;
+        <a href="{% url 'service_create' pk=claim.organisation.pk %}">
+          <i class="fa fa-plus" aria-hidden="true"></i> Add service
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
 
-                {% for organisation in orgs_list %}
-                    <li>
-                        <div class="heading">
-                            <a href="{% url 'organisation_detail' pk=organisation.pk %}"><h3>{{ organisation.name }}</h3></a>
-                        </div>
-                        <p>Last updated <span class="updated">{{ organisation.updated_on }}</span></p>
-                    </li>
-                {% endfor %}
-            </ul>
-            <div class="actions">
-                <a href="{% url 'organisation_search' %}">Represent another org</a>
-            </div>
-        </div>
-        <div class="screen-info">
-            <a href="{% url 'organisation_search' %}" class="button primary">Represent another org</a>
-        </div>
+    {% for organisation in orgs_list %}
+    <tr>
+      <td>
+        <a href="{% url 'organisation_detail' pk=organisation.pk %}">
+        {{ organisation.name }}</a>
+      </td>
+      <td>
+        {% if organisation.services.count > 0 %}
+          {{ organisation.services.count }}
+        {% else %}
+          <span class="alert">{{ organisation.services.count }}
+            <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="Until you add services that belong to the organisation it won't be published on ALISS.">
+            <i class="fa fa-question-circle" aria-hidden="true"></i>
+          </span></span>
+        {% endif %}
+      </td>
+      <td>{{ organisation.updated_on }}</td>
+      <td>
+        <a href="{% url 'organisation_edit' pk=organisation.pk %}">
+          <i class="fa fa-edit" aria-hidden="true"></i> Edit
+        </a>&nbsp;
+        <a href="{% url 'service_create' pk=organisation.pk %}">
+          <i class="fa fa-plus" aria-hidden="true"></i> Add service
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
     {% else %}
-        <div class="account-list none">
-            <p>You are not currently representing any organisations</p>
-            <p><a href="{% url 'organisation_search' %}">Add your organisation</a></p>
-        </div>
-        <div class="screen-info">
-            <a href="{% url 'organisation_search' %}" class="button primary">Add your organisation</a>
-        </div>
+      <tr><td colspan="4">
+        <p class="center">
+          You are not currently representing any organisations<br/>
+          <a href="{% url 'organisation_search' %}">Add an organisation</a>
+        </p>
+      </td></tr>
     {% endif %}
-</div>
+  </tbody>
+</table>
 {% endblock %}

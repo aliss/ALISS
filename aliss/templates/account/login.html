@@ -2,61 +2,67 @@
 
 {% block title %}Log In - ALISS{% endblock %}
 {% block meta_schema %}
-    <meta property="og:title" content="Log In - ALISS" />
-    <meta name="twitter:title" content="Log In - ALISS" />
+  <meta property="og:title" content="Log In - ALISS" />
+  <meta name="twitter:title" content="Log In - ALISS" />
 {% endblock %}
 
 {% block container %}
 <main class="main" role="main">
-    <section id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>Log in</h1>
-                    <p>Not got an account? <a href="{% url 'signup' %}">Sign Up</a></p>
-                </div>
-            </div>
+  <section id="content">
+    <div class="row">
+      <div class="columns content">
+        <div class="copy-container">
+          <h3>
+          {% url 'organisation_search' as src %}
+          {% if request.GET.next == src %}
+            Before adding an organisation you will need to <a href="{% url 'signup' %}">sign up</a> or login:
+          {% else %}
+            Not got an account? <a href="{% url 'signup' %}">Sign up</a>
+          {% endif %}
+          </h3>
         </div>
-    </section>
-    <section id="login">
-        <div class="row">
-            <div class="columns">
-                <div class="login">
-                    <form method="post" action="{% url 'login' %}">
-                        {% csrf_token %}
-                        <div class="info-box">
-                            <div class="heading">
-                                <h4>Your details</h4>
-                            </div>
-                            {% if form.non_field_errors %}
-                                <div class="f-error all content">
-                                    <ul>
-                                        {% for item in form.non_field_errors %}
-                                            <li>{{ item }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
-                            <label for="username">Email</label>
-                            {{ form.username }}
-                            {{ form.password.label_tag }}
-                            {{ form.password }}
-                            <p>
-                                <div class="checkbox-agree">
-                                    <label>
-                                        <input type="checkbox" name="remember_me">
-                                        Remember Me
-                                    </label>
-                                </div>
-                            </p>
-                            <p><a href="{% url 'password_reset' %}">I've forgotten my password</a></p>
-                        </div>
-                        <input type="submit" value="Log In">
-                        <input type="hidden" name="next" value="{{ next }}" />
-                    </form>
+      </div>
+    </div>
+  </section>
+  <section id="login">
+    <div class="row">
+      <div class="columns">
+        <div class="login">
+          <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="info-box">
+              <div class="heading">
+                <h4>Login details</h4>
+              </div>
+              {% if form.non_field_errors %}
+                <div class="f-error all content">
+                  <ul>
+                    {% for item in form.non_field_errors %}
+                      <li>{{ item }}</li>
+                    {% endfor %}
+                  </ul>
                 </div>
+              {% endif %}
+              <label for="username">Email</label>
+              {{ form.username }}
+              {{ form.password.label_tag }}
+              {{ form.password }}
+              <p>
+                <div class="checkbox-agree">
+                  <label>
+                    <input type="checkbox" name="remember_me">
+                    Remember Me
+                  </label>
+                </div>
+              </p>
+              <p><a href="{% url 'password_reset' %}">I've forgotten my password</a></p>
             </div>
+            <input type="submit" value="Log in">
+            <input type="hidden" name="next" value="{{ next }}" />
+          </form>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </main>
 {% endblock %}
