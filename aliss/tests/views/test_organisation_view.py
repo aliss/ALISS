@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
-from aliss.models import Organisation, ALISSUser, Service, Location
+from aliss.models import Organisation, ALISSUser, Service, Location, Claim
 
 class OrganisationViewTestCase(TestCase):
     def setUp(self):
@@ -34,13 +34,43 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_organisation_valid_creation(self):
+        cn = Claim.objects.count()
         response = self.client.post(reverse('organisation_create'), 
             { 'name': 'an organisation', 'description': 'a full description' })
         o = Organisation.objects.latest('created_on')
 
+        self.assertEqual(cn, Claim.objects.count())
         self.assertEqual(o.name, 'an organisation')
         self.assertEqual(o.published, False)
         self.assertEqual(response.status_code, 302)
+
+    def test_organisation_valid_creation_with_claim(self):
+        response = self.client.post(reverse('organisation_create'), {
+            'name': 'an organisation', 'description': 'a full description',
+            'claim': 'on', 'claim-name': 'testerperson',
+            'claim-comment': 'im important', 'claim-email': 'myemail@email.com',
+            'claim-phone': '012333233', 'claim-data_quality': 'on'
+        })
+
+        o = Organisation.objects.latest('created_on')
+        c = Claim.objects.latest('created_on')
+        self.assertEqual(c.organisation, o)
+        self.assertEqual(o.name, 'an organisation')
+        self.assertEqual(o.published, False)
+        self.assertEqual(response.status_code, 302)
+
+    def test_organisation_invalid_creation_with_claim(self):
+        on = Organisation.objects.count()
+        cn = Claim.objects.count()
+        response = self.client.post(reverse('organisation_create'), {
+            'name': 'an organisation', 'description': 'a full description',
+            'claim': 'on', 'claim-name': '',
+            'claim-comment': 'im important', 'claim-email': '',
+            'claim-phone': '', 'claim-data_quality': 'on'
+        })
+        self.assertEqual(on, Organisation.objects.count())
+        self.assertEqual(cn, Claim.objects.count())
+        self.assertEqual(response.status_code, 200)
 
     def test_organisation_valid_creation_with_editor(self):
         self.client.login(username='updater@aliss.org', password='passwurd')

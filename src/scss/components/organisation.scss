@@ -1,5 +1,6 @@
 // Organisation
 // ---------------------------------------
+
 p.message {
   border: 1px solid silver;
   padding: 2vh 2vw;
@@ -60,14 +61,23 @@ ul.progress-breadcrumb.step-4 {
             box-shadow: 0 0 6px 2px $brand;
 }
 
-div.claim-representation { display: none; }
-.new-org {
-  div.claim-representation { display: block; }
+.organisation-form {
+  .cell.large-6:first-child div { padding-right: 2%; }
+}
+
+div.inline-claim {
+  div.claim-form { display:none; }
+}
+
+div.inline-claim.active {
+  padding: 3vh 2vw;
+  border: 1px solid silver;
+  border-radius: 6px;
+  div.claim-form { display:block; }
 }
 
 .new-service.large-form,
-.new-location.large-form,
-.new-org.large-form {
+.new-location.large-form {
   width:62%;
 
   .annotation { right :-40%; width: 37%; }

@@ -2,19 +2,25 @@
 
 {% block content %}
 <div class="row">
-    <div class="columns">
-        <div class="breadcrumbs">
-            <a href="{% url 'account_my_organisations' %}">My organisations</a>
-            <span class="sep"></span>
-            <span>Request to represent {{ organisation.name }}</span>
-        </div>
+  <div class="columns">
+    <div class="breadcrumbs">
+      <a href="{% url 'account_my_organisations' %}">My organisations</a>
+      <span class="sep"></span>
+      <span>Request to represent {{ organisation.name }}</span>
     </div>
+  </div>
 </div>
 <section class="large-form">
-    <div class="row">
-        <div class="columns">
-            {% include 'claim/forms/claim_form.html' %}
+  <div class="row">
+    <div class="columns">
+      <form method="post">
+        {% csrf_token %}
+        {% include 'claim/forms/claim_form.html' %}
+        <div class="submit">
+          <input type="submit" value="Send Request">
         </div>
+      </form>
     </div>
+  </div>
 </section>
 {% endblock %}

@@ -1,35 +1,32 @@
-<form method="post">
-    {% csrf_token %}
-    <div class="f-row two">
-        {% include 'partials/forms/field.html' with field=form.email %}
-        {% include 'partials/forms/field.html' with field=form.phone %}
-    </div>
+<div class="copy-container">
+    <p>The following details will be used to verify you as a representative of this organisation.</p>
+</div>
 
-    <div class="f-row two">
-        {% include 'partials/forms/field.html' with field=form.name %}
-    </div>
+<div class="f-row two">
+    {% include 'partials/forms/field.html' with field=form.email %}
+    {% include 'partials/forms/field.html' with field=form.phone %}
+</div>
 
+<div class="f-row two">
+    {% include 'partials/forms/field.html' with field=form.name %}
+</div>
+
+<div class="f-row">
+    <label for="why_represent">What is your role in the organisation? <span>(required)</span></label>
+    {{ form.comment }}
+</div>
+<div class="data-quality content">
     <div class="copy-container">
-        <p>These details will be used to verify you as a representative of this organisation.</p>
+        <p>The people who rely on ALISS need the information to be correct and helpful.</p>
+        <p>We know you are here because you care about people and by following these guidelines you will make your time and effort worthwhile. Follow these guidelines when adding information about your organisation and services:</p>
+        <ol>
+            <li>When adding information of your organisation and services ask yourself; how will the text and sentences look to a person who needs the support you offer?</li>
+            <li>Make your sentences and text concise.</li>
+            <li>Don't use jargon, acronyms and long sentences.</li>
+        </ol>
     </div>
-    <div class="f-row">
-        <label for="why_represent">Why should you be allowed to claim this organisation? <span>(required)</span></label>
-        {{ form.comment }}
-    </div>
-    <div class="data-quality content">
-        <div class="copy-container">
-            <p>The people who rely on ALISS need the information to be correct and helpful.</p>
-            <p>We know you are here because you care about people and by following these guidelines you will make your time and effort worthwhile. Follow these guidelines when adding information about your organisation and services:</p>
-            <ol>
-                <li>When adding information of your organisation and services ask yourself; how will the text and sentences look to a person who needs the support you offer?</li>
-                <li>Make your sentences and text concise.</li>
-                <li>Don't use jargon, acronyms and long sentences.</li>
-            </ol>
-        </div>
-        {% include 'partials/for-not-for.html' %}
-    </div>
-    <div class="submit">
-        {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
-        <input type="submit" value="Send Request">
-    </div>
-</form>
+    {% include 'partials/for-not-for.html' %}
+</div>
+<div class="submit">
+    {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
+</div>
