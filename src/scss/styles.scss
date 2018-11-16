@@ -1,8 +1,7 @@
 /*  ALISS
     ================================
-    Habanero + Braw Software
-    http://habanero.digital/
-    http://www.thisisbraw.co.uk/
+    Habanero http://habanero.digital/
+    R. Gianni http://rgianni.cc/
 */
 
 @import "utility/variables";
@@ -83,6 +82,8 @@
 .clear { clear:both; }
 .no-margin,
 hr.no-margin { margin: 0px; }
+a.button.bottom-margin,
+.bottom-margin { margin: 0.1em; }
 
 hr.clear { 
   clear: both;
@@ -95,6 +96,8 @@ hr.clear {
 .centre { text-align:center; }
 .small { font-size: 95%; }
 .smaller { font-size: 85%; }
+.pad { padding-left:1vw; padding-right:1vw; }
+.italic { font-style: italic; }
 
 fieldset {
   border: 1px solid silver;
@@ -183,3 +186,6 @@ input.picker__input {
 }
 
 input.picker__input:hover { cursor: pointer; }
+
+span.has-tip { border:none; opacity:0.9; }
+span.alert { color: $alert; }

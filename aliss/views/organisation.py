@@ -39,8 +39,8 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse(
-            'organisation_detail_slug',
-            kwargs={'slug': self.object.slug }
+            'organisation_confirm',
+            kwargs={'pk': self.object.pk }
         )
 
     def send_new_org_email(self, organisation):
@@ -95,10 +95,10 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
         return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
-        return reverse(
-            'organisation_detail_slug',
-            kwargs={'slug': self.object.slug}
-        )
+        if (self.object.services.count() == 0):
+            return reverse('organisation_confirm', kwargs={ 'pk': self.object.pk })
+        else:
+            return reverse('organisation_detail_slug', kwargs={ 'slug': self.object.slug })
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -129,9 +129,24 @@ class OrganisationDetailView(ProgressMixin, DetailView):
     template_name = 'organisation/detail.html'
 
     def get_object(self, queryset=None):
+        #import logging
+        #logger = logging.getLogger(__name__)
+        #logger.error('Detail view')
         obj = super(OrganisationDetailView, self).get_object(queryset=queryset)
         if not obj.published and not obj.is_edited_by(self.request.user):
             raise PermissionDenied
+        return obj
+
+
+class OrganisationConfirmView(UserPassesTestMixin, ProgressMixin, DetailView):
+    model = Organisation
+    template_name = 'organisation/confirm.html'
+    
+    def test_func(self, user):
+        return self.get_object().is_edited_by(user)
+
+    def get_object(self, queryset=None):
+        obj = super(OrganisationConfirmView, self).get_object(queryset=queryset)
         return obj
 
 

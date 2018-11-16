@@ -5,6 +5,16 @@
   margin-bottom: 2em;
 }
 
+ul.progress-breadcrumb {
+  label {
+    margin: 0;
+    cursor: pointer;
+    font-size: inherit;
+    color: inherit;
+    line-height: inherit;
+  }
+}
+
 ul.progress-breadcrumb.step-none li {}
 
 ul.progress-breadcrumb {
@@ -27,6 +37,21 @@ ul.progress-breadcrumb.step-3 {
 ul.progress-breadcrumb.step-4 {
   li:nth-child(1), li:nth-child(2), 
   li:nth-child(3), li:nth-child(4) { text-decoration: line-through; }
+}
+
+.glow {
+    background-color: inherit;
+    border: 1px solid transparent;
+    -webkit-transition: border 0.8s linear;
+       -moz-transition: border 0.8s linear;
+            transition: border 0.8s linear;
+}
+
+.glow.start-glow {
+    border-color: $brand;
+    -webkit-box-shadow: 0 0 6px 2px $brand;
+       -moz-box-shadow: 0 0 6px 2px $brand;
+            box-shadow: 0 0 6px 2px $brand;
 }
 
 .new-service.large-form,
