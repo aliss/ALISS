@@ -41,11 +41,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(OrganisationCreateView, self).get_context_data(**kwargs)
         if 'claim_form' not in kwargs:
-            context['claim_form'] = ClaimForm(prefix="claim", initial={
-                'email': self.request.user.email,
-                'phone': self.request.user.phone_number,
-                'name': self.request.user.name
-            })
+            context['claim_form'] = ClaimForm(prefix="claim")
         return context
 
     def get_success_url(self):
@@ -69,9 +65,6 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
         if request.POST.get('claim'):
             claim_form = ClaimForm({
-                'email': request.POST['claim-email'],
-                'name': request.POST['claim-name'],
-                'phone': request.POST['claim-phone'],
                 'comment': request.POST['claim-comment'],
                 'data_quality': request.POST['claim-data_quality']
             })
@@ -93,9 +86,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         if claim_form:
             Claim.objects.create(
                 user=self.request.user, organisation=self.object,
-                email=claim_form.cleaned_data.get('email'),
-                phone=claim_form.cleaned_data.get('phone'),
-                comment=claim_form.cleaned_data.get('name'))
+                comment=claim_form.cleaned_data.get('comment'))
 
         self.send_new_org_email(self.object)
         msg = '<p>{name} has been successfully created.</p>'.format(name=self.object.name)

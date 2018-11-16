@@ -16,9 +16,16 @@ class ClaimViewTestCase(TestCase):
         response = self.client.get(reverse('claim_list', kwargs={}))
         self.assertEqual(response.status_code, 200)
 
-    def test_claim_create(self):
+    def test_claim_create_path(self):
         response = self.client.get(reverse('claim_create', kwargs={'pk': self.organisation.pk}))
         self.assertEqual(response.status_code, 200)
+
+    def test_valid_claim_create(self):
+        cn = Claim.objects.count()
+        response = self.client.post(reverse('claim_create', kwargs={'pk': self.organisation.pk}), 
+            { 'comment': 'im important', 'data_quality': 'on' })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual((cn+1), Claim.objects.count())
 
     def test_logout_claim_create(self):
         self.client.logout()

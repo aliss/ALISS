@@ -1,18 +1,5 @@
-<div class="copy-container">
-    <p>The following details will be used to verify you as a representative of this organisation.</p>
-</div>
-
-<div class="f-row two">
-    {% include 'partials/forms/field.html' with field=form.email %}
-    {% include 'partials/forms/field.html' with field=form.phone %}
-</div>
-
-<div class="f-row two">
-    {% include 'partials/forms/field.html' with field=form.name %}
-</div>
-
 <div class="f-row">
-    <label for="why_represent">What is your role in the organisation? <span>(required)</span></label>
+    <label for="comment">What is your role in the organisation? <span>(required)</span></label>
     {{ form.comment }}
 </div>
 <div class="data-quality content">

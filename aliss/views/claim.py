@@ -101,12 +101,10 @@ class ClaimCreateView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
 
-        comment = form.cleaned_data.get('comment') + "\n - " + form.cleaned_data.get('name')
+        comment = form.cleaned_data.get('comment')
         Claim.objects.create(
             user=self.request.user,
             organisation=organisation,
-            email=form.cleaned_data.get('email'),
-            phone=form.cleaned_data.get('phone'),
             comment=comment
         )
 
@@ -114,11 +112,7 @@ class ClaimCreateView(LoginRequiredMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
-        form = ClaimForm(initial={
-            'email': self.request.user.email,
-            'phone': self.request.user.phone_number,
-            'name': self.request.user.name
-        })
+        form = ClaimForm()
         return self.render_to_response(
             self.get_context_data(organisation=organisation, form=form)
         )
