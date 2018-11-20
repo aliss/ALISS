@@ -40,8 +40,11 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(OrganisationCreateView, self).get_context_data(**kwargs)
-        if 'claim_form' not in kwargs:
-            context['claim_form'] = ClaimForm(prefix="claim")
+        if (('claim_form' not in kwargs) or (kwargs['claim_form'] == None)):
+            context['claim_form'] = ClaimForm(prefix="claim",
+                initial={ 'phone': self.request.user.phone_number })
+        else:
+            context['show_claim_form'] = True
         return context
 
     def get_success_url(self):
@@ -64,18 +67,17 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         self.object = None
 
         if request.POST.get('claim'):
-            claim_form = ClaimForm({
-                'comment': request.POST['claim-comment'],
-                'data_quality': request.POST['claim-data_quality']
-            })
+            claim_form = ClaimForm(request.POST, prefix='claim')
 
-        if (form.is_valid() and (claim_form == None or claim_form.is_valid())):
+        claim_valid = (claim_form == None or claim_form.is_valid())
+        form_valid = form.is_valid()
+        if (form_valid and claim_valid):
             return self.form_valid(form, claim_form)
         else:
             return self.form_invalid(form, claim_form)
 
     def form_invalid(self, form, claim_form):
-        return self.render_to_response(self.get_context_data(form=form))
+        return self.render_to_response(self.get_context_data(form=form, claim_form=claim_form))
 
     def form_valid(self, form, claim_form):
         self.object = form.save(commit=False)

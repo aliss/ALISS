@@ -11,12 +11,15 @@
     </div>
     <div class="grid-x">
       <div class="cell small-12 medium-8 large-8">
+        {% include 'partials/forms/errors.html' with form=form %}
+        {% include 'partials/forms/errors.html' with form=claim_form %}
+
         <form method="post" class="organisation-form">
           {% csrf_token %}
           {% include 'organisation/forms/organisation_form.html' %}
 
           <div class="inline-claim">
-            <input id="claim" type="checkbox" name="claim">
+            <input id="claim" type="checkbox" name="claim" {% if show_claim_form %} checked {% endif %}>
             <label for="claim">
               <b>I am a representative of this organisation</b>
               <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="By checking this box you claim editorial control of the organisation. This ensures only you can make changes without approval of the ALISS team.">
@@ -51,7 +54,14 @@
 {% block before_body_close %}
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#claim').change(function(e){ $('div.inline-claim').toggleClass('active'); });
+    var handleClaimForm = function(){
+      var showForm = $("input#claim").prop("checked");
+      $('div.inline-claim').toggleClass('active', showForm);
+      $('div.inline-claim input, div.inline-claim textarea').prop({
+        required: showForm });
+    };
+    $('input#claim').change(handleClaimForm);
+    handleClaimForm();
   });
 </script>
 {% endblock %}

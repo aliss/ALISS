@@ -9,7 +9,8 @@ class ClaimTestCase(TestCase):
         Claim.objects.create(comment="I'm in charge",
           organisation=o,
           user=c,
-          reviewed_by=u
+          reviewed_by=u,
+          phone="034343243",
         )
 
     def test_claim_exists(self):
