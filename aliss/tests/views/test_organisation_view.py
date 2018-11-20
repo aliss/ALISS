@@ -47,7 +47,7 @@ class OrganisationViewTestCase(TestCase):
     def test_organisation_valid_creation_with_claim(self):
         response = self.client.post(reverse('organisation_create'), {
             'name': 'an organisation', 'description': 'a full description',
-            'claim': 'on', 'claim-comment': 'im important',
+            'claim': 'on', 'claim-comment': 'im important', 'claim-phone': '034343243',
             'claim-data_quality': 'on'
         })
 
@@ -63,7 +63,8 @@ class OrganisationViewTestCase(TestCase):
         cn = Claim.objects.count()
         response = self.client.post(reverse('organisation_create'), {
             'name': 'an organisation', 'description': 'a full description',
-            'claim': 'on', 'claim-comment': '', 'claim-data_quality': 'on'
+            'claim': 'on', 'claim-comment': '', 'claim-phone': '',
+            'claim-data_quality': 'on'
         })
         self.assertEqual(on, Organisation.objects.count())
         self.assertEqual(cn, Claim.objects.count())

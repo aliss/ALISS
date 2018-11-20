@@ -2,6 +2,11 @@
     <label for="comment">What is your role in the organisation? <span>(required)</span></label>
     {{ form.comment }}
 </div>
+
+<div class="f-row two">
+    {% include 'partials/forms/field.html' with field=form.phone %}
+</div>
+
 <div class="data-quality content">
     <div class="copy-container">
         <p>The people who rely on ALISS need the information to be correct and helpful.</p>

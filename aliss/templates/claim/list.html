@@ -33,7 +33,11 @@
               <p>Last reviewed on {{ claim.reviewed_on }} by {{ claim.reviewed_by.name }} ({{ claim.reviewed_by }}) </p>
               {% endif %}
               <ul class="contact-info">
-                {% if claim.user.phone %}
+                {% if claim.phone %}
+                  <li>
+                    {{ claim.phone }}
+                  </li>
+                {% elif claim.user.phone %}
                   <li>
                     {{ claim.user.phone }}
                   </li>

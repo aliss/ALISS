@@ -23,7 +23,7 @@ class ClaimViewTestCase(TestCase):
     def test_valid_claim_create(self):
         cn = Claim.objects.count()
         response = self.client.post(reverse('claim_create', kwargs={'pk': self.organisation.pk}), 
-            { 'comment': 'im important', 'data_quality': 'on' })
+            { 'comment': 'im important', 'phone': "034343243", 'data_quality': 'on' })
         self.assertEqual(response.status_code, 302)
         self.assertEqual((cn+1), Claim.objects.count())
 

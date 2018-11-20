@@ -4,10 +4,15 @@ from aliss.models import Claim
 
 
 class ClaimForm(forms.Form):
-    comment = forms.CharField(
-                widget=forms.Textarea(),
-                label="What is your role in the organisation?")
-    data_quality = forms.BooleanField(label="I understand and acknowledge the importance of data quality and agree to follow the guidance outlined in the ALISS Data Standards")
+    comment = forms.CharField(required=True,
+        widget=forms.Textarea(), label="What is your role in the organisation?")
+    phone = forms.CharField(
+        required=True,
+        help_text="The phone number we should use to verify you as the owner of this organisation")
+    data_quality = forms.BooleanField(
+        required=True,
+        error_messages={'required': 'You must accept the data standards required on ALISS'},
+        label="I understand and acknowledge the importance of data quality and agree to follow the guidance outlined in the ALISS Data Standards")
 
     class Meta:
         error_css_class = 'has-error'

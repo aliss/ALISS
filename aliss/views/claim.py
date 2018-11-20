@@ -100,19 +100,18 @@ class ClaimCreateView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
-
-        comment = form.cleaned_data.get('comment')
         Claim.objects.create(
             user=self.request.user,
             organisation=organisation,
-            comment=comment
+            phone=form.cleaned_data.get('phone'),
+            comment=form.cleaned_data.get('comment')
         )
 
         return HttpResponseRedirect(self.get_success_url())
 
     def get(self, request, *args, **kwargs):
         organisation = get_object_or_404(Organisation, pk=self.kwargs.get('pk'))
-        form = ClaimForm()
+        form = ClaimForm(initial={ 'phone': self.request.user.phone_number })
         return self.render_to_response(
             self.get_context_data(organisation=organisation, form=form)
         )
