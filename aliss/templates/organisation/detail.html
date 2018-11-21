@@ -52,7 +52,7 @@
           {% can_edit request.user object as user_can_edit %}
         {% endif %}
 
-        {% if user_can_edit %}
+        {% if user_can_edit and object.services.count == 0 %}
           <p class="message">
             <span class="icon">
               <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
