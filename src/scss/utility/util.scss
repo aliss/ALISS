@@ -20,8 +20,8 @@
 }
 %button-style {
 	transition: none;
-	padding: 0.7em 1.15em 0.85em 1.15em;
-	font-size: 1.35em;
+	padding: 0.7rem 1.15rem 0.85rem 1.15rem;
+	font-size: 1.35rem;
 	min-width: 150px;
 	color: $w;
 	margin: 0;
@@ -47,8 +47,8 @@
 		height: 8px;
 		background: $brand;
 		position: absolute;
-		left: -1.2em;
-		top: 0.45em;
+		left: -1.2rem;
+		top: 0.45rem;
 		@if $d-rad != 0 {
 			border-radius: 100%;
 		}
@@ -70,12 +70,12 @@
 
 // Forms
 %form-style {
-	padding: 0.75em 1em 0.55em 1em;
+	padding: 0.75rem 1rem 0.55rem 1rem;
 	font-size: $d-fs;
 	box-shadow: none;
 	height: auto;
 	border: 1px solid $light-gray;
-	margin: 0 0 1.35em 0;
+	margin: 0 0 1.35rem 0;
 	appearance: none;
 	background-color: $w;
 	color: $dark-gray;
@@ -89,17 +89,17 @@
 	}
 	@include ph-color($medium-gray_fade);
 	@include small {
-		margin-bottom: 1em;
+		margin-bottom: 1rem;
 	}
 }
 %custom-select {
-	background-position: center right -0.1em;
+	background-position: center right -0.1rem;
 	background-size:16px 9px;
 	color: $medium-gray_fade;
 	&:focus, &:active {
 		color: $dark-gray;
 	}
-	// padding: 0.95em;
+	// padding: 0.95rem;
 }
 %checkbox {
 	appearance: none;
@@ -162,17 +162,17 @@
 	}
 }
 %filter-option {
-	padding-left:2em;
+	padding-left:2rem;
 	position: relative;
 	> span {
 		content:"";
 		display: block;
-		width: 1.25em;
+		width: 1.25rem;
 		border-radius: $d-rad;
-		height: 1.25em;
+		height: 1.25rem;
 		border: 1px solid $medium-gray;
 		position: absolute;
-		top: 0.15em;
+		top: 0.15rem;
 		left: 0;
 		@include transition;
 		@include fa(check);
@@ -180,9 +180,9 @@
 			@include transition;
 			color: $primary;
 			position: relative;
-			font-size: 1.15em;
+			font-size: 1.15rem;
 			opacity: 0;
-			top:-0.2em;
+			top:-0.2rem;
 		}
 	}
 	&:hover, &:focus, &:active {
@@ -197,14 +197,14 @@
 	}
 }
 %error-message {
-	padding: 1em;
+	padding: 1rem;
 	background: $alert;
 	color: $w;
 	border: 0;
 	font-weight: bold;
 }
 %success-message {
-	padding: 1em;
+	padding: 1rem;
 	background: $success;
 	color: $w;
 	border: 0;

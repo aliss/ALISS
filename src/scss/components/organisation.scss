@@ -9,7 +9,7 @@ p.message {
 }
 
 .content ul.progress-breadcrumb:last-child {
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
 }
 
 ul.progress-breadcrumb {
@@ -76,7 +76,7 @@ div.inline-claim.active {
   div.claim-form { display:block; }
 }
 
-.claim-form textarea { height: 5em; }
+.claim-form textarea { height: 5rem; }
 
 .new-service.large-form,
 .new-location.large-form {
@@ -108,7 +108,7 @@ div.inline-claim.active {
 ul.progress-breadcrumb {
 
   margin-left:0;
-  margin-bottom:2em;
+  margin-bottom:2rem;
   padding: 0px;
   list-style: none;
 
@@ -120,20 +120,20 @@ ul.progress-breadcrumb {
   }
 
   li {
-    font-size: 1.1em;
+    font-size: 1.1rem;
     color: #4c5c68;
     width: 100%;
     text-align:left;
-    padding: 0.5em;
+    padding: 0.5rem;
     position: relative;
     background: #ebebeb;
     border: 3px solid #ffffff;
-    margin-top: 0.01em;
-    margin-bottom: 0em;
+    margin-top: 0.01rem;
+    margin-bottom: 0rem;
 
     i.fa {  
-      margin-right: 0.5em;
-      margin-left: 0.5em;
+      margin-right: 0.5rem;
+      margin-left: 0.5rem;
     }
   }
 
@@ -184,7 +184,7 @@ ul.progress-breadcrumb {
   .add-org {
     margin-top: 2.5rem;
     p {
-      margin-bottom: 0.5em;
+      margin-bottom: 0.5rem;
     }
     @include media(0, 480) {
       .button {
@@ -200,9 +200,9 @@ ul.orgs {
     @include clear;
     @extend p;
     @extend %no-list;
-    padding: 0.95em 0.75em 0.55em 0.75em;
+    padding: 0.95rem 0.75rem 0.55rem 0.75rem;
     @include media(0, 480) {
-      padding: 0.95em 0.75em 0.95em 0.75em;
+      padding: 0.95rem 0.75rem 0.95rem 0.75rem;
     }
     &:nth-child(2n) {
       background: $light-gray_fade;
@@ -210,7 +210,7 @@ ul.orgs {
     span.name {
       float: left;
       margin-right: 2%;
-      margin-bottom: 0.25em;
+      margin-bottom: 0.25rem;
       @include media(0, $search-break) {
         float: none;
         display: block;
@@ -227,8 +227,8 @@ ul.orgs {
         @extend %vam;
         border-right: 1px solid $light-gray;
         line-height: 100%;
-        padding-right: 0.5em;
-        margin-right: 0.35em;
+        padding-right: 0.5rem;
+        margin-right: 0.35rem;
         &:last-child {
           margin: 0;
           padding: 0;
@@ -239,7 +239,7 @@ ul.orgs {
           padding-right: 0;
           margin-right: 0;
           display: block;
-          margin: 0.5em 0;
+          margin: 0.5rem 0;
           &:last-child {
             margin-bottom: 0;
           }

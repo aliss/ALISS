@@ -1,307 +1,296 @@
-
 // Typography
 // ---------------------------------------
 
 // Fonts
 @import url("//hello.myfonts.net/count/354e86");
 @font-face {
-	font-family: 'Sofia Pro Soft';
-	src: url('../fonts/354E8E_0_0.eot');
-	src: url('../fonts/354E8E_0_0.eot?#iefix') format('embedded-opentype'),
-	     url('../fonts/354E8E_0_0.woff2') format('woff2'),
-	     url('../fonts/354E8E_0_0.woff') format('woff'),
-	     url('../fonts/354E8E_0_0.ttf') format('truetype'),
-	     url('../fonts/354E8E_0_0.svg#wf') format('svg');
+  font-family: 'Sofia Pro Soft';
+  src: url('../fonts/354E8E_0_0.eot');
+  src: url('../fonts/354E8E_0_0.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/354E8E_0_0.woff2') format('woff2'),
+       url('../fonts/354E8E_0_0.woff') format('woff'),
+       url('../fonts/354E8E_0_0.ttf') format('truetype'),
+       url('../fonts/354E8E_0_0.svg#wf') format('svg');
 }
 @font-face {
-	font-family: 'Sofia Pro';
-	font-weight: bold;
-	src: url('../fonts/354E86_1_0.eot');
-	src: url('../fonts/354E86_1_0.eot?#iefix') format('embedded-opentype'),
-	     url('../fonts/354E86_1_0.woff2') format('woff2'),
-	     url('../fonts/354E86_1_0.woff') format('woff'),
-	     url('../fonts/354E86_1_0.ttf') format('truetype'),
-	     url('../fonts/354E86_1_0.svg#wf') format('svg');
+  font-family: 'Sofia Pro';
+  font-weight: bold;
+  src: url('../fonts/354E86_1_0.eot');
+  src: url('../fonts/354E86_1_0.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/354E86_1_0.woff2') format('woff2'),
+       url('../fonts/354E86_1_0.woff') format('woff'),
+       url('../fonts/354E86_1_0.ttf') format('truetype'),
+       url('../fonts/354E86_1_0.svg#wf') format('svg');
 }
 @font-face {
-	font-family: 'Sofia Pro';
-	font-weight: normal;
-	src: url('../fonts/354E86_2_0.eot');
-	src: url('../fonts/354E86_2_0.eot?#iefix') format('embedded-opentype'),
-	     url('../fonts/354E86_2_0.woff2') format('woff2'),
-	     url('../fonts/354E86_2_0.woff') format('woff'),
-	     url('../fonts/354E86_2_0.ttf') format('truetype'),
-	     url('../fonts/354E86_2_0.svg#wf') format('svg');
+  font-family: 'Sofia Pro';
+  font-weight: normal;
+  src: url('../fonts/354E86_2_0.eot');
+  src: url('../fonts/354E86_2_0.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/354E86_2_0.woff2') format('woff2'),
+       url('../fonts/354E86_2_0.woff') format('woff'),
+       url('../fonts/354E86_2_0.ttf') format('truetype'),
+       url('../fonts/354E86_2_0.svg#wf') format('svg');
 }
 
 @for $i from 1 through 6 {
-	h#{$i} {
-		font-weight: normal;
-		color: $medium-gray;
-		margin-bottom: 1rem;
-		&:last-child {
-			margin-bottom: 0;
-		}
-		a {
-			font-weight: normal;
-		}
-	}
-	a h#{$i} {
-		color: $secondary;
-		@include transition(color, $d-time);
-	}
-	a {
-		@include st {
-			h#{$i} {
-				color: $medium-gray;
-				text-decoration: underline;
-			}
-		}
-	}
+  h#{$i} {
+    font-weight: normal;
+    color: $medium-gray;
+    margin-bottom: 1rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    a {
+      font-weight: normal;
+    }
+  }
+  a h#{$i} {
+    color: $secondary;
+    @include transition(color, $d-time);
+  }
+  a {
+    @include st {
+      h#{$i} {
+        color: $medium-gray;
+        text-decoration: underline;
+      }
+    }
+  }
 }
 h1 {
-	color: $dark-gray;
+  color: $dark-gray;
 }
 h1+p, h1+.buttons+p, h1+.desc, .heading+p:empty+p {
-	margin-top: 1em;
+  margin-top: 1rem;
 }
 h5 {
-	margin-bottom: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 a.inactive {
-	color: $light-gray;
-	@for $i from 1 through 6 {
-		h#{$i} {
-			color: $light-gray;
-		}
-	}
-	@include st {
-		color: $light-gray;
-		cursor: default;
-		text-decoration: none;
-		@for $i from 1 through 6 {
-			h#{$i} {
-				color: $light-gray;
-				text-decoration: none;
-			}
-		}
-	}
+  color: $light-gray;
+  @for $i from 1 through 6 {
+    h#{$i} {
+      color: $light-gray;
+    }
+  }
+  @include st {
+    color: $light-gray;
+    cursor: default;
+    text-decoration: none;
+    @for $i from 1 through 6 {
+      h#{$i} {
+        color: $light-gray;
+        text-decoration: none;
+      }
+    }
+  }
 }
 p {
-	font-size: $d-fs;
-	color: $medium-gray;
-	@include small {
-		font-size: $d-fs-s;
-	}
+  font-size: $d-fs;
+  color: $medium-gray;
+  @include small {
+    font-size: $d-fs-s;
+  }
 }
 ul, ol, p {
-	&:last-child {
-		margin-bottom: 0;
-	}
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 i.fa, i.fas, i.fab {
-	font-style: normal;
+  font-style: normal;
 }
 .copy-container {
-	max-width: 710px;
+  max-width: 710px;
 }
 .content {
-	@for $i from 1 through 6 {
-		h#{$i} {
-			margin-top: 1.35rem;
-			&:first-child {
-				margin-top: 0;
-			}
-		}
-	}
-	ul {
-	    li {
-	        @extend %list-style;
-	        ul {
-	        	li {
-	        		@extend %list-style;
-	        	}
-	        }
-	    }
-	}
-	ol, ul {
-		padding-left: 1.75em;
-		margin-bottom: 1.5em;
-		li {
-			font-size: $d-fs;
-			color: $medium-gray;
-			margin: 0.5em 0;
-	       	li {
-	       		font-size: 1em;
-	       	}
-		}
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-	blockquote {
-		border-left: 0.2em solid $brand;
-		padding-left: 1.55em;
-		margin: 1.35em 0;
-		color: $dark-gray;
-		p {
+  @for $i from 1 through 6 {
+    h#{$i} {
+      margin-top: 1.35rem;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+  ul {
+    li {
+      @extend %list-style;
+      ul {
+        li { @extend %list-style; }
+      }
+    }
+  }
+  ol, ul {
+    padding-left: 1.75rem;
+    margin-bottom: 1.5rem;
+    li {
+      font-size: $d-fs;
+      color: $medium-gray;
+      margin: 0.5rem 0;
+        li { font-size: 1rem; }
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  blockquote {
+    border-left: 0.2rem solid $brand;
+    padding-left: 1.55rem;
+    margin: 1.35rem 0;
+    color: $dark-gray;
+    p {
 
-		}
-	}
+    }
+  }
 }
 .content-table {
-	overflow: scroll;
-	width: 100%;
-	table {
-		min-width: 650px;
-	}
+  overflow: scroll;
+  width: 100%;
+  table {
+    min-width: 650px;
+  }
 }
 table {
-	font-size: $d-fs;
-	border: 0;
-	@include small {
-		font-size: $d-fs-s;
-	}
-	thead, tbody, tfoot {
-		border: 0;
-	}
-	th, td {
-		padding: 0.85em 0.95em 0.65em 0.95em;
-	}
-	thead {
-		background: $brand;
-		color: $w;
-		tr {
+  font-size: $d-fs;
+  border: 0;
+  @include small {
+    font-size: $d-fs-s;
+  }
+  thead, tbody, tfoot {
+    border: 0;
+  }
+  th, td {
+    padding: 0.85rem 0.95rem 0.65rem 0.95rem;
+  }
+  thead {
+    background: $brand;
+    color: $w;
+    tr {
 
-		}
-		th, td {
+    }
+    th, td {
 
-		}
-	}
-	tbody {
-		tr {
-			background: $w;
-			&:nth-child(2n) {
-				background: $light-gray_fade;
-			}
-		}
-		th, td {
-			color: $medium-gray;
-		}
-	}
+    }
+  }
+  tbody {
+    tr {
+      background: $w;
+      &:nth-child(2n) {
+        background: $light-gray_fade;
+      }
+    }
+    th, td {
+      color: $medium-gray;
+    }
+  }
 }
 .back-link {
-	padding-left: 1.2em;
-	display: inline-block;
-	span.icon {
-		@include fas(caret-left);
-	}
-	&:first-child {
-		margin-bottom: 1rem;
-	}
-	&:last-child {
-		margin-top: 2rem;
-	}
-	@include media(0, $search-break) {
-		display: none !important;
-	}
+  padding-left: 1.2rem;
+  display: inline-block;
+  span.icon {
+    @include fas(caret-left);
+  }
+  &:first-child {
+    margin-bottom: 1rem;
+  }
+  &:last-child {
+    margin-top: 2rem;
+  }
+  @include media(0, $search-break) {
+    display: none !important;
+  }
 }
 #content, #error {
-	padding: 3.25rem 0 0 0;
-	h1 {
-		margin: 0;
-	}
-	.assigned-category {
-		margin: 1rem 0 1.1rem 0;
-	}
-	@include small {
-		padding: 2rem 0 0 0;
-	}
+  padding: 2.5rem 0 0 0;
+  h1 { margin: 0;  }
+  .assigned-category {
+    margin: 1rem 0 1.1rem 0;
+  }
+  @include small {
+    padding: 2rem 0 0 0;
+  }
 }
 #error, .error {
-	min-height: 500px;
-	@include small {
-		min-height: 0;
-	}
-	.buttons {
-		// margin-top: 1em;
-		.button {
-			margin-right: .35em;
-    		margin-top: 1rem;
-    		min-width: 200px;
-    		display: inline-block;
-    		vertical-align: middle;
-    		@include media(0, 480) {
-    			display: block;
-    			margin-right: 0;
-    		}
-		}
-	}
+  min-height: 500px;
+  @include small {
+    min-height: 0;
+  }
+  .buttons {
+    // margin-top: 1rem;
+    .button {
+      margin-right: .35rem;
+        margin-top: 1rem;
+        min-width: 200px;
+        display: inline-block;
+        vertical-align: middle;
+        @include media(0, 480) {
+          display: block;
+          margin-right: 0;
+        }
+    }
+  }
 }
 #banner {
-	height: 40vh;
-	display: block;
-	min-height: 350px;
-	max-height: 500px;
-	overflow: hidden;
-	position: relative;
-	.banner {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-size: cover;
-		background-position: center center;
-	}
-	img {
-		display: none;
-	}
-	@include medium {
-		height: 28vh;
-		min-height: 250px;
-		max-height: 400px;
-	}
-	@include small {
-		height: auto;
-		min-height: 0;
-		max-height: none;
-		.banner {
-			display: block;
-			position: static;
-		}
-		img {
-			display: block;
-		}
-	}
+  height: 40vh;
+  display: block;
+  min-height: 350px;
+  max-height: 500px;
+  overflow: hidden;
+  position: relative;
+  .banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+  }
+  img {
+    display: none;
+  }
+  @include medium {
+    height: 28vh;
+    min-height: 250px;
+    max-height: 400px;
+  }
+  @include small {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    .banner {
+      display: block;
+      position: static;
+    }
+    img {
+      display: block;
+    }
+  }
 }
 .breadcrumbs {
-	margin-top: 1.5rem;
-	margin-bottom: 0;
-	@extend h4;
-	a {
-		color: $secondary;
-		@include st {
-			color: $medium-gray;
-		}
-	}
-	span.sep {
-		@extend %vam;
-		@include fas(caret-right);
-		margin: 0 0.35em;
-		color: $light-gray;
-	}
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+  @extend h4;
+  a {
+    color: $secondary;
+    @include st {
+      color: $medium-gray;
+    }
+  }
+  span.sep {
+    @extend %vam;
+    @include fas(caret-right);
+    margin: 0 0.35rem;
+    color: $light-gray;
+  }
 }
 p:empty {
-	display: none;
-	margin: 0;
+  display: none;
+  margin: 0;
 }
 @media print {
-	a {
-		text-decoration: none !important;
-	}
+  a {
+    text-decoration: none !important;
+  }
 }
-
-
-
-
