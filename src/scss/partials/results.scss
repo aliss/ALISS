@@ -6,9 +6,9 @@
   @include fas(caret-right);
   margin-bottom: 0.5rem;
   &:before {
-    width: 0.95em;
+    width: 0.95rem;
     position: relative;
-    left: 0.175em;
+    left: 0.175rem;
     display: none;
   }
   &.active {
@@ -33,13 +33,13 @@
 #results {
   padding-bottom: 2rem;
   .search-results {
-    margin-top: -0.35em;
+    margin-top: -0.35rem;
   }
   @include media(0, $search-break) {
     padding-top: 1.5rem;
     .search-results {
       // border-top: 1px solid $light-gray;
-      padding-top: 1.75em;
+      padding-top: 1.75rem;
     }
   }
   @include small {
@@ -49,8 +49,8 @@
     @include clear;
   }
   .local-national, .category-selector {
-    padding-top: 1.75em;
-    padding-bottom: 2em;
+    padding-top: 1.75rem;
+    padding-bottom: 2rem;
     h4 {
       display: none;
     }
@@ -90,7 +90,7 @@
       margin: 1.75rem 0;
       >label {
         @extend p;
-        margin-bottom: 0.35em;
+        margin-bottom: 0.35rem;
       }
     }
     @include media(0, $search-break) {
@@ -145,16 +145,16 @@
     @extend %vam;
   }
   h1+.buttons {
-    // margin-top: -0.75em;
-    margin-top: 0.35em;
-    margin-left: 0.75em;
+    // margin-top: -0.75rem;
+    margin-top: 0.35rem;
+    margin-left: 0.75rem;
   }
   @include media(0, $large) {
     h1, h1+.buttons {
       display: block;
     }
     h1+.buttons {
-      margin: 1em 0 0 0;
+      margin: 1rem 0 0 0;
     }
   }
   @include small {
@@ -165,22 +165,22 @@
   }
 }
 span.cat {
-  width: 2.25em;
-  // padding-top: 0.2em;
-  height: 2.25em;
+  width: 2.25rem;
+  // padding-top: 0.2rem;
+  height: 2.25rem;
   border: 1px solid $medium-gray;
   @extend %vam;
   text-align: center;
   color: $medium-gray;
-  margin-right: 0.175em;
+  margin-right: 0.175rem;
   border-radius: 100%;
   position: relative;
   i {
-    font-size: 1.2em;
+    font-size: 1.2rem;
     position: absolute;
     top: 50%;
     left: 50%;
-    // padding-bottom:0.05em;
+    // padding-bottom:0.05rem;
     @extend %txy;
     // padding-left: 2px;
   }
@@ -192,10 +192,10 @@ span.cat {
   @include clear;
   border-radius: $d-rad*2;
   @include media(0, $search-break) {
-    margin: 1em 0 1.25em 0;
+    margin: 1rem 0 1.25rem 0;
   }
   @include small {
-    margin: 0.75em 0 1em 0;
+    margin: 0.75rem 0 1rem 0;
     font-size: $d-fs-s;
   }
   span.radio {
@@ -209,7 +209,7 @@ span.cat {
   }
   >a, >label, > ul > li {
     border: 3px solid $light-gray_fade;
-    padding: 1.2em 1.2em 1em 1.2em;
+    padding: 1.2rem 1.2rem 1rem 1.2rem;
     line-height: 1.4;
     min-height: 74px;
     float: left;
@@ -222,7 +222,7 @@ span.cat {
       min-height: 70px;
     }
     .holder {
-      padding-left: 2em;
+      padding-left: 2rem;
       position: relative;
       max-width: 350px;
     }
@@ -242,7 +242,7 @@ span.cat {
     span.radio, span.checkbox {
       position: absolute;
       left: 0;
-      top: 0.65em;
+      top: 0.65rem;
     }
     // @include st {
     //   z-index: 3;
@@ -268,7 +268,7 @@ span.cat {
   > ul > li {
     padding: 0;
     > a {
-      padding: 1.2em 1.2em 1em 1.2em;
+      padding: 1.2rem 1.2rem 1rem 1.2rem;
     }
   }
   &.two, &.three, &.four {
@@ -397,9 +397,9 @@ span.cat {
   @include clear;
   a.clear {
     display: inline-block;
-    margin-top: 0.5em;
+    margin-top: 0.5rem;
     @include media(0, $search-break) {
-      margin-top: 0.5em;
+      margin-top: 0.5rem;
     }
   }
   ul > li {
@@ -415,12 +415,12 @@ span.cat {
     position: absolute;
     right: 0;
     top: 0;
-    padding: 0.95em 1.1em;
+    padding: 0.95rem 1.1rem;
     color: $secondary;
     cursor: pointer;
     @include transition;
     &:before {
-      font-size: 1.2em;
+      font-size: 1.2rem;
     }
   }
   .active {
@@ -444,7 +444,7 @@ span.cat {
   ul > li > a {
     display: block;
     position: relative;
-    padding-right: 3.5em;
+    padding-right: 3.5rem;
   }
   ul ul {
     display: none;
@@ -472,18 +472,18 @@ span.cat {
         border-top: 0;
       }
       a {
-        padding: 0.65em 1em 0.55em 1em;
+        padding: 0.65rem 1rem 0.55rem 1rem;
       }
     }
     &.cat-icons {
       > li {
         a {
-          padding: 1.1em 1em 0.9em 1em;
-          padding-left: 3.8em;
+          padding: 1.1rem 1rem 0.9rem 1rem;
+          padding-left: 3.8rem;
           span.cat {
             position: absolute;
-            left: 1em;
-            top: 0.65em;
+            left: 1rem;
+            top: 0.65rem;
           }
         }
       }
@@ -493,11 +493,11 @@ span.cat {
     color: $medium-gray;
   }
   a.icon {
-    padding-left: 3.8em;
+    padding-left: 3.8rem;
     span.cat {
       position: absolute;
-      top: 0.65em;
-      left: 1em;
+      top: 0.65rem;
+      left: 1rem;
     }
   }
   a.truncate {
@@ -508,24 +508,24 @@ span.cat {
   }
 }
 .checkbox-agree {
-  font-size: 1em;
+  font-size: 1rem;
   position: relative;
-  margin: 0.5em 0;
+  margin: 0.5rem 0;
   max-width: 710px;
   label {
     padding-left: 2.05rem;
     margin-bottom: 0;
     display: block;
-    padding-top: .35em;
+    padding-top: .35rem;
     input[type=checkbox] {
       position: absolute;
       left: 0;
-      top: 0.25em;
+      top: 0.25rem;
     }
   }
 }
 .radio-list, .radio-list-links, .checkbox-list, .checkbox-list-links {
-  font-size: 1em;
+  font-size: 1rem;
   @extend %no-list;
   ul {
     @extend %no-list;
@@ -540,7 +540,7 @@ span.cat {
         z-index: 0;
         position: absolute;
         right: 100%;
-        margin-right: -0.1em;
+        margin-right: -0.1rem;
         top: -85%;
         opacity: 0.5;
         border-radius: 5px;
@@ -573,7 +573,7 @@ span.cat {
     }
   }
   >div, li, ul li {
-    margin: 0.4em 0;
+    margin: 0.4rem 0;
     position: relative;
     span.radio {
       @extend %radio;
@@ -583,7 +583,7 @@ span.cat {
     }
     input[type=checkbox], input[type=radio], span.radio, span.checkbox {
       @extend %vam;
-      margin-right: 0.2em;
+      margin-right: 0.2rem;
       position: relative;
       z-index: 2;
     }
@@ -622,7 +622,7 @@ span.cat {
     input[type=checkbox], input[type=radio], span.radio, span.checkbox {
       position: absolute;
       left: 0;
-      top: 0.25em;
+      top: 0.25rem;
     }
 
     a, label {
@@ -631,7 +631,7 @@ span.cat {
       span.text, span.name {
         color: $secondary;
         @extend %vam;
-        padding-top: 0.35em;
+        padding-top: 0.35rem;
       }
       @include st {
         text-decoration: none;
@@ -660,11 +660,11 @@ span.cat {
   }
   &.cat {
     input[type=checkbox], input[type=radio], span.radio, span.checkbox {
-      top: 0.55em;
+      top: 0.55rem;
     }
     ul li {
       input[type=checkbox], input[type=radio], span.radio, span.checkbox {
-        top: 0.3em;
+        top: 0.3rem;
       }
     }
   }
@@ -681,10 +681,10 @@ span.cat {
     .toggle-children {
       @extend %link-style;
       font-size: $d-fs;
-      right: 0.5em;
-      top: 0.55em;
+      right: 0.5rem;
+      top: 0.55rem;
       position: absolute;
-      padding-right: 0.95em;
+      padding-right: 0.95rem;
       .more-text {
         @include fas(plus);
       }
@@ -694,9 +694,9 @@ span.cat {
       }
       .more-text, .less-text {
         &:before {
-          font-size: 0.75em;
+          font-size: 0.75rem;
           right: 0;
-          top: 0.05em;
+          top: 0.05rem;
           position: absolute;
         }
       }
@@ -715,7 +715,7 @@ span.cat {
       @include small {
         font-size: $d-fs-s;
         right: 0;
-        padding: 0 1em;
+        padding: 0 1rem;
         .more-text, .less-text {
           width: 0;
           overflow: hidden;
@@ -729,13 +729,13 @@ span.cat {
   font-weight: bold;
   @include clear;
   .holder {
-    margin-top: 2.25em;
+    margin-top: 2.25rem;
     border-top: 1px solid $light-gray;
-    padding-top: 1.5em;
+    padding-top: 1.5rem;
   }
   p.total {
     float: left;
-    margin: 0.4em 0;
+    margin: 0.4rem 0;
   }
   .pages {
     font-size: $d-fs;
@@ -745,21 +745,21 @@ span.cat {
     }
     span, a {
       &.prev {
-        margin-right: 0.35em;
+        margin-right: 0.35rem;
         text-align: right;
       }
       &.next {
-        margin-left: 0.35em;
+        margin-left: 0.35rem;
         text-align: left;
       }
       &.number {
-        margin: 0 0.1em;
-        width: 1.95em;
-        font-size: 1.2em;
+        margin: 0 0.1rem;
+        width: 1.95rem;
+        font-size: 1.2rem;
         text-align: center;
         line-height: 100%;
-        line-height: 1.85em;
-        padding-bottom: 0.1em;
+        line-height: 1.85rem;
+        padding-bottom: 0.1rem;
         border-radius: $d-rad;
         display: inline-block;
         vertical-align: middle;
@@ -835,14 +835,14 @@ p.org {
     }
   }
   >div, >li {
-    font-size: 1em;
+    font-size: 1rem;
     ol li, ul li {
-      font-size: 1em;
+      font-size: 1rem;
     }
     &:before {
       display: none;
     }
-    padding: 1.75em 0 2.25em 0;
+    padding: 1.75rem 0 2.25rem 0;
     border-bottom: 1px solid $light-gray;
     &.modal {
       padding: 0;
@@ -859,7 +859,7 @@ p.org {
       @include clear;
     }
     .heading+p {
-      margin-top: 0.65em;
+      margin-top: 0.65rem;
     }
     h3 {
       margin-bottom: 0;
@@ -868,34 +868,34 @@ p.org {
     }
     .heading .alert {
       float: right;
-      margin-left: 1em;
-      margin-bottom: 0.35em;
+      margin-left: 1rem;
+      margin-bottom: 0.35rem;
     }
     .location {
-      margin: 0.5em 0 1em 0;
+      margin: 0.5rem 0 1rem 0;
       font-size: $d-fs;
       @include small {
         font-size: $d-fs-s;
       }
       .icon-link {
-        font-size: 1em !important;
+        font-size: 1rem !important;
       }
     }
     .service-areas {
       @media print {
         display: none !important;
-        margin-top: 0.35em;
+        margin-top: 0.35rem;
       }
       a {
         @include fas(plus);
         position: relative;
-        padding-right: 0.325em;
+        padding-right: 0.325rem;
         &.active {
           @include fas(minus);
           color: $medium-gray;
         }
         &:before {
-          font-size: 0.75em;
+          font-size: 0.75rem;
           // line-height: 1;
           float: right;
           // position: absolute;
@@ -914,10 +914,10 @@ p.org {
       }
     }
     p.org {
-      margin-top: 0.35em;
+      margin-top: 0.35rem;
     }
     .service-areas-list {
-      margin-top: 1em;
+      margin-top: 1rem;
       display: none;
       @media print {
         display: block;
@@ -931,8 +931,8 @@ p.org {
       }
     }
     ul.contact-info {
-      margin-top: 1em;
-      margin-bottom: -0.75em;
+      margin-top: 1rem;
+      margin-bottom: -0.75rem;
       @extend p;
       @extend %no-list;
       font-weight: bold;
@@ -940,9 +940,9 @@ p.org {
       li {
         border-right: 1px solid $light-gray;
         @extend %vam;
-        margin-right: 0.5em;
-        padding-right: 0.75em;
-        margin-bottom: 0.75em;
+        margin-right: 0.5rem;
+        padding-right: 0.75rem;
+        margin-bottom: 0.75rem;
         &:last-child {
           border-right: 0;
           padding-right: 0;
@@ -952,7 +952,7 @@ p.org {
         margin-bottom: 0;
         li {
           display: block;
-          margin: 0.5em 0;
+          margin: 0.5rem 0;
           border: 0;
           &:first-child {
             margin-top: 0;
@@ -963,25 +963,25 @@ p.org {
           &.service-areas {
             display: inline-block;
             margin-top: 0;
-            margin-top: -0.05em;
+            margin-top: -0.05rem;
           }
         }
       }
     }
   }
 }
-$icon-w: 1.5em;
+$icon-w: 1.5rem;
 .icon-link, .back-link {
   font-size: $d-fs-s !important;
   position: relative;
   display: block;
-  padding-left: $icon-w + 0.2em !important;
+  padding-left: $icon-w + 0.2rem !important;
   line-height: 1.4;
   color: $medium-gray;
   font-weight: bold;
   .icon {
     position: absolute;
-    top: 0.05em;
+    top: 0.05rem;
     line-height: 100%;
     left: 0;
     width: $icon-w;
@@ -1009,21 +1009,21 @@ a.icon-link, a.back-link {
   }
 }
 .back-link  {
-  padding-left: 1.1em !important;
+  padding-left: 1.1rem !important;
   .icon {
-    width: 0.8em;
+    width: 0.8rem;
   }
 }
 .icon-link.close {
-  padding-left: 1.2em !important;
+  padding-left: 1.2rem !important;
   .icon {
-    width: 0.9em;
+    width: 0.9rem;
   }
 }
 .location > .icon-link, .locations-list > .icon-link {
-  padding-left: 1.4em !important;
+  padding-left: 1.4rem !important;
   .icon {
-    width: 1.1em;
+    width: 1.1rem;
   }
 }
 a.alert, a.delete {
@@ -1041,9 +1041,9 @@ a.primary, a.primary {
 a.fb, a.tw {
   &:before {
     display: inline-block;
-    font-size: 0.9em;
-    min-width: 0.5em;
-    margin-right: 0.45em;
+    font-size: 0.9rem;
+    min-width: 0.5rem;
+    margin-right: 0.45rem;
   }
 }
 a.fb {
@@ -1054,32 +1054,32 @@ a.tw {
 }
 .claimed {
   @include fas(check);
-  margin-left: 0.25em;
+  margin-left: 0.25rem;
   text-transform: uppercase;
-  font-size: 0.75em;
+  font-size: 0.75rem;
   font-weight: bold;
   background: $brand;
   line-height: 100%;
   display: inline-block;
-  padding: 0.4em 0.5em 0.25em 0.5em;
+  padding: 0.4rem 0.5rem 0.25rem 0.5rem;
   color: $w;
   &:before {
-    margin-right: 0.3em;
+    margin-right: 0.3rem;
   }
   @include small {
-    font-size: 0.8em;
+    font-size: 0.8rem;
   }
 }
 
 .search-results .claimed {
-  font-size: .5em;
+  font-size: .5rem;
   top: -5px;
   position: relative;
   margin-left: 0;
   border-radius: 100%;
-  width: 2em;
-  height: 2em;
-  line-height: 1.2em;
+  width: 2rem;
+  height: 2rem;
+  line-height: 1.2rem;
 }
 
 .assigned-category {
@@ -1087,9 +1087,9 @@ a.tw {
   font-weight: bold;
   color: $medium-gray;
   position: relative;
-  // padding-top: 0.25em;
-  // padding-bottom: 0.25em;
-  // padding-left: 2.25em + 0.45em;
+  // padding-top: 0.25rem;
+  // padding-bottom: 0.25rem;
+  // padding-left: 2.25rem + 0.45rem;
   span.cat {
     position: absolute;
     left: 0;
@@ -1100,7 +1100,7 @@ a.tw {
   }
   @media print {
     display: none;
-    margin-top: 0.35em;
+    margin-top: 0.35rem;
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -1117,7 +1117,7 @@ a.tw {
 .actions {
   > a {
     display: block;
-    margin: 0.5em 0;
+    margin: 0.5rem 0;
     &:first-child {
       margin-top: 0;
     }
@@ -1140,22 +1140,22 @@ a.tw {
       }
     }
     .location {
-      margin: 1em 0;
+      margin: 1rem 0;
       &:first-child {
         margin-top: 0;
       }
       &:last-child {
         margin-bottom: 0;
       }
-      // font-size: 1em;
+      // font-size: 1rem;
       p {
-        margin-bottom: 0.25em;
+        margin-bottom: 0.25rem;
       }
       @include small {
         margin-bottom: 1.5rem;
       }
       > a {
-        margin: 0.35em 0;
+        margin: 0.35rem 0;
       }
     }
   }
@@ -1240,7 +1240,7 @@ a.tw {
     }
     &:before {
       display: block;
-      height: 3.175em;
+      height: 3.175rem;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -1253,8 +1253,8 @@ a.tw {
 }
 .read-more {
   display: none;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   @media print {
     display: none;
   }
@@ -1284,7 +1284,7 @@ a.tw {
   }
   form {
     @extend %vam;
-    // margin-right: 0.65em;
+    // margin-right: 0.65rem;
   }
   > a, button.txt-button {
     font-size: $d-fs;
@@ -1292,14 +1292,14 @@ a.tw {
       font-style: $d-fs-s;
     }
     @extend %vam;
-    margin-right: 0.65em;
+    margin-right: 0.65rem;
     position: relative;
-    padding-left: 2.175em !important;
+    padding-left: 2.175rem !important;
     &:before {
       @extend %check-cross;
       position: absolute;
       left: 0;
-      top: -0.225em;
+      top: -0.225rem;
       @include transition;
     }
     &.yes {
@@ -1333,7 +1333,7 @@ a.tw {
   }
 }
 .recommend-form, .email-listing-form {
-  margin: 0.5em 0 1em 0;
+  margin: 0.5rem 0 1rem 0;
   display: none;
   select, input {
     margin: 0;
@@ -1343,11 +1343,11 @@ a.tw {
   }
 }
 .services-list {
-  font-size: 1em;
+  font-size: 1rem;
   .button {
-    margin-top: 1.5em;
+    margin-top: 1.5rem;
     @include small {
-      margin-top: 1em;
+      margin-top: 1rem;
     }
     @include media(0, 480) {
       display: block;
@@ -1363,10 +1363,10 @@ a.tw {
   }
   margin-top: 0.5rem;
   border: 6px solid $light-gray_fade;
-  padding: 1.35em 1.6em 1.15em 1.6em;
+  padding: 1.35rem 1.6rem 1.15rem 1.6rem;
   border-radius: $d-rad*2;
   >a {
-    margin: 0.5em 0;
+    margin: 0.5rem 0;
     &:first-child {
       margin-top: 0;
     }
@@ -1378,24 +1378,24 @@ a.tw {
     >a, >a:first-child, >a:last-child {
       display: inline-block;
       vertical-align: middle;
-      margin: 0em 0;
-      margin-right: 0.5em;
+      margin: 0rem 0;
+      margin-right: 0.5rem;
     }
   }
   @include small {
-    padding: 1.2em 1.4em 1.15em 1.4em;
+    padding: 1.2rem 1.4rem 1.15rem 1.4rem;
     >a {
-      margin: 0.5em 0;
+      margin: 0.5rem 0;
       display: block;
       &:first-child {
         margin-top: 0;
-        margin-bottom: 0.5em;
+        margin-bottom: 0.5rem;
         display: block;
       }
       &:last-child {
         margin-bottom: 0;
         display: block;
-        margin-top: 0.5em;
+        margin-top: 0.5rem;
       }
     }
   }
@@ -1409,22 +1409,22 @@ ul.search-results, ul.claim-requests, ul.problem-reports, .contact-info {
     margin-top: 1.5rem;
     >a, >a:first-child, >a:last-child, >form {
       @extend %vam;
-      margin: 0em 0;
-      margin-right: 0.5em;
+      margin: 0rem 0;
+      margin-right: 0.5rem;
     }
     @include small {
       >a, >form {
-        margin: 0.5em 0;
+        margin: 0.5rem 0;
         display: block;
         &:first-child {
           margin-top: 0;
-          margin-bottom: 0.5em;
+          margin-bottom: 0.5rem;
           display: block;
         }
         &:last-child {
           margin-bottom: 0;
           display: block;
-          margin-top: 0.5em;
+          margin-top: 0.5rem;
         }
       }
     }
@@ -1439,23 +1439,23 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
   .holder {
     border-top: 0;
     padding-top: 0;
-    margin-top: 1.75em;
+    margin-top: 1.75rem;
   }
 }
 %more-link {
   @include fas(plus);
   position: relative;
-  padding-right: 1em;
+  padding-right: 1rem;
   color: $primary;
   &.active {
     @include fas(minus);
     color: $medium-gray;
   }
   &:before {
-    font-size: 0.75em;
+    font-size: 0.75rem;
     position: absolute;
     right: 0;
-    top: -0.3em;
+    top: -0.3rem;
   }
 }
 .location {
@@ -1476,7 +1476,7 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
     @extend %vam;
   }
   div.more {
-    margin-top: 0.25em;
+    margin-top: 0.25rem;
   }
   a.more-link {
     @extend %more-link;
@@ -1486,8 +1486,8 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
   }
   .locations-list {
     display: none;
-    margin-top: 0.25em;
-    margin-bottom: 1.25em;
+    margin-top: 0.25rem;
+    margin-bottom: 1.25rem;
     @media print {
       display: block !important;
     }
@@ -1495,7 +1495,7 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
       display: block;
     }
     a.icon-link {
-      margin-bottom: 0.25em;
+      margin-bottom: 0.25rem;
       &:last-child {
         margin-bottom: 0;
       }

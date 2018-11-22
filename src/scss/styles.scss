@@ -83,13 +83,13 @@
 .no-margin,
 hr.no-margin { margin: 0px; }
 a.button.bottom-margin,
-.bottom-margin { margin: 0.1em; }
+.bottom-margin { margin: 0.1rem; }
 
 hr.clear { 
   clear: both;
   visibility: hidden;
   display: block;
-  height: 0.5em;
+  height: 0.5rem;
 }
 
 .center,
@@ -103,15 +103,15 @@ fieldset {
   border: 1px solid silver;
   width: 100%;
   padding: 1%;
-  margin-bottom: 2em;
+  margin-bottom: 2rem;
   border-radius: 5px;
 }
 
 legend {
   padding: 0px 5px;
-  margin-bottom: .5em;
+  margin-bottom: .5rem;
   cursor: pointer;
-  font-size: 1.2em;
+  font-size: 1.2rem;
   color: #4c5c68;
   line-height: 1.4;
 }
@@ -126,7 +126,7 @@ fieldset#add-location-fieldset {
 
   legend::before { content: "+ "; }
 
-  button { float:right; margin-bottom:0.9em; }
+  button { float:right; margin-bottom:0.9rem; }
 }
 
 fieldset#add-location-fieldset.active {
@@ -141,10 +141,10 @@ div.actions {
 }
 
 a.improve {
-  font-size: 1.15em;
+  font-size: 1.15rem;
   color: #1e79bd;
   float: right;
-  margin-bottom: 0.35em;
+  margin-bottom: 0.35rem;
 }
 
 .picker--focused { 
@@ -176,9 +176,9 @@ div.picker table thead {
 }
 
 input.picker__input {
-  width: 8em;
-  font-size: 1.15em;
-  padding: .8em 0px;
+  width: 8rem;
+  font-size: 1.15rem;
+  padding: .8rem 0px;
   border-radius: 7px;
   text-align: center;
   border-style: solid;
