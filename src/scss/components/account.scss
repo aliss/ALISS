@@ -14,7 +14,7 @@
     max-width: none;
   }
   .checkbox-agree {
-    margin-bottom: 1.25em;
+    margin-bottom: 1.25rem;
   }
   .info-box {
     max-width: 460px;
@@ -37,8 +37,8 @@
 .all-categories {
   border: 1px solid $light-gray;
   border-radius: $d-rad;
-  margin-bottom: 1.35em;
-  padding: 0.35em 1em 0.35em 1em;
+  margin-bottom: 1.35rem;
+  padding: 0.35em 1em 0.35em 1rem;
   overflow: auto;
   max-height: 75vh;
 }
@@ -46,7 +46,7 @@
 .large-form {
   padding-top: 2rem;
   .copy-container {
-    margin-bottom: 1.35em;
+    margin-bottom: 1.35rem;
   }
   .annotation {
     position: absolute;
@@ -55,7 +55,7 @@
     display: block;
     width: 31.5%;
     border-radius: $d-rad*2;
-    font-size: 1.05em;
+    font-size: 1.05rem;
     padding: 1.2rem 1.5rem;
     background: $brand_fade;
     color: $medium-gray;
@@ -63,12 +63,12 @@
       width: 37.5%;
     }
     @include small {
-      margin-top: -0.5em;
+      margin-top: -0.5rem;
       position: static;
       top: auto;
       width: 100%;
       float:left;
-      margin-bottom: 1.25em;
+      margin-bottom: 1.25rem;
     }
   }
   .f-row {
@@ -105,7 +105,7 @@
   .submit {
     input[type=submit], button, .button {
       display: inline-block;
-      margin-right: 0.35em;
+      margin-right: 0.35rem;
       margin-top: 1rem;
       min-width: 200px;
       @include media(0, 480) {
@@ -127,7 +127,7 @@
     position: relative;
     .info-box.needs {
       position: absolute;
-      top: -1em;
+      top: -1rem;
       left: 0;
       height: 100%;
       width: 49%;
@@ -197,14 +197,14 @@
     }
   }
   .my-account-links, .account-switch {
-    padding-top: 1.75em;
-    padding-bottom: 3em;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
     .cells {
       margin: 0;
     }
     @include small {
       padding-top: 0;
-      padding-bottom: 2em;
+      padding-bottom: 2rem;
     }
     @media print {
       display: none;
@@ -214,21 +214,23 @@
     // }
   }
   .account-switch {
-    padding-bottom: 1em;
+    padding-bottom: 1rem;
   }
   .account-switch+.my-account-links {
     padding-top: 0;
   }
 }
 
-.my-account-links div.columns { 
-  margin-bottom: 0.5em;
+.account-switch .cell,
+.my-account-links .cell {
   a {
-    width: 100%;
+    width: 98%;
     display: inline-block;
     text-align: center;
-    padding-top: 0.2em;
-    font-size: 1.2em;
+    padding-top: 0.2rem;
+    min-height: 1.5rem;
+    margin-bottom: 0.2rem;
+    font-size: 1.2rem;
     border-radius: 8px;
     border: 0.5vw solid #d3d3d3;
   }
@@ -243,7 +245,7 @@
   display: none;
   .button {
     display: inline-block;
-    margin-right: 0.35em;
+    margin-right: 0.35rem;
     margin-top: 1rem;
     min-width: 200px;
     @include media(0, 480) {
@@ -331,7 +333,7 @@ $account-list-pad-m: 1.25rem 1.2rem 1.5rem 1.2rem;
     .category {
       @extend p;
       font-weight: bold;
-      margin-bottom: 0.5em;
+      margin-bottom: 0.5rem;
       span.name {
         @include truncate(80%);
         display: inline-block;
@@ -360,7 +362,7 @@ $account-list-pad-m: 1.25rem 1.2rem 1.5rem 1.2rem;
     a {
       display: inline-block;
       margin: 0.25em 0;
-      margin-right: 0.35em;
+      margin-right: 0.35rem;
     }
   }
 }
@@ -370,7 +372,7 @@ $account-list-pad-m: 1.25rem 1.2rem 1.5rem 1.2rem;
     vertical-align: middle;
   }
   .claimed {
-    margin-left: 0.75em;
+    margin-left: 0.75rem;
   }
 }
 ul.searches {
@@ -392,7 +394,7 @@ ul.searches {
   .copy {
     float: right;
     @include media(0, $search-break) {
-      margin-top: 0.35em;
+      margin-top: 0.35rem;
       float: none;
       display: block;
     }
@@ -410,7 +412,7 @@ ul.searches {
   .admin-actions {
     @include grid-column(4);
     float: right;
-    margin-top: -0.35em;
+    margin-top: -0.35rem;
   }
   @include media(0, $search-break) {
     .activity {
@@ -436,7 +438,7 @@ ul.searches {
     }
 
     .cell {
-      padding: 1em;
+      padding: 1rem;
       border-radius: 8px;
       border: .5vw solid #d3d3d3;
     }
@@ -446,20 +448,20 @@ ul.searches {
   ul {
     @extend %no-list;
     @include clear;
-    margin-top: 1.25em;
-    margin-bottom: 0.25em;
+    margin-top: 1.25rem;
+    margin-bottom: 0.25rem;
     li {
       float: left;
       width: 33%;
       padding: 1%;
       text-align: center;
       @extend p;
-      margin-bottom: 0.75em;
+      margin-bottom: 0.75rem;
     }
     @include small {
       li {
         width: 50%;
-        font-size: 1.05em;
+        font-size: 1.05rem;
       }
     }
   }
@@ -504,13 +506,13 @@ ul.searches {
     @extend p;
     span {
       @extend %vam;
-      margin-right: 0.5em;
+      margin-right: 0.5rem;
       i {
-        font-size: 1.35em;
+        font-size: 1.35rem;
         @extend %vam;
-        margin-right: 0.1em;
+        margin-right: 0.1rem;
         position: relative;
-        top: -0.15em;
+        top: -0.15rem;
       }
       &.national {
         i.fa {
@@ -530,7 +532,7 @@ ul.searches {
   margin-top: 1.5rem;
   > li {
     padding: 0;
-    padding-bottom: 0.25em;
+    padding-bottom: 0.25rem;
     > a {
       @extend %more-link;
     }
@@ -550,22 +552,22 @@ ul.searches {
     max-width: 340px;
     margin-bottom: 1.5rem;
     >label {
-      margin-bottom: 0.35em;
+      margin-bottom: 0.35rem;
     }
   }
 }
 .selected-categories {
   display: none;
-  margin-top: -0.5em;
-  margin-bottom: 1.25em;;
+  margin-top: -0.5rem;
+  margin-bottom: 1.25rem;;
   p {
     margin-bottom: 0;
   }
   .cats {
     @include clear;
     display: block;
-    margin-left: -0.2em;
-    margin-right: -0.2em;
+    margin-left: -0.2rem;
+    margin-right: -0.2rem;
     overflow: scroll;
   }
   .selected-cat {
@@ -591,7 +593,7 @@ ul.searches {
     }
     @include small {
       display: block;
-      margin-bottom: 0.5em;
+      margin-bottom: 0.5rem;
     }
     a.active {
       color: $medium-gray;
@@ -621,8 +623,8 @@ table.users-listing tr {
   a.button {
     width: 100%;
     display: inline-block;
-    font-size: 0.9em;
-    padding: 0.7em 0.1em;
+    font-size: 0.9rem;
+    padding: 0.7em 0.1rem;
     min-width: 0px;
   }
 }
@@ -638,7 +640,7 @@ table.users-listing tr {
 @media (max-width: 425px) {
   .f-row {
     > .all-categories {
-      font-size: 0.75em;
+      font-size: 0.75rem;
     }
   }
 }
