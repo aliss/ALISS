@@ -3,8 +3,8 @@
 // ---------------------------------------
 
 label {
-  font-size: 1em;
-  margin-bottom: 0.5em;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
   cursor: pointer;
   font-size: $d-fs;
   color: $medium-gray;
@@ -17,7 +17,7 @@ label {
   }
 }
 .select2 {
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
   width: 100% !important;
   ul {
     @extend %no-list;
@@ -30,7 +30,7 @@ label {
   font-size: $d-fs;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
-  padding: 0.5em 0.5em;
+  padding: 0.5rem 0.5rem;
   display: block;
 }
 .select2-container .select2-selection--multiple {
@@ -42,10 +42,10 @@ label {
   font-size: $d-fs;
   margin: 0;
   border: 0;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  padding-top: 0.325em;
-  padding-bottom: 0.15em;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.325rem;
+  padding-bottom: 0.15rem;
 }
 .select2-container--default .select2-selection--multiple {
   border: 1px solid $light-gray;
@@ -64,11 +64,11 @@ label {
   color: $w !important;
 }
 .select2-container--default .select2-results__option .select2-results__option, .select2-container--default .select2-results__option {
-  padding: 0.75em 0.8em 0.55em 1.25em;
+  padding: 0.75rem 0.8rem 0.55rem 1.25rem;
   color: $medium-gray;
 }
 .select2-container--default .select2-results__group {
-  padding: 0.75em 1em 0.55em 0.5em;
+  padding: 0.75rem 1rem 0.55rem 0.5rem;
   color: $dark-gray;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice, .selected-cat {
@@ -80,26 +80,26 @@ label {
   // font-weight: bold;
   position: relative;
   font-size: $d-fs;
-  padding: 0.475em 0.6em 0.325em 0.6em;
-  margin: 0.2em 0.2em;
-  padding-left: 2.4em;
+  padding: 0.475rem 0.6rem 0.325rem 0.6rem;
+  margin: 0.2rem 0.2rem;
+  padding-left: 2.4rem;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove, .selected-cat span.remove {
   // overflow: hidden;
   // width: 0px;
   @include fas(times);
-  width: 1.6em;
-  height: 1.6em;
+  width: 1.6rem;
+  height: 1.6rem;
   position: relative;
   color: $alert;
   background: $alert;
   position: absolute;
   cursor: pointer;
-  top: 0.4em;
-  left: 0.35em;
+  top: 0.4rem;
+  left: 0.35rem;
   border-radius: 100%;
   &:before {
-    font-size: 1em;
+    font-size: 1rem;
     color: $w;
     position: absolute;
     top: 50%;
@@ -119,14 +119,14 @@ label {
   color: $w;
   font-size: $d-fs;
   background: $alert;
-  margin-top: -1.5em;
-  margin-bottom: 1.35em;
+  margin-top: -1.5rem;
+  margin-bottom: 1.35rem;
   padding: 0.8rem 1.2rem;
   border-radius: $d-rad*2;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   @include small {
-    margin-top: -1.35em;
+    margin-top: -1.35rem;
     font-size: $d-fs-s;
   }
   &.all {
@@ -147,11 +147,11 @@ label {
     }
   }
   ul {
-    margin-top: 0.5em;
+    margin-top: 0.5rem;
     li {
-      font-size: 1em;
+      font-size: 1rem;
       color: $w;
-      margin: 0.35em 0;
+      margin: 0.35rem 0;
       &:before {
         background: $w;
       }
@@ -167,13 +167,13 @@ label {
 .messages {
   background: $success;
   color: $w;
-  font-size: 1.1em;
+  font-size: 1.1rem;
   @include transition(max-height, 1s);
   max-height: 100px;
   @include clear;
   overflow: hidden;
   @include small {
-    font-size: 1em;
+    font-size: 1rem;
     max-height: 500px;
   }
   .columns {
@@ -213,7 +213,7 @@ label {
       transform: none;
       top: auto;
       right: auto;
-      font-size: 1.25em;
+      font-size: 1.25rem;
     }
   }
   &.success {
@@ -224,9 +224,9 @@ label {
   }
 }
 .form {
-  margin: 1.5em 0;
+  margin: 1.5rem 0;
   .radio-list, .checkbox-list {
-    margin-bottom: 1.35em;
+    margin-bottom: 1.35rem;
   }
   input[type=submit], button {
     // margin-top: 1rem;
@@ -247,7 +247,7 @@ label {
 input {
   &[type=text], &[type=phone], &[type=email], &[type=password], &[type=url] {
     @extend %form-style;
-    height: 2.95em;
+    height: 2.95rem;
   }
 }
 textarea {
@@ -258,7 +258,7 @@ textarea {
 select {
   @extend %form-style;
   @extend %custom-select;
-  height: 2.95em;
+  height: 2.95rem;
 }
 .has-error {
   select, textarea, input[type=text], input[type=phone], input[type=email], input[type=password], input[type=url] {
@@ -276,7 +276,7 @@ input[type=radio] {
 .date-input {
   position: relative;
   input[type=text] {
-    padding-right:3em;
+    padding-right:3rem;
     &[readonly] {
       background-color: $w;
       cursor: pointer;
@@ -286,10 +286,10 @@ input[type=radio] {
   &:before {
     position: absolute;
     color: $medium-gray;
-    font-size: 1.5em;
-    right: 0.75em;
+    font-size: 1.5rem;
+    right: 0.75rem;
     top: 50%;
-    margin-top: -0.6em;
+    margin-top: -0.6rem;
   }
 }
 $date-highlight-color: $light-gray;
@@ -303,7 +303,7 @@ $date-highlight-focus-color: $dark-gray;
   &__year {
     color: inherit;
     font-style: normal;
-    font-size: 1em;
+    font-size: 1rem;
   }
   &__month {
     margin:0;
