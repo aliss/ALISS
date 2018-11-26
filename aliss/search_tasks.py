@@ -55,6 +55,28 @@ def create_slugs(force=False):
         o.generate_slug(force)
         o.save()
 
+def create_last_edited(force=False):
+    connection = _get_conection()
+    services = Service.objects
+    organisations = Organisation.objects
+
+    if force:
+        services = services.all()
+        organisations = organisations.all()
+    else:
+        services = services.filter(last_edited=None).all()
+        organisations = organisations.filter(last_edited=None).all()
+
+    print("No.of services with last_edited to updated: ", organisations.count())
+    for s in services:
+        s.generate_last_edited(force)
+        s.save()
+
+    print("No. of org with last_edited to update: ", organisations.count())
+    for o in organisations:
+        o.generate_last_edited(force)
+        o.save()
+
 
 def index_all():
     connection = _get_connection()

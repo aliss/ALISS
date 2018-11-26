@@ -91,7 +91,7 @@ class Service(models.Model):
         on_delete=models.SET_NULL
     )
 
-    last_edited = models.DateTimeField(null=True)
+    last_edited = models.DateTimeField(null=True, blank=False, default=None)
 
     def is_edited_by(self, user):
         if user == None or user.pk == None:
@@ -122,9 +122,15 @@ class Service(models.Model):
         return connection.delete(index='search', doc_type='service',
             id=self.id, refresh=True, ignore=404
         )
+    def generate_last_edited(self, force=False):
+        if self.last_edited == None:
+            self.last_edited = self.updated_on
+            return self.last_edited
+        return False
 
     def save(self, *args, **kwargs):
         self.generate_slug()
+        self.generate_last_edited()
         do_index = True
         if 'skip_index' in kwargs:
             do_index = False; kwargs.pop('skip_index')
@@ -135,6 +141,8 @@ class Service(models.Model):
     def delete(self, *args, **kwargs):
         self.remove_from_index()
         super(Service, self).delete(*args, **kwargs)
+
+
 
     @property
     def is_claimed(self):
