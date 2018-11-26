@@ -24,4 +24,4 @@ class SearchViewTestCase(TestCase):
         self.assertContains(response, 'Help and support in <span class="postcode">G2 4AA</span>')
 
     def tearDown(self):
-        Service.objects.get(name="My First Service").delete()
+        Fixtures.service_teardown()
