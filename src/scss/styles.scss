@@ -63,6 +63,9 @@
 @import "partials/center-section";
 @import "partials/landing-page";
 
+@media screen and (max-height: 620px) {
+  html { font-size: $font-size * 0.875; }
+}
 
 .svg-sprite { display: none; }
 
@@ -125,7 +128,6 @@ fieldset#add-location-fieldset {
   }
 
   legend::before { content: "+ "; }
-
   button { float:right; margin-bottom:0.9rem; }
 }
 
