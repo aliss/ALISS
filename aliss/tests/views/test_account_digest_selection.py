@@ -101,3 +101,4 @@ class AccountDigestSelectionViewTestCase(TestCase):
         response = self.client.delete((reverse('account_my_digest_delete', kwargs={'pk': user_digest.pk})))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(self.user.digest_selections.all().count(), 0)
+        self.assertRedirects(response, (reverse('account_my_digest')))
