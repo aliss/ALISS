@@ -92,6 +92,7 @@ def service_to_body(service):
             'slug': service.organisation.slug
         },
         'updated_on': service.updated_on,
+        'last_edited': service.last_edited,
         'name': service.name,
         'description': service.description,
         'slug': service.slug,

@@ -36,7 +36,7 @@ class Organisation(models.Model):
         on_delete=models.SET_NULL
     )
 
-    last_edited = models.DateTimeField(null=True)
+    last_edited = models.DateTimeField(null=True, blank=False, default=None)
 
     published = models.BooleanField(default=True)
 
@@ -58,8 +58,15 @@ class Organisation(models.Model):
             return self.slug
         return False
 
+    def generate_last_edited(self, force=False):
+        if self.last_edited == None:
+            self.last_edited = self.updated_on
+            return self.last_edited
+        return False
+
     def save(self, *args, **kwargs):
         self.generate_slug()
+        self.generate_last_edited()
         super(Organisation, self).save(*args, **kwargs)
         for s in self.services.all():
             s.add_to_index()
