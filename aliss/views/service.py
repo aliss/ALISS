@@ -112,10 +112,14 @@ class ServiceUpdateView(
         return context
 
 
-class ServiceDetailView(DetailView):
+class ServiceDetailView(UserPassesTestMixin, DetailView):
     model = Service
     template_name = 'service/detail.html'
     query_pk_and_slug = True
+
+    def test_func(self, user):
+        service = self.get_object()
+        return (service.is_published() or service.is_edited_by(user))
 
     def get_context_data(self, **kwargs):
         context = super(ServiceDetailView, self).get_context_data(**kwargs)
