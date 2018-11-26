@@ -48,6 +48,7 @@ class ServiceProblem(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
         return "Problem with {0}".format(self.service)
 
@@ -89,6 +90,8 @@ class Service(models.Model):
         null=True,
         on_delete=models.SET_NULL
     )
+
+    last_edited = models.DateTimeField(auto_now=True)
 
     def is_edited_by(self, user):
         if user == None or user.pk == None:
