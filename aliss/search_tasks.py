@@ -56,7 +56,7 @@ def create_slugs(force=False):
         o.save()
 
 def create_last_edited(force=False):
-    connection = _get_conection()
+    connection = _get_connection()
     services = Service.objects
     organisations = Organisation.objects
 

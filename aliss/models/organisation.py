@@ -36,7 +36,7 @@ class Organisation(models.Model):
         on_delete=models.SET_NULL
     )
 
-    last_edited = models.DateTimeField(null=True, blank=False, default=None)
+    last_edited = models.DateTimeField(null=True, blank=True, default=None)
 
     published = models.BooleanField(default=True)
 
