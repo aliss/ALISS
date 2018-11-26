@@ -48,6 +48,13 @@ class Fixtures(TestCase):
         return s
 
     @classmethod
+    def service_teardown(self, service=None):
+      if service:
+        service.delete()
+      else:
+        Service.objects.filter(name="My First Service").delete()
+
+    @classmethod
     def create(self):
         if Postcode.objects.filter(pk="G2 4AA").count() == 0:
           Postcode.objects.create(

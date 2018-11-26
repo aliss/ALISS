@@ -90,6 +90,9 @@ class Service(models.Model):
         on_delete=models.SET_NULL
     )
 
+    def is_published(self):
+        return self.organisation.published
+
     def is_edited_by(self, user):
         if user == None or user.pk == None:
             return False
