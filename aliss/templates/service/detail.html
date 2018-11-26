@@ -1,217 +1,216 @@
 {% extends "base.html" %}
 {% load aliss %}
 
-
 {% block title %}{{ object.name }} {% meta_location service %} - {{ object.organisation.name }} - ALISS{% endblock %}
 {% block meta_schema %}
-    <meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
-    <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
-    <meta property="og:title" content="{{ object.name }} on ALISS.org" />
-    <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
-    <meta name="description" content="{% meta_description service %}">
-    {% if view.kwargs.slug %}
-        <link rel="canonical" href="{% url 'service_detail' object.pk %}" />
-    {% else %}
-        <link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" />
-    {% endif %}
+  <meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
+  <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
+  <meta property="og:title" content="{{ object.name }} on ALISS.org" />
+  <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
+  <meta name="description" content="{% meta_description service %}">
+  {% if view.kwargs.slug %}
+    <link rel="canonical" href="{% url 'service_detail' object.pk %}" />
+  {% else %}
+    <link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" />
+  {% endif %}
 {% endblock %}
 
 {% block container %}
 <div class="black"></div>
 <div class="modal" id="add_list">
-    <div class="pad">
-        <div class="heading">
-            <a class="close alert icon-link">
-                <span class="icon">
-                    <i class="fas fa-times"></i>
-                </span>
-                Close
-            </a>
-            <h5>Add to new recommendations list</h5>
-        </div>
-        <div class="form">
-            <form method="post" action="{% url 'account_my_recommendations' %}">
-                {% csrf_token %}
-                <label for="name">Who is this recommendation for? <span>(required)</span></label>
-                <input type="text" name="name" id="name" placeholder="e.g. John Smith">
-                <input type="hidden" name="services" value="{{ object.pk }}" />
-                <input type="submit" value="Recommend">
-            </form>
-        </div>
+  <div class="pad">
+    <div class="heading">
+      <a class="close alert icon-link">
+        <span class="icon">
+          <i class="fas fa-times"></i>
+        </span>
+        Close
+      </a>
+      <h5>Add to new recommendations list</h5>
     </div>
+    <div class="form">
+      <form method="post" action="{% url 'account_my_recommendations' %}">
+        {% csrf_token %}
+        <label for="name">Who is this recommendation for? <span>(required)</span></label>
+        <input type="text" name="name" id="name" placeholder="e.g. John Smith">
+        <input type="hidden" name="services" value="{{ object.pk }}" />
+        <input type="submit" value="Recommend">
+      </form>
+    </div>
+  </div>
 </div>
 <main class="main" role="main">
-    <article id="content" class="service">
-        <div class="row">
-            <div class="columns options">
-                <div class="info-box small toggled" id="service_actions">
-                    <div class="heading">
-                        <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
-                    </div>
+  <article id="content" class="service">
+    <div class="row">
+      <div class="columns options">
+        <div class="info-box small toggled" id="service_actions">
+          <div class="heading">
+            <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+          </div>
 
-                    <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. 6. Back to Search -->
-                    <div class="actions toggle-content">
+          <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. 6. Back to Search -->
+          <div class="actions toggle-content">
 
-                        <a class="icon-link" id="email_service_toggle">
-                            <span class="icon">
-                                <i class="fas fa-envelope"></i>
-                            </span>
-                            Email this listing
-                        </a>
-                        <div class="email-listing-form toggled" id="email_service">
-                            <form action="{% url 'service_email' %}" method="post">
-                                {% csrf_token %}
-                                <div class="sbs-inputs">
-                                    <input name="service" type="hidden" value="{{ object.pk }}">
-                                    <input name="email" type="email" placeholder="email@company.com">
-                                    <input type="submit" class="secondary" value="Send">
-                                </div>
-                            </form>
-                        </div>
-
-                        <a href="javascript:window.print();" class="icon-link">
-                            <span class="icon">
-                                <i class="fas fa-print"></i>
-                            </span>
-                            Print this listing
-                        </a>
-
-                        {% if object in request.user.saved_services.all %}
-                            <form method='post' action="{% url 'account_remove_saved_service' pk=object.pk %}">
-                                {% csrf_token %}
-                                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                                <button type="submit" class="txt-button alert icon-link">
-                                    <span class="icon">
-                                        <i class="fas fa-heart"></i>
-                                    </span>
-                                    Remove from saved services
-                                </button>
-                            </form>
-                        {% else %}
-                            <form method='post' action="{% url 'account_save_service' pk=object.pk %}">
-                                {% csrf_token %}
-                                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                                <button type="submit" class="txt-button primary icon-link">
-                                    <span class="icon">
-                                        <i class="fas fa-heart"></i>
-                                    </span>
-                                    Add to saved services
-                                </button>
-                            </form>
-                        {% endif %}
-
-                        {% if not request.user.is_authenticated %}
-                            <a href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
-                        {% else %}
-                            <a class="primary icon-link" id="recommend_toggle">
-                        {% endif %}
-                            <span class="icon">
-                                <i class="fas fa-bullhorn"></i>
-                            </span>
-                            Recommend this service
-                        </a>
-
-                        <div class="recommend-form toggled" id="recommend">
-                            <form method="post" action="{% url 'account_my_recommendations_add_service' %}">
-                                {% csrf_token %}
-                                <div class="sbs-inputs select">
-                                    <select name="recommendation_list">
-                                        <option value="">Select list</option>
-                                        {% for recommendation_list in recommended_service_lists %}
-                                            <option value="{{ recommendation_list.pk }}">{{ recommendation_list.name }}</option>
-                                        {% endfor %}
-                                        <option value="new">Create new</option>
-                                    </select>
-                                    <input type="hidden" value="{{ object.pk }}" name="service" />
-                                    <input type="submit" class="secondary" value="Add">
-                                    <a id="add_list_modal" class="button secondary">Add</a>
-                                </div>
-                            </form>
-                        </div>
-
-                        <a id="report_listing" class="icon-link improve">
-                          <span class="icon">
-                            <i class="fas fa-comment"></i>
-                          </span>
-                          Improve this listing
-                        </a>
-
-                        <a id="back_to_seach" class="icon-link" style = "display:none">
-                          <span class="icon">
-                            <i class="fas fa-arrow-left"></i>
-                          </span>
-                          Back to last search
-                        </a>
-                    </div>
+            <a class="icon-link" id="email_service_toggle">
+              <span class="icon">
+                <i class="fas fa-envelope"></i>
+              </span>
+              Email this listing
+            </a>
+            <div class="email-listing-form toggled" id="email_service">
+              <form action="{% url 'service_email' %}" method="post">
+                {% csrf_token %}
+                <div class="sbs-inputs">
+                  <input name="service" type="hidden" value="{{ object.pk }}">
+                  <input name="email" type="email" placeholder="email@company.com">
+                  <input type="submit" class="secondary" value="Send">
                 </div>
+              </form>
             </div>
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>{{ object.name }}</h1>
-                    <p class="org">by <a href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
-                    <div class="assigned-category">
-                        {% for category in object.categories.all %}
-                            <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="desc{% if object.description|length > 350 %} long{% endif %}">
-                        <p>{{ object.description|linebreaks }}</p>
-                        <p>Last updated <span class="updated alert">{{ object.updated_on }}</span></p>
-                    </div>
+
+            <a href="javascript:window.print();" class="icon-link">
+              <span class="icon">
+                <i class="fas fa-print"></i>
+              </span>
+              Print this listing
+            </a>
+
+            {% if object in request.user.saved_services.all %}
+              <form method='post' action="{% url 'account_remove_saved_service' pk=object.pk %}">
+                {% csrf_token %}
+                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
+                <button type="submit" class="txt-button alert icon-link">
+                  <span class="icon">
+                    <i class="fas fa-heart"></i>
+                  </span>
+                  Remove from saved services
+                </button>
+              </form>
+            {% else %}
+              <form method='post' action="{% url 'account_save_service' pk=object.pk %}">
+                {% csrf_token %}
+                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
+                <button type="submit" class="txt-button primary icon-link">
+                  <span class="icon">
+                    <i class="fas fa-heart"></i>
+                  </span>
+                  Add to saved services
+                </button>
+              </form>
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
+              <a href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
+            {% else %}
+              <a class="primary icon-link" id="recommend_toggle">
+            {% endif %}
+              <span class="icon">
+                <i class="fas fa-bullhorn"></i>
+              </span>
+              Recommend this service
+            </a>
+
+            <div class="recommend-form toggled" id="recommend">
+              <form method="post" action="{% url 'account_my_recommendations_add_service' %}">
+                {% csrf_token %}
+                <div class="sbs-inputs select">
+                  <select name="recommendation_list">
+                    <option value="">Select list</option>
+                    {% for recommendation_list in recommended_service_lists %}
+                      <option value="{{ recommendation_list.pk }}">{{ recommendation_list.name }}</option>
+                    {% endfor %}
+                    <option value="new">Create new</option>
+                  </select>
+                  <input type="hidden" value="{{ object.pk }}" name="service" />
+                  <input type="submit" class="secondary" value="Add">
+                  <a id="add_list_modal" class="button secondary">Add</a>
                 </div>
+              </form>
             </div>
-            <div class="columns contact-info">
-                <div class="copy-container">
-                    {% if object.locations.all %}
-                        <div class="all-locations">
-                            {% for location in object.locations.all %}
-                                {% include 'location/partials/detail.html' %}
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                    <h4>Contact information</h4>
-                    <p>
-                        {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-                        {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
-                        {% if object.url %}<a href="{{ object.url }}">Website</a>{% endif %}
-                        {% if object.facebook %}<a href="{{ object.facebook }}">Facebook</a>{% endif %}
-                        {% if object.twitter %}<a href="{{ object.twitter }}">Twitter</a>{% endif %}
-                    </p>
-                    {% if object.service_areas.all %}
-                        <h5>Service areas</h5>
-                        <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="columns feedback-form">
-                <h5>Was this helpful?</h5>
-                {% if user.is_authenticated %}
-                    <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
-                            Yes
-                        </button>
-                    </form>
-                {% else %}
-                    <a class="yes">
-                        Yes
-                    </a>
-                {% endif %}
-                <a class="no alert">
-                    No
-                </a>
-                <div class="form" style="display: none;">
-                    {% if request.user.is_authenticated %}
-                        <div class="copy-container">
-                            {% include 'service/forms/feedback.html' with service=object %}
-                        </div>
-                    {% else %}
-                        <p>Please <a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
-                    {% endif %}
-                </div>
-            </div>
+
+            <a id="report_listing" class="icon-link improve">
+              <span class="icon">
+              <i class="fas fa-comment"></i>
+              </span>
+              Improve this listing
+            </a>
+
+            <a id="back_to_seach" class="icon-link" style = "display:none">
+              <span class="icon">
+              <i class="fas fa-arrow-left"></i>
+              </span>
+              Back to last search
+            </a>
+          </div>
         </div>
-    </article>
+      </div>
+      <div class="columns content">
+        <div class="copy-container">
+          <h1>{{ object.name }}</h1>
+          <p class="org">by <a href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
+          <div class="assigned-category">
+            {% for category in object.categories.all %}
+              <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+          </div>
+          <div class="desc{% if object.description|length > 350 %} long{% endif %}">
+            <p>{{ object.description|linebreaks }}</p>
+            <p>Last updated <span class="updated alert">{{ object.updated_on }}</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="columns contact-info">
+        <div class="copy-container">
+          {% if object.locations.all %}
+            <div class="all-locations">
+              {% for location in object.locations.all %}
+                {% include 'location/partials/detail.html' %}
+              {% endfor %}
+            </div>
+          {% endif %}
+          <h4>Contact information</h4>
+          <p>
+            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
+            {% if object.url %}<a href="{{ object.url }}">Website</a>{% endif %}
+            {% if object.facebook %}<a href="{{ object.facebook }}">Facebook</a>{% endif %}
+            {% if object.twitter %}<a href="{{ object.twitter }}">Twitter</a>{% endif %}
+          </p>
+          {% if object.service_areas.all %}
+            <h5>Service areas</h5>
+            <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="columns feedback-form">
+        <h5>Was this helpful?</h5>
+        {% if user.is_authenticated %}
+          <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
+              Yes
+            </button>
+          </form>
+        {% else %}
+          <a class="yes">
+            Yes
+          </a>
+        {% endif %}
+        <a class="no alert">
+          No
+        </a>
+        <div class="form" style="display: none;">
+          {% if request.user.is_authenticated %}
+            <div class="copy-container">
+              {% include 'service/forms/feedback.html' with service=object %}
+            </div>
+          {% else %}
+            <p>Please <a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </article>
 </main>
 
 <script type="application/ld+json">
@@ -226,15 +225,15 @@
   "areaServed": [{% for area in object.service_areas.all %}"{{ area.name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
   {% endif %}
   "provider": {
-    "@type": "Organization",
-    "name": "{{ object.organisation.name }}",
-    {% if object.email %}
-    "email": "{{ object.email }}",
-    {% endif %}
-    {% if object.phone %}
-    "telephone": "{{ object.phone }}",
-    {% endif %}
-    "url": "{% absolute org_path %}"
+  "@type": "Organization",
+  "name": "{{ object.organisation.name }}",
+  {% if object.email %}
+  "email": "{{ object.email }}",
+  {% endif %}
+  {% if object.phone %}
+  "telephone": "{{ object.phone }}",
+  {% endif %}
+  "url": "{% absolute org_path %}"
   }
 }
 </script>
@@ -242,11 +241,11 @@
 
 {% block before_body_close %}
   <script type="text/javascript">
-    $(document).ready(function(){
-        var searchURL = localStorage.getItem('searchURL');
-        if (searchURL != null){
-            $('#back_to_seach').attr('href', searchURL).show();
-        }
-    });
+  $(document).ready(function(){
+    var searchURL = localStorage.getItem('searchURL');
+    if (searchURL != null){
+      $('#back_to_seach').attr('href', searchURL).show();
+    }
+  });
   </script>
 {% endblock %}
