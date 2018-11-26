@@ -91,7 +91,7 @@ class Service(models.Model):
         on_delete=models.SET_NULL
     )
 
-    last_edited = models.DateTimeField(null=True, blank=False, default=None)
+    last_edited = models.DateTimeField(null=True, blank=True, default=None)
 
     def is_edited_by(self, user):
         if user == None or user.pk == None:
