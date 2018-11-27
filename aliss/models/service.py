@@ -122,8 +122,9 @@ class Service(models.Model):
         return connection.delete(index='search', doc_type='service',
             id=self.id, refresh=True, ignore=404
         )
+
     def generate_last_edited(self, force=False):
-        if self.last_edited == None:
+        if forcd or self.last_edited == None:
             self.last_edited = self.updated_on
             return self.last_edited
         return False

@@ -59,7 +59,7 @@ class Organisation(models.Model):
         return False
 
     def generate_last_edited(self, force=False):
-        if self.last_edited == None:
+        if  force or self.last_edited == None:
             self.last_edited = self.updated_on
             return self.last_edited
         return False
