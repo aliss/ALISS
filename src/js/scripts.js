@@ -67,449 +67,469 @@ import Clipboard from 'clipboard/lib/clipboard.js';
 
 var ALISS = require('./aliss');
 
+$.extend($.expr[':'], { 
+  'containsi': function(elem, i, match, array) {
+    return (elem.textContent || elem.innerText || '').toLowerCase()
+    .indexOf((match[3] || "").toLowerCase()) >= 0;
+  }
+});
+
 $.urlParam = function(name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results==null){
-        return null;
-    } else {
-        return decodeURI(results[1]) || 0;
-    }
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results==null){
+    return null;
+  } else {
+    return decodeURI(results[1]) || 0;
+  }
 };
 
 $.urlParams = function(urlString){
-    if (!urlString){ urlString = window.location.href; }
-    var hash = {};
-    var query_section = urlString.split('?');
-    query_section = query_section[1];
-    query_section = query_section.replace(/\+/gi, " ");
-    query_section = query_section.replace(/-/gi, " ");
-    query_section = query_section.split('&');
-    query_section.every(function(query){
-        var query_pair = query.split("=");
-        if (query_pair[1] != "") {
-            if (query_pair[1].includes(" ")){
-                query_pair[1] = query_pair[1].trim();
-                var uncapped_words = query_pair[1].split(" ");
-                var capped_words = uncapped_words.map(function(word){
-                    if (word == "and") {
-                        return word;
-                    } else {
-                        word =  word[0].toUpperCase() + word.slice(1);
-                        return word;
-                    }
-                });
-                capped_words = capped_words.join(" ");
-                hash[query_pair[0]] = capped_words;
-            } else {
-                hash[query_pair[0]] = query_pair[1][0].toUpperCase() + query_pair[1].slice(1);
-            }
-        }
-    });
-    return hash;
+  if (!urlString){ urlString = window.location.href; }
+  var hash = {};
+  var query_section = urlString.split('?');
+  query_section = query_section[1];
+  query_section = query_section.replace(/\+/gi, " ");
+  query_section = query_section.replace(/-/gi, " ");
+  query_section = query_section.split('&');
+  query_section.every(function(query){
+    var query_pair = query.split("=");
+    if (query_pair[1] != "") {
+      if (query_pair[1].includes(" ")){
+        query_pair[1] = query_pair[1].trim();
+        var uncapped_words = query_pair[1].split(" ");
+        var capped_words = uncapped_words.map(function(word){
+          if (word == "and") {
+            return word;
+          } else {
+            word =  word[0].toUpperCase() + word.slice(1);
+            return word;
+          }
+        });
+        capped_words = capped_words.join(" ");
+        hash[query_pair[0]] = capped_words;
+      } else {
+        hash[query_pair[0]] = query_pair[1][0].toUpperCase() + query_pair[1].slice(1);
+      }
+    }
+  });
+  return hash;
 };
 
 $(document).ready(() => {
-    window.ALISS = ALISS;
-    matchHeight();
+  window.ALISS = ALISS;
+  matchHeight();
 
-    var locationURL = $(location).attr('href');
-    if (locationURL.includes('search' && 'postcode')){
-        localStorage.setItem('searchURL',locationURL);
-    }
+  var locationURL = $(location).attr('href');
+  if (locationURL.includes('search' && 'postcode')){
+    localStorage.setItem('searchURL',locationURL);
+  }
 
-    function check_three() {
-        var $check_three = $('.all-categories input');
-        $check_three.each(function(index, el) {
-            var $thisCheck = $(this);
-            var name = $thisCheck.attr('name');
-            // console.log(name);
-            var limit = 4;
-            $(`input[name='${name}']`).on('change', function(evt) {
-                if($(`input[name='${name}']:checked`).length >= limit) {
-                   this.checked = false;
-               }
-            });
-        });
-    }
-    check_three();
-
-    $('input[name="categories"]').on('change', function(evt) {
-        if($('.all-categories input:checkbox:checked').length > 0) {
-            $('.selected-categories').addClass('active');
-        } else {
-            $('.selected-categories').removeClass('active');
-        }
-        var $thisCheck = $(this);
-        var value = $thisCheck.attr('value');
-        var label = $thisCheck.parent().children('span.name').html();
-        // console.log(label);
-        if($thisCheck.prop('checked')) {
-            // console.log('checked');
-            $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
-        } else {
-            // console.log('unchecked');
-            $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
-        }
-        $('.selected-cat span.remove').click(function(){
-            var value = $(this).parent().attr('data-cat');
-            // console.log(value);
-            $(this).parent().remove();
-            $(`input[value="${value}"]`).prop('checked', false);
-            if($('.selected-categories .cats').is(':empty')) {
-                $('.selected-categories').removeClass('active');
-            }
-        });
+  //CATEGORY SELECTION
+  function check_three() {
+    var $check_three = $('.all-categories input');
+    $check_three.each(function(index, el) {
+      var $thisCheck = $(this);
+      var name = $thisCheck.attr('name');
+      // console.log(name);
+      var limit = 4;
+      $(`input[name='${name}']`).on('change', function(evt) {
+        if($(`input[name='${name}']:checked`).length >= limit) {
+           this.checked = false;
+         }
+      });
     });
+  }
+  check_three();
 
+  $('input[name="categories"]').on('change', function(evt) {
     if($('.all-categories input:checkbox:checked').length > 0) {
-        $('.selected-categories').addClass('active');
-        $('.all-categories input:checkbox:checked').each(function(index, el) {
-            var $thisCheck = $(this);
-            var value = $thisCheck.attr('value');
-            var label = $thisCheck.parent().children('span.name').html();
-            $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
-        });
+      $('.selected-categories').addClass('active');
     } else {
-        $('.selected-categories').removeClass('active');
+      $('.selected-categories').removeClass('active');
+    }
+    var $thisCheck = $(this);
+    var value = $thisCheck.attr('value');
+    var label = $thisCheck.parent().children('span.name').html();
+    // console.log(label);
+    if($thisCheck.prop('checked')) {
+      // console.log('checked');
+      $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+    } else {
+      // console.log('unchecked');
+      $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
     }
     $('.selected-cat span.remove').click(function(){
-        var value = $(this).parent().attr('data-cat');
-        // console.log(value);
-        $(this).parent().remove();
-        $(`input[value="${value}"]`).prop('checked', false);
-        if($('.selected-categories .cats').is(':empty')) {
-            $('.selected-categories').removeClass('active');
-        }
+      var value = $(this).parent().attr('data-cat');
+      // console.log(value);
+      $(this).parent().remove();
+      $(`input[value="${value}"]`).prop('checked', false);
+      if($('.selected-categories .cats').is(':empty')) {
+        $('.selected-categories').removeClass('active');
+      }
     });
+  });
 
-    var isLocationValid = function(){
-        var result = true;
-        $('div.add-location-form input.required').each(function(i,e){
-            e.setCustomValidity('');
-            if (e.value == ""){
-                e.setCustomValidity("Please fill in this field");
-            }
-            if (e.checkValidity() == false){
-                e.reportValidity();
-                result = false;
-                return false;
-            }
-        });
-        return result;
-    };
-
-
-    var createLocation = function(createEndpoint) {
-        $.ajax({
-            headers: { 'X-CSRFToken': $('#location_csrf').val() },
-            url: createEndpoint,
-            type: "POST",
-            dataType: 'json',
-            data: {
-                name: $('#location_name').val(),
-                street_address: $('#location_street_address').val(),
-                locality: $('#location_locality').val(),
-                postal_code: $('#location_postal_code').val()
-            },
-            success : function(json) {
-                $('#location_name').val('');
-                $('#location_street_address').val('');
-                $('#location_locality').val('');
-                $('#location_postal_code').val('');
-                var newOption = new Option(json.address, json.pk, false, false);
-                $('#id_locations').append(newOption).trigger('change');
-                var selection = $('#id_locations').val();
-                selection.push(json.pk);
-                $('#id_locations').val(selection);
-                $('#add-location-fieldset').removeClass('active');
-                $('.add-location-form').slideUp();
-            },
-            error : function(xhr,errmsg,err) {
-                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            },
-            complete: function(){
-                $('#add-location').removeAttr('disabled');
-            }
-        });
-    };
-
-    // Select2
-    $('.multiselect select').hide();
-    $('#id_locations').select2({
-        placeholder: "Select Locations",
-        mutliple: true
+  if($('.all-categories input:checkbox:checked').length > 0) {
+    $('.selected-categories').addClass('active');
+    $('.all-categories input:checkbox:checked').each(function(index, el) {
+      var $thisCheck = $(this);
+      var value = $thisCheck.attr('value');
+      var label = $thisCheck.parent().children('span.name').html();
+      $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
     });
-    $('#id_service_areas').select2({
-        placeholder: "Select Service Areas",
-        mutliple: true
-    });
-
-    $('#show-add-location').click(function(e){
-        e.stopPropagation();
-        e.preventDefault();
-        $('#add-location-fieldset').toggleClass('active');
-        $('.add-location-form').slideToggle();
-    });
-    $('#add-location').click(function(e){
-        e.stopPropagation();
-        e.preventDefault();
-        if (isLocationValid()){
-            var endpoint = $(this).attr('data-create-endpoint');
-            $('#add-location').attr('disabled', 'disabled');
-            createLocation(endpoint);    
-        }
-    });
-
-    $(document).click(function(){
-        $('.navigation').removeClass('active');
-        $('body').removeClass('restrict-height');
-        $("#menu_toggle").removeClass('active');
-        $(".category-selector .cells > ul > li").removeClass('active');
-    });
-
-    $('.navigation a, .category-selector .cells > ul > li a, .category-selector .cells > ul > li span').click(function(e){
-        e.stopPropagation();
-    });
-
-    $('.category-selector a.active-cat').click(function(e){
-        e.preventDefault();
-    });
-
-    $("#menu_toggle").click(function(e) {
-        e.stopPropagation();
-        $(this).toggleClass('active');
-        $('body').toggleClass('restrict-height');
-        $(".navigation").toggleClass('active');
-    });
-
-    // Site Wide Toggles
-    $('.toggled').each(function(index, el) {
-        var $thisToggle = $(this);
-        var id = $thisToggle.attr('id');
-        $(`#${id}_toggle`).click(function() {
-            $(`#${id}`).toggleClass('active');
-            $(this).toggleClass('active');
-        });
-    });
-
-    // Modals
-    $('.modal').each(function(index, el) {
-        var $thisToggle = $(this);
-        var id = $thisToggle.attr('id');
-        $(`#${id}_modal`).click(function() {
-            $(`#${id}`).toggleClass('active');
-            $('.black').toggleClass('show');
-        });
-    });
-    $('.black').click(function() {
-        $(this).removeClass('show');
-        $('.modal').removeClass('active');
-    });
-    $('.modal a.close, .modal a.cancel').click(function() {
-        $('.black').removeClass('show');
-        $('.modal').removeClass('active');
-    });
-
-    // Results Areas Toggle
-    $('.service-areas a').click(function() {
-        $(this).toggleClass('active');
-        var list = $(this).closest('.contact-info').next('.service-areas-list');
-        // console.log(list);
-        list.toggleClass('active');
-    });
-    $('.location a.more-link').click(function() {
-        $(this).toggleClass('active');
-        var locations = $(this).parent('.more').next('.locations-list');
-        // console.log(locations);
-        locations.toggleClass('active');
-    });
-    $('ul.areas-breakdown > li > a').click(function() {
-        $(this).toggleClass('active');
-        var services = $(this).next('.region-services-list');
-        // console.log(locations);
-        services.toggleClass('active');
-    });
-
-    // Description Toggle
-    if($('.desc.long').length > 0) {
-        $('.desc.long').after('<p><a class="read-more"><span class="more">Read More</span><span class="less">Hide</span></a></p>');
+  } else {
+    $('.selected-categories').removeClass('active');
+  }
+  $('.selected-cat span.remove').click(function(){
+    var value = $(this).parent().attr('data-cat');
+    // console.log(value);
+    $(this).parent().remove();
+    $(`input[value="${value}"]`).prop('checked', false);
+    if($('.selected-categories .cats').is(':empty')) {
+      $('.selected-categories').removeClass('active');
     }
-    $('a.read-more').click(function() {
-        $(this).toggleClass('active');
-        $('.desc.long').toggleClass('active');
+  });
+
+
+  var isLocationValid = function(){
+    var result = true;
+    $('div.add-location-form input.required').each(function(i,e){
+      e.setCustomValidity('');
+      if (e.value == ""){
+        e.setCustomValidity("Please fill in this field");
+      }
+      if (e.checkValidity() == false){
+        e.reportValidity();
+        result = false;
+        return false;
+      }
     });
+    return result;
+  };
 
-    // Toggle Children Categories
-    $('.radio-list.children .toggle-children, .checkbox-list.children .toggle-children').click(function() {
-        $(this).toggleClass('active');
-        var children = $(this).next('ul');
-        // console.log(children);
-        children.toggleClass('active');
+
+  var createLocation = function(createEndpoint) {
+    $.ajax({
+      headers: { 'X-CSRFToken': $('#location_csrf').val() },
+      url: createEndpoint,
+      type: "POST",
+      dataType: 'json',
+      data: {
+        name: $('#location_name').val(),
+        street_address: $('#location_street_address').val(),
+        locality: $('#location_locality').val(),
+        postal_code: $('#location_postal_code').val()
+      },
+      success : function(json) {
+        $('#location_name').val('');
+        $('#location_street_address').val('');
+        $('#location_locality').val('');
+        $('#location_postal_code').val('');
+        var newOption = new Option(json.address, json.pk, false, false);
+        $('#id_locations').append(newOption).trigger('change');
+        var selection = $('#id_locations').val();
+        selection.push(json.pk);
+        $('#id_locations').val(selection);
+        $('#add-location-fieldset').removeClass('active');
+        $('.add-location-form').slideUp();
+      },
+      error : function(xhr,errmsg,err) {
+        $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+          " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+      },
+      complete: function(){
+        $('#add-location').removeAttr('disabled');
+      }
     });
+  };
 
-    // Cat Menu
-    $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
-        var parent = $(this).parent('li');
-        parent.toggleClass('active');
-    });
+  // Select2
+  $('.multiselect select').hide();
+  $('#id_locations').select2({
+    placeholder: "Select Locations",
+    mutliple: true
+  });
+  $('#id_service_areas').select2({
+    placeholder: "Select Service Areas",
+    mutliple: true
+  });
 
-    // Feedback Form Toggle
-    $('.feedback-form a.no').click(function() {
-        $(this).toggleClass('active');
-        $('.feedback-form .form').toggle();
-    });
-
-    // Recommend Modal
-    $('#recommend .button').hide();
-    $('#recommend select').change(function(){
-        if($(this).val() == 'new') {
-            $('#recommend input[type=submit]').hide();
-            $('#recommend .button').show();
-        } else {
-            $('#recommend input[type=submit]').show();
-            $('#recommend .button').hide();
-        }
-    });
-
-    svg4everybody();
-
-    // Messages Hide
-    if($('.messages').length > 0) {
-        setTimeout(function() {
-            $('.messages').css('max-height', '0');
-        }, 5500);
+  $('#show-add-location').click(function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    $('#add-location-fieldset').toggleClass('active');
+    $('.add-location-form').slideToggle();
+  });
+  $('#add-location').click(function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    if (isLocationValid()){
+      var endpoint = $(this).attr('data-create-endpoint');
+      $('#add-location').attr('disabled', 'disabled');
+      createLocation(endpoint);  
     }
+  });
 
-    // Notifications Toggle
-    $(document).click(function(){
-        $('#notifications').removeClass('active');
-        $('#notifications_toggle').removeClass('active');
-    });
-    $('.notifications').click(function(e){
-        e.stopPropagation();
-    });
-    $("#notifications_toggle").click(function(e) {
-        e.stopPropagation();
-        $(this).toggleClass('active');
-        $("#notifications").toggleClass('active');
-    });
+  $(document).click(function(){
+    $('.navigation').removeClass('active');
+    $('body').removeClass('restrict-height');
+    $("#menu_toggle").removeClass('active');
+    $(".category-selector .cells > ul > li").removeClass('active');
+  });
 
-    function getUrlVars() {
-        var vars = [], hash;
-        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for(var i = 0; i < hashes.length; i++)
-        {
-            hash = hashes[i].split('=');
-            vars.push(hash[0]);
-            vars[hash[0]] = hash[1];
-        }
-        return vars;
+  $('.navigation a, .category-selector .cells > ul > li a, .category-selector .cells > ul > li span').click(function(e){
+    e.stopPropagation();
+  });
+
+  $('.category-selector a.active-cat').click(function(e){
+    e.preventDefault();
+  });
+
+  $("#menu_toggle").click(function(e) {
+    e.stopPropagation();
+    $(this).toggleClass('active');
+    $('body').toggleClass('restrict-height');
+    $(".navigation").toggleClass('active');
+  });
+
+  // Site Wide Toggles
+  $('.toggled').each(function(index, el) {
+    var $thisToggle = $(this);
+    var id = $thisToggle.attr('id');
+    $(`#${id}_toggle`).click(function() {
+      $(`#${id}`).toggleClass('active');
+      $(this).toggleClass('active');
+    });
+  });
+
+  // Modals
+  $('.modal').each(function(index, el) {
+    var $thisToggle = $(this);
+    var id = $thisToggle.attr('id');
+    $(`#${id}_modal`).click(function() {
+      $(`#${id}`).toggleClass('active');
+      $('.black').toggleClass('show');
+    });
+  });
+  $('.black').click(function() {
+    $(this).removeClass('show');
+    $('.modal').removeClass('active');
+  });
+  $('.modal a.close, .modal a.cancel').click(function() {
+    $('.black').removeClass('show');
+    $('.modal').removeClass('active');
+  });
+
+  // Results Areas Toggle
+  $('.service-areas a').click(function() {
+    $(this).toggleClass('active');
+    var list = $(this).closest('.contact-info').next('.service-areas-list');
+    // console.log(list);
+    list.toggleClass('active');
+  });
+  $('.location a.more-link').click(function() {
+    $(this).toggleClass('active');
+    var locations = $(this).parent('.more').next('.locations-list');
+    // console.log(locations);
+    locations.toggleClass('active');
+  });
+  $('ul.areas-breakdown > li > a').click(function() {
+    $(this).toggleClass('active');
+    var services = $(this).next('.region-services-list');
+    // console.log(locations);
+    services.toggleClass('active');
+  });
+
+  // Description Toggle
+  if($('.desc.long').length > 0) {
+    $('.desc.long').after('<p><a class="read-more"><span class="more">Read More</span><span class="less">Hide</span></a></p>');
+  }
+  $('a.read-more').click(function() {
+    $(this).toggleClass('active');
+    $('.desc.long').toggleClass('active');
+  });
+
+  // Toggle Child Categories
+  var toggleChildCategories = function(target, addOrRemove) {
+    $(target).toggleClass('active', addOrRemove);
+    var children = $(target).next('ul');
+    children.toggleClass('active', addOrRemove);
+  };
+
+  $('.radio-list.children .toggle-children, .checkbox-list.children .toggle-children').click(function(){
+    toggleChildCategories(this);
+  });
+
+  //Handle category filtering in category select
+  $("#category-filter").show();
+  $("#category-filter input").keyup(function () {
+    var rows = $(".all-categories ul").find("li");
+    rows.hide();
+    if (this.value.length) {
+      toggleChildCategories($('span.toggle-children'), true);
+      var data = this.value.split(" ");
+      $.each(data, function (i, v) {
+        rows.filter(":containsi('" + v + "')").show();
+      });
+    } else {
+      toggleChildCategories($('span.toggle-children'), false);
+      rows.show();
     }
-    var report = getUrlVars().report;
-    if(report == 'True') {
-        // console.log('test');
-        $(".feedback-form a.no").click();
-        $('html, body').animate({
-            scrollTop: ($('.feedback-form').offset().top)
-        }, 500);
+  });
+
+  // Cat Menu
+  $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
+    var parent = $(this).parent('li');
+    parent.toggleClass('active');
+  });
+
+  // Feedback Form Toggle
+  $('.feedback-form a.no').click(function() {
+    $(this).toggleClass('active');
+    $('.feedback-form .form').toggle();
+  });
+
+  // Recommend Modal
+  $('#recommend .button').hide();
+  $('#recommend select').change(function(){
+    if($(this).val() == 'new') {
+      $('#recommend input[type=submit]').hide();
+      $('#recommend .button').show();
+    } else {
+      $('#recommend input[type=submit]').show();
+      $('#recommend .button').hide();
     }
-    $('#report_listing').click(function(e){
-        // console.log('test');
-        $(".feedback-form a.no").click();
-        $('html, body').animate({
-            scrollTop: ($('.feedback-form').offset().top)
-        }, 500);
+  });
+
+  svg4everybody();
+
+  // Messages Hide
+  if($('.messages').length > 0) {
+    setTimeout(function() {
+      $('.messages').css('max-height', '0');
+    }, 5500);
+  }
+
+  // Notifications Toggle
+  $(document).click(function(){
+    $('#notifications').removeClass('active');
+    $('#notifications_toggle').removeClass('active');
+  });
+  $('.notifications').click(function(e){
+    e.stopPropagation();
+  });
+  $("#notifications_toggle").click(function(e) {
+    e.stopPropagation();
+    $(this).toggleClass('active');
+    $("#notifications").toggleClass('active');
+  });
+
+  function getUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+      hash = hashes[i].split('=');
+      vars.push(hash[0]);
+      vars[hash[0]] = hash[1];
+    }
+    return vars;
+  }
+  var report = getUrlVars().report;
+  if(report == 'True') {
+    // console.log('test');
+    $(".feedback-form a.no").click();
+    $('html, body').animate({
+      scrollTop: ($('.feedback-form').offset().top)
+    }, 500);
+  }
+  $('#report_listing').click(function(e){
+    // console.log('test');
+    $(".feedback-form a.no").click();
+    $('html, body').animate({
+      scrollTop: ($('.feedback-form').offset().top)
+    }, 500);
+  });
+
+  //SHARE FORM
+  if($('.share-form').length > 0) {
+    var default_url = $('#share_url').val();
+    // console.log(default_url);
+    var postcodeGet = $('.share-form input.postcode').val();
+    var postcode = postcodeGet.replace(/\s/g,"");
+    // console.log(postcode);
+    var categoryGet = $('.share-form input.category').val();
+    var category = categoryGet.replace(/\s/g,"+");
+    // console.log(category);
+    if(category == '') {
+      $('#share_url').val(default_url + postcode);
+    } else {
+      $('#share_url').val(default_url + postcode + '/' + category);
+    }
+    $('.share-form input.postcode').on('input', function() {
+      if($(this).val() != "") {
+        $('.share-form input.category').prop('disabled', false);
+      } else {
+        $('.share-form input.category').prop('disabled', true);
+      }
+    });
+    $('.share-form input.postcode').on('change', function() {
+      var postcodeGet = $(this).val();
+      var postcode = postcodeGet.replace(/\s/g,"");
+      $('#share_url').val(default_url + postcode);
+    });
+    $('.share-form input.category').on('change', function() {
+      var categoryGet = $(this).val();
+      var category = categoryGet.replace(/\s/g,"+");
+      var postcodeGet = $('.share-form input.postcode').val();
+      var postcode = postcodeGet.replace(/\s/g,"");
+      $('#share_url').val(default_url + postcode + '/' + category);
+    });
+    if($('.share-form input.postcode').val() != "") {
+      $('.share-form input.category').prop('disabled', false);
+    } else {
+      $('.share-form input.category').prop('disabled', true);
+    }
+    $('#copy_search_link').click(function(){
+      if($('.share-form input.postcode').val() == "") {
+        $(".share-error").addClass('active');
+        $(".copy-error").removeClass('active');
+        $(".share-success").removeClass('active');
+      } else {
+        $(".share-error").removeClass('active');
+        $(".copy-error").removeClass('active');
+        var copy_link = new Clipboard('#copy_search_link', {
+          text: function() {
+            return document.querySelector('input#share_url').value;
+          }
+        });
+        copy_link.on('success', function(e) {
+          // console.log(e);
+          $(".share-success").addClass('active');
+          $(".copy-error").removeClass('active');
+        });
+        copy_link.on('error', function(e) {
+          // console.log(e);
+          $(".copy-error").addClass('active');
+        });
+      }
     });
 
-    // var newvalue = $('.share-form input.postcode').val().replace(/\s+/g, '');
-    // $('.share-form input.postcode').val(newvalue);
-    // $(function(){
-    //     $('.share-form input.postcode').bind('input', function(){
-    //         $(this).val(function(_, v){
-    //             return v.replace(/\s+/g, '');
-    //         });
-    //     });
-    // });
-
-    if($('.share-form').length > 0) {
-        var default_url = $('#share_url').val();
-        // console.log(default_url);
-        var postcodeGet = $('.share-form input.postcode').val();
-        var postcode = postcodeGet.replace(/\s/g,"");
-        // console.log(postcode);
-        var categoryGet = $('.share-form input.category').val();
-        var category = categoryGet.replace(/\s/g,"+");
-        // console.log(category);
-        if(category == '') {
-            $('#share_url').val(default_url + postcode);
-        } else {
-            $('#share_url').val(default_url + postcode + '/' + category);
-        }
-        $('.share-form input.postcode').on('input', function() {
-            if($(this).val() != "") {
-                $('.share-form input.category').prop('disabled', false);
-            } else {
-                $('.share-form input.category').prop('disabled', true);
-            }
-        });
-        $('.share-form input.postcode').on('change', function() {
-            var postcodeGet = $(this).val();
-            var postcode = postcodeGet.replace(/\s/g,"");
-            $('#share_url').val(default_url + postcode);
-        });
-        $('.share-form input.category').on('change', function() {
-            var categoryGet = $(this).val();
-            var category = categoryGet.replace(/\s/g,"+");
-            var postcodeGet = $('.share-form input.postcode').val();
-            var postcode = postcodeGet.replace(/\s/g,"");
-            $('#share_url').val(default_url + postcode + '/' + category);
-        });
-        if($('.share-form input.postcode').val() != "") {
-            $('.share-form input.category').prop('disabled', false);
-        } else {
-            $('.share-form input.category').prop('disabled', true);
-        }
-        $('#copy_search_link').click(function(){
-            if($('.share-form input.postcode').val() == "") {
-                $(".share-error").addClass('active');
-                $(".copy-error").removeClass('active');
-                $(".share-success").removeClass('active');
-            } else {
-                $(".share-error").removeClass('active');
-                $(".copy-error").removeClass('active');
-                var copy_link = new Clipboard('#copy_search_link', {
-                    text: function() {
-                        return document.querySelector('input#share_url').value;
-                    }
-                });
-                copy_link.on('success', function(e) {
-                    // console.log(e);
-                    $(".share-success").addClass('active');
-                    $(".copy-error").removeClass('active');
-                });
-                copy_link.on('error', function(e) {
-                    // console.log(e);
-                    $(".copy-error").addClass('active');
-                });
-            }
-        });
-
-        if($('.share-success').hasClass('active')) {
-            setTimeout(function() {
-                $('.share-success').removeClass('active');
-            }, 2500);
-        }
+    if($('.share-success').hasClass('active')) {
+      setTimeout(function() {
+        $('.share-success').removeClass('active');
+      }, 2500);
     }
+  }
 
-    $('ul.progress-breadcrumb label').each(function(i,l){
-        $(l).click(function(e){
-            var target = '#' + $(l).attr('for');
-            $(target).addClass('glow');
-            $(target).addClass('start-glow');
-            setTimeout(function(){ $(target).removeClass('glow'); }, 2000);
-            setTimeout(function(){ $(target).removeClass('start-glow'); }, 2000);
-        });
+  $('ul.progress-breadcrumb label').each(function(i,l){
+    $(l).click(function(e){
+      var target = '#' + $(l).attr('for');
+      $(target).addClass('glow');
+      $(target).addClass('start-glow');
+      setTimeout(function(){ $(target).removeClass('glow'); }, 2000);
+      setTimeout(function(){ $(target).removeClass('start-glow'); }, 2000);
     });
+  });
 });
