@@ -4,87 +4,91 @@
 
 {% block container %}
 <main class="main" role="main">
-    <section id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>Unpublished organisations</h1>
-                    <p>Organisations not yet available on ALISS.</p>
-                </div>
-            </div>
+  <section id="content">
+    <div class="row">
+      <div class="columns content">
+        <div class="copy-container">
+          <h1>Unpublished organisations</h1>
+          <p>Organisations not yet available on ALISS.</p>
         </div>
-    </section>
-    <section class="search-orgs">
-        <div class="row">
-            <div class="columns">
-                <div class="org-search">
-                    <label>Search by name</label>
-                    <div class="sbs-inputs">
-                        <form>
-                            <input type="text" placeholder="e.g. The ALLIANCE" value="{{ request.GET.q }}" name="q">
-                            <input type="submit" value="Search" class="secondary">
-                        </form>
-                    </div>
-                </div>
-                <div class="">
-                    <br/>
+      </div>
+    </div>
+  </section>
+  <section class="search-orgs">
+    <div class="row">
+      <div class="columns">
+        <div class="org-search">
+          <label>Search by name</label>
+          <div class="sbs-inputs">
+            <form>
+              <input type="text" placeholder="e.g. The ALLIANCE" value="{{ request.GET.q }}" name="q">
+              <input type="submit" value="Search" class="secondary">
+            </form>
+          </div>
+        </div>
+        <div class="">
+          <br/>
 
-                    {% if request.GET.q %}
-                    <h4>You searched for "{{ request.GET.q }}"</h4>
-                    <br/>
-                    {% endif %}
+          {% if request.GET.q %}
+          <h4>You searched for "{{ request.GET.q }}"</h4>
+          <br/>
+          {% endif %}
 
-                    {% if object_list %}
-                        <table class="orgs">
-                            <col width="25%">
-                            <col width="20%">
-                            <col width="20%">
-                            <col width="15%">
-                            <col width="20%">
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Details</th>
-                                <th>Create date</th>
-                                <th>User</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            {% for organisation in object_list %}
-                                <tr>
-                                    <td class="name">
-                                        <a href="{% url 'organisation_detail' pk=organisation.pk %}">
-                                        {{ organisation.name }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        {{ organisation.services.count }} Service(s) <br/>
-                                        {{ organisation.locations.count }} Locations(s)
-                                    </td>
-                                    <td>
-                                        {{ organisation.created_on }}
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'account_detail' pk=organisation.created_by.pk %}">{{ organisation.created_by }}</a>
-                                    </td>
-                                    <td class="options">
-                                        <form action="{% url 'organisation_publish' pk=organisation.pk %}" method="post">
-                                            {% csrf_token %}
-                                            <input type="submit" value="Approve and publish" />
-                                        </form>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
+          {% if object_list %}
+            <table class="orgs">
+              <col width="25%">
+              <col width="20%">
+              <col width="20%">
+              <col width="15%">
+              <col width="20%">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Details</th>
+                <th>Create date</th>
+                <th>User</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              {% for organisation in object_list %}
+                <tr>
+                  <td class="name">
+                    <a href="{% url 'organisation_detail' pk=organisation.pk %}">
+                    {{ organisation.name }}
+                    </a>
+                  </td>
+                  <td>
+                    {{ organisation.services.count }} Service(s) <br/>
+                    {{ organisation.locations.count }} Locations(s)
+                  </td>
+                  <td>
+                    {{ organisation.created_on }}
+                  </td>
+                  <td>
+                    {% if organisation.created_by %}
+                      <a href="{% url 'account_detail' pk=organisation.created_by.pk %}">{{ organisation.created_by }}</a>
+                    {% else %}
+                      n/a
                     {% endif %}
-                    {% if request.GET.q %}
-                        {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
-                    {% endif %}
-                    <br/>
-                    <a href="{% url 'account_dashboard' %}" class="button primary">Back to dashboard</a>
-                </div>
-            </div>
-        </dv>
-    </section>
+                  </td>
+                  <td class="options">
+                    <form action="{% url 'organisation_publish' pk=organisation.pk %}" method="post">
+                      {% csrf_token %}
+                      <input type="submit" value="Approve and publish" />
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </table>
+          {% endif %}
+          {% if request.GET.q %}
+            {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
+          {% endif %}
+          <br/>
+          <a href="{% url 'account_dashboard' %}" class="button primary">Back to dashboard</a>
+        </div>
+      </div>
+    </dv>
+  </section>
 </main>
 {% endblock %}
