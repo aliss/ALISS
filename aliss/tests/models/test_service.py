@@ -9,8 +9,8 @@ class ServiceTestCase(TestCase):
 
     def setUp(self):
         t,u,c,_ = Fixtures.create_users()
-        o = Fixtures.create_organisation(t, u, c)
-        self.service = Service.objects.create(name="My First Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
+        self.org = Fixtures.create_organisation(t, u, c)
+        self.service = Service.objects.create(name="My First Service", description="A handy service", organisation=self.org, created_by=t, updated_by=u)
 
     def test_service_exists(self):
         s = Service.objects.get(name="My First Service")
@@ -40,6 +40,14 @@ class ServiceTestCase(TestCase):
         queryset = Fixtures.es_connection()
         result = get_service(queryset, self.service.id)
         self.assertEqual(len(result), 1)
+
+    def test_unpublished_service_is_not_indexed(self):
+        queryset = Fixtures.es_connection()
+        self.org.published = False
+        self.org.save()
+        unpublished_service = Service.objects.create(name="My Second Service", description="A handy service", organisation=self.org, created_by=self.org.created_by)
+        result = get_service(queryset, unpublished_service.id)
+        self.assertEqual(len(result), 0)
 
     def test_deleted_service_is_not_in_index(self):
         queryset = Fixtures.es_connection()
