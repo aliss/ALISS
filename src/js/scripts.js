@@ -64,63 +64,16 @@ require('./partials/select2.min.js');
 import matchHeight from './partials/match-height';
 import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
 import Clipboard from 'clipboard/lib/clipboard.js';
+import './partials/extensions';
 
 var ALISS = require('./aliss');
-
-$.extend($.expr[':'], { 
-  'containsi': function(elem, i, match, array) {
-    return (elem.textContent || elem.innerText || '').toLowerCase()
-    .indexOf((match[3] || "").toLowerCase()) >= 0;
-  }
-});
-
-$.urlParam = function(name){
-  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-  if (results==null){
-    return null;
-  } else {
-    return decodeURI(results[1]) || 0;
-  }
-};
-
-$.urlParams = function(urlString){
-  if (!urlString){ urlString = window.location.href; }
-  var hash = {};
-  var query_section = urlString.split('?');
-  query_section = query_section[1];
-  query_section = query_section.replace(/\+/gi, " ");
-  query_section = query_section.replace(/-/gi, " ");
-  query_section = query_section.split('&');
-  query_section.every(function(query){
-    var query_pair = query.split("=");
-    if (query_pair[1] != "") {
-      if (query_pair[1].includes(" ")){
-        query_pair[1] = query_pair[1].trim();
-        var uncapped_words = query_pair[1].split(" ");
-        var capped_words = uncapped_words.map(function(word){
-          if (word == "and") {
-            return word;
-          } else {
-            word =  word[0].toUpperCase() + word.slice(1);
-            return word;
-          }
-        });
-        capped_words = capped_words.join(" ");
-        hash[query_pair[0]] = capped_words;
-      } else {
-        hash[query_pair[0]] = query_pair[1][0].toUpperCase() + query_pair[1].slice(1);
-      }
-    }
-  });
-  return hash;
-};
 
 $(document).ready(() => {
   window.ALISS = ALISS;
   matchHeight();
 
   var locationURL = $(location).attr('href');
-  if (locationURL.includes('search' && 'postcode')){
+  if ((locationURL.indexOf("search") >= 0) && (locationURL.indexOf('postcode') >= 0)){
     localStorage.setItem('searchURL',locationURL);
   }
 
