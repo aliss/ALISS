@@ -58,7 +58,7 @@ def create_slugs(force=False):
 
 def index_all():
     connection = _get_connection()
-    services = Service.objects.all().iterator()
+    services = Service.objects.filter(organisation__published=True).all().iterator()
     for ok in bulk(connection, ({
         '_index': 'search',
         '_type': 'service',
