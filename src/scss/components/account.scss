@@ -34,15 +34,6 @@
   }
 }
 
-.all-categories {
-  border: 1px solid $light-gray;
-  border-radius: $d-rad;
-  margin-bottom: 1.35rem;
-  padding: 0.35em 1em 0.35em 1rem;
-  overflow: auto;
-  max-height: 75vh;
-}
-
 .large-form {
   padding-top: 2rem;
   .copy-container {
@@ -556,28 +547,7 @@ ul.searches {
     }
   }
 }
-.selected-categories {
-  display: none;
-  margin-top: -0.5rem;
-  margin-bottom: 1.25rem;;
-  p {
-    margin-bottom: 0;
-  }
-  .cats {
-    @include clear;
-    display: block;
-    margin-left: -0.2rem;
-    margin-right: -0.2rem;
-    overflow: scroll;
-  }
-  .selected-cat {
-    float: left;
-    white-space: nowrap;
-  }
-  &.active {
-    display: block;
-  }
-}
+
 .claim-type {
   @extend %no-list;
   font-size: $d-fs;

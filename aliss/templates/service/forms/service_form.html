@@ -40,6 +40,9 @@
         Select up to three categories that best describe the needs that your service satisfies.
     </p>
     <div class="all-categories">
+        <div id="category-filter">
+            <input type="text" placeholder="Type to filter categories...">
+        </div>
         {% get_root_categories as root_categories %}
         <ul class="radio-list cat truncate children">
             {% for category in root_categories %}
