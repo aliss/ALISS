@@ -235,6 +235,8 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
         if Organisation.objects.filter(pk=organisation.pk).update(published=True, updated_by=self.request.user):
             messages.success(self.request, '{name} has been successfully published.'.format(name=organisation.name))
             self.send_published_email(organisation)
+            for s in organisation.services.all():
+                s.save()
         else:
             messages.error(self.request, 'Could not publish {name}.'.format(name=organisation.name))
 
