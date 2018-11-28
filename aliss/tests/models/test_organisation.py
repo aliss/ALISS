@@ -38,13 +38,24 @@ class OrganisationTestCase(TestCase):
         indexed_service = get_service(queryset, self.service.id)[0]
         self.assertEqual(indexed_service['organisation']['name'], self.org.name)
 
-    def test_service_last_edited_exists(self):
+    def test_organisation_last_edited_exists(self):
         oldUpdatedDate = self.org.updated_on
         self.org.name = "Renamed Test Org"
         self.org.save()
         last_edited = self.org.last_edited
         newUpdatedDate = self.org.updated_on
         self.assertEqual(oldUpdatedDate, last_edited);
+        self.assertFalse(oldUpdatedDate == newUpdatedDate)
+
+    def test_organisation_last_edited_persists(self):
+        oldUpdatedDate = self.org.updated_on
+        self.org.name = "Renamed Test Org"
+        self.org.save()
+        self.org.name = "Renamed Renamed Test Org"
+        self.org.save()
+        last_edited = self.org.last_edited
+        newUpdatedDate = self.org.updated_on
+        self.assertEqual(oldUpdatedDate, last_edited)
         self.assertFalse(oldUpdatedDate == newUpdatedDate)
 
     def tearDown(self):
