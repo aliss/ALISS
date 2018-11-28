@@ -12,6 +12,21 @@ class ServiceViewTestCase(TestCase):
         self.user = ALISSUser.objects.create_user("random@random.org", "passwurd")
         self.client.login(username='random@random.org', password='passwurd')
         self.organisation = Fixtures.create_organisation(self.user)
+        self.service = Fixtures.create_service(self.organisation)
+
+    def test_service_detail(self):
+        logged_in_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        logged_out_response = Client().get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        self.assertEqual(logged_in_response.status_code, 200)
+        self.assertEqual(logged_out_response.status_code, 200)
+
+    def test_unpublished_service_detail(self):
+        self.organisation.published = False
+        self.organisation.save()
+        logged_in_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        logged_out_response = Client().get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        self.assertEqual(logged_in_response.status_code, 200)
+        self.assertEqual(logged_out_response.status_code, 302)
 
     def test_service_create(self):
         x=reverse('service_create', kwargs={'pk':self.organisation.pk})
@@ -24,8 +39,7 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_service_update_get(self):
-        service = Fixtures.create_service(self.organisation)
-        x=reverse('service_edit', kwargs={ 'pk': service.pk })
+        x=reverse('service_edit', kwargs={ 'pk': self.service.pk })
         response = self.client.get(x)
         self.assertEqual(response.status_code, 200)
 
@@ -42,25 +56,24 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_service_valid_update(self):
-        service = Fixtures.create_service(self.organisation)
         category = Category.objects.first()
-        response = self.client.post(reverse('service_edit', kwargs={ 'pk': service.pk }),{
+        response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }),{
             'name': 'an updated service',
             'description': 'a full description',
             'categories': [category.pk],
             'service_areas': [ServiceArea.objects.first().pk]
         })
 
-        service.refresh_from_db()
+        self.service.refresh_from_db()
         queryset = Fixtures.es_connection()
-        result = get_service(queryset, service.id)[0]
+        result = get_service(queryset, self.service.id)[0]
         category_count = len(result['categories'])
 
         self.assertEqual(category_count, 1)
         self.assertEqual(result['categories'][0]['name'], category.name)
-        self.assertEqual(service.name, 'an updated service')
-        self.assertEqual(service.updated_by, self.user)
+        self.assertEqual(self.service.name, 'an updated service')
+        self.assertEqual(self.service.updated_by, self.user)
         self.assertEqual(response.status_code, 302)
 
     def tearDown(self):
-        Service.objects.filter(name="My First Service").delete()
+        Fixtures.service_teardown()
