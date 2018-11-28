@@ -134,6 +134,10 @@ class Service(models.Model):
             return self.last_edited
         return False
 
+    def update_lat_edited_elastic_search(self):
+        self.remove_from_index()
+        self.add_to_index()
+
     def save(self, *args, **kwargs):
         self.generate_slug()
         self.generate_last_edited()

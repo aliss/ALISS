@@ -104,7 +104,7 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(self.organisation.name, 'an updated organisation')
         self.assertEqual(response.status_code, 302)
         self.assertFalse(oldLastEdited == newLastEdited)
-        self.assertEqual(newLastEdited, orgUpdatedOn)
+        
 
     def test_unpublished_organisation_detail(self):
         self.organisation.published = False
