@@ -233,9 +233,9 @@ def get_service(queryset, service_id):
         "term" : { "id" : service_id }
     })).execute()
 
-def filter_by_updated_on(queryset, comparison_date):
+def filter_by_last_edited(queryset, comparison_date):
     queryset = queryset.query({
         "bool": {
-            "filter": {"range":{"updated_on":{"gte":comparison_date}}}
+            "filter": {"range":{"last_edited":{"gte":comparison_date}}}
     }})
     return queryset
