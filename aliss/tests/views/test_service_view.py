@@ -98,7 +98,7 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(self.service.updated_by, self.user)
         self.assertEqual(response.status_code, 302)
         self.assertFalse(oldLastEdited == newLastEdited)
-        self.assertEqual(newLastEdited, newUpdateOn)
+        
 
 
     def tearDown(self):
