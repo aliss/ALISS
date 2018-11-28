@@ -77,19 +77,19 @@
   $(document).ready(function(){
     var searchURL = localStorage.getItem('searchURL');
     if ((searchURL != null)  && (searchURL != "")){
-    var hash = $.urlParams(searchURL);
-    var last_search_string = hash['postcode'];
+      var hash = $.sanitisedParams(searchURL);
+      var last_search_string = hash['postcode'];
 
-    if (hash['category']){
-      last_search_string = last_search_string + " and \"" + hash['category'] + "\""
-    }
-    if (hash['q']){
-      last_search_string = last_search_string + " for \"" + hash['q'] + "\""
-    }
+      if (hash['category']){
+        last_search_string = last_search_string + " and \"" + hash['category'] + "\""
+      }
+      if (hash['q']){
+        last_search_string = last_search_string + " for \"" + hash['q'] + "\""
+      }
 
-    $('#last_search_link').attr('href', searchURL);
-    $('#last_search_link').text(last_search_string);
-    $('#your_last_search').show();
+      $('#last_search_link').attr('href', searchURL);
+      $('#last_search_link').text(last_search_string);
+      $('#your_last_search').show();
     }
   })
   </script>

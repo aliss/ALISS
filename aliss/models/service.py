@@ -141,7 +141,9 @@ class Service(models.Model):
         if 'skip_index' in kwargs:
             do_index = False; kwargs.pop('skip_index')
         super(Service, self).save(*args)
-        if do_index:
+        if not self.is_published():
+            self.remove_from_index()
+        elif do_index:
             self.add_to_index()
 
     def delete(self, *args, **kwargs):
