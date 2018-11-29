@@ -70,15 +70,9 @@ var ALISS = require('./aliss');
 
 $(document).ready(() => {
   window.ALISS = ALISS;
-  matchHeight();
-
-  var locationURL = $(location).attr('href');
-  if ((locationURL.indexOf("search") >= 0) && (locationURL.indexOf('postcode') >= 0)){
-    localStorage.setItem('searchURL',locationURL);
-  }
 
   //CATEGORY SELECTION
-  function check_three() {
+  var checkMaxCategories = function() {
     var $check_three = $('.all-categories input');
     $check_three.each(function(index, el) {
       var $thisCheck = $(this);
@@ -91,8 +85,7 @@ $(document).ready(() => {
          }
       });
     });
-  }
-  check_three();
+  };
 
   $('input[name="categories"]').on('change', function(evt) {
     if($('.all-categories input:checkbox:checked').length > 0) {
@@ -133,6 +126,7 @@ $(document).ready(() => {
   } else {
     $('.selected-categories').removeClass('active');
   }
+
   $('.selected-cat span.remove').click(function(){
     var value = $(this).parent().attr('data-cat');
     // console.log(value);
@@ -144,6 +138,7 @@ $(document).ready(() => {
   });
 
 
+  //LOCATIONS
   var isLocationValid = function(){
     var result = true;
     $('div.add-location-form input.required').each(function(i,e){
@@ -159,7 +154,6 @@ $(document).ready(() => {
     });
     return result;
   };
-
 
   var createLocation = function(createEndpoint) {
     $.ajax({
@@ -485,4 +479,33 @@ $(document).ready(() => {
       setTimeout(function(){ $(target).removeClass('start-glow'); }, 2000);
     });
   });
+
+  var toggleClearableInputs = function(){
+    $('div.clearable-input').each(function(i,target){
+      console.log($(target).find('input'));
+      var showClearBtn = ($(target).find('input').val().length > 0);
+      $("div.clearable-input").toggleClass('active', showClearBtn);
+    });
+  };
+
+  var handleClearInputs = function(){
+    $("div.clearable-input input").keyup(toggleClearableInputs);
+    $("div.clearable-input i.clear-input").click(function(){
+      $(this).siblings('input').val('');
+      $(this).siblings('input').trigger('keyup');
+    });
+  };
+
+  var storeSearchUrl = function(){
+    var locationURL = $(location).attr('href');
+    if ((locationURL.indexOf("search") >= 0) && (locationURL.indexOf('postcode') >= 0)){
+      localStorage.setItem('searchURL',locationURL);
+    }
+  };
+
+  checkMaxCategories();
+  matchHeight();
+  storeSearchUrl();
+  handleClearInputs();
+  toggleClearableInputs();
 });
