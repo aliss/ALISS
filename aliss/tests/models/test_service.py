@@ -104,10 +104,10 @@ class ServiceTestCase(TestCase):
         self.assertFalse(old_updated_date == new_updated_date)
 
     def test_service_last_edited_update_method(self):
-        oldLastEdited = self.service.last_edited
+        old_last_edited = self.service.last_edited
         self.service.update_service_last_edited()
-        newLastEdited = self.service.last_edited
-        self.assertFalse(oldLastEdited == newLastEdited)
+        new_last_edited = self.service.last_edited
+        self.assertFalse(old_last_edited == new_last_edited)
 
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):

@@ -55,6 +55,19 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(queryset.count(), 1)
         self.assertEqual(response.status_code, 302)
 
+    def test_service_last_edited_valid_create(self):
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_create', kwargs={'pk':self.organisation.pk}),{
+            'name': 'A whole new service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk]
+        })
+        s = Service.objects.get(name='A whole new service')
+        last_edited = s.last_edited
+        self.assertFalse(last_edited == None)
+
+
     def test_service_valid_update(self):
         category = Category.objects.first()
         response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }),{
@@ -76,7 +89,7 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_service_last_edited_valid_update(self):
-        oldLastEdited = self.service.last_edited
+        old_last_edited_db = self.service.last_edited
         category = Category.objects.first()
         response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }),{
             'name': 'an updated service',
@@ -87,19 +100,10 @@ class ServiceViewTestCase(TestCase):
         self.service.refresh_from_db()
         queryset = Fixtures.es_connection()
         result = get_service(queryset, self.service.id)[0]
-        category_count = len(result['categories'])
-
-        newLastEdited = self.service.last_edited
-        newUpdateOn = self.service.updated_on
-
-        self.assertEqual(category_count, 1)
-        self.assertEqual(result['categories'][0]['name'], category.name)
-        self.assertEqual(self.service.name, 'an updated service')
-        self.assertEqual(self.service.updated_by, self.user)
-        self.assertEqual(response.status_code, 302)
-        self.assertFalse(oldLastEdited == newLastEdited)
-        
-
+        new_last_edited_db = self.service.last_edited
+        new_last_edited_es = result.last_edited
+        self.assertFalse(old_last_edited_db == new_last_edited_db)
+        self.assertEqual(new_last_edited_db, new_last_edited_es)
 
     def tearDown(self):
         Fixtures.service_teardown()

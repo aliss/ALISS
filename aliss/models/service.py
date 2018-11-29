@@ -133,7 +133,10 @@ class Service(models.Model):
 
     def generate_last_edited(self, force=False):
         if force or self.last_edited == None:
-            self.last_edited = self.updated_on
+            if self.updated_on == None:
+                self.update_service_last_edited()
+            else:
+                self.last_edited = self.updated_on
             return self.last_edited
         return False
 
