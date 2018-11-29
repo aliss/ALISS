@@ -4,6 +4,8 @@ from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
 
+import pytz
+from datetime import datetime
 
 class Organisation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -63,6 +65,12 @@ class Organisation(models.Model):
             self.last_edited = self.updated_on
             return self.last_edited
         return False
+
+    def update_organisation_last_edited(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        self.last_edited = current_date
 
     def save(self, *args, **kwargs):
         self.generate_slug()
