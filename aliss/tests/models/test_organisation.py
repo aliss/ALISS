@@ -58,6 +58,15 @@ class OrganisationTestCase(TestCase):
         self.assertEqual(oldUpdatedDate, last_edited)
         self.assertFalse(oldUpdatedDate == newUpdatedDate)
 
+    def test_organisation_last_edited_update_method(self):
+        oldUpdatedDate =  self.org.updated_on
+        self.org.generate_last_edited()
+        oldLastEdited = self.org.last_edited
+        self.assertEqual(oldUpdatedDate, oldLastEdited)
+        self.org.update_organisation_last_edited()
+        newLastEdited = self.org.last_edited
+        self.assertFalse(oldLastEdited == newLastEdited)
+
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
             service.delete()

@@ -54,6 +54,7 @@ class ServiceCreateView(
 
     def form_valid(self, form):
         self.object = form.save()
+        
 
         messages.success(
             self.request,
@@ -99,7 +100,7 @@ class ServiceUpdateView(
 
     def form_valid(self, form):
 
-        self.object.update_last_edited_elastic_search()
+        self.object.update_service_last_edited()
         self.object = form.save()
 
 

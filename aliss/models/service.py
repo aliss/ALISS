@@ -137,7 +137,7 @@ class Service(models.Model):
             return self.last_edited
         return False
 
-    def update_last_edited_elastic_search(self):
+    def update_service_last_edited(self):
         utc = pytz.UTC
         current_date = datetime.now()
         current_date = utc.localize(current_date)

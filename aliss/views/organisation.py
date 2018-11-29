@@ -123,13 +123,9 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 
     def form_valid(self, form):
 
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-
         self.object = form.save(commit=False)
         self.object.updated_by = self.request.user
-        self.object.last_edited = current_date
+        
         self.object.save()
 
         messages.success(
