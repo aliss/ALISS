@@ -99,13 +99,9 @@ class ServiceUpdateView(
 
     def form_valid(self, form):
 
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-
-        self.object.last_edited = current_date
-        self.object = form.save()
         self.object.update_last_edited_elastic_search()
+        self.object = form.save()
+
 
         messages.success(
             self.request,

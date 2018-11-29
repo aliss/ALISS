@@ -9,6 +9,9 @@ from aliss.models import ServiceArea
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, service_to_body
 
+import pytz
+from datetime import datetime
+
 class ServiceProblem(models.Model):
     UNRESOLVED = 0
     RESOLVED = 1
@@ -134,7 +137,11 @@ class Service(models.Model):
             return self.last_edited
         return False
 
-    def update_lat_edited_elastic_search(self):
+    def update_last_edited_elastic_search(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        self.last_edited = current_date
         self.remove_from_index()
         self.add_to_index()
 
