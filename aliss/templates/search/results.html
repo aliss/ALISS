@@ -17,7 +17,8 @@
     <section id="content" class="results">
       <div class="row title">
         <div class="columns">
-          <h1>Help and support in <span class="postcode">{{ postcode.postcode }}</span></h1>
+          <h1>Help and support in <span class="postcode">{{ postcode.postcode }}</span>
+          </h1>
           <div class="buttons">
             <a href="{% url 'homepage' %}" class="button primary">New search</a>
           </div>
@@ -34,7 +35,10 @@
               <div class="filter keyword-search">
                 <label>Filter by keyword:</label>
                 <div class="sbs-inputs">
-                  <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
+                  <div class="clearable-input">
+                    <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
+                    <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
+                  </div>
                   <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
                   <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
                   <input type="hidden" name="category" value="{{ request.GET.category }}">
@@ -224,14 +228,14 @@
 {% block before_body_close %}
 <script type="text/javascript">
 $(document).ready(function(){
-
   var checkword = function(){
-  var new_term = $("input[name='q']").val()
-  $(".category-selector a").not(".select-category").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&")})
+    var new_term = $("input[name='q']").val();
+    $(".category-selector a").not(".select-category").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&");
+    })
   }
 
-  if($("input[name='q']").val() != ""){
-  $(".category-selector *").click(function(){checkword()})
+  if ($("input[name='q']").val() != "") {
+    $(".category-selector *").click(function(){checkword()});
   }
 
 });
