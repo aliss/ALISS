@@ -52,9 +52,16 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
     def send_new_org_email(self, organisation):
         message = '{organisation} has been added to ALISS by {user}.'.format(organisation=organisation, user=organisation.created_by)
-        message += '\n\nGo to {link} to approve it.'.format(link=self.request.build_absolute_uri(reverse('organisation_unpublished')))
+        if organisation.published:
+            message += '\n\nGo to {link} to approve it.'.format(link=self.request.build_absolute_uri(reverse('organisation_unpublished')))
+        else:
+            message += '\n\nIt has automatically been published. '
+            message += 'You view the new organisation here: {link}'.format(
+                link=self.request.build_absolute_uri(reverse('organisation_detail_slug', kwargs={ 'slug': self.object.slug }))
+            )
+
         send_mail(
-            'A new organisation: {organisation} requires approval'.format(organisation=organisation),
+            '{organisation} was added on ALISS'.format(organisation=organisation),
             message,
             settings.DEFAULT_FROM_EMAIL,
             ['hello@aliss.org'],
