@@ -39,33 +39,26 @@ class OrganisationTestCase(TestCase):
         self.assertEqual(indexed_service['organisation']['name'], self.org.name)
 
     def test_organisation_last_edited_exists(self):
-        oldUpdatedDate = self.org.updated_on
-        self.org.name = "Renamed Test Org"
-        self.org.save()
         last_edited = self.org.last_edited
-        newUpdatedDate = self.org.updated_on
-        self.assertEqual(oldUpdatedDate, last_edited);
-        self.assertFalse(oldUpdatedDate == newUpdatedDate)
+        self.assertFalse(last_edited == None)
 
     def test_organisation_last_edited_persists(self):
-        oldUpdatedDate = self.org.updated_on
+        old_last_edited = self.org.last_edited
+        old_updated_date = self.org.updated_on
         self.org.name = "Renamed Test Org"
         self.org.save()
         self.org.name = "Renamed Renamed Test Org"
         self.org.save()
-        last_edited = self.org.last_edited
-        newUpdatedDate = self.org.updated_on
-        self.assertEqual(oldUpdatedDate, last_edited)
-        self.assertFalse(oldUpdatedDate == newUpdatedDate)
+        new_last_edited = self.org.last_edited
+        new_updated_date = self.org.updated_on
+        self.assertFalse(old_updated_date == new_updated_date)
+        self.assertEqual(old_last_edited, new_last_edited)
 
     def test_organisation_last_edited_update_method(self):
-        oldUpdatedDate =  self.org.updated_on
-        self.org.generate_last_edited()
-        oldLastEdited = self.org.last_edited
-        self.assertEqual(oldUpdatedDate, oldLastEdited)
+        old_last_edited = self.org.last_edited
         self.org.update_organisation_last_edited()
-        newLastEdited = self.org.last_edited
-        self.assertFalse(oldLastEdited == newLastEdited)
+        new_last_edited = self.org.last_edited
+        self.assertFalse(old_last_edited == new_last_edited)
 
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
