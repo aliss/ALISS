@@ -11,13 +11,13 @@
             <a href="?{% query_transform request status=0 page=None %}" {% if request.GET.status == '0' or request.GET.status == None %}class="active"{% endif %}>Unreviewed ({{ unreviewed_count }})</a>
           </li>
           <li>
-            <a href="?{% query_transform request status=10 page=None %}" {% if request.GET.status == '10' %}class="active"{% endif %}>Approved Request ({{ confirmed_count }})</a>
+            <a href="?{% query_transform request status=10 page=None %}" {% if request.GET.status == '10' %}class="active"{% endif %}>Approved requests ({{ confirmed_count }})</a>
           </li>
           <li>
-            <a href="?{% query_transform request status=20 page=None %}" {% if request.GET.status == '20' %}class="active"{% endif %}>Denied Requests ({{ denied_count }})</a>
+            <a href="?{% query_transform request status=20 page=None %}" {% if request.GET.status == '20' %}class="active"{% endif %}>Denied requests ({{ denied_count }})</a>
           </li>
           <li>
-            <a href="?{% query_transform request status=30 page=None %}" {% if request.GET.status == '30' %}class="active"{% endif %}>Revoked Requests ({{ revoked_count }})</a>
+            <a href="?{% query_transform request status=30 page=None %}" {% if request.GET.status == '30' %}class="active"{% endif %}>Revoked requests ({{ revoked_count }})</a>
           </li>
         </ul>
         <ul class="claim-requests edit">
@@ -37,9 +37,9 @@
                   <li>
                     {{ claim.phone }}
                   </li>
-                {% elif claim.user.phone %}
+                {% elif claim.user.phone_number %}
                   <li>
-                    {{ claim.user.phone }}
+                    {{ claim.user.phone_number }}
                   </li>
                 {% endif %}
                 <li>
@@ -55,7 +55,7 @@
                       <span class="icon">
                         <i class="fas fa-check"></i>
                       </span>
-                      Approve Claim
+                      Approve claim
                     </button>
                   </form>
                   <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
@@ -65,7 +65,7 @@
                       <span class="icon">
                         <i class="fas fa-times"></i>
                       </span>
-                      Deny Claim
+                      Deny claim
                     </button>
                   </form>
                 </div>
