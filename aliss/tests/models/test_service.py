@@ -89,30 +89,21 @@ class ServiceTestCase(TestCase):
         self.assertTrue(isinstance(s, Service))
 
     def test_service_last_edited_exists(self):
-        oldUpdatedDate = self.service.updated_on
-        c = Category.objects.create(name='Children', slug='children')
-        self.service.categories.add(c)
-        self.service.save()
         last_edited = self.service.last_edited
-        newUpdatedDate = self.service.updated_on
-        self.assertEqual(oldUpdatedDate, last_edited);
-        self.assertFalse(oldUpdatedDate == newUpdatedDate)
+        self.assertFalse(last_edited == None)
 
     def test_service_last_edited_persists(self):
-        oldUpdatedDate = self.service.updated_on
+        old_updated_date = self.service.updated_on
+        old_last_edited = self.service.last_edited
         c = Category.objects.create(name='Children', slug='children')
         self.service.categories.add(c)
         self.service.save()
-        c = Category.objects.create(name='Test', slug='test')
-        self.service.categories.add(c)
-        self.service.save()
-        last_edited = self.service.last_edited
-        newUpdatedDate = self.service.updated_on
-        self.assertEqual(oldUpdatedDate, last_edited)
-        self.assertFalse(oldUpdatedDate == newUpdatedDate)
+        new_last_edited = self.service.last_edited
+        new_updated_date = self.service.updated_on
+        self.assertEqual(old_last_edited, new_last_edited)
+        self.assertFalse(old_updated_date == new_updated_date)
 
     def test_service_last_edited_update_method(self):
-        self.service.generate_last_edited()
         oldLastEdited = self.service.last_edited
         self.service.update_service_last_edited()
         newLastEdited = self.service.last_edited
