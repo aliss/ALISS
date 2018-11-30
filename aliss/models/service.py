@@ -145,8 +145,8 @@ class Service(models.Model):
         current_date = datetime.now()
         current_date = utc.localize(current_date)
         self.last_edited = current_date
-        self.remove_from_index()
-        self.add_to_index()
+        # self.remove_from_index()
+        # self.add_to_index()
 
     def save(self, *args, **kwargs):
         self.generate_slug()
