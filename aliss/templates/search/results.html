@@ -4,219 +4,223 @@
 
 {% block title %}{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }}, {{ service_area }} - ALISS{% endblock %}
 {% block meta_schema %}
-    <meta property="og:title" content="{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
-    <meta property="og:description" content="{{ paginator.count }} search results for services in {% firstof service_area postcode.postcode %}" />
-    <meta name="twitter:title" content="{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
-    <meta name="twitter:description" content="{{ paginator.count }} search results for services in {% firstof service_area postcode.postcode %}" />
-    <meta name="description" content="Search results for help and support in {{ postcode.postcode }}, {{ service_area }}">
+  <meta property="og:title" content="{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
+  <meta property="og:description" content="{{ paginator.count }} search results for services in {% firstof service_area postcode.postcode %}" />
+  <meta name="twitter:title" content="{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
+  <meta name="twitter:description" content="{{ paginator.count }} search results for services in {% firstof service_area postcode.postcode %}" />
+  <meta name="description" content="Search results for help and support in {{ postcode.postcode }}, {{ service_area }}">
 {% endblock %}
 
 {% block container %}
 <main class="main" role="main">
-    {% if not invalid_area and not errors %}
-        <section id="content" class="results">
-            <div class="row title">
-                <div class="columns">
-                    <h1>Help and support in <span class="postcode">{{ postcode.postcode }}</span></h1>
-                    <div class="buttons">
-                        <a href="{% url 'homepage' %}" class="button primary">New Search</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="results">
-            {% include 'search/partials/categories.html' with category=category %}
-            <div class="row results">
-                <div class="columns filters">
-                    <h4 class="toggle-heading" id="filters_toggle">Customise Results</h4>
-                    <div class="filter-group toggled" id="filters">
-                        <form>
-                            <div class="filter keyword-search">
-                                <label>Filter by keyword:</label>
-                                <div class="sbs-inputs">
-                                    <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
-                                    <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
-                                    <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
-                                    <input type="hidden" name="category" value="{{ request.GET.category }}">
-                                    <input type="submit" class="secondary" value="Search">
-                                </div>
-                            </div>
-                        </form>
-                        <div class="filter category">
-                            <label>Filter by local or national:</label>
-                            <ul class="radio-list-links">
-                                <li  {% if not request.GET.location_type %}class="active"{% endif %}>
-                                    <a href="?{% query_transform request location_type=None %}">
-                                        <span class="radio"></span>
-                                        <span class="name">
-                                            Show me all services, local and national
-                                        </span>
-                                    </a>
-                                </li>
-                                <li {% if request.GET.location_type == 'local' %}class="active"{% endif %}>
-                                    <a href="?{% query_transform request location_type='local' %}">
-                                        <span class="radio"></span>
-                                        <span class="name">
-                                            Only show the services that operate locally
-                                        </span>
-                                    </a>
-                                </li>
-                                <li {% if request.GET.location_type == 'national' %}class="active"{% endif %}>
-                                    <a href="?{% query_transform request location_type='national' %}">
-                                        <span class="radio"></span>
-                                        <span class="name">
-                                            Only show services that operate nationally
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        {% if request.GET.q %}
-                        <div class="filter sorting">
-                            <label>Sort by location or by keyword match:</label>
-                            <ul class="radio-list-links">
-                            <li {% if not request.GET.keyword_sort %}class="active"{% endif %}>
-                                <a href="?{% query_transform request keyword_sort=None %}">
-                                    <span class="radio"></span>
-                                    <span class="name">
-                                        By nearest first
-                                    </span>
-                                </a>
-                            </li>
-                            <li {% if request.GET.keyword_sort %}class="active"{% endif %}>
-                                <a href="?{% query_transform request keyword_sort=True %}">
-                                    <span class="radio"></span>
-                                    <span class="name">
-                                        By best keyword match
-                                    </span>
-                                </a>
-                            </li>
-                            </ul>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="columns listing">
-                    <ul class="search-results">
-                        {% for result in object_list %}
-                            <li>
-                                <div class="heading">
-                                    {% if result.slug %}
-                                        <a href="{% url 'service_detail_slug' result.slug %}">
-                                    {% else %}
-                                        <a href="{% url 'service_detail' result.pk %}">
-                                    {% endif %}
-                                    <h3>{{ result.name }}</h3></a>
-                                </div>
-                                <p class="org">by {% if result.slug %}<a href="{% url 'organisation_detail_slug' result.organisation.slug %}">
-                                    {% else %}
-                                        <a href="{% url 'organisation_detail' result.organisation.id %}">
-                                    {% endif %}{{ result.organisation.name }}</a>
-                                {% if result.organisation.is_claimed %}
-                                <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
-                                {% endif %}
-                                </p>
-                                <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
-                                <div class="assigned-category">
-                                    {% for category in result.categories %}
-                                        <a href="?{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
-                                    {% endfor %}
-                                </div>
-
-                                {% include 'service/partials/locations.html' with locations=result.locations %}
-
-                                <ul class="contact-info">
-                                    {% if result.phone %}
-                                        <li>
-                                            {{ result.phone }}
-                                        </li>
-                                    {% endif %}
-                                    {% if result.url %}
-                                        <li>
-                                            <a href="{{ result.url }}">Website</a>
-                                        </li>
-                                    {% endif %}
-                                    {% if result.service_areas %}
-                                        <li class="service-areas">
-                                            <a>Service Areas</a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                                {% if result.service_areas %}
-                                    <div class="service-areas-list">
-                                        <p>{% for area in result.service_areas %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-                                    </div>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                    {% if not page_obj.has_next %}
-                    <div class="error">
-                        <div class="copy-container">
-                            {% if object_list %}
-                                <hr class="clear"/>
-                                <h2>Couldn't find what you were looking for?</h2>
-                            {% else %}
-                                <h2>Sorry, we couldn't find anything using those terms near {{ postcode.postcode }}.</h2>
-                            {% endif %}
-                            <p>You can try searching again over a wider area:</p>
-                        </div>
-                        <div class="buttons">
-                            {% if request.GET.radius %}
-                                <a href="?{% query_transform request radius=expanded_radius page=1 %}" class="button primary">Search again</a>
-                            {% else %}
-                                <a href="?{% query_transform request radius='20000' page=1 %}" class="button primary">Search again</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
-                </div>
-            </div>
-        </section>
-        {% include 'partials/share-search.html' %}
-    {% else %}
-        {% if invalid_area %}
-            <section id="error">
-                <div class="row">
-                    <div class="columns">
-                        <div class="copy-container">
-                            <h1>Sorry, ALISS is not available in your postcode.</h1>
-                            <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
-                        </div>
-                        <div class="buttons">
-                            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        {% endif %}
-                {% if errors %}
-                    {% for error in errors %}
-                        {% if error == 'postcode' %}
-                            <section id="error">
-                                <div class="row">
-                                    <div class="columns">
-                                        <div class="copy-container">
-                                            <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
-                                            <p>The postcode you entered seems to be in the wrong format, please try again:</p>
-                                        </div>
-                                        <div class="buttons">
-                                            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-            </div>
+  {% if not invalid_area and not errors %}
+    <section id="content" class="results">
+      <div class="row title">
+        <div class="columns">
+          <h1>Help and support in <span class="postcode">{{ postcode.postcode }}</span>
+          </h1>
+          <div class="buttons">
+            <a href="{% url 'homepage' %}" class="button primary">New search</a>
+          </div>
         </div>
+      </div>
+    </section>
+    <section id="results">
+      {% include 'search/partials/categories.html' with category=category %}
+      <div class="row results">
+        <div class="columns filters">
+          <h4 class="toggle-heading" id="filters_toggle">Customise results</h4>
+          <div class="filter-group toggled" id="filters">
+            <form>
+              <div class="filter keyword-search">
+                <label>Filter by keyword:</label>
+                <div class="sbs-inputs">
+                  <div class="clearable-input">
+                    <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
+                    <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
+                  </div>
+                  <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                  <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
+                  <input type="hidden" name="category" value="{{ request.GET.category }}">
+                  <input type="submit" class="secondary" value="Search">
+                </div>
+              </div>
+            </form>
+            <div class="filter category">
+              <label>Filter by local or national:</label>
+              <ul class="radio-list-links">
+                <li  {% if not request.GET.location_type %}class="active"{% endif %}>
+                  <a href="?{% query_transform request location_type=None %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Show me all services, local and national
+                    </span>
+                  </a>
+                </li>
+                <li {% if request.GET.location_type == 'local' %}class="active"{% endif %}>
+                  <a href="?{% query_transform request location_type='local' %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Only show the services that operate locally
+                    </span>
+                  </a>
+                </li>
+                <li {% if request.GET.location_type == 'national' %}class="active"{% endif %}>
+                  <a href="?{% query_transform request location_type='national' %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Only show services that operate nationally
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {% if request.GET.q %}
+            <div class="filter sorting">
+              <label>Sort by location or by keyword match:</label>
+              <ul class="radio-list-links">
+              <li {% if not request.GET.keyword_sort %}class="active"{% endif %}>
+                <a href="?{% query_transform request keyword_sort=None %}">
+                  <span class="radio"></span>
+                  <span class="name">
+                    By nearest first
+                  </span>
+                </a>
+              </li>
+              <li {% if request.GET.keyword_sort %}class="active"{% endif %}>
+                <a href="?{% query_transform request keyword_sort=True %}">
+                  <span class="radio"></span>
+                  <span class="name">
+                    By best keyword match
+                  </span>
+                </a>
+              </li>
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="columns listing">
+          <ul class="search-results">
+            {% for result in object_list %}
+              <li>
+                <div class="heading">
+                  {% if result.slug %}
+                    <a href="{% url 'service_detail_slug' result.slug %}">
+                  {% else %}
+                    <a href="{% url 'service_detail' result.pk %}">
+                  {% endif %}
+                  <h3>{{ result.name }}</h3></a>
+                </div>
+                <p class="org">by {% if result.slug %}<a href="{% url 'organisation_detail_slug' result.organisation.slug %}">
+                  {% else %}
+                    <a href="{% url 'organisation_detail' result.organisation.id %}">
+                  {% endif %}{{ result.organisation.name }}</a>
+                {% if result.organisation.is_claimed %}
+                <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
+                {% endif %}
+                </p>
+                <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
+                <div class="assigned-category">
+                  {% for category in result.categories %}
+                    <a href="?{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
+                  {% endfor %}
+                </div>
+
+                {% include 'service/partials/locations.html' with locations=result.locations %}
+
+                <ul class="contact-info">
+                  {% if result.phone %}
+                    <li>
+                      {{ result.phone }}
+                    </li>
+                  {% endif %}
+                  {% if result.url %}
+                    <li>
+                      <a href="{{ result.url }}">Website</a>
+                    </li>
+                  {% endif %}
+                  {% if result.service_areas %}
+                    <li class="service-areas">
+                      <a>Service Areas</a>
+                    </li>
+                  {% endif %}
+                </ul>
+                {% if result.service_areas %}
+                  <div class="service-areas-list">
+                    <p>{% for area in result.service_areas %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                  </div>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+
+          {% if not page_obj.has_next %}
+          <div class="error">
+            <div class="copy-container">
+              {% if object_list %}
+                <hr class="clear"/>
+                <h2>Couldn't find what you were looking for?</h2>
+              {% else %}
+                <h2>Sorry, we couldn't find anything using those terms near {{ postcode.postcode }}.</h2>
+              {% endif %}
+              <p>You can try searching again over a wider area:</p>
+            </div>
+            <div class="buttons">
+              {% if request.GET.radius %}
+                <a href="?{% query_transform request radius=expanded_radius page=1 %}" class="button primary">Search again</a>
+              {% else %}
+                <a href="?{% query_transform request radius='20000' page=1 %}" class="button primary">Search again</a>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
+        </div>
+      </div>
+    </section>
+    {% include 'partials/share-search.html' %}
+  {% else %}
+    {% if invalid_area %}
+      <section id="error">
+        <div class="row">
+          <div class="columns">
+            <div class="copy-container">
+              <h1>Sorry, ALISS is not available in your postcode.</h1>
+              <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
+            </div>
+            <div class="buttons">
+              <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+            </div>
+          </div>
+        </div>
+      </section>
     {% endif %}
+        {% if errors %}
+          {% for error in errors %}
+            {% if error == 'postcode' %}
+              <section id="error">
+                <div class="row">
+                  <div class="columns">
+                    <div class="copy-container">
+                      <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
+                      <p>The postcode you entered seems to be in the wrong format, please try again:</p>
+                    </div>
+                    <div class="buttons">
+                      <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
 </main>
 {% endblock %}
 
@@ -224,14 +228,14 @@
 {% block before_body_close %}
 <script type="text/javascript">
 $(document).ready(function(){
-
   var checkword = function(){
-    var new_term = $("input[name='q']").val()
-    $(".category-selector a").not(".select-category").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&")})
+    var new_term = $("input[name='q']").val();
+    $(".category-selector a").not(".select-category").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&");
+    })
   }
 
-  if($("input[name='q']").val() != ""){
-    $(".category-selector *").click(function(){checkword()})
+  if ($("input[name='q']").val() != "") {
+    $(".category-selector *").click(function(){checkword()});
   }
 
 });

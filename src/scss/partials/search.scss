@@ -172,3 +172,24 @@ $input-w: 33%;
 #search.landing-page+.center-section {
   padding-top: 0;
 }
+
+.clearable-input {
+  .clear-input {
+    opacity: 0.4;
+    display: none;
+    position: absolute;
+    padding-left: 0.4rem;
+    line-height: 3rem;
+    font-size: 1.3rem;
+  }
+}
+
+.clearable-input:hover {
+  .clear-input { opacity: 0.7; }
+}
+
+.clearable-input.active {
+  .clear-input { display: block; }
+  .clear-input:hover { color: $alert; opacity: 1; }
+  input { padding-left: 1.8rem; }
+}
