@@ -7,7 +7,7 @@ from django.conf import settings
 # Import the necessary search codes
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category, filter_by_updated_on
+from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category, filter_by_last_edited
 
 # Datetime
 from datetime import datetime
@@ -35,9 +35,9 @@ class DigestSelection(models.Model):
         queryset = filter_by_postcode(queryset, self.postcode)
         if (self.category):
             queryset = filter_by_category(queryset, self.category)
-        queryset = queryset.sort({ "updated_on" : {"order" : "desc"}})
+        queryset = queryset.sort({ "last_edited" : {"order" : "desc"}})
         comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
-        queryset = filter_by_updated_on(queryset, comparison_date_string)
+        queryset = filter_by_last_edited(queryset, comparison_date_string)
 
         return queryset.execute()
 

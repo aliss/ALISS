@@ -39,7 +39,7 @@
                     {% for service in selection_option|get_item:"values" %}
 
                         <p class="org"><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></p>
-                        <p>Last Updated: <span class="updated alert">{{ service.updated_on|format_time_string }} </span></p>
+                        <p>Last Updated: <span class="updated alert">{{ service.last_edited|format_time_string }} </span></p>
 
                       {% endfor %}
                   {% endif %}

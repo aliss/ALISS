@@ -155,7 +155,7 @@
           </div>
           <div class="desc{% if object.description|length > 350 %} long{% endif %}">
             <p>{{ object.description|linebreaks }}</p>
-            <p>Last updated <span class="updated alert">{{ object.updated_on }}</span></p>
+            <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
           </div>
         </div>
       </div>

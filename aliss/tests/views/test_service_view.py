@@ -4,6 +4,8 @@ from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import Organisation, ALISSUser, Service, Location, Category, ServiceArea
 from aliss.search import (get_service)
+from datetime import datetime
+
 
 class ServiceViewTestCase(TestCase):
     fixtures = ['categories.json', 'service_areas.json']
@@ -55,6 +57,19 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(queryset.count(), 1)
         self.assertEqual(response.status_code, 302)
 
+    def test_service_last_edited_valid_create(self):
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_create', kwargs={'pk':self.organisation.pk}),{
+            'name': 'A whole new service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk]
+        })
+        s = Service.objects.get(name='A whole new service')
+        last_edited = s.last_edited
+        self.assertFalse(last_edited == None)
+
+
     def test_service_valid_update(self):
         category = Category.objects.first()
         response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }),{
@@ -74,6 +89,26 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(self.service.name, 'an updated service')
         self.assertEqual(self.service.updated_by, self.user)
         self.assertEqual(response.status_code, 302)
+
+    def test_service_last_edited_valid_update(self):
+        old_last_edited_db = self.service.last_edited
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }),{
+            'name': 'an updated service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk]
+        })
+        self.service.refresh_from_db()
+        queryset = Fixtures.es_connection()
+        result = get_service(queryset, self.service.id)[0]
+        new_last_edited_db = self.service.last_edited
+
+        new_last_edited_db_string = datetime.strftime(new_last_edited_db, '%Y-%m-%dT%H:%M:%S.%f%z')
+        new_last_edited_db_string = new_last_edited_db_string.split('+0000')[0] + '+00:00'
+        new_last_edited_es = result.last_edited
+        self.assertFalse(old_last_edited_db == new_last_edited_db)
+        self.assertEqual(new_last_edited_db_string, new_last_edited_es)
 
     def tearDown(self):
         Fixtures.service_teardown()
