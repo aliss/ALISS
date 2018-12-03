@@ -72,11 +72,7 @@ class ServiceCreateView(
         )
 
 
-class ServiceUpdateView(
-    LoginRequiredMixin,
-    UserPassesTestMixin,
-    UpdateView
-):
+class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Service
     form_class = ServiceForm
     template_name = 'service/update.html'
@@ -99,10 +95,8 @@ class ServiceUpdateView(
         )
 
     def form_valid(self, form):
-
         self.object.update_service_last_edited()
         self.object = form.save()
-
 
         messages.success(
             self.request,
@@ -110,7 +104,6 @@ class ServiceUpdateView(
                 name=self.object.name
             )
         )
-
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -136,7 +129,6 @@ class ServiceDetailView(UserPassesTestMixin, DetailView):
 
 
 class ServiceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-
     model = Service
     template_name = 'service/delete.html'
 
