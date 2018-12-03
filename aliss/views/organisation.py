@@ -24,6 +24,9 @@ from django.db.models import Q
 from aliss.views import ProgressMixin
 from aliss.forms import ClaimForm
 
+import pytz
+from datetime import datetime
+
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -126,8 +129,10 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
             return reverse('organisation_detail_slug', kwargs={ 'slug': self.object.slug })
 
     def form_valid(self, form):
+        self.object.update_organisation_last_edited()
         self.object = form.save(commit=False)
         self.object.updated_by = self.request.user
+
         self.object.save()
 
         messages.success(
@@ -136,6 +141,7 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
                 name=self.object.name
             )
         )
+
 
         return HttpResponseRedirect(self.get_success_url())
 

@@ -9,6 +9,9 @@ from aliss.models import ServiceArea
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, service_to_body
 
+import pytz
+from datetime import datetime
+
 class ServiceProblem(models.Model):
     UNRESOLVED = 0
     RESOLVED = 1
@@ -47,6 +50,7 @@ class ServiceProblem(models.Model):
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return "Problem with {0}".format(self.service)
@@ -90,8 +94,12 @@ class Service(models.Model):
         on_delete=models.SET_NULL
     )
 
+
     def is_published(self):
         return self.organisation.published
+
+    last_edited = models.DateTimeField(null=True, blank=True, default=None)
+
 
     def is_edited_by(self, user):
         if user == None or user.pk == None:
@@ -123,8 +131,26 @@ class Service(models.Model):
             id=self.id, refresh=True, ignore=404
         )
 
+    def generate_last_edited(self, force=False):
+        if force or self.last_edited == None:
+            if self.updated_on == None:
+                self.update_service_last_edited()
+            else:
+                self.last_edited = self.updated_on
+            return self.last_edited
+        return False
+
+    def update_service_last_edited(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        self.last_edited = current_date
+        # self.remove_from_index()
+        # self.add_to_index()
+
     def save(self, *args, **kwargs):
         self.generate_slug()
+        self.generate_last_edited()
         do_index = True
         if 'skip_index' in kwargs:
             do_index = False; kwargs.pop('skip_index')
@@ -137,6 +163,8 @@ class Service(models.Model):
     def delete(self, *args, **kwargs):
         self.remove_from_index()
         super(Service, self).delete(*args, **kwargs)
+
+
 
     @property
     def is_claimed(self):

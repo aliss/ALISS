@@ -29,7 +29,7 @@
                             <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
                         </div>
                         <p class="org">by <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
-                        <p>Last updated <span class="updated alert">{{ service.updated_on }}</span></p>
+                        <p>Last updated <span class="updated alert">{{ service.last_edited }}</span></p>
 
                         <div class="assigned-category">
                             {% for category in service.categories.all %}

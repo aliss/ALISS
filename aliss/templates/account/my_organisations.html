@@ -30,7 +30,7 @@
           </span></span>
         {% endif %}
       </td>
-      <td>{{ claim.organisation.updated_on }}</td>
+      <td>{{ claim.organisation.last_edited }}</td>
       <td>
         <a href="{% url 'organisation_edit' pk=claim.organisation.pk %}">
           <i class="fa fa-edit" aria-hidden="true"></i> Edit
@@ -61,7 +61,7 @@
           </span></span>
         {% endif %}
       </td>
-      <td>{{ organisation.updated_on }}</td>
+      <td>{{ organisation.last_edited }}</td>
       <td>
         <a href="{% url 'organisation_edit' pk=organisation.pk %}">
           <i class="fa fa-edit" aria-hidden="true"></i> Edit

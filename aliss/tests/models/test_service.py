@@ -88,6 +88,27 @@ class ServiceTestCase(TestCase):
         s.save(kwargs={'skip_index': True})
         self.assertTrue(isinstance(s, Service))
 
+    def test_service_last_edited_exists(self):
+        last_edited = self.service.last_edited
+        self.assertFalse(last_edited == None)
+
+    def test_service_last_edited_persists(self):
+        old_updated_date = self.service.updated_on
+        old_last_edited = self.service.last_edited
+        c = Category.objects.create(name='Children', slug='children')
+        self.service.categories.add(c)
+        self.service.save()
+        new_last_edited = self.service.last_edited
+        new_updated_date = self.service.updated_on
+        self.assertEqual(old_last_edited, new_last_edited)
+        self.assertFalse(old_updated_date == new_updated_date)
+
+    def test_service_last_edited_update_method(self):
+        old_last_edited = self.service.last_edited
+        self.service.update_service_last_edited()
+        new_last_edited = self.service.last_edited
+        self.assertFalse(old_last_edited == new_last_edited)
+
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
             service.delete()
