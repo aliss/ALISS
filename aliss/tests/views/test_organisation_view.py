@@ -37,7 +37,7 @@ class OrganisationViewTestCase(TestCase):
 
     def test_organisation_valid_creation(self):
         cn = Claim.objects.count()
-        response = self.client.post(reverse('organisation_create'), 
+        response = self.client.post(reverse('organisation_create'),
             { 'name': 'an organisation', 'description': 'a full description' })
         o = Organisation.objects.latest('created_on')
 
@@ -74,7 +74,7 @@ class OrganisationViewTestCase(TestCase):
 
     def test_organisation_valid_creation_with_editor(self):
         self.client.login(username='updater@aliss.org', password='passwurd')
-        response = self.client.post(reverse('organisation_create'), 
+        response = self.client.post(reverse('organisation_create'),
             { 'name': 'an organisation', 'description': 'a full description' })
         o = Organisation.objects.latest('created_on')
 
@@ -87,12 +87,28 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.get(reverse('organisation_create'))
         self.assertEqual(response.status_code, 302)
 
+    def test_organisation_valid_creation_last_edited(self):
+        self.client.login(username='updater@aliss.org', password='passwurd')
+        response = self.client.post(reverse('organisation_create'),
+            { 'name': 'an organisation', 'description': 'a full description' })
+        o = Organisation.objects.latest('created_on')
+        last_edited = o.last_edited
+        self.assertFalse(last_edited == None)
+
     def test_organisation_valid_update(self):
         response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
             { 'name': 'an updated organisation', 'description': 'a full description' })
         self.organisation.refresh_from_db()
         self.assertEqual(self.organisation.name, 'an updated organisation')
         self.assertEqual(response.status_code, 302)
+
+    def test_last_edited_valid_update(self):
+        old_last_edited = self.organisation.last_edited
+        response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
+            { 'name': 'an updated organisation', 'description': 'a full description' })
+        self.organisation.refresh_from_db()
+        new_last_edited = self.organisation.last_edited
+        self.assertFalse(old_last_edited == new_last_edited)
 
     def test_unpublished_organisation_detail(self):
         self.organisation.published = False

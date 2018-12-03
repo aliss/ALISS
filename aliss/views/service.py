@@ -10,6 +10,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
 from django.template import loader
 
+import pytz
+from datetime import datetime
+
 from braces.views import (
     LoginRequiredMixin,
     StaffuserRequiredMixin,
@@ -51,6 +54,7 @@ class ServiceCreateView(
 
     def form_valid(self, form):
         self.object = form.save()
+        
 
         messages.success(
             self.request,
@@ -95,7 +99,10 @@ class ServiceUpdateView(
         )
 
     def form_valid(self, form):
+
+        self.object.update_service_last_edited()
         self.object = form.save()
+
 
         messages.success(
             self.request,
