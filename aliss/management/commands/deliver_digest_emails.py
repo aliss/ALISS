@@ -44,9 +44,9 @@ class Command(BaseCommand):
                     message += '\n\n No updated services for this selection'
                 else:
                     for service in r:
-                        message += '\n\n {service_name} \n\n {service_updated_on}'.format(
+                        message += '\n\n {service_name} \n\n {service_last_edited}'.format(
                             service_name=service.name,
-                            service_updated_on=process_datetime_string(service.updated_on),
+                            service_last_edited=process_datetime_string(service.last_edited),
                             )
         #Send the email to the user.
             send_mail(

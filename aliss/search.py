@@ -92,6 +92,7 @@ def service_to_body(service):
             'slug': service.organisation.slug
         },
         'updated_on': service.updated_on,
+        'last_edited': service.last_edited,
         'name': service.name,
         'description': service.description,
         'slug': service.slug,
@@ -232,9 +233,9 @@ def get_service(queryset, service_id):
         "term" : { "id" : service_id }
     })).execute()
 
-def filter_by_updated_on(queryset, comparison_date):
+def filter_by_last_edited(queryset, comparison_date):
     queryset = queryset.query({
         "bool": {
-            "filter": {"range":{"updated_on":{"gte":comparison_date}}}
+            "filter": {"range":{"last_edited":{"gte":comparison_date}}}
     }})
     return queryset

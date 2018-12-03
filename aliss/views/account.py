@@ -27,7 +27,7 @@ import pytz
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category, filter_by_updated_on
+from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category, filter_by_last_edited
 
 # Import all models
 from aliss.models import *
