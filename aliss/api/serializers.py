@@ -106,10 +106,10 @@ class v4OrganisationSerializer(OrganisationSerializer):
 
 
 class v4SearchSerializer(SearchSerializer):
-    aliss_url = serializers.SerializerMethodField()
-    permalink = serializers.SerializerMethodField()
     organisation = v4OrganisationSerializer()
-    last_updated = serializers.DateTimeField(source='updated_on')
+    aliss_url    = serializers.SerializerMethodField()
+    permalink    = serializers.SerializerMethodField()
+    last_updated = serializers.SerializerMethodField()
 
     def get_aliss_url(self, obj):
         return self.context['request'].build_absolute_uri(reverse('service_detail_slug', args=[obj.slug]))
@@ -118,7 +118,7 @@ class v4SearchSerializer(SearchSerializer):
         return self.context['request'].build_absolute_uri(reverse('service_detail', args=[obj.id]))
 
     def get_last_updated(self, obj):
-        return obj.updated_on
+        return obj.last_edited
 
 
 class RecursiveField(serializers.Serializer):

@@ -11,10 +11,10 @@ class ServiceSitemap(Sitemap):
     limit = 5000
 
     def items(self):
-        return Service.objects.order_by('updated_on').all()
+        return Service.objects.order_by('last_edited').all()
 
     def lastmod(self, obj):
-        return obj.updated_on
+        return obj.last_edited
 
     def location(self, obj):
         if obj.slug:
@@ -31,10 +31,10 @@ class OrganisationSitemap(Sitemap):
     section = "static"
 
     def items(self):
-        return Organisation.objects.order_by('updated_on').all()
+        return Organisation.objects.order_by('last_edited').all()
 
     def lastmod(self, obj):
-        return obj.updated_on
+        return obj.last_edited
 
     def location(self, obj):
         if obj.slug:
