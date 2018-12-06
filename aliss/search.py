@@ -24,6 +24,8 @@ service_mapping = {
             'slug': {'type': 'keyword'}
         }
     },
+    'updated_on': {'type': 'date'},
+    'last_edited': {'type': 'date'},
     'slug': {'type': 'keyword'},
     'name': {'type': 'text'},
     'description': {
