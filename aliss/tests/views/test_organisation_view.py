@@ -149,7 +149,8 @@ class OrganisationViewTestCase(TestCase):
         index_result = get_service(queryset, unpublished_service.id)
         self.assertEqual(len(index_result), 0)
         self.assertTrue(self.organisation.published)
-        self.assertRedirects(response, (reverse('organisation_detail_slug', kwargs={'slug': self.organisation.slug})))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, (reverse('organisation_unpublished')))
 
     def test_organisation_search(self):
         response = self.client.get(reverse('organisation_search')+'?q=TestOrg')

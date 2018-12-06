@@ -253,4 +253,4 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
         else:
             messages.error(self.request, 'Could not publish {name}.'.format(name=organisation.name))
 
-        return HttpResponseRedirect(reverse('organisation_detail_slug', kwargs={'slug': organisation.slug}))
+        return HttpResponseRedirect(reverse('organisation_unpublished'))
