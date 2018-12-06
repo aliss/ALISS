@@ -87,6 +87,7 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(category_count, 1)
         self.assertEqual(result['categories'][0]['name'], category.name)
         self.assertEqual(self.service.name, 'an updated service')
+        self.assertEqual(self.service.slug, 'an-updated-service-0')
         self.assertEqual(self.service.updated_by, self.user)
         self.assertEqual(response.status_code, 302)
 

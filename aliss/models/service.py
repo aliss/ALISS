@@ -112,7 +112,11 @@ class Service(models.Model):
         )
 
     def generate_slug(self, force=False):
-        if force or self.slug == None:
+        name_changed = False
+        if self.pk:
+            result = Service.objects.filter(pk=self.pk).values('name').first()
+            name_changed = (result != None) and (result != self.name)
+        if force or self.slug == None or name_changed:
             s = slugify(self.name)
             sCount = Service.objects.filter(slug__icontains=s).count()
             self.slug = s + "-" + str(sCount)

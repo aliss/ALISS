@@ -18,9 +18,12 @@ class ServiceTestCase(TestCase):
 
     def test_service_slugs(self):
         s1 = Service.objects.get(name="My First Service")
-        s2 = Service.objects.create(name="My First Service", description="A handy service", organisation=s1.organisation, created_by=s1.created_by)
+        s2 = Service.objects.create(name="My First Service", description="A handy service", organisation=s1.organisation, created_by=s1.created_by) 
         self.assertEqual(s1.slug, "my-first-service-0")
         self.assertEqual(s2.slug, "my-first-service-1")
+        s2.name = "My Other Service"
+        s2.save()
+        self.assertEqual(s2.slug, "my-other-service-0")
 
     def test_user_delete_doesnt_cascade(self):
         ALISSUser.objects.get(email="tester@aliss.org").delete()
