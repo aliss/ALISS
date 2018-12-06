@@ -6,6 +6,6 @@ from aliss.models import Organisation
 @admin.register(Organisation)
 class OrganisationAdmin(admin.ModelAdmin):
     exclude = ('id',)
-    list_display = ('name', 'created_by', 'created_on', 'updated_on', 'published')
-    ordering = ('-created_on',)
+    list_display = ('name', 'created_by', 'claimed_by', 'created_on', 'last_edited', 'published')
+    ordering = ('-last_edited',)
     search_fields = ['name']

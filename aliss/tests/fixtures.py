@@ -17,7 +17,7 @@ class Fixtures(TestCase):
         t = ALISSUser.objects.create_user("tester@aliss.org", "passwurd", name="Mr Test")
         u = ALISSUser.objects.create_user("updater@aliss.org", "passwurd", name="Mr Updater", is_editor=True)
         c = ALISSUser.objects.create_user("claimant@user.org", "passwurd")
-        s = ALISSUser.objects.create_user("staff@aliss.org", "passwurd", is_staff=True)
+        s = ALISSUser.objects.create_user("staff@aliss.org", "passwurd", is_staff=True, is_superuser=True)
         return [t,u,c,s]
 
     @classmethod
