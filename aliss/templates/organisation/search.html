@@ -36,11 +36,19 @@
                   <span class="name"><a target="_blank" href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a></span>
                   <ul class="options">
                     <li>
-                      <a href="{% url 'claim_create' pk=organisation.pk %}">Claim organisation</a>
-
-                      <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="If you are a member of this organisation you can claim representation and gain edit rights over its entry on ALISS.">
-                        <i class="fa fa-question-circle" aria-hidden="true"></i>
-                      </span>
+                      {% if organisation.is_claimed %}
+                        <span title="This organisation is updated by one of its own representatives." class="claimed">Claimed</span>
+                        <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="This organisation is already updated by one of its own representatives.">
+                          <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        </span>
+                      {% else %}
+                        <a href="{% url 'claim_create' pk=organisation.pk %}">
+                          Claim organisation
+                        </a>
+                        <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="If you are a member of an organisation you can claim representation and gain edit rights over its entry on ALISS.">
+                          <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        </span>
+                      {% endif %}
                     </li>
                   </ul>
                 </li>
