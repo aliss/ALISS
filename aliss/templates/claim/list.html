@@ -5,7 +5,7 @@
   <div class="row">
     <div class="columns">
       <div class="copy-container">
-        <h3>Claim Requests</h3>
+        <h3>Claim requests</h3>
         <ul class="claim-type">
           <li>
             <a href="?{% query_transform request status=0 page=None %}" {% if request.GET.status == '0' or request.GET.status == None %}class="active"{% endif %}>Unreviewed ({{ unreviewed_count }})</a>
@@ -78,7 +78,7 @@
                       <span class="icon">
                         <i class="fas fa-minus-hexagon"></i>
                       </span>
-                      Revoke Representation
+                      Revoke representation
                     </button>
                   </form>
                 </div>
@@ -91,7 +91,7 @@
                       <span class="icon">
                         <i class="fas fa-hand-paper"></i>
                       </span>
-                      Reconsider Representation
+                      Reconsider representation
                     </button>
                   </form>
                 </div>
