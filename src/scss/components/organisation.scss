@@ -106,7 +106,6 @@ div.inline-claim.active {
 }
 
 ul.progress-breadcrumb {
-
   margin-left:0;
   margin-bottom:2rem;
   padding: 0px;
@@ -126,7 +125,7 @@ ul.progress-breadcrumb {
     text-align:left;
     padding: 0.5rem;
     position: relative;
-    background: #ebebeb;
+    background: $lightest-gray;
     border: 3px solid #ffffff;
     margin-top: 0.01rem;
     margin-bottom: 0rem;
@@ -205,7 +204,7 @@ ul.orgs {
       padding: 0.95rem 0.75rem 0.95rem 0.75rem;
     }
     &:nth-child(2n) {
-      background: $light-gray_fade;
+      background: $lightest-gray;
     }
     span.name {
       float: left;
