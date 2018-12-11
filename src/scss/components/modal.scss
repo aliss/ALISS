@@ -28,7 +28,7 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 	@extend %txy;
 	border-radius: $d-rad*2;
 	background: $w;
-	max-width: 450px;
+	max-width: 570px;
 	display: none;
 	&.active {
 		display: block;
