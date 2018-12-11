@@ -81,9 +81,9 @@
               {% endfor %}
             </table>
           {% endif %}
-          {% if request.GET.q %}
-            {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
-          {% endif %}
+
+          {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
+
           <br/>
           <a href="{% url 'account_dashboard' %}" class="button primary">Back to dashboard</a>
         </div>
