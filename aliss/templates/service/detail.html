@@ -179,7 +179,10 @@
           </div>
           <div class="desc{% if object.description|length > 350 %} long{% endif %}">
             <p>{{ object.description|linebreaks }}</p>
+            <br/>
             <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
+            <p>Can you help us improve this listing? <a data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
+            </a></p>
           </div>
         </div>
       </div>
@@ -187,6 +190,7 @@
         <div class="copy-container">
           {% if object.locations.all %}
             <div class="all-locations">
+              <h4>Locations</h4>
               {% for location in object.locations.all %}
                 {% include 'location/partials/detail.html' %}
               {% endfor %}
