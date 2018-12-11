@@ -17,6 +17,29 @@
 
 {% block container %}
 <div class="black"></div>
+<div class="modal" id="improve-listing">
+  <div class="pad">
+    <div class="heading">
+      <a class="close alert icon-link">
+        <span class="icon">
+          <i class="fas fa-times"></i>
+        </span>
+        Close
+      </a>
+      <h5>Improve this listing</h5>
+    </div>
+    <div class="form">
+      {% if request.user.is_authenticated %}
+        <div class="copy-container">
+          {% include 'service/forms/feedback.html' with service=object %}
+        </div>
+      {% else %}
+        <p>Please <a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="add_list">
   <div class="pad">
     <div class="heading">
@@ -39,6 +62,7 @@
     </div>
   </div>
 </div>
+
 <main class="main" role="main">
   <article id="content" class="service">
     <div class="row">
@@ -128,14 +152,14 @@
               </form>
             </div>
 
-            <a id="report_listing" class="icon-link improve">
+            <a id="improve-listing_modal" class="icon-link improve">
               <span class="icon">
               <i class="fas fa-comment"></i>
               </span>
               Improve this listing
             </a>
 
-            <a id="back_to_seach" class="icon-link" style = "display:none">
+            <a id="back_to_seach" class="icon-link" style="display:none">
               <span class="icon">
               <i class="fas fa-arrow-left"></i>
               </span>
@@ -199,15 +223,6 @@
         <a class="no alert">
           No
         </a>
-        <div class="form" style="display: none;">
-          {% if request.user.is_authenticated %}
-            <div class="copy-container">
-              {% include 'service/forms/feedback.html' with service=object %}
-            </div>
-          {% else %}
-            <p>Please <a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
-          {% endif %}
-        </div>
       </div>
     </div>
   </article>

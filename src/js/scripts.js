@@ -391,13 +391,6 @@ $(document).ready(() => {
       scrollTop: ($('.feedback-form').offset().top)
     }, 500);
   }
-  $('#report_listing').click(function(e){
-    // console.log('test');
-    $(".feedback-form a.no").click();
-    $('html, body').animate({
-      scrollTop: ($('.feedback-form').offset().top)
-    }, 500);
-  });
 
   //SHARE FORM
   if($('.share-form').length > 0) {
