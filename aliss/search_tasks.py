@@ -34,6 +34,28 @@ def create_index():
             }
         }
     )
+    connection.indies.create(
+        index='organisation_search',
+        body={
+            'mappings': {
+                'organisation':{
+                    'properties': organisation_mapping
+                }
+            },
+            'settings': {
+                'analysis': {
+                    'analyzer': {
+                        'description_analyzer': {
+                            'type': 'custom',
+                            'tokenizer': 'standard',
+                            'char_filter': ['html_strip'],
+                            'filter': ['standard', 'lowercase', 'stop']
+                        }
+                    }
+                }
+            }
+        }
+    )
 
 
 def create_slugs(force=False):
@@ -93,7 +115,7 @@ def index_all():
         print("%s Services indexed" % ok)
     organisations = Organisation.objects.all().iterator()
     for ok in bulk(connection, ({
-        '_index':'search',
+        '_index':'organisation_search',
         '_type':'organisation',
         '_id':organisation.pk,
         '_source': organisation_to_body(organisation)
@@ -104,3 +126,4 @@ def index_all():
 def delete_index():
     connection = _get_connection()
     connection.indices.delete('search', ignore=404)
+    connection.indices.delete('organisation_search', ignore=404)
