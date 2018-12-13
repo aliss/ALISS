@@ -4,7 +4,7 @@
 
 <h2>My Digest</h2>
 <div class="copy-container">
-  <p>Keep up to date with new and existing services. Create a digest by selecting postcodes and categories you're interested in.</p>
+  <p>Keep up to date with new services. Create a digest by selecting postcodes and categories you're interested in.</p>
 </div>
 
 <div class="my-account-details">
@@ -34,12 +34,12 @@
               </div>
               <div>
                   {% if not selection_option|get_item:"values" %}
-                    <p>None of the services in this digest have been updated in the last week.</p>
+                    <p>No new services in this digest in the last four weeks.</p>
                   {% else %}
                     {% for service in selection_option|get_item:"values" %}
 
                         <p class="org"><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></p>
-                        <p>Last Updated: <span class="updated alert">{{ service.last_edited|format_time_string }} </span></p>
+                        <p>Created On: <span class="updated alert">{{ service.created_on|format_time_string }} </span></p>
 
                       {% endfor %}
                   {% endif %}
