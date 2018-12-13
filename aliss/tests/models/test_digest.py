@@ -80,7 +80,7 @@ class DigestTestCase(TestCase):
         test_digest = DigestSelection.objects.get(user=self.user)
         self.assertTrue(isinstance(test_digest, DigestSelection))
         # retrieve the services which match the digest selection
-        retrieved = test_digest.retrieve(self.comparison_date)
+        retrieved = test_digest.retrieve_updated_services(self.comparison_date)
         number_retrieved = len(retrieved[:3])
         # Check the correect number of services are returned
         self.assertTrue(number_retrieved == 3)
@@ -100,9 +100,9 @@ class DigestTestCase(TestCase):
         self.assertTrue(isinstance(test_digest, DigestSelection))
         # retrieve the services which match the digest selection
         retrieved_new = test_digest.retrieve_new_services(self.comparison_date)
-        number_retrieved = len(retrieved[:3])
+        number_retrieved = len(retrieved_new[:3])
         # Create a map of service ids
-        service_pks = map(lambda s: s.id, retrieved)
+        service_pks = map(lambda s: s.id, retrieved_new)
         # Create a list of services which do not have "conditions" as one of their categories
         service_without_category_conditions = Category.objects.filter(services__in = service_pks).exclude(slug="conditions")
         # Check that the list of services which do not have "conditions" has a length of zero
