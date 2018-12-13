@@ -5,7 +5,7 @@ from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 
 from aliss.models import Organisation, Service
-from aliss.search import _get_connection, service_to_body, organisation_to_body, service_mapping
+from aliss.search import _get_connection, service_to_body, organisation_to_body, service_mapping, organisation_mapping
 
 def create_index():
     connection = _get_connection()
@@ -15,9 +15,6 @@ def create_index():
             'mappings': {
                 'service': {
                     'properties': service_mapping
-                },
-                'organisation':{
-                    'properties': organisation_mapping
                 }
             },
             'settings': {
@@ -34,7 +31,7 @@ def create_index():
             }
         }
     )
-    connection.indies.create(
+    connection.indices.create(
         index='organisation_search',
         body={
             'mappings': {
