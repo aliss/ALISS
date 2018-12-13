@@ -39,14 +39,14 @@ class Command(BaseCommand):
                 message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} updated services:".format(
                     digest_postcode=digest_object.postcode,
                     digest_category=digest_object.category,)
-                r = digest_object.retrieve_updated_services(comparison_date)[:3]
+                r = digest_object.retrieve_new_services(comparison_date)[:3]
                 if not r:
                     message += '\n\n No updated services for this selection'
                 else:
                     for service in r:
-                        message += '\n\n {service_name} \n\n {service_last_edited}'.format(
+                        message += '\n\n {service_name} \n\n {service_created_on}'.format(
                             service_name=service.name,
-                            service_last_edited=process_datetime_string(service.last_edited),
+                            service_created_on=process_datetime_string(service.created_on),
                             )
         #Send the email to the user.
             send_mail(
