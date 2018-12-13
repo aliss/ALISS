@@ -15,6 +15,9 @@ def create_index():
             'mappings': {
                 'service': {
                     'properties': service_mapping
+                },
+                'organisation':{
+                    'properties': organisation_mapping
                 }
             },
             'settings': {
@@ -88,6 +91,7 @@ def index_all():
         '_source': service_to_body(service)
     } for service in services)):
         print("%s Services indexed" % ok)
+
 
 
 def delete_index():
