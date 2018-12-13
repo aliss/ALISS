@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
+from cloudinary.models import CloudinaryField
 
 import pytz
 from datetime import datetime
@@ -17,6 +18,7 @@ class Organisation(models.Model):
     facebook = models.URLField(blank=True)
     twitter  = models.URLField(blank=True)
     slug     = models.CharField(max_length=120, null=True, blank=True, default=None)
+    logo = CloudinaryField('image', null=True, blank=True)
 
     claimed_by = models.ForeignKey(
         'aliss.ALISSUser',
