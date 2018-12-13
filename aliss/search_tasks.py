@@ -5,7 +5,7 @@ from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 
 from aliss.models import Organisation, Service
-from aliss.search import _get_connection, service_to_body, service_mapping
+from aliss.search import _get_connection, service_to_body, organisation_to_body, service_mapping
 
 def create_index():
     connection = _get_connection()
@@ -91,14 +91,14 @@ def index_all():
         '_source': service_to_body(service)
     } for service in services)):
         print("%s Services indexed" % ok)
-    organisation = Organisation.objects.all().iterator()
+    organisations = Organisation.objects.all().iterator()
     for ok in bulk(connection, ({
         '_index':'search',
         '_type':'organisation',
         '_id':organisation.pk,
-        '_source': organisation_to_body(organisaion)
+        '_source': organisation_to_body(organisation)
     } for organisation in organisations)):
-        print("%s Organisation indexed" % ok)
+        print("%s Organisations indexed" % ok)
 
 
 def delete_index():
