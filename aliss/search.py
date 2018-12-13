@@ -175,6 +175,8 @@ def filter_organisation_by_query(queryset, q):
         }
     })
 
+    return queryset
+
 
 def filter_by_postcode(queryset, postcode, radius=5000):
     # Give us everything that:
