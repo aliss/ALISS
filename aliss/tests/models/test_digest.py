@@ -108,6 +108,38 @@ class DigestTestCase(TestCase):
         # Check that the list of services which do not have "conditions" has a length of zero
         self.assertTrue(service_without_category_conditions.count() == 0)
 
+    def test_can_retrieve_new_services_update_no_impact(self):
+        # Create a service which checks for category of conditions
+        d = DigestSelection.objects.create(postcode=self.postcode, category=self.category, user=self.user)
+        self.assertTrue(isinstance(d,DigestSelection))
+        # Get a digest object
+        test_digest = DigestSelection.objects.get(user=self.user)
+        self.assertTrue(isinstance(test_digest, DigestSelection))
+        # #Update a service last_edited field
+        service2 = Service.objects.get(name="My Second Service")
+        service2.update_service_last_edited()
+        service2.save()
+        # retrieve the services which match the digest selection
+        retrieved_new = test_digest.retrieve_new_services(self.comparison_date)
+        retrieve_updated = test_digest.retrieve_updated_services(self.comparison_date)
+        # Check retrieve_new_service and retrieve_updated_services don't have the same result.
+        self.assertFalse(retrieved_new == retrieve_updated)
+        # Get the most recently edited service name form elastic search result.
+        most_recently_edited_name = retrieve_updated[0].name
+        # Using name retrieve db record of most recently valid edited service.
+        most_recently_edited_service = Service.objects.get(name=most_recently_edited_name)
+        # Check most recently updated is the one we manually updated.
+        self.assertTrue(most_recently_edited_service == service2)
+        # Get the most recently created service name form elastic search result.
+        newest_service_name = retrieved_new[0].name
+        # Using name retrieve db record of most recently created service.
+        newest_service = Service.objects.get(name=newest_service_name)
+        self.assertFalse(newest_service == service2)
+        # If services are created in order then service3 should be the most recently created
+        service3 = Service.objects.get(name="My Third Service")
+        self.assertTrue(newest_service == service3)
+
+
 
     def test_can_create_digest_without_category(self):
         d = DigestSelection.objects.create(user=self.user, postcode=self.postcode)
