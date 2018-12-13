@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} updated services:".format(
                     digest_postcode=digest_object.postcode,
                     digest_category=digest_object.category,)
-                r = digest_object.retrieve(comparison_date)[:3]
+                r = digest_object.retrieve_updated_services(comparison_date)[:3]
                 if not r:
                     message += '\n\n No updated services for this selection'
                 else:

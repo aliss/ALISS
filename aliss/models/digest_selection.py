@@ -25,7 +25,7 @@ class DigestSelection(models.Model):
     def __str__(self):
         return self.user.name + " " + self.postcode.postcode
 
-    def retrieve(self, comparison_date):
+    def retrieve_updated_services(self, comparison_date):
 
         # Create connection to elastic search
         connections.create_connection(
