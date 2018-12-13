@@ -146,6 +146,14 @@ def service_to_body(service):
         } for service_area in service.service_areas.all()]
     }
 
+def organisation_to_body(organisation):
+    return {
+        'id': str(organisation.id),
+        'name': organisation.name,
+        'description': organisation.description,
+        'published': organisation.published
+    }
+
 
 def filter_by_query(queryset, q):
     queryset = queryset.query({
