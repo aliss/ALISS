@@ -8,6 +8,7 @@ env:
 - DB=postgres DATABASE_URL='postgresql://postgres@127.0.0.1:5432/alissproject' DJANGO_VERSION=1.11.8
   DJANGO_SETTINGS_MODULE='config.settings.local' SECRET_KEY='thisisasecrettkey' ALLOWED_HOSTS='localhost,www.localhost'
   ELASTICSEARCH_URL=http://localhost:9200 ELASTICSEARCH_USERNAME='' ELASTICSEARCH_PASSWORD=''
+  CLOUDINARY_CLOUD_NAME='' CLOUDINARY_API_KEY='' CLOUDINARY_API_SECRET='' CLOUDINARY_URL='cloudinary://x:y@z'
 install:
 - pip install -r requirements.txt
 before_script:
