@@ -117,6 +117,7 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
         'url',
         'facebook',
         'twitter',
+        'logo',
     ]
 
     def test_func(self, user):
@@ -132,7 +133,6 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
         self.object.update_organisation_last_edited()
         self.object = form.save(commit=False)
         self.object.updated_by = self.request.user
-
         self.object.save()
 
         messages.success(
@@ -141,8 +141,6 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
                 name=self.object.name
             )
         )
-
-
         return HttpResponseRedirect(self.get_success_url())
 
 

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load aliss %}
+{% load cloudinary %}
 
 {% block title %}{{ object.name }} - ALISS{% endblock %}
 {% block meta_schema %}
@@ -46,7 +47,15 @@
 
     <div class="grid-x">
       <div class="cell small-12 medium-8 large-8">
-        <h1>{{ object.name }}</h1>
+        <div class="grid-x">
+          <div class="cell small-7 medium-8 large-8">
+            <h1>{{ object.name }}</h1>
+          </div>
+          <div class="cell small-5 medium-4 large-4">
+            {% cloudinary object.logo width=230 height=230 crop="fit" %}
+            <br/>
+          </div>
+        </div>
 
         {% if request.user.is_authenticated %}
           {% can_edit request.user object as user_can_edit %}
