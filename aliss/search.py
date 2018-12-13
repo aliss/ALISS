@@ -264,6 +264,11 @@ def get_service(queryset, service_id):
         "term" : { "id" : service_id }
     })).execute()
 
+def get_organisation(queryset, organisation_id):
+    return queryset.query(Q({
+        "term": {"id": organisation_id }
+    })).execute()
+
 def filter_by_last_edited(queryset, comparison_date):
     queryset = queryset.query({
         "bool": {
