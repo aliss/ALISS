@@ -33,15 +33,15 @@ class Command(BaseCommand):
 
 
             # Focus on the situation where Digest Selections have been created and have updated services.
-            message = "\n\nLatest service updates from ALISS\n\n"
+            message = "\n\nNew services from ALISS\n\n"
 
             for digest_object in user.digest_selections.all():
-                message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} updated services:".format(
+                message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} new services:".format(
                     digest_postcode=digest_object.postcode,
                     digest_category=digest_object.category,)
                 r = digest_object.retrieve_new_services(comparison_date)[:3]
                 if not r:
-                    message += '\n\n No updated services for this selection'
+                    message += '\n\n No new services for this selection'
                 else:
                     for service in r:
                         message += '\n\n {service_name} \n\n {service_created_on}'.format(
