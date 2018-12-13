@@ -22,15 +22,23 @@
 <div class="f-row">
   {% include 'partials/forms/field.html' with field=form.twitter %}
 </div>
-<div class="f-row">
-  <label>Logo</label>
-  <div class="grid-x">
-    <div class="cell large-5 medium-5 small-5">
+<div class="f-row logo-select">
+  <label for="id_logo">Logo</label><br/>
+  <input type="file" class="button" name="logo" id="id_logo">
+
+  {% if object.logo %}
+    <label class="" for="id_logo">
       {% cloudinary object.logo width=270 height=270 crop="fit" %}
+    </label><br/>
+    <div class="remove-logo">
+      <input type="checkbox" name="logo-clear" id="logo-clear_id">
+      <label for="logo-clear_id">Remove logo</label>
     </div>
-    <div class="cell large-7 medium-7 small-7">
-      {{ form.logo }}
-    </div>
-  </div>
+  {% else %}
+    <label class="" for="id_logo">
+      <img src="/static/img/no-image.png" width="170" height="170">
+    </label><br/>    
+  {% endif %}
+  <label class="button" for="id_logo"><i class="fas fa-file-image"></i> Select file</label>
 </div>
 <br/>

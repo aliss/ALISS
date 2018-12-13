@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
-from cloudinary.models import CloudinaryField
+from aliss.models import ALISSCloudinaryField
 
 import pytz
 from datetime import datetime
@@ -14,11 +14,11 @@ class Organisation(models.Model):
     description = models.TextField()
     phone = models.CharField(max_length=15, blank=True)
     email = models.EmailField(blank=True)
-    url = models.URLField(blank=True, verbose_name="Web address")
+    url      = models.URLField(blank=True, verbose_name="Web address")
     facebook = models.URLField(blank=True)
     twitter  = models.URLField(blank=True)
     slug     = models.CharField(max_length=120, null=True, blank=True, default=None)
-    logo = CloudinaryField('image', null=True, blank=True)
+    logo     = ALISSCloudinaryField('image', null=True, blank=True)
 
     claimed_by = models.ForeignKey(
         'aliss.ALISSUser',
