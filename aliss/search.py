@@ -77,6 +77,16 @@ service_mapping = {
     }
 }
 
+organisation_mapping = {
+    'id': {'type': 'keyword'},
+    'name': {'type': 'text'},
+    'description': {
+        'type': 'text',
+        'analyzer': 'description_analyzer',
+    },
+    'published':{'type':'boolean'}
+}
+
 
 def service_to_body(service):
     parent_categories =[]
