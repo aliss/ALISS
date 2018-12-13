@@ -139,8 +139,6 @@ class DigestTestCase(TestCase):
         service3 = Service.objects.get(name="My Third Service")
         self.assertTrue(newest_service == service3)
 
-
-
     def test_can_create_digest_without_category(self):
         d = DigestSelection.objects.create(user=self.user, postcode=self.postcode)
         self.assertTrue(isinstance(d,DigestSelection))
