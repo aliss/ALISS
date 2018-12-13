@@ -91,7 +91,14 @@ def index_all():
         '_source': service_to_body(service)
     } for service in services)):
         print("%s Services indexed" % ok)
-
+    organisation = Organisation.objects.all().iterator()
+    for ok in bulk(connection, ({
+        '_index':'search',
+        '_type':'organisation',
+        '_id':organisation.pk,
+        '_source': organisation_to_body(organisaion)
+    } for organisation in organisations)):
+        print("%s Organisation indexed" % ok)
 
 
 def delete_index():
