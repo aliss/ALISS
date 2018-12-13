@@ -36,7 +36,7 @@ class Command(BaseCommand):
             message = "\n\nNew services from ALISS\n\n"
 
             for digest_object in user.digest_selections.all():
-                message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} new services:".format(
+                message += "\n\n-----\n\nNotification for {digest_postcode} and {digest_category} new services:".format(
                     digest_postcode=digest_object.postcode,
                     digest_category=digest_object.category,)
                 r = digest_object.retrieve_new_services(comparison_date)[:3]
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                             )
         #Send the email to the user.
             send_mail(
-                'Subject: ALISS digest selection test',
+                'Subject: ALISS new service notificaton selections test',
                 message,
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
@@ -63,5 +63,5 @@ class Command(BaseCommand):
                 send_digest_email(user)
 
         self.stdout.write(
-            self.style.SUCCESS('Successfully sent Digest Emails')
+            self.style.SUCCESS('Successfully sent new service notification emails')
         )
