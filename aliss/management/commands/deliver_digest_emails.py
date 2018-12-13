@@ -28,7 +28,7 @@ class Command(BaseCommand):
             utc = pytz.UTC
             current_date = datetime.now()
             current_date = utc.localize(current_date)
-            number_of_weeks = 4
+            number_of_weeks = 1
             comparison_date = current_date - timedelta(weeks=number_of_weeks)
 
 

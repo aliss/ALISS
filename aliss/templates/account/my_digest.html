@@ -34,7 +34,7 @@
               </div>
               <div>
                   {% if not selection_option|get_item:"values" %}
-                    <p>No new services in this digest in the last four weeks.</p>
+                    <p>No new services in this digest in the last week.</p>
                   {% else %}
                     {% for service in selection_option|get_item:"values" %}
 
