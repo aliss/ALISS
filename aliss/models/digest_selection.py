@@ -41,6 +41,22 @@ class DigestSelection(models.Model):
 
         return queryset.execute()
 
+    def retrieve_new_services(self, comparison_date):
+
+        # Create connection to elastic search
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+
+        queryset = Search(index='search', doc_type='service')
+        queryset = filter_by_postcode(queryset, self.postcode)
+        if (self.category):
+            queryset = filter_by_category(queryset, self.category)
+        queryset = queryset.sort({ "created_on" : {"order" : "desc"}})
+        comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
+        queryset = filter_by_last_edited(queryset, comparison_date_string)
+
+        return queryset.execute()
+
     def create_digest_selection(self, postcode_string, category_slug, user_email):
 
         # Retrieve the category, postcode and user objects
