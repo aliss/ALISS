@@ -27,6 +27,11 @@ from aliss.forms import ClaimForm
 import pytz
 from datetime import datetime
 
+from elasticsearch_dsl import Search
+from django.conf import settings
+from elasticsearch_dsl.connections import connections
+from aliss.search import filter_organisation_by_query, get_organisation_by_id, order_organistations_by_created_on
+
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -214,8 +219,12 @@ class OrganisationSearchView(LoginRequiredMixin, FilterView):
     filterset_class = OrganisationFilter
 
     def get_queryset(self):
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+
+        queryset = Search(index='organisation_search', doc_type='organisation')
         if self.request.user.is_editor or self.request.user.is_staff:
-            return Organisation.objects.order_by('-created_on')
+            return order_organistations_by_created_on(queryset).execute()
         else:
             return Organisation.objects.filter(published=True).order_by('-created_on')
 

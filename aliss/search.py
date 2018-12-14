@@ -84,7 +84,8 @@ organisation_mapping = {
         'type': 'text',
         'analyzer': 'description_analyzer',
     },
-    'published':{'type':'boolean'}
+    'published':{'type':'boolean'},
+    'created_on':{'type':'date'}
 }
 
 
@@ -151,7 +152,8 @@ def organisation_to_body(organisation):
         'id': str(organisation.id),
         'name': organisation.name,
         'description': organisation.description,
-        'published': organisation.published
+        'published': organisation.published,
+        'created_on': organisation.created_on
     }
 
 
@@ -274,4 +276,10 @@ def filter_by_last_edited(queryset, comparison_date):
         "bool": {
             "filter": {"range":{"last_edited":{"gte":comparison_date}}}
     }})
+    return queryset
+
+def order_organistations_by_created_on(queryset):
+    queryset = queryset.sort({
+        "created_on":"desc"
+    })
     return queryset
