@@ -87,6 +87,18 @@ class Organisation(models.Model):
             s.remove_from_index()
         super(Organisation, self).delete(*args, **kwargs)
 
+    def add_to_organisation_index(self):
+        connection = get_connection()
+        return connection.index(index='organisation_search', doc_type='organisation',
+            id=self.id, body=organisation_to_body(self), refresh=True
+        )
+
+    def remove_from_organisation_index(self):
+        connection = get_connection()
+        return connection.delete(index='organisation_search', doc_type='organisation',
+            id=self.id, refresh=True, ignore=404
+        )
+
     @property
     def is_claimed(self):
         return not (self.claimed_by == None)
