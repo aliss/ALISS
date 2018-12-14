@@ -61,7 +61,12 @@ class OrganisationTestCase(TestCase):
         self.assertFalse(old_last_edited == new_last_edited)
 
     def test_organisation_get_by_id(self):
-
+        queryset = Fixtures.es_organisation_connection()
+        indexed_organisation = get_organisation_by_id(queryset, self.org.id)[0]
+        self.assertEqual(indexed_organisation.id, self.org.id)
+        self.assertEqual(indexed_organisation.name, self.org.name)
+        self.assertEqual(indexed_organisation.description, self.org.description)
+        self.assertEqual(indexed_organisation.published, self.org.published)
 
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
