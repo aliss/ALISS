@@ -88,6 +88,7 @@ class Organisation(models.Model):
         self.add_to_organisation_index()
 
     def delete(self, *args, **kwargs):
+        self.remove_from_organisation_index()
         for s in self.services.all():
             s.remove_from_index()
         super(Organisation, self).delete(*args, **kwargs)
