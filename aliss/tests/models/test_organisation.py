@@ -77,7 +77,9 @@ class OrganisationTestCase(TestCase):
 
     def test_organisation_filter_organisation_by_query(self):
         queryset = Fixtures.es_organisation_connection()
-        result = filter_organisation_by_query(queryset, "Test Org").execute()
+        self.org.name = "banana weird"
+        self.org.save()
+        result = filter_organisation_by_query(queryset, "banana").execute()
         self.assertEqual(result[0].name, self.org.name)
 
     def tearDown(self):
@@ -90,4 +92,6 @@ class OrganisationTestCase(TestCase):
         for organisation in Organisation.objects.filter(name="Renamed Test Org"):
             organisation.delete()
         for organisation in Organisation.objects.filter(name="Renamed Renamed Test Org"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="banana weird"):
             organisation.delete()
