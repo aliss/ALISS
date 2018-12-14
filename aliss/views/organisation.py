@@ -1,5 +1,5 @@
 from django.views.generic import (
-    View, CreateView, UpdateView, DeleteView, DetailView
+    View, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 )
 from django.contrib import messages
 from django.conf import settings
@@ -213,21 +213,18 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class OrganisationSearchView(LoginRequiredMixin, FilterView):
+class OrganisationSearchView(LoginRequiredMixin, TemplateView):
     template_name = 'organisation/search.html'
-    paginate_by = 10
-    filterset_class = OrganisationFilter
 
-    def get_queryset(self):
+    def get_context_data(self, **kwargs):
+        context = super(OrganisationSearchView, self).get_context_data(**kwargs)
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
-
         queryset = Search(index='organisation_search', doc_type='organisation')
-        if self.request.user.is_editor or self.request.user.is_staff:
-            return order_organistations_by_created_on(queryset).execute()
-        else:
-            return Organisation.objects.filter(published=True).order_by('-created_on')
-
+        context['organisations'] = []
+        orgs = order_organistations_by_created_on(queryset).execute()
+        context['organisations'].append({"values": orgs})
+        return context
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
     template_name = 'organisation/unpublished.html'
