@@ -54,3 +54,6 @@ class OrganisationFilterTestCase(TestCase):
         f = OrganisationFilter({ "q": "test\'s test" })
         self.assertEqual(f.qs.count(), 0)
 
+    def tearDown(self):
+        for organisation in Organisation.objects.filter(name="Another's Test Org"):
+            organisation.delete()

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Service, Location
 from aliss.tests.fixtures import Fixtures
-from aliss.search import (get_service, get_organisation_by_id)
+from aliss.search import (get_service, get_organisation_by_id, filter_organisation_by_query)
 
 class OrganisationTestCase(TestCase):
     def setUp(self):
@@ -75,8 +75,19 @@ class OrganisationTestCase(TestCase):
         result = get_organisation_by_id(queryset, self.org.id)[0]
         self.assertEqual(result['name'], self.org.name)
 
+    def test_organisation_filter_organisation_by_query(self):
+        queryset = Fixtures.es_organisation_connection()
+        result = filter_organisation_by_query(queryset, "Test Org").execute()
+        self.assertEqual(result[0].name, self.org.name)
+
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
             service.delete()
         for organisation in Organisation.objects.filter(name="TestOrg"):
-            self.org.delete()
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Test Org"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Renamed Test Org"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Renamed Renamed Test Org"):
+            organisation.delete()
