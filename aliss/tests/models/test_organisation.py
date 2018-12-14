@@ -1,7 +1,7 @@
 from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Service, Location
 from aliss.tests.fixtures import Fixtures
-from aliss.search import (get_service)
+from aliss.search import (get_service, get_organisation_by_id)
 
 class OrganisationTestCase(TestCase):
     def setUp(self):
@@ -59,6 +59,9 @@ class OrganisationTestCase(TestCase):
         self.org.update_organisation_last_edited()
         new_last_edited = self.org.last_edited
         self.assertFalse(old_last_edited == new_last_edited)
+
+    def test_organisation_get_by_id(self):
+
 
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
