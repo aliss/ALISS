@@ -4,6 +4,10 @@ from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
 
+from aliss.models import ServiceArea
+from elasticsearch_dsl import Search
+from aliss.search import get_connection, organisation_to_body
+
 import pytz
 from datetime import datetime
 
