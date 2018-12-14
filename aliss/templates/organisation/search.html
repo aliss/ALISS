@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load aliss %}
 {% block title %}Add an organisation - ALISS{% endblock %}
 {% block meta_schema %}
   <meta property="og:title" content="Add an organisation - ALISS" />
@@ -27,13 +27,14 @@
         </div>
 
         <div class="org-results">
-          {% if request.GET.q and object_list %}
+        {% for org in organisations %}
+          {% if org|get_item:"values" %}
             <br/>
             <h4>You searched for "{{ request.GET.q }}"</h4>
             <ul class="orgs">
-              {% for organisation in object_list %}
+              {% for organisation in org|get_item:"values" %}
                 <li>
-                  <span class="name"><a target="_blank" href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a></span>
+                  <span class="name"><a target="_blank" href="{% url 'organisation_detail' pk=organisation.id %}">{{ organisation.name }}</a></span>
                   <ul class="options">
                     <li>
                       {% if organisation.is_claimed %}
@@ -42,7 +43,7 @@
                           <i class="fa fa-question-circle" aria-hidden="true"></i>
                         </span>
                       {% else %}
-                        <a href="{% url 'claim_create' pk=organisation.pk %}">
+                        <a href="{% url 'claim_create' pk=organisation.id %}">
                           Claim organisation
                         </a>
                         <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="If you are a member of an organisation you can claim representation and gain edit rights over its entry on ALISS.">
@@ -55,6 +56,7 @@
               {% endfor %}
             </ul>
           {% endif %}
+        {% endfor %}
           {% if request.GET.q %}
             {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
 

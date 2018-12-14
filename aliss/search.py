@@ -85,7 +85,8 @@ organisation_mapping = {
         'analyzer': 'description_analyzer',
     },
     'published':{'type':'boolean'},
-    'created_on':{'type':'date'}
+    'created_on':{'type':'date'},
+    'is_claimed':{'type':'boolean'}
 }
 
 
@@ -153,7 +154,8 @@ def organisation_to_body(organisation):
         'name': organisation.name,
         'description': organisation.description,
         'published': organisation.published,
-        'created_on': organisation.created_on
+        'created_on': organisation.created_on,
+        'is_claimed': organisation.is_claimed
     }
 
 
