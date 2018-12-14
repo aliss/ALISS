@@ -60,14 +60,23 @@ class OrganisationTestCase(TestCase):
         new_last_edited = self.org.last_edited
         self.assertFalse(old_last_edited == new_last_edited)
 
-    def test_organisation_get_by_id(self):
+    def test_organisation_added_to_index(self):
         queryset = Fixtures.es_organisation_connection()
         indexed_organisation = get_organisation_by_id(queryset, self.org.id)[0]
-        self.assertEqual(indexed_organisation.id, self.org.id)
+        self.assertEqual(indexed_organisation.id, str(self.org.id))
         self.assertEqual(indexed_organisation.name, self.org.name)
         self.assertEqual(indexed_organisation.description, self.org.description)
         self.assertEqual(indexed_organisation.published, self.org.published)
 
+    def test_organisation_update_reindexes(self):
+        queryset = Fixtures.es_organisation_connection()
+        self.org.name = "Test Org"
+        self.org.save()
+        result = get_organisation_by_id(queryset, self.org.id)[0]
+        self.assertEqual(result['name'], self.org.name)
+
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
             service.delete()
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            self.org.delete()
