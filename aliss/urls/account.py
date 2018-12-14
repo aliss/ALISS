@@ -33,15 +33,15 @@ urlpatterns = [
         AccountSignupView.as_view(),
         name='signup'
     ),
-    url(r'^my-digest/$',
+    url(r'^notifications/$',
         AccountMyDigestView.as_view(),
         name='account_my_digest'
     ),
-    url(r'^create-my-digest/$',
+    url(r'^digests/create$',
         AccountCreateDigestSelection.as_view(),
         name='account_create_my_digest'
     ),
-    url(r'^my-digest/(?P<pk>[0-9A-Za-z\-]+)/delete/$',
+    url(r'^digests/(?P<pk>[0-9A-Za-z\-]+)/delete/$',
         AccountMyDigestDelete.as_view(),
         name='account_my_digest_delete'
     ),

@@ -428,6 +428,7 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
+
 class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
@@ -445,11 +446,10 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
             self.object.save()
             url = reverse('account_my_digest')
             return HttpResponseRedirect(url)
-
         else:
             # Return a re render of the form with error messages on non-conforming fields.
-
             return render(request, self.template_name, {'form': form})
+
 
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'
