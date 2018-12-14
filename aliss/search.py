@@ -264,7 +264,7 @@ def get_service(queryset, service_id):
         "term" : { "id" : service_id }
     })).execute()
 
-def get_organisation(queryset, organisation_id):
+def get_organisation_by_id(queryset, organisation_id):
     return queryset.query(Q({
         "term": {"id": organisation_id }
     })).execute()
