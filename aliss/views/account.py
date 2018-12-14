@@ -463,7 +463,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         current_date = utc.localize(current_date)
 
         # Define the number of weeks to include in results
-        number_of_weeks = 4
+        number_of_weeks = 1
 
         # Create the historical date to compare against i.e. one week ago
         comparison_date = current_date - timedelta(weeks=number_of_weeks)
@@ -471,7 +471,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         # Create a new key on context updated_services_user_selection use Elastic search to query and filter by postcode and category
         context['selected_updated'] = []
         for digest_object in self.request.user.digest_selections.all():
-            r = digest_object.retrieve(comparison_date)
+            r = digest_object.retrieve_new_services(comparison_date)
             context['selected_updated'].append({"values": r[:3], "Postcode": digest_object.postcode, "Category": digest_object.category, "pk":digest_object.pk})
         return context
 

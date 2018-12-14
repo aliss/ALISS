@@ -7,7 +7,7 @@ from django.conf import settings
 # Import the necessary search codes
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category, filter_by_last_edited
+from aliss.search import filter_by_query, filter_by_postcode, sort_by_postcode,filter_by_location_type, filter_by_category, filter_by_last_edited, filter_by_created_on
 
 # Datetime
 from datetime import datetime
@@ -25,7 +25,7 @@ class DigestSelection(models.Model):
     def __str__(self):
         return self.user.name + " " + self.postcode.postcode
 
-    def retrieve(self, comparison_date):
+    def retrieve_updated_services(self, comparison_date):
 
         # Create connection to elastic search
         connections.create_connection(
@@ -38,6 +38,22 @@ class DigestSelection(models.Model):
         queryset = queryset.sort({ "last_edited" : {"order" : "desc"}})
         comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
         queryset = filter_by_last_edited(queryset, comparison_date_string)
+
+        return queryset.execute()
+
+    def retrieve_new_services(self, comparison_date):
+
+        # Create connection to elastic search
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+
+        queryset = Search(index='search', doc_type='service')
+        queryset = filter_by_postcode(queryset, self.postcode)
+        if (self.category):
+            queryset = filter_by_category(queryset, self.category)
+        queryset = queryset.sort({ "created_on" : {"order" : "desc"}})
+        comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
+        queryset = filter_by_created_on(queryset, comparison_date_string)
 
         return queryset.execute()
 
