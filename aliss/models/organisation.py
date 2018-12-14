@@ -4,7 +4,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
 
-from aliss.models import ServiceArea
+
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, organisation_to_body
 
@@ -85,6 +85,7 @@ class Organisation(models.Model):
         super(Organisation, self).save(*args, **kwargs)
         for s in self.services.all():
             s.add_to_index()
+        self.add_to_organisation_index()
 
     def delete(self, *args, **kwargs):
         for s in self.services.all():
