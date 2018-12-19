@@ -41,7 +41,6 @@ class Organisation(models.Model):
     )
 
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
-
     published = models.BooleanField(default=True)
 
     def is_edited_by(self, user):
@@ -51,6 +50,15 @@ class Organisation(models.Model):
             user.is_staff or \
             user.is_editor or \
             self.created_by == user or \
+            self.claimed_by == user
+        )
+
+    def can_add_logo(self, user):
+        if user == None or user.pk == None:
+            return False
+        return (
+            user.is_staff or \
+            user.is_editor or \
             self.claimed_by == user
         )
 

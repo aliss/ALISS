@@ -1,5 +1,4 @@
 from django import template
-
 from datetime import datetime
 import pytz
 
@@ -11,6 +10,11 @@ register = template.Library()
 @register.assignment_tag #Becomes simple_tag in django 2.0
 def can_edit(user, object):
     return object.is_edited_by(user)
+
+
+@register.assignment_tag
+def can_add_logo(user, object):
+    return object.can_add_logo(user)
 
 
 @register.simple_tag
