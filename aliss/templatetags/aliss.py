@@ -14,7 +14,10 @@ def can_edit(user, object):
 
 @register.assignment_tag
 def can_add_logo(user, object):
-    return object.can_add_logo(user)
+    if object.pk is None:
+        return user.is_staff or user.is_editor
+    else:
+        return object.can_add_logo(user)
 
 
 @register.simple_tag

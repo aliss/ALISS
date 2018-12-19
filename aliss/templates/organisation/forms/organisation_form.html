@@ -25,7 +25,7 @@
   {% include 'partials/forms/field.html' with field=form.twitter %}
 </div>
 
-{% can_add_logo request.user object as user_can_add_logo %}
+{% can_add_logo request.user form.instance as user_can_add_logo %}
 {% if user_can_add_logo %}
 <div class="f-row logo-select">
   <label for="id_logo">Logo</label><br/>
