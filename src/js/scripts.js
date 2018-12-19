@@ -254,15 +254,6 @@ $(document).ready(() => {
   $('.modal').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
-    $(`#${id}_modal`).click(function(){
-      $(`#${id}`).toggleClass('active');
-      $('.black').toggleClass('show');
-    });
-  });
-
-  $('.modal').each(function(index, el) {
-    var $thisToggle = $(this);
-    var id = $thisToggle.attr('id');
     $(`#${id}_modal, a[data-modal="${id}"]`).click(function(){
       $(`#${id}`).toggleClass('active');
       $('.black').toggleClass('show');
