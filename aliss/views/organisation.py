@@ -39,6 +39,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         'url',
         'facebook',
         'twitter',
+        'logo',
     ]
 
     def get_context_data(self, **kwargs):
