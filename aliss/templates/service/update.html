@@ -18,7 +18,7 @@
             <div class="cell small-12 medium-8">
                 <form method="post">
                     {% csrf_token %}
-                    {% include 'service/forms/service_form.html' with  organisation=organisation %}
+                    {% include 'service/forms/service_form.html' with organisation=organisation %}
                     <div class="submit">
                         <input type="submit" value="Update Service">
                     </div>
