@@ -84,12 +84,12 @@
                 {% include 'location/partials/detail.html' %}
               {% endfor %}
               {% if user_can_edit %}
-                <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
+                <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
               {% endif %}
             </div>
           {% endif %}
           {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
-            <h4>Contact Information</h4>
+            <h4>Contact information</h4>
             <p>
               {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
               {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
