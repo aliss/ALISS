@@ -31,7 +31,7 @@ class OrganisationViewTestCase(TestCase):
         self.client.login(username=self.editor.email, password='passwurd')
         response_2 = self.client.get(reverse('organisation_create'))
         self.client.login(username=self.claimant.email, password='passwurd')
-        response_3 = self.client.get(reverse('organisation_create'))
+        response_3 = self.client.get(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}))
         self.assertNotContains(response_1, '<label for="id_logo">Logo</label>', html=True)
         self.assertContains(response_2, '<label for="id_logo">Logo</label>', html=True)
         self.assertContains(response_3, '<label for="id_logo">Logo</label>', html=True)
