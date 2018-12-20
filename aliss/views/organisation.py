@@ -16,32 +16,25 @@ from braces.views import (
     UserPassesTestMixin
 )
 
-from aliss.models import Organisation, Claim
-from aliss.filters import OrganisationFilter
 from django.utils import timezone
 from datetime import timedelta
+from datetime import datetime
+
 from django.db.models import Q
+
+from aliss.models import Organisation, Claim
+from aliss.filters import OrganisationFilter
 from aliss.views import ProgressMixin
-from aliss.forms import ClaimForm
+from aliss.forms import ClaimForm, OrganisationForm
 
 import logging
 import pytz
-from datetime import datetime
 
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
     template_name = 'organisation/create.html'
-    fields = [
-        'name',
-        'description',
-        'phone',
-        'email',
-        'url',
-        'facebook',
-        'twitter',
-        'logo',
-    ]
+    form_class = OrganisationForm
 
     def get_context_data(self, **kwargs):
         context = super(OrganisationCreateView, self).get_context_data(**kwargs)
@@ -111,16 +104,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Organisation
     template_name = 'organisation/update.html'
-    fields = [
-        'name',
-        'description',
-        'phone',
-        'email',
-        'url',
-        'facebook',
-        'twitter',
-        'logo',
-    ]
+    form_class = OrganisationForm
 
     def test_func(self, user):
         return self.get_object().is_edited_by(user)
