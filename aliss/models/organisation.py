@@ -57,9 +57,9 @@ class Organisation(models.Model):
         if user == None or user.pk == None:
             return False
         return (
-            user.is_staff or \
-            user.is_editor or \
-            self.claimed_by == user
+            user.is_staff# or \ RE-ENABLE WHEN OK
+            #user.is_editor or \
+            #self.claimed_by == user
         )
 
     def generate_slug(self, force=False):
