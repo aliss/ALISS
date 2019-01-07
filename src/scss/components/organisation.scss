@@ -6,7 +6,17 @@
 }
 
 .logo-select {
-  label { display: inline-block; }
+  label { 
+    display: inline-block; position: relative;
+    span { 
+      position: absolute;
+      bottom: .5rem;
+      left: 3%;
+      max-width: 97%;
+      font-size: 0.9em;
+      color: #888888;
+    }
+  }
   input[type="file"] { display:none; }
   img { margin-bottom: 0.5rem; margin-top: 0.5rem; }
   label[for="logo-clear_id"] { font-size:1rem; }
