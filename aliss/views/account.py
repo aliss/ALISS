@@ -365,7 +365,9 @@ class AccountMyOrganisationsView(LoginRequiredMixin, ListView):
 
     def get_context_data(self,**kwargs):
         context = super(AccountMyOrganisationsView,self).get_context_data(**kwargs)
+        claimed_org_ids = list(map(lambda c: c.organisation_id, context['object_list']))
         context['orgs_list'] = Organisation.objects.filter(created_by=self.request.user).exclude(claimed_by=self.request.user)
+        context['last_edited'] = Organisation.objects.filter(updated_by=self.request.user).exclude(id__in=context['orgs_list']).exclude(id__in=claimed_org_ids)
         return context
 
 
