@@ -18,12 +18,14 @@ class ServiceTestCase(TestCase):
 
     def test_service_slugs(self):
         s1 = Service.objects.get(name="My First Service")
-        s2 = Service.objects.create(name="My First Service", description="A handy service", organisation=s1.organisation, created_by=s1.created_by) 
+        s2 = Service.objects.create(name="My First Service", description="A handy service", organisation=s1.organisation, created_by=s1.created_by)
         self.assertEqual(s1.slug, "my-first-service-0")
         self.assertEqual(s2.slug, "my-first-service-1")
-        s2.name = "My Other Service"
-        s2.save()
-        self.assertEqual(s2.slug, "my-other-service-0")
+        s1.name = "My Other Service"
+        s1.save()
+        self.assertEqual(s1.slug, "my-other-service-0")
+        s3 = Service.objects.create(name="My First Service", description="Another handy service", organisation=s1.organisation, created_by=s1.created_by)
+        self.assertEqual(s3.slug, "my-first-service-2")
 
     def test_user_delete_doesnt_cascade(self):
         ALISSUser.objects.get(email="tester@aliss.org").delete()
@@ -113,5 +115,4 @@ class ServiceTestCase(TestCase):
         self.assertFalse(old_last_edited == new_last_edited)
 
     def tearDown(self):
-        for service in Service.objects.filter(name="My First Service"):
-            service.delete()
+        self.org.delete()
