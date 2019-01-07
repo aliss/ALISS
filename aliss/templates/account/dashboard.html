@@ -2,179 +2,179 @@
 
 {% block content %}
 <div class="row stats">
-    <div class="admin-actions">
-        <div class="info-box small toggled" id="admin_actions">
-            <div class="heading">
-                <h4 id="admin_actions_toggle" class="toggle-heading">Actions</h4>
-            </div>
-            <div class="actions toggle-content">
-                <a href="{% url 'organisation_search' %}" class="primary icon-link">
-                    <span class="icon">
-                        <i class="fas fa-plus-square"></i>
-                    </span>
-                    Add an organisation
-                </a>
-                <a href="{% url 'claim_list' %}" class="icon-link" id="recommend_toggle">
-                    <span class="icon">
-                        <i class="fas fa-inbox"></i>
-                    </span>
-                    Approve claim requests
-                </a>
-                <a href="{% url 'organisation_unpublished' %}" class="icon-link" id="recommend_toggle">
-                    <span class="icon">
-                        <i class="fas fa-inbox"></i>
-                    </span>
-                    Approve new organisations
-                </a>
-                <a href="{% url 'account_list' %}" class="icon-link">
-                    <span class="icon">
-                        <i class="fas fa-user"></i>
-                    </span>
-                    Manage users
-                </a>
-                <a href="{% url 'service_problem_list' %}" class="alert icon-link">
-                    <span class="icon">
-                        <i class="fas fa-exclamation-circle"></i>
-                    </span>
-                    View suggested improvements
-                </a>
-            </div>
+  <div class="admin-actions">
+    <div class="info-box small toggled" id="admin_actions">
+      <div class="heading">
+        <h4 id="admin_actions_toggle" class="toggle-heading">Actions</h4>
+      </div>
+      <div class="actions toggle-content">
+        <a href="{% url 'organisation_search' %}" class="primary icon-link">
+          <span class="icon">
+            <i class="fas fa-plus-square"></i>
+          </span>
+          Add an organisation
+        </a>
+        <a href="{% url 'claim_list' %}" class="icon-link" id="recommend_toggle">
+          <span class="icon">
+            <i class="fas fa-inbox"></i>
+          </span>
+          Approve claim requests
+        </a>
+        <a href="{% url 'organisation_unpublished' %}" class="icon-link" id="recommend_toggle">
+          <span class="icon">
+            <i class="fas fa-inbox"></i>
+          </span>
+          Approve new organisations
+        </a>
+        <a href="{% url 'account_list' %}" class="icon-link">
+          <span class="icon">
+            <i class="fas fa-user"></i>
+          </span>
+          Manage users
+        </a>
+        <a href="{% url 'service_problem_list' %}" class="alert icon-link">
+          <span class="icon">
+            <i class="fas fa-exclamation-circle"></i>
+          </span>
+          View suggested improvements
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="activity">
+    <h4>Activity this month</h4>
+    <ul>
+      <li>
+        <div>
+        <span class="number">
+          {{ service_month_count }}
+        </span>
         </div>
-    </div>
-    <div class="activity">
-        <h4>Activity this month</h4>
-        <ul>
-            <li>
-                <div>
-                <span class="number">
-                    {{ service_month_count }}
-                </span>
-                </div>
-                Services added
-            </li>
-            <li>
-                <div>
-                    <span class="number">
-                        {{ orgs_month_count }}
-                    </span>
-                </div>
-                Organisations added
-            </li>
-            <li>
-                <div>
-                    <span class="number">
-                        {{ user_month_count }}
-                    </span>
-                </div>
-                New users
-            </li>
-            <li>
-                <div>
-                    <span class="number">
-                        {{ claim_request_count }}
-                    </span>
-                </div>
-                Claims made
-            </li>
-            <li>
-                <div>
-                    <span class="number alert">
-                        {{ problem_month_count }}
-                    </span>
-                </div>
-                Improvements suggested
-            </li>
-        </ul>
-    </div>
+        Services added
+      </li>
+      <li>
+        <div>
+          <span class="number">
+            {{ orgs_month_count }}
+          </span>
+        </div>
+        Organisations added
+      </li>
+      <li>
+        <div>
+          <span class="number">
+            {{ user_month_count }}
+          </span>
+        </div>
+        New users
+      </li>
+      <li>
+        <div>
+          <span class="number">
+            {{ claim_request_count }}
+          </span>
+        </div>
+        Claims made
+      </li>
+      <li>
+        <div>
+          <span class="number alert">
+            {{ problem_month_count }}
+          </span>
+        </div>
+        Improvements suggested
+      </li>
+    </ul>
+  </div>
 </div>
 <div class="row active-services-map">
-    <div class="columns content">
-        <div class="copy-container">
-            <h4>{{ services|length }} Services added</h4>
-            <!-- https://snazzymaps.com/style/9470/muted -->
-            <div class="map" id="map"></div>
-            <ul class="areas-breakdown">
-                {% for area in service_areas %}
-                    <li>
-                        <a>{{ area.name }} - {{ area.get_type_display }} - ({{ area.services.count }})</a>
-                        <div class="region-services-list">
-                            <ul>
-                                {% for service in area.services.all %}
-                                    <li>
-                                        <a href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </li>
+  <div class="columns content">
+    <div class="copy-container">
+      <h4>{{ services|length }} Services added</h4>
+      <!-- https://snazzymaps.com/style/9470/muted -->
+      <div class="map" id="map"></div>
+      <ul class="areas-breakdown">
+        {% for area in service_areas %}
+          <li>
+            <a>{{ area.name }} - {{ area.get_type_display }} - ({{ area.services.count }})</a>
+            <div class="region-services-list">
+              <ul>
+                {% for service in area.services.all %}
+                  <li>
+                    <a href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>
+                  </li>
                 {% endfor %}
-            </ul>
-        </div>
+              </ul>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
+  </div>
 </div>
 <div class="row recent-services">
-    <div class="columns">
-        <div class="org-results copy-container">
-            <h4>Recently Added</h4>
-            <ul class="orgs">
-                {% for service in recently_added %}
-                    <li>
-                        <span class="name">{{ service.name }}</span>
-                        <ul class="options">
-                            <li>
-                                <a href="{% url 'service_detail' pk=service.pk %}">View service</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">View organisation</a>
-                            </li>
-                        </ul>
-                    </li>
-                {% endfor %}
+  <div class="columns">
+    <div class="org-results copy-container">
+      <h4>Recently Added</h4>
+      <ul class="orgs">
+        {% for service in recently_added %}
+          <li>
+            <span class="name">{{ service.name }}</span>
+            <ul class="options">
+              <li>
+                <a href="{% url 'service_detail' pk=service.pk %}">View service</a>
+              </li>
+              <li>
+                <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">View organisation</a>
+              </li>
             </ul>
-        </div>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
+  </div>
 </div>
 {% endblock %}
 
 {% block before_body_close %}
-    <script>
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById("map"), {
-              zoom: 7,
-              center: {lat: 55.864, lng: -4.251}
-            });
+  <script>
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 7,
+        center: {lat: 55.864, lng: -4.251}
+      });
 
-            var infowindow = new google.maps.InfoWindow({maxWidth: 200});
-            // Add some markers to the map.
-            // Note: The code uses the JavaScript Array.prototype.map() method to
-            // create an array of markers based on a given "locations" array.
-            // The map() method here has nothing to do with the Google Maps API.
-            locations.map(function(location, i) {
-                var marker = new google.maps.Marker({
-                    position: location.position,
-                    map: map,
-                    title: location.label
-                });
-                google.maps.event.addListener(marker, 'click', (function(mm, tt) {
-                    return function() {
-                        infowindow.setContent(tt);
-                        infowindow.open(map, mm);
-                    }
-                })(marker, location.label));
-            });
-        }
+      var infowindow = new google.maps.InfoWindow({maxWidth: 200});
+      // Add some markers to the map.
+      // Note: The code uses the JavaScript Array.prototype.map() method to
+      // create an array of markers based on a given "locations" array.
+      // The map() method here has nothing to do with the Google Maps API.
+      locations.map(function(location, i) {
+        var marker = new google.maps.Marker({
+          position: location.position,
+          map: map,
+          title: location.label
+        });
+        google.maps.event.addListener(marker, 'click', (function(mm, tt) {
+          return function() {
+            infowindow.setContent(tt);
+            infowindow.open(map, mm);
+          }
+        })(marker, location.label));
+      });
+    }
 
-        var locations = [
-        {% for service in services %}
-            {% for location in service.locations.all %}
-            {
-                label: "<a href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>",
-                position: {lat: {{ location.latitude }}, lng: {{ location.longitude}} },
-            },
-            {% endfor %}
-        {% endfor %}
-        ]
-    </script>
+    var locations = [
+    {% for service in services %}
+      {% for location in service.locations.all %}
+      {
+        label: "<a href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>",
+        position: {lat: {{ location.latitude }}, lng: {{ location.longitude}} },
+      },
+      {% endfor %}
+    {% endfor %}
+    ]
+  </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLV1ovM_9BAIJXHo7M7n8Xgfv9Ksjglt8&callback=initMap&libraries=geometry"></script>
 
 {% endblock %}
