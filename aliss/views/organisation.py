@@ -221,14 +221,16 @@ class OrganisationSearchView(LoginRequiredMixin, TemplateView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
-        if self.request.GET.get('q'):
-            query = self.request.GET.get('q')
-            orgs = filter_organisations_by_query_all(queryset, query)
-            # orgs = filter_organisations_by_query_published(queryset, query)
-            orgs = order_organistations_by_created_on(orgs).execute()
-            context['orgs'] = orgs
-            context['keyword'] = query
-
+        query = self.request.GET.get('q')
+        if query:
+            if self.request.user.is_editor or self.request.user.is_staff:
+                orgs = filter_organisations_by_query_all(queryset, query)
+                orgs = order_organistations_by_created_on(orgs).execute()
+                context['orgs'] = orgs
+            else:
+                orgs = filter_organisations_by_query_published(queryset, query)
+                orgs = order_organistations_by_created_on(orgs).execute()
+                context['orgs'] = orgs
         return context
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):

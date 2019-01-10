@@ -27,9 +27,9 @@
         </div>
 
         <div class="org-results">
-          {% if keyword and orgs %}
+          {% if request.GET.q and orgs %}
             <br/>
-            <h4>You searched for {{ keyword }}</h4>
+            <h4>You searched for {{ request.GET.q }}</h4>
             <ul class="orgs">
               {% for organisation in orgs %}
                 <li>
@@ -60,7 +60,7 @@
 
             <hr class="clear"/>
 
-            {% if object_list %}
+            {% if orgs %}
               <div class="s-12 m-6 l-6 columns">
                 <h5>Found your organisation?</h5>
                 <p>Click 'Request to represent' to claim representation of the organisation. Once approved you'll be able to edit and publish services on ALISS.</p>
