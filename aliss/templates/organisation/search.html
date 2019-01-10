@@ -29,7 +29,7 @@
         <div class="org-results">
           {% if orgs %}
             <br/>
-            <h4>You searched for "{{ request.GET.q }}"</h4>
+            <h4>You searched for {{ keyword }}</h4>
             <ul class="orgs">
               {% for organisation in orgs %}
                 <li>
