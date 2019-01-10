@@ -27,12 +27,11 @@
         </div>
 
         <div class="org-results">
-        {% for orgs in organisations_container %}
-          {% if orgs|get_item:"values" %}
+          {% if orgs %}
             <br/>
             <h4>You searched for "{{ request.GET.q }}"</h4>
             <ul class="orgs">
-              {% for organisation in orgs|get_item:"values" %}
+              {% for organisation in orgs %}
                 <li>
                   <span class="name"><a target="_blank" href="{% url 'organisation_detail' pk=organisation.id %}">{{ organisation.name }}</a></span>
                   <ul class="options">
@@ -56,7 +55,6 @@
               {% endfor %}
             </ul>
           {% endif %}
-        {% endfor %}
           {% if request.GET.q %}
             {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
 
