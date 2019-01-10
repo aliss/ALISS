@@ -30,7 +30,7 @@ from datetime import datetime
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisation_by_query_all, get_organisation_by_id, order_organistations_by_created_on
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on
 
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
@@ -221,12 +221,13 @@ class OrganisationSearchView(LoginRequiredMixin, TemplateView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
-        context['orgs'] = []
-        query = self.request.GET.get('q')
-        orgs = filter_organisation_by_query_all(queryset, query)
-        orgs = order_organistations_by_created_on(orgs).execute()
-        context['orgs'] = orgs
-        context['keyword'] = self.request.GET.get('q')
+        if self.request.GET.get('q'):
+            query = self.request.GET.get('q')
+            orgs = filter_organisations_by_query_all(queryset, query)
+            orgs = order_organistations_by_created_on(orgs).execute()
+            context['orgs'] = orgs
+            context['keyword'] = query
+
         return context
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
