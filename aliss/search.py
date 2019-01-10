@@ -170,7 +170,7 @@ def filter_by_query(queryset, q):
 
     return queryset
 
-def filter_organisation_by_query_advanced_user(queryset, q):
+def filter_organisation_by_query_all(queryset, q):
     queryset = queryset.query({
         "multi_match":{
             "query": q,
