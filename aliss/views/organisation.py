@@ -30,7 +30,7 @@ from datetime import datetime
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisation_by_query, get_organisation_by_id, order_organistations_by_created_on
+from aliss.search import filter_organisation_by_query_advanced_user, get_organisation_by_id, order_organistations_by_created_on
 
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
@@ -223,7 +223,7 @@ class OrganisationSearchView(LoginRequiredMixin, TemplateView):
         queryset = Search(index='organisation_search', doc_type='organisation')
         context['orgs'] = []
         query = self.request.GET.get('q')
-        orgs = filter_organisation_by_query(queryset, query)
+        orgs = filter_organisation_by_query_advanced_user(queryset, query)
         orgs = order_organistations_by_created_on(orgs).execute()
         context['orgs'] = orgs
         context['keyword'] = self.request.GET.get('q')
