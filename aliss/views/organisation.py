@@ -224,6 +224,7 @@ class OrganisationSearchView(LoginRequiredMixin, TemplateView):
         if self.request.GET.get('q'):
             query = self.request.GET.get('q')
             orgs = filter_organisations_by_query_all(queryset, query)
+            # orgs = filter_organisations_by_query_published(queryset, query)
             orgs = order_organistations_by_created_on(orgs).execute()
             context['orgs'] = orgs
             context['keyword'] = query
