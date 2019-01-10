@@ -1,13 +1,25 @@
 from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Service, Location
 from aliss.tests.fixtures import Fixtures
-from aliss.search import (get_service, get_organisation_by_id, filter_organisations_by_query_all)
+from aliss.search import (get_service, get_organisation_by_id, filter_organisations_by_query_all, order_organistations_by_created_on, filter_organisations_by_query_published)
 
 class OrganisationTestCase(TestCase):
     def setUp(self):
         t,u,c,s = Fixtures.create_users()
         self.org = Fixtures.create_organisation(t, u, c)
         self.service = Fixtures.create_service(self.org)
+
+        self.unpublished_org = Fixtures.create_organisation(t, u, c)
+        self.unpublished_org.name = "banana weird"
+        self.unpublished_org.published = False
+        self.unpublished_org.save()
+
+        self.published_org = Fixtures.create_organisation(t, u, c)
+        self.published_org.name = "banana strange"
+        self.published_org.published = True
+        self.published_org.save()
+
+
 
     def test_org_exists(self):
         o = Organisation.objects.get(name="TestOrg")
@@ -79,8 +91,18 @@ class OrganisationTestCase(TestCase):
         queryset = Fixtures.es_organisation_connection()
         self.org.name = "banana weird"
         self.org.save()
-        result = filter_organisations_by_query_all(queryset, "banana").execute()
+        result = filter_organisations_by_query_all(queryset, "banana")
+        result = order_organistations_by_created_on(result).execute()
         self.assertEqual(result[0].name, self.org.name)
+
+    def test_organisation_filter_organisations_by_query_published(self):
+        queryset = Fixtures.es_organisation_connection()
+        result_all = filter_organisations_by_query_all(queryset, "banana")
+        result_all = order_organistations_by_created_on(result_all).execute()
+        result_published = filter_organisations_by_query_published(queryset, "banana")
+        result_published = order_organistations_by_created_on(result_published).execute()
+        self.assertEqual(result_all[0].name, self.unpublished_org.name)
+        self.assertEqual(result_published[0].name, self.published_org.name)
 
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
@@ -94,4 +116,6 @@ class OrganisationTestCase(TestCase):
         for organisation in Organisation.objects.filter(name="Renamed Renamed Test Org"):
             organisation.delete()
         for organisation in Organisation.objects.filter(name="banana weird"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="banana strange"):
             organisation.delete()
