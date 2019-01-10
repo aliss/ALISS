@@ -215,9 +215,6 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
 
 class OrganisationSearchView(LoginRequiredMixin, TemplateView):
     template_name = 'organisation/search.html'
-    # 
-    # def return_keyword(self):
-    #     return self.request.GET.get('q')
 
     def get_context_data(self, **kwargs):
         context = super(OrganisationSearchView, self).get_context_data(**kwargs)
@@ -225,7 +222,9 @@ class OrganisationSearchView(LoginRequiredMixin, TemplateView):
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
         context['orgs'] = []
-        orgs = order_organistations_by_created_on(queryset).execute()
+        query = self.request.GET.get('q')
+        orgs = filter_organisation_by_query(queryset, query)
+        orgs = order_organistations_by_created_on(orgs).execute()
         context['orgs'] = orgs
         context['keyword'] = self.request.GET.get('q')
         return context
