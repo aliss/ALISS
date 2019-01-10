@@ -181,22 +181,16 @@ def filter_organisations_by_query_all(queryset, q):
     return queryset
 
 def filter_organisations_by_query_published(queryset, q):
-    queryset = queryset.query({
-        "multi_match":{
-            "query": q,
-            "type": "most_fields",
-            "fields":["name", "description"]
-        }
-    })
+    queryset = filter_organisations_by_query_all(queryset, q)
 
     queryset = queryset.query({
         "bool":{
-            "filter":{
-                    "term":{
-                        "published":"true"
+            "must":{
+                "term":{
+                    "published":"true"
                     }
                 }
-        }
+            }
     })
     return queryset
 
