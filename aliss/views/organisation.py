@@ -221,9 +221,9 @@ class OrganisationSearchView(LoginRequiredMixin, TemplateView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
-        context['organisations_container'] = []
+        context['orgs'] = []
         orgs = order_organistations_by_created_on(queryset).execute()
-        context['organisations_container'].append({"values": orgs})
+        context['orgs'] = orgs
         return context
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
