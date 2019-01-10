@@ -215,6 +215,9 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
 
 class OrganisationSearchView(LoginRequiredMixin, TemplateView):
     template_name = 'organisation/search.html'
+    # 
+    # def return_keyword(self):
+    #     return self.request.GET.get('q')
 
     def get_context_data(self, **kwargs):
         context = super(OrganisationSearchView, self).get_context_data(**kwargs)
@@ -224,6 +227,7 @@ class OrganisationSearchView(LoginRequiredMixin, TemplateView):
         context['orgs'] = []
         orgs = order_organistations_by_created_on(queryset).execute()
         context['orgs'] = orgs
+        context['keyword'] = self.request.GET.get('q')
         return context
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
