@@ -3,7 +3,8 @@ from django import template
 from datetime import datetime
 import pytz
 
-from aliss.models import Category
+from aliss.models import Category, Organisation
+from aliss.search import filter_organisation_by_query
 
 register = template.Library()
 
@@ -78,6 +79,23 @@ def format_time_string(value):
     d = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
     utc.localize(d)
     return d
+
+# @register.assignment_tag
+# def query_orgs(**kwargs):
+#     dictionary = kwargs['dictionary']
+#     key = kwargs['key']
+#     query_term = kwargs['query_term']
+#     queryset = dictionary.get(key)
+#     orgs = filter_organisation_by_query(queryset, query_term)
+#     return orgs
+
+@register.simple_tag(takes_context=True)
+def filter_by_term(context, query_term):
+    array = context["organisations_container"]
+    dictionary = array[0]
+    orgs = dictionary.get("values")
+    filtered_orgs = filter_organisation_by_query(orgs["values"], query_term)
+    return filtered_orgs
 
 @register.simple_tag(takes_context=True)
 def absolute(context, path):
