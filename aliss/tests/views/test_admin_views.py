@@ -30,3 +30,7 @@ class AdminViewsTestCase(TestCase):
     def test_users_list(self):
         response = self.client.get(reverse('admin:aliss_alissuser_changelist'))
         self.assertEqual(response.status_code, 200)
+
+    def tearDown(self):
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

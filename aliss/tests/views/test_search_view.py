@@ -25,3 +25,5 @@ class SearchViewTestCase(TestCase):
 
     def tearDown(self):
         Fixtures.service_teardown()
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

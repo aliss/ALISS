@@ -29,3 +29,5 @@ class v4SearchViewTestCase(TestCase):
 
     def tearDown(self):
         self.service.delete()
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

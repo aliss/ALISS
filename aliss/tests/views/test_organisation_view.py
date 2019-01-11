@@ -156,3 +156,7 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.get(reverse('organisation_search')+'?q=TestOrg')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TestOrg")
+
+    def tearDown(self):
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()
