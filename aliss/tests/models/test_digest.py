@@ -118,3 +118,5 @@ class DigestTestCase(TestCase):
         Service.objects.get(name="My Second Service").delete()
         Service.objects.get(name="My Third Service").delete()
         Service.objects.get(name="My Fourth Service").delete()
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

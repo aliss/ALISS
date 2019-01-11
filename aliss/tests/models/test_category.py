@@ -41,3 +41,5 @@ class CategoryTestCase(TestCase):
 
     def tearDown(self):
         Service.objects.get(name="My First Service").delete()
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

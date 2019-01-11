@@ -22,7 +22,7 @@ class ClaimViewTestCase(TestCase):
 
     def test_valid_claim_create(self):
         cn = Claim.objects.count()
-        response = self.client.post(reverse('claim_create', kwargs={'pk': self.organisation.pk}), 
+        response = self.client.post(reverse('claim_create', kwargs={'pk': self.organisation.pk}),
             { 'comment': 'im important', 'phone': "034343243", 'data_quality': 'on' })
         self.assertEqual(response.status_code, 302)
         self.assertEqual((cn+1), Claim.objects.count())
@@ -31,3 +31,7 @@ class ClaimViewTestCase(TestCase):
         self.client.logout()
         response = self.client.get(reverse('claim_create', kwargs={'pk': self.organisation.pk}))
         self.assertEqual(response.status_code, 302)
+
+    def tearDown(self):
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

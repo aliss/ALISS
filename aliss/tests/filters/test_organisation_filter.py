@@ -57,3 +57,5 @@ class OrganisationFilterTestCase(TestCase):
     def tearDown(self):
         for organisation in Organisation.objects.filter(name="Another's Test Org"):
             organisation.delete()
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

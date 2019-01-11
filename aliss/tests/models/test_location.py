@@ -7,7 +7,7 @@ class LocationTestCase(TestCase):
         t,u,c,s = Fixtures.create_users()
         o = Fixtures.create_organisation(t, u, c)
         l = Location.objects.create(
-          name="my location", street_address="my street", locality="a locality", 
+          name="my location", street_address="my street", locality="a locality",
           postal_code="FK1 5XA", latitude=50.0, longitude=13.0,
           organisation=o, created_by=t, updated_by=u
         )
@@ -38,3 +38,7 @@ class LocationTestCase(TestCase):
         self.assertTrue(l.is_edited_by(rep))
         self.assertTrue(l.is_edited_by(staff))
         self.assertFalse(l.is_edited_by(punter))
+
+    def tearDown(self):
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()
