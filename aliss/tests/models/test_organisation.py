@@ -9,18 +9,6 @@ class OrganisationTestCase(TestCase):
         self.org = Fixtures.create_organisation(t, u, c)
         self.service = Fixtures.create_service(self.org)
 
-        self.unpublished_org = Fixtures.create_organisation(t, u, c)
-        self.unpublished_org.name = "banana weird"
-        self.unpublished_org.published = False
-        self.unpublished_org.save()
-
-        self.published_org = Fixtures.create_organisation(t, u, c)
-        self.published_org.name = "banana strange"
-        self.published_org.published = True
-        self.published_org.save()
-
-
-
     def test_org_exists(self):
         o = Organisation.objects.get(name="TestOrg")
         self.assertTrue(isinstance(o, Organisation))
@@ -97,12 +85,23 @@ class OrganisationTestCase(TestCase):
 
     def test_organisation_filter_organisations_by_query_published(self):
         queryset = Fixtures.es_organisation_connection()
-        result_all = filter_organisations_by_query_all(queryset, "banana")
+
+        published_org = Organisation.objects.create(name="Banana Published")
+        published_org.save()
+
+        unpublished_org = Organisation.objects.create(name="Banana Unpublished")
+        unpublished_org.published = False
+        unpublished_org.save()
+
+        result_all = filter_organisations_by_query_all(queryset, "Banana")
         result_all = order_organistations_by_created_on(result_all).execute()
-        result_published = filter_organisations_by_query_published(queryset, "banana")
+
+        result_published = filter_organisations_by_query_published(queryset, "Banana")
         result_published = order_organistations_by_created_on(result_published).execute()
-        self.assertEqual(result_all[0].name, self.unpublished_org.name)
-        self.assertEqual(result_published[0].name, self.published_org.name)
+
+        self.assertEqual(unpublished_org.published, False)
+        self.assertEqual(result_all[0].name, unpublished_org.name)
+        self.assertEqual(result_published[0].name, published_org.name)
 
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
@@ -117,5 +116,7 @@ class OrganisationTestCase(TestCase):
             organisation.delete()
         for organisation in Organisation.objects.filter(name="banana weird"):
             organisation.delete()
-        for organisation in Organisation.objects.filter(name="banana strange"):
+        for organisation in Organisation.objects.filter(name="Banana Unpublished"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Banana Published"):
             organisation.delete()
