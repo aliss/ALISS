@@ -1,14 +1,14 @@
 from django.contrib.sitemaps import Sitemap
 from django.core.urlresolvers import reverse
 
-from aliss.models import Service, Organisation
+from aliss.models import Service, Organisation, Postcode
 
 
 class ServiceSitemap(Sitemap):
     changefreq = 'daily'
     priority = 0.5
     protocol = 'https'
-    limit = 5000
+    limit = 2000
 
     def items(self):
         return Service.objects.order_by('last_edited').all()
@@ -27,7 +27,7 @@ class OrganisationSitemap(Sitemap):
     changefreq = 'monthly'
     priority = 0.5
     protocol = 'https'
-    limit = 5000
+    limit = 2000
     section = "static"
 
     def items(self):
@@ -53,3 +53,16 @@ class StaticViewSitemap(Sitemap):
 
     def location(self, item):
         return reverse(item)
+
+
+class SearchSitemap(Sitemap):
+    changefreq = 'daily'
+    priority = 0.5
+    protocol = 'https'
+    limit = 2000
+
+    def items(self):
+        return Postcode.objects.order_by('postcode').all()
+
+    def location(self, obj):
+        return reverse('search_share', kwargs={'postcode': obj.postcode})
