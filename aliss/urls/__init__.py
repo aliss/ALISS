@@ -4,15 +4,12 @@ from django.views.generic import TemplateView
 from django.contrib.sitemaps import views
 
 from aliss.views import SearchShareView, ReportsView
-from aliss.sitemap import (
-    ServiceSitemap,
-    OrganisationSitemap,
-    StaticViewSitemap
-)
+from aliss.sitemap import *
 
 sitemaps = {
     'services': ServiceSitemap,
     'organisations': OrganisationSitemap,
+    'searches': SearchSitemap,
     'static': StaticViewSitemap,
 }
 
