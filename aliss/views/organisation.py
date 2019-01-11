@@ -215,6 +215,7 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
 
 class OrganisationSearchView(LoginRequiredMixin, TemplateView):
     template_name = 'organisation/search.html'
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(OrganisationSearchView, self).get_context_data(**kwargs)
