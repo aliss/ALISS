@@ -174,7 +174,8 @@ def filter_organisations_by_query_all(queryset, q):
     queryset = queryset.query({
         "multi_match":{
             "query": q,
-            "type": "most_fields",
+            "type": "best_fields",
+            "fuzziness": 3,
             "fields":["name", "description"]
         }
     })
