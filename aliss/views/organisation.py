@@ -232,10 +232,8 @@ class OrganisationSearchView(MultipleObjectMixin, TemplateView):
         if query:
             if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
                 queryset = filter_organisations_by_query_all(queryset, query)
-                queryset = order_organistations_by_created_on(queryset)
             else:
                 queryset = filter_organisations_by_query_published(queryset, query)
-                queryset = order_organistations_by_created_on(queryset)
 
         return queryset
 
