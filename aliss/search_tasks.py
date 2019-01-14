@@ -13,9 +13,7 @@ def create_index():
         index='search',
         body={
             'mappings': {
-                'service': {
-                    'properties': service_mapping
-                }
+                'service': { 'properties': service_mapping }
             },
             'settings': {
                 'analysis': {
@@ -25,9 +23,26 @@ def create_index():
                             'tokenizer': 'standard',
                             'char_filter': ['html_strip'],
                             'filter': ['standard', 'lowercase', 'stop']
+                        },
+                        "bigram_combiner": {
+                            "tokenizer": "standard",
+                            "filter": ["lowercase", "custom_shingle", "my_char_filter"]
+                       }
+                    },
+                    "filter": {
+                        "custom_shingle": {
+                            "type": "shingle",
+                            "min_shingle_size": 2,
+                            "max_shingle_size": 3,
+                            "output_unigrams": True
+                        },
+                        "my_char_filter": {
+                            "type": "pattern_replace",
+                            "pattern": " ",
+                            "replacement": ""
                         }
                     }
-                }
+                },
             }
         }
     )
