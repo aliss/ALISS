@@ -61,6 +61,14 @@ class Fixtures(TestCase):
         Service.objects.filter(name="My First Service").delete()
 
     @classmethod
+    def organisation_teardown(self, org=None):
+      if org:
+        org.delete()
+      else:
+        for org in Organisation.objects.filter(name="TestOrg").all():
+          org.delete()
+
+    @classmethod
     def create(self):
         if Postcode.objects.filter(pk="G2 4AA").count() == 0:
           Postcode.objects.create(

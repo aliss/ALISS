@@ -254,15 +254,6 @@ $(document).ready(() => {
   $('.modal').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
-    $(`#${id}_modal`).click(function(){
-      $(`#${id}`).toggleClass('active');
-      $('.black').toggleClass('show');
-    });
-  });
-
-  $('.modal').each(function(index, el) {
-    var $thisToggle = $(this);
-    var id = $thisToggle.attr('id');
     $(`#${id}_modal, a[data-modal="${id}"]`).click(function(){
       $(`#${id}`).toggleClass('active');
       $('.black').toggleClass('show');
@@ -506,9 +497,24 @@ $(document).ready(() => {
     }
   };
 
+  //ORGANISATION FILE UPLOAD
+  var handleFileInput = function(){
+    $('#id_logo').change(function(){
+      if ($(this)[0].files.length > 0) {
+        var filename = $(this)[0].files[0].name;
+        $('label.create-logo span').text(filename + ' ready for upload');
+        $('label.create-logo img').attr('src', '/static/img/image-attached.png');
+      } else {
+        $('label.create-logo span').text('No image attached');
+        $('label.create-logo img').attr('src', 'no-image.png');
+      }
+    });
+  };
+
   checkMaxCategories();
   matchHeight();
   storeSearchUrl();
   handleClearInputs();
   toggleClearableInputs();
+  handleFileInput();
 });

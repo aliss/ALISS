@@ -13,10 +13,17 @@ class SearchViewTestCase(TestCase):
         s = Service.objects.create(name="My First Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
         s.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
 
-    def test_no_postcode(self):
+    def test_invalid_postcode(self):
         response = self.client.get('/search/?postcode=ZZ+ZZZ')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<h1>Sorry, ZZ ZZZ doesn\'t appear to be a valid postcode.</h1>')
+        self.assertContains(response, "gtag('event', 'search-error-invalid', { details: ")
+
+    def test_no_postcode(self):
+        response = self.client.get('/search/?postcode=AK1+5SA')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<h1>Sorry, ALISS is not available in your postcode.</h1>')
+        self.assertContains(response, "gtag('event', 'search-error-unrecognised', { details: ")
 
     def test_get(self):
         response = self.client.get('/search/?postcode=G2+4AA')
@@ -24,6 +31,4 @@ class SearchViewTestCase(TestCase):
         self.assertContains(response, 'Help and support in <span class="postcode">G2 4AA</span>')
 
     def tearDown(self):
-        Fixtures.service_teardown()
-        for organisation in Organisation.objects.filter(name="TestOrg"):
-            organisation.delete()
+        Fixtures.organisation_teardown()

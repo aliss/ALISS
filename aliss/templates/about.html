@@ -3,38 +3,42 @@
 
 {% block title %}About - ALISS{% endblock %}
 {% block meta_schema %}
-    <meta property="og:title" content="About - ALISS" />
-    <meta name="twitter:title" content="About - ALISS" />
-    <meta name="description" content="We believe that people of Scotland should be able to access the information they need to help them live well.">
-    <meta property="og:description" content="We believe that people of Scotland should be able to access the information they need to help them live well." />
-    <meta name="twitter:description" content="We believe that people of Scotland should be able to access the information they need to help them live well." />
+  <meta property="og:title" content="About - ALISS" />
+  <meta name="twitter:title" content="About - ALISS" />
+  <meta name="description" content="We believe that people of Scotland should be able to access the information they need to help them live well.">
+  <meta property="og:description" content="We believe that people of Scotland should be able to access the information they need to help them live well." />
+  <meta name="twitter:description" content="We believe that people of Scotland should be able to access the information they need to help them live well." />
 {% endblock %}
 
 {% block container %}
 <main class="main" role="main">
-    <section id="banner">
-        <div class="banner" style="background-image: url('{% static 'img/ph-banner.jpg' %}');">
-            <img src="{% static 'img/ph-banner_small.jpg' %}">
+  <section id="banner">
+    <div class="banner" style="background-image: url('{% static 'img/ph-banner.jpg' %}');">
+      <img src="{% static 'img/ph-banner_small.jpg' %}">
+    </div>
+  </section>
+  <article id="content">
+    <div class="row">
+      <div class="columns content">
+        <div class="copy-container">
+          <h1>About ALISS</h1>
+          <h3>ALISS vision</h3>
+          <p>We believe that the people of Scotland living with long term conditions, disabled people and unpaid carers should be able to access the information they need to help them live well.</p>
+          <p>The ALISS (A Local Information System for Scotland) Programme is funded by the Scottish Government and delivered by the Health and Social Care Alliance Scotland (the ALLIANCE).</p>
+          <p>ALISS key objectives are:</p>
+          <ul>
+            <li>To increase the availability of health and wellbeing information for people living with long term conditions, disabled people and unpaid carers</li>
+            <li>To support people, communities, professionals and organisations that have information to share</li>
+            <li>To ensure that stakeholders are informed, skilled and confident in the use and application of web services and that they are connected as part of a wider community of practice</li>
+            <li>To ensure that ALISS is used and is strategically aligned with Scottish health and social care needs</li>
+          </ul>
+          <br/>
+          <h5>Contact us</h5>
+          <p><strong>Email:</strong> <a href="mailto:hello@aliss.org">hello@aliss.org</a>
+          <br/><strong>Phone:</strong> 0141 4040239</p>
         </div>
-    </section>
-    <article id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>About ALISS</h1>
-                    <h3>ALISS vision</h3>
-                    <p>We believe that people of Scotland living with long term conditions, disabled people and unpaid carers should be able to access the information they need to help them live well.</p>
-                    <p>The ALISS (A Local Information System for Scotland) Programme is funded by the Scottish Government and delivered by the Health and Social Care Alliance Scotland (the ALLIANCE).</p>
-                    <p>ALISS key objectives are:</p>
-                    <ul>
-                        <li>To increase the availability of health and wellbeing information for people living with long term conditions, disabled people and unpaid carers</li>
-                        <li>To support people, communities, professionals and organisations that have information to share</li>
-                        <li>To ensure that stakeholders are informed, skilled and confident in the use and application of web services and that they are connected as part of a wider community of practice</li>
-                        <li>To ensure that ALISS is used and is strategically aligned with Scottish health and social care needs</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </article>
+      </div>
+    </div>
+  </article>
 </main>
 {% endblock %}

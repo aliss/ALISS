@@ -1,58 +1,68 @@
 {% extends "base.html" %}
 {% load aliss %}
+{% load cloudinary %}
 
 {% block title %}{{ object.name }} - ALISS{% endblock %}
 
 {% block container %}
 <main class="main" role="main">
-    <article id="content" class="organisation grid-container">
-        <div class="">
-            <h3>Does the information below look correct?</h3>
-            <br/>
-            <a href="{% url 'organisation_edit' pk=object.pk %}" class="button primary bottom-margin">
-                <span class="icon">
-                    <i class="fas fa-pencil-alt"></i>
-                </span>
-                No, let me edit it
-            </a>
-            <a href="{% url 'service_create' pk=object.pk %}" class="button secondary bottom-margin">
-                <span class="icon">
-                    <i class="fas fa-check"></i>
-                </span>
-                Yes, continue and add a service
-            </a>
-            <a href="{% url 'account_my_organisations' %}" class="button secondary bottom-margin">
-                <span class="icon">
-                    <i class="fas fa-check"></i>
-                </span>
-                Yes, save and add a service later
-            </a>
-        </div>
-        <br/><br/>
+  <article id="content" class="organisation grid-container">
+    <div class="">
+      <h3>Does the information below look correct?</h3>
+      <br/>
+      <a href="{% url 'organisation_edit' pk=object.pk %}" class="button primary bottom-margin">
+        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span>
+        No, let me edit it
+      </a>
+      <a href="{% url 'service_create' pk=object.pk %}" class="button secondary bottom-margin">
+        <span class="icon">
+          <i class="fas fa-check"></i>
+        </span>
+        Yes, continue and add a service
+      </a>
+      <a href="{% url 'account_my_organisations' %}" class="button secondary bottom-margin">
+        <span class="icon">
+          <i class="fas fa-check"></i>
+        </span>
+        Yes, save and add a service later
+      </a>
+    </div>
+    <br/><br/>
 
+    <div class="grid-x">
+      <div class="cell">
         <div class="grid-x">
-            <div class="cell small-8 medium-8">
-                <div class="copy-container">
-                    <h1>Confirm: {{ object.name }}</h1>
-                    <div class="desc">
-                        <p>{{ object.description|linebreaks }}</p>
-                        <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
-                    </div>
-                </div>
-
-                {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
-                    <h4>Contact Information</h4>
-                    <p>
-                        {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-                        {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
-                        {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
-                        {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
-                        {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
-                    </p>
-                {% endif %}
+          <div class="cell small-7 medium-8 large-8">
+            <h1>Confirm: {{ object.name }}</h1>
+            <div class="desc">
+              <p>{{ object.description|linebreaks }}</p>
+              <p>
+                Last updated <span class="updated alert">{{ object.last_edited }}</span>
+              </p>
             </div>
-
+          </div>
+          <div class="cell small-5 medium-4 large-4">
+            {% cloudinary object.logo width=230 height=230 crop="fit" class="org-logo" %}
+            <br/>
+          </div>
         </div>
-    </article>
+      </div>
+
+      <div class="cell">
+        {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
+          <h4>Contact Information</h4>
+          <p>
+            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+            {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
+            {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
+            {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+            {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </article>
 </main>
 {% endblock %}

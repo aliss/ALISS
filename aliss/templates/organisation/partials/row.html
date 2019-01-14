@@ -1,0 +1,25 @@
+<tr>
+  <td>
+    <a href="{% url 'organisation_detail' pk=organisation.pk %}">
+    {{ organisation.name }}</a>
+  </td>
+  <td>
+    {% if organisation.services.count > 0 %}
+      {{ organisation.services.count }}
+    {% else %}
+      <span class="alert">{{ organisation.services.count }}
+        <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="Until you add services that belong to the organisation it won't be published on ALISS.">
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+      </span></span>
+    {% endif %}
+  </td>
+  <td>{{ organisation.last_edited }}</td>
+  <td>
+    <a href="{% url 'organisation_edit' pk=organisation.pk %}">
+      <i class="fa fa-edit" aria-hidden="true"></i> Edit
+    </a>&nbsp;
+    <a href="{% url 'service_create' pk=organisation.pk %}">
+      <i class="fa fa-plus" aria-hidden="true"></i> Add service
+    </a>
+  </td>
+</tr>

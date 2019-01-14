@@ -46,20 +46,17 @@
         <!--
         <a href="{% url 'account_my_digest'%}" {% if url_name == 'account_my_digest'%}class="active"{% endif %}>
           <span class="text">
-            My digest
+            My notifications
           </span>
         </a>
         {% endwith %}
-        -->
+      -->
       </div>
     </div>
-
-    <div class="row">
-      <div class="columns">
-      {% block content %}
-      {% endblock %}
-      </div>
-    </div>
+  
+    {% block content %}
+    {% endblock %}
+  
   </section>
   <section class="mobile-buttons">
     <div class="row">

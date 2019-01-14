@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.dispatch import receiver
 from django.utils.text import slugify
+from aliss.models import ALISSCloudinaryField
 
 
 from elasticsearch_dsl import Search
@@ -17,10 +18,11 @@ class Organisation(models.Model):
     description = models.TextField()
     phone = models.CharField(max_length=15, blank=True)
     email = models.EmailField(blank=True)
-    url = models.URLField(blank=True, verbose_name="Web address")
+    url      = models.URLField(blank=True, verbose_name="Web address")
     facebook = models.URLField(blank=True)
     twitter  = models.URLField(blank=True)
     slug     = models.CharField(max_length=120, null=True, blank=True, default=None)
+    logo     = ALISSCloudinaryField('image', null=True, blank=True)
 
     claimed_by = models.ForeignKey(
         'aliss.ALISSUser',
@@ -43,7 +45,6 @@ class Organisation(models.Model):
     )
 
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
-
     published = models.BooleanField(default=True)
 
     def is_edited_by(self, user):
@@ -54,6 +55,15 @@ class Organisation(models.Model):
             user.is_editor or \
             self.created_by == user or \
             self.claimed_by == user
+        )
+
+    def can_add_logo(self, user):
+        if user == None or user.pk == None:
+            return False
+        return (
+            user.is_staff# or \ RE-ENABLE WHEN OK
+            #user.is_editor or \
+            #self.claimed_by == user
         )
 
     def generate_slug(self, force=False):
