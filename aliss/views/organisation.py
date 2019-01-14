@@ -32,6 +32,8 @@ from django.conf import settings
 from elasticsearch_dsl.connections import connections
 from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on
 
+from aliss.paginators import ESPaginator
+from django.views.generic.list import MultipleObjectMixin
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -213,26 +215,29 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class OrganisationSearchView(LoginRequiredMixin, TemplateView):
+class OrganisationSearchView(MultipleObjectMixin, TemplateView):
     template_name = 'organisation/search.html'
+    paginator_class = ESPaginator
     paginate_by = 10
 
-    def get_context_data(self, **kwargs):
-        context = super(OrganisationSearchView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        return self.render_to_response(self.get_context_data())
+
+    def get_queryset(self, *args, **kwargs):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
         query = self.request.GET.get('q')
         if query:
-            if self.request.user.is_editor or self.request.user.is_staff:
-                orgs = filter_organisations_by_query_all(queryset, query)
-                orgs = order_organistations_by_created_on(orgs).execute()
-                context['orgs'] = orgs
+            if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
+                queryset = filter_organisations_by_query_all(queryset, query)
+                queryset = order_organistations_by_created_on(queryset)
             else:
-                orgs = filter_organisations_by_query_published(queryset, query)
-                orgs = order_organistations_by_created_on(orgs).execute()
-                context['orgs'] = orgs
-        return context
+                queryset = filter_organisations_by_query_published(queryset, query)
+                queryset = order_organistations_by_created_on(queryset)
+
+        return queryset
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
     template_name = 'organisation/unpublished.html'
