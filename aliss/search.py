@@ -80,7 +80,9 @@ service_mapping = {
 
 organisation_mapping = {
     'id': {'type': 'keyword'},
-    'name': {'type': 'text'},
+    'name': {
+        'type': 'text',
+        'analyzer': 'bigram_combiner'},
     'description': {
         'type': 'text',
         'analyzer': 'description_analyzer',
@@ -178,7 +180,7 @@ def filter_organisations_by_query_all(queryset, q):
             "query": q,
             "type": "best_fields",
             "fuzziness": 3,
-            "fields":["name", "description"]
+            "fields":["name^2", "description"]
         }
     })
     return queryset
