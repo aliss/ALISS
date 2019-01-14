@@ -28,7 +28,10 @@ service_mapping = {
     'updated_on': {'type': 'date'},
     'last_edited': {'type': 'date'},
     'slug': {'type': 'keyword'},
-    'name': {'type': 'text'},
+    'name': {
+        'type': 'text',
+        'analyzer': 'bigram_combiner'
+    },
     'description': {
         'type': 'text',
         'analyzer': 'description_analyzer',
@@ -167,8 +170,11 @@ def filter_by_query(queryset, q):
     queryset = queryset.query({
         "multi_match" : {
             "query" : q,
-            "type": "most_fields",
-            "fields" : ["categories.name", "name", "description"]
+            "type": "best_fields",
+            "fuzziness": 3,
+            "fields" : ["categories.name", "name^2", "description^1.5"],
+            #"operator":  "and",
+            #"fuzzy_transpositions": True
         }
     })
 
