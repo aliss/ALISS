@@ -203,13 +203,6 @@ class OrganisationSearchView(MultipleObjectMixin, TemplateView):
     template_name = 'organisation/search.html'
     paginator_class = ESPaginator
     paginate_by = 10
-    filterset_class = OrganisationFilter
-
-    def get_queryset(self):
-        if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
-            return Organisation.objects.order_by('-created_on')
-        else:
-            return Organisation.objects.filter(published=True).order_by('-created_on')
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
