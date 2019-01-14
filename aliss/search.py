@@ -145,7 +145,8 @@ def filter_by_query(queryset, q):
             "query" : q,
             "type": "most_fields",
             "fuzziness": 2,
-            "fields" : ["categories.name", "name", "description"]
+            "fields" : ["categories.name", "name", "description"],
+            "operator":  "and"
         }
     })
 
