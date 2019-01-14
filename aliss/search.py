@@ -310,6 +310,8 @@ def order_organistations_by_created_on(queryset):
         "created_on":"desc"
     })
 
+    return queryset
+
 def filter_by_created_on(queryset, comparison_date):
     queryset = queryset.query({
         "bool": {

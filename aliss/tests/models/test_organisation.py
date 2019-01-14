@@ -79,20 +79,17 @@ class OrganisationTestCase(TestCase):
         queryset = Fixtures.es_organisation_connection()
         self.org.name = "banana weird"
         self.org.save()
+
         result = filter_organisations_by_query_all(queryset, "banana")
         result = order_organistations_by_created_on(result).execute()
         self.assertEqual(result[0].name, self.org.name)
 
     def test_organisation_filter_organisations_by_query_published(self):
         queryset = Fixtures.es_organisation_connection()
-
         published_org = Organisation.objects.create(name="Banana Published")
-        published_org.save()
-
         unpublished_org = Organisation.objects.create(name="Banana Unpublished")
         unpublished_org.published = False
         unpublished_org.save()
-
         result_all = filter_organisations_by_query_all(queryset, "Banana")
         result_all = order_organistations_by_created_on(result_all).execute()
 
