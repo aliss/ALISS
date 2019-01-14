@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load aliss %}
+{% load cloudinary %}
 
 {% block title %}{{ object.name }} - ALISS{% endblock %}
 {% block meta_schema %}
@@ -43,30 +44,36 @@
 </div>
 <main class="main" role="main">
   <article id="content" class="organisation grid-container">
+    {% if request.user.is_authenticated %}
+      {% can_edit request.user object as user_can_edit %}
+    {% endif %}
+
+    {% if user_can_edit and object.services.count == 0 %}
+      <p class="message">
+        <span class="icon">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        </span> No services have been added for this organisation. Until a service is added this organisation won't be visible on ALISS.
+        <a style="font-size: 0.9em; margin-left: 6px;" href="{% url 'service_create' pk=object.pk %}">Add a service.</a>
+      </p>
+    {% endif %}
 
     <div class="grid-x">
       <div class="cell small-12 medium-8 large-8">
-        <h1>{{ object.name }}</h1>
-
-        {% if request.user.is_authenticated %}
-          {% can_edit request.user object as user_can_edit %}
-        {% endif %}
-
-        {% if user_can_edit and object.services.count == 0 %}
-          <p class="message">
-            <span class="icon">
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            </span> No services have been added for this organisation. Until a service is added this organisation won't be visible on ALISS.
-            <a style="font-size: 0.9em; margin-left: 6px;" href="{% url 'service_create' pk=object.pk %}">Add a service.</a>
-          </p>
-        {% endif %}
-
-        {% if object.claimed_by %}
-          <p class="org"><span class="claimed">Claimed</span></p>
-        {% endif %}
-        <div class="desc">
-          <p>{{ object.description|linebreaks }}</p>
-          <p>Last updated <span class="updated">{{ object.last_edited }}</span></p>
+        <div class="grid-x">
+          <div class="cell small-7 medium-8 large-8">
+            <h1>{{ object.name }}</h1>
+            {% if object.claimed_by %}
+              <p class="org"><span class="claimed">Claimed</span></p>
+            {% endif %}
+            <div class="desc">
+              <p>{{ object.description|linebreaks }}</p>
+              <p>Last updated <span class="updated">{{ object.last_edited }}</span></p>
+            </div>
+          </div>
+          <div class="cell small-5 medium-4 large-4">
+            {% cloudinary object.logo width=230 height=230 crop="fit" class="org-logo" %}
+            <br/>
+          </div>
         </div>
 
         <div class="contact-info">
@@ -77,12 +84,12 @@
                 {% include 'location/partials/detail.html' %}
               {% endfor %}
               {% if user_can_edit %}
-                <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add Location</a>
+                <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
               {% endif %}
             </div>
           {% endif %}
           {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
-            <h4>Contact Information</h4>
+            <h4>Contact information</h4>
             <p>
               {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
               {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}

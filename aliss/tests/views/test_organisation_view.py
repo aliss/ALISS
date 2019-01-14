@@ -9,7 +9,7 @@ class OrganisationViewTestCase(TestCase):
     def setUp(self):
         self.random = ALISSUser.objects.create_user("random@random.org", "passwurd")
         self.user, self.editor, self.claimant, self.staff = Fixtures.create_users()
-        self.client.login(username='tester@aliss.org', password='passwurd')
+        self.client.login(username=self.user.email, password='passwurd')
         self.organisation = Fixtures.create_organisation(self.user, self.editor, self.claimant)
 
     def test_organisation_detail(self):
@@ -25,6 +25,16 @@ class OrganisationViewTestCase(TestCase):
     def test_organisation_create(self):
         response = self.client.get(reverse('organisation_create'))
         self.assertEqual(response.status_code, 200)
+
+    def test_organisation_can_add_logo(self):
+        response_1 = self.client.get(reverse('organisation_create'))
+        self.client.login(username=self.editor.email, password='passwurd')
+        response_2 = self.client.get(reverse('organisation_create'))
+        self.client.login(username=self.staff.email, password='passwurd')
+        response_3 = self.client.get(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}))
+        self.assertNotContains(response_1, '<label for="id_logo">Logo</label>', html=True)
+        #self.assertContains(response_2, '<label for="id_logo">Logo</label>', html=True) # DISABLED FOR NOW
+        self.assertContains(response_3, '<label for="id_logo">Logo</label>', html=True)
 
     def test_organisation_confirm(self):
         response = self.client.get(reverse('organisation_confirm', kwargs={'pk': self.organisation.pk}))

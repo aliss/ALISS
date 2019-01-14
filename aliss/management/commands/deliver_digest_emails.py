@@ -28,29 +28,29 @@ class Command(BaseCommand):
             utc = pytz.UTC
             current_date = datetime.now()
             current_date = utc.localize(current_date)
-            number_of_weeks = 4
+            number_of_weeks = 1
             comparison_date = current_date - timedelta(weeks=number_of_weeks)
 
 
             # Focus on the situation where Digest Selections have been created and have updated services.
-            message = "\n\nLatest service updates from ALISS\n\n"
+            message = "\n\nNew services from ALISS\n\n"
 
             for digest_object in user.digest_selections.all():
-                message += "\n\n-----\n\nDigest for {digest_postcode} and {digest_category} updated services:".format(
+                message += "\n\n-----\n\nNotification for {digest_postcode} and {digest_category} new services:".format(
                     digest_postcode=digest_object.postcode,
                     digest_category=digest_object.category,)
-                r = digest_object.retrieve(comparison_date)[:3]
+                r = digest_object.retrieve_new_services(comparison_date)[:3]
                 if not r:
-                    message += '\n\n No updated services for this selection'
+                    message += '\n\n No new services for this selection'
                 else:
                     for service in r:
-                        message += '\n\n {service_name} \n\n {service_last_edited}'.format(
+                        message += '\n\n {service_name} \n\n {service_created_on}'.format(
                             service_name=service.name,
-                            service_last_edited=process_datetime_string(service.last_edited),
+                            service_created_on=process_datetime_string(service.created_on),
                             )
         #Send the email to the user.
             send_mail(
-                'Subject: ALISS digest selection test',
+                'Subject: ALISS new service notificaton selections test',
                 message,
                 settings.DEFAULT_FROM_EMAIL,
                 [user.email],
@@ -63,5 +63,5 @@ class Command(BaseCommand):
                 send_digest_email(user)
 
         self.stdout.write(
-            self.style.SUCCESS('Successfully sent Digest Emails')
+            self.style.SUCCESS('Successfully sent new service notification emails')
         )

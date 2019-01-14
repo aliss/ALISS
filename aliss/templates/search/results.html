@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load aliss %}
+{% load analytics %}
 {% load humanize %}
 
 {% block title %}{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }}, {{ service_area }} - ALISS{% endblock %}
@@ -199,27 +200,22 @@
         </div>
       </section>
     {% endif %}
-        {% if errors %}
-          {% for error in errors %}
-            {% if error == 'postcode' %}
-              <section id="error">
-                <div class="row">
-                  <div class="columns">
-                    <div class="copy-container">
-                      <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
-                      <p>The postcode you entered seems to be in the wrong format, please try again:</p>
-                    </div>
-                    <div class="buttons">
-                      <a href="{% url 'homepage' %}" class="button primary">Search again</a>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            {% endif %}
-          {% endfor %}
-        {% endif %}
-      </div>
-    </div>
+
+    {% if errors and 'postcode' in errors %}
+      <section id="error">
+        <div class="row">
+          <div class="columns">
+            <div class="copy-container">
+              <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
+              <p>The postcode you entered seems to be in the wrong format, please try again:</p>
+            </div>
+            <div class="buttons">
+              <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    {% endif %}
   {% endif %}
 </main>
 {% endblock %}
@@ -238,6 +234,7 @@ $(document).ready(function(){
     $(".category-selector *").click(function(){checkword()});
   }
 
+  {% ga_search_events invalid_area errors %}
 });
 </script>
 {% endblock %}

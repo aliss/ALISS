@@ -575,6 +575,9 @@ ul.searches {
   }
 }
 
+table tr h5,
+table tr h5:last-child { margin: 1.2rem 0rem; }
+
 table.users-listing { table-layout: fixed; }
 table.users-listing thead tr td { overflow: visible; }
 table.users-listing tr {

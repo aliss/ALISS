@@ -365,7 +365,9 @@ class AccountMyOrganisationsView(LoginRequiredMixin, ListView):
 
     def get_context_data(self,**kwargs):
         context = super(AccountMyOrganisationsView,self).get_context_data(**kwargs)
+        claimed_org_ids = list(map(lambda c: c.organisation_id, context['object_list']))
         context['orgs_list'] = Organisation.objects.filter(created_by=self.request.user).exclude(claimed_by=self.request.user)
+        context['last_edited'] = Organisation.objects.filter(updated_by=self.request.user).exclude(id__in=context['orgs_list']).exclude(id__in=claimed_org_ids)
         return context
 
 
@@ -428,6 +430,7 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(url)
 
+
 class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
@@ -445,11 +448,10 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
             self.object.save()
             url = reverse('account_my_digest')
             return HttpResponseRedirect(url)
-
         else:
             # Return a re render of the form with error messages on non-conforming fields.
-
             return render(request, self.template_name, {'form': form})
+
 
 class AccountMyDigestView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'
@@ -463,7 +465,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         current_date = utc.localize(current_date)
 
         # Define the number of weeks to include in results
-        number_of_weeks = 4
+        number_of_weeks = 1
 
         # Create the historical date to compare against i.e. one week ago
         comparison_date = current_date - timedelta(weeks=number_of_weeks)
@@ -471,7 +473,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         # Create a new key on context updated_services_user_selection use Elastic search to query and filter by postcode and category
         context['selected_updated'] = []
         for digest_object in self.request.user.digest_selections.all():
-            r = digest_object.retrieve(comparison_date)
+            r = digest_object.retrieve_new_services(comparison_date)
             context['selected_updated'].append({"values": r[:3], "Postcode": digest_object.postcode, "Category": digest_object.category, "pk":digest_object.pk})
         return context
 

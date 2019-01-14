@@ -24,6 +24,7 @@ service_mapping = {
             'slug': {'type': 'keyword'}
         }
     },
+    'created_on': {'type': 'date'},
     'updated_on': {'type': 'date'},
     'last_edited': {'type': 'date'},
     'slug': {'type': 'keyword'},
@@ -105,6 +106,7 @@ def service_to_body(service):
             'is_claimed': service.organisation.is_claimed,
             'slug': service.organisation.slug
         },
+        'created_on': service.created_on,
         'updated_on': service.updated_on,
         'last_edited': service.last_edited,
         'name': service.name,
@@ -294,8 +296,16 @@ def filter_by_last_edited(queryset, comparison_date):
     }})
     return queryset
 
+
 def order_organistations_by_created_on(queryset):
     queryset = queryset.sort({
         "created_on":"desc"
     })
+
+def filter_by_created_on(queryset, comparison_date):
+    queryset = queryset.query({
+        "bool": {
+            "filter": {"range":{"created_on":{"gte":comparison_date}}}
+    }})
+
     return queryset

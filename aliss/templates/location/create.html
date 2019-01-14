@@ -2,42 +2,42 @@
 
 {% block container %}
 <main class="main" role="main">
-    <section id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>{{ organisation.name }}</h1>
-                    <div class="breadcrumbs">
-                        <a href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
-                        <span class="sep"></span>
-                        <span>Add location</span>
-                    </div>
-                </div>
-            </div>
+  <section id="content">
+    <div class="row">
+      <div class="columns content">
+        <div class="copy-container">
+          <h1>{{ organisation.name }}</h1>
+          <div class="breadcrumbs">
+            <a href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
+            <span class="sep"></span>
+            <span>Add location</span>
+          </div>
         </div>
-    </section>
-    <section>
-        <div class="row">
-            <div class="columns">
-                <div class="progress-container">
-                    {% if not organisation.published %}
-                        <br/>
-                        <h4>Publish progress</h4>
-                        {% include 'partials/breadcrumb.html' with progress=progress %}
-                    {% endif %}
-                </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="row">
+      <div class="columns">
+        <div class="progress-container">
+          {% if not organisation.published %}
+            <br/>
+            <h4>Publish progress</h4>
+            {% include 'partials/breadcrumb.html' with progress=progress %}
+          {% endif %}
+        </div>
 
-                <div class="new-location large-form">
-                    <form method="post">
-                        {% csrf_token %}
-                        {% include 'location/forms/location_form.html' %}
-                        <div class="submit">
-                            <input type="submit" value="Add Location">
-                        </div>
-                    </form>
-                </div>
+        <div class="new-location large-form">
+          <form method="post">
+            {% csrf_token %}
+            {% include 'location/forms/location_form.html' %}
+            <div class="submit">
+              <input type="submit" value="Add Location">
             </div>
+          </form>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </main>
 {% endblock %}

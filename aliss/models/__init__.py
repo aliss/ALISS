@@ -1,3 +1,5 @@
+from .aliss_cloudinary import ALISSCloudinaryField
+from .account import ALISSUser, RecommendedServiceList
 from .category import Category
 from .service_area import ServiceArea
 from .organisation import Organisation

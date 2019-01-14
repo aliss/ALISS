@@ -16,16 +16,19 @@ from braces.views import (
     UserPassesTestMixin
 )
 
-from aliss.models import Organisation, Claim
-from aliss.filters import OrganisationFilter
 from django.utils import timezone
 from datetime import timedelta
-from django.db.models import Q
-from aliss.views import ProgressMixin
-from aliss.forms import ClaimForm
-
-import pytz
 from datetime import datetime
+
+from django.db.models import Q
+
+from aliss.models import Organisation, Claim
+from aliss.filters import OrganisationFilter
+from aliss.views import ProgressMixin
+from aliss.forms import ClaimForm, OrganisationForm
+
+import logging
+import pytz
 
 from elasticsearch_dsl import Search
 from django.conf import settings
@@ -38,15 +41,7 @@ from django.views.generic.list import MultipleObjectMixin
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
     template_name = 'organisation/create.html'
-    fields = [
-        'name',
-        'description',
-        'phone',
-        'email',
-        'url',
-        'facebook',
-        'twitter',
-    ]
+    form_class = OrganisationForm
 
     def get_context_data(self, **kwargs):
         context = super(OrganisationCreateView, self).get_context_data(**kwargs)
@@ -116,15 +111,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Organisation
     template_name = 'organisation/update.html'
-    fields = [
-        'name',
-        'description',
-        'phone',
-        'email',
-        'url',
-        'facebook',
-        'twitter',
-    ]
+    form_class = OrganisationForm
 
     def test_func(self, user):
         return self.get_object().is_edited_by(user)
@@ -139,7 +126,6 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
         self.object.update_organisation_last_edited()
         self.object = form.save(commit=False)
         self.object.updated_by = self.request.user
-
         self.object.save()
 
         messages.success(
@@ -148,8 +134,6 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
                 name=self.object.name
             )
         )
-
-
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -219,6 +203,13 @@ class OrganisationSearchView(MultipleObjectMixin, TemplateView):
     template_name = 'organisation/search.html'
     paginator_class = ESPaginator
     paginate_by = 10
+    filterset_class = OrganisationFilter
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
+            return Organisation.objects.order_by('-created_on')
+        else:
+            return Organisation.objects.filter(published=True).order_by('-created_on')
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()

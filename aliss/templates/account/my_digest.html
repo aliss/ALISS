@@ -2,55 +2,69 @@
 {% load aliss %}
 {% block content%}
 
-<h2>My Digest</h2>
-<div class="copy-container">
-  <p>Keep up to date with new and existing services. Create a digest by selecting postcodes and categories you're interested in.</p>
+<h2>New services</h2>
+
+<p>Keep up to date with new services. Receive email notifications when new services are found in the categories and postcodes you're interested in.</p>  
+
+<div class=my-digest-details>
+  {% if not selected_updated %}
+    <p>
+      <b>You haven't selected any postcode areas to form your notification yet.</b>
+    </p>
+    <hr class="clear" />
+    <a href="{% url 'account_create_my_digest' %}" class="button primary">
+      Notify me of new services
+    </a>
+  {% else %}
+    <table class="stack">
+    <thead>
+      <tr>
+        <th width="">Selection</th>
+        <th width="">Results</th>
+        <th width="">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for selection_option in selected_updated %}
+        <tr>
+          <td>
+            <h5>Postcode: {{selection_option|get_item:"Postcode"}}, Category: {{selection_option|get_item:"Category"}}</h5>
+          </td>
+
+          <td>
+            {% if not selection_option|get_item:"values" %}
+              <p>No new services found in the last week.</p>
+            {% else %}
+              {% for service in selection_option|get_item:"values" %}
+                <p class="org">
+                  <a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a>
+                </p>
+                <p>Created on: <span class="updated alert">{{ service.created_on|format_time_string }} </span></p>
+              {% endfor %}
+            {% endif %}
+          </td>
+
+          <td>
+            <form method='post' action="{% url 'account_my_digest_delete' selection_option.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="txt-button alert icon-link">
+                <span class="icon">
+                  <i class="fas fa-trash-alt"></i>
+                </span>
+                Stop notification
+              </button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+
+    <hr class="clear" />
+    <a href="{% url 'account_create_my_digest' %}" class="button primary">
+      Add another area to service notifications
+    </a>
+  {% endif %}
 </div>
 
-<div class="my-account-details">
-  <div class=my-digest-details>
-    {% if not selected_updated %}
-      <div class="updated-digest-list none">
-        <p><b>You haven't selected any postcode areas to form your digest yet.</b></p>
-      </div>
-      <hr class="clear" />
-      <a href="{% url 'account_create_my_digest' %}" class="button primary">Create new digest</a>
-    {% else %}
-      <div class="account-list">
-        <ul class="search-results">
-          {% for selection_option in selected_updated %}
-            <li>
-              <div class="heading">
-                <form method='post' action="{% url 'account_my_digest_delete' selection_option.pk %}">
-                  {% csrf_token %}
-                  <button type="submit" class="txt-button alert icon-link">
-                    <span class="icon">
-                      <i class="fas fa-trash-alt"></i>
-                    </span>
-                    Remove
-                  </button>
-                </form>
-                <h5>Postcode: {{selection_option|get_item:"Postcode"}}, Category: {{selection_option|get_item:"Category"}}</h5>
-              </div>
-              <div>
-                  {% if not selection_option|get_item:"values" %}
-                    <p>None of the services in this digest have been updated in the last week.</p>
-                  {% else %}
-                    {% for service in selection_option|get_item:"values" %}
-
-                        <p class="org"><a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a></p>
-                        <p>Last Updated: <span class="updated alert">{{ service.last_edited|format_time_string }} </span></p>
-
-                      {% endfor %}
-                  {% endif %}
-              </div>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-      <hr class="clear" />
-      <a href="{% url 'account_create_my_digest' %}" class="button primary">Add   selection to digest</a>
-    {% endif %}
-  </div>
-</div>
 {% endblock %}

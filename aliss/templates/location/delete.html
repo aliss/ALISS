@@ -3,39 +3,39 @@
 
 {% block container %}
 <main class="main" role="main">
-    <section id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <div class="breadcrumbs">
-                        <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>
-                        <span class="sep"></span>
-                        <span>Delete location</span>
-                    </div>
-                    <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
-                    <!-- TODO if statement -->
-                    <p>The following services will no longer have this location:</p>
-                    <ul>
-                        {% for service in object.services.all %}
-                            <li><a href="{% url 'service_detail' pk=service.pk %}">{{ service }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
+  <section id="content">
+    <div class="row">
+      <div class="columns content">
+        <div class="copy-container">
+          <div class="breadcrumbs">
+            <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>
+            <span class="sep"></span>
+            <span>Delete location</span>
+          </div>
+          <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
+          <!-- TODO if statement -->
+          <p>The following services will no longer have this location:</p>
+          <ul>
+            {% for service in object.services.all %}
+              <li><a href="{% url 'service_detail' pk=service.pk %}">{{ service }}</a></li>
+            {% endfor %}
+          </ul>
         </div>
-    </section>
-    <section class="large-form">
-        <div class="row">
-            <div class="columns">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="submit">
-                        <input type="submit" class="alert" value="Delete Location">
-                        <a href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+      </div>
+    </div>
+  </section>
+  <section class="large-form">
+    <div class="row">
+      <div class="columns">
+        <form method="post">
+          {% csrf_token %}
+          <div class="submit">
+            <input type="submit" class="alert" value="Delete Location">
+            <a href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
 </main>
 {% endblock %}

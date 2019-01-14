@@ -4,8 +4,5 @@ from aliss.views import SearchView
 
 
 urlpatterns = [
-    url(r'^$',
-        SearchView.as_view(),
-        name='search'
-    )
+    url(r'^$', SearchView.as_view(), name='search')
 ]

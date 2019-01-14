@@ -93,13 +93,10 @@ class Service(models.Model):
         null=True,
         on_delete=models.SET_NULL
     )
-
+    last_edited = models.DateTimeField(null=True, blank=True, default=None)
 
     def is_published(self):
         return self.organisation.published
-
-    last_edited = models.DateTimeField(null=True, blank=True, default=None)
-
 
     def is_edited_by(self, user):
         if user == None or user.pk == None:
@@ -118,8 +115,12 @@ class Service(models.Model):
             name_changed = (result != None) and (result != self.name)
         if force or self.slug == None or name_changed:
             s = slugify(self.name)
-            sCount = Service.objects.filter(slug__icontains=s).count()
-            self.slug = s + "-" + str(sCount)
+            similar = Service.objects.filter(slug__icontains=s).order_by('slug')
+            slug_count = similar.count()
+            new_slug = s + "-" + str(slug_count)
+            if (slug_count > 0) and (similar.last().slug == new_slug):
+                slug_count += 1
+            self.slug = s + "-" + str(slug_count)
             return self.slug
         return False
 
@@ -167,8 +168,6 @@ class Service(models.Model):
     def delete(self, *args, **kwargs):
         self.remove_from_index()
         super(Service, self).delete(*args, **kwargs)
-
-
 
     @property
     def is_claimed(self):
