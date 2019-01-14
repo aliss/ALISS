@@ -144,6 +144,7 @@ def filter_by_query(queryset, q):
         "multi_match" : {
             "query" : q,
             "type": "most_fields",
+            "fuzziness": 2,
             "fields" : ["categories.name", "name", "description"]
         }
     })
