@@ -60,8 +60,9 @@ class SearchView(MultipleObjectMixin, TemplateView):
             self.object_list = self.filter_queryset(self.get_queryset())
             return self.render_to_response(self.get_context_data())
         else:
+            invalid_area = search_form.cleaned_data.get('postcode', None) == None
             return self.render_to_response(
-                    context={'errors': search_form.errors}
+                    context={'errors': search_form.errors, 'invalid_area': invalid_area}
             )
 
     def get_queryset(self, *args, **kwargs):
