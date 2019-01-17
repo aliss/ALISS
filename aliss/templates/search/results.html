@@ -185,7 +185,7 @@
     </section>
     {% include 'partials/share-search.html' %}
   {% else %}
-    {% if invalid_area %}
+    {% if errors and 'postcode' in errors %}
       <section id="error">
         <div class="row">
           <div class="columns">
@@ -199,9 +199,7 @@
           </div>
         </div>
       </section>
-    {% endif %}
-
-    {% if errors and 'postcode' in errors %}
+    {% elif invalid_area %}
       <section id="error">
         <div class="row">
           <div class="columns">

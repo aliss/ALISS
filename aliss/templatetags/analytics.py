@@ -23,10 +23,15 @@ def google_analytics_script():
 def ga_search_events(context, invalid_area, errors):
     request = context["request"]
     ga_string = "//Analytics Disabled "
+    postcode_qs = request.GET.get('postcode')
     if not settings.DEBUG:
         ga_string = ""
     if invalid_area:
-        ga_string = ga_string + "gtag('event', 'search-error-unrecognised', { details: 'user entered unrecognised postcode: "+request.GET['postcode']+"' });"
+        if postcode_qs == None:
+            ga_string = ga_string + "gtag('event', 'search-error-unrecognised', { details: 'no postcode provided: "+request.GET.urlencode()+"' });"
+        else:
+            ga_string = ga_string + "gtag('event', 'search-error-unrecognised', { details: 'user entered unrecognised postcode: "+postcode_qs+"' });"
     elif errors and 'postcode' in errors.keys():
-        ga_string = ga_string + "gtag('event', 'search-error-invalid', { details: 'user entered invalid postcode: "+request.GET['postcode']+"' });"
+        ga_string = ga_string + "gtag('event', 'search-error-invalid', { details: 'user entered invalid postcode: "+postcode_qs+"' });"
+
     return mark_safe(ga_string)
