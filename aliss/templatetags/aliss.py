@@ -2,7 +2,7 @@ from django import template
 from datetime import datetime
 import pytz
 
-from aliss.models import Category
+from aliss.models import Category, Organisation
 
 register = template.Library()
 

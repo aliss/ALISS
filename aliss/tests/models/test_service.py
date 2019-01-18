@@ -115,4 +115,7 @@ class ServiceTestCase(TestCase):
         self.assertFalse(old_last_edited == new_last_edited)
 
     def tearDown(self):
-        self.org.delete()
+        for service in Service.objects.filter(name="My First Service"):
+            service.delete()
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

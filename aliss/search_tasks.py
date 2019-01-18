@@ -5,7 +5,7 @@ from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 
 from aliss.models import Organisation, Service
-from aliss.search import _get_connection, service_to_body, service_mapping
+from aliss.search import _get_connection, service_to_body, organisation_to_body, service_mapping, organisation_mapping
 
 def create_index():
     connection = _get_connection()
@@ -14,6 +14,45 @@ def create_index():
         body={
             'mappings': {
                 'service': { 'properties': service_mapping }
+            },
+            'settings': {
+                'analysis': {
+                    'analyzer': {
+                        'description_analyzer': {
+                            'type': 'custom',
+                            'tokenizer': 'standard',
+                            'char_filter': ['html_strip'],
+                            'filter': ['standard', 'lowercase', 'stop']
+                        },
+                        "bigram_combiner": {
+                            "tokenizer": "standard",
+                            "filter": ["lowercase", "custom_shingle", "my_char_filter"]
+                       }
+                    },
+                    "filter": {
+                        "custom_shingle": {
+                            "type": "shingle",
+                            "min_shingle_size": 2,
+                            "max_shingle_size": 3,
+                            "output_unigrams": True
+                        },
+                        "my_char_filter": {
+                            "type": "pattern_replace",
+                            "pattern": " ",
+                            "replacement": ""
+                        }
+                    }
+                },
+            }
+        }
+    )
+    connection.indices.create(
+        index='organisation_search',
+        body={
+            'mappings': {
+                'organisation':{
+                    'properties': organisation_mapping
+                }
             },
             'settings': {
                 'analysis': {
@@ -103,8 +142,17 @@ def index_all():
         '_source': service_to_body(service)
     } for service in services)):
         print("%s Services indexed" % ok)
+    organisations = Organisation.objects.all().iterator()
+    for ok in bulk(connection, ({
+        '_index':'organisation_search',
+        '_type':'organisation',
+        '_id':organisation.pk,
+        '_source': organisation_to_body(organisation)
+    } for organisation in organisations)):
+        print("%s Organisations indexed" % ok)
 
 
 def delete_index():
     connection = _get_connection()
     connection.indices.delete('search', ignore=404)
+    connection.indices.delete('organisation_search', ignore=404)

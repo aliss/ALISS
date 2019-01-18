@@ -166,3 +166,41 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.get(reverse('organisation_search')+'?q=TestOrg')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TestOrg")
+
+    def test_organisation_search_privileged_user(self):
+
+        self.client.login(username='updater@aliss.org', password='passwurd')
+
+        published_org = Organisation.objects.create(name="Banana Published")
+        published_org.save()
+
+        unpublished_org = Organisation.objects.create(name="Banana Unpublished")
+        unpublished_org.published = False
+        unpublished_org.save()
+
+        response = self.client.get(reverse('organisation_search')+'?q=Banana')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Banana Unpublished")
+
+    def test_organisation_search_basic_user(self):
+
+        self.client.login(username='random@random.org', password='passwurd')
+
+        published_org = Organisation.objects.create(name="Banana Published")
+        published_org.save()
+
+        unpublished_org = Organisation.objects.create(name="Banana Unpublished")
+        unpublished_org.published = False
+        unpublished_org.save()
+
+        response = self.client.get(reverse('organisation_search')+'?q=Banana')
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Banana Unpublished")
+
+    def tearDown(self):
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Banana Unpublished"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Banana Published"):
+            organisation.delete()

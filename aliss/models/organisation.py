@@ -5,6 +5,10 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from aliss.models import ALISSCloudinaryField
 
+
+from elasticsearch_dsl import Search
+from aliss.search import get_connection, organisation_to_body
+
 import pytz
 from datetime import datetime
 
@@ -91,11 +95,25 @@ class Organisation(models.Model):
         super(Organisation, self).save(*args, **kwargs)
         for s in self.services.all():
             s.add_to_index()
+        self.add_to_organisation_index()
 
     def delete(self, *args, **kwargs):
+        self.remove_from_organisation_index()
         for s in self.services.all():
             s.remove_from_index()
         super(Organisation, self).delete(*args, **kwargs)
+
+    def add_to_organisation_index(self):
+        connection = get_connection()
+        return connection.index(index='organisation_search', doc_type='organisation',
+            id=self.id, body=organisation_to_body(self), refresh=True
+        )
+
+    def remove_from_organisation_index(self):
+        connection = get_connection()
+        return connection.delete(index='organisation_search', doc_type='organisation',
+            id=self.id, refresh=True, ignore=404
+        )
 
     @property
     def is_claimed(self):
