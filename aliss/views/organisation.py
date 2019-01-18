@@ -1,5 +1,5 @@
 from django.views.generic import (
-    View, CreateView, UpdateView, DeleteView, DetailView
+    View, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 )
 from django.contrib import messages
 from django.conf import settings
@@ -30,6 +30,13 @@ from aliss.forms import ClaimForm, OrganisationForm
 import logging
 import pytz
 
+from elasticsearch_dsl import Search
+from django.conf import settings
+from elasticsearch_dsl.connections import connections
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on
+
+from aliss.paginators import ESPaginator
+from django.views.generic.list import MultipleObjectMixin
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -192,17 +199,27 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class OrganisationSearchView(FilterView):
+class OrganisationSearchView(MultipleObjectMixin, TemplateView):
     template_name = 'organisation/search.html'
+    paginator_class = ESPaginator
     paginate_by = 10
-    filterset_class = OrganisationFilter
 
-    def get_queryset(self):
-        if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
-            return Organisation.objects.order_by('-created_on')
-        else:
-            return Organisation.objects.filter(published=True).order_by('-created_on')
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        return self.render_to_response(self.get_context_data())
 
+    def get_queryset(self, *args, **kwargs):
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+        queryset = Search(index='organisation_search', doc_type='organisation')
+        query = self.request.GET.get('q')
+        if query:
+            if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
+                queryset = filter_organisations_by_query_all(queryset, query)
+            else:
+                queryset = filter_organisations_by_query_published(queryset, query)
+
+        return queryset
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
     template_name = 'organisation/unpublished.html'

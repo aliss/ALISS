@@ -19,3 +19,7 @@ class LocationViewTestCase(TestCase):
         self.client.logout()
         response = self.client.get(reverse('location_create', kwargs={'pk':self.organisation.pk}))
         self.assertEqual(response.status_code, 302)
+
+    def tearDown(self):
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

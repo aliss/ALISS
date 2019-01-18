@@ -1,7 +1,7 @@
 from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Service, Location
 from aliss.tests.fixtures import Fixtures
-from aliss.search import (get_service)
+from aliss.search import (get_service, get_organisation_by_id, filter_organisations_by_query_all, order_organistations_by_created_on, filter_organisations_by_query_published)
 
 class OrganisationTestCase(TestCase):
     def setUp(self):
@@ -60,6 +60,60 @@ class OrganisationTestCase(TestCase):
         new_last_edited = self.org.last_edited
         self.assertFalse(old_last_edited == new_last_edited)
 
+    def test_organisation_added_to_index(self):
+        queryset = Fixtures.es_organisation_connection()
+        indexed_organisation = get_organisation_by_id(queryset, self.org.id)[0]
+        self.assertEqual(indexed_organisation.id, str(self.org.id))
+        self.assertEqual(indexed_organisation.name, self.org.name)
+        self.assertEqual(indexed_organisation.description, self.org.description)
+        self.assertEqual(indexed_organisation.published, self.org.published)
+
+    def test_organisation_update_reindexes(self):
+        queryset = Fixtures.es_organisation_connection()
+        self.org.name = "Test Org"
+        self.org.save()
+        result = get_organisation_by_id(queryset, self.org.id)[0]
+        self.assertEqual(result['name'], self.org.name)
+
+    def test_organisation_filter_organisations_by_query_all(self):
+        queryset = Fixtures.es_organisation_connection()
+        self.org.name = "banana weird"
+        self.org.save()
+
+        result = filter_organisations_by_query_all(queryset, "banana")
+        result = order_organistations_by_created_on(result).execute()
+        self.assertEqual(result[0].name, self.org.name)
+
+    def test_organisation_filter_organisations_by_query_published(self):
+        queryset = Fixtures.es_organisation_connection()
+        published_org = Organisation.objects.create(name="Banana Published")
+        unpublished_org = Organisation.objects.create(name="Banana Unpublished")
+        unpublished_org.published = False
+        unpublished_org.save()
+        result_all = filter_organisations_by_query_all(queryset, "Banana")
+        result_all = order_organistations_by_created_on(result_all).execute()
+
+        result_published = filter_organisations_by_query_published(queryset, "Banana")
+        result_published = order_organistations_by_created_on(result_published).execute()
+
+        self.assertEqual(unpublished_org.published, False)
+        self.assertEqual(result_all[0].name, unpublished_org.name)
+        self.assertEqual(result_published[0].name, published_org.name)
+
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
             service.delete()
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Test Org"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Renamed Test Org"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Renamed Renamed Test Org"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="banana weird"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Banana Unpublished"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="Banana Published"):
+            organisation.delete()

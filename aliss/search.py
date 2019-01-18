@@ -81,6 +81,20 @@ service_mapping = {
     }
 }
 
+organisation_mapping = {
+    'id': {'type': 'keyword'},
+    'name': {
+        'type': 'text',
+        'analyzer': 'bigram_combiner'},
+    'description': {
+        'type': 'text',
+        'analyzer': 'description_analyzer',
+    },
+    'published':{'type':'boolean'},
+    'created_on':{'type':'date'},
+    'is_claimed':{'type':'boolean'}
+}
+
 
 def service_to_body(service):
     parent_categories =[]
@@ -141,6 +155,16 @@ def service_to_body(service):
         } for service_area in service.service_areas.all()]
     }
 
+def organisation_to_body(organisation):
+    return {
+        'id': str(organisation.id),
+        'name': organisation.name,
+        'description': organisation.description,
+        'published': organisation.published,
+        'created_on': organisation.created_on,
+        'is_claimed': organisation.is_claimed
+    }
+
 
 def filter_by_query(queryset, q):
     queryset = queryset.query({
@@ -154,6 +178,31 @@ def filter_by_query(queryset, q):
         }
     })
 
+    return queryset
+
+def filter_organisations_by_query_all(queryset, q):
+    queryset = queryset.query({
+        "multi_match":{
+            "query": q,
+            "type": "best_fields",
+            "fuzziness": 3,
+            "fields":["name^2", "description"]
+        }
+    })
+    return queryset
+
+def filter_organisations_by_query_published(queryset, q):
+    queryset = filter_organisations_by_query_all(queryset, q)
+
+    queryset = queryset.query({
+        "bool":{
+            "must":{
+                "term":{
+                    "published":"true"
+                    }
+                }
+            }
+    })
     return queryset
 
 
@@ -243,6 +292,11 @@ def get_service(queryset, service_id):
         "term" : { "id" : service_id }
     })).execute()
 
+def get_organisation_by_id(queryset, organisation_id):
+    return queryset.query(Q({
+        "term": {"id": organisation_id }
+    })).execute()
+
 def filter_by_last_edited(queryset, comparison_date):
     queryset = queryset.query({
         "bool": {
@@ -250,9 +304,18 @@ def filter_by_last_edited(queryset, comparison_date):
     }})
     return queryset
 
+
+def order_organistations_by_created_on(queryset):
+    queryset = queryset.sort({
+        "created_on":"desc"
+    })
+
+    return queryset
+
 def filter_by_created_on(queryset, comparison_date):
     queryset = queryset.query({
         "bool": {
             "filter": {"range":{"created_on":{"gte":comparison_date}}}
     }})
+
     return queryset

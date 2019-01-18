@@ -36,3 +36,7 @@ class ClaimTestCase(TestCase):
         exists = Claim.objects.filter(comment="I'm in charge", user=cl).exists()
         self.assertFalse(exists)
         self.assertIsNone(o.claimed_by)
+
+    def tearDown(self):
+        for organisation in Organisation.objects.filter(name="TestOrg"):
+            organisation.delete()

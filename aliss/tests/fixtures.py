@@ -13,6 +13,12 @@ class Fixtures(TestCase):
         return Search(index='search', doc_type='service')
 
     @classmethod
+    def es_organisation_connection(self):
+        connections.create_connection(
+          hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+        return Search(index='organisation_search', doc_type='organisation')
+
+    @classmethod
     def create_users(self):
         t = ALISSUser.objects.create_user("tester@aliss.org", "passwurd", name="Mr Test")
         u = ALISSUser.objects.create_user("updater@aliss.org", "passwurd", name="Mr Updater", is_editor=True)
