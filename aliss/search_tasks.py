@@ -109,6 +109,7 @@ def create_slugs(force=False):
         o.generate_slug(force)
         o.save()
 
+
 def create_last_edited(force=False):
     connection = _get_connection()
     services = Service.objects
@@ -132,8 +133,9 @@ def create_last_edited(force=False):
         o.save()
 
 
-def index_all():
-    connection = _get_connection()
+def index_services(connection=None):
+    if connection == None:
+        connection = _get_connection()
     services = Service.objects.filter(organisation__published=True).all().iterator()
     for ok in bulk(connection, ({
         '_index': 'search',
@@ -142,7 +144,17 @@ def index_all():
         '_source': service_to_body(service)
     } for service in services)):
         print("%s Services indexed" % ok)
-    organisations = Organisation.objects.all().iterator()
+
+
+def index_organisations(include_unpublished, connection=None):
+    if connection == None:
+        connection = _get_connection()
+    
+    if include_unpublished:
+        organisations = Organisation.objects.all().iterator()
+    else:
+        organisations = Organisation.objects.filter(organisation__published=True).all().iterator()
+
     for ok in bulk(connection, ({
         '_index':'organisation_search',
         '_type':'organisation',
@@ -150,6 +162,12 @@ def index_all():
         '_source': organisation_to_body(organisation)
     } for organisation in organisations)):
         print("%s Organisations indexed" % ok)
+
+
+def index_all():
+    connection = _get_connection()
+    index_services(connection)
+    index_organisations(True, connections)
 
 
 def delete_index():
