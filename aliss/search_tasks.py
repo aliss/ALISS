@@ -167,7 +167,7 @@ def index_organisations(include_unpublished, connection=None):
 def index_all():
     connection = _get_connection()
     index_services(connection)
-    index_organisations(True, connections)
+    index_organisations(True, connection)
 
 
 def delete_index():
