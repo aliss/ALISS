@@ -153,7 +153,7 @@ def index_organisations(include_unpublished, connection=None):
     if include_unpublished:
         organisations = Organisation.objects.all().iterator()
     else:
-        organisations = Organisation.objects.filter(organisation__published=True).all().iterator()
+        organisations = Organisation.objects.filter(published=True).all().iterator()
 
     for ok in bulk(connection, ({
         '_index':'organisation_search',
