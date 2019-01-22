@@ -131,3 +131,13 @@ class v4CategorySerializer(serializers.Serializer):
     name = serializers.CharField()
     slug = serializers.SlugField()
     sub_categories = RecursiveField(many=True, source='children')
+
+
+class v4OrganisationDetailSerializer(v4OrganisationSerializer):
+    description = serializers.CharField()
+    facebook = serializers.URLField()
+    twitter  = serializers.URLField()
+    url = serializers.URLField()
+    phone = serializers.CharField()
+    email = serializers.CharField()
+    last_edited = serializers.DateTimeField()
