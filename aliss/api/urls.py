@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^v4/services/$', v4.SearchView.as_view()),
     url(r'^v4/categories/$', v4.CategoryListView.as_view()),
     url(r'^v4/service-areas/$', v4.ServiceAreaListView.as_view()),
+    url(r'^v4/organisations/(?P<pk>[0-9A-Za-z\-]+)/$', v4.OrganisationDetailView.as_view()),
 ]
