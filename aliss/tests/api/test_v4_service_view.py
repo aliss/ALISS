@@ -21,6 +21,11 @@ class v4ServiceDetailViewTestCase(TestCase):
         self.assertTrue('categories' in response.data['data'])
         self.assertTrue('service_areas' in response.data['data'])
 
+    def test_slug(self):
+        path = '/api/v4/services/' + str(self.service.slug) + '/'
+        response = self.client.get(path, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('id' in response.data['data'])
 
     def tearDown(self):
         Fixtures.organisation_teardown()

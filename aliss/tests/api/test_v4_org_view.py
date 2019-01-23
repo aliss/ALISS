@@ -21,6 +21,13 @@ class v4OrganisationDetailViewTestCase(TestCase):
         self.assertTrue('id' in response.data['data'])
         self.assertTrue('services' in response.data['data'])
 
+    def test_slug(self):
+        path = '/api/v4/organisations/' + str(self.organisation.slug) + '/'
+        response = self.client.get(path, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('id' in response.data['data'])
+        self.assertTrue('name' in response.data['data'])
+
     def tearDown(self):
         self.service.delete()
         for organisation in Organisation.objects.filter(name="TestOrg"):
