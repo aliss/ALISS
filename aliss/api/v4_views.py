@@ -80,8 +80,11 @@ class CategoryListView(v3.CategoryListView):
 
 class OrganisationDetailView(APIView):
 
-    def get(self, request, pk):
-        organisation = get_object_or_404(Organisation, pk=pk)
+    def get(self, request, pk=None, slug=None):
+        if pk==None:
+            organisation = get_object_or_404(Organisation, slug=slug)
+        else:
+            organisation = get_object_or_404(Organisation, pk=pk)
         context = { 'request': request }
         data = OrderedDict({'meta': APIv4.META})
         data['data'] = v4OrganisationDetailSerializer(organisation, many=False, context=context).data
@@ -90,8 +93,11 @@ class OrganisationDetailView(APIView):
 
 class ServiceDetailView(APIView):
 
-    def get(self, request, pk):
-        service = get_object_or_404(Service, pk=pk)
+    def get(self, request, pk=None, slug=None):
+        if pk==None:
+            service = get_object_or_404(Service, slug=slug)
+        else:
+            service = get_object_or_404(Service, pk=pk)
         context = { 'request': request }
         data = OrderedDict({'meta': APIv4.META})
         data['data'] = v4ServiceSerializer(service, many=False, context=context).data
