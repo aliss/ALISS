@@ -29,10 +29,10 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         super(Category, self).save(*args, **kwargs)
         for s in self.services.all():
-            s.add_to_index()
+            s.update_index()
 
     def delete(self, *args, **kwargs):
         services = list(self.services.all())
         super(Category, self).delete(*args, **kwargs)
         for s in services:
-            s.add_to_index()
+            s.update_index()

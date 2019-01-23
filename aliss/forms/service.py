@@ -72,7 +72,7 @@ class ServiceForm(forms.ModelForm):
         if commit:
             self.instance.save(kwargs={'skip_index': True})
             self._save_m2m()
-            self.instance.add_to_index()
+            self.instance.update_index()
         else:
             self.save_m2m = self._save_m2m
         return self.instance
