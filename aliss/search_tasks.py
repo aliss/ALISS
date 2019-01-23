@@ -7,84 +7,64 @@ from elasticsearch_dsl import Q
 from aliss.models import Organisation, Service
 from aliss.search import _get_connection, service_to_body, organisation_to_body, service_mapping, organisation_mapping
 
+index_settings = {
+    'analysis': {
+        'analyzer': {
+            'description_analyzer': {
+                'type': 'custom',
+                'tokenizer': 'standard',
+                'char_filter': ['html_strip'],
+                'filter': ['standard', 'lowercase', 'stop']
+            },
+            "bigram_combiner": {
+                "tokenizer": "standard",
+                "filter": ["lowercase", "custom_shingle", "my_char_filter"]
+           }
+        },
+        "filter": {
+            "custom_shingle": {
+                "type": "shingle",
+                "min_shingle_size": 2,
+                "max_shingle_size": 3,
+                "output_unigrams": True
+            },
+            "my_char_filter": {
+                "type": "pattern_replace",
+                "pattern": " ",
+                "replacement": ""
+            }
+        }
+    }
+}
+
+
+def create_service_index(connection=None):
+    if connection==None:
+        connection = _get_connection()
+    body = {
+        'mappings': {
+            'service': { 'properties': service_mapping }
+        }, 'settings': index_settings
+    }
+    connection.indices.create(index='search', body=body)
+
+
+def create_org_index(connection=None):
+    if connection==None:
+        connection = _get_connection()
+    body = {
+        'mappings': {
+            'organisation':{ 'properties': organisation_mapping }
+        },
+        'settings': index_settings
+    }
+    connection.indices.create(index='organisation_search', body=body)
+
+
 def create_index():
     connection = _get_connection()
-    connection.indices.create(
-        index='search',
-        body={
-            'mappings': {
-                'service': { 'properties': service_mapping }
-            },
-            'settings': {
-                'analysis': {
-                    'analyzer': {
-                        'description_analyzer': {
-                            'type': 'custom',
-                            'tokenizer': 'standard',
-                            'char_filter': ['html_strip'],
-                            'filter': ['standard', 'lowercase', 'stop']
-                        },
-                        "bigram_combiner": {
-                            "tokenizer": "standard",
-                            "filter": ["lowercase", "custom_shingle", "my_char_filter"]
-                       }
-                    },
-                    "filter": {
-                        "custom_shingle": {
-                            "type": "shingle",
-                            "min_shingle_size": 2,
-                            "max_shingle_size": 3,
-                            "output_unigrams": True
-                        },
-                        "my_char_filter": {
-                            "type": "pattern_replace",
-                            "pattern": " ",
-                            "replacement": ""
-                        }
-                    }
-                },
-            }
-        }
-    )
-    connection.indices.create(
-        index='organisation_search',
-        body={
-            'mappings': {
-                'organisation':{
-                    'properties': organisation_mapping
-                }
-            },
-            'settings': {
-                'analysis': {
-                    'analyzer': {
-                        'description_analyzer': {
-                            'type': 'custom',
-                            'tokenizer': 'standard',
-                            'char_filter': ['html_strip'],
-                            'filter': ['standard', 'lowercase', 'stop']
-                        },
-                        "bigram_combiner": {
-                            "tokenizer": "standard",
-                            "filter": ["lowercase", "custom_shingle", "my_char_filter"]
-                       }
-                    },
-                    "filter": {
-                        "custom_shingle": {
-                            "type": "shingle",
-                            "min_shingle_size": 2,
-                            "max_shingle_size": 3,
-                            "output_unigrams": True
-                        },
-                        "my_char_filter": {
-                            "type": "pattern_replace",
-                            "pattern": " ",
-                            "replacement": ""
-                        }
-                    }
-                },
-            }
-        }
-    )
+    create_service_index(connection)
+    create_org_index(connection)
 
 
 def create_slugs(force=False):
