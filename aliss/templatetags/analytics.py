@@ -28,10 +28,12 @@ def ga_search_events(context, invalid_area, errors):
         ga_string = ""
     if invalid_area:
         if postcode_qs == None:
-            ga_string = ga_string + "gtag('event', 'search-error-unrecognised', { details: 'no postcode provided: "+request.GET.urlencode()+"' });"
+            ga_string = ga_string + "var layer = { 'event': 'search-error-unrecognised', 'category': 'errors', 'action': 'search',  'label': 'no postcode provided: "+request.GET.urlencode()+"' };"
         else:
-            ga_string = ga_string + "gtag('event', 'search-error-unrecognised', { details: 'user entered unrecognised postcode: "+postcode_qs+"' });"
+            ga_string = ga_string + "var layer = { 'event': 'search-error-unrecognised', 'category': 'errors', 'action': 'search',  'label': 'user entered unrecognised postcode: "+postcode_qs+"' };"
     elif errors and 'postcode' in errors.keys():
-        ga_string = ga_string + "gtag('event', 'search-error-invalid', { details: 'user entered invalid postcode: "+postcode_qs+"' });"
-
+        ga_string = ga_string + "var layer = { 'event': 'search-error-invalid', 'category': 'errors', 'action': 'search',  'label': 'user entered invalid postcode: "+postcode_qs+"' };"
+    else:
+        return ""
+    ga_string = ga_string + " dataLayer.push(layer);"
     return mark_safe(ga_string)
