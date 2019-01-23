@@ -36,6 +36,16 @@ class SearchInputSerializer(serializers.Serializer):
 class OrganisationSerializer(serializers.Serializer):
     id = serializers.UUIDField()
     name = serializers.CharField()
+    aliss_url = serializers.SerializerMethodField()
+    permalink = serializers.SerializerMethodField()
+    is_claimed = serializers.BooleanField()
+    slug = serializers.CharField()
+
+    def get_aliss_url(self, obj):
+        return self.context['request'].build_absolute_uri(reverse('organisation_detail_slug', args=[obj.slug]))
+
+    def get_permalink(self, obj):
+        return self.context['request'].build_absolute_uri(reverse('organisation_detail', args=[obj.id]))
 
 
 class CategorySearchSerializer(serializers.Serializer):
@@ -78,35 +88,36 @@ class v4ServiceAreaSerializer(ServiceAreaSerializer):
         return ServiceArea.AREA_TYPES[obj.type][1]
 
 
-class SearchSerializer(serializers.Serializer):
+class BaseServiceSerializer(serializers.Serializer):
     id = serializers.UUIDField()
-    organisation = OrganisationSerializer()
     name = serializers.CharField()
     description = serializers.CharField()
-    slug = serializers.CharField()
     url = serializers.URLField(required=False)
     phone = serializers.CharField(required=False)
     email = serializers.CharField(required=False)
     categories = CategorySearchSerializer(many=True, required=False)
-    locations = LocationSerializer(many=True, required=False)
     service_areas = ServiceAreaSerializer(many=True, required=False)
 
 
-class v4OrganisationSerializer(OrganisationSerializer):
-    aliss_url = serializers.SerializerMethodField()
-    permalink = serializers.SerializerMethodField()
-    is_claimed = serializers.BooleanField()
-    slug = serializers.CharField()
-
-    def get_aliss_url(self, obj):
-        return self.context['request'].build_absolute_uri(reverse('organisation_detail_slug', args=[obj.slug]))
-
-    def get_permalink(self, obj):
-        return self.context['request'].build_absolute_uri(reverse('organisation_detail', args=[obj.id]))
+class SearchSerializer(BaseServiceSerializer):
+    locations = LocationSerializer(many=True, required=False)
+    organisation = OrganisationSerializer()
 
 
-class v4SearchSerializer(SearchSerializer):
-    organisation = v4OrganisationSerializer()
+class v4OrganisationDetailSerializer(OrganisationSerializer):
+    description = serializers.CharField()
+    facebook = serializers.URLField()
+    twitter  = serializers.URLField()
+    url = serializers.URLField()
+    phone = serializers.CharField()
+    email = serializers.CharField()
+    last_edited = serializers.DateTimeField()
+    services = BaseServiceSerializer(many=True)
+
+
+class v4ServiceSerializer(BaseServiceSerializer):
+    organisation = OrganisationSerializer()
+    slug         = serializers.CharField()
     aliss_url    = serializers.SerializerMethodField()
     permalink    = serializers.SerializerMethodField()
     last_updated = serializers.SerializerMethodField()
@@ -121,6 +132,11 @@ class v4SearchSerializer(SearchSerializer):
         return obj.last_edited
 
 
+class v4SearchSerializer(v4ServiceSerializer):
+    organisation = OrganisationSerializer()
+    locations = LocationSerializer(many=True, required=False)
+
+
 class RecursiveField(serializers.Serializer):
     def to_representation(self, value):
         serializer = self.parent.parent.__class__(value, context=self.context)
@@ -131,13 +147,3 @@ class v4CategorySerializer(serializers.Serializer):
     name = serializers.CharField()
     slug = serializers.SlugField()
     sub_categories = RecursiveField(many=True, source='children')
-
-
-class v4OrganisationDetailSerializer(v4OrganisationSerializer):
-    description = serializers.CharField()
-    facebook = serializers.URLField()
-    twitter  = serializers.URLField()
-    url = serializers.URLField()
-    phone = serializers.CharField()
-    email = serializers.CharField()
-    last_edited = serializers.DateTimeField()
