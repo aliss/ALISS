@@ -43,7 +43,7 @@ class LocationCreateView(
 
         services = self.object.services.all()
         for service in services:
-            service.add_to_index()
+            service.update_index()
 
         if self.request.is_ajax():
             return JsonResponse({

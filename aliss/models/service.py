@@ -124,14 +124,18 @@ class Service(models.Model):
             return self.slug
         return False
 
-    def add_to_index(self):
+    def update_index(self):
         connection = get_connection()
-        return connection.index(index='search', doc_type='service',
-            id=self.id, body=service_to_body(self), refresh=True
-        )
+        if self.is_published():
+            return connection.index(index='search', doc_type='service',
+                id=self.id, body=service_to_body(self), refresh=True
+            )
+        else:
+            return self.remove_from_index()
 
-    def remove_from_index(self):
-        connection = get_connection()
+    def remove_from_index(self, connection=None):
+        if connection == None:
+            connection = get_connection()
         return connection.delete(index='search', doc_type='service',
             id=self.id, refresh=True, ignore=404
         )
@@ -150,8 +154,6 @@ class Service(models.Model):
         current_date = datetime.now()
         current_date = utc.localize(current_date)
         self.last_edited = current_date
-        # self.remove_from_index()
-        # self.add_to_index()
 
     def save(self, *args, **kwargs):
         self.generate_slug()
@@ -160,10 +162,8 @@ class Service(models.Model):
         if 'skip_index' in kwargs:
             do_index = False; kwargs.pop('skip_index')
         super(Service, self).save(*args)
-        if not self.is_published():
-            self.remove_from_index()
-        elif do_index:
-            self.add_to_index()
+        if do_index:
+            self.update_index()
 
     def delete(self, *args, **kwargs):
         self.remove_from_index()

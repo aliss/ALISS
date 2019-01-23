@@ -94,7 +94,7 @@ class Organisation(models.Model):
         self.generate_last_edited()
         super(Organisation, self).save(*args, **kwargs)
         for s in self.services.all():
-            s.add_to_index()
+            s.update_index()
         self.add_to_organisation_index()
 
     def delete(self, *args, **kwargs):
