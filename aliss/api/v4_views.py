@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from . import views as v3
-from aliss.models import Category, ServiceArea, Organisation
+from aliss.models import Category, ServiceArea, Organisation, Service
 from collections import OrderedDict
 from copy import deepcopy
 from django.shortcuts import get_object_or_404
@@ -12,7 +12,8 @@ from .serializers import (
     SearchInputSerializer,
     v4CategorySerializer,
     v4ServiceAreaSerializer,
-    v4OrganisationDetailSerializer
+    v4OrganisationDetailSerializer,
+    v4ServiceSerializer
 )
 
 class APIv4():
@@ -82,5 +83,16 @@ class OrganisationDetailView(APIView):
     def get(self, request, pk):
         organisation = get_object_or_404(Organisation, pk=pk)
         context = { 'request': request }
-        data = v4OrganisationDetailSerializer(organisation, many=False, context=context).data
+        data = OrderedDict({'meta': APIv4.META})
+        data['data'] = v4OrganisationDetailSerializer(organisation, many=False, context=context).data
+        return Response(data)
+
+
+class ServiceDetailView(APIView):
+
+    def get(self, request, pk):
+        service = get_object_or_404(Service, pk=pk)
+        context = { 'request': request }
+        data = OrderedDict({'meta': APIv4.META})
+        data['data'] = v4ServiceSerializer(service, many=False, context=context).data
         return Response(data)
