@@ -19,10 +19,12 @@ class LocationViewTestCase(TestCase):
     def test_location_update(self):
         path=reverse('location_edit', kwargs={'pk':self.location.pk})
         response = self.client.post(path,
-            { 'name': 'my updated location', 'street_address': '1 update street' })
+            { 'name': 'Community Centre', 'street_address': '10 Lochend Road',
+              'locality': 'Edinburgh', 'postal_code': 'EH6 8HB' })
+        print(response.content)
         self.location.refresh_from_db()
-        self.assertEqual(self.location.name, 'my updated location')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.location.name, 'Community Centre')
+        self.assertEqual(response.status_code, 302)
 
     def test_location_create(self):
         x=reverse('location_create', kwargs={'pk':self.organisation.pk})
