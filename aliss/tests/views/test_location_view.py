@@ -21,7 +21,6 @@ class LocationViewTestCase(TestCase):
         response = self.client.post(path,
             { 'name': 'Community Centre', 'street_address': '10 Lochend Road',
               'locality': 'Edinburgh', 'postal_code': 'EH6 8HB' })
-        print(response.content)
         self.location.refresh_from_db()
         self.assertEqual(self.location.name, 'Community Centre')
         self.assertEqual(response.status_code, 302)
