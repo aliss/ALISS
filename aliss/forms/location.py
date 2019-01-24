@@ -1,8 +1,7 @@
 from django import forms
 from django.conf import settings
-
 from geopy.geocoders import GoogleV3
-
+from geopy.geocoders import Nominatim
 from aliss.models import Location
 
 
@@ -43,10 +42,14 @@ class LocationForm(forms.ModelForm):
         except:
             raise forms.ValidationError("Could not find this address, are you sure it is valid?")
 
-        geolocator = GoogleV3(api_key=settings.GOOGLE_API_KEY)
-        geocode_result = geolocator.geocode(
-            address, components={'country': 'gb'}, exactly_one=True, timeout=5
-        )
+        if settings.GOOGLE_API_KEY == None or settings.GOOGLE_API_KEY == '':
+            query = { 'street': street_address, 'city': locality, 'postalcode': postal_code }
+            geolocator = Nominatim(country_bias='gb',user_agent="aliss_django")
+            geocode_result = geolocator.geocode(query, exactly_one=True, timeout=5)
+        else:
+            geolocator = GoogleV3(api_key=settings.GOOGLE_API_KEY)
+            geocode_result = geolocator.geocode(
+                address, components={'country': 'gb'}, exactly_one=True, timeout=5)
 
         if geocode_result:
             cleaned_data['latitude'] = geocode_result.latitude
