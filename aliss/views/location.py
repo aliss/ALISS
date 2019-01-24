@@ -83,7 +83,7 @@ class LocationUpdateView(
 
         services = self.object.services.all()
         for service in services:
-            service.add_to_index()
+            service.update_index()
 
         messages.success(
             self.request,
