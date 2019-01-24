@@ -6,9 +6,23 @@ from aliss.models import Organisation, ALISSUser, Service, Location
 
 class LocationViewTestCase(TestCase):
     def setUp(self):
-        self.user = ALISSUser.objects.create_user("random@random.org", "passwurd")
-        self.client.login(username='random@random.org', password='passwurd')
-        self.organisation = Fixtures.create_organisation(self.user)
+        self.service = Fixtures.create()
+        self.organisation = self.service.organisation
+        self.location = self.organisation.locations.first()
+        self.client.login(username="tester@aliss.org", password="passwurd")
+
+    def test_location_edit(self):
+        path=reverse('location_edit', kwargs={'pk':self.location.pk})
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_location_update(self):
+        path=reverse('location_edit', kwargs={'pk':self.location.pk})
+        response = self.client.post(path,
+            { 'name': 'my updated location', 'street_address': '1 update street' })
+        self.location.refresh_from_db()
+        self.assertEqual(self.location.name, 'my updated location')
+        self.assertEqual(response.status_code, 200)
 
     def test_location_create(self):
         x=reverse('location_create', kwargs={'pk':self.organisation.pk})
@@ -21,5 +35,4 @@ class LocationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def tearDown(self):
-        for organisation in Organisation.objects.filter(name="TestOrg"):
-            organisation.delete()
+        Fixtures.organisation_teardown()

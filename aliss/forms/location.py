@@ -38,7 +38,10 @@ class LocationForm(forms.ModelForm):
         region = cleaned_data.get("region")
         postal_code = cleaned_data.get("postal_code")
 
-        address = ",".join([street_address, locality, region, postal_code])
+        try:
+            address = ",".join([street_address, locality, region, postal_code])
+        except:
+            raise forms.ValidationError("Could not find this address, are you sure it is valid?")
 
         geolocator = GoogleV3(api_key=settings.GOOGLE_API_KEY)
         geocode_result = geolocator.geocode(
