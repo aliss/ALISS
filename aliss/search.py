@@ -168,25 +168,41 @@ def organisation_to_body(organisation):
 
 def filter_by_query(queryset, q):
     queryset = queryset.query({
-        "multi_match" : {
-            "query" : q,
-            "type": "best_fields",
-            "fuzziness": "AUTO",
-            "fields" : ["categories.name", "name^2", "description^1.5"],
-            #"operator":  "and",
-            #"fuzzy_transpositions": True
+        "bool": {
+            "should":[{
+                "multi_match": {
+                    "query": q,
+                    "fields": ["categories.name", "name^2", "description^1.5"]
+                }
+            },{
+                "multi_match": {
+                    "query": q,
+                    "fields": ["categories.name", "name^2", "description^1.5"],
+                    "fuzziness": "AUTO"
+                }
+            }]
         }
     })
-
     return queryset
+    
 
 def filter_organisations_by_query_all(queryset, q):
     queryset = queryset.query({
-        "multi_match":{
-            "query": q,
-            "type": "best_fields",
-            "fuzziness": "AUTO",
-            "fields":["name^2", "description"]
+        "bool": {
+            "should":[{
+                "multi_match": {
+                    "query": q,
+                    "type": "best_fields",
+                    "fields":["name^2", "description"]
+                }
+            },{
+                "multi_match": {
+                    "query": q,
+                    "type": "best_fields",
+                    "fields":["name^2", "description"],
+                    "fuzziness": "AUTO"
+                }
+            }]
         }
     })
     return queryset
@@ -196,12 +212,8 @@ def filter_organisations_by_query_published(queryset, q):
 
     queryset = queryset.query({
         "bool":{
-            "must":{
-                "term":{
-                    "published":"true"
-                    }
-                }
-            }
+            "must":{ "term":{ "published":"true" } }
+        }
     })
     return queryset
 
