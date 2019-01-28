@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import Organisation, ALISSUser, Service, Location, Claim
-from aliss.search import (get_service)
+from aliss.search import (get_service, get_organisation_by_id)
 
 
 class OrganisationViewTestCase(TestCase):
@@ -147,20 +147,22 @@ class OrganisationViewTestCase(TestCase):
 
     def test_organisation_publish(self):
         queryset = Fixtures.es_connection()
+        org_queryset = Fixtures.es_organisation_connection()
         self.organisation.published = False
         self.organisation.save()
         unpublished_service = Fixtures.create_service(self.organisation)
         index_result = get_service(queryset, unpublished_service.id)
         self.client.login(username='staff@aliss.org', password='passwurd')
         self.assertEqual(len(index_result), 0)
-
         response = self.client.post(reverse('organisation_publish', kwargs={'pk': self.organisation.pk}))
         self.organisation.refresh_from_db()
         index_result = get_service(queryset, unpublished_service.id)
-        self.assertEqual(len(index_result), 0)
+        self.assertEqual(len(index_result), 1)
         self.assertTrue(self.organisation.published)
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, (reverse('organisation_unpublished')))
+        org_index_result = get_organisation_by_id(org_queryset, self.organisation.id)
+        self.assertEqual(len(org_index_result), 1)
 
     def test_organisation_search(self):
         response = self.client.get(reverse('organisation_search')+'?q=TestOrg')
