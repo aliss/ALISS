@@ -171,7 +171,7 @@ def filter_by_query(queryset, q):
         "multi_match" : {
             "query" : q,
             "type": "best_fields",
-            "fuzziness": 3,
+            "fuzziness": "AUTO",
             "fields" : ["categories.name", "name^2", "description^1.5"],
             #"operator":  "and",
             #"fuzzy_transpositions": True
@@ -185,7 +185,7 @@ def filter_organisations_by_query_all(queryset, q):
         "multi_match":{
             "query": q,
             "type": "best_fields",
-            "fuzziness": 3,
+            "fuzziness": "AUTO",
             "fields":["name^2", "description"]
         }
     })
