@@ -19,6 +19,10 @@ from aliss.search import (
     filter_by_category
 )
 
+from elasticsearch_dsl import Search
+from django.conf import settings
+from elasticsearch_dsl.connections import connections
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
@@ -115,7 +119,7 @@ class SearchOrganisationsView(MultipleObjectMixin, TemplateView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
-        query = self.request.GET.get('q')
+        query = self.request.GET.get('query')
         if query:
             if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
                 queryset = filter_organisations_by_query_all(queryset, query)
