@@ -6,33 +6,36 @@
 {% block container %}
 <main class="main" role="main">
   {% if not invalid_area and not errors %}
-    <section id="content" class="results">
-      <div class="row title">
-        <div class="columns">
-          <h1>Organisations related to: <span class="postcode">{{ request.GET.query }}</span>
-          </h1>
-          <div class="buttons">
-            <a href="{% url 'organisations' %}" class="button primary">New Organisation Search</a>
-          </div>
+  <section id="content" class="results">
+    <div class="row title">
+      <div class="columns">
+        <h1>Organisations related to: <span class="postcode">{{ request.GET.query }}</span>
+        </h1>
+        <div class="buttons">
+          <a href="{% url 'organisations' %}" class="button primary">New organisation search</a>
         </div>
       </div>
-    </section>
-    {% endif %}
-    <div class="columns listing">
-      <ul class="search-results">
-        {% for result in object_list %}
-          <li>
-            <div class="heading">
-                <a href="{% url 'organisation_detail' result.id %}">
-              <h3>
-                {{ result.name }}{% if result.is_claimed %}
-                <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
-                {% endif %}</h3>
-              </a>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </main>
-  {% endblock %}
+    </div>
+  </section>
+  {% endif %}
+  <div class="columns listing">
+    <ul class="search-results">
+      {% for result in object_list %}
+      <li>
+        <div class="heading">
+          <a href="{% url 'organisation_detail' result.id %}">
+            <h3>
+              {{ result.name }}{% if result.is_claimed %}
+              <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
+              {% endif %}
+            </h3>
+          </a>
+        </div>
+        <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
+  </div>
+</main>
+{% endblock %}
