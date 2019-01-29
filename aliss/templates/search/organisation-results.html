@@ -18,27 +18,21 @@
       </div>
     </section>
     {% endif %}
-    {% for result in object_list%}
-      <p>{{ result.name }}</p>
-      <p>{{ result.description}}</p>
-      <p>{{ result.published}}</p>
-      <p>{{ result.created_on}}</p>
-      <p>{{ result.is_claimed}}</p>
-    {% endfor %}
-  </main>
-{% endblock %}
-
-
-<!-- organisation_mapping = {
-    'id': {'type': 'keyword'},
-    'name': {
-        'type': 'text',
-        'analyzer': 'bigram_combiner'},
-    'description': {
-        'type': 'text',
-        'analyzer': 'description_analyzer',
-    },
-    'published':{'type':'boolean'},
-    'created_on':{'type':'date'},
-    'is_claimed':{'type':'boolean'}
-} -->
+    <div class="columns listing">
+      <ul class="search-results">
+        {% for result in object_list %}
+          <li>
+            <div class="heading">
+                <a href="{% url 'organisation_detail' result.id %}">
+              <h3>
+                {{ result.name }}{% if result.is_claimed %}
+                <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
+                {% endif %}</h3>
+              </a>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </main>
+  {% endblock %}
