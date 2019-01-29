@@ -2,3 +2,12 @@
 {% load aliss %}
 {% load analytics %}
 {% load humanize %}
+
+{% block title %}{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }}, {{ service_area }} - ALISS{% endblock %}
+{% block meta_schema %}
+  <meta property="og:title" content="{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
+  <meta property="og:description" content="{{ paginator.count }} search results for services in {% firstof service_area postcode.postcode %}" />
+  <meta name="twitter:title" content="{% if not request.GET.q %}Help and support{% else %}'{{ request.GET.q }}' help and support{% endif %} in {{ postcode.postcode }} on ALISS.org" />
+  <meta name="twitter:description" content="{{ paginator.count }} search results for services in {% firstof service_area postcode.postcode %}" />
+  <meta name="description" content="Search results for help and support in {{ postcode.postcode }}, {{ service_area }}">
+{% endblock %}
