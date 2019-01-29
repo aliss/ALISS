@@ -101,3 +101,25 @@ class SearchShareView(View):
                 query="&q={query}".format(query=query) if query else ''
             )
         )
+
+class SearchOrganisationsView(MultipleObjectMixin, TemplateView):
+    template_name = 'search/organisation-results.html'
+    paginator_class = ESPaginator
+    paginate_by = 10
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        return self.render_to_response(self.get_context_data())
+
+    def get_queryset(self, *args, **kwargs):
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+        queryset = Search(index='organisation_search', doc_type='organisation')
+        query = self.request.GET.get('q')
+        if query:
+            if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
+                queryset = filter_organisations_by_query_all(queryset, query)
+            else:
+                queryset = filter_organisations_by_query_published(queryset, query)
+
+        return queryset
