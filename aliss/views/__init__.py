@@ -23,7 +23,12 @@ from .account import (
     AccountCreateDigestSelection,
     AccountMyDigestDelete
 )
-from .search import SearchView, SearchShareView
+from .search import (
+    SearchView,
+    SearchShareView,
+    SearchOrganisationsView
+)
+
 from .organisation import *
 from .location import (
     LocationCreateView,
