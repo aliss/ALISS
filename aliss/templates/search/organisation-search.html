@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load aliss %}
+{% load analytics %}
+{% load humanize %}
+
+{% block container %}
+<section id="search">
+    <div class="bg"></div>
+    <div class="row">
+        <div class="columns">
+            <h1>Explore Organisations</h1>
+            <label for="postcode">Please enter keywords to find more information about organisations.</label>
+            <div class="search-box">
+                <div class="search-holder sbs-inputs">
+                    <form action="{% url 'results' %}">
+                        <input class="query" type="text" name="query" id="query" placeholder="e.g. Care Scotland"
+                        <div class="search-button">
+                            <button type="submit"><span>Search</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
