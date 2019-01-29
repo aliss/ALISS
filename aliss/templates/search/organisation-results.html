@@ -20,6 +20,25 @@
     {% endif %}
     {% for result in object_list%}
       <p>{{ result.name }}</p>
+      <p>{{ result.description}}</p>
+      <p>{{ result.published}}</p>
+      <p>{{ result.created_on}}</p>
+      <p>{{ result.is_claimed}}</p>
     {% endfor %}
   </main>
 {% endblock %}
+
+
+<!-- organisation_mapping = {
+    'id': {'type': 'keyword'},
+    'name': {
+        'type': 'text',
+        'analyzer': 'bigram_combiner'},
+    'description': {
+        'type': 'text',
+        'analyzer': 'description_analyzer',
+    },
+    'published':{'type':'boolean'},
+    'created_on':{'type':'date'},
+    'is_claimed':{'type':'boolean'}
+} -->
