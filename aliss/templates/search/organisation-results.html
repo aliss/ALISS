@@ -33,11 +33,8 @@
               <div class="sbs-inputs">
                 <div class="clearable-input">
                   <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
-                  <input type="text" placeholder="e.g. Diabetes" name="query" value="{{ request.GET.query }}">
+                  <input type="text" placeholder="e.g. Diabetes" name="query" value="{{ request.GET.q }}">
                 </div>
-                <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
-                <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
-                <input type="hidden" name="category" value="{{ request.GET.category }}">
                 <input type="submit" class="secondary" value="Search">
               </div>
             </div>
