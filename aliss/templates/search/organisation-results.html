@@ -18,24 +18,68 @@
     </div>
   </section>
   {% endif %}
-  <div class="columns listing">
-    <ul class="search-results">
-      {% for result in object_list %}
-      <li>
-        <div class="heading">
-          <a href="{% url 'organisation_detail' result.id %}">
-            <h3>
-              {{ result.name }}{% if result.is_claimed %}
-              <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
-              {% endif %}
-            </h3>
-          </a>
+
+
+  <section id="results">
+
+    <br/>
+    <div class="row results">
+      <div class="columns filters">
+        <h4 class="toggle-heading" id="filters_toggle">Customise results</h4>
+        <div class="filter-group toggled" id="filters">
+          <form>
+            <div class="filter keyword-search">
+              <label>Filter by keyword:</label>
+              <div class="sbs-inputs">
+                <div class="clearable-input">
+                  <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
+                  <input type="text" placeholder="e.g. Diabetes" name="query" value="{{ request.GET.query }}">
+                </div>
+                <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
+                <input type="hidden" name="category" value="{{ request.GET.category }}">
+                <input type="submit" class="secondary" value="Search">
+              </div>
+            </div>
+          </form>
         </div>
-        <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
-      </li>
-      {% endfor %}
-    </ul>
-    {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
-  </div>
+      </div>
+
+      <div class="columns listing">
+        <ul class="search-results">
+          {% for result in object_list %}
+          <li>
+            <div class="heading">
+              <a href="{% url 'organisation_detail' result.id %}">
+                <h3>
+                  {{ result.name }}{% if result.is_claimed %}
+                  <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
+                  {% endif %}
+                </h3>
+              </a>
+            </div>
+            <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+
+        {% if not page_obj.has_next %}
+        <div class="error">
+          <div class="copy-container">
+            {% if object_list %}
+            <hr class="clear"/>
+            <h2>Couldn't find what you were looking for?</h2>
+            {% else %}
+            <h2>Sorry, we couldn't find anything using those terms.</h2>
+            {% endif %}
+            <p>You can try searching again with different search terms.</p>
+          </div>
+        </div>
+        {% endif %}
+        {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
+      </div>
+    </div>
+  </section>
+  {% include 'partials/share-search.html' %}
 </main>
 {% endblock %}
