@@ -2,6 +2,24 @@
 {% load aliss %}
 {% load humanize %}
 
+
 {% block container %}
-<h1>{{ request.GET.query }}</h1>
+<main class="main" role="main">
+  {% if not invalid_area and not errors %}
+    <section id="content" class="results">
+      <div class="row title">
+        <div class="columns">
+          <h1>Organisations related to: <span class="postcode">{{ request.GET.query }}</span>
+          </h1>
+          <div class="buttons">
+            <a href="{% url 'organisations' %}" class="button primary">New Organisation Search</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    {% for result in object_list%}
+      <p>{{ result.name }}</p>
+    {% endfor %}
+  </main>
 {% endblock %}
