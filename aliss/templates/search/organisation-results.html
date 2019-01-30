@@ -34,11 +34,41 @@
                 <div class="clearable-input">
                   <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
                   <input type="text" placeholder="e.g. Diabetes" name="query" value="{{ request.GET.q }}">
+                  <input type="hidden" name="claimed" value="{{ request.GET.is_claimed }}">
                 </div>
                 <input type="submit" class="secondary" value="Search">
               </div>
             </div>
           </form>
+        </div>
+        <div class="filter category">
+          <label>Filter by claim status:</label>
+          <ul class="radio-list-links">
+            <li  {% if not request.GET.is_claimed %}class="active"{% endif %}>
+              <a href="?{% query_transform request is_claimed=None %}">
+                <span class="radio"></span>
+                <span class="name">
+                  Show me all organisations, claimed and unclaimed
+                </span>
+              </a>
+            </li>
+            <li {% if request.GET.is_claimed == 'False' %}class="active"{% endif %}>
+              <a href="?{% query_transform request is_claimed='False' %}">
+                <span class="radio"></span>
+                <span class="name">
+                  Only show the unclaimed organisations
+                </span>
+              </a>
+            </li>
+            <li {% if request.GET.is_claimed == 'True' %}class="active"{% endif %}>
+              <a href="?{% query_transform request is_claimed='True' %}">
+                <span class="radio"></span>
+                <span class="name">
+                  Only show organisations that are claimed
+                </span>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
 
