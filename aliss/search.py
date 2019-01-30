@@ -209,7 +209,7 @@ def organisation_to_body(organisation):
                 'lat': location.latitude,
                 'lon': location.longitude
             }
-        } for location in service.locations.all()]
+        } for location in organisation.locations.all()]
     }
 
 
