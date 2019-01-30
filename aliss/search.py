@@ -117,7 +117,13 @@ organisation_mapping = {
             'point': {'type': 'geo_point'},
         }
     },
-
+    'services': {
+        'properties': {
+            'id': {'type': 'keyword'},
+            'name': {'type': 'keyword'},
+            'slug': {'type': 'keyword'},
+        }
+    }
 }
 
 
@@ -209,7 +215,12 @@ def organisation_to_body(organisation):
                 'lat': location.latitude,
                 'lon': location.longitude
             }
-        } for location in organisation.locations.all()]
+        } for location in organisation.locations.all()],
+        'services': [{
+            'id': service.id,
+            'name': service.name,
+            'slug': service.slug
+        } for service in organisation.services.all()]
     }
 
 
