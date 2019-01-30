@@ -52,16 +52,16 @@
                 </span>
               </a>
             </li>
-            <li {% if request.GET.is_claimed == 'false' %}class="active"{% endif %}>
-              <a href="?{% query_transform request is_claimed='false' %}">
+            <li {% if request.GET.is_claimed == 'False' %}class="active"{% endif %}>
+              <a href="?{% query_transform request is_claimed='False' %}">
                 <span class="radio"></span>
                 <span class="name">
                   Only show the unclaimed organisations
                 </span>
               </a>
             </li>
-            <li {% if request.GET.is_claimed == 'true' %}class="active"{% endif %}>
-              <a href="?{% query_transform request is_claimed='true' %}">
+            <li {% if request.GET.is_claimed == 'True' %}class="active"{% endif %}>
+              <a href="?{% query_transform request is_claimed='True' %}">
                 <span class="radio"></span>
                 <span class="name">
                   Only show organisations that are claimed

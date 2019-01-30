@@ -123,7 +123,9 @@ organisation_mapping = {
             'name': {'type': 'keyword'},
             'slug': {'type': 'keyword'},
         }
-    }
+    },
+    'services_count':{'type': 'integer'}
+
 }
 
 
@@ -220,7 +222,8 @@ def organisation_to_body(organisation):
             'id': service.id,
             'name': service.name,
             'slug': service.slug
-        } for service in organisation.services.all()]
+        } for service in organisation.services.all()],
+        'services_count': len(organisation.services.all())
     }
 
 
@@ -388,4 +391,19 @@ def filter_by_claimed_status(queryset, claimed_status):
                 }
             }
     })
+    return queryset
+
+def filter_by_has_services(queryset, has_services):
+    if has_services:
+        queryset = queryset.query({
+        "bool":{
+            "filter": {"range":{"services_count":{"gte":1}}}
+            }
+        })
+    else:
+        queryset = queryset.query({
+        "bool":{
+            "filter": {"range":{"services_count":{"lte":0}}}
+            }
+        })
     return queryset

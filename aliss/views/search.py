@@ -22,7 +22,7 @@ from aliss.search import (
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, filter_by_has_services
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
@@ -111,15 +111,19 @@ class SearchOrganisationsView(MultipleObjectMixin, TemplateView):
     paginator_class = ESPaginator
     paginate_by = 10
 
-    def filter_queryset(self, queryset):
-        claimed_status = self.request.GET.get('is_claimed')
-        if claimed_status:
-            queryset = filter_by_claimed_status(queryset, claimed_status)
-        return queryset
-
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
         return self.render_to_response(self.get_context_data())
+
+    def filter_queryset(self, queryset):
+        claimed_status = self.request.GET.get('is_claimed')
+        has_services = self.request.GET.get('has_services')
+        if claimed_status:
+            queryset = filter_by_claimed_status(queryset, claimed_status)
+        if has_services:
+            queryset = filter_by_has_services(queryset, has_services)
+
+        return queryset
 
     def get_queryset(self, *args, **kwargs):
         connections.create_connection(
@@ -135,3 +139,13 @@ class SearchOrganisationsView(MultipleObjectMixin, TemplateView):
                 queryset = filter_organisations_by_query_published(queryset, query)
 
         return queryset
+
+        def filter_queryset(self, queryset):
+            claimed_status = self.request.GET.get('is_claimed')
+            has_services = self.request.GET.get('has_services')
+            if claimed_status:
+                queryset = filter_by_claimed_status(queryset, claimed_status)
+            if has_services.exists():
+                queryset = filter_by_has_services(queryset, has_services)
+
+            return queryset
