@@ -1,0 +1,29 @@
+{% if services %}
+    <div class="location{% if services|length > 1 %} multiple{% endif %}">
+        {% for service in services %}
+            {% if forloop.first and not forloop.last %}
+                <span>First service:</span>
+                <a href="{% url 'service_detail_slug' service.slug %}" class="icon-link">
+                    <span class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    {{ service.name }}
+                </a>
+                <div class="more">
+                    <a class="more-link">More Services</a>
+                </div>
+                <div class="locations-list">
+            {% else %}
+                <a href="{% url 'service_detail_slug' service.slug %}" class="icon-link">
+                    <span class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    {{ service.name }}
+                </a>
+            {% endif %}
+            {% if forloop.last and not forloop.first %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
