@@ -99,6 +99,24 @@ organisation_mapping = {
     'facebook': {'type': 'keyword'},
     'twitter': {'type': 'keyword'},
     'slug': {'type': 'keyword'},
+    'locations': {
+        'properties': {
+            'id': {'type': 'keyword'},
+            'formatted_address': {'type': 'keyword'},
+            'name': {'type': 'text'},
+            'description': {
+                'type': 'text',
+                'analyzer': 'description_analyzer',
+            },
+            'street_address': {'type': 'keyword'},
+            'locality': {'type': 'keyword'},
+            'region': {'type': 'keyword'},
+            'state': {'type': 'keyword'},
+            'postal_code': {'type': 'keyword'},
+            'country': {'type': 'keyword'},
+            'point': {'type': 'geo_point'},
+        }
+    },
 
 }
 
@@ -175,7 +193,23 @@ def organisation_to_body(organisation):
         'email': organisation.email,
         'facebook': organisation.facebook,
         'twitter': organisation.twitter,
-        'slug': organisation.slug
+        'slug': organisation.slug,
+        'locations': [{
+            'id': location.id,
+            'name': location.name,
+            'formatted_address': location.formatted_address,
+            'description': location.description,
+            'street_address': location.street_address,
+            'locality': location.locality,
+            'region': location.region,
+            'state': location.state,
+            'postal_code': location.postal_code,
+            'country': location.country,
+            'point': {
+                'lat': location.latitude,
+                'lon': location.longitude
+            }
+        } for location in service.locations.all()]
     }
 
 
