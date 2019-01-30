@@ -377,3 +377,15 @@ def filter_by_created_on(queryset, comparison_date):
     }})
 
     return queryset
+
+def filter_by_claimed_status(queryset, claimed_status):
+    queryset = queryset.query({
+        "bool":{
+            "filter":{
+                "term":{
+                    "is_claimed":claimed_status
+                    }
+                }
+            }
+    })
+    return queryset

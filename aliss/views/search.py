@@ -22,7 +22,7 @@ from aliss.search import (
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
@@ -111,6 +111,12 @@ class SearchOrganisationsView(MultipleObjectMixin, TemplateView):
     paginator_class = ESPaginator
     paginate_by = 10
 
+    def filter_queryset(self, queryset):
+        claimed_status = self.request.GET.get('is_claimed')
+        if claimed_status:
+            queryset = filter_by_claimed_status(queryset, claimed_status)
+        return queryset
+
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
         return self.render_to_response(self.get_context_data())
@@ -119,7 +125,9 @@ class SearchOrganisationsView(MultipleObjectMixin, TemplateView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
+        queryset = self.filter_queryset(queryset)
         query = self.request.GET.get('query')
+
         if query:
             if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
                 queryset = filter_organisations_by_query_all(queryset, query)
