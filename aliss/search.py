@@ -92,7 +92,14 @@ organisation_mapping = {
     },
     'published':{'type':'boolean'},
     'created_on':{'type':'date'},
-    'is_claimed':{'type':'boolean'}
+    'is_claimed':{'type':'boolean'},
+    'url': {'type': 'keyword'},
+    'phone': {'type': 'keyword'},
+    'email': {'type': 'keyword'},
+    'facebook': {'type': 'keyword'},
+    'twitter': {'type': 'keyword'},
+    'slug': {'type': 'keyword'},
+
 }
 
 
@@ -162,7 +169,13 @@ def organisation_to_body(organisation):
         'description': organisation.description,
         'published': organisation.published,
         'created_on': organisation.created_on,
-        'is_claimed': organisation.is_claimed
+        'is_claimed': organisation.is_claimed,
+        'url': organisation.url,
+        'phone': organisation.phone,
+        'email': organisation.email,
+        'facebook': organisation.facebook,
+        'twitter': organisation.twitter,
+        'slug': organisation.slug
     }
 
 
