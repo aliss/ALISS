@@ -139,13 +139,3 @@ class SearchOrganisationsView(MultipleObjectMixin, TemplateView):
                 queryset = filter_organisations_by_query_published(queryset, query)
 
         return queryset
-
-        def filter_queryset(self, queryset):
-            claimed_status = self.request.GET.get('is_claimed')
-            has_services = self.request.GET.get('has_services')
-            if claimed_status:
-                queryset = filter_by_claimed_status(queryset, claimed_status)
-            if has_services.exists():
-                queryset = filter_by_has_services(queryset, has_services)
-
-            return queryset

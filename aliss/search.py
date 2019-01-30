@@ -394,7 +394,7 @@ def filter_by_claimed_status(queryset, claimed_status):
     return queryset
 
 def filter_by_has_services(queryset, has_services):
-    if has_services:
+    if has_services == "true":
         queryset = queryset.query({
         "bool":{
             "filter": {"range":{"services_count":{"gte":1}}}
@@ -403,7 +403,7 @@ def filter_by_has_services(queryset, has_services):
     else:
         queryset = queryset.query({
         "bool":{
-            "filter": {"range":{"services_count":{"lte":0}}}
+            "filter": {"range":{"services_count":{"lt":1}}}
             }
         })
     return queryset
