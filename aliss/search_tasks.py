@@ -9,19 +9,11 @@ from aliss.search import _get_connection, service_to_body, organisation_to_body,
 
 index_settings = {
     'analysis': {
-        'analyzer': {
-            'description_analyzer': {
-                'type': 'custom',
-                'tokenizer': 'standard',
-                'char_filter': ['html_strip'],
-                'filter': ['standard', 'lowercase', 'stop']
-            },
-            "bigram_combiner": {
-                "tokenizer": "standard",
-                "filter": ["lowercase", "custom_shingle", "my_char_filter"]
-           }
-        },
         "filter": {
+            "my_stop": {
+                "type": "stop",
+                "stopwords": "_english_"
+            },
             "custom_shingle": {
                 "type": "shingle",
                 "min_shingle_size": 2,
@@ -33,6 +25,18 @@ index_settings = {
                 "pattern": " ",
                 "replacement": ""
             }
+        },
+        'analyzer': {
+            'description_analyzer': {
+                'type': 'custom',
+                'tokenizer': 'standard',
+                'char_filter': ['html_strip'],
+                'filter': ['standard', 'lowercase', 'my_stop']
+            },
+            "bigram_combiner": {
+                "tokenizer": "standard",
+                "filter": ["lowercase", "custom_shingle", "my_char_filter", "my_stop"]
+           }
         }
     }
 }
