@@ -118,9 +118,9 @@
             </div>
             <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
 
-            {% include 'search/partials/services.html' with services=result.services %}
+            {% include 'organisation/partials/services.html' with services=result.services %}
 
-            {% include 'service/partials/locations.html' with locations=result.locations %}
+            {% include 'organisation/partials/locations.html' with locations=result.locations %}
 
             <ul class="contact-info">
               {% if result.phone %}
@@ -156,7 +156,7 @@
           </div>
         </div>
         {% endif %}
-        {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
+      {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
       </div>
     </div>
   </section>
