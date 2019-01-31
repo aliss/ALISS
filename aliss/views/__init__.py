@@ -26,7 +26,6 @@ from .account import (
 from .search import (
     SearchView,
     SearchShareView,
-    SearchOrganisationsView
 )
 
 from .organisation import *
