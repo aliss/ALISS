@@ -130,7 +130,7 @@ class SearchOrganisationsView(MultipleObjectMixin, TemplateView):
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
         queryset = self.filter_queryset(queryset)
-        query = self.request.GET.get('query')
+        query = self.request.GET.get('q')
 
         if query:
             if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
