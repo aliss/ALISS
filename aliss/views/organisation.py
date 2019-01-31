@@ -199,7 +199,7 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class OrganisationSearchView(MultipleObjectMixin, TemplateView):
+class OrganisationPotentialCreateView(MultipleObjectMixin, TemplateView):
     template_name = 'organisation/search.html'
     paginator_class = ESPaginator
     paginate_by = 10

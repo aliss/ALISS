@@ -29,7 +29,7 @@ urlpatterns = [
         name='organisation_unpublished'
     ),
     url(r'^search/$',
-        OrganisationSearchView.as_view(),
+        OrganisationPotentialCreateView.as_view(),
         name='organisation_search'
     ),
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/locations/create/$',
