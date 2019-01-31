@@ -28,7 +28,7 @@ urlpatterns = [
         OrganisationUnpublishedView.as_view(),
         name='organisation_unpublished'
     ),
-    url(r'^search/$',
+    url(r'^potential-create$',
         OrganisationPotentialCreateView.as_view(),
         name='organisation_search'
     ),
