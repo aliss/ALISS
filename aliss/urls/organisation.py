@@ -30,7 +30,7 @@ urlpatterns = [
     ),
     url(r'^potential-create$',
         OrganisationPotentialCreateView.as_view(),
-        name='organisation_search'
+        name='potential_create'
     ),
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/locations/create/$',
         LocationCreateView.as_view(),

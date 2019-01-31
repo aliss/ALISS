@@ -163,7 +163,7 @@ class OrganisationViewTestCase(TestCase):
         self.assertRedirects(response, (reverse('organisation_unpublished')))
 
     def test_organisation_search(self):
-        response = self.client.get(reverse('organisation_search')+'?q=TestOrg')
+        response = self.client.get(reverse('potential_create')+'?q=TestOrg')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TestOrg")
 
@@ -178,7 +178,7 @@ class OrganisationViewTestCase(TestCase):
         unpublished_org.published = False
         unpublished_org.save()
 
-        response = self.client.get(reverse('organisation_search')+'?q=Banana')
+        response = self.client.get(reverse('potential_create')+'?q=Banana')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Banana Unpublished")
 
@@ -193,7 +193,7 @@ class OrganisationViewTestCase(TestCase):
         unpublished_org.published = False
         unpublished_org.save()
 
-        response = self.client.get(reverse('organisation_search')+'?q=Banana')
+        response = self.client.get(reverse('potential_create')+'?q=Banana')
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Banana Unpublished")
 
