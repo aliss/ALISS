@@ -9,7 +9,7 @@
   <section id="content" class="results">
     <div class="row title">
       <div class="columns">
-        <h1>Organisations related to: <span class="postcode">{{ request.GET.query }}</span>
+        <h1>Organisations related to: <span class="postcode">{{ request.GET.q }}</span>
         </h1>
         <div class="buttons">
           <a href="{% url 'organisations' %}" class="button primary">New organisation search</a>
@@ -33,7 +33,7 @@
               <div class="sbs-inputs">
                 <div class="clearable-input">
                   <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
-                  <input type="text" placeholder="e.g. Diabetes" name="query" value="{{ request.GET.q }}">
+                  <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
                   <input type="hidden" name="claimed" value="{{ request.GET.is_claimed }}">
                   <input type="hidden" name="has_services" value="{{ request.GET.has_services }}">
                 </div>
