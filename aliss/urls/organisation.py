@@ -33,14 +33,14 @@ urlpatterns = [
         OrganisationPotentialCreateView.as_view(),
         name='potential_create'
     ),
-    url(r'^search/results/$',
-        OrganisationSearchView.as_view(),
-        name='organisation_search_results'
-    ),
-    url(r'^search/$',
+    url(r'^search/new/$',
         TemplateView.as_view(template_name="organisation/organisation-search.html"),
         name='organisation_search'
     ),
+    url(r'^search/$',
+        OrganisationSearchView.as_view(),
+        name='organisation_search_results'
+        ),
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/locations/create/$',
         LocationCreateView.as_view(),
         name='location_create'
