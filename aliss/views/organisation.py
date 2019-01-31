@@ -200,7 +200,7 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
 
 
 class OrganisationPotentialCreateView(MultipleObjectMixin, TemplateView):
-    template_name = 'organisation/search.html'
+    template_name = 'organisation/potential-create.html'
     paginator_class = ESPaginator
     paginate_by = 10
 
