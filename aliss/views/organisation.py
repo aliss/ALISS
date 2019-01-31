@@ -33,7 +33,7 @@ import pytz
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, filter_by_has_services
 
 from aliss.paginators import ESPaginator
 from django.views.generic.list import MultipleObjectMixin
@@ -255,3 +255,37 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
             messages.error(self.request, 'Could not publish {name}.'.format(name=organisation.name))
 
         return HttpResponseRedirect(reverse('organisation_unpublished'))
+
+class OrganisationSearchView(MultipleObjectMixin, TemplateView):
+    template_name = 'organisation/search-results.html'
+    paginator_class = ESPaginator
+    paginate_by = 10
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        return self.render_to_response(self.get_context_data())
+
+    def filter_queryset(self, queryset):
+        claimed_status = self.request.GET.get('is_claimed')
+        has_services = self.request.GET.get('has_services')
+        if claimed_status:
+            queryset = filter_by_claimed_status(queryset, claimed_status)
+        if has_services:
+            queryset = filter_by_has_services(queryset, has_services)
+
+        return queryset
+
+    def get_queryset(self, *args, **kwargs):
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+        queryset = Search(index='organisation_search', doc_type='organisation')
+        queryset = self.filter_queryset(queryset)
+        query = self.request.GET.get('q')
+
+        if query:
+            if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
+                queryset = filter_organisations_by_query_all(queryset, query)
+            else:
+                queryset = filter_organisations_by_query_published(queryset, query)
+
+        return queryset
