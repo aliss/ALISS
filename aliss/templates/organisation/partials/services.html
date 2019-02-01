@@ -1,6 +1,6 @@
 {% if services %}
     <div class="location{% if services|length > 1 %} multiple{% endif %}">
-        {% for service in services.all %}
+        {% for service in services %}
             {% if forloop.first and not forloop.last %}
                 <span>First service:</span>
                 <a href="{% url 'service_detail_slug' service.slug %}" class="icon-link">

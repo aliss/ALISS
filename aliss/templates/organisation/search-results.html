@@ -118,9 +118,9 @@
                 </div>
                 <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
 
-                {% include 'organisation/partials/services.html' with services=result.services %}
+                {% include 'organisation/partials/services.html' with services=result.services.all %}
 
-                {% include 'organisation/partials/locations.html' with locations=result.locations %}
+                {% include 'organisation/partials/locations.html' with locations=result.locations.all %}
 
                 <ul class="contact-info">
                   {% if result.phone %}
