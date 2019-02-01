@@ -283,12 +283,19 @@ class OrganisationSearchView(ListView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
+        # Return only the ids of the results to reduce overheard a little
+        queryset = queryset.extra(_source={"includes": ["id"]})
         queryset = self.filter_queryset(queryset)
+        # As hits are limited to 10 instead iterate through each response objects and execute to get the id
         response_count = queryset.count()
         i = 0
         ids = []
         while i < response_count:
             ids.append(queryset[i].execute()[0].id)
             i += 1
+        # Filter the db records by the ids returned from the elastic search filtering
         queryset = Organisation.objects.filter(id__in=ids).all()
+        # Return all the db records so the ListView can handle the pagination.
         return queryset
+
+        # Potentially the ES results being paginated could be an advantage to us. By working out the total responses from that figuring out pages the pagination could be handled and the es hits called every 10 per page with the 'from' property.
