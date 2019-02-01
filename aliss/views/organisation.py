@@ -1,5 +1,5 @@
 from django.views.generic import (
-    View, CreateView, UpdateView, DeleteView, DetailView, TemplateView
+    View, CreateView, UpdateView, DeleteView, DetailView, TemplateView, ListView
 )
 from django.contrib import messages
 from django.conf import settings
@@ -37,6 +37,7 @@ from aliss.search import filter_organisations_by_query_all, filter_organisations
 
 from aliss.paginators import *
 from django.views.generic.list import MultipleObjectMixin
+
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -256,10 +257,10 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(reverse('organisation_unpublished'))
 
-class OrganisationSearchView(MultipleObjectMixin, TemplateView):
-    template_name = 'organisation/search-results.html'
-    paginate_by = 10
+class OrganisationSearchView(ListView):
     model = Organisation
+    template_name = 'organisation/search-results.html'
+    paginate_by = 5
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -278,10 +279,11 @@ class OrganisationSearchView(MultipleObjectMixin, TemplateView):
         return queryset
 
     def get_queryset(self, *args, **kwargs):
+        queryset = super(OrganisationSearchView, self).get_queryset()
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
         queryset = self.filter_queryset(queryset).execute()
         ids = { x.id for x in queryset}
-        queryset = Organisation.objects.filter(id__in=ids)
-        return queryset.all()
+        queryset = Organisation.objects.filter(id__in=ids).all()
+        return queryset
