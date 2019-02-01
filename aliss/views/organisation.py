@@ -260,7 +260,7 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
 class OrganisationSearchView(ListView):
     model = Organisation
     template_name = 'organisation/search-results.html'
-    paginate_by = 5
+    paginate_by = 10
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -283,7 +283,8 @@ class OrganisationSearchView(ListView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
-        queryset = self.filter_queryset(queryset).execute()
+        queryset = self.filter_queryset(queryset)
         ids = { x.id for x in queryset}
         queryset = Organisation.objects.filter(id__in=ids).all()
+        queryset = Organisation.objects.all()
         return queryset
