@@ -93,11 +93,6 @@ organisation_mapping = {
     'published':{'type':'boolean'},
     'created_on':{'type':'date'},
     'is_claimed':{'type':'boolean'},
-    'url': {'type': 'keyword'},
-    'phone': {'type': 'keyword'},
-    'email': {'type': 'keyword'},
-    'facebook': {'type': 'keyword'},
-    'twitter': {'type': 'keyword'},
     'slug': {'type': 'keyword'},
     'locations': {
         'properties': {
@@ -116,15 +111,7 @@ organisation_mapping = {
             'country': {'type': 'keyword'},
             'point': {'type': 'geo_point'},
         }
-    },
-    'services': {
-        'properties': {
-            'id': {'type': 'keyword'},
-            'name': {'type': 'keyword'},
-            'slug': {'type': 'keyword'},
-        }
-    },
-    'services_count':{'type': 'integer'}
+    }
 
 }
 
@@ -196,11 +183,6 @@ def organisation_to_body(organisation):
         'published': organisation.published,
         'created_on': organisation.created_on,
         'is_claimed': organisation.is_claimed,
-        'url': organisation.url,
-        'phone': organisation.phone,
-        'email': organisation.email,
-        'facebook': organisation.facebook,
-        'twitter': organisation.twitter,
         'slug': organisation.slug,
         'locations': [{
             'id': location.id,
@@ -217,13 +199,7 @@ def organisation_to_body(organisation):
                 'lat': location.latitude,
                 'lon': location.longitude
             }
-        } for location in organisation.locations.all()],
-        'services': [{
-            'id': service.id,
-            'name': service.name,
-            'slug': service.slug
-        } for service in organisation.services.all()],
-        'services_count': len(organisation.services.all())
+        } for location in organisation.locations.all()]
     }
 
 
