@@ -284,13 +284,11 @@ class OrganisationSearchView(ListView):
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
         queryset = self.filter_queryset(queryset)
-        result_count = querysey.count()
-
-queryset = Search(index='organisation_search', doc_type='organisation')
-queryset.count()
-ids = []
-for x in queryset.execute():
-    ids.append(x.id)
-    print(x.id)
+        response_count = queryset.count()
+        i = 0
+        ids = []
+        while i < response_count:
+            ids.append(queryset[i].execute()[0].id)
+            i += 1
         queryset = Organisation.objects.filter(id__in=ids).all()
         return queryset
