@@ -1,6 +1,6 @@
 {% if locations %}
     <div class="location{% if locations|length > 1 %} multiple{% endif %}">
-        {% for location in locations.all %}
+        {% for location in locations %}
             {% if forloop.first and not forloop.last %}
                 <span>First location:</span>
                 <a href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
