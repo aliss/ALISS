@@ -37,18 +37,29 @@ class Fixtures(TestCase):
         )
 
     @classmethod
-    def create_service(self, o):
-        l = Location.objects.create(
+    def create_location(self, o):
+      return Location.objects.create(
           name="my location", street_address="my street", locality="a locality",
           postal_code="G2 4AA", latitude=55.86529182, longitude=-4.2684418,
           organisation=o, created_by=o.created_by, updated_by=o.updated_by
         )
+
+    @classmethod
+    def create_another_location(self, o):
+      return Location.objects.create(
+          name="my other location", street_address="my other street", locality="another locality",
+          postal_code="G2 9ZZ", latitude=55.86104946, longitude=-4.24736892,
+          organisation=o, created_by=o.created_by, updated_by=o.updated_by
+        )
+
+    @classmethod
+    def create_service(self, o):
+        l = Fixtures.create_location(o)
         s = Service.objects.create(
           name="My First Service",
           description="A handy service",
           organisation=o, created_by=o.created_by, updated_by=o.updated_by
         )
-
         s.locations.add(l)
         s.save()
         return s
