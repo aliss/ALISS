@@ -18,7 +18,7 @@ class SearchTestCase(TestCase):
         self.s1 = Service.objects.create(name="Food For All", description="A handy food service", organisation=self.org, created_by=t, updated_by=u)
         self.s2 = Service.objects.create(name="Physical Fun", description="Physical activity classes", organisation=self.org, created_by=t, updated_by=u)
         self.s3 = Service.objects.create(name="Step Fit", description="Physically fit: Regular healthy activity", organisation=self.org, created_by=t, updated_by=u)
-        self.s4 = Service.objects.create(name="Exercise for All", description="Pyhsical activity for fun", organisation=self.org, created_by=t, updated_by=u)
+        self.s4 = Service.objects.create(name="Exercise for All", description="Physical fun: lots of activity", organisation=self.org, created_by=t, updated_by=u)
 
         self.s1.locations.add(close); self.s1.save()
         self.s2.locations.add(close); self.s2.save()
