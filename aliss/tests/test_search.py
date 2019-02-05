@@ -17,8 +17,8 @@ class SearchTestCase(TestCase):
 
         self.s1 = Service.objects.create(name="Food For All", description="A handy food service", organisation=self.org, created_by=t, updated_by=u)
         self.s2 = Service.objects.create(name="Physical Fun", description="Physical activity classes", organisation=self.org, created_by=t, updated_by=u)
-        self.s3 = Service.objects.create(name="Step Fit", description="Physically fit: Regular healthy activity", organisation=self.org, created_by=t, updated_by=u)
-        self.s4 = Service.objects.create(name="Exercise for All", description="Physical fun: lots of activity", organisation=self.org, created_by=t, updated_by=u)
+        self.s3 = Service.objects.create(name="Step Fit 1", description="Physical activity classes", organisation=self.org, created_by=t, updated_by=u)
+        self.s4 = Service.objects.create(name="Step Fit 2", description="Phyzical activiti classes", organisation=self.org, created_by=t, updated_by=u)
 
         self.s1.locations.add(close); self.s1.save()
         self.s2.locations.add(close); self.s2.save()
@@ -37,25 +37,33 @@ class SearchTestCase(TestCase):
         p = Postcode.objects.get(pk="G2 4AA")
         result = filter_by_postcode(self.queryset, p, 100000)
         order  = postcode_order(result, p)
-        self.assertTrue(order["ids"][0] in [str(self.s1.pk), str(self.s2.pk), str(self.s3.pk)])
-        self.assertTrue(order["ids"][3] in [str(self.s4.pk)])
+        services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
+        self.assertTrue(services[0] in [self.s1, self.s2, self.s3])
+        self.assertEqual(services[3], self.s4)
         self.assertEqual(result.count(), self.queryset.count())
 
     def test_keyword_order(self):
         result = filter_by_query(self.queryset, "Physical Activity")
         order  = keyword_order(result)
-        self.assertTrue(order["ids"][0] == str(self.s2.pk))
-        self.assertTrue(order["ids"][2] == str(self.s3.pk))
+        services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
+        self.assertEqual(services[0], self.s2)
+        self.assertEqual(services[2], self.s4)
         self.assertEqual(result.count(), 3)
+        '''
+        print("\n")
+        for hit in result:
+            print(hit.name)
+            print(hit.meta.to_dict())
+        '''
 
     def test_combined_order(self):
-        p = Postcode.objects.get(pk="G2 4AA")
+        p = Postcode.objects.get(pk="G2 9ZZ")
         result = filter_by_postcode(self.queryset, p, 100000)
         result = filter_by_query(result, "Physical Activity")
         order  = combined_order(result, p)
         services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
-        self.assertEqual(self.s2, services[0])
-        self.assertEqual(self.s4, services[2])
+        self.assertNotEqual(services[2], self.s4)
+        self.assertEqual(result.count(), 3)
 
     def tearDown(self):
         Fixtures.organisation_teardown()
