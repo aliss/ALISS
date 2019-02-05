@@ -9,12 +9,12 @@ class Fixtures(TestCase):
     @classmethod
     def es_connection(self):
         connections.create_connection(hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
-        return Search(index='search', doc_type='service').params(search_type='dfs_query_then_fetch',preference='_local')
+        return Search(index='search', doc_type='service').params(preference='_local')
 
     @classmethod
     def es_organisation_connection(self):
         connections.create_connection(hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
-        return Search(index='organisation_search', doc_type='organisation').params(search_type='dfs_query_then_fetch', preference='_local')
+        return Search(index='organisation_search', doc_type='organisation').params(preference='_local')
 
     @classmethod
     def create_users(self):
