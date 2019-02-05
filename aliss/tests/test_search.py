@@ -12,6 +12,8 @@ class SearchTestCase(TestCase):
     def setUp(self):
         t, u, c, _ = Fixtures.create_users()
         self.org = Fixtures.create_organisation(t, u, c)
+        self.org2 = Organisation.objects.create(name="Test0rg", description="A test description",
+            created_by=self.org.created_by, updated_by=self.org.updated_by)
         close = Fixtures.create_location(self.org)
         far = Fixtures.create_another_location(self.org)
 
@@ -64,6 +66,12 @@ class SearchTestCase(TestCase):
         services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
         self.assertNotEqual(services[2], self.s4)
         self.assertEqual(result.count(), 3)
+
+    def test_organisation_query(self):
+        org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org.pk, self.org2.pk])
+        result = filter_organisations_by_query_all(org_queryset, "TestOrg").execute()
+        self.assertEqual(str(self.org.pk), result[0].id)
+        self.assertEqual(str(self.org2.pk), result[1].id)
 
     def tearDown(self):
         Fixtures.organisation_teardown()
