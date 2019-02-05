@@ -168,13 +168,20 @@ def organisation_to_body(organisation):
 def filter_by_query(queryset, q):
     queryset = queryset.query({
         "bool": {
-            "should":[{
-                "multi_match": {
-                    "query": q,
-                    "fields": ["categories.name", "name^2", "description^1.5"],
-                    "fuzziness": "AUTO:3,7"
+            "should":[
+                {
+                    "multi_match": {
+                        "query": q,
+                        "fields": ["name^2", "description^1.5"],
+                        "fuzziness": "AUTO:3,7"
+                    }
+                }, {
+                    "multi_match": {
+                        "query": q,
+                        "fields": ["categories.name", "name^2", "description^1.5"],
+                    }
                 }
-            }]
+            ]
         }
     })
     return queryset
@@ -183,14 +190,22 @@ def filter_by_query(queryset, q):
 def filter_organisations_by_query_all(queryset, q):
     queryset = queryset.query({
         "bool": {
-            "should":[{
-                "multi_match": {
-                    "query": q,
-                    "type": "best_fields",
-                    "fields":["name^2", "description"],
-                    "fuzziness": "AUTO:3,7"
+            "should":[
+                {
+                    "multi_match": {
+                        "query": q,
+                        "type": "best_fields",
+                        "fields":["name^2", "description"],
+                        "fuzziness": "AUTO:3,7"
+                    }
+                }, {
+                    "multi_match": {
+                        "query": q,
+                        "type": "best_fields",
+                        "fields": ["name^2", "description^1.5"],
+                    }
                 }
-            }]
+            ]
         }
     })
     return queryset
