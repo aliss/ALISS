@@ -46,10 +46,6 @@ class SearchTestCase(TestCase):
 
     def test_keyword_order(self):
         result = filter_by_query(self.queryset, "Physical Activity")
-        print("\n")
-        for hit in result:
-            print(hit.name)
-            print(hit.meta.to_dict())
         order  = keyword_order(result)
         services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
         self.assertEqual(result.count(), 3)
