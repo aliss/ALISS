@@ -48,6 +48,10 @@ class SearchTestCase(TestCase):
         result = filter_by_query(self.queryset, "Physical Activity")
         order  = keyword_order(result)
         services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
+        print("\n")
+        for hit in result:
+            print(hit.name)
+            print(hit.meta.to_dict())
         self.assertEqual(result.count(), 3)
         self.assertEqual(services[0], self.s2)
         self.assertEqual(services[2], self.s4)
@@ -69,10 +73,3 @@ class SearchTestCase(TestCase):
 
     def tearDown(self):
         Fixtures.organisation_teardown()
-
-'''
-print("\n")
-for hit in result:
-    print(hit.name)
-    print(hit.meta.to_dict())
-'''
