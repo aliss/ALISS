@@ -22,20 +22,20 @@ class SearchViewTestCase(TestCase):
         response = self.client.get('/search/?postcode=ZZ+ZZZ')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<h1>Sorry, ALISS is not available in your postcode.</h1>')
-        self.assertContains(response, "var layer = { 'event': 'search-error-unrecognised', 'category': 'errors', 'action': 'search',  'label': 'user entered unrecognised postcode")
+        self.assertContains(response, "gtag('event', 'search-error-unrecognised', {")
 
     def test_no_postcode(self):
         response = self.client.get('/search/?postcode=AK1+5SA')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<h1>Sorry, AK1 5SA doesn\'t appear to be a valid postcode.</h1>')
-        self.assertContains(response, "{ 'event': 'search-error-unrecognised', 'category': 'errors', 'action': 'search',  'label': 'user entered unrecognised postcode: AK1 5SA' }")
+        self.assertContains(response, "gtag('event', 'search-error-unrecognised', {")
 
     def test_invalid_get(self):
         fail_url = "/search/?lat=55.84279&page=5&lng=-4.4089&location=Paisley+East+and+Ralston,+Renfrewshire,+PA1+1SA"
         response = self.client.get(fail_url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<h1>Sorry, ALISS is not available in your postcode.</h1>')
-        self.assertContains(response, "var layer = { 'event': 'search-error-unrecognised', 'category': 'errors', 'action': 'search',  'label': 'no postcode provided:")
+        self.assertContains(response, "gtag('event', 'search-error-unrecognised', {")
 
     def tearDown(self):
         Fixtures.organisation_teardown()
