@@ -168,23 +168,20 @@ def organisation_to_body(organisation):
 def filter_by_query(queryset, q):
     queryset = queryset.query({
         "bool": {
-            "should":[
-                {
-                    "multi_match": {
-                        "query": q,
-                        "operator": "and",
-                        "fields": ["name^2", "description^1.5"],
-                        "fuzziness": "AUTO:4,7"
-                    }
-                }, {
-                    "multi_match": {
-                        "query": q,
-                        "operator": "and",
-                        "fields": ["categories.name", "name^2", "description^1.5"],
-                    }
+            "must": [{
+                "multi_match": {
+                    "query": q, "operator": "and", "type": "most_fields",
+                    "fields": ["name^2", "description^1.5", "categories.name"],
+                    "fuzziness": "AUTO:4,7"
                 }
-            ]
-        }
+            }],
+            "should": [{
+                "multi_match": {
+                    "query": q, "operator": "or", "type": "most_fields",
+                    "fields": ["name^2", "description^1.5", "categories.name"]
+                }
+            }]
+        }        
     })
     return queryset
 
@@ -196,7 +193,7 @@ def filter_organisations_by_query_all(queryset, q):
                 {
                     "multi_match": {
                         "query": q,
-                        "type": "best_fields",
+                        "type": "most_fields",
                         "operator": "and",
                         "fields":["name^2", "description"],
                         "fuzziness": "AUTO:4,7"
@@ -204,7 +201,7 @@ def filter_organisations_by_query_all(queryset, q):
                 }, {
                     "multi_match": {
                         "query": q,
-                        "type": "best_fields",
+                        "type": "most_fields",
                         "operator": "and",
                         "fields": ["name^2", "description^1.5"],
                     }
