@@ -172,12 +172,14 @@ def filter_by_query(queryset, q):
                 {
                     "multi_match": {
                         "query": q,
+                        "operator": "and",
                         "fields": ["name^2", "description^1.5"],
-                        "fuzziness": "AUTO:3,7"
+                        "fuzziness": "AUTO:4,7"
                     }
                 }, {
                     "multi_match": {
                         "query": q,
+                        "operator": "and",
                         "fields": ["categories.name", "name^2", "description^1.5"],
                     }
                 }
@@ -195,13 +197,15 @@ def filter_organisations_by_query_all(queryset, q):
                     "multi_match": {
                         "query": q,
                         "type": "best_fields",
+                        "operator": "and",
                         "fields":["name^2", "description"],
-                        "fuzziness": "AUTO:3,7"
+                        "fuzziness": "AUTO:4,7"
                     }
                 }, {
                     "multi_match": {
                         "query": q,
                         "type": "best_fields",
+                        "operator": "and",
                         "fields": ["name^2", "description^1.5"],
                     }
                 }
