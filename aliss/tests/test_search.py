@@ -17,7 +17,7 @@ class SearchTestCase(TestCase):
         close = Fixtures.create_location(self.org)
         far = Fixtures.create_another_location(self.org)
 
-        self.s1 = Service.objects.create(name="Food For All", description="A handy food service", organisation=self.org, created_by=t, updated_by=u)
+        self.s1 = Service.objects.create(name="Food For All", description="A handy food activity", organisation=self.org, created_by=t, updated_by=u)
         self.s2 = Service.objects.create(name="Physical Fun", description="Physical activity classes", organisation=self.org, created_by=t, updated_by=u)
         self.s3 = Service.objects.create(name="Step Fit 1", description="Physical activity classes", organisation=self.org, created_by=t, updated_by=u)
         self.s4 = Service.objects.create(name="Step Fit 2", description="Phyzical activiti classes", organisation=self.org, created_by=t, updated_by=u)
@@ -69,3 +69,10 @@ class SearchTestCase(TestCase):
 
     def tearDown(self):
         Fixtures.organisation_teardown()
+
+'''
+print("\n")
+for hit in result:
+    print(hit.name)
+    print(hit.meta.to_dict())
+'''
