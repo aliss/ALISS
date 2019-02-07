@@ -55,6 +55,12 @@
 {% block before_body_close %}
 <script type="text/javascript">
   $(document).ready(function(){
+    var searchedOrg = window.localStorage.getItem("searchedOrg")
+    if (searchedOrg) {
+      var orgNameField = document.getElementById("id_name")
+      orgNameField.value = searchedOrg
+    }
+
     var handleClaimForm = function(){
       var showForm = $("input#claim").prop("checked");
       $('div.inline-claim').toggleClass('active', showForm);
