@@ -92,3 +92,15 @@
   </section>
 </main>
 {% endblock %}
+
+{% block before_body_close %}
+  <script type="text/javascript">
+  $(document).ready(function(){
+    var urlString = window.location.href
+    var url = new URL(urlString)
+    var searchedOrg = url.searchParams.get("q")
+    window.localStorage.setItem("searchedOrg", searchedOrg)
+    console.log("The searched Organisation: ", searchedOrg)
+  })
+  </script>
+{% endblock%}
