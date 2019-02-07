@@ -56,7 +56,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     var searchedOrg = window.localStorage.getItem("searchedOrg")
-    if (searchedOrg) {
+    if (searchedOrg != "null") {
       var orgNameField = document.getElementById("id_name")
       orgNameField.value = searchedOrg
     }
