@@ -181,7 +181,7 @@ def filter_by_query(queryset, q):
                     "fields": ["name^2", "description^1.5", "categories.name"]
                 }
             }]
-        }        
+        }
     })
     return queryset
 
@@ -189,20 +189,20 @@ def filter_by_query(queryset, q):
 def filter_organisations_by_query_all(queryset, q):
     queryset = queryset.query({
         "bool": {
-            "should":[
+            "must":[
                 {
                     "multi_match": {
-                        "query": q,
-                        "type": "most_fields",
+                        "query": q, "type": "most_fields",
                         "operator": "and",
                         "fields":["name^2", "description"],
                         "fuzziness": "AUTO:4,7"
                     }
-                }, {
+                }],
+            "should": [
+                {
                     "multi_match": {
-                        "query": q,
-                        "type": "most_fields",
-                        "operator": "and",
+                        "query": q, "type": "most_fields",
+                        "operator": "or",
                         "fields": ["name^2", "description^1.5"],
                     }
                 }
@@ -381,7 +381,6 @@ def postcode_order(queryset, postcode):
 
 
 def keyword_order(queryset):
-    #keyword_queryset = filter_by_query(queryset, query)
     positions = positions_dict(queryset)
     return {
         "ids": list(positions.keys()),
