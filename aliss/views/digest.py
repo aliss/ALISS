@@ -16,6 +16,8 @@ from django.shortcuts import get_object_or_404, render
 
 from braces.views import LoginRequiredMixin
 
+from django.contrib import messages
+
 class DigestCreateSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
