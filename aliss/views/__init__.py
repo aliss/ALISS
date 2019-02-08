@@ -51,3 +51,9 @@ from .claim import (
 from .reports import (
     ReportsView,
 )
+
+from .digest import (
+    DigestCreateSelection,
+    DigestMyView,
+    DigestDelete
+)

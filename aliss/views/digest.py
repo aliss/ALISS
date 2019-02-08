@@ -12,7 +12,7 @@ import pytz
 
 from aliss.forms import DigestSelectionForm
 
-rom django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render
 
 from braces.views import LoginRequiredMixin
 
@@ -22,7 +22,7 @@ class DigestCreateSelection(LoginRequiredMixin, TemplateView):
     model = DigestSelection
 
     def get_context_data(self, **kwargs):
-        context = super(AccountCreateDigestSelection, self).get_context_data(**kwargs)
+        context = super(DigestCreateSelection, self).get_context_data(**kwargs)
         return context
 
     def post(self,request, *args, **kwargs):
@@ -42,7 +42,7 @@ class DigestMyView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'
 
     def get_context_data(self, **kwargs):
-        context = super(AccountMyDigestView, self).get_context_data(**kwargs)
+        context = super(DigestMyView, self).get_context_data(**kwargs)
 
         # Setup the date in past to compare results against
         utc = pytz.UTC
