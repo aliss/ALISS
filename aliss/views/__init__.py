@@ -19,9 +19,6 @@ from .account import (
     AccountRecommendationListDeleteView,
     AccountRecommendationListPrintView,
     AccountIsEditor,
-    AccountMyDigestView,
-    AccountCreateDigestSelection,
-    AccountMyDigestDelete
 )
 from .search import SearchView, SearchShareView
 from .organisation import *
