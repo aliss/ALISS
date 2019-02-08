@@ -4,9 +4,6 @@ from django.views.generic import TemplateView
 
 from aliss.views import (
     login_view,
-    AccountMyDigestView,
-    AccountCreateDigestSelection,
-    AccountMyDigestDelete,
     AccountSignupView,
     AccountUpdateView,
     AccountSavedServicesView,
@@ -27,6 +24,12 @@ from aliss.views import (
     AccountIsEditor
 )
 
+from aliss.views import (
+    DigestCreateSelection,
+    DigestMyView,
+    DigestDelete,
+)
+
 
 urlpatterns = [
     url(r'^signup/$',
@@ -34,15 +37,15 @@ urlpatterns = [
         name='signup'
     ),
     url(r'^notifications/$',
-        AccountMyDigestView.as_view(),
+        DigestMyView.as_view(),
         name='account_my_digest'
     ),
     url(r'^digests/create$',
-        AccountCreateDigestSelection.as_view(),
+        DigestCreateSelection.as_view(),
         name='account_create_my_digest'
     ),
     url(r'^digests/(?P<pk>[0-9A-Za-z\-]+)/delete/$',
-        AccountMyDigestDelete.as_view(),
+        DigestDelete.as_view(),
         name='account_my_digest_delete'
     ),
     url(r'^signup/success/$',
