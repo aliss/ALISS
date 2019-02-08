@@ -30,12 +30,21 @@
           {% if request.GET.q and object_list %}
             <br/>
             <h4>You searched for {{ request.GET.q }}</h4>
-            <ul class="orgs">
+            <table class="stack">
+              <thead>
+                <tr>
+                  <th width="">Name</th>
+                  <th width="">Claim Status</th>
+                </tr>
+              </thead>
+              <tbody>
               {% for organisation in object_list %}
-                <li>
+                <tr>
+                  <td>
                   <span class="name"><a target="_blank" href="{% url 'organisation_detail' pk=organisation.id %}">{{ organisation.name }}</a></span>
+                </td>
                   <ul class="options">
-                    <li>
+                    <td>
                       {% if organisation.is_claimed %}
                         <span title="This organisation is updated by one of its own representatives." class="claimed">Claimed</span>
                         <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="This organisation is already updated by one of its own representatives.">
@@ -49,14 +58,16 @@
                           <i class="fa fa-question-circle" aria-hidden="true"></i>
                         </span>
                       {% endif %}
-                    </li>
+                    </td>
                   </ul>
-                </li>
+                </tr>
               {% endfor %}
-            </ul>
+            </tbody>
+          </table>
           {% endif %}
           {% if request.GET.q %}
             {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
+
 
             <hr class="clear"/>
 
