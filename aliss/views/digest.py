@@ -16,7 +16,7 @@ rom django.shortcuts import get_object_or_404, render
 
 from braces.views import LoginRequiredMixin
 
-class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
+class DigestCreateSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
     template_name = 'account/create_my_digest.html'
     model = DigestSelection
@@ -38,7 +38,7 @@ class AccountCreateDigestSelection(LoginRequiredMixin, TemplateView):
             return render(request, self.template_name, {'form': form})
 
 
-class AccountMyDigestView(LoginRequiredMixin, TemplateView):
+class DigestMyView(LoginRequiredMixin, TemplateView):
     template_name = 'account/my_digest.html'
 
     def get_context_data(self, **kwargs):
@@ -63,7 +63,7 @@ class AccountMyDigestView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class AccountMyDigestDelete(LoginRequiredMixin, DeleteView):
+class DigestDelete(LoginRequiredMixin, DeleteView):
     model = DigestSelection
     success_url = reverse_lazy('account_my_digest')
 
