@@ -181,7 +181,7 @@ def filter_by_query(queryset, q):
                     "fields": ["name^2", "description^1.5", "categories.name"]
                 }
             }]
-        }        
+        }
     })
     return queryset
 
