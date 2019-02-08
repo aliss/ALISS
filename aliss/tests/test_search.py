@@ -55,9 +55,11 @@ class SearchTestCase(TestCase):
 
     def test_organisation_query(self):
         org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org.pk, self.org2.pk])
-        result = filter_organisations_by_query_all(org_queryset, "TestOrg").execute()
-        self.assertEqual(str(self.org.pk), result[0].id)
-        self.assertEqual(str(self.org2.pk), result[1].id)
+        result = filter_organisations_by_query_all(org_queryset, "TestOrg")
+        order = keyword_order(result)
+        orgs = Organisation.objects.filter(id__in=order["ids"]).order_by(order["order"])
+        self.assertEqual(self.org.id, orgs[0].id)
+        self.assertEqual(self.org2.id, orgs[1].id)
 
     def tearDown(self):
         Fixtures.organisation_teardown()
