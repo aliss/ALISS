@@ -20,7 +20,7 @@ from django.contrib import messages
 
 class DigestCreateSelection(LoginRequiredMixin, TemplateView):
     # Need to create a new template with a form action points to this view
-    template_name = 'account/create_my_digest.html'
+    template_name = 'digest/create_my_digest.html'
     model = DigestSelection
 
     def get_context_data(self, **kwargs):
@@ -41,7 +41,7 @@ class DigestCreateSelection(LoginRequiredMixin, TemplateView):
 
 
 class DigestMyView(LoginRequiredMixin, TemplateView):
-    template_name = 'account/my_digest.html'
+    template_name = 'digest/my_digest.html'
 
     def get_context_data(self, **kwargs):
         context = super(DigestMyView, self).get_context_data(**kwargs)
