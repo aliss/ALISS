@@ -33,7 +33,7 @@ import pytz
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, filter_by_has_services, keyword_order
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, keyword_order
 
 from aliss.paginators import *
 from django.views.generic.list import MultipleObjectMixin
@@ -289,11 +289,9 @@ class OrganisationSearchView(ListView):
         # Use the keyword_order code to take the elastic search results and create a dictionary of the ids and the ordering positiion called  results.
         results = keyword_order(queryset)
         # Filter the db results using the results dictionary.
-        if has_services == "true":
-            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services__gt = 0, id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
 
-        elif has_services == "false":
-            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services = 0, id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
+        if has_services:
+            queryset = Organisation.filter_by_has_services(results, has_services)
 
         else :
             queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
