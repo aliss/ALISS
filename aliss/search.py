@@ -445,3 +445,30 @@ def combined_order(filtered_queryset, postcode):
         "ids": list(combined.keys()),
         "order": Case(*[When(id=key, then=combined[key]) for key in combined])
     }
+
+def filter_by_claimed_status(queryset, claimed_status):
+    queryset = queryset.query({
+        "bool":{
+            "filter":{
+                "term":{
+                    "is_claimed":claimed_status
+                    }
+                }
+            }
+    })
+    return queryset
+
+def filter_by_has_services(queryset, has_services):
+    if has_services == "true":
+        queryset = queryset.query({
+        "bool":{
+            "filter": {"range":{"services_count":{"gte":1}}}
+            }
+        })
+    else:
+        queryset = queryset.query({
+        "bool":{
+            "filter": {"range":{"services_count":{"lt":1}}}
+            }
+        })
+    return queryset
