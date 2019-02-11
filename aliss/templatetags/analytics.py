@@ -4,7 +4,6 @@ from django.utils.safestring import mark_safe
 
 register = template.Library()
 
-
 @register.simple_tag()
 def google_analytics_script():
     ga_string = '<!-- in debug mode, analytics disabled -->'
@@ -28,12 +27,10 @@ def ga_search_events(context, invalid_area, errors):
         ga_string = ""
     if invalid_area:
         if postcode_qs == None:
-            ga_string = ga_string + "var layer = { 'event': 'search-error-unrecognised', 'category': 'errors', 'action': 'search',  'label': 'no postcode provided: "+request.GET.urlencode()+"' };"
+            ga_string = ga_string + "gtag('event', 'search-error-unrecognised', { 'event_label': 'no postcode provided: "+request.GET.urlencode()+"' });"
         else:
-            ga_string = ga_string + "var layer = { 'event': 'search-error-unrecognised', 'category': 'errors', 'action': 'search',  'label': 'user entered unrecognised postcode: "+postcode_qs+"' };"
+            ga_string = ga_string + "gtag('event', 'search-error-unrecognised', { 'event_label': 'user entered unrecognised postcode: "+postcode_qs+"' });"
     elif errors and 'postcode' in errors.keys():
-        ga_string = ga_string + "var layer = { 'event': 'search-error-invalid', 'category': 'errors', 'action': 'search',  'label': 'user entered invalid postcode: "+postcode_qs+"' };"
-    else:
-        return ""
-    ga_string = ga_string + " dataLayer.push(layer);"
+        ga_string = ga_string + "gtag('event', 'search-error-invalid', { 'event_label': 'user entered invalid postcode: "+postcode_qs+"' });"
+
     return mark_safe(ga_string)

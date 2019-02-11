@@ -246,13 +246,13 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         organisation = get_object_or_404(Organisation, pk=self.kwargs['pk'])
-
-        if Organisation.objects.filter(pk=organisation.pk).update(published=True, updated_by=self.request.user):
+        organisation.published  = True
+        organisation.updated_by = self.request.user
+        try:
+            organisation.save()
             messages.success(self.request, '{name} has been successfully published.'.format(name=organisation.name))
             self.send_published_email(organisation)
-            for s in organisation.services.all():
-                s.save()
-        else:
+        except:
             messages.error(self.request, 'Could not publish {name}.'.format(name=organisation.name))
 
         return HttpResponseRedirect(reverse('organisation_unpublished'))

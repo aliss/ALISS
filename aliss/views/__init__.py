@@ -19,9 +19,6 @@ from .account import (
     AccountRecommendationListDeleteView,
     AccountRecommendationListPrintView,
     AccountIsEditor,
-    AccountMyDigestView,
-    AccountCreateDigestSelection,
-    AccountMyDigestDelete
 )
 from .search import (
     SearchView,
@@ -54,4 +51,10 @@ from .claim import (
 )
 from .reports import (
     ReportsView,
+)
+
+from .digest import (
+    DigestCreateSelection,
+    DigestMyView,
+    DigestDelete
 )
