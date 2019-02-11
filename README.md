@@ -2,7 +2,6 @@
 
 > ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most. 
 
-
 ## JS Plugin
 
 Embed ALISS search features on your own site with the [aliss.js plugin](https://github.com/aliss/aliss.js).
@@ -13,3 +12,13 @@ Embed ALISS search features on your own site with the [aliss.js plugin](https://
 - Search API endpoint (v3): https://www.aliss.org/api/v3/search/
 - API docs: http://docs.aliss.org
 - API docs repo: https://github.com/aliss/Docs
+
+## Install
+
+### Requirements
+
+- Python 3
+- pip3
+- See `requirements.txt` for pip packages
+- Elasticsearch >=6.1.3
+- Postgres >= 9.0

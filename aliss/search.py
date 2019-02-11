@@ -1,10 +1,9 @@
 from django.conf import settings
-
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
-
 from aliss.models import ServiceArea
+from django.db.models import Case, When
 
 def _get_connection():
     import certifi
@@ -205,40 +204,57 @@ def organisation_to_body(organisation):
 
 def filter_by_query(queryset, q):
     queryset = queryset.query({
-        "multi_match" : {
-            "query" : q,
-            "type": "best_fields",
-            "fuzziness": "AUTO",
-            "fields" : ["categories.name", "name^2", "description^1.5"],
-            #"operator":  "and",
-            #"fuzzy_transpositions": True
+        "bool": {
+            "must": [{
+                "multi_match": {
+                    "query": q, "operator": "and", "type": "most_fields",
+                    "fields": ["name^2", "description^1.5", "categories.name"],
+                    "fuzziness": "AUTO:4,7"
+                }
+            }],
+            "should": [{
+                "multi_match": {
+                    "query": q, "operator": "or", "type": "most_fields",
+                    "fields": ["name^2", "description^1.5", "categories.name"]
+                }
+            }]
         }
     })
-
     return queryset
+
 
 def filter_organisations_by_query_all(queryset, q):
     queryset = queryset.query({
-        "multi_match":{
-            "query": q,
-            "type": "best_fields",
-            "fuzziness": "AUTO",
-            "fields":["name^2", "description"]
+        "bool": {
+            "must":[
+                {
+                    "multi_match": {
+                        "query": q, "type": "most_fields",
+                        "operator": "and",
+                        "fields":["name^2", "description"],
+                        "fuzziness": "AUTO:4,7"
+                    }
+                }],
+            "should": [
+                {
+                    "multi_match": {
+                        "query": q, "type": "most_fields",
+                        "operator": "or",
+                        "fields": ["name^2", "description^1.5"],
+                    }
+                }
+            ]
         }
     })
     return queryset
 
+
 def filter_organisations_by_query_published(queryset, q):
     queryset = filter_organisations_by_query_all(queryset, q)
-
     queryset = queryset.query({
         "bool":{
-            "must":{
-                "term":{
-                    "published":"true"
-                    }
-                }
-            }
+            "must":{ "term":{ "published":"true" } }
+        }
     })
     return queryset
 
@@ -281,7 +297,6 @@ def filter_by_postcode(queryset, postcode, radius=5000):
             }]}}
         )
     )
-
     return queryset
 
 
@@ -290,9 +305,16 @@ def sort_by_postcode(queryset, postcode):
         '_geo_distance': {
             "locations.point": {"lat": postcode.latitude, "lon": postcode.longitude },
             "order":"asc", "unit":"m"
-        }
+        },
+        '_score': { 'order': 'desc' }
     })
+    return queryset
 
+
+def sort_by_score(queryset):
+    queryset = queryset.sort({
+        "_score": { "order": "desc" }
+    })
     return queryset
 
 
@@ -329,10 +351,24 @@ def get_service(queryset, service_id):
         "term" : { "id" : service_id }
     })).execute()
 
+
+def get_services(queryset, service_ids):
+    return queryset.query({
+        "terms" : { "id" : service_ids}
+    })
+
+
+def get_organisations(queryset, org_ids):
+    return queryset.query({
+        "terms" : { "id" : org_ids}
+    })
+
+
 def get_organisation_by_id(queryset, organisation_id):
     return queryset.query(Q({
         "term": {"id": organisation_id }
     })).execute()
+
 
 def filter_by_last_edited(queryset, comparison_date):
     queryset = queryset.query({
@@ -346,40 +382,66 @@ def order_organistations_by_created_on(queryset):
     queryset = queryset.sort({
         "created_on":"desc"
     })
-
     return queryset
+
 
 def filter_by_created_on(queryset, comparison_date):
     queryset = queryset.query({
         "bool": {
             "filter": {"range":{"created_on":{"gte":comparison_date}}}
     }})
-
     return queryset
 
-def filter_by_claimed_status(queryset, claimed_status):
-    queryset = queryset.query({
-        "bool":{
-            "filter":{
-                "term":{
-                    "is_claimed":claimed_status
-                    }
-                }
-            }
-    })
-    return queryset
 
-def filter_by_has_services(queryset, has_services):
-    if has_services == "true":
-        queryset = queryset.query({
-        "bool":{
-            "filter": {"range":{"services_count":{"gte":1}}}
-            }
-        })
-    else:
-        queryset = queryset.query({
-        "bool":{
-            "filter": {"range":{"services_count":{"lt":1}}}
-            }
-        })
-    return queryset
+def positions_dict(queryset):
+    results = queryset.count()
+    sorted_hits = queryset[0:results].execute()
+    positions = {}
+    i = 0
+    while i < results:
+        positions[sorted_hits[i].id] = None
+        if "sort" not in sorted_hits[i].meta:
+            positions[sorted_hits[i].id] = i
+        elif type(sorted_hits[i].meta.sort[0]) == float:
+            positions[sorted_hits[i].id] = i
+        i=i+1
+    return positions
+
+
+def postcode_order(queryset, postcode):
+    postcode_sqs = sort_by_postcode(queryset, postcode)
+    positions = positions_dict(postcode_sqs)
+    return {
+        "ids": list(positions.keys()),
+        "order": Case(*[When(id=key, then=positions[key]) for key in positions])
+    }
+
+
+def keyword_order(queryset):
+    positions = positions_dict(queryset)
+    return {
+        "ids": list(positions.keys()),
+        "order": Case(*[When(id=key, then=positions[key]) for key in positions])
+    }
+
+
+def combined_order(filtered_queryset, postcode):
+    postcode_sqs = sort_by_postcode(filtered_queryset, postcode)
+
+    distance_sorted = positions_dict(postcode_sqs)
+    keyword_sorted  = positions_dict(filtered_queryset)
+
+    positions = { "distance": distance_sorted, "keyword": keyword_sorted }
+    combined = {}
+
+    for key in positions["distance"]:
+      if positions["distance"][key] == None:
+        combined[key] = float(positions["keyword"][key])
+      else:
+        total = positions["distance"][key] + positions["keyword"][key]
+        combined[key] = (total / 2.0)
+
+    return {
+        "ids": list(combined.keys()),
+        "order": Case(*[When(id=key, then=combined[key]) for key in combined])
+    }

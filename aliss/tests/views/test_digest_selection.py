@@ -10,7 +10,7 @@ from datetime import datetime
 from datetime import timedelta
 import pytz
 
-class AccountDigestSelectionViewTestCase(TestCase):
+class DigestSelectionViewTestCase(TestCase):
 
     fixtures = ['service_areas.json', 'g2_postcodes.json', 'categories.json']
 

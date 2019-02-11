@@ -79,18 +79,26 @@
 
             {% if request.GET.q %}
             <div class="filter sorting">
-              <label>Sort by location or by keyword match:</label>
+              <label>Sort method:</label>
               <ul class="radio-list-links">
-              <li {% if not request.GET.keyword_sort %}class="active"{% endif %}>
-                <a href="?{% query_transform request keyword_sort=None %}">
+              <li {% if not request.GET.sort %}class="active"{% endif %}>
+                <a href="?{% query_transform request sort=None %}">
+                  <span class="radio"></span>
+                  <span class="name">
+                    By best match
+                  </span>
+                </a>
+              </li>
+              <li {% if request.GET.sort == "nearest" %}class="active"{% endif %}>
+                <a href="?{% query_transform request sort="nearest" %}">
                   <span class="radio"></span>
                   <span class="name">
                     By nearest first
                   </span>
                 </a>
               </li>
-              <li {% if request.GET.keyword_sort %}class="active"{% endif %}>
-                <a href="?{% query_transform request keyword_sort=True %}">
+              <li {% if request.GET.sort == "keyword" %}class="active"{% endif %}>
+                <a href="?{% query_transform request sort="keyword" %}">
                   <span class="radio"></span>
                   <span class="name">
                     By best keyword match
@@ -125,12 +133,12 @@
                 </p>
                 <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
                 <div class="assigned-category">
-                  {% for category in result.categories %}
+                  {% for category in result.categories.all %}
                     <a href="?{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
                   {% endfor %}
                 </div>
 
-                {% include 'service/partials/locations.html' with locations=result.locations %}
+                {% include 'service/partials/locations.html' with locations=result.locations.all %}
 
                 <ul class="contact-info">
                   {% if result.phone %}
@@ -151,7 +159,7 @@
                 </ul>
                 {% if result.service_areas %}
                   <div class="service-areas-list">
-                    <p>{% for area in result.service_areas %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    <p>{% for area in result.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
                   </div>
                 {% endif %}
               </li>
@@ -185,35 +193,28 @@
     </section>
     {% include 'partials/share-search.html' %}
   {% else %}
-    {% if errors and 'postcode' in errors %}
-      <section id="error">
-        <div class="row">
-          <div class="columns">
-            <div class="copy-container">
-              <h1>Sorry, ALISS is not available in your postcode.</h1>
-              <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
-            </div>
-            <div class="buttons">
-              <a href="{% url 'homepage' %}" class="button primary">Search again</a>
-            </div>
-          </div>
+    <section id="error">
+      <div class="row">
+      <div class="columns">
+      {% if errors and 'postcode' in errors %}
+        <div class="copy-container">
+          <h1>Sorry, ALISS is not available in your postcode.</h1>
+          <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
         </div>
-      </section>
-    {% elif invalid_area %}
-      <section id="error">
-        <div class="row">
-          <div class="columns">
-            <div class="copy-container">
-              <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
-              <p>The postcode you entered seems to be in the wrong format, please try again:</p>
-            </div>
-            <div class="buttons">
-              <a href="{% url 'homepage' %}" class="button primary">Search again</a>
-            </div>
-          </div>
+      {% elif invalid_area %}
+        <div class="copy-container">
+          <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
+          <p>The postcode you entered seems to be in the wrong format, please try again:</p>
         </div>
-      </section>
-    {% endif %}
+      {% else %}
+        {% include 'partials/forms/errors.html' with form=form %}
+      {% endif %}
+      <div class="buttons">
+        <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+      </div>
+      </div>
+      </div>
+    </section>
   {% endif %}
 </main>
 {% endblock %}
