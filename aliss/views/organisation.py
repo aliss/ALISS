@@ -33,7 +33,7 @@ import pytz
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, filter_by_has_services
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, filter_by_has_services, keyword_order
 
 from aliss.paginators import *
 from django.views.generic.list import MultipleObjectMixin
@@ -283,19 +283,11 @@ class OrganisationSearchView(ListView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
-        # Return only the ids of the results to reduce overheard a little
-        queryset = queryset.extra(_source={"includes": ["id"]})
+        # Apply the urser permission level and the further optional filters to the results.
         queryset = self.filter_queryset(queryset)
-        # As hits are limited to 10 instead iterate through each response objects and execute to get the id
-        response_count = queryset.count()
-        i = 0
-        ids = []
-        while i < response_count:
-            ids.append(queryset[i].execute()[0].id)
-            i += 1
-        # Filter the db records by the ids returned from the elastic search filtering
-        queryset = Organisation.objects.filter(id__in=ids).all()
+        # Use the keyword_order code to take the elastic search results and create a dictionary of the ids and the ordering positiion called  results.
+        results = keyword_order(queryset)
+        # Filter the db results using the results dictionary.
+        queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"])
         # Return all the db records so the ListView can handle the pagination.
         return queryset
-
-        # Potentially the ES results being paginated could be an advantage to us. By working out the total responses from that figuring out pages the pagination could be handled and the es hits called every 10 per page with the 'from' property.
