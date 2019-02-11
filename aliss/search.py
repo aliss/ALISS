@@ -458,6 +458,7 @@ def filter_by_claimed_status(queryset, claimed_status):
     })
     return queryset
 
+# The old method for the filter_by_has_services won't work now that the es search has no knowledge of an organisations services.
 def filter_by_has_services(queryset, has_services):
     if has_services == "true":
         queryset = queryset.query({

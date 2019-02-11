@@ -20,7 +20,7 @@ from django.utils import timezone
 from datetime import timedelta
 from datetime import datetime
 
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from aliss.models import Organisation, Claim
 from aliss.filters import OrganisationFilter
@@ -283,11 +283,19 @@ class OrganisationSearchView(ListView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
+        has_services = self.request.GET.get('has_services')
         # Apply the urser permission level and the further optional filters to the results.
         queryset = self.filter_queryset(queryset)
         # Use the keyword_order code to take the elastic search results and create a dictionary of the ids and the ordering positiion called  results.
         results = keyword_order(queryset)
         # Filter the db results using the results dictionary.
-        queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
+        if has_services == "true":
+            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services__gt = 0, id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
+
+        elif has_services == "false":
+            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services = 0, id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
+
+        else :
+            queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
         # Return all the db records so the ListView can handle the pagination.
         return queryset
