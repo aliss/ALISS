@@ -5,8 +5,15 @@ from django.db import models
 from django.http import StreamingHttpResponse
 from django.views.generic import View
 import csv
+from django.shortcuts import render
+from urllib.request import Request, urlopen
 
 class Command(BaseCommand):
+
+    def write_result_csv(self, response, filepath='all_services.csv'):
+        with open(filepath, mode='w') as output_file:
+            urlopen(response)
+
     def handle(self, *args, **options):
 
         class Echo(object):
@@ -47,10 +54,13 @@ class Command(BaseCommand):
                 response = StreamingHttpResponse(
                     (writer.writerow(row) for row in stream(headers, services_qs)),
                     content_type="text/csv")
-                response['Content-Disposition'] = 'attachment; filename="all_services.csv"'
+                response['Content-Disposition'] = 'file; filename="all_services.csv"'
+                print(response.status_code)
+                print(response.streaming_content)
+
                 return response
 
-        response = ContactLogExportCsvView.get(self)
+        self.write_result_csv(ContactLogExportCsvView.get(self))
 
         self.stdout.write(
         self.style.SUCCESS('Successfully export database records as a CSV file.')
