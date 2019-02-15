@@ -15,21 +15,32 @@ class Command(BaseCommand):
 
     def write_collection_csv(self, collection, filepath, object_dict):
 
+        def get_value(record, key):
+            return getattr(record, key, "")
+
+        def get_nested_value(record, keys):
+            object = get_value(record, keys[0])
+            value = get_value(object, keys[1])
+            return value
+
+        def get_nested_value_list(record, keys):
+            values = []
+            objects_list = get_value(record, keys[0])
+            for object in objects_list.all():
+                values.append(get_value(object, keys[1]))
+            return values
+
         def get_values_dict(record, value_names):
             list_values = list(value_names)
             results = []
             for value_element in list_values:
                 if isinstance(value_element, list):
                     if "list" in value_element:
-                        result_array= []
-                        temp = getattr(record, value_element[0])
-                        for value in temp.all():
-                            result_array.append(getattr(value, value_element[1]))
-                        results.append(result_array)
+                        results.append(get_nested_value_list(record, value_element))
                     else:
-                        results.append(getattr(getattr(record, value_element[0]), value_element[1]))
+                        results.append(get_nested_value(record, value_element))
                 else:
-                    results.append(getattr(record, value_element, "None"))
+                    results.append(get_value(record, value_element))
             return results
 
 
