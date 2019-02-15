@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def write_collection_csv(self, collection, filepath, object_dict):
 
-        def get_values(record, value_names):
+        def get_values_dict(record, value_names):
             list_values = list(value_names)
             results = []
             for value_element in list_values:
@@ -38,7 +38,7 @@ class Command(BaseCommand):
             csv_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
             csv_writer.writerow(fieldnames)
             for record in collection:
-                csv_writer.writerow(get_values(record, object_dict.values()))
+                csv_writer.writerow(get_values_dict(record, object_dict.values()))
 
 
     def write_service_csv(self, services, filepath='aliss_service.csv'):
