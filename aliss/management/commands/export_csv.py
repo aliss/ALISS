@@ -17,12 +17,19 @@ class Command(BaseCommand):
 
         def get_values(record, value_names):
             list_values = list(value_names)
-            results = []    
+            results = []
             for value_element in list_values:
                 if isinstance(value_element, list):
-                    results.append(getattr(getattr(record, value_element[0]), value_element[1]))
+                    if "list" in value_element:
+                        result_array= []
+                        temp = getattr(record, value_element[0])
+                        for value in temp:
+                            result_array.append(getattr(value, value_element[1]))
+                        results.append(result_array)
+                    else:
+                        results.append(getattr(getattr(record, value_element[0]), value_element[1]))
                 else:
-                    results.append(getattr(record, value_element))
+                    results.append(getattr(record, value_element, "None"))
             return results
 
 
@@ -54,21 +61,60 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         service_dict = {
-            "Name": "name",
-            "Description": "description",
-            "URL": "url",
-            "Phone Number": "phone",
-            "Email Address": "email",
-            "Last Edited": "last_edited",
-            "Organisation ID": "organisation_id",
-            "Organisation Name": ["organisation", "name"],
-            "Service Areas": "service_areas",
-            "Locations": "locations"
+            "name": "name",
+            "description": "description",
+            "url": "url",
+            "phone_number": "phone",
+            "email_address": "email",
+            "last_edited": "last_edited",
+            "organisation_id": "organisation_id",
+            "organisation_name": ["organisation", "name"],
+            "service_areas": "service_areas",
+            "locations": "locations"
+        }
+
+        location_dict = {
+            "id": "id",
+            "formatted_address": "formatted_address",
+            "name": "name",
+            "locality": "locality",
+            "region": "region",
+            "postal_code": "postal_code",
+            "country": "country",
+            "latitude": "latitude",
+            "longitude": "longitude",
+            "organisation_name": ["organisation", "name"],
+            "organisation_id": "organisation_id",
+        }
+
+        organisation_dict = {
+            "id": "id",
+            "name": "name",
+            "description": "description",
+            "aliss_url": "aliss_url",
+            "permalink": "permalink",
+            "url": "url",
+            "twitter": "twitter",
+            "facebook": "facebook",
+            "phone": "phone",
+            "email": "email",
+            "last_edited": "last_edited",
+            "service_names": "service_names",
+            "service_ids": ["services", "id", "list"],
+            "service_permalinks": ["service", "url", "list"],
         }
 
         self.stdout.write("\nWriting Services CSV\n")
-        services = Service.objects.all()[:5]
-        self.write_collection_csv(services, "aliss_service_result.csv", service_dict)
+        services_collection = Service.objects.all()[:5]
+        self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
+
+        self.stdout.write("\nWriting Locations CSV\n")
+        locations_collection = Location.objects.all()[:5]
+        self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
+
+        self.stdout.write("\nWriting Organisations CSV\n")
+        organisations_collection = Organisation.objects.all()[:5]
+        self.write_collection_csv(organisations_collection, "aliss_organisation_result.csv", organisation_dict)
 
 
 #name, description, url, phone, email, aliss_url, permalink, last_edited, organisation_id, organisation_name, organisation_permalink, categories, service_areas, location_ids
