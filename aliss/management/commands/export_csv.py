@@ -23,7 +23,7 @@ class Command(BaseCommand):
                     if "list" in value_element:
                         result_array= []
                         temp = getattr(record, value_element[0])
-                        for value in temp:
+                        for value in temp.all():
                             result_array.append(getattr(value, value_element[1]))
                         results.append(result_array)
                     else:
@@ -99,9 +99,9 @@ class Command(BaseCommand):
             "phone": "phone",
             "email": "email",
             "last_edited": "last_edited",
-            "service_names": "service_names",
+            "service_names": ["services", "name", "list"],
             "service_ids": ["services", "id", "list"],
-            "service_permalinks": ["service", "url", "list"],
+            "service_permalink": ["services", "url", "list"],
         }
 
         self.stdout.write("\nWriting Services CSV\n")
