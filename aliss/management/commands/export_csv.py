@@ -15,6 +15,12 @@ class Command(BaseCommand):
 
     def write_collection_csv(self, collection, filepath, object_dict):
 
+        def generate_permalink(record, model):
+            id = str(record.id)
+            start_url = "www.aliss.org/" + model + "/"
+            permalink = start_url + id + "/"
+            return permalink
+
         def get_value(record, key):
             return getattr(record, key, "")
 
@@ -37,10 +43,11 @@ class Command(BaseCommand):
                 if isinstance(value_element, list):
                     if "list" in value_element:
                         results.append(get_nested_value_list(record, value_element))
+                    elif "permalink" in value_element:
+                        generate_permalink(record, value_element[0])
+
                     else:
                         results.append(get_nested_value(record, value_element))
-                elif value_element == "permalink":
-                    results.append("Test Permalink")
                 else:
                     results.append(get_value(record, value_element))
             return results
@@ -87,7 +94,7 @@ class Command(BaseCommand):
             "name": "name",
             "description": "description",
             "aliss_url": "aliss_url",
-            "permalink": "permalink",
+            "permalink": ["organisation", "permalink"],
             "url": "url",
             "twitter": "twitter",
             "facebook": "facebook",
@@ -99,13 +106,13 @@ class Command(BaseCommand):
             "service_permalink": ["services", "url", "list"],
         }
 
-        self.stdout.write("\nWriting Services CSV\n")
-        services_collection = Service.objects.all()[:5]
-        self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
-
-        self.stdout.write("\nWriting Locations CSV\n")
-        locations_collection = Location.objects.all()[:5]
-        self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
+        # self.stdout.write("\nWriting Services CSV\n")
+        # services_collection = Service.objects.all()[:5]
+        # self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
+        #
+        # self.stdout.write("\nWriting Locations CSV\n")
+        # locations_collection = Location.objects.all()[:5]
+        # self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
 
         self.stdout.write("\nWriting Organisations CSV\n")
         organisations_collection = Organisation.objects.all()[:5]

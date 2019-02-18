@@ -115,6 +115,12 @@ class Organisation(models.Model):
             id=self.id, refresh=True, ignore=404
         )
 
+    def generate_permalink(self):
+        id = str(self.id)
+        start_url = "www.aliss.org/organisations/"
+        permalink = start_url + id + "/"
+        return permalink
+
     @property
     def is_claimed(self):
         return not (self.claimed_by == None)
