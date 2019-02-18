@@ -51,24 +51,6 @@ class Command(BaseCommand):
             for record in collection:
                 csv_writer.writerow(get_values_dict(record, object_dict.values()))
 
-
-    def write_service_csv(self, services, filepath='aliss_service.csv'):
-        fieldnames = ["Name", "Description", "URL", "Phone Number",
-        "Email Address", "URL", "Last Edited", "Organisation ID", "Organisation Name", "Organisation Categories", "Service Areas", "Locations"]
-        with open(filepath, mode='w') as output_file:
-            csv_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-            csv_writer.writerow(fieldnames)
-            for service in services:
-                csv_writer.writerow([getattr(service, "name"), service.description, service.url, service.phone, service.email, service.url, service.last_edited, service.organisation_id, service.organisation.name, service.categories, service.service_areas, service.locations])
-
-    def write_location_csv(self, locations, filepath='aliss_location.csv'):
-        fieldnames = ["ID", "Formatted Address", "Name", "Locality", "Region", "Postal Code", "Country", "Latitude", "Longitude", "Organisation Name", "Organisation ID", "Organisation Permalink"]
-        with open(filepath, mode='w') as output_file:
-            csv_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-            csv_writer.writerow(fieldnames)
-            for location in locations:
-                csv_writer.writerow([location.id, location.formatted_address, location.name,  location.locality, location.region, location.postal_code, location.country, location.latitude, location.longitude, location.organisation.name, location.organisation.id, "permalink"])
-
     def handle(self, *args, **options):
 
         service_dict = {
