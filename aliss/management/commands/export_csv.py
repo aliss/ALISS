@@ -105,6 +105,8 @@ class Command(BaseCommand):
             "locations_ids": ["locations", "id", "list"],
         }
 
+        #id, name, description, url, phone, email, aliss_url, permalink, last_edited, organisation_id, organisation_name, organisation_permalink, categories, service_areas, location_ids
+
         location_dict = {
             "id": "id",
             "formatted_address": "formatted_address",
@@ -117,7 +119,10 @@ class Command(BaseCommand):
             "longitude": "longitude",
             "organisation_name": ["organisation", "name"],
             "organisation_id": "organisation_id",
+            "organisation_permalink": ["organisation", "organisations", "nested_permalink"],
         }
+
+        #id, formatted_address, name, locality, region, postal_code, country, latitude, longitude, organisation_name, organisation_id, organisation_permalink
 
         organisation_dict = {
             "id": "id",
@@ -136,13 +141,15 @@ class Command(BaseCommand):
             "service_permalink": ["services", "nested_url"],
         }
 
+        #id, name, description, aliss_url, permalink, url, twitter, facebook, phone, email, last_edited, service_names, service_ids, service_permalinks
+
         self.stdout.write("\nWriting Services CSV\n")
         services_collection = Service.objects.all()[:5]
         self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
-        #
-        # self.stdout.write("\nWriting Locations CSV\n")
-        # locations_collection = Location.objects.all()[:5]
-        # self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
+
+        self.stdout.write("\nWriting Locations CSV\n")
+        locations_collection = Location.objects.all()[:5]
+        self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
 
         self.stdout.write("\nWriting Organisations CSV\n")
         organisations_collection = Organisation.objects.all()[:5]
