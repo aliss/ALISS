@@ -24,10 +24,10 @@ class Command(BaseCommand):
             return value
 
         def get_nested_value_list(record, keys):
-            values = []
+            values = ""
             objects_list = get_value(record, keys[0])
             for object in objects_list.all():
-                values.append(get_value(object, keys[1]))
+                values += ", " + str(get_value(object, keys[1]))
             return values
 
         def get_values_dict(record, value_names):
