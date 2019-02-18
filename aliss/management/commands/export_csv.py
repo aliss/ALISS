@@ -36,12 +36,25 @@ class Command(BaseCommand):
                 values += "\"" + str(get_value(object, keys[1])) + "\" "
             return values
 
-        def get_nested_permalinks(record, keys):
+        def get_nested_permalink(record, keys):
+            object = get_value(record, keys[0])
+            nested_permalink = generate_permalink(object, keys[1])
+            return nested_permalink
+
+        def get_nested_permalinks_list(record, keys):
             values = ""
             objects_list = get_value(record, keys[0])
             for object in objects_list.all():
                 values += "\"" + generate_permalink(object, keys[0]) + "\" "
             return values
+
+        def generate_aliss_url(record, model):
+            aliss_url = ""
+            if record.slug:
+                slug = str(record.slug)
+                start_url = "www.aliss.org/" + model + "/"
+                aliss_url = start_url + slug + "/"
+            return aliss_url
 
         def get_values_dict(record, value_names):
             list_values = list(value_names)
@@ -53,7 +66,11 @@ class Command(BaseCommand):
                     elif "permalink" in value_element:
                         results.append(generate_permalink(record, value_element[0]))
                     elif "nested_url" in value_element:
-                        results.append(get_nested_permalinks(record, value_element))
+                        results.append(get_nested_permalinks_list(record, value_element))
+                    elif "aliss_url" in value_element:
+                        results.append(generate_aliss_url(record, value_element[0]))
+                    elif "nested_permalink" in value_element:
+                        results.append(get_nested_permalink(record, value_element))
                     else:
                         results.append(get_nested_value(record, value_element))
                 else:
@@ -71,16 +88,21 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         service_dict = {
+            "id": "id",
             "name": "name",
             "description": "description",
             "url": "url",
             "phone_number": "phone",
             "email_address": "email",
+            "aliss_url": ["services", "aliss_url"],
+            "permalink": ["services", "permalink"],
             "last_edited": "last_edited",
             "organisation_id": "organisation_id",
             "organisation_name": ["organisation", "name"],
+            "orgasnisation_permalink": ["organisation", "organisations", "nested_permalink"],
+            "categories": ["categories", "name", "list"],
             "service_areas": "service_areas",
-            "locations": "locations"
+            "locations_ids": ["locations", "id", "list"],
         }
 
         location_dict = {
@@ -101,8 +123,8 @@ class Command(BaseCommand):
             "id": "id",
             "name": "name",
             "description": "description",
-            "aliss_url": "aliss_url",
-            "permalink": ["organisation", "permalink"],
+            "aliss_url": ["organisations", "aliss_url"],
+            "permalink": ["organisations", "permalink"],
             "url": "url",
             "twitter": "twitter",
             "facebook": "facebook",
@@ -114,9 +136,9 @@ class Command(BaseCommand):
             "service_permalink": ["services", "nested_url"],
         }
 
-        # self.stdout.write("\nWriting Services CSV\n")
-        # services_collection = Service.objects.all()[:5]
-        # self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
+        self.stdout.write("\nWriting Services CSV\n")
+        services_collection = Service.objects.all()[:5]
+        self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
         #
         # self.stdout.write("\nWriting Locations CSV\n")
         # locations_collection = Location.objects.all()[:5]
