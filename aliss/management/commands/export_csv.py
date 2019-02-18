@@ -10,9 +10,6 @@ from urllib.request import Request, urlopen
 
 class Command(BaseCommand):
 
-
-
-
     def write_collection_csv(self, collection, filepath, object_dict):
 
         def generate_permalink(record, model):
@@ -143,6 +140,17 @@ class Command(BaseCommand):
 
         #id, name, description, aliss_url, permalink, url, twitter, facebook, phone, email, last_edited, service_names, service_ids, service_permalinks
 
+        services_at_location_dict = {
+            "location_id": "location_id",
+            "service_ids": ["services", "id", "list"],
+            "service_names": ["services", "name", "list"],
+            "service_permalinks": ["services", "nested_url"],
+            "formatted_address": "formatted_address",
+            "organisation_id": "organisation_id",
+        }
+
+        #service_id, location_id, service_name, service_permalink, formatted_address, organisation_id
+
         self.stdout.write("\nWriting Services CSV\n")
         services_collection = Service.objects.all()[:5]
         self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
@@ -155,5 +163,6 @@ class Command(BaseCommand):
         organisations_collection = Organisation.objects.all()[:5]
         self.write_collection_csv(organisations_collection, "aliss_organisation_result.csv", organisation_dict)
 
-
-#name, description, url, phone, email, aliss_url, permalink, last_edited, organisation_id, organisation_name, organisation_permalink, categories, service_areas, location_ids
+        self.stdout.write("\nWriting services at location CSV\n")
+        services_at_location_collection = Location.objects.all()[:5]
+        self.write_collection_csv(services_at_location_collection, "aliss_services_at_location_result.csv", services_at_location_dict)
