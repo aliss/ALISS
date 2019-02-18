@@ -186,7 +186,7 @@ class Command(BaseCommand):
         #service_id, location_id, service_name, service_permalink, formatted_address, organisation_id
 
         self.stdout.write("\nWriting Services CSV\n")
-        services_collection = Service.objects.all()[:5]
+        services_collection = Service.objects.all()
         self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
 
         self.stdout.write("\nWriting Locations CSV\n")
