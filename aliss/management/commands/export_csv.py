@@ -39,6 +39,8 @@ class Command(BaseCommand):
                         results.append(get_nested_value_list(record, value_element))
                     else:
                         results.append(get_nested_value(record, value_element))
+                elif value_element == "permalink":
+                    results.append("Test Permalink")
                 else:
                     results.append(get_value(record, value_element))
             return results
