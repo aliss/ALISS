@@ -192,29 +192,48 @@ class Command(BaseCommand):
         def check_record_count(collection, filepath, model):
             db_count = collection.count()
             row_count = -1
-            with open('aliss_service_result.csv', 'r+') as data_file:
+            with open(filepath, 'r+') as data_file:
                 data = csv.reader(data_file, delimiter=',')
                 for row in data:
                     row_count += 1
             if db_count == row_count:
-                self.stdout.write("Correct number of rows written for " + model + "\n")
+                self.stdout.write("- Successfully wrote " + str(row_count) + " rows for " + str(model) + "\n")
             else:
-                self.stdout.write("Incorrect number or rows written for " + model + "\n")
+                self.stdout.write("- Incorrect number or rows written for " + model + "\n")
+                self.stdout.write("- " + str(db_count) + " does not equal " + str(row_count))
+
+        def check_services_at_location_count(collection, filepath, model):
+            db_count = 0
+            for location in collection:
+                for service in location.services.all():
+                    db_count += 1
+            row_count = -1
+            with open(filepath, 'r+') as data_file:
+                data = csv.reader(data_file, delimiter=',')
+                for row in data:
+                    row_count += 1
+            if db_count == row_count:
+                self.stdout.write("- Successfully wrote " + str(row_count) + " rows for " + str(model) + "\n")
+            else:
+                self.stdout.write("- Incorrect number or rows written for " + model + "\n")
+                self.stdout.write("- " + str(db_count) + " does not equal " + str(row_count))
 
         self.stdout.write("\nWriting Services CSV\n")
         services_collection = Service.objects.all()
         self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
         check_record_count(services_collection, "aliss_service_result.csv", "Service")
 
-
         self.stdout.write("\nWriting Locations CSV\n")
-        locations_collection = Location.objects.all()[:5]
+        locations_collection = Location.objects.all()
         self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
+        check_record_count(locations_collection, "aliss_location_result.csv", "Location")
 
         self.stdout.write("\nWriting Organisations CSV\n")
-        organisations_collection = Organisation.objects.all()[:5]
+        organisations_collection = Organisation.objects.all()
         self.write_collection_csv(organisations_collection, "aliss_organisation_result.csv", organisation_dict)
+        check_record_count(organisations_collection,"aliss_organisation_result.csv", "Organisation")
 
         self.stdout.write("\nWriting services at location CSV\n")
-        services_at_location_collection = Location.objects.all()[:5]
+        services_at_location_collection = Location.objects.all()
         self.write_joining_table_csv(services_at_location_collection, "aliss_services_at_location_result.csv", services_at_location_dict)
+        check_services_at_location_count(services_at_location_collection, "aliss_services_at_location_result.csv", "Services at Location")
