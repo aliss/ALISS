@@ -33,7 +33,14 @@ class Command(BaseCommand):
             values = ""
             objects_list = get_value(record, keys[0])
             for object in objects_list.all():
-                values += ", " + str(get_value(object, keys[1]))
+                values += "\"" + str(get_value(object, keys[1])) + "\" "
+            return values
+
+        def get_nested_permalinks(record, keys):
+            values = ""
+            objects_list = get_value(record, keys[0])
+            for object in objects_list.all():
+                values += "\"" + generate_permalink(object, keys[0]) + "\" "
             return values
 
         def get_values_dict(record, value_names):
@@ -44,8 +51,9 @@ class Command(BaseCommand):
                     if "list" in value_element:
                         results.append(get_nested_value_list(record, value_element))
                     elif "permalink" in value_element:
-                        generate_permalink(record, value_element[0])
-
+                        results.append(generate_permalink(record, value_element[0]))
+                    elif "nested_url" in value_element:
+                        results.append(get_nested_permalinks(record, value_element))
                     else:
                         results.append(get_nested_value(record, value_element))
                 else:
@@ -103,7 +111,7 @@ class Command(BaseCommand):
             "last_edited": "last_edited",
             "service_names": ["services", "name", "list"],
             "service_ids": ["services", "id", "list"],
-            "service_permalink": ["services", "url", "list"],
+            "service_permalink": ["services", "nested_url"],
         }
 
         # self.stdout.write("\nWriting Services CSV\n")
