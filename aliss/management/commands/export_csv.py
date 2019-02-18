@@ -141,7 +141,7 @@ class Command(BaseCommand):
         #id, name, description, aliss_url, permalink, url, twitter, facebook, phone, email, last_edited, service_names, service_ids, service_permalinks
 
         services_at_location_dict = {
-            "location_id": "location_id",
+            "location_id": "id",
             "service_ids": ["services", "id", "list"],
             "service_names": ["services", "name", "list"],
             "service_permalinks": ["services", "nested_url"],
