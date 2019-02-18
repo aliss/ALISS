@@ -82,6 +82,21 @@ class Command(BaseCommand):
             for record in collection:
                 csv_writer.writerow(get_values_dict(record, object_dict.values()))
 
+    def write_joining_table_csv(self, collection, filepath, object_dict):
+        #Need to get the collection of locations and for every service that the location has write a new row in the
+        for location in collection:
+            for service in location.services.all():
+                print(service.id)
+
+        '''
+        you need to loop through each service for each location
+        and each of those is one row
+        so for each location
+        loop through services and add a row
+        then go on to next location
+        is that what you meant?
+        '''
+
     def handle(self, *args, **options):
 
         service_dict = {
@@ -135,34 +150,33 @@ class Command(BaseCommand):
             "last_edited": "last_edited",
             "service_names": ["services", "name", "list"],
             "service_ids": ["services", "id", "list"],
-            "service_permalink": ["services", "nested_url"],
         }
 
         #id, name, description, aliss_url, permalink, url, twitter, facebook, phone, email, last_edited, service_names, service_ids, service_permalinks
 
         services_at_location_dict = {
-            "location_id": "id",
-            "service_ids": ["services", "id", "list"],
-            "service_names": ["services", "name", "list"],
-            "service_permalinks": ["services", "nested_url"],
+            "location_id": ["location", "id"],
+            "service_id": ["service", "id"],
+            "service_names": ["service", "name"],
+            "service_permalinks": ["service", "permalink"],
             "formatted_address": "formatted_address",
             "organisation_id": "organisation_id",
         }
 
         #service_id, location_id, service_name, service_permalink, formatted_address, organisation_id
 
-        self.stdout.write("\nWriting Services CSV\n")
-        services_collection = Service.objects.all()[:5]
-        self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
-
-        self.stdout.write("\nWriting Locations CSV\n")
-        locations_collection = Location.objects.all()[:5]
-        self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
-
-        self.stdout.write("\nWriting Organisations CSV\n")
-        organisations_collection = Organisation.objects.all()[:5]
-        self.write_collection_csv(organisations_collection, "aliss_organisation_result.csv", organisation_dict)
+        # self.stdout.write("\nWriting Services CSV\n")
+        # services_collection = Service.objects.all()[:5]
+        # self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
+        #
+        # self.stdout.write("\nWriting Locations CSV\n")
+        # locations_collection = Location.objects.all()[:5]
+        # self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
+        #
+        # self.stdout.write("\nWriting Organisations CSV\n")
+        # organisations_collection = Organisation.objects.all()[:5]
+        # self.write_collection_csv(organisations_collection, "aliss_organisation_result.csv", organisation_dict)
 
         self.stdout.write("\nWriting services at location CSV\n")
         services_at_location_collection = Location.objects.all()[:5]
-        self.write_collection_csv(services_at_location_collection, "aliss_services_at_location_result.csv", services_at_location_dict)
+        self.write_joining_table_csv(services_at_location_collection, "aliss_services_at_location_result.csv", services_at_location_dict)
