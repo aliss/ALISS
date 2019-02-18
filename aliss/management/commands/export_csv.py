@@ -84,9 +84,13 @@ class Command(BaseCommand):
 
     def write_joining_table_csv(self, collection, filepath, object_dict):
         #Need to get the collection of locations and for every service that the location has write a new row in the
-        for location in collection:
-            for service in location.services.all():
-                print(service.id)
+        fieldnames = object_dict.keys()
+        with open(filepath, mode='w') as output_file:
+            csv_writer = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+            csv_writer.writerow(fieldnames)
+            for location in collection:
+                for service in location.services.all():
+                    csv_writer.writerow([service.id, location.id, service.name, "www.aliss.org/services/" + str(service.id), location.formatted_address, service.organisation_id])
 
         '''
         you need to loop through each service for each location
@@ -95,6 +99,13 @@ class Command(BaseCommand):
         loop through services and add a row
         then go on to next location
         is that what you meant?
+
+        "service_id": ["service", "id"],
+        "location_id": ["location", "id"],
+        "service_name": ["service", "name"],
+        "service_permalink": ["service", "permalink"],
+        "formatted_address": "formatted_address",
+        "organisation_id": "organisation_id",
         '''
 
     def handle(self, *args, **options):
@@ -155,10 +166,10 @@ class Command(BaseCommand):
         #id, name, description, aliss_url, permalink, url, twitter, facebook, phone, email, last_edited, service_names, service_ids, service_permalinks
 
         services_at_location_dict = {
-            "location_id": ["location", "id"],
             "service_id": ["service", "id"],
-            "service_names": ["service", "name"],
-            "service_permalinks": ["service", "permalink"],
+            "location_id": ["location", "id"],
+            "service_name": ["service", "name"],
+            "service_permalink": ["service", "permalink"],
             "formatted_address": "formatted_address",
             "organisation_id": "organisation_id",
         }
