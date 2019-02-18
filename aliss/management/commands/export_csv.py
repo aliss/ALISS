@@ -117,6 +117,10 @@ class Command(BaseCommand):
         "organisation_id": "organisation_id",
         '''
 
+
+
+
+
     def handle(self, *args, **options):
 
         service_dict = {
@@ -185,9 +189,23 @@ class Command(BaseCommand):
 
         #service_id, location_id, service_name, service_permalink, formatted_address, organisation_id
 
+        def check_record_count(collection, filepath, model):
+            db_count = collection.count()
+            row_count = -1
+            with open('aliss_service_result.csv', 'r+') as data_file:
+                data = csv.reader(data_file, delimiter=',')
+                for row in data:
+                    row_count += 1
+            if db_count == row_count:
+                self.stdout.write("Correct number of rows written for " + model + "\n")
+            else:
+                self.stdout.write("Incorrect number or rows written for " + model + "\n")
+
         self.stdout.write("\nWriting Services CSV\n")
         services_collection = Service.objects.all()
         self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
+        check_record_count(services_collection, "aliss_service_result.csv", "Service")
+
 
         self.stdout.write("\nWriting Locations CSV\n")
         locations_collection = Location.objects.all()[:5]
