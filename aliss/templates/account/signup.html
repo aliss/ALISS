@@ -51,6 +51,13 @@
             {% include 'partials/forms/field.html' with field=form.password1 %}
             {% include 'partials/forms/field.html' with field=form.password2 %}
           </div>
+          <div class="columns content">
+            <div class="copy-container">
+            <ul>
+                <li>Passwords must be at least 8 characters long.</li>
+              </ul>
+            </div>
+          </div>
           {% comment %}
           <div class="preferences">
             <div class="pad">
