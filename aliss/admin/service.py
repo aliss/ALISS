@@ -12,6 +12,6 @@ class ServiceAreaAdmin(admin.ModelAdmin):
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
     exclude = ('id',)
-    list_display = ('name', 'organisation', 'created_by', 'created_on', 'updated_on')
-    ordering = ('-created_on',)
+    list_display = ('name', 'organisation', 'created_by', 'last_edited', 'created_on')
+    ordering = ('-last_edited',)
     search_fields = ['name']
