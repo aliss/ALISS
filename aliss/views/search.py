@@ -10,7 +10,7 @@ from elasticsearch_dsl.connections import connections
 
 from aliss.paginators import ESPaginator
 from aliss.forms import SearchForm
-from aliss.models import Postcode, Service
+from aliss.models import Postcode, Service, Category
 from aliss.search import (
     filter_by_query,
     filter_by_postcode,
@@ -53,6 +53,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
             self.location_type = None
             self.sort = self.request.GET.get('sort', None)
             self.category = self.request.GET.get('category', None)
+            if self.category:
+                self.category = Category.objects.get(slug=self.category)
             self.radius = None
             if self.radius == None:
                 self.radius = 20000
