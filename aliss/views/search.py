@@ -45,7 +45,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
         location = self.request.GET.get("location")
         logger = logging.getLogger(__name__)
         logger.error(str(location))
-        if "Brechin" in str(location):
+        if "Brechin" or "Dundee" or "Erskine" in str(location):
             self.q = self.request.GET.get('q', None)
             puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
             if self.q:
@@ -63,13 +63,13 @@ class SearchView(MultipleObjectMixin, TemplateView):
                 self.object_list = self.filter_queryset(self.get_queryset())
                 return self.render_to_response(self.get_context_data())
 
-            if location == "Erskine":
+            if "Dundee" in str(location):
                 postcode = Postcode.objects.get(postcode = "EH21 6UW")
                 self.postcode = Postcode.objects.get(postcode=postcode)
                 self.object_list = self.filter_queryset(self.get_queryset())
                 return self.render_to_response(self.get_context_data())
 
-            if location == "Dundee":
+            if "Erskine" in str(location):
                 postcode = Postcode.objects.get(postcode = "EH21 6UW")
                 self.postcode = Postcode.objects.get(postcode=postcode)
                 self.object_list = self.filter_queryset(self.get_queryset())
