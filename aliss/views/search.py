@@ -52,12 +52,13 @@ class SearchView(MultipleObjectMixin, TemplateView):
                 self.radius = 20000
 
             postcode = search_form.cleaned_data.get('postcode', None)
-
-            if postcode:
-                try:
+            try:
+                if postcode and len(postcode) > 3:
                     self.postcode = Postcode.objects.get(postcode=postcode)
-                except Postcode.DoesNotExist:
-                    return self.render_to_response(context={'invalid_area': True})
+                else:
+                    self.postcode = Postcode.get_by_district(postcode)
+            except Postcode.DoesNotExist:
+                return self.render_to_response(context={'invalid_area': True})
 
             self.object_list = self.filter_queryset(self.get_queryset())
             return self.render_to_response(self.get_context_data())
