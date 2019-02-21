@@ -48,15 +48,8 @@
             {% include 'partials/forms/field.html' with field=form.postcode %}
           </div>
           <div class="f-row two">
-            {% include 'partials/forms/field.html' with field=form.password1 %}
-            {% include 'partials/forms/field.html' with field=form.password2 %}
-          </div>
-          <div class="columns content">
-            <div class="copy-container">
-            <ul>
-                <li>Passwords must be at least 8 characters long.</li>
-              </ul>
-            </div>
+            {% include 'partials/forms/password-field.html' with field=form.password1 %}
+            {% include 'partials/forms/password-field.html' with field=form.password2 %}
           </div>
           {% comment %}
           <div class="preferences">
@@ -149,3 +142,14 @@
   </section>
 </main>
 {% endblock %}
+
+{% block before_body_close %}
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('#id_password1').on('focus', function(){
+    $('#id_password1-help-text').show()
+    $('#id_password2-help-text').show()
+    })
+  })
+  </script>
+{% endblock%}
