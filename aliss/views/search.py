@@ -52,10 +52,24 @@ class SearchView(MultipleObjectMixin, TemplateView):
             self.radius = self.request.GET.get('radius', None)
             if self.radius == None:
                 self.radius = 20000
-            postcode = Postcode.objects.get(postcode = "EH21 6UW")
-            self.postcode = Postcode.objects.get(postcode=postcode)
-            self.object_list = self.filter_queryset(self.get_queryset())
-            return self.render_to_response(self.get_context_data())
+
+            if location == "Brechin":
+                postcode = Postcode.objects.get(postcode = "EH21 6UW")
+                self.postcode = Postcode.objects.get(postcode=postcode)
+                self.object_list = self.filter_queryset(self.get_queryset())
+                return self.render_to_response(self.get_context_data())
+
+            if location == "Erskine":
+                postcode = Postcode.objects.get(postcode = "EH21 6UW")
+                self.postcode = Postcode.objects.get(postcode=postcode)
+                self.object_list = self.filter_queryset(self.get_queryset())
+                return self.render_to_response(self.get_context_data())
+
+            if location == "Dundee":
+                postcode = Postcode.objects.get(postcode = "EH21 6UW")
+                self.postcode = Postcode.objects.get(postcode=postcode)
+                self.object_list = self.filter_queryset(self.get_queryset())
+                return self.render_to_response(self.get_context_data())
 
         search_form = SearchForm(data=self.request.GET)
 
