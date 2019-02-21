@@ -43,8 +43,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
         # check for the location param
         location = self.request.GET.get("location")
-        logger = logging.getLogger(__name__)
-        logger.error(str(location))
+        # logger = logging.getLogger(__name__)
+        # logger.error(str(location))
         if "Brechin" or "Dundee" or "Erskine" in str(location):
             self.q = self.request.GET.get('q', None)
             puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
