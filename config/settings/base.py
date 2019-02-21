@@ -137,6 +137,7 @@ if se != None:
 SESSION_CACHE_ALIAS = "default"
 
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+ANALYTICS_ID = os.environ.get('ANALYTICS_ID')
 
 cloudinary.config(
   cloud_name = os.environ.get('CLOUDINARY_CLOUD_NAME'),
