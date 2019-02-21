@@ -38,6 +38,25 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
+
+        # check for the location param
+        location = self.request.GET.get("location")
+        if location:
+            self.q = self.request.GET.get('q', None)
+            puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
+            if self.q:
+                self.q = self.q.translate(puncstripper)
+            self.location_type = self.request.GET.get('location_type',None)
+            self.sort = self.request.GET.get('sort', None)
+            self.category = self.request.GET.get('category', None)
+            self.radius = self.request.GET.get('radius', None)
+            if self.radius == None:
+                self.radius = 20000
+            postcode = Postcode.objects.get(postcode = "EH21 6UW")
+            self.postcode = Postcode.objects.get(postcode=postcode)
+            self.object_list = self.filter_queryset(self.get_queryset())
+            return self.render_to_response(self.get_context_data())
+
         search_form = SearchForm(data=self.request.GET)
 
         if search_form.is_valid():
