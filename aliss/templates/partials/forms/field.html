@@ -2,6 +2,9 @@
     <label for="{{ field.id_for_label }}">
         {{ field.label }}{% if field.field.required %} <span>(required)</span>{% endif %}
     </label>
+    {% if field.help_text %}
+      <span><p class="small" id="{{field.id_for_label}}-help-text" style="display:none">{{field.help_text}}</p></span>
+    {% endif %}
     {% if annotation %}
       <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ annotation }}</p>
     {% endif %}
