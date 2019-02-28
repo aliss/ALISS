@@ -50,11 +50,11 @@ class SearchView(MultipleObjectMixin, TemplateView):
         location = self.request.GET.get("location")
         search_form = SearchForm(data=self.request.GET)
 
+        result = self.return_match_for_legacy_location(location, legacy_locations_dict)
+
+        if result["match"] == True:
+            return self.process_legacy_url(result["name"], legacy_locations_dict)
         # Remember the location is a massive strin we have to do this the other way round.
-        if location:
-            for legacy_location_name in legacy_locations_dict:
-                if str(legacy_location_name) in str(location):
-                    return self.process_for_legacy_urls(legacy_location_name, legacy_locations_dict)
 
         elif search_form.is_valid():
             self.q = search_form.cleaned_data.get('q', None)
@@ -112,7 +112,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
             results = postcode_order(queryset, self.postcode)
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
 
-    def process_for_legacy_urls(self, location, legacy_locations_dict):
+    def process_legacy_url(self, location, legacy_locations_dict):
         self.q = self.request.GET.get('q', None)
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
         if self.q:
@@ -130,7 +130,17 @@ class SearchView(MultipleObjectMixin, TemplateView):
         self.object_list = self.filter_queryset(self.get_queryset())
         return self.render_to_response(self.get_context_data())
 
+    def return_match_for_legacy_location(self, location, legacy_locations_dict):
+        result = {
+        "match": False,
+        "name": ""
+        }
 
+        for legacy_location_name in legacy_locations_dict:
+            if str(legacy_location_name) in str(location):
+                result["match"] = True
+                result["name"] = str(legacy_location_name)
+        return result
 
 
 
