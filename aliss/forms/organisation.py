@@ -22,7 +22,7 @@ class OrganisationForm(forms.ModelForm):
         labels = {}
 
         help_texts = {
-            'description': _('Helpful text for a description'),
+            'description': _("Helpful text for a description"),
         }
 
     def clean(self):
