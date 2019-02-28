@@ -41,45 +41,22 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
 
-        # check for the location param
+        legacy_locations_dict = {
+            "Brechin": "DD9 6AD",
+            "Dundee": "DD3 8EA",
+            "Erskine": "PA8 7WZ",
+        }
+
         location = self.request.GET.get("location")
-        # logger = logging.getLogger(__name__)
-        # logger.error(str(location))
-        if "Brechin" or "Dundee" or "Erskine" in str(location):
-            self.q = self.request.GET.get('q', None)
-            puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
-            if self.q:
-                self.q = self.q.translate(puncstripper)
-            self.location_type = None
-            self.sort = self.request.GET.get('sort', None)
-            self.category = self.request.GET.get('category', None)
-            if self.category:
-                self.category = Category.objects.get(slug=self.category)
-            self.radius = None
-            if self.radius == None:
-                self.radius = 20000
-
-            if "Brechin" in str(location):
-                postcode = Postcode.objects.get(postcode = "DD9 6AD")
-                self.postcode = Postcode.objects.get(postcode=postcode)
-                self.object_list = self.filter_queryset(self.get_queryset())
-                return self.render_to_response(self.get_context_data())
-
-            if "Dundee" in str(location):
-                postcode = Postcode.objects.get(postcode = "DD3 8EA")
-                self.postcode = Postcode.objects.get(postcode=postcode)
-                self.object_list = self.filter_queryset(self.get_queryset())
-                return self.render_to_response(self.get_context_data())
-
-            if "Erskine" in str(location):
-                postcode = Postcode.objects.get(postcode = "PA8 7WZ")
-                self.postcode = Postcode.objects.get(postcode=postcode)
-                self.object_list = self.filter_queryset(self.get_queryset())
-                return self.render_to_response(self.get_context_data())
-
         search_form = SearchForm(data=self.request.GET)
 
-        if search_form.is_valid():
+        # Remember the location is a massive strin we have to do this the other way round.
+        if location:
+            for legacy_location_name in legacy_locations_dict:
+                if str(legacy_location_name) in str(location):
+                    return self.process_for_legacy_urls(legacy_location_name, legacy_locations_dict)
+
+        elif search_form.is_valid():
             self.q = search_form.cleaned_data.get('q', None)
             puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
             self.q = self.q.translate(puncstripper)
@@ -134,6 +111,27 @@ class SearchView(MultipleObjectMixin, TemplateView):
         else:
             results = postcode_order(queryset, self.postcode)
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
+
+    def process_for_legacy_urls(self, location, legacy_locations_dict):
+        self.q = self.request.GET.get('q', None)
+        puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
+        if self.q:
+            self.q = self.q.translate(puncstripper)
+        self.location_type = None
+        self.sort = self.request.GET.get('sort', None)
+        self.category = self.request.GET.get('category', None)
+        if self.category:
+            self.category = Category.objects.get(slug=self.category)
+        self.radius = None
+        if self.radius == None:
+            self.radius = 20000
+        postcode = Postcode.objects.get(postcode = legacy_locations_dict.get(str(location)))
+        self.postcode = Postcode.objects.get(postcode=postcode)
+        self.object_list = self.filter_queryset(self.get_queryset())
+        return self.render_to_response(self.get_context_data())
+
+
+
 
 
 class SearchShareView(View):

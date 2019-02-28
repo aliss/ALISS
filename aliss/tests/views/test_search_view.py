@@ -70,6 +70,7 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "PA8 7WZ")
 
+
     def test_dundee_legacy_url(self):
         dundee_legacy_url = "/search/?q=health&accounts=179,91,268&lat=56.47347449999999&lng=-2.957288100000028&location=Dundee%20DD4%207AA,%20United%20Kingdom"
         response = self.client.get(dundee_legacy_url)
