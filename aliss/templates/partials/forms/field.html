@@ -1,6 +1,7 @@
 <div{% if field.errors %} class="has-error"{% endif %}>
     <label for="{{ field.id_for_label }}">
         {{ field.label }}{% if field.field.required %} <span>(required)</span>{% endif %}
+        {{ field.help_text}}
     </label>
     {% if annotation %}
       <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ annotation }}</p>

@@ -1,6 +1,7 @@
 from itertools import groupby
 from django import forms
 from aliss.models import Organisation, Service
+from django.utils.translation import ugettext_lazy as _
 
 
 class OrganisationForm(forms.ModelForm):
@@ -19,6 +20,10 @@ class OrganisationForm(forms.ModelForm):
         ]
 
         labels = {}
+
+        help_texts = {
+            'description': _('Helpful text for a description'),
+        }
 
     def clean(self):
         cleaned_data = super(OrganisationForm, self).clean()
