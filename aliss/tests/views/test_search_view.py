@@ -34,6 +34,19 @@ class SearchViewTestCase(TestCase):
             health_board_area_2014_code="S08000027",
             integration_authority_2016_code="S37000007")
 
+        org2 = Fixtures.create_organisation(t,u,c)
+        org2.name = "Legacy Url Orgs"
+        org2.save()
+
+        brechin_location = Fixtures.create_location(org2)
+        brechin_location.name = "Brechin"
+        brechin_location.postcode = brechin_postcode.postcode
+        brechin_location.latitude = brechin_postcode.latitude
+        brechin_location.longitude = brechin_postcode.longitude
+
+
+
+
     def test_get(self):
         response = self.client.get('/search/?postcode=G2+4AA')
         self.assertEqual(response.status_code, 200)
@@ -62,16 +75,22 @@ class SearchViewTestCase(TestCase):
         brechin_legacy_url = "/search/?q=&distance=10&latitude=56.73334200000001&longitude=-2.6552888999999595&location=Brechin,+United+Kingdom&page=1"
         response = self.client.get(brechin_legacy_url)
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "DD9 6AD")
 
     def test_erskine_legacy_url(self):
         erskine_legacy_url = "/search/?q=&location=Erskine+PA8+7FG,+United+Kingdom&latitude=55.8907926&longitude=-4.444185400000038&distance=15"
         response = self.client.get(erskine_legacy_url)
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "PA8 7WZ")
 
     def test_dundee_legacy_url(self):
         dundee_legacy_url = "/search/?q=health&accounts=179,91,268&lat=56.47347449999999&lng=-2.957288100000028&location=Dundee%20DD4%207AA,%20United%20Kingdom"
         response = self.client.get(dundee_legacy_url)
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "DD3 8EA")
+        self.assertContains(response, "health")
 
     def tearDown(self):
         Fixtures.organisation_teardown()
+        if org2:
+            org2.delete()
