@@ -54,7 +54,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
         if result["match"] == True:
             return self.process_legacy_url(result["name"], legacy_locations_dict)
-        # Remember the location is a massive strin we have to do this the other way round.
 
         elif search_form.is_valid():
             self.q = search_form.cleaned_data.get('q', None)
@@ -135,9 +134,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
         "match": False,
         "name": ""
         }
-
         for legacy_location_name in legacy_locations_dict:
-            if str(legacy_location_name) in str(location):
+            if str(legacy_location_name).lower() in str(location).lower():
                 result["match"] = True
                 result["name"] = str(legacy_location_name)
         return result

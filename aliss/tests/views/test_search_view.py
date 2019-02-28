@@ -78,5 +78,17 @@ class SearchViewTestCase(TestCase):
         self.assertContains(response, "DD3 8EA")
         self.assertContains(response, "health")
 
+    def test_brechin_lowercase_url(self):
+        brechin_legacy_url = "/search/?q=&distance=10&latitude=56.73334200000001&longitude=-2.6552888999999595&location=brechin,+United+Kingdom&page=1"
+        response = self.client.get(brechin_legacy_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "DD9 6AD")
+
+    def test_brechin_uppercase_url(self):
+        brechin_legacy_url = "/search/?q=&distance=10&latitude=56.73334200000001&longitude=-2.6552888999999595&location=BRECHIN,+United+Kingdom&page=1"
+        response = self.client.get(brechin_legacy_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "DD9 6AD")
+
     def tearDown(self):
         Fixtures.organisation_teardown()
