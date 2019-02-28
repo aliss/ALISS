@@ -34,19 +34,6 @@ class SearchViewTestCase(TestCase):
             health_board_area_2014_code="S08000027",
             integration_authority_2016_code="S37000007")
 
-        org2 = Fixtures.create_organisation(t,u,c)
-        org2.name = "Legacy Url Orgs"
-        org2.save()
-
-        brechin_location = Fixtures.create_location(org2)
-        brechin_location.name = "Brechin"
-        brechin_location.postcode = brechin_postcode.postcode
-        brechin_location.latitude = brechin_postcode.latitude
-        brechin_location.longitude = brechin_postcode.longitude
-
-
-
-
     def test_get(self):
         response = self.client.get('/search/?postcode=G2+4AA')
         self.assertEqual(response.status_code, 200)
@@ -92,5 +79,3 @@ class SearchViewTestCase(TestCase):
 
     def tearDown(self):
         Fixtures.organisation_teardown()
-        if org2:
-            org2.delete()
