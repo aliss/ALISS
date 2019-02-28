@@ -78,7 +78,7 @@ class CategoryListView(v3.CategoryListView):
         return Response(data)
 
 
-class OrganisationDetailView(APIView):
+class OrganisationDetailView(v3.TrackUsageMixin, APIView):
 
     def get(self, request, pk=None, slug=None):
         if pk==None:
@@ -91,7 +91,7 @@ class OrganisationDetailView(APIView):
         return Response(data)
 
 
-class ServiceDetailView(APIView):
+class ServiceDetailView(v3.TrackUsageMixin, APIView):
 
     def get(self, request, pk=None, slug=None):
         if pk==None:

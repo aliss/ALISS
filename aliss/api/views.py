@@ -26,8 +26,43 @@ from aliss.search import (
     sort_by_postcode
 )
 
+from threading import Thread
 
-class SearchView(generics.ListAPIView):
+import uuid
+import requests
+
+
+class TrackUsageMixin(object):
+
+    def send_request(payload):
+        try:
+          return requests.post('https://www.google-analytics.com/collect', params=payload)
+        except:
+          return None
+
+    def build_request(request):
+        measure_protocol_str = "tid="+ settings.ANALYTICS_ID +"&v=1&t=event&ec=api&ea=" + request.path
+        query_strings = request.META.get('QUERY_STRING').replace("&", ",")
+        if len(query_strings) > 0:
+            measure_protocol_str = measure_protocol_str + "," + query_strings
+        if request.user.is_authenticated:
+            measure_protocol_str = measure_protocol_str + "&uid=" + str(request.user.id)
+        else:
+            cid = str(uuid.uuid5(uuid.NAMESPACE_DNS, request.META.get('HTTP_USER_AGENT', 'no-user-agent') + request.META.get('REMOTE_ADDR')))
+            measure_protocol_str = measure_protocol_str + "&cid=" + cid
+        return measure_protocol_str
+
+    def dispatch(self, request, *args, **kwargs):
+        measure_protocol_str = TrackUsageMixin.build_request(request)
+        if not settings.DEBUG:
+            Thread(target=TrackUsageMixin.send_request, args=[measure_protocol_str]).start()
+        else:
+            print("DEBUG: no measure protocol request sent")
+            print("\tPayload: " + measure_protocol_str)
+        return super(TrackUsageMixin, self).dispatch(request, *args, **kwargs)
+
+
+class SearchView(TrackUsageMixin, generics.ListAPIView):
     serializer_class = SearchSerializer
     pagination_class = ESPageNumberPagination
 
@@ -64,13 +99,13 @@ class SearchView(generics.ListAPIView):
         return queryset
 
 
-class CategoryListView(generics.ListAPIView):
+class CategoryListView(TrackUsageMixin, generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = None
 
 
-class ServiceAreaListView(generics.ListAPIView):
+class ServiceAreaListView(TrackUsageMixin, generics.ListAPIView):
     queryset = ServiceArea.objects.all()
     serializer_class = ServiceAreaSerializer
     pagination_class = None

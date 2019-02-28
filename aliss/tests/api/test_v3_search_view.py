@@ -20,6 +20,5 @@ class v3SearchViewTestCase(TestCase):
         self.assertTrue('url' in service_result)
 
     def tearDown(self):
-        self.service.delete()
         for organisation in Organisation.objects.filter(name="TestOrg"):
             organisation.delete()
