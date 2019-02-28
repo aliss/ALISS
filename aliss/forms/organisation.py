@@ -22,7 +22,14 @@ class OrganisationForm(forms.ModelForm):
         labels = {}
 
         help_texts = {
-            'description': _("Helpful text for a description"),
+            'name': _('Please enter the official name of the organisation you would like to add.'),
+            'description': _('Please try to input a clear and concise description of the organisation you would like to add. Keywords can effect your result listing so please add them appropriately.'),
+            'phone': _('Please add the best telephone number for a user to call if they wish to contact the organisation. '),
+            'email': _('Please enter the best email address to officially contact the organisation you are adding.'),
+            'url': _('Please enter the URL of the official organisation if available in the for https://www.example.com'),
+            'facebook': _('Please provide the link to the official Facebook page for the organisation you would like to add.'),
+            'twitter': _('Please provide the link to the official Twitter account of the organisation you would like to add'),
+            'logo': _('Please select the image file for the logo of the organisation you would like to add.'),
         }
 
     def clean(self):
