@@ -1,5 +1,11 @@
 <div class="multiselect{% if field.errors %} has-error{% endif %}">
-    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span>(required)</span>{% endif %}</label>
+    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span>(required)</span>{% endif %}
+      {% if field.help_text %}
+      <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="{{field.help_text}}">
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+      </span>
+      {% endif %}
+    </label>
     {% if annotation %}
       <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ annotation }}</p>
     {% endif %}
