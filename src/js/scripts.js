@@ -104,7 +104,7 @@ $(document).ready(() => {
       // console.log('unchecked');
       $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
     }
-    $('.selected-cat span.remove').focus(function(){
+    $('.selected-cat span.remove').click(function(){
       var value = $(this).parent().attr('data-cat');
       // console.log(value);
       $(this).parent().remove();
@@ -127,7 +127,7 @@ $(document).ready(() => {
     $('.selected-categories').removeClass('active');
   }
 
-  $('.selected-cat span.remove').focus(function(){
+  $('.selected-cat span.remove').click(function(){
     var value = $(this).parent().attr('data-cat');
     // console.log(value);
     $(this).parent().remove();
@@ -202,34 +202,34 @@ $(document).ready(() => {
     mutliple: true
   });
 
-  $('#show-add-location').focus(function(e){
+  $('#show-add-location').click(function(e){
     e.stopPropagation();
     e.preventDefault();
     $('#add-location-fieldset').toggleClass('active');
     $('.add-location-form').slideToggle();
   });
-  $('#add-location').focus(function(e){
+  $('#add-location').click(function(e){
     e.stopPropagation();
     e.preventDefault();
     if (isLocationValid()){
       var endpoint = $(this).attr('data-create-endpoint');
       $('#add-location').attr('disabled', 'disabled');
-      createLocation(endpoint);
+      createLocation(endpoint);  
     }
   });
 
-  $(document).focus(function(){
+  $(document).click(function(){
     $('.navigation').removeClass('active');
     $('body').removeClass('restrict-height');
     $("#menu_toggle").removeClass('active');
     $(".category-selector .cells > ul > li").removeClass('active');
   });
 
-  $('.navigation a, .category-selector .cells > ul > li a, .category-selector .cells > ul > li span').focus(function(e){
+  $('.navigation a, .category-selector .cells > ul > li a, .category-selector .cells > ul > li span').click(function(e){
     e.stopPropagation();
   });
 
-  $('.category-selector a.active-cat').focus(function(e){
+  $('.category-selector a.active-cat').click(function(e){
     e.preventDefault();
   });
 
@@ -244,7 +244,7 @@ $(document).ready(() => {
   $('.toggled').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
-    $(`#${id}_toggle`).focus(function() {
+    $(`#${id}_toggle`).click(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
     });
@@ -254,35 +254,35 @@ $(document).ready(() => {
   $('.modal').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
-    $(`#${id}_modal, a[data-modal="${id}"]`).focus(function(){
+    $(`#${id}_modal, a[data-modal="${id}"]`).click(function(){
       $(`#${id}`).toggleClass('active');
       $('.black').toggleClass('show');
     });
   });
 
-  $('.black').focus(function() {
+  $('.black').click(function() {
     $(this).removeClass('show');
     $('.modal').removeClass('active');
   });
-  $('.modal a.close, .modal a.cancel').focus(function() {
+  $('.modal a.close, .modal a.cancel').click(function() {
     $('.black').removeClass('show');
     $('.modal').removeClass('active');
   });
 
   // Results Areas Toggle
-  $('.service-areas a').focus(function() {
+  $('.service-areas a').click(function() {
     $(this).toggleClass('active');
     var list = $(this).closest('.contact-info').next('.service-areas-list');
     // console.log(list);
     list.toggleClass('active');
   });
-  $('.location a.more-link').focus(function() {
+  $('.location a.more-link').click(function() {
     $(this).toggleClass('active');
     var locations = $(this).parent('.more').next('.locations-list');
     // console.log(locations);
     locations.toggleClass('active');
   });
-  $('ul.areas-breakdown > li > a').focus(function() {
+  $('ul.areas-breakdown > li > a').click(function() {
     $(this).toggleClass('active');
     var services = $(this).next('.region-services-list');
     // console.log(locations);
@@ -293,7 +293,7 @@ $(document).ready(() => {
   if($('.desc.long').length > 0) {
     $('.desc.long').after('<p><a class="read-more"><span class="more">Read More</span><span class="less">Hide</span></a></p>');
   }
-  $('a.read-more').focus(function() {
+  $('a.read-more').click(function() {
     $(this).toggleClass('active');
     $('.desc.long').toggleClass('active');
   });
@@ -305,7 +305,7 @@ $(document).ready(() => {
     children.toggleClass('active', addOrRemove);
   };
 
-  $('.radio-list.children .toggle-children, .checkbox-list.children .toggle-children').focus(function(){
+  $('.radio-list.children .toggle-children, .checkbox-list.children .toggle-children').click(function(){
     toggleChildCategories(this);
   });
 
@@ -327,13 +327,13 @@ $(document).ready(() => {
   });
 
   // Cat Menu
-  $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").focus(function(e) {
+  $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
     var parent = $(this).parent('li');
     parent.toggleClass('active');
   });
 
   // Feedback Form Toggle
-  $('.feedback-form a.no').focus(function() {
+  $('.feedback-form a.no').click(function() {
     $(this).toggleClass('active');
     $('.feedback-form .form').toggle();
   });
@@ -360,14 +360,14 @@ $(document).ready(() => {
   }
 
   // Notifications Toggle
-  $(document).focus(function(){
+  $(document).click(function(){
     $('#notifications').removeClass('active');
     $('#notifications_toggle').removeClass('active');
   });
-  $('.notifications').focus(function(e){
+  $('.notifications').click(function(e){
     e.stopPropagation();
   });
-  $("#notifications_toggle").focus(function(e) {
+  $("#notifications_toggle").click(function(e) {
     e.stopPropagation();
     $(this).toggleClass('active');
     $("#notifications").toggleClass('active');
@@ -387,7 +387,7 @@ $(document).ready(() => {
   var report = getUrlVars().report;
   if(report == 'True') {
     // console.log('test');
-    $(".feedback-form a.no").focus();
+    $(".feedback-form a.no").click();
     $('html, body').animate({
       scrollTop: ($('.feedback-form').offset().top)
     }, 500);
@@ -432,7 +432,7 @@ $(document).ready(() => {
     } else {
       $('.share-form input.category').prop('disabled', true);
     }
-    $('#copy_search_link').focus(function(){
+    $('#copy_search_link').click(function(){
       if($('.share-form input.postcode').val() == "") {
         $(".share-error").addClass('active');
         $(".copy-error").removeClass('active');
@@ -465,7 +465,7 @@ $(document).ready(() => {
   }
 
   $('ul.progress-breadcrumb label').each(function(i,l){
-    $(l).focus(function(e){
+    $(l).click(function(e){
       var target = '#' + $(l).attr('for');
       $(target).addClass('glow');
       $(target).addClass('start-glow');
@@ -484,7 +484,7 @@ $(document).ready(() => {
 
   var handleClearInputs = function(){
     $("div.clearable-input input").keyup(toggleClearableInputs);
-    $("div.clearable-input i.clear-input").focus(function(){
+    $("div.clearable-input i.clear-input").click(function(){
       $(this).siblings('input').val('');
       $(this).siblings('input').trigger('keyup');
     });
