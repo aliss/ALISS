@@ -40,4 +40,4 @@ class Postcode(models.Model):
                 latitude__lte=lat_avg['latitude__avg']
             ).order_by('-longitude', '-latitude').first()
         except:
-            raise Postcode.DoesNotExist("%s matching query does not exist." % Postcode._meta.object_name)
+            raise self.model.DoesNotExist("%s matching query does not exist." % self.model._meta.object_name)
