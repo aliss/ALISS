@@ -37,14 +37,14 @@ class ServiceForm(forms.ModelForm):
         }
 
         help_texts = {
-            'name': 'Service name',
-            'description': 'Service description',
-            'phone': 'Service phone number',
-            'email': 'Email Address',
-            'url': 'Service web address',
-            'categories': "Which Categories",
-            'locations': "Which locations",
-            'service_areas': "Any regions",
+            'name': 'Please enter the official name of the service you would like to add.',
+            # 'description': 'Service description',
+            'phone': 'Please enter the most appropriate telephone number for a user to be able to find out more about the service.',
+            'email': 'Please enter the most appropriate email address for a user find out more about this service.',
+            'url': 'Please enter the URL for the webpage of the service you would like to add Copy and paste the link which should be in the format https://www.example-service.com',
+            # 'categories': "Which Categories",
+            'locations': "Please add the locations where this service is provided. If not already registered with the organisation you can add a new location by sleecting 'Add new location'",
+            # 'service_areas': "Any regions",
         }
 
     def __init__(self, *args, **kwargs):
