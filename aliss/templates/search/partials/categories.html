@@ -9,7 +9,7 @@
         {% if not category %}
             <div class="cells one toggled" id="select_cat">
                 <ul>
-                    <li tabindex="0">
+                    <li>
                         <a class="select-category" tabindex="0">Filter by category</a>
                         <span class="select"></span>
                         <ul class="cat-icons">
@@ -41,9 +41,9 @@
             {% endif %}
                 <ul>
                     {% for item in category_tree %}
-                        <li tabindex="0">
+                        <li>
                             {% if item.is_root %}
-                                <a href="#" class="active-cat icon truncate" tabindex="0">
+                                <a href="#" class="active-cat icon truncate" >
                                     <span class="cat">
                                         <i class="fa {{ item|get_icon }}"></i>
                                     </span>
