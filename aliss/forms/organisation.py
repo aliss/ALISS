@@ -29,6 +29,7 @@ class OrganisationForm(forms.ModelForm):
             'url': _('Please enter the URL of the official organisation webpage if available. Copy the link which should be in the format of https://www.example.com'),
             'facebook': _('Please provide the link to the official Facebook page for the organisation you would like to add.'),
             'twitter': _('Please provide the link to the official Twitter account of the organisation you would like to add'),
+            'logo': _('Please select the image file for the logo of the organisation you would like to add.'),
         }
 
     def clean(self):
