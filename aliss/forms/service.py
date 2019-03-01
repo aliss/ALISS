@@ -36,6 +36,17 @@ class ServiceForm(forms.ModelForm):
             'url': 'Service web address'
         }
 
+        help_texts = {
+            'name': 'Service name',
+            'description': 'Service description',
+            'phone': 'Service phone number',
+            'email': 'Email Address',
+            'url': 'Service web address',
+            'categories': "Which Categories",
+            'locations': "Which locations",
+            'service_areas': "Any regions",
+        }
+
     def __init__(self, *args, **kwargs):
         organisation = kwargs.pop('organisation')
         updated_by_user = kwargs.pop('updated_by')
