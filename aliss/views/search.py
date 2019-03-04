@@ -52,6 +52,12 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
         result = self.return_match_for_legacy_location(location, legacy_locations_dict)
 
+        '''
+        Integrate the result["match"] and the search_form.isValid()
+
+        Process things as normal up to the postcode section and then based on a conditional either use the current get or the process_legacy_url postcode methodself.
+        '''
+
         if result["match"] == True:
             return self.process_legacy_url(result["name"], legacy_locations_dict)
 
