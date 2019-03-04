@@ -118,22 +118,22 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
 
     def process_legacy_url(self, location, legacy_locations_dict):
-        self.q = self.request.GET.get('q', None)
-        puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
-        if self.q:
-            self.q = self.q.translate(puncstripper)
-        self.location_type = None
-        self.sort = self.request.GET.get('sort', None)
-        self.category = self.request.GET.get('category', None)
-        if self.category:
-            self.category = Category.objects.get(slug=self.category)
-        self.radius = None
-        if self.radius == None:
-            self.radius = 20000
+        self.prepare_common_params(self.request.GET)
         postcode = Postcode.objects.get(postcode = legacy_locations_dict.get(str(location)))
         self.postcode = Postcode.objects.get(postcode=postcode)
         self.object_list = self.filter_queryset(self.get_queryset())
         return self.render_to_response(self.get_context_data())
+
+    def prepare_common_params(self, data):
+        self.q = data.get('q', None)
+        puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
+        self.q = self.q.translate(puncstripper)
+        self.location_type = data.get('location_type',None)
+        self.sort = data.get('sort', None)
+        self.category = data.get('category', None)
+        self.radius = data.get('radius', None)
+        if self.radius == None:
+            self.radius = 20000
 
     def return_match_for_legacy_location(self, location, legacy_locations_dict):
         result = {
