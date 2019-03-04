@@ -61,25 +61,25 @@ class SearchTestCase(TestCase):
         self.assertEqual(self.org.id, orgs[0].id)
         self.assertEqual(self.org2.id, orgs[1].id)
 
-    def test_keyword_order(self):
-        success_counter = 0
-        failure_counter = 0
-        loop_counter = 0
-        while loop_counter < 10:
-            result = filter_by_query(self.queryset, "Physical Activity")
-            order  = keyword_order(result)
-            services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
-            if ((services[0] == self.s2) and (services[2] == self.s4)):
-                success_counter += 1
-            else:
-                failure_counter += 1
-            loop_counter += 1
-        print ("\n")
-        print ("The success count is: " + str(success_counter))
-        print ("\n")
-        print ("The failure count is: " + str(failure_counter))
-        self.assertEqual(result.count(), 3)
-        self.assertTrue(success_counter > 8)
+    # def test_keyword_order(self):
+    #     success_counter = 0
+    #     failure_counter = 0
+    #     loop_counter = 0
+    #     while loop_counter < 10:
+    #         result = filter_by_query(self.queryset, "Physical Activity")
+    #         order  = keyword_order(result)
+    #         services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
+    #         if ((services[0] == self.s2) and (services[2] == self.s4)):
+    #             success_counter += 1
+    #         else:
+    #             failure_counter += 1
+    #         loop_counter += 1
+    #     print ("\n")
+    #     print ("The success count is: " + str(success_counter))
+    #     print ("\n")
+    #     print ("The failure count is: " + str(failure_counter))
+    #     self.assertEqual(result.count(), 3)
+    #     self.assertTrue(success_counter > 8)
 
     def tearDown(self):
         Fixtures.organisation_teardown()
