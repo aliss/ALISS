@@ -14,3 +14,4 @@ django-braces==1.11.0
 django-localflavor==1.5.2
 django-cors-headers==2.3.0
 cloudinary==1.14.0
+requests==2.19.1
