@@ -275,6 +275,11 @@ $(document).ready(() => {
     var list = $(this).closest('.contact-info').next('.service-areas-list');
     // console.log(list);
     list.toggleClass('active');
+  }).keypress(function() {
+    $(this).toggleClass('active');
+    var list = $(this).closest('.contact-info').next('.service-areas-list');
+    // console.log(list);
+    list.toggleClass('active');
   });
   $('.location a.more-link').click(function() {
     $(this).toggleClass('active');
