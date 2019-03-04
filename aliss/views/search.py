@@ -62,16 +62,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
             return self.process_legacy_url(result["name"], legacy_locations_dict)
 
         elif search_form.is_valid():
-            self.q = search_form.cleaned_data.get('q', None)
-            puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
-            self.q = self.q.translate(puncstripper)
-            self.location_type = search_form.cleaned_data.get('location_type',None)
-            self.sort = search_form.cleaned_data.get('sort', None)
-            self.category = search_form.cleaned_data.get('category', None)
-            self.radius = search_form.cleaned_data.get('radius', None)
-            if self.radius == None:
-                self.radius = 20000
-
+            self.prepare_common_params(search_form.cleaned_data)
             postcode = search_form.cleaned_data.get('postcode', None)
             try:
                 if postcode and len(postcode) > 3:
