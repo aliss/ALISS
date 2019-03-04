@@ -56,6 +56,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
             self.prepare_common_params(self.request.GET)
             return self.assign_legacy_postcode(result["name"], legacy_locations_dict)
 
+
         elif search_form.is_valid():
             self.prepare_common_params(search_form.cleaned_data)
             return self.process_user_submitted_postcode(search_form.cleaned_data)
@@ -97,8 +98,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
     def assign_legacy_postcode(self, location, legacy_locations_dict):
         postcode = Postcode.objects.get(postcode = legacy_locations_dict.get(str(location)))
         self.postcode = Postcode.objects.get(postcode=postcode)
-        self.object_list = self.filter_queryset(self.get_queryset())
-        return self.render_to_response(self.get_context_data())
+        return self.define_object_list_return_response()
 
     def process_user_submitted_postcode(self, data):
         postcode = data.get('postcode', None)
@@ -109,7 +109,10 @@ class SearchView(MultipleObjectMixin, TemplateView):
                 self.postcode = Postcode.get_by_district(postcode)
         except Postcode.DoesNotExist:
             return self.render_to_response(context={'invalid_area': True})
+        return self.define_object_list_return_response()
 
+
+    def define_object_list_return_response(self):
         self.object_list = self.filter_queryset(self.get_queryset())
         return self.render_to_response(self.get_context_data())
 
