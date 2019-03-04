@@ -11,7 +11,7 @@
                 <ul>
                     <li>
                         <a class="select-category">Filter by category</a>
-                        <span class="select"></span>
+                        <span class="select" tabindex="0"></span>
                         <ul class="cat-icons">
                             {% get_categories as categories %}
                             {% for category in categories %}
@@ -43,7 +43,7 @@
                     {% for item in category_tree %}
                         <li>
                             {% if item.is_root %}
-                                <a href="#" class="active-cat icon truncate">
+                                <a href="#" class="active-cat icon truncate" tabindex="0">
                                     <span class="cat">
                                         <i class="fa {{ item|get_icon }}"></i>
                                     </span>
@@ -52,7 +52,7 @@
                                     </span>
                                 </a>
                             {% else %}
-                                <a href="?{% query_transform request category=item.slug page=None %}" class="active-cat truncate">{{ item.name }}</a>
+                                <a href="?{% query_transform request category=item.slug page=None %}" class="active-cat truncate" tabindex="0">{{ item.name }}</a>
                             {% endif %}
                             <span class="select"></span>
                             <ul {% if category.is_root %}class="cat-icons"{% endif %}>
