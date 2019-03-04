@@ -59,21 +59,13 @@ class SearchView(MultipleObjectMixin, TemplateView):
         '''
 
         if result["match"] == True:
-            return self.process_legacy_url(result["name"], legacy_locations_dict)
+            self.prepare_common_params(self.request.GET)
+            return self.assign_legacy_postcode(result["name"], legacy_locations_dict)
 
         elif search_form.is_valid():
             self.prepare_common_params(search_form.cleaned_data)
-            postcode = search_form.cleaned_data.get('postcode', None)
-            try:
-                if postcode and len(postcode) > 3:
-                    self.postcode = Postcode.objects.get(postcode=postcode)
-                else:
-                    self.postcode = Postcode.get_by_district(postcode)
-            except Postcode.DoesNotExist:
-                return self.render_to_response(context={'invalid_area': True})
+            return self.process_user_submitted_postcode(search_form.cleaned_data)
 
-            self.object_list = self.filter_queryset(self.get_queryset())
-            return self.render_to_response(self.get_context_data())
         else:
             invalid_area = search_form.cleaned_data.get('postcode', None) == None
             return self.render_to_response(context={
@@ -108,10 +100,22 @@ class SearchView(MultipleObjectMixin, TemplateView):
             results = postcode_order(queryset, self.postcode)
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
 
-    def process_legacy_url(self, location, legacy_locations_dict):
-        self.prepare_common_params(self.request.GET)
+    def assign_legacy_postcode(self, location, legacy_locations_dict):
         postcode = Postcode.objects.get(postcode = legacy_locations_dict.get(str(location)))
         self.postcode = Postcode.objects.get(postcode=postcode)
+        self.object_list = self.filter_queryset(self.get_queryset())
+        return self.render_to_response(self.get_context_data())
+
+    def process_user_submitted_postcode(self, data):
+        postcode = data.get('postcode', None)
+        try:
+            if postcode and len(postcode) > 3:
+                self.postcode = Postcode.objects.get(postcode=postcode)
+            else:
+                self.postcode = Postcode.get_by_district(postcode)
+        except Postcode.DoesNotExist:
+            return self.render_to_response(context={'invalid_area': True})
+
         self.object_list = self.filter_queryset(self.get_queryset())
         return self.render_to_response(self.get_context_data())
 
