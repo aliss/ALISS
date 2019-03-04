@@ -10,7 +10,7 @@ from elasticsearch_dsl.connections import connections
 
 from aliss.paginators import ESPaginator
 from aliss.forms import SearchForm
-from aliss.models import Postcode, Service
+from aliss.models import Postcode, Service, Category
 from aliss.search import (
     filter_by_query,
     filter_by_postcode,
@@ -20,6 +20,8 @@ from aliss.search import (
     keyword_order,
     combined_order
 )
+
+import logging
 
 
 class SearchView(MultipleObjectMixin, TemplateView):
@@ -38,9 +40,22 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
+
+        legacy_locations_dict = {
+            "Brechin": "DD9 6AD",
+            "Dundee": "DD3 8EA",
+            "Erskine": "PA8 7WZ",
+        }
+
+        location = self.request.GET.get("location")
         search_form = SearchForm(data=self.request.GET)
 
-        if search_form.is_valid():
+        result = self.return_match_for_legacy_location(location, legacy_locations_dict)
+
+        if result["match"] == True:
+            return self.process_legacy_url(result["name"], legacy_locations_dict)
+
+        elif search_form.is_valid():
             self.q = search_form.cleaned_data.get('q', None)
             puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
             self.q = self.q.translate(puncstripper)
@@ -95,6 +110,36 @@ class SearchView(MultipleObjectMixin, TemplateView):
         else:
             results = postcode_order(queryset, self.postcode)
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
+
+    def process_legacy_url(self, location, legacy_locations_dict):
+        self.q = self.request.GET.get('q', None)
+        puncstripper = str.maketrans('', '', string.punctuation.replace('-', ''))
+        if self.q:
+            self.q = self.q.translate(puncstripper)
+        self.location_type = None
+        self.sort = self.request.GET.get('sort', None)
+        self.category = self.request.GET.get('category', None)
+        if self.category:
+            self.category = Category.objects.get(slug=self.category)
+        self.radius = None
+        if self.radius == None:
+            self.radius = 20000
+        postcode = Postcode.objects.get(postcode = legacy_locations_dict.get(str(location)))
+        self.postcode = Postcode.objects.get(postcode=postcode)
+        self.object_list = self.filter_queryset(self.get_queryset())
+        return self.render_to_response(self.get_context_data())
+
+    def return_match_for_legacy_location(self, location, legacy_locations_dict):
+        result = {
+        "match": False,
+        "name": ""
+        }
+        for legacy_location_name in legacy_locations_dict:
+            if str(legacy_location_name).lower() in str(location).lower():
+                result["match"] = True
+                result["name"] = str(legacy_location_name)
+        return result
+
 
 
 class SearchShareView(View):
