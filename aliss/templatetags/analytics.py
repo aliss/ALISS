@@ -8,12 +8,12 @@ register = template.Library()
 def google_analytics_script():
     ga_string = '<!-- in debug mode, analytics disabled -->'
     if not settings.DEBUG:
-        ga_string = '<script async src="https://www.googletagmanager.com/gtag/js?id=UA-106504389-2"></script>\
+        ga_string = '<script async src="https://www.googletagmanager.com/gtag/js?id='+settings.ANALYTICS_ID+'"></script>\
         <script>\
             window.dataLayer = window.dataLayer || [];\
             function gtag(){dataLayer.push(arguments);}\
             gtag(\'js\', new Date());\
-            gtag(\'config\', \'UA-106504389-2\');\
+            gtag(\'config\', \''+settings.ANALYTICS_ID+'\');\
         </script>'
     return mark_safe(ga_string)
 
