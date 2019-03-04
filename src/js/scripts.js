@@ -214,7 +214,7 @@ $(document).ready(() => {
     if (isLocationValid()){
       var endpoint = $(this).attr('data-create-endpoint');
       $('#add-location').attr('disabled', 'disabled');
-      createLocation(endpoint);  
+      createLocation(endpoint);
     }
   });
 
@@ -328,6 +328,9 @@ $(document).ready(() => {
 
   // Cat Menu
   $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
+    var parent = $(this).parent('li');
+    parent.toggleClass('active');
+  }).keypress(function(e) {
     var parent = $(this).parent('li');
     parent.toggleClass('active');
   });

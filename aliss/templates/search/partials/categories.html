@@ -9,15 +9,15 @@
         {% if not category %}
             <div class="cells one toggled" id="select_cat">
                 <ul>
-                    <li>
-                        <a class="select-category">Filter by category</a>
-                        <span class="select" tabindex="0"></span>
+                    <li >
+                        <a class="select-category" tabindex="0">Filter by category</a>
+                        <span class="select" ></span>
                         <ul class="cat-icons">
                             {% get_categories as categories %}
                             {% for category in categories %}
                                 {% if category.is_root %}
                                     <li{% if category.slug == request.GET.category %} class='active'{% endif %}>
-                                        <a href="?{% query_transform request category=category.slug page=None %}">
+                                        <a href="?{% query_transform request category=category.slug page=None %}" tabindex="0">
                                             <span class="cat">
                                                 <i class="fa {{ category|get_icon }}"></i>
                                             </span>
