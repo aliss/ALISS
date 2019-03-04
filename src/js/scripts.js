@@ -281,6 +281,11 @@ $(document).ready(() => {
     var locations = $(this).parent('.more').next('.locations-list');
     // console.log(locations);
     locations.toggleClass('active');
+  }).keypress(function() {
+    $(this).toggleClass('active');
+    var locations = $(this).parent('.more').next('.locations-list');
+    // console.log(locations);
+    locations.toggleClass('active');
   });
   $('ul.areas-breakdown > li > a').click(function() {
     $(this).toggleClass('active');
