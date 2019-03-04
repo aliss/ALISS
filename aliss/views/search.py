@@ -40,7 +40,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
-
         legacy_locations_dict = {
             "Brechin": "DD9 6AD",
             "Dundee": "DD3 8EA",
@@ -48,14 +47,12 @@ class SearchView(MultipleObjectMixin, TemplateView):
         }
 
         location = self.request.GET.get("location")
-        search_form = SearchForm(data=self.request.GET)
-
         result = self.return_match_for_legacy_location(location, legacy_locations_dict)
+        search_form = SearchForm(data=self.request.GET)
 
         if result["match"] == True:
             self.prepare_common_params(self.request.GET)
             return self.assign_legacy_postcode(result["name"], legacy_locations_dict)
-
 
         elif search_form.is_valid():
             self.prepare_common_params(search_form.cleaned_data)
@@ -111,7 +108,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
             return self.render_to_response(context={'invalid_area': True})
         return self.define_object_list_return_response()
 
-
     def define_object_list_return_response(self):
         self.object_list = self.filter_queryset(self.get_queryset())
         return self.render_to_response(self.get_context_data())
@@ -128,16 +124,12 @@ class SearchView(MultipleObjectMixin, TemplateView):
             self.radius = 20000
 
     def return_match_for_legacy_location(self, location, legacy_locations_dict):
-        result = {
-        "match": False,
-        "name": ""
-        }
+        result = { "match": False, "name": "" }
         for legacy_location_name in legacy_locations_dict:
             if str(legacy_location_name).lower() in str(location).lower():
                 result["match"] = True
                 result["name"] = str(legacy_location_name)
         return result
-
 
 
 class SearchShareView(View):
