@@ -29,7 +29,7 @@ class LocationForm(forms.ModelForm):
         }
         error_css_class = 'has-error'
 
-    def nominatim_geocode(street_address, locality, postal_code):
+    def nominatim_geocode(self, street_address, locality, postal_code):
         query = { 'street': street_address, 'city': locality, 'postalcode': postal_code }
         geolocator = Nominatim(country_bias='gb',user_agent="aliss_django")
         return geolocator.geocode(query, exactly_one=True, timeout=5)
@@ -51,7 +51,7 @@ class LocationForm(forms.ModelForm):
             geolocator = GoogleV3(api_key=settings.GOOGLE_API_KEY)
             geocode_result = geolocator.geocode(address, components={'country': 'gb'}, exactly_one=True, timeout=5)
         except:
-            geocode_result = nominatim_geocode()
+            geocode_result = nominatim_geocode(street_address, locality, postal_code)
 
         if geocode_result:
             cleaned_data['latitude'] = geocode_result.latitude
