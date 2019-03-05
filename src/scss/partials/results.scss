@@ -12,16 +12,15 @@
 }
 a.skip-content:focus, a.skip-content:active {
     color: #fff;
-    background-color:#000;
-    left: auto;
+    background-color: $brand;
+    left: inherit;
     top: auto;
+    bottom: auto;
     width: 30%;
     height: auto;
     overflow:auto;
     margin: 10px 35%;
     padding:5px;
-    border-radius: 15px;
-    border:4px solid yellow;
     text-align:center;
     font-size:1.2em;
     z-index:999;
