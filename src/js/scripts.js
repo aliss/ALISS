@@ -238,6 +238,11 @@ $(document).ready(() => {
     $(this).toggleClass('active');
     $('body').toggleClass('restrict-height');
     $(".navigation").toggleClass('active');
+  }).keypress(function(e) {
+    e.stopPropagation();
+    $(this).toggleClass('active');
+    $('body').toggleClass('restrict-height');
+    $(".navigation").toggleClass('active');
   });
 
   // Site Wide Toggles
