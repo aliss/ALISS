@@ -13,9 +13,8 @@
 a.skip-content:focus, a.skip-content:active {
     color: #fff;
     background-color: $brand;
-    left: inherit;
+    left: auto;
     top: auto;
-    bottom: auto;
     width: 30%;
     height: auto;
     overflow:auto;
