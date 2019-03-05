@@ -247,6 +247,9 @@ $(document).ready(() => {
     $(`#${id}_toggle`).click(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
+    }).keypress(function() {
+      $(`#${id}`).toggleClass('active');
+      $(this).toggleClass('active');
     });
   });
 
