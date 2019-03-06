@@ -2,7 +2,7 @@
 
 {% block content %}
 <h4>My Organisations</h4>
-<p><a href="{% url 'organisation_search' %}">Add or edit another organisation</a></p>
+<p><a href="{% url 'potential_create' %}">Add or edit another organisation</a></p>
 <table class="stack">
   <thead>
     <tr>
@@ -51,7 +51,7 @@
       <tr><td colspan="4">
         <p class="center">
           You are not currently representing any organisations<br/>
-          <a href="{% url 'organisation_search' %}">Add an organisation</a>
+          <a href="{% url 'potential_create' %}">Add an organisation</a>
         </p>
       </td></tr>
     {% endif %}

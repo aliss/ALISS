@@ -21,8 +21,6 @@ from aliss.search import (
     combined_order
 )
 
-import logging
-
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'

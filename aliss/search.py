@@ -91,7 +91,27 @@ organisation_mapping = {
     },
     'published':{'type':'boolean'},
     'created_on':{'type':'date'},
-    'is_claimed':{'type':'boolean'}
+    'is_claimed':{'type':'boolean'},
+    'slug': {'type': 'keyword'},
+    'locations': {
+        'properties': {
+            'id': {'type': 'keyword'},
+            'formatted_address': {'type': 'keyword'},
+            'name': {'type': 'text'},
+            'description': {
+                'type': 'text',
+                'analyzer': 'description_analyzer',
+            },
+            'street_address': {'type': 'keyword'},
+            'locality': {'type': 'keyword'},
+            'region': {'type': 'keyword'},
+            'state': {'type': 'keyword'},
+            'postal_code': {'type': 'keyword'},
+            'country': {'type': 'keyword'},
+            'point': {'type': 'geo_point'},
+        }
+    }
+
 }
 
 
@@ -161,7 +181,24 @@ def organisation_to_body(organisation):
         'description': organisation.description,
         'published': organisation.published,
         'created_on': organisation.created_on,
-        'is_claimed': organisation.is_claimed
+        'is_claimed': organisation.is_claimed,
+        'slug': organisation.slug,
+        'locations': [{
+            'id': location.id,
+            'name': location.name,
+            'formatted_address': location.formatted_address,
+            'description': location.description,
+            'street_address': location.street_address,
+            'locality': location.locality,
+            'region': location.region,
+            'state': location.state,
+            'postal_code': location.postal_code,
+            'country': location.country,
+            'point': {
+                'lat': location.latitude,
+                'lon': location.longitude
+            }
+        } for location in organisation.locations.all()]
     }
 
 
@@ -408,3 +445,15 @@ def combined_order(filtered_queryset, postcode):
         "ids": list(combined.keys()),
         "order": Case(*[When(id=key, then=combined[key]) for key in combined])
     }
+
+def filter_by_claimed_status(queryset, claimed_status):
+    queryset = queryset.query({
+        "bool":{
+            "filter":{
+                "term":{
+                    "is_claimed":claimed_status
+                    }
+                }
+            }
+    })
+    return queryset
