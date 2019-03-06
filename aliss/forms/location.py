@@ -29,6 +29,11 @@ class LocationForm(forms.ModelForm):
         }
         error_css_class = 'has-error'
 
+    def nominatim_geocode(street_address, locality, postal_code):
+        query = { 'street': street_address, 'city': locality, 'postalcode': postal_code }
+        geolocator = Nominatim(country_bias='gb',user_agent="aliss_django")
+        return geolocator.geocode(query, exactly_one=True, timeout=5)
+
     def clean(self):
         cleaned_data = super(LocationForm, self).clean()
 
@@ -42,14 +47,11 @@ class LocationForm(forms.ModelForm):
         except:
             raise forms.ValidationError("Could not find this address, are you sure it is valid?")
 
-        if settings.GOOGLE_API_KEY == None or settings.GOOGLE_API_KEY == '':
-            query = { 'street': street_address, 'city': locality, 'postalcode': postal_code }
-            geolocator = Nominatim(country_bias='gb',user_agent="aliss_django")
-            geocode_result = geolocator.geocode(query, exactly_one=True, timeout=5)
-        else:
+        try:
             geolocator = GoogleV3(api_key=settings.GOOGLE_API_KEY)
-            geocode_result = geolocator.geocode(
-                address, components={'country': 'gb'}, exactly_one=True, timeout=5)
+            geocode_result = geolocator.geocode(address, components={'country': 'gb'}, exactly_one=True, timeout=5)
+        except:
+            geocode_result = nominatim_geocode()
 
         if geocode_result:
             cleaned_data['latitude'] = geocode_result.latitude
