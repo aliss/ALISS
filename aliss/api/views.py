@@ -36,7 +36,8 @@ class TrackUsageMixin(object):
 
     def send_request(payload):
         try:
-          return requests.post('https://www.google-analytics.com/collect', params=payload)
+            headers = { 'User-Agent': 'ALISS Production' }
+          return requests.post('https://www.google-analytics.com/collect', params=payload, headers=headers)
         except:
           return None
 
