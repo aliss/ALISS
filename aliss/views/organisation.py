@@ -222,6 +222,7 @@ class OrganisationPotentialCreateView(MultipleObjectMixin, TemplateView):
 
         return queryset
 
+
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
     template_name = 'organisation/unpublished.html'
     paginate_by = 10
@@ -257,6 +258,7 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
 
         return HttpResponseRedirect(reverse('organisation_unpublished'))
 
+
 class OrganisationSearchView(ListView):
     model = Organisation
     template_name = 'organisation/search-results.html'
@@ -270,7 +272,7 @@ class OrganisationSearchView(ListView):
         query = self.request.GET.get('q')
         claimed_status = self.request.GET.get('is_claimed')
         if query:
-            if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
+            if self.request.user.is_authenticated() and (self.request.user.is_staff):
                 queryset = filter_organisations_by_query_all(queryset, query)
             else:
                 queryset = filter_organisations_by_query_published(queryset, query)
@@ -292,7 +294,6 @@ class OrganisationSearchView(ListView):
 
         if has_services:
             queryset = Organisation.filter_by_has_services(results, has_services)
-
         else :
             queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
         # Return all the db records so the ListView can handle the pagination.
