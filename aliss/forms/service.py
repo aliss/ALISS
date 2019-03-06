@@ -39,11 +39,11 @@ class ServiceForm(forms.ModelForm):
         help_texts = {
             'name': 'Please enter the official name of the service you would like to add.',
             # 'description': 'Service description',
-            'phone': 'Please enter the most appropriate telephone number for a user to be able to find out more about the service.',
-            'email': 'Please enter the most appropriate email address for a user find out more about this service.',
-            'url': 'Please enter the URL for the webpage of the service you would like to add Copy and paste the link which should be in the format https://www.example-service.com',
+            'phone': 'The most appropriate telephone number for someone to be able to access or find out more about the service.',
+            'email': 'The most appropriate email address for someone to access or find out more about this service.',
+            'url': 'The URL (web address) for the webpage of the service you would like to add. Copy and paste the link e.g. https://www.example.com/a-service',
             # 'categories': "Which Categories",
-            'locations': "Please add the locations where this service is provided. If not already registered with the organisation you can add a new location by sleecting 'Add new location'",
+            'locations': "Select or add the specific locations where the service is delivered. If it's not delivered in a specific location you can indicate service coverage by selecting 'service areas' below.",
             # 'service_areas': "Any regions",
         }
 

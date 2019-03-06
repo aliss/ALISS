@@ -22,14 +22,14 @@ class OrganisationForm(forms.ModelForm):
         labels = {}
 
         help_texts = {
-            'name': _('Please enter the official name of the organisation you would like to add.'),
-            'description': _('Please try to input a clear and concise description of the organisation you would like to add. Keywords can effect your listing poistion in the search results so please add them appropriately.'),
-            'phone': _('Please add the best telephone number for a user to call if they wish to contact the organisation. '),
-            'email': _('Please enter the best email address for a user to contact the organisation you are adding.'),
-            'url': _('Please enter the URL of the official organisation webpage if available. Copy the link which should be in the format of https://www.example.com'),
-            'facebook': _('Please provide the link to the official Facebook page for the organisation you would like to add.'),
-            'twitter': _('Please provide the link to the official Twitter account of the organisation you would like to add'),
-            'logo': _('Please select the image file for the logo of the organisation you would like to add.'),
+            'name': _('The official name of the organisation you would like to add.'),
+            'description': _('A clear and concise description of the organisation you would like to add. The description will be used for the search feature so keep in mind key words or phrases.'),
+            'phone': _('The most appropriate telephone number for someone to contact the organisation with.'),
+            'email': _('The most appropriate email address for someone to contact the organisation with.'),
+            'url': _('The URL (website address) of the organisation\'s offical webpage e.g. https://www.organisation.com'),
+            'facebook': _('A link to the official Facebook page for the organisation you would like to add e.g. https://en-gb.facebook.com/rnibuk'),
+            'twitter': _('A link to the official Twitter account of the organisation you would like to add e.g. https://twitter.com/rnibuk'),
+            'logo': _('An image file for the logo of the organisation you would like to add.'),
         }
 
     def clean(self):
