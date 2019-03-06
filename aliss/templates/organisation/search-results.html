@@ -74,7 +74,7 @@
 
           {% if request.user.is_authenticated and request.user.is_staff %}
             <br/>
-            <label>Filter by number of services:</label>
+            <label>Filter by number of services</label>
             <ul class="radio-list-links">
               <li  {% if not request.GET.has_services %}class="active"{% endif %}>
                 <a href="?{% query_transform request has_services=None %}">
