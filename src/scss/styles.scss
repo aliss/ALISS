@@ -27,6 +27,7 @@
 @import "select2/src/scss/core.scss";
 @import "pickadate/lib/compressed/themes/classic";
 @import "pickadate/lib/compressed/themes/classic.date";
+@import "../../node_modules/easy-autocomplete/dist/easy-autocomplete.min.css";
 
 
 /* Font Awesome 5
@@ -151,12 +152,12 @@ a.improve {
   margin-bottom: 0.35rem;
 }
 
-.picker--focused { 
-  .picker__day--highlighted:active, 
-  .picker__day--highlighted:focus, 
-  .picker__day--highlighted:hover, 
-  .picker__day--selected:active, 
-  .picker__day--selected:focus, 
+.picker--focused {
+  .picker__day--highlighted:active,
+  .picker__day--highlighted:focus,
+  .picker__day--highlighted:hover,
+  .picker__day--selected:active,
+  .picker__day--selected:focus,
   .picker__day--selected:hover {
     background-color: rgba(34,178,170,.6);
     color: white;
