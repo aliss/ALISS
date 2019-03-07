@@ -65,7 +65,7 @@ import matchHeight from './partials/match-height';
 import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
 import Clipboard from 'clipboard/lib/clipboard.js';
 import './partials/extensions';
-import easyAutocomlete from 'easy-autocomlete/dist/jquery.easy-autocomplete.min.js';
+import easyAutocomplete from 'easy-autocomplete/dist/jquery.easy-autocomplete.min.js';
 
 var ALISS = require('./aliss');
 
@@ -353,7 +353,8 @@ $(document).ready(() => {
 
   svg4everybody();
 
-  easyAutocomlete();
+
+  easyAutocomplete();
 
   // Messages Hide
   if($('.messages').length > 0) {
