@@ -219,21 +219,21 @@ class Command(BaseCommand):
                 self.stdout.write("- " + str(db_count) + " does not equal " + str(row_count))
 
         self.stdout.write("\nWriting Services CSV\n")
-        services_collection = Service.objects.all()
+        services_collection = Service.objects.all().prefetch_related('organisation')
         self.write_collection_csv(services_collection, "aliss_service_result.csv", service_dict)
         check_record_count(services_collection, "aliss_service_result.csv", "Service")
 
         self.stdout.write("\nWriting Locations CSV\n")
-        locations_collection = Location.objects.all()
+        locations_collection = Location.objects.all().prefetch_related('organisation')
         self.write_collection_csv(locations_collection, "aliss_location_result.csv", location_dict)
         check_record_count(locations_collection, "aliss_location_result.csv", "Location")
 
         self.stdout.write("\nWriting Organisations CSV\n")
-        organisations_collection = Organisation.objects.all()
+        organisations_collection = Organisation.objects.all().prefetch_related('services')
         self.write_collection_csv(organisations_collection, "aliss_organisation_result.csv", organisation_dict)
         check_record_count(organisations_collection,"aliss_organisation_result.csv", "Organisation")
 
         self.stdout.write("\nWriting Services at Location CSV\n")
-        services_at_location_collection = Location.objects.all()
+        services_at_location_collection = Location.objects.all().prefetch_related('services')
         self.write_joining_table_csv(services_at_location_collection, "aliss_services_at_location_result.csv", services_at_location_dict)
         check_services_at_location_count(services_at_location_collection, "aliss_services_at_location_result.csv", "Services at Location")
