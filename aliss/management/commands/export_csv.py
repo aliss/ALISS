@@ -233,7 +233,7 @@ class Command(BaseCommand):
         self.write_collection_csv(organisations_collection, "aliss_organisation_result.csv", organisation_dict)
         check_record_count(organisations_collection,"aliss_organisation_result.csv", "Organisation")
 
-        self.stdout.write("\nWriting services at location CSV\n")
+        self.stdout.write("\nWriting Services at Location CSV\n")
         services_at_location_collection = Location.objects.all()
         self.write_joining_table_csv(services_at_location_collection, "aliss_services_at_location_result.csv", services_at_location_dict)
         check_services_at_location_count(services_at_location_collection, "aliss_services_at_location_result.csv", "Services at Location")
