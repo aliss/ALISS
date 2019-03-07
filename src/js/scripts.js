@@ -65,6 +65,7 @@ import matchHeight from './partials/match-height';
 import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
 import Clipboard from 'clipboard/lib/clipboard.js';
 import './partials/extensions';
+import easyAutocomlete from 'easy-autocomlete/dist/jquery.easy-autocomplete.min.js';
 
 var ALISS = require('./aliss');
 
@@ -214,7 +215,7 @@ $(document).ready(() => {
     if (isLocationValid()){
       var endpoint = $(this).attr('data-create-endpoint');
       $('#add-location').attr('disabled', 'disabled');
-      createLocation(endpoint);  
+      createLocation(endpoint);
     }
   });
 
@@ -351,6 +352,8 @@ $(document).ready(() => {
   });
 
   svg4everybody();
+
+  easyAutocomlete();
 
   // Messages Hide
   if($('.messages').length > 0) {
