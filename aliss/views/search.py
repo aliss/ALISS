@@ -10,7 +10,7 @@ from elasticsearch_dsl.connections import connections
 
 from aliss.paginators import ESPaginator
 from aliss.forms import SearchForm
-from aliss.models import Postcode, Service
+from aliss.models import Postcode, Service, Category
 from aliss.search import (
     filter_by_query,
     filter_by_postcode,
@@ -38,29 +38,24 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
+        legacy_locations_dict = {
+            "Brechin": "DD9 6AD",
+            "Dundee": "DD3 8EA",
+            "Erskine": "PA8 7WZ",
+        }
+
+        location = self.request.GET.get("location")
+        result = self.return_match_for_legacy_location(location, legacy_locations_dict)
         search_form = SearchForm(data=self.request.GET)
 
-        if search_form.is_valid():
-            self.q = search_form.cleaned_data.get('q', None)
-            puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
-            self.q = self.q.translate(puncstripper)
-            self.location_type = search_form.cleaned_data.get('location_type',None)
-            self.sort = search_form.cleaned_data.get('sort', None)
-            self.category = search_form.cleaned_data.get('category', None)
-            self.radius = search_form.cleaned_data.get('radius', None)
-            if self.radius == None:
-                self.radius = 20000
+        if result["match"] == True:
+            self.prepare_common_params(self.request.GET)
+            return self.assign_legacy_postcode(result["name"], legacy_locations_dict)
 
-            postcode = search_form.cleaned_data.get('postcode', None)
+        elif search_form.is_valid():
+            self.prepare_common_params(search_form.cleaned_data)
+            return self.process_user_submitted_postcode(search_form.cleaned_data)
 
-            if postcode:
-                try:
-                    self.postcode = Postcode.objects.get(postcode=postcode)
-                except Postcode.DoesNotExist:
-                    return self.render_to_response(context={'invalid_area': True})
-
-            self.object_list = self.filter_queryset(self.get_queryset())
-            return self.render_to_response(self.get_context_data())
         else:
             invalid_area = search_form.cleaned_data.get('postcode', None) == None
             return self.render_to_response(context={
@@ -94,6 +89,45 @@ class SearchView(MultipleObjectMixin, TemplateView):
         else:
             results = postcode_order(queryset, self.postcode)
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
+
+    def assign_legacy_postcode(self, location, legacy_locations_dict):
+        postcode = Postcode.objects.get(postcode = legacy_locations_dict.get(str(location)))
+        self.postcode = Postcode.objects.get(postcode=postcode)
+        return self.define_object_list_return_response()
+
+    def process_user_submitted_postcode(self, data):
+        postcode = data.get('postcode', None)
+        try:
+            if postcode and len(postcode) > 3:
+                self.postcode = Postcode.objects.get(postcode=postcode)
+            else:
+                self.postcode = Postcode.get_by_district(postcode)
+        except Postcode.DoesNotExist:
+            return self.render_to_response(context={'invalid_area': True})
+        return self.define_object_list_return_response()
+
+    def define_object_list_return_response(self):
+        self.object_list = self.filter_queryset(self.get_queryset())
+        return self.render_to_response(self.get_context_data())
+
+    def prepare_common_params(self, data):
+        self.q = data.get('q', None)
+        puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
+        self.q = self.q.translate(puncstripper)
+        self.location_type = data.get('location_type',None)
+        self.sort = data.get('sort', None)
+        self.category = data.get('category', None)
+        self.radius = data.get('radius', None)
+        if self.radius == None:
+            self.radius = 20000
+
+    def return_match_for_legacy_location(self, location, legacy_locations_dict):
+        result = { "match": False, "name": "" }
+        for legacy_location_name in legacy_locations_dict:
+            if str(legacy_location_name).lower() in str(location).lower():
+                result["match"] = True
+                result["name"] = str(legacy_location_name)
+        return result
 
 
 class SearchShareView(View):

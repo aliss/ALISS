@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from aliss.models import ALISSCloudinaryField
 
+from django.db.models import Count
 
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, organisation_to_body
@@ -114,6 +115,14 @@ class Organisation(models.Model):
         return connection.delete(index='organisation_search', doc_type='organisation',
             id=self.id, refresh=True, ignore=404
         )
+
+    # The old method for the filter_by_has_services won't work now that the es search has no knowledge of an organisations services.
+    def filter_by_has_services(results, has_services):
+        if has_services == "true":
+            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services__gt = 0, id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
+        else:
+            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services = 0, id__in=results["ids"]).order_by(results["order"])
+        return queryset
 
     def generate_permalink(self):
         id = str(self.id)

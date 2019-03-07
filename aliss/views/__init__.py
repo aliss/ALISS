@@ -20,7 +20,11 @@ from .account import (
     AccountRecommendationListPrintView,
     AccountIsEditor,
 )
-from .search import SearchView, SearchShareView
+from .search import (
+    SearchView,
+    SearchShareView,
+)
+
 from .organisation import *
 from .location import (
     LocationCreateView,
