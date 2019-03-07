@@ -4,7 +4,8 @@ from aliss.views.organisation import *
 
 from aliss.views import (
     LocationCreateView,
-    ServiceCreateView
+    ServiceCreateView,
+    TemplateView
 )
 
 urlpatterns = [
@@ -28,10 +29,18 @@ urlpatterns = [
         OrganisationUnpublishedView.as_view(),
         name='organisation_unpublished'
     ),
-    url(r'^search/$',
-        OrganisationSearchView.as_view(),
+    url(r'^potential-create/$',
+        OrganisationPotentialCreateView.as_view(),
+        name='potential_create'
+    ),
+    url(r'^search/new/$',
+        TemplateView.as_view(template_name="organisation/organisation-search.html"),
         name='organisation_search'
     ),
+    url(r'^search/$',
+        OrganisationSearchView.as_view(),
+        name='organisation_search_results'
+        ),
     url(r'^(?P<pk>[0-9A-Za-z\-]+)/locations/create/$',
         LocationCreateView.as_view(),
         name='location_create'
