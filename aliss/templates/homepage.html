@@ -67,6 +67,9 @@
     $(document).ready(function(){
       var options = {
 
+        url: function(phrase) {
+              		return "http://localhost:5000/search/?q=" + phrase;
+              	},
 
         data: [
           {"location_name": "Glasgow", "postcode": "G2 4AA"},
