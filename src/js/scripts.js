@@ -119,6 +119,9 @@ $(document).ready(() => {
       var value = $(this).parent().attr('data-cat');
       // console.log(value);
       $(this).parent().remove();
+      if ($('.cat-warning').length){
+        $('.cat-warning').remove();
+      };
       $(`input[value="${value}"]`).prop('checked', false);
       if($('.selected-categories .cats').is(':empty')) {
         $('.selected-categories').removeClass('active');
