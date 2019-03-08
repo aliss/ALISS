@@ -2,7 +2,7 @@
 
 <li>
     <label>
-        <input type="checkbox" name="categories" value="{{ category.pk }}" {% if category.pk in selected_categories %}checked{% endif %} data-tooltip aria-haspopup="true" class="has-tip right cat-max" data-disable-hover="true" tabindex="2" title="Test" aria-hidden="true">
+        <input type="checkbox" name="categories" value="{{ category.pk }}" {% if category.pk in selected_categories %}checked{% endif %}>
 
         {% if category.is_root %}
             <span class="cat">
