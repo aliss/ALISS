@@ -20,8 +20,7 @@
                 <div class="search-box">
                     <div class="search-holder sbs-inputs">
                         <form action="{% url 'search' %}">
-                            <input id="data-holder" />
-                            <input type="text" name="postcode" id="postcode" style="display:none" {% if request.user.postcode and request.user.prepopulate_postcode %}value="{{ request.user.postcode }}"{% endif %}>
+                            <input class="postcode" type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA" {% if request.user.postcode and request.user.prepopulate_postcode %}value="{{ request.user.postcode }}"{% endif %}>
                             <div class="search-button">
                                 <button type="submit"><span>Search</span></button>
                             </div>
@@ -88,17 +87,14 @@
             enabled: true
           },
 
-          onKeyEnterEvent: function(){
-          if($('#data-holder').val().length > 3){
-              var value = $("#data-holder").getSelectedItemData().postcode;
-              console.log(value)
+          onSelectItemEvent: function() {
+              var value = $("#postcode").getSelectedItemData().postcode;
               $("#postcode").val(value).trigger("change");
             }
           }
         }
-      };
 
-      $("#data-holder").easyAutocomplete(options);
+      $("#postcode").easyAutocomplete(options);
     });
   </script>
 {% endblock %}
