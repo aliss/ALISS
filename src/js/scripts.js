@@ -103,7 +103,7 @@ $(document).ready(() => {
         $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
       }
       else {
-        console.log("You can't add more categries!")
+        console.log("You can't add more categries!");
       }
     } else {
       // console.log('unchecked');
