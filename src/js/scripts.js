@@ -104,11 +104,16 @@ $(document).ready(() => {
       }
       else {
         console.log("You can't add more categries!");
-        $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 3 categories.</h3>");
+        if ($('.cat-warning').length){
+          $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 3 categories.</h3>");
+        }
       }
     } else {
       // console.log('unchecked');
       $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
+      if ($('.cat-warning').length){
+        $('.cat-warning').remove();
+      }
     }
     $('.selected-cat span.remove').click(function(){
       var value = $(this).parent().attr('data-cat');
