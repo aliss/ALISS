@@ -102,6 +102,9 @@ $(document).ready(() => {
       if($('.all-categories input:checkbox:checked').length < 4) {
         $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
       }
+      else {
+        console.log("You can't add more categries!")
+      }
     } else {
       // console.log('unchecked');
       $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
