@@ -99,7 +99,7 @@ $(document).ready(() => {
     // console.log(label);
     if($thisCheck.prop('checked')) {
       // console.log('checked');
-      if($('.all-categories input:checkbox:checked').length < 3) {
+      if($('.all-categories input:checkbox:checked').length < 4) {
         $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
       }
     } else {
