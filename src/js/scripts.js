@@ -99,7 +99,9 @@ $(document).ready(() => {
     // console.log(label);
     if($thisCheck.prop('checked')) {
       // console.log('checked');
-      $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+      if($('.all-categories input:checkbox:checked').length < 3) {
+        $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+      }
     } else {
       // console.log('unchecked');
       $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
@@ -214,7 +216,7 @@ $(document).ready(() => {
     if (isLocationValid()){
       var endpoint = $(this).attr('data-create-endpoint');
       $('#add-location').attr('disabled', 'disabled');
-      createLocation(endpoint);  
+      createLocation(endpoint);
     }
   });
 
