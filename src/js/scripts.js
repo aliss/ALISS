@@ -103,7 +103,7 @@ $(document).ready(() => {
         $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
       }
       else {
-        console.log("You can't add more categries!");
+        // console.log("You can't add more categries!");
         if (!$('.cat-warning').length){
           $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 3 categories.</h3>");
         }
