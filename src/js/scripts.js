@@ -105,7 +105,7 @@ $(document).ready(() => {
       else {
         console.log("You can't add more categries!");
         if (!$('.cat-warning').length){
-          $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 3 categories.</h3>")
+          $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 3 categories.</h3>");
         }
       }
     } else {
@@ -121,7 +121,7 @@ $(document).ready(() => {
       $(this).parent().remove();
       if ($('.cat-warning').length){
         $('.cat-warning').remove();
-      };
+      }
       $(`input[value="${value}"]`).prop('checked', false);
       if($('.selected-categories .cats').is(':empty')) {
         $('.selected-categories').removeClass('active');
