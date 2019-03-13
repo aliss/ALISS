@@ -1,0 +1,145 @@
+.aliss-filter-field-div {
+  margin-bottom: 15px;
+}
+
+.location-type-div {
+  display: flex;
+  flex-direction: row;
+}
+
+#aliss-target-div a { color: #22b2aa; }
+
+.aliss-service-title {
+  color: #22b2aa; 
+  font-size: 1.5em;
+}
+
+.aliss-claimed {
+  margin-left: .25em;
+  text-transform: uppercase;
+  font-size: .75em;
+  font-weight: 700;
+  background: #1e7abd;
+  line-height: 100%;
+  display: inline-block;
+  padding: .4em .5em .25em .5em;
+  color: #fff;
+  border-radius: 100px;
+}
+
+input#aliss-keyword-search,
+input#aliss-postcode-field {
+  top: -1px;
+  position: relative;
+}
+
+#aliss-target-div input[type=email],
+#aliss-target-div input[type=password],
+#aliss-target-div input[type=phone],
+#aliss-target-div input[type=text],
+#aliss-target-div input[type=url],
+#aliss-target-div select,
+#aliss-target-div textarea {
+  padding: .75em 1em .55em 1em;
+  font-size: 1em;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  height: auto;
+  border: 1px solid #c5c3c6;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  color: #141b23;
+}
+
+#aliss-target-div input[type=submit] {
+  padding: 0.65em 0.5em;
+  font-size: 1em;
+  min-width: 150px;
+  color: #fff;
+  margin: 0;
+  font-family: "Sofia Pro Soft",Helvetica,Arial,sans-serif;
+  font-weight: 400;
+  transition: color .3s ease-in-out;
+  border-radius: 0px 5px 5px 0px;
+  border: 1px solid transparent;
+  top: -3px;
+  position: relative;
+  background-color:#f49c27;
+}
+
+#aliss-target-div button {
+  padding: 0.65em 0.5em;
+  font-size: 1em;
+  min-width: 150px;
+  color: #fff;
+  margin: 0;
+  font-family: "Sofia Pro Soft",Helvetica,Arial,sans-serif;
+  font-weight: 400;
+  transition: color .3s ease-in-out;
+  border-radius: 5px 5px 5px 5px;
+  border: 1px solid transparent;
+  top: -3px;
+  position: relative;
+  background-color:#f49c27;
+}
+
+#aliss-target-div .spinner {
+  margin: 50px;
+  height: 28px;
+  width: 28px;
+  animation: rotate 0.8s infinite linear;
+  border: 8px solid #22b2aa;
+  border-right-color: transparent;
+  border-radius: 50%;
+}
+
+#aliss-pagination button,
+#aliss-pagination p { display: inline-block; }
+#aliss-pagination p { margin: 0 1em; }
+
+select#aliss-dropdown {
+  background-image:
+    linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position:
+    calc(100% - 1.2em) calc(1em + 3px),
+    calc(100% - 17px) calc(1em + 3px),
+    calc(100% - 2.5em) 0.5em;
+  background-size:
+    8px 8px,
+    8px 8px,
+    1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+select#aliss-dropdown:focus {
+  background-image:
+    linear-gradient(45deg, green 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, green 50%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position:
+    calc(100% - 17px) 1em,
+    calc(100% - 1.2em) 1em,
+    calc(100% - 2.5em) 0.5em;
+  background-size:
+    8px 8px,
+    8px 8px,
+    1px 1.5em;
+  background-repeat: no-repeat;
+  border-color: green;
+  outline: 0;
+}
+
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+
+@keyframes rotate {
+  0%    { transform: rotate(0deg); }
+  100%  { transform: rotate(360deg); }
+}
