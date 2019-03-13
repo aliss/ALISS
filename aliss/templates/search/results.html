@@ -184,7 +184,7 @@
                 <a href="?{% query_transform request radius='20000' page=1 %}" class="button primary">Search again</a>
               {% endif %}
               {% if request.GET.q %}
-              <a href="{% url 'organisation_search_results' %}" class="button primary">New organisations search</a>
+              <a href="{% url 'organisation_search_results' %}?{% query_transform request q=request.GET.q %}" class="button primary">New organisations search</a>
               {% endif %}
             </div>
           </div>
