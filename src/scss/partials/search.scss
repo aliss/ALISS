@@ -88,13 +88,39 @@ $header-height-s: 115px;
     margin: 1.5rem auto;
     margin-bottom: 0;
   }
+  .search-tabs {
+    left: -15%;
+    position: relative;
+    button {
+      display: inline-block;
+      position: relative;
+      color: #fff;
+      background-color: $primary;
+      opacity: 0.5;
+      padding: .4rem .6rem;
+      top: 0.1rem;
+      font-size: 1.25rem;
+      border-radius: 10px 10px 0px 0px;
+    }
+    button:hover { opacity: 1; }
+    button.active { opacity: 1; }
+  }
+  .tabbed-search-box {
+    max-width: 100%;
+    margin: 0rem auto 0;
+    form { display: none; }
+    form.active { display: block; }
+  }
+  .tab-wrapper {
+    max-width: 500px;
+    position: relative;
+    margin: 0 auto;
+  }
   .search-holder {
     input[type=text] {
       border-color: $w;
       margin-bottom: 0;
-      &:focus, &:active {
-        border-color: $w;
-      }
+      &:focus, &:active { border-color: $w; }
     }
   }
   .search-button {

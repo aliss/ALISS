@@ -511,6 +511,16 @@ $(document).ready(() => {
     });
   };
 
+  var handleTabs = function(){      
+    $('.tab').click(function(){
+      $(this).siblings().removeClass('active');
+      $(this).addClass('active');
+      $($(this).attr('data-parent')).children().removeClass('active');
+      $($(this).attr('data-tab')).addClass('active');
+    });
+  };
+
+  handleTabs();
   checkMaxCategories();
   matchHeight();
   storeSearchUrl();
