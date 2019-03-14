@@ -77,17 +77,6 @@
         </div>
 
         <div class="contact-info">
-          {% if object.locations.all %}
-            <h4>Locations</h4>
-            <div class="all-locations">
-              {% for location in object.locations.all %}
-                {% include 'location/partials/detail.html' %}
-              {% endfor %}
-              {% if user_can_edit %}
-                <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
-              {% endif %}
-            </div>
-          {% endif %}
           {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
             <h4>Contact information</h4>
             <p>
@@ -100,6 +89,17 @@
             {% if user_can_edit %}
               <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
             {% endif %}
+          {% endif %}
+          {% if object.locations.all %}
+            <h4>Locations</h4>
+            <div class="all-locations">
+              {% for location in object.locations.all %}
+                {% include 'location/partials/detail.html' %}
+              {% endfor %}
+              {% if user_can_edit %}
+                <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
+              {% endif %}
+            </div>
           {% endif %}
         </div>
 
