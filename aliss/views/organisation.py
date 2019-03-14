@@ -38,6 +38,8 @@ from aliss.search import filter_organisations_by_query_all, filter_organisations
 from aliss.paginators import *
 from django.views.generic.list import MultipleObjectMixin
 
+from django.http import Http404
+
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -263,6 +265,7 @@ class OrganisationSearchView(ListView):
     model = Organisation
     template_name = 'organisation/search-results.html'
     paginate_by = 10
+    import logging
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -285,6 +288,7 @@ class OrganisationSearchView(ListView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
+
         has_services = self.request.GET.get('has_services')
         # Apply the urser permission level and the further optional filters to the results.
         queryset = self.filter_queryset(queryset)
