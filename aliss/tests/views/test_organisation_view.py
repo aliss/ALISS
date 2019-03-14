@@ -204,6 +204,14 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TestOrg")
 
+    def test_organisation_search_page_2_filter_no_results(self):
+        response = self.client.get('/organisations/search/?q=test&page=2&is_published=true')
+        self.assertEqual(response.status_code, 200)
+        
+    '''
+    Write a test for the organisation search when the user is on page 2 and the claimed only filter is applied.
+    '''
+
     def tearDown(self):
         for organisation in Organisation.objects.filter(name="TestOrg"):
             organisation.delete()
