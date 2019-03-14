@@ -90,5 +90,20 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "DD9 6AD")
 
+    '''
+    Need to write tests to check that when there are no more results the New organisation search
+    '''
+    def test_no_results_new_organisation_search_button_with_keyword(self):
+        response = self.client.get('/search/?postcode=G2+4AA&q=bork')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h2>Sorry, we couldn't find anything using those terms near G2 4AA.</h2>")
+        self.assertContains(response, "<a href=\"/organisations/search/?q=bork\" class=\"button primary\">New organisations search</a>")
+
+    def test_no_results_no_new_organisation_search_button_without_keyword(self):
+        response = self.client.get('/search/?postcode=G2+4AA&q=')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h2>Sorry, we couldn't find anything using those terms near G2 4AA.</h2>")
+        self.assertNotContains(response, "New organisations search")
+
     def tearDown(self):
         Fixtures.organisation_teardown()
