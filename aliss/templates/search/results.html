@@ -13,6 +13,10 @@
 {% endblock %}
 
 {% block container %}
+<section id="skip-content">
+    <a class="skip-content" href="#content" tabindex="1">Skip to Content</a>
+</section>
+
 <main class="main" role="main">
   {% if not invalid_area and not errors %}
     <section id="content" class="results">
@@ -30,7 +34,7 @@
       {% include 'search/partials/categories.html' with category=category %}
       <div class="row results">
         <div class="columns filters">
-          <h4 class="toggle-heading" id="filters_toggle">Customise results</h4>
+          <h4 class="toggle-heading" id="filters_toggle" tabindex="0">Customise results</h4>
           <div class="filter-group toggled" id="filters">
             <form>
               <div class="filter keyword-search">
@@ -153,7 +157,7 @@
                   {% endif %}
                   {% if result.service_areas %}
                     <li class="service-areas">
-                      <a>Service Areas</a>
+                      <a tabindex="0">Service Areas</a>
                     </li>
                   {% endif %}
                 </ul>
