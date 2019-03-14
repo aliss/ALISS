@@ -99,15 +99,29 @@ $(document).ready(() => {
     // console.log(label);
     if($thisCheck.prop('checked')) {
       // console.log('checked');
-      $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+      if($('.all-categories input:checkbox:checked').length < 4) {
+        $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+      }
+      else {
+        // console.log("You can't add more categries!");
+        if (!$('.cat-warning').length){
+          $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 3 categories.</h3>");
+        }
+      }
     } else {
       // console.log('unchecked');
       $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
+      if ($('.cat-warning').length){
+        $('.cat-warning').remove();
+      }
     }
     $('.selected-cat span.remove').click(function(){
       var value = $(this).parent().attr('data-cat');
       // console.log(value);
       $(this).parent().remove();
+      if ($('.cat-warning').length){
+        $('.cat-warning').remove();
+      }
       $(`input[value="${value}"]`).prop('checked', false);
       if($('.selected-categories .cats').is(':empty')) {
         $('.selected-categories').removeClass('active');
