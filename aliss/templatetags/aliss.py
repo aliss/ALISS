@@ -1,6 +1,7 @@
 from django import template
 from datetime import datetime
 import pytz
+import logging
 
 from aliss.models import Category, Organisation
 
@@ -22,10 +23,15 @@ def can_add_logo(user, object):
 
 @register.simple_tag
 def query_transform(request, **kwargs):
+    logger = logging.getLogger(__name__)
     updated = request.GET.copy()
+    for k in kwargs.items():
+        if str(k) == 'page':
+            del updated[k]
     for k, v in kwargs.items():
         if v is not None:
             updated[k] = v
+            logger.error(k)
         else:
             updated.pop(k, 0)  # Remove or return 0 - aka, delete safely this key
 
