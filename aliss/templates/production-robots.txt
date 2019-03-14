@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /search
+Disallow: /caboose
 Allow: /search?postcode=*
 Sitemap: https://www.aliss.org/sitemap.xml
