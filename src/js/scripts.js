@@ -214,7 +214,7 @@ $(document).ready(() => {
     if (isLocationValid()){
       var endpoint = $(this).attr('data-create-endpoint');
       $('#add-location').attr('disabled', 'disabled');
-      createLocation(endpoint);  
+      createLocation(endpoint);
     }
   });
 
@@ -238,6 +238,11 @@ $(document).ready(() => {
     $(this).toggleClass('active');
     $('body').toggleClass('restrict-height');
     $(".navigation").toggleClass('active');
+  }).keypress(function(e) {
+    e.stopPropagation();
+    $(this).toggleClass('active');
+    $('body').toggleClass('restrict-height');
+    $(".navigation").toggleClass('active');
   });
 
   // Site Wide Toggles
@@ -245,6 +250,9 @@ $(document).ready(() => {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
     $(`#${id}_toggle`).click(function() {
+      $(`#${id}`).toggleClass('active');
+      $(this).toggleClass('active');
+    }).keypress(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
     });
@@ -275,8 +283,18 @@ $(document).ready(() => {
     var list = $(this).closest('.contact-info').next('.service-areas-list');
     // console.log(list);
     list.toggleClass('active');
+  }).keypress(function() {
+    $(this).toggleClass('active');
+    var list = $(this).closest('.contact-info').next('.service-areas-list');
+    // console.log(list);
+    list.toggleClass('active');
   });
   $('.location a.more-link').click(function() {
+    $(this).toggleClass('active');
+    var locations = $(this).parent('.more').next('.locations-list');
+    // console.log(locations);
+    locations.toggleClass('active');
+  }).keypress(function() {
     $(this).toggleClass('active');
     var locations = $(this).parent('.more').next('.locations-list');
     // console.log(locations);
@@ -328,6 +346,9 @@ $(document).ready(() => {
 
   // Cat Menu
   $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
+    var parent = $(this).parent('li');
+    parent.toggleClass('active');
+  }).keypress(function(e) {
     var parent = $(this).parent('li');
     parent.toggleClass('active');
   });
