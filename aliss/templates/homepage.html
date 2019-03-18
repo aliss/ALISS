@@ -79,6 +79,12 @@
 
         getValue: "location_name",
 
+        template: {
+          type: "custom",
+          method: function(value, item){
+            return value + ": (" + item.postcode + ")"
+          }
+        },
 
         minCharNumber: 3,
 
