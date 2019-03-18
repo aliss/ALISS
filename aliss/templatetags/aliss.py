@@ -25,16 +25,14 @@ def can_add_logo(user, object):
 def query_transform(request, **kwargs):
     logger = logging.getLogger(__name__)
     updated = request.GET.copy()
-    for k in kwargs.items():
-        if str(k) == 'page':
-            del updated[k]
     for k, v in kwargs.items():
         if v is not None:
             updated[k] = v
-            logger.error(k)
+        if v == 2:
+            updated[k] = 1
         else:
             updated.pop(k, 0)  # Remove or return 0 - aka, delete safely this key
-
+    logger.error(updated.urlencode())
     return updated.urlencode()
 
 

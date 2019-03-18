@@ -94,7 +94,7 @@
                 </a>
               </li>
               <li {% if request.GET.sort == "nearest" %}class="active"{% endif %}>
-                <a href="?{% query_transform request sort="nearest" %}">
+                <a href="?{% query_transform request sort="nearest"%}">
                   <span class="radio"></span>
                   <span class="name">
                     By nearest first
