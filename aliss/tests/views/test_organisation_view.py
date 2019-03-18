@@ -205,7 +205,7 @@ class OrganisationViewTestCase(TestCase):
         self.assertContains(response, "TestOrg")
 
     def test_organisation_search_page_2_filter_no_results(self):
-        response = self.client.get('/organisations/search/?q=test&page=2&is_published=true')
+        response = self.client.get('/organisations/search/?q=test&is_published=true')
         self.assertEqual(response.status_code, 200)
 
     '''
