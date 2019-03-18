@@ -140,6 +140,8 @@ fieldset#add-location-fieldset.active {
   legend::before { content: "- "; }
 }
 
+span.helptext { margin-bottom:2rem; display:inline-block; }
+
 div.add-location-form { padding:3%; }
 
 div.actions {
