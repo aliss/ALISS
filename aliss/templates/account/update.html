@@ -3,115 +3,116 @@
 
 {% block container %}
 <main class="main" role="main">
-    <section id="content">
-        <div class="row">
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>Edit account</h1>
+  <section id="content">
+    <div class="row">
+      <div class="columns content">
+        <div class="copy-container">
+          <h1>Edit account <a class="button success" href="{% url 'password_change' %}">Change password</a></h1>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="large-form">
+    <div class="row">
+      <div class="columns">
+        <form method="post">
+          {% csrf_token %}
+          <div class="f-row two">
+            {% include 'partials/forms/field.html' with field=form.name %}
+            {% include 'partials/forms/field.html' with field=form.email %}
+          </div>
+          <div class="f-row two">
+            {% include 'partials/forms/field.html' with field=form.phone_number %}
+            {% include 'partials/forms/field.html' with field=form.postcode %}
+          </div>
+          {% comment %}
+          <div class="preferences">
+            <div class="pad">
+              <div class="info-box needs">
+                <div class="heading">
+                  <h4>My needs</h4>
                 </div>
+                <p>Which categories are most relevant to your current needs?</p>
+                {% get_root_categories as root_categories %}
+                <div class="all-categories">
+                  <ul class="radio-list cat truncate">
+                    {% for category in root_categories %}
+                      <li>
+                        <label>
+                          <input type="checkbox">
+                          <span class="cat">
+                            <i class="fa fa-utensil-fork"></i>
+                          </span>
+                          <span class="name">
+                            {{ category.name }}
+                          </span>
+                        </label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <p><a class="clear-all">Clear All</a></p>
+              </div>
+              <div class="info-box notifications">
+                <div class="heading">
+                  <h4>My notifications</h4>
+                </div>
+                <div class="checkbox-list">
+                  <div>
+                    <label>
+                      <input type="checkbox">
+                      <span class="name">
+                        Let me know when new services relevant to my needs open up in my postcode
+                      </span>
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <input type="checkbox">
+                      <span class="name">
+                        Let me know when information changes for a service I’ve saved
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="info-box contact-me">
+                <div class="heading">
+                  <h4>How to contact me</h4>
+                </div>
+                <div class="checkbox-list">
+                  <div>
+                    <label>
+                      <input type="checkbox">
+                      <span class="name">
+                        Send me email notifications
+                      </span>
+                    </label>
+                  </div>
+                  <div>
+                    <label>
+                      <input type="checkbox" disabled>
+                      <span class="name">
+                        Send me notifications by text (coming soon)
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-    </section>
-    <section class="large-form">
-        <div class="row">
-            <div class="columns">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="f-row two">
-                        {% include 'partials/forms/field.html' with field=form.name %}
-                        {% include 'partials/forms/field.html' with field=form.email %}
-                    </div>
-                    <div class="f-row two">
-                        {% include 'partials/forms/field.html' with field=form.phone_number %}
-                        {% include 'partials/forms/field.html' with field=form.postcode %}
-                    </div>
-                    {% comment %}
-                    <div class="preferences">
-                        <div class="pad">
-                            <div class="info-box needs">
-                                <div class="heading">
-                                    <h4>My needs</h4>
-                                </div>
-                                <p>Which categories are most relevant to your current needs?</p>
-                                {% get_root_categories as root_categories %}
-                                <div class="all-categories">
-                                    <ul class="radio-list cat truncate">
-                                        {% for category in root_categories %}
-                                            <li>
-                                                <label>
-                                                    <input type="checkbox">
-                                                    <span class="cat">
-                                                        <i class="fa fa-utensil-fork"></i>
-                                                    </span>
-                                                    <span class="name">
-                                                        {{ category.name }}
-                                                    </span>
-                                                </label>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <p><a class="clear-all">Clear All</a></p>
-                            </div>
-                            <div class="info-box notifications">
-                                <div class="heading">
-                                    <h4>My notifications</h4>
-                                </div>
-                                <div class="checkbox-list">
-                                    <div>
-                                        <label>
-                                            <input type="checkbox">
-                                            <span class="name">
-                                                Let me know when new services relevant to my needs open up in my postcode
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <input type="checkbox">
-                                            <span class="name">
-                                                Let me know when information changes for a service I’ve saved
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="info-box contact-me">
-                                <div class="heading">
-                                    <h4>How to contact me</h4>
-                                </div>
-                                <div class="checkbox-list">
-                                    <div>
-                                        <label>
-                                            <input type="checkbox">
-                                            <span class="name">
-                                                Send me email notifications
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label>
-                                            <input type="checkbox" disabled>
-                                            <span class="name">
-                                                Send me notifications by text (coming soon)
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="copy-container">
-                            <p>You can change these preferences at any time. Email notifications are sent in the form of one weekly digest so we don’t overload your inbox.</p>
-                        </div>
-                    </div>
-                    {% endcomment %}
-                    <div class="submit">
-                        {% include 'partials/forms/checkbox_agree.html' with field=form.prepopulate_postcode %}
-                        <input type="submit" value="Update Info">
-                    </div>
-                </form>
+            <div class="copy-container">
+              <p>You can change these preferences at any time. Email notifications are sent in the form of one weekly digest so we don’t overload your inbox.</p>
             </div>
-        </div>
-    </section>
+          </div>
+          {% endcomment %}
+          <div class="submit">
+            {% include 'partials/forms/checkbox_agree.html' with field=form.prepopulate_postcode %}
+            <input type="submit" class="" value="Update info">
+            <a class="button warning" href="{% url 'account_saved_services' %}">Back</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
 </main>
 {% endblock %}
