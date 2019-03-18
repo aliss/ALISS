@@ -81,6 +81,38 @@
               </ul>
             </div>
 
+            <div class="filter distance">
+              <label>Filter by distance:</label>
+              <ul class="radio-list-links">
+                <li  {% if request.GET.range == 'close' %} class="active" {% endif %}>
+                  <a href="?{% query_transform request range='close' %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Show me services within a thirty minute walk 3km.
+                    </span>
+                  </a>
+                </li>
+                <li {% if not request.GET.range %}class="active"{% endif %}>
+                  <a href="?{% query_transform request range=None %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Show me services within a thirty minute drive 16km.
+                    </span>
+                  </a>
+                </li>
+                <li {% if request.GET.range == 'user_distance' %}class="active"{% endif %}>
+                  <a href="?{% query_transform request range='user_distance' %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Show me services within (km):
+                    </span>
+                    <input type="text" placeholder=40 id='user_distance'>
+                  </input>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
             {% if request.GET.q %}
             <div class="filter sorting">
               <label>Sort method:</label>
