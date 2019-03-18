@@ -111,15 +111,25 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return self.render_to_response(self.get_context_data())
 
     def prepare_common_params(self, data):
+        import logging
+        logger = logging.getLogger(__name__)
         self.q = data.get('q', None)
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
         self.q = self.q.translate(puncstripper)
         self.location_type = data.get('location_type',None)
         self.sort = data.get('sort', None)
         self.category = data.get('category', None)
+        self.range = data.get('range', None)
         self.radius = data.get('radius', None)
-        if self.radius == None:
-            self.radius = 20000
+        if self.range == "close":
+            self.radius = 3000
+            logger.error(str(self.range) + " " + str(self.radius))
+        elif self.range == 'user_distance':
+            self.radius == 40000
+            logger.error(str(self.range) + " " + str(self.radius))
+        else:
+            self.radius = 16000
+            logger.error(str(self.range) + " " + str(self.radius))
 
     def return_match_for_legacy_location(self, location, legacy_locations_dict):
         result = { "match": False, "name": "" }
