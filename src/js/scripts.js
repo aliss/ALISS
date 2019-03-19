@@ -386,10 +386,6 @@ $(document).ready(() => {
     }
   });
 
-  svg4everybody();
-
-
-  easyAutocomplete();
 
   // Messages Hide
   if($('.messages').length > 0) {
@@ -559,6 +555,7 @@ $(document).ready(() => {
     });
   };
 
+  svg4everybody();
   handleTabs();
   checkMaxCategories();
   matchHeight();
