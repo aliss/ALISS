@@ -266,7 +266,7 @@
     {% ga_form_event '#email_service' 'email-service' service.slug %}
     {% ga_form_event '#save_service' 'save-service' service.slug %}
     {% ga_form_event '#recommend form' 'recommend-service' service.slug %}
-    {% ga_click_event '#print-listing' 'print-listing', service.slug %}
+    {% ga_click_event '#print-listing' 'print-listing' service.slug %}
 
     var searchURL = localStorage.getItem('searchURL');
     if (searchURL != null){
