@@ -85,30 +85,38 @@
               <label>Filter by distance:</label>
               <ul class="radio-list-links">
                 <li  {% if request.GET.range == 'close' %} class="active" {% endif %}>
-                  <a href="?{% query_transform request range='close' %}">
+                  <a href="?{% query_transform request radius='1000' %}">
                     <span class="radio"></span>
                     <span class="name">
-                      Show me services within a thirty minute walk 3km.
+                      Show me services within a ten minute walk 1km.
                     </span>
                   </a>
                 </li>
                 <li {% if not request.GET.range %}class="active"{% endif %}>
-                  <a href="?{% query_transform request range=None %}">
+                  <a href="?{% query_transform request radius='10000' %}">
                     <span class="radio"></span>
                     <span class="name">
-                      Show me services within a thirty minute drive 16km.
+                      Show me services within a fifteen minute drive 10km.
                     </span>
                   </a>
                 </li>
                 <li {% if request.GET.range == 'user_distance' %}class="active"{% endif %}>
-                  <a href="?{% query_transform request range='user_distance' %}">
+                  <a href="?{% query_transform request radius='20000' %}">
                     <span class="radio"></span>
                     <span class="name">
-                      Show me services within (km):
+                      Show me services within a thirty minute drive 20km:
                     </span>
-                    <input type="text" placeholder=40 id='user_distance'>
-                  </input>
                   </a>
+                </li>
+                  <li {% if request.GET.range == 'user_distance' %}class="active"{% endif %}>
+                    <a href="?{% query_transform request radius='40000' %}">
+                      <span class="radio"></span>
+                      <span class="name">
+                        Show me services within 40(km):
+                      </span>
+                      <input type="text" placeholder=40 id='user_distance'>
+                    </input>
+                    </a>
                 </li>
               </ul>
             </div>
