@@ -113,7 +113,7 @@
                <a>
                  <span class="radio"></span>
                  <span class="name">
-                   Custom radius (km):
+                   Custom radius (m):
                  </span>
                </a>
                <form>
@@ -295,8 +295,18 @@ $(document).ready(function(){
     $("div.filter-distance > ul").children().removeClass("active")
     $("#custom-radius-radio").addClass("active")
     $("#custom-radius-input").removeAttr("disabled")
-
   })
+
+  if (!($("div.filter-distance > ul").children().hasClass("active"))){
+    var urlString = window.location.href
+    var url = new URL(urlString)
+    var searchedRadius = url.searchParams.get("radius")
+    $("#custom-radius-radio").addClass("active")
+    $("#custom-radius-input").removeAttr("disabled")
+    $("#custom-radius-input").val(searchedRadius)
+    console.log(searchedRadius)
+
+  }
 
   {% ga_search_events invalid_area errors %}
 });
