@@ -109,8 +109,8 @@
                   </a>
                 </li>
               </li>
-              <li {% if request.GET.radius == '40000' %}class="active"{% endif %}>
-               <a href="?{% query_transform request radius='40000' %}">
+              <li id="custom-radius-radio">
+               <a>
                  <span class="radio"></span>
                  <span class="name">
                    Custom radius (km):
@@ -120,7 +120,7 @@
                  <div class="sbs-inputs">
                    <div class="clearable-input">
                      <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
-                     <input id="custom_radius" type="text" placeholder="e.g 40000" name="radius">
+                     <input id="custom-radius-input" type="text" placeholder="e.g 40000" name="radius" disabled='disabled'>
                    </div>
                    <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
                    <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
@@ -289,6 +289,15 @@ $(document).ready(function(){
 
   if ($("input[name='q']").val() != "") {
     $(".category-selector *").click(function(){checkword()});
+  }
+
+  $("#custom-radius-radio").click(function(){
+    $("#custom-radius-radio").addClass("active")
+    $("#custom-radius-input").removeAttr("disabled")
+  })
+
+  if ($("#custom-radius-radio").hasClass('active')){
+    console.log('Pass')
   }
 
   {% ga_search_events invalid_area errors %}
