@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load aliss %}
+{% load analytics %}
 
 {% block title %}{{ object.name }} {% meta_location service %} - {{ object.organisation.name }} - ALISS{% endblock %}
 {% block meta_schema %}
@@ -92,7 +93,7 @@
               </form>
             </div>
 
-            <a href="javascript:window.print();" class="icon-link">
+            <a href="javascript:window.print();" id="print-listing" class="icon-link">
               <span class="icon">
                 <i class="fas fa-print"></i>
               </span>
@@ -100,7 +101,7 @@
             </a>
 
             {% if object in request.user.saved_services.all %}
-              <form method='post' action="{% url 'account_remove_saved_service' pk=object.pk %}">
+              <form method='post' id="" action="{% url 'account_remove_saved_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
                 <button type="submit" class="txt-button alert icon-link">
@@ -111,7 +112,7 @@
                 </button>
               </form>
             {% else %}
-              <form method='post' action="{% url 'account_save_service' pk=object.pk %}">
+              <form method='post' id="save_service" action="{% url 'account_save_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
                 <button type="submit" class="txt-button primary icon-link">
@@ -261,6 +262,12 @@
 {% block before_body_close %}
   <script type="text/javascript">
   $(document).ready(function(){
+
+    {% ga_form_event '#email_service' 'email-service' service.slug %}
+    {% ga_form_event '#save_service' 'save-service' service.slug %}
+    {% ga_form_event '#recommend form' 'recommend-service' service.slug %}
+    {% ga_click_event '#print-listing' 'print-listing', service.slug %}
+
     var searchURL = localStorage.getItem('searchURL');
     if (searchURL != null){
       $('#back_to_seach').attr('href', searchURL).show();
