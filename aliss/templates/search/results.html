@@ -84,7 +84,7 @@
             <div class="filter distance">
               <label>Filter by distance:</label>
               <ul class="radio-list-links">
-                <li  {% if request.GET.range == 'close' %} class="active" {% endif %}>
+                <li  {% if request.GET.radius == '1000' %} class="active" {% endif %}>
                   <a href="?{% query_transform request radius='1000' %}">
                     <span class="radio"></span>
                     <span class="name">
@@ -92,15 +92,15 @@
                     </span>
                   </a>
                 </li>
-                <li {% if not request.GET.range %}class="active"{% endif %}>
-                  <a href="?{% query_transform request radius='10000' %}">
+                <li {% if not request.GET.radius %}class="active"{% endif %}>
+                  <a href="?{% query_transform request radius=None %}">
                     <span class="radio"></span>
                     <span class="name">
                       Show me services within a fifteen minute drive 10km.
                     </span>
                   </a>
                 </li>
-                <li {% if request.GET.range == 'user_distance' %}class="active"{% endif %}>
+                <li {% if request.GET.radius == '20000' %}class="active"{% endif %}>
                   <a href="?{% query_transform request radius='20000' %}">
                     <span class="radio"></span>
                     <span class="name">
@@ -108,7 +108,7 @@
                     </span>
                   </a>
                 </li>
-                  <li {% if request.GET.range == 'user_distance' %}class="active"{% endif %}>
+                  <li {% if request.GET.radius == '40000' %}class="active"{% endif %}>
                     <a href="?{% query_transform request radius='40000' %}">
                       <span class="radio"></span>
                       <span class="name">
