@@ -81,7 +81,7 @@
               </ul>
             </div>
 
-            <div class="filter distance">
+            <div class="filter-distance">
               <label>Filter by distance:</label>
               <ul class="radio-list-links">
                 <li  {% if request.GET.radius == '1000' %} class="active" {% endif %}>
@@ -292,13 +292,11 @@ $(document).ready(function(){
   }
 
   $("#custom-radius-radio").click(function(){
+    $("div.filter-distance > ul").children().removeClass("active")
     $("#custom-radius-radio").addClass("active")
     $("#custom-radius-input").removeAttr("disabled")
-  })
 
-  if ($("#custom-radius-radio").hasClass('active')){
-    console.log('Pass')
-  }
+  })
 
   {% ga_search_events invalid_area errors %}
 });
