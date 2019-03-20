@@ -108,15 +108,27 @@
                     </span>
                   </a>
                 </li>
-                  <li {% if request.GET.radius == '40000' %}class="active"{% endif %}>
-                    <a href="?{% query_transform request radius='40000' %}">
-                      <span class="radio"></span>
-                      <span class="name">
-                        Custom radius (km):
-                      </span>
-                    </a>
-                    <input type="text" placeholder=40 id='user_distance'>
-                </li>
+              </li>
+              <li {% if request.GET.radius == '40000' %}class="active"{% endif %}>
+               <a href="?{% query_transform request radius='40000' %}">
+                 <span class="radio"></span>
+                 <span class="name">
+                   Custom radius (km):
+                 </span>
+               </a>
+               <form>
+                 <div class="sbs-inputs">
+                   <div class="clearable-input">
+                     <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
+                     <input id="custom_radius" type="text" placeholder="e.g 40000" name="radius">
+                   </div>
+                   <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                   <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
+                   <input type="hidden" name="category" value="{{ request.GET.category }}">
+                   <input type="submit" class="secondary" value="Search">
+                 </div>
+               </form>
+              </li>
               </ul>
             </div>
 
