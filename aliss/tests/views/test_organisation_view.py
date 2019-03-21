@@ -164,12 +164,12 @@ class OrganisationViewTestCase(TestCase):
         org_index_result = get_organisation_by_id(org_queryset, self.organisation.id)
         self.assertEqual(len(org_index_result), 1)
 
-    def test_organisation_search(self):
-        response = self.client.get(reverse('organisation_search')+'?q=TestOrg')
+    def test_organisation_potential_create_search(self):
+        response = self.client.get(reverse('potential_create')+'?q=TestOrg')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TestOrg")
 
-    def test_organisation_search_privileged_user(self):
+    def test_organisation_potential_create_privileged_user(self):
 
         self.client.login(username='updater@aliss.org', password='passwurd')
 
@@ -180,11 +180,11 @@ class OrganisationViewTestCase(TestCase):
         unpublished_org.published = False
         unpublished_org.save()
 
-        response = self.client.get(reverse('organisation_search')+'?q=Banana')
+        response = self.client.get(reverse('potential_create')+'?q=Banana')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Banana Unpublished")
 
-    def test_organisation_search_basic_user(self):
+    def test_organisation_potential_create_search_basic_user(self):
 
         self.client.login(username='random@random.org', password='passwurd')
 
@@ -195,9 +195,14 @@ class OrganisationViewTestCase(TestCase):
         unpublished_org.published = False
         unpublished_org.save()
 
-        response = self.client.get(reverse('organisation_search')+'?q=Banana')
+        response = self.client.get(reverse('potential_create')+'?q=Banana')
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "Banana Unpublished")
+
+    def test_organisation_search_basic_keyword(self):
+        response = self.client.get(reverse('search')+'?q=TestOrg')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "TestOrg")
 
     def tearDown(self):
         for organisation in Organisation.objects.filter(name="TestOrg"):

@@ -13,7 +13,7 @@
       <div class="columns content">
         <div class="copy-container">
           <h3>
-          {% url 'organisation_search' as src %}
+          {% url 'potential_create' as src %}
           {% if request.GET.next == src %}
             Before adding an organisation you will need to <a href="{% url 'signup' %}">sign up</a> or login:
           {% else %}

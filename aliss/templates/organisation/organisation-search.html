@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load aliss %}
+{% load analytics %}
+{% load humanize %}
+
+{% block container %}
+<section id="search">
+  <div class="bg"></div>
+  <div class="row">
+    <div class="columns">
+      <h1>Explore Organisations</h1>
+      <label for="q">Enter a keyword to search for organisations supporting health and wellbeing</label>
+      <div class="tab-wrapper">
+        <div class="search-tabs">
+          <button class="tab active" data-parent="div.search-holder" data-tab="#service-search">Services</button>
+          <button class="tab" data-parent="div.search-holder" data-tab="#org-search">Organisations</button>
+        </div>
+
+        <div class="search-box tabbed-search-box">
+          <div class="search-holder sbs-inputs">
+            <form class="active" action="{% url 'search' %}" id="service-search">
+              <input class="postcode" type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA" {% if request.user.postcode and request.user.prepopulate_postcode %}value="{{ request.user.postcode }}"{% endif %}>
+              <div class="search-button">
+                <button type="submit"><span>Search</span></button>
+              </div>
+            </form>
+
+            <form class="" action="{% url 'organisation_search_results' %}" id="org-search">
+              <input class="query" type="text" name="q" id="q" placeholder="e.g. Care Scotland">
+              <div class="search-button">
+                <button type="submit"><span>Search</span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
