@@ -45,6 +45,7 @@
                     <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
                   </div>
                   <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                  <input type="hidden" name="radius" value="{{ request.GET.radius }}">
                   <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
                   <input type="hidden" name="category" value="{{ request.GET.category }}">
                   <input type="submit" class="secondary" value="Search">
