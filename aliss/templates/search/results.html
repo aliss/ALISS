@@ -307,6 +307,7 @@ $(document).ready(function(){
   }
 
   {% ga_search_events invalid_area errors %}
+  {% ga_click_event '#copy_search_link' 'copy-search' "" %}
 });
 </script>
 {% endblock %}
