@@ -35,9 +35,14 @@ def query_transform(request, **kwargs):
 def process_locations(collection, **kwargs):
     import logging
     logger = logging.getLogger(__name__)
-    logger.error('Errors')
-    logger.error(kwargs.items())
-    logger.error(collection)
+    postcode = kwargs['postcode'][:3]
+    logger.error(postcode)
+    new_collection = []
+    for location in collection:
+        if postcode in str(location):
+            logger.error(location)
+        else:
+            logger.error("fail")
     return collection
 
 @register.simple_tag
