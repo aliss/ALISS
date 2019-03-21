@@ -33,17 +33,18 @@ def query_transform(request, **kwargs):
 
 @register.simple_tag
 def process_locations(collection, **kwargs):
-    import logging
-    logger = logging.getLogger(__name__)
     postcode = kwargs['postcode'][:3]
-    logger.error(postcode)
     new_collection = []
+    single_item = []
     for location in collection:
         if postcode in str(location):
-            logger.error(location)
+            single_item.append(location)
         else:
-            logger.error("fail")
-    return collection
+            new_collection.append(location)
+    if (len(single_item) > 0):
+        return single_item + new_collection
+    else:
+        return False
 
 @register.simple_tag
 def get_root_categories():
