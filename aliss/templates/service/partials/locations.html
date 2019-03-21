@@ -1,5 +1,9 @@
+{% load aliss %}
+
+
 {% if locations %}
     <div class="location{% if locations|length > 1 %} multiple{% endif %}">
+      {% process_locations locations postcode='EH21 6UW' %}
         {% for location in locations %}
             {% if forloop.first and not forloop.last %}
                 <span>First location:</span>

@@ -31,6 +31,14 @@ def query_transform(request, **kwargs):
 
     return updated.urlencode()
 
+@register.simple_tag
+def process_locations(collection, **kwargs):
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.error('Errors')
+    logger.error(kwargs.items())
+    logger.error(collection)
+    return collection
 
 @register.simple_tag
 def get_root_categories():
