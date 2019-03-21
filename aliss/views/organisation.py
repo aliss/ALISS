@@ -1,5 +1,5 @@
 from django.views.generic import (
-    View, CreateView, UpdateView, DeleteView, DetailView, TemplateView
+    View, CreateView, UpdateView, DeleteView, DetailView, TemplateView, ListView
 )
 from django.contrib import messages
 from django.conf import settings
@@ -20,7 +20,7 @@ from django.utils import timezone
 from datetime import timedelta
 from datetime import datetime
 
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from aliss.models import Organisation, Claim
 from aliss.filters import OrganisationFilter
@@ -33,10 +33,11 @@ import pytz
 from elasticsearch_dsl import Search
 from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on
+from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, keyword_order
 
-from aliss.paginators import ESPaginator
+from aliss.paginators import *
 from django.views.generic.list import MultipleObjectMixin
+
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -199,8 +200,8 @@ class OrganisationDeleteView(UserPassesTestMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class OrganisationSearchView(MultipleObjectMixin, TemplateView):
-    template_name = 'organisation/search.html'
+class OrganisationPotentialCreateView(MultipleObjectMixin, TemplateView):
+    template_name = 'organisation/potential-create.html'
     paginator_class = ESPaginator
     paginate_by = 10
 
@@ -220,6 +221,7 @@ class OrganisationSearchView(MultipleObjectMixin, TemplateView):
                 queryset = filter_organisations_by_query_published(queryset, query)
 
         return queryset
+
 
 class OrganisationUnpublishedView(StaffuserRequiredMixin, FilterView):
     template_name = 'organisation/unpublished.html'
@@ -255,3 +257,44 @@ class OrganisationPublishView(StaffuserRequiredMixin, View):
             messages.error(self.request, 'Could not publish {name}.'.format(name=organisation.name))
 
         return HttpResponseRedirect(reverse('organisation_unpublished'))
+
+
+class OrganisationSearchView(ListView):
+    model = Organisation
+    template_name = 'organisation/search-results.html'
+    paginate_by = 10
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        return self.render_to_response(self.get_context_data())
+
+    def filter_queryset(self, queryset):
+        query = self.request.GET.get('q')
+        claimed_status = self.request.GET.get('is_claimed')
+        if query:
+            if self.request.user.is_authenticated() and (self.request.user.is_staff):
+                queryset = filter_organisations_by_query_all(queryset, query)
+            else:
+                queryset = filter_organisations_by_query_published(queryset, query)
+        if claimed_status:
+            queryset = filter_by_claimed_status(queryset, claimed_status)
+        return queryset
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super(OrganisationSearchView, self).get_queryset()
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+        queryset = Search(index='organisation_search', doc_type='organisation')
+        has_services = self.request.GET.get('has_services')
+        # Apply the urser permission level and the further optional filters to the results.
+        queryset = self.filter_queryset(queryset)
+        # Use the keyword_order code to take the elastic search results and create a dictionary of the ids and the ordering positiion called  results.
+        results = keyword_order(queryset)
+        # Filter the db results using the results dictionary.
+
+        if has_services:
+            queryset = Organisation.filter_by_has_services(results, has_services)
+        else :
+            queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
+        # Return all the db records so the ListView can handle the pagination.
+        return queryset

@@ -2,63 +2,118 @@
 
 {% block title %}ALISS - A Local Information System for Scotland{% endblock %}
 {% block meta_schema %}
-    <meta property="og:title" content="ALISS - A Local Information System for Scotland" />
-    <meta name="twitter:title" content="ALISS - A Local Information System for Scotland" />
-    <meta name="description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.">
-    <meta property="og:description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most." />
-    <meta name="twitter:description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most." />
+  <meta property="og:title" content="ALISS - A Local Information System for Scotland" />
+  <meta name="twitter:title" content="ALISS - A Local Information System for Scotland" />
+  <meta name="description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.">
+  <meta property="og:description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most." />
+  <meta name="twitter:description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most." />
 {% endblock %}
 
 {% block container %}
+<section id="skip-content">
+    <a class="skip-content" href="#search" tabindex="1">Skip to Content</a>
+</section>
+
 <main class="main" role="main">
-    <section id="search">
-        <div class="bg"></div>
-        <div class="row">
-            <div class="columns">
-                <h1>Connecting Communities</h1>
-                <label for="postcode">Enter your postcode to search for local support in housing, health and much more:</label>
-                <div class="search-box">
-                    <div class="search-holder sbs-inputs">
-                        <form action="{% url 'search' %}">
-                            <input class="postcode" type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA" {% if request.user.postcode and request.user.prepopulate_postcode %}value="{{ request.user.postcode }}"{% endif %}>
-                            <div class="search-button">
-                                <button type="submit"><span>Search</span></button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <section id="search">
+    <div class="bg"></div>
+    <div class="row">
+      <div class="columns">
+        <h1>Connecting Communities</h1>
+        <label for="postcode">Enter your postcode to search for local support in housing, health and much more:</label>
+        <div class="search-box">
+          <div class="search-holder sbs-inputs">
+            <form action="{% url 'search' %}">
+              <input class="postcode" type="text" name="postcode" id="postcode" placeholder="e.g. G2 4AA" {% if request.user.postcode and request.user.prepopulate_postcode %}value="{{ request.user.postcode }}"{% endif %}>
+              <div class="search-button">
+                <button type="submit"><span>Search</span></button>
+              </div>
+            </form>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
+  <section class="center-section">
+    <div class="row section-title">
+      <div class="columns">
+        <h3>What is ALISS?</h3>
+        <p>ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.</p>
+      </div>
+    </div>
+    {% include 'partials/for-not-for.html' %}
+    <div class="row buttons">
+      <div class="columns">
+        <a href="{% url 'about' %}" class="button secondary">More about us</a>
+      </div>
+    </div>
+  </section>
+  {% if not request.user.is_authenticated %}
     <section class="center-section">
-        <div class="row section-title">
-            <div class="columns">
-                <h3>What is ALISS?</h3>
-                <p>ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.</p>
-            </div>
+      <div class="row section-title">
+        <div class="columns">
+          <h3>Join the ALISS community</h3>
+          <p>Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.</p>
         </div>
-        {% include 'partials/for-not-for.html' %}
-        <div class="row buttons">
-            <div class="columns">
-                <a href="{% url 'about' %}" class="button secondary">More about us</a>
-            </div>
+      </div>
+      <div class="row buttons">
+        <div class="columns">
+          <a href="{% url 'signup' %}" class="button primary">Sign Up</a>
         </div>
+      </div>
     </section>
-    {% if not request.user.is_authenticated %}
-        <section class="center-section">
-            <div class="row section-title">
-                <div class="columns">
-                    <h3>Join the ALISS community</h3>
-                    <p>Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.</p>
-                </div>
-            </div>
-            <div class="row buttons">
-                <div class="columns">
-                    <a href="{% url 'signup' %}" class="button primary">Sign Up</a>
-                </div>
-            </div>
-        </section>
-    {% endif %}
-    {% include 'partials/share-search.html' %}
+  {% endif %}
+  {% include 'partials/share-search.html' %}
 </main>
+{% endblock %}
+{% block before_body_close %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var options = {
+
+        /*url: function(phrase) {
+          return "http://api/locations/search/?q=" + phrase;
+        },*/
+
+        data: [
+          {"location_name": "Glasgow", "postcode": "G2 4AA"},
+          {"location_name": "Edinburgh", "postcode": "EH2 4AD"},
+          {"location_name": "Aberdeen", "postcode": "AB10 1FQ"},
+          {"location_name": "Dundee", "postcode": "DD1 1DA"},
+          {"location_name": "Paisley", "postcode": "PA1 2AF"},
+          {"location_name": "East Kilbride", "postcode": "G74 1NX"},
+          {"location_name": "Inverness", "postcode": "IV1 1HD"},
+          {"location_name": "Livingston", "postcode": "EH54 6TP"},
+          {"location_name": "Hamilton", "postcode": "ML3 9AY"},
+          {"location_name": "Cumbernauld", "postcode": "G70 6AD"},
+          {"location_name": "Dunfermline", "postcode": "KY12 7JA"},
+          {"location_name": "Kirkcaldy", "postcode": "KY1 1DL"},
+          {"location_name": "Ayr", "postcode": "KA7 2EL"},
+          {"location_name": "Perth", "postcode": "PH2 8PA"},
+          {"location_name": "Kilmarnock", "postcode": "KA1 1PA"},
+        ],
+
+        getValue: "location_name",
+
+        template: {
+          type: "custom",
+          method: function(value, item){
+            return "<span class=\"icon\">📍</span>" + value + " (" + item.postcode + ")"
+          }
+        },
+
+        minCharNumber: 3,
+
+        list: {
+          match: { enabled: true },
+          onSelectItemEvent: function() {
+            var value = $("#postcode").getSelectedItemData().postcode;
+            $("#postcode").val(value).trigger("change");
+          }
+        }
+      }
+
+      $("#postcode").easyAutocomplete(options);
+    });
+  </script>
 {% endblock %}

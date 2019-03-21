@@ -27,6 +27,7 @@
 @import "select2/src/scss/core.scss";
 @import "pickadate/lib/compressed/themes/classic";
 @import "pickadate/lib/compressed/themes/classic.date";
+@import "../../node_modules/easy-autocomplete/dist/easy-autocomplete.min.css";
 
 
 /* Font Awesome 5
@@ -139,6 +140,8 @@ fieldset#add-location-fieldset.active {
   legend::before { content: "- "; }
 }
 
+span.helptext { margin-bottom:2rem; display:inline-block; }
+
 div.add-location-form { padding:3%; }
 
 div.actions {
@@ -151,12 +154,12 @@ a.improve {
   margin-bottom: 0.35rem;
 }
 
-.picker--focused { 
-  .picker__day--highlighted:active, 
-  .picker__day--highlighted:focus, 
-  .picker__day--highlighted:hover, 
-  .picker__day--selected:active, 
-  .picker__day--selected:focus, 
+.picker--focused {
+  .picker__day--highlighted:active,
+  .picker__day--highlighted:focus,
+  .picker__day--highlighted:hover,
+  .picker__day--selected:active,
+  .picker__day--selected:focus,
   .picker__day--selected:hover {
     background-color: rgba(34,178,170,.6);
     color: white;
@@ -193,3 +196,11 @@ input.picker__input:hover { cursor: pointer; }
 
 span.has-tip { border:none; opacity:0.9; }
 span.alert { color: $alert; }
+
+.easy-autocomplete-container {
+  ul { 
+    margin: 0px;
+    li { font-size: 1rem; }
+    span.icon { font-size: 0.9rem; margin-right: 0.3rem; }
+  }
+}

@@ -65,6 +65,7 @@ import matchHeight from './partials/match-height';
 import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
 import Clipboard from 'clipboard/lib/clipboard.js';
 import './partials/extensions';
+import easyAutocomplete from 'easy-autocomplete/dist/jquery.easy-autocomplete.min.js';
 
 var ALISS = require('./aliss');
 
@@ -99,15 +100,29 @@ $(document).ready(() => {
     // console.log(label);
     if($thisCheck.prop('checked')) {
       // console.log('checked');
-      $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+      if($('.all-categories input:checkbox:checked').length < 4) {
+        $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
+      }
+      else {
+        // console.log("You can't add more categries!");
+        if (!$('.cat-warning').length){
+          $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 3 categories.</h3>");
+        }
+      }
     } else {
       // console.log('unchecked');
       $(`.selected-categories .cats .selected-cat[data-cat='${value}']`).remove();
+      if ($('.cat-warning').length){
+        $('.cat-warning').remove();
+      }
     }
     $('.selected-cat span.remove').click(function(){
       var value = $(this).parent().attr('data-cat');
       // console.log(value);
       $(this).parent().remove();
+      if ($('.cat-warning').length){
+        $('.cat-warning').remove();
+      }
       $(`input[value="${value}"]`).prop('checked', false);
       if($('.selected-categories .cats').is(':empty')) {
         $('.selected-categories').removeClass('active');
@@ -214,7 +229,7 @@ $(document).ready(() => {
     if (isLocationValid()){
       var endpoint = $(this).attr('data-create-endpoint');
       $('#add-location').attr('disabled', 'disabled');
-      createLocation(endpoint);  
+      createLocation(endpoint);
     }
   });
 
@@ -238,6 +253,11 @@ $(document).ready(() => {
     $(this).toggleClass('active');
     $('body').toggleClass('restrict-height');
     $(".navigation").toggleClass('active');
+  }).keypress(function(e) {
+    e.stopPropagation();
+    $(this).toggleClass('active');
+    $('body').toggleClass('restrict-height');
+    $(".navigation").toggleClass('active');
   });
 
   // Site Wide Toggles
@@ -245,6 +265,9 @@ $(document).ready(() => {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
     $(`#${id}_toggle`).click(function() {
+      $(`#${id}`).toggleClass('active');
+      $(this).toggleClass('active');
+    }).keypress(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
     });
@@ -275,8 +298,18 @@ $(document).ready(() => {
     var list = $(this).closest('.contact-info').next('.service-areas-list');
     // console.log(list);
     list.toggleClass('active');
+  }).keypress(function() {
+    $(this).toggleClass('active');
+    var list = $(this).closest('.contact-info').next('.service-areas-list');
+    // console.log(list);
+    list.toggleClass('active');
   });
   $('.location a.more-link').click(function() {
+    $(this).toggleClass('active');
+    var locations = $(this).parent('.more').next('.locations-list');
+    // console.log(locations);
+    locations.toggleClass('active');
+  }).keypress(function() {
     $(this).toggleClass('active');
     var locations = $(this).parent('.more').next('.locations-list');
     // console.log(locations);
@@ -330,6 +363,9 @@ $(document).ready(() => {
   $(".category-selector ul > li > a.active-cat, .category-selector .cells > ul > li > a.select-category, .category-selector .cells > ul > li > span.select").click(function(e) {
     var parent = $(this).parent('li');
     parent.toggleClass('active');
+  }).keypress(function(e) {
+    var parent = $(this).parent('li');
+    parent.toggleClass('active');
   });
 
   // Feedback Form Toggle
@@ -350,7 +386,6 @@ $(document).ready(() => {
     }
   });
 
-  svg4everybody();
 
   // Messages Hide
   if($('.messages').length > 0) {
@@ -511,6 +546,17 @@ $(document).ready(() => {
     });
   };
 
+  var handleTabs = function(){      
+    $('.tab').click(function(){
+      $(this).siblings().removeClass('active');
+      $(this).addClass('active');
+      $($(this).attr('data-parent')).children().removeClass('active');
+      $($(this).attr('data-tab')).addClass('active');
+    });
+  };
+
+  svg4everybody();
+  handleTabs();
   checkMaxCategories();
   matchHeight();
   storeSearchUrl();
