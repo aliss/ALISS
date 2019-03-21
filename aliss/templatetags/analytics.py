@@ -34,3 +34,33 @@ def ga_search_events(context, invalid_area, errors):
         ga_string = ga_string + "gtag('event', 'search-error-invalid', { 'event_label': 'user entered invalid postcode: "+postcode_qs+"' });"
 
     return mark_safe(ga_string)
+
+
+@register.simple_tag(takes_context=True)
+def ga_form_event(context, form_selector, event_action, event_label):
+    ga_string = "//Analytics Disabled "
+    request = context["request"]
+    if not settings.DEBUG:
+        ga_string = ""
+    if event_label == "":
+        event_label = request.GET.urlencode()
+    ga_string = ga_string + "$('"+form_selector+"').submit(function(e){ "
+    ga_string = ga_string + "gtag('event', '"+event_action+"', { 'event_label': '"+event_label+"' });"
+    ga_string = ga_string + " });"
+
+    return mark_safe(ga_string)
+
+
+@register.simple_tag(takes_context=True)
+def ga_click_event(context, element_selector, event_action, event_label):
+    ga_string = "//Analytics Disabled "
+    request = context["request"]
+    if not settings.DEBUG:
+        ga_string = ""
+    if event_label == "":
+        event_label = request.GET.urlencode()
+    ga_string = ga_string + "$('"+element_selector+"').click(function(e){ "
+    ga_string = ga_string + "gtag('event', '"+event_action+"', { 'event_label': '"+ event_label +"' });"
+    ga_string = ga_string + " });"
+
+    return mark_safe(ga_string)
