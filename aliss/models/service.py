@@ -115,7 +115,7 @@ class Service(models.Model):
             name_changed = (result != None) and (result != self.name)
         if force or self.slug == None or name_changed:
             s = slugify(self.name)
-            similar = Service.objects.filter(slug__startswith=s).order_by('slug')
+            similar = Service.objects.filter(slug__startswith=s).order_by('updated_on')
             try:
                 slug_n = int(similar.last().slug.split('-')[-1]) + 1
             except:

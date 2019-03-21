@@ -65,6 +65,7 @@ import matchHeight from './partials/match-height';
 import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
 import Clipboard from 'clipboard/lib/clipboard.js';
 import './partials/extensions';
+import easyAutocomplete from 'easy-autocomplete/dist/jquery.easy-autocomplete.min.js';
 
 var ALISS = require('./aliss');
 
@@ -385,7 +386,6 @@ $(document).ready(() => {
     }
   });
 
-  svg4everybody();
 
   // Messages Hide
   if($('.messages').length > 0) {
@@ -555,6 +555,7 @@ $(document).ready(() => {
     });
   };
 
+  svg4everybody();
   handleTabs();
   checkMaxCategories();
   matchHeight();
