@@ -173,7 +173,16 @@ class SearchViewTestCase(TestCase):
         response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<span>First location:</span>")
-        self.assertContains(response, "More Locations")
+        self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
+
+    def test_more_locations_appears_when_two_district_match(self):
+        self.multi_location_service.locations.add(self.location_glasgow_in_district)
+        self.multi_location_service.locations.add(self.another_glasgow_in_district)
+        self.multi_location_service.save()
+        response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<span>First location:</span>")
+        self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
 
     def tearDown(self):
         Fixtures.organisation_teardown()
