@@ -34,6 +34,51 @@ class SearchViewTestCase(TestCase):
             health_board_area_2014_code="S08000027",
             integration_authority_2016_code="S37000007")
 
+        self.location_brechin = Location.objects.create(
+            name="Brechin location", street_address="Brechin Street", locality="another locality",
+            postal_code="DD9 6AD", latitude=56.73313937, longitude=-2.65779541,
+            organisation=o, created_by=o.created_by, updated_by=o.updated_by
+        )
+
+        self.location_erskine= Location.objects.create(
+            name="Erskine location", street_address="Erskine Street", locality="another locality",
+            postal_code="PA8 7WZ", latitude=55.9054667, longitude=-4.45330031,
+            organisation=o, created_by=o.created_by, updated_by=o.updated_by
+        )
+
+        self.location_dundee = Location.objects.create(
+            name="Dundee location", street_address="Dundee Street", locality="another locality",
+            postal_code="DD3 8EA", latitude=56.47774662, longitude=-2.98519045,
+            organisation=o, created_by=o.created_by, updated_by=o.updated_by
+        )
+
+        self.location_glasgow_not_in_district = Location.objects.create(
+            name="Glasgow not in district", street_address="Glasgow not in District Street", locality="another locality",
+            postal_code="G1 1AB", latitude=55.860737, longitude=-4.244422,
+            organisation=o, created_by=o.created_by, updated_by=o.updated_by
+        )
+
+        self.location_glasgow_in_district = Location.objects.create(
+            name="Glasgow location", street_address="Glasgow Street", locality="another locality",
+            postal_code="G2 1AA", latitude=55.86101, longitude=-4.24947,
+            organisation=o, created_by=o.created_by, updated_by=o.updated_by
+        )
+
+        self.another_glasgow_in_district = Location.objects.create(
+            name="Another Glasgow location", street_address="Another Glasgow Street", locality="another locality",
+            postal_code="G2 1RY", latitude=55.861672, longitude=-4.252545,
+            organisation=o, created_by=o.created_by, updated_by=o.updated_by
+        )
+
+        self.multi_location_service = Service.objects.create(name="Multi Location Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
+
+        self.multi_location_service.locations.add(self.location_brechin)
+        self.multi_location_service.locations.add(self.location_erskine)
+        self.multi_location_service.locations.add(self.location_dundee)
+        self.multi_location_service.locations.add(self.location_glasgow_not_in_district)
+        self.multi_location_service.save()
+
+
     def test_get(self):
         response = self.client.get('/search/?postcode=G2+4AA')
         self.assertEqual(response.status_code, 200)
@@ -90,9 +135,6 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "DD9 6AD")
 
-    '''
-    Need to write tests to check that when there are no more results the New organisation search
-    '''
     def test_no_results_new_organisation_search_button_with_keyword(self):
         response = self.client.get('/search/?postcode=G2+4AA&q=bork')
         self.assertEqual(response.status_code, 200)
@@ -100,6 +142,7 @@ class SearchViewTestCase(TestCase):
         self.assertContains(response, "New organisations search")
 
     def test_no_results_no_new_organisation_search_button_without_keyword(self):
+        self.multi_location_service.delete()
         response = self.client.get('/search/?postcode=G2+4AA&q=')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h2>Sorry, we couldn't find anything using those terms near G2 4AA.</h2>")
@@ -116,6 +159,21 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response_button_click = self.client.get('/organisations/search/?q=bork')
         self.assertEqual(response_button_click.status_code, 200)
+
+    def test_more_locations_doesnt_appear_when_no_district_match(self):
+        response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h3>Multi Location Service</h3>")
+        self.assertNotContains(response, "<span>First location:</span>")
+        self.assertNotContains(response, "<a>More Locations</a>")
+
+    def test_more_locations_appears_when_one_district_match(self):
+        self.multi_location_service.locations.add(self.location_glasgow_in_district)
+        self.multi_location_service.save()
+        response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<span>First location:</span>")
+        self.assertContains(response, "More Locations")
 
     def tearDown(self):
         Fixtures.organisation_teardown()

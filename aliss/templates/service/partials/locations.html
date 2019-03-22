@@ -3,7 +3,7 @@
 
 {% if locations %}
     <div class="location{% if locations|length > 1 %} multiple{% endif %}">
-        {% process_locations locations postcode='EH21 6UW' as ordered_locations%}
+        {% process_locations locations postcode=request.GET.postcode as ordered_locations%}
         {% if ordered_locations %}
           {% for location in ordered_locations %}
               {% if forloop.first and not forloop.last %}
