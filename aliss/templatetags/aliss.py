@@ -34,15 +34,15 @@ def query_transform(request, **kwargs):
 @register.simple_tag
 def process_locations(collection, **kwargs):
     postcode = kwargs['postcode'][:3]
-    new_collection = []
-    single_item = []
+    non_matching_districts = []
+    matching_districts = []
     for location in collection:
         if postcode in str(location):
-            single_item.append(location)
+            matching_districts.append(location)
         else:
-            new_collection.append(location)
-    if (len(single_item) > 0):
-        return single_item + new_collection
+            non_matching_districts.append(location)
+    if (len(matching_districts) > 0):
+        return matching_districts + non_matching_districts
     else:
         return False
 
