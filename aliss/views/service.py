@@ -54,7 +54,7 @@ class ServiceCreateView(
 
     def form_valid(self, form):
         self.object = form.save()
-        
+
 
         messages.success(
             self.request,
@@ -66,10 +66,17 @@ class ServiceCreateView(
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.organisation.pk}
-        )
+        if (True):
+            return reverse(
+                'organisation_confirm',
+                kwargs={'pk': self.object.organisation.pk}
+            )
+
+        else:
+            return reverse(
+                'organisation_detail',
+                kwargs={'pk': self.object.organisation.pk}
+            )
 
 
 class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
