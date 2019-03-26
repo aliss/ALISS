@@ -54,7 +54,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('organisation_confirm', kwargs={'pk': self.object.pk })
+        return reverse('service_create', kwargs={'pk': self.object.pk })
 
     def send_new_org_email(self, organisation):
         message = '{organisation} has been added to ALISS by {user}.'.format(organisation=organisation, user=organisation.created_by)
