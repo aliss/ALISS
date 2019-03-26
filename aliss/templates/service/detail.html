@@ -89,6 +89,9 @@
 
 <main class="main" role="main">
   <article id="content" class="service">
+    {% if request.user.is_authenticated %}
+      {% can_edit request.user object as user_can_edit %}
+    {% endif %}
     <div class="row">
       <div class="columns options">
         <div class="info-box small toggled" id="service_actions">
@@ -183,7 +186,7 @@
               Improve this listing
             </a>
 
-            {% if request.user.is_authenticated %}
+            {% if user_can_edit %}
               <a href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
                 <span class="icon">
                   <i class="fas fa-pencil-alt"></i>
