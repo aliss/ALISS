@@ -111,6 +111,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return self.render_to_response(self.get_context_data())
 
     def prepare_common_params(self, data):
+        import logging
+        logger = logging.getLogger(__name__)
         self.q = data.get('q', None)
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
         self.q = self.q.translate(puncstripper)
@@ -119,7 +121,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
         self.category = data.get('category', None)
         self.radius = data.get('radius', None)
         if self.radius == None:
-            self.radius = 20000
+            self.radius = 10000
 
     def return_match_for_legacy_location(self, location, legacy_locations_dict):
         result = { "match": False, "name": "" }

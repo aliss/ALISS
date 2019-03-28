@@ -45,6 +45,7 @@
                     <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
                   </div>
                   <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                  <input type="hidden" name="radius" value="{{ request.GET.radius }}">
                   <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
                   <input type="hidden" name="category" value="{{ request.GET.category }}">
                   <input type="submit" class="secondary" value="Search">
@@ -78,6 +79,58 @@
                     </span>
                   </a>
                 </li>
+              </ul>
+            </div>
+
+            <div class="filter-distance">
+              <label>Filter by distance:</label>
+              <ul class="radio-list-links">
+                <li  {% if request.GET.radius == '1000' %} class="active" {% endif %}>
+                  <a href="?{% query_transform request radius='1000' %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Show me services within a ten minute walk 1km.
+                    </span>
+                  </a>
+                </li>
+                <li {% if not request.GET.radius %}class="active"{% endif %}>
+                  <a href="?{% query_transform request radius=None %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Show me services within a fifteen minute drive 10km.
+                    </span>
+                  </a>
+                </li>
+                <li {% if request.GET.radius == '20000' %}class="active"{% endif %}>
+                  <a href="?{% query_transform request radius='20000' %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      Show me services within a thirty minute drive 20km:
+                    </span>
+                  </a>
+                </li>
+              </li>
+              <li id="custom-radius-radio">
+               <a>
+                 <span class="radio"></span>
+                 <span class="name">
+                   Custom radius (m):
+                 </span>
+               </a>
+               <form>
+                 <div class="sbs-inputs">
+                   <div class="clearable-input">
+                     <i class="clear-input fas fa-times-circle" title="Clear distance"></i>
+                     <input id="custom-radius-input" type="number" placeholder="e.g. 40000" name="radius" disabled='disabled'>
+                   </div>
+                   <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                   <input type="hidden" name="q" value="{{ request.GET.q }}">
+                   <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
+                   <input type="hidden" name="category" value="{{ request.GET.category }}">
+                   <input type="submit" class="secondary" value="Search">
+                 </div>
+               </form>
+              </li>
               </ul>
             </div>
 
@@ -238,6 +291,21 @@ $(document).ready(function(){
 
   if ($("input[name='q']").val() != "") {
     $(".category-selector *").click(function(){checkword()});
+  }
+
+  $("#custom-radius-radio").click(function(){
+    $("div.filter-distance > ul").children().removeClass("active")
+    $("#custom-radius-radio").addClass("active")
+    $("#custom-radius-input").removeAttr("disabled")
+  })
+
+  if (!($("div.filter-distance > ul").children().hasClass("active"))){
+    var urlString = window.location.href
+    var url = new URL(urlString)
+    var searchedRadius = url.searchParams.get("radius")
+    $("#custom-radius-radio").addClass("active")
+    $("#custom-radius-input").removeAttr("disabled")
+    $("#custom-radius-input").val(searchedRadius)
   }
 
   {% ga_search_events invalid_area errors %}
