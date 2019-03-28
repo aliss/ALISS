@@ -66,7 +66,7 @@ class ServiceCreateView(
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        if (True):
+        if (self.object.organisation.services.count() <= 1):
             return reverse(
                 'organisation_confirm',
                 kwargs={'pk': self.object.organisation.pk}
