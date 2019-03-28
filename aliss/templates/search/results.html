@@ -89,7 +89,7 @@
                   <a href="?{% query_transform request radius='1000' %}">
                     <span class="radio"></span>
                     <span class="name">
-                      Show me services within a ten minute walk 1km.
+                      Show me services within a 10min walk (1km/0.6mi)
                     </span>
                   </a>
                 </li>
@@ -97,7 +97,7 @@
                   <a href="?{% query_transform request radius=None %}">
                     <span class="radio"></span>
                     <span class="name">
-                      Show me services within a fifteen minute drive 10km.
+                      Show me services within a 15min drive (10km/6mi)
                     </span>
                   </a>
                 </li>
@@ -105,32 +105,30 @@
                   <a href="?{% query_transform request radius='20000' %}">
                     <span class="radio"></span>
                     <span class="name">
-                      Show me services within a thirty minute drive 20km:
+                      Show me services within a 30min. drive (20km/6mi)
                     </span>
                   </a>
                 </li>
-              </li>
-              <li id="custom-radius-radio">
-               <a>
-                 <span class="radio"></span>
-                 <span class="name">
-                   Custom radius (m):
-                 </span>
-               </a>
-               <form>
-                 <div class="sbs-inputs">
-                   <div class="clearable-input">
-                     <i class="clear-input fas fa-times-circle" title="Clear distance"></i>
-                     <input id="custom-radius-input" type="number" placeholder="e.g. 40000" name="radius" disabled='disabled'>
+                <li id="custom-radius-radio">
+                 <a>
+                   <span class="radio"></span>
+                   <span class="name">
+                     Custom radius:
+                   </span>
+                 </a>
+                 <form>
+                   <div class="range-slider">
+                      <input class="range-slider__range" id="custom-radius-input" type="range" min="1000" max="50000" value="{% firstof request.GET.radius 10000 %}" step="1000" aria-valuemin="1000" aria-valuemax="50000" aria-valuenow="{% firstof request.GET.radius 10000 %}" name="radius" disabled="disabled">
+                      <span class="range-slider__value"></span>
                    </div>
+
                    <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
                    <input type="hidden" name="q" value="{{ request.GET.q }}">
                    <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
                    <input type="hidden" name="category" value="{{ request.GET.category }}">
                    <input type="submit" class="secondary" value="Search">
-                 </div>
-               </form>
-              </li>
+                 </form>
+                </li>
               </ul>
             </div>
 
@@ -255,24 +253,24 @@
   {% else %}
     <section id="error">
       <div class="row">
-      <div class="columns">
-      {% if errors and 'postcode' in errors %}
-        <div class="copy-container">
-          <h1>Sorry, ALISS is not available in your postcode.</h1>
-          <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
+        <div class="columns">
+          {% if errors and 'postcode' in errors %}
+            <div class="copy-container">
+              <h1>Sorry, ALISS is not available in your postcode.</h1>
+              <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
+            </div>
+          {% elif invalid_area %}
+            <div class="copy-container">
+              <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
+              <p>The postcode you entered seems to be in the wrong format, please try again:</p>
+            </div>
+          {% else %}
+            {% include 'partials/forms/errors.html' with form=form %}
+          {% endif %}
+          <div class="buttons">
+            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+          </div>
         </div>
-      {% elif invalid_area %}
-        <div class="copy-container">
-          <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
-          <p>The postcode you entered seems to be in the wrong format, please try again:</p>
-        </div>
-      {% else %}
-        {% include 'partials/forms/errors.html' with form=form %}
-      {% endif %}
-      <div class="buttons">
-        <a href="{% url 'homepage' %}" class="button primary">Search again</a>
-      </div>
-      </div>
       </div>
     </section>
   {% endif %}
@@ -290,23 +288,11 @@ $(document).ready(function(){
   }
 
   if ($("input[name='q']").val() != "") {
-    $(".category-selector *").click(function(){checkword()});
+    $(".category-selector *").click(checkword);
   }
 
-  $("#custom-radius-radio").click(function(){
-    $("div.filter-distance > ul").children().removeClass("active")
-    $("#custom-radius-radio").addClass("active")
-    $("#custom-radius-input").removeAttr("disabled")
-  })
-
-  if (!($("div.filter-distance > ul").children().hasClass("active"))){
-    var urlString = window.location.href
-    var url = new URL(urlString)
-    var searchedRadius = url.searchParams.get("radius")
-    $("#custom-radius-radio").addClass("active")
-    $("#custom-radius-input").removeAttr("disabled")
-    $("#custom-radius-input").val(searchedRadius)
-  }
+  handleDistanceFiltering();
+  handleRangeSlider()
 
   {% ga_search_events invalid_area errors %}
   {% ga_click_event '#copy_search_link' 'copy-search' "" %}
