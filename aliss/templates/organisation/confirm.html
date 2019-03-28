@@ -14,19 +14,14 @@
         <span class="icon">
           <i class="fas fa-pencil-alt"></i>
         </span>
-        No, let me edit it
+        No, let me edit the organsiation.
       </a>
+
       <a href="{% url 'service_create' pk=object.pk %}" class="button secondary bottom-margin">
         <span class="icon">
           <i class="fas fa-check"></i>
         </span>
-        Yes, continue and add a service
-      </a>
-      <a href="{% url 'account_my_organisations' %}" class="button secondary bottom-margin">
-        <span class="icon">
-          <i class="fas fa-check"></i>
-        </span>
-        Yes, save and add a service later
+        Yes, continue and add another service.
       </a>
     </div>
     <br/><br/>
@@ -63,6 +58,54 @@
         {% endif %}
       </div>
     </div>
+    <br/><br/>
+
+    {% if object.services.first %}
+
+      <a href="{% url 'service_edit' pk=object.services.first.pk %}" class="button primary bottom-margin">
+        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span>
+        No, let me edit the service.
+      </a>
+
+      <a href="{% url 'account_my_organisations' %}" class="button secondary bottom-margin">
+        <span class="icon">
+          <i class="fas fa-check"></i>
+        </span>
+        Yes, save and and return to my account.
+      </a>
+      <br/><br/>
+
+      <div class="grid-x">
+        <div class="cell">
+          <div class="grid-x">
+            <div class="cell small-7 medium-8 large-8">
+              <h1>Confirm: {{ object.services.first.name }}</h1>
+              <div class="desc">
+                <p>{{ object.services.first.description|linebreaks }}</p>
+                <p>
+                  Last updated <span class="updated alert">{{ object.services.first.last_edited }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cell">
+          {% if object.services.first.phone or object.services.first.email or object.services.first.website or object.services.first.facebook or object.services.first.twitter %}
+            <h4>Contact Information</h4>
+            <p>
+              {% if object.services.first.phone %}<strong>{{ object.services.first.phone }}</strong><br />{% endif %}
+              {% if object.services.first.email %}<a href="mailto:{{ object.services.first.email }}">{{ object.services.first.email }}</a><br />{% endif %}
+              {% if object.services.first.url %}<a href="{{ object.services.first.url }}" target="_blank">Website</a><br />{% endif %}
+              {% if object.services.first.facebook %}<a href="{{ object.services.first.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+              {% if object.services.first.twitter %}<a href="{{ object.services.first.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
   </article>
 </main>
 {% endblock %}
