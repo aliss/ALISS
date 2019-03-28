@@ -215,6 +215,26 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('service_create', kwargs={'pk': o.pk }))
 
+    def test_organisation_valid_update_no_services_redirect_to_add_a_service(self):
+        self.assertEqual(self.organisation.services.count(), 0)
+        response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
+            { 'name': 'an updated organisation', 'description': 'a full description' })
+        self.organisation.refresh_from_db()
+        self.assertEqual(self.organisation.name, 'an updated organisation')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('service_create', kwargs={ 'pk': self.organisation.pk }))
+
+    def test_organisation_valid_update_one_service_redirects_to_org_detail(self):
+        Fixtures.create_service(self.organisation)
+        self.assertEqual(self.organisation.services.count(), 1)
+        response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
+            { 'name': 'an updated organisation', 'description': 'a full description' })
+        self.organisation.refresh_from_db()
+        self.assertEqual(self.organisation.name, 'an updated organisation')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('organisation_detail_slug', kwargs={ 'slug': self.organisation.slug }))
+
+
     def tearDown(self):
         for organisation in Organisation.objects.filter(name="TestOrg"):
             organisation.delete()
