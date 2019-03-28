@@ -204,6 +204,17 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TestOrg")
 
+    def test_organisation_valid_creation_with_claim_redirect_add_service(self):
+        response = self.client.post(reverse('organisation_create'), {
+            'name': 'an organisation', 'description': 'a full description',
+            'claim': 'on', 'claim-comment': 'im important', 'claim-phone': '034343243',
+            'claim-data_quality': 'on'
+        })
+        o = Organisation.objects.latest('created_on')
+        c = Claim.objects.latest('created_on')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('service_create', kwargs={'pk': o.pk }))
+
     def tearDown(self):
         for organisation in Organisation.objects.filter(name="TestOrg"):
             organisation.delete()
