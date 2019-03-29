@@ -104,6 +104,7 @@
         required: showForm })
       if ($('div.inline-claim').hasClass('active')){
         $('#data_standard_agreement').show()
+        $('.black').addClass('show')
         $('a#data_standard_accept').click(handleDataStandardAccept);
         $('a#data_standard_decline').click(function(){$('#data_standard_agreement').hide()});
         $('a#data_standard_close').click(function(){$('#data_standard_agreement').hide()});
