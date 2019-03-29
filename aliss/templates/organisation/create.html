@@ -6,7 +6,7 @@
 <div class="modal" id="data_standard_agreement">
   <div class="pad">
     <div class="heading">
-      <a class="close alert icon-link">
+      <a id="data_standard_close" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -30,7 +30,7 @@
       <div class="buttons">
         <form>
           <a id="data_standard_accept" class="button secondary alert">Accept</a>
-          <a id="data-standard-decline" class="button secondary cancel">Decline</a>
+          <a id="data_standard_decline" class="button secondary cancel">Decline</a>
         </form>
       </div>
     </div>
@@ -55,9 +55,7 @@
           {% include 'organisation/forms/organisation_form.html' %}
 
           <div class="inline-claim">
-            <a id="data_standard_agreement_modal">
               <input id="claim" type="checkbox" name="claim" {% if show_claim_form%} checked {% endif %}>
-            </a>
               <label for="claim">
                 <b>I am a representative of this organisation</b>
                 <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="By checking this box you claim editorial control of the organisation. This ensures only you can make changes without approval of the ALISS team.">
@@ -105,7 +103,10 @@
       $('div.inline-claim input, div.inline-claim textarea').prop({
         required: showForm })
       if ($('div.inline-claim').hasClass('active')){
+        $('#data_standard_agreement').show()
         $('a#data_standard_accept').click(handleDataStandardAccept);
+        $('a#data_standard_decline').click(function(){$('#data_standard_agreement').hide()});
+        $('a#data_standard_close').click(function(){$('#data_standard_agreement').hide()});
       }
     };
 
@@ -115,7 +116,7 @@
     var handleDataStandardAccept = function() {
       console.log("Test hit")
      $('input#id_claim-data_quality').attr("checked", "checked");
-
+     $('#data_standard_agreement').hide()
     }
 
 
