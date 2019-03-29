@@ -3,7 +3,7 @@
 
 {% block container %}
 <div class="black"></div>
-<div class="modal" id="represent_org">
+<div class="modal" id="data_standard_agreement">
   <div class="pad">
     <div class="heading">
       <a class="close alert icon-link">
@@ -28,8 +28,10 @@
           {% include 'partials/for-not-for.html' %}
       </div>
       <div class="buttons">
-          <input  type="submit" class="button accept" value="Accept" id="guidance-accept">
-          <a class="button secondary alert">Cancel</a>
+        <form>
+          <a id="data_standard_accept" class="button secondary alert">Accept</a>
+          <a id="data-standard-decline" class="button secondary cancel">Decline</a>
+        </form>
       </div>
     </div>
   </div>
@@ -53,15 +55,15 @@
           {% include 'organisation/forms/organisation_form.html' %}
 
           <div class="inline-claim">
-            <a id="represent_org_modal">
-            <input id="claim" type="checkbox" name="claim" {% if show_claim_form%} checked {% endif %}>
-            <label for="claim">
-              <b>I am a representative of this organisation</b>
-              <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="By checking this box you claim editorial control of the organisation. This ensures only you can make changes without approval of the ALISS team.">
-                <i class="fa fa-question-circle" aria-hidden="true"></i>
-              </span>
-            </label>
-          </a>
+            <a id="data_standard_agreement_modal">
+              <input id="claim" type="checkbox" name="claim" {% if show_claim_form%} checked {% endif %}>
+            </a>
+              <label for="claim">
+                <b>I am a representative of this organisation</b>
+                <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="By checking this box you claim editorial control of the organisation. This ensures only you can make changes without approval of the ALISS team.">
+                  <i class="fa fa-question-circle" aria-hidden="true"></i>
+                </span>
+              </label>
             <br/><br/>
             <div class="claim-form">
               {% include 'claim/forms/claim_form.html' with form=claim_form %}
@@ -101,18 +103,23 @@
       var showForm = $("input#claim").prop("checked");
       $('div.inline-claim').toggleClass('active', showForm);
       $('div.inline-claim input, div.inline-claim textarea').prop({
-        required: showForm });
+        required: showForm })
+      if ($('div.inline-claim').hasClass('active')){
+        $('a#data_standard_accept').click(handleDataStandardAccept);
+      }
     };
+
     $('input#claim').change(handleClaimForm);
     handleClaimForm();
 
-    var handleDataStandardAccept = function(){
-      $("#id_claim_data_quality").props("checked")
+    var handleDataStandardAccept = function() {
+      console.log("Test hit")
+     $('input#id_claim-data_quality').attr("checked", "checked");
+
     }
 
-    var acceptClick = function(){
-      $("#guidance-accept").onClick(handleDataStandardAccept);
-    }
+
+
   });
 </script>
 {% endblock %}
