@@ -125,12 +125,12 @@
     }
 
     var handleDataStandardAccepted = function() {
-     $('input#id_claim-data_quality').attr("checked", true);
+     $('input#id_claim-data_quality').prop("checked", true);
      closeModal()
     }
 
     var handleDataStandardDeclined = function() {
-      $('input#id_claim-data_quality').attr("checked", false);
+      $('input#id_claim-data_quality').prop("checked", false);
       closeModal()
     }
 
