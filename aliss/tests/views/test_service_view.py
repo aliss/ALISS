@@ -143,6 +143,5 @@ class ServiceViewTestCase(TestCase):
         ))
 
     def tearDown(self):
+        Fixtures.organisation_teardown()
         Fixtures.service_teardown()
-        for organisation in Organisation.objects.filter(name="TestOrg"):
-            organisation.delete()

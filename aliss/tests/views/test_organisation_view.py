@@ -236,9 +236,10 @@ class OrganisationViewTestCase(TestCase):
 
 
     def tearDown(self):
-        for organisation in Organisation.objects.filter(name="TestOrg"):
-            organisation.delete()
+        Fixtures.organisation_teardown()
         for organisation in Organisation.objects.filter(name="Banana Unpublished"):
             organisation.delete()
         for organisation in Organisation.objects.filter(name="Banana Published"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="an updated organisation"):
             organisation.delete()
