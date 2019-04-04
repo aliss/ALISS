@@ -20,6 +20,9 @@ class v4OrganisationDetailViewTestCase(TestCase):
         self.assertTrue('description' in response.data['data'])
         self.assertTrue('id' in response.data['data'])
         self.assertTrue('services' in response.data['data'])
+        self.assertTrue('name' in response.data['data']['services'][0])
+        self.assertTrue('locations' in response.data['data'])
+        self.assertTrue('formatted_address' in response.data['data']['locations'][0])
 
     def test_slug(self):
         path = '/api/v4/organisations/' + str(self.organisation.slug) + '/'
