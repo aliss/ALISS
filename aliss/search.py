@@ -393,24 +393,33 @@ def filter_by_created_on(queryset, comparison_date):
     return queryset
 
 
-def positions_dict(queryset):
+def positions_dict(queryset, distance_sort_boolean):
     results = queryset.count()
     sorted_hits = queryset[0:results].execute()
     positions = {}
+    distance = {}
     i = 0
+    import logging
+    logger = logging.getLogger(__name__)
     while i < results:
         positions[sorted_hits[i].id] = None
+        distance[sorted_hits[i].id] = None
         if "sort" not in sorted_hits[i].meta:
             positions[sorted_hits[i].id] = i
         elif type(sorted_hits[i].meta.sort[0]) == float:
-            positions[sorted_hits[i].id] = i
+            if distance_sort_boolean:
+                positions[sorted_hits[i].id] = i
+                distance[sorted_hits[i].id] = {i, sorted_hits[i].meta.sort[0]}
+                logger.error(distance)
+            else:
+                positions[sorted_hits[i].id] = i
         i=i+1
     return positions
 
 
 def postcode_order(queryset, postcode):
     postcode_sqs = sort_by_postcode(queryset, postcode)
-    positions = positions_dict(postcode_sqs)
+    positions = positions_dict(postcode_sqs, True)
     return {
         "ids": list(positions.keys()),
         "order": Case(*[When(id=key, then=positions[key]) for key in positions])
@@ -418,7 +427,7 @@ def postcode_order(queryset, postcode):
 
 
 def keyword_order(queryset):
-    positions = positions_dict(queryset)
+    positions = positions_dict(queryset, False)
     return {
         "ids": list(positions.keys()),
         "order": Case(*[When(id=key, then=positions[key]) for key in positions])
@@ -428,8 +437,8 @@ def keyword_order(queryset):
 def combined_order(filtered_queryset, postcode):
     postcode_sqs = sort_by_postcode(filtered_queryset, postcode)
 
-    distance_sorted = positions_dict(postcode_sqs)
-    keyword_sorted  = positions_dict(filtered_queryset)
+    distance_sorted = positions_dict(postcode_sqs, True)
+    keyword_sorted  = positions_dict(filtered_queryset, False)
 
     positions = { "distance": distance_sorted, "keyword": keyword_sorted }
     combined = {}
