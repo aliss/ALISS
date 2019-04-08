@@ -19,6 +19,7 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 	}
 }
 .modal {
+	max-height: 95vh;
 	position: fixed;
 	z-index: 20;
 	left: 50%;
@@ -34,12 +35,15 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 		display: block;
 	}
 	.pad {
+		max-height: 95vh;
 		padding: $info-pad-d;
 		@include small {
 			padding: $info-pad-d-m;
 		}
 	}
 	.buttons {
+		bottom: 5vh;
+		position: block;
 		@include clear;
 		.button:last-child {
 			float: right;
@@ -57,6 +61,7 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 		}
 	}
 	.heading {
+
 		@include clear;
 		h5 {
 			margin-bottom: 0;
@@ -70,9 +75,10 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 		}
 	}
 	.content {
+		max-height: 75vh;
+		position: block;
+		overflow-y: scroll;
 		margin-top: 1em;
+		margin-bottom: 1em;
 	}
 }
-
-
-
