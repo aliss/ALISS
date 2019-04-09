@@ -450,7 +450,7 @@ def combined_order(filtered_queryset, postcode):
 
     return {
         "ids": list(combined.keys()),
-        "order": Case(*[When(id=key, then=combined[key]["places"]) for key in combined])
+        "order": Case(*[When(id=key, then=combined[key]["place"]) for key in combined])
     }
 
 def filter_by_claimed_status(queryset, claimed_status):
