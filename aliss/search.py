@@ -409,7 +409,7 @@ def positions_dict(queryset, distance_sort_boolean):
         elif type(sorted_hits[i].meta.sort[0]) == float:
             if distance_sort_boolean:
                 positions[sorted_hits[i].id] = i
-                distance[sorted_hits[i].id] = {i, sorted_hits[i].meta.sort[0]}
+                distance[sorted_hits[i].id] = {'place':i, 'score':sorted_hits[i].meta.sort[0]}
                 logger.error(distance)
             else:
                 positions[sorted_hits[i].id] = i
