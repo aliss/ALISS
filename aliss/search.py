@@ -397,22 +397,20 @@ def positions_dict(queryset, distance_sort_boolean):
     results = queryset.count()
     sorted_hits = queryset[0:results].execute()
     positions = {}
-    distance = {}
     i = 0
     import logging
     logger = logging.getLogger(__name__)
     while i < results:
         positions[sorted_hits[i].id] = None
-        distance[sorted_hits[i].id] = None
+        # distance[sorted_hits[i].id] = None
         if "sort" not in sorted_hits[i].meta:
-            positions[sorted_hits[i].id] = i
+            positions[sorted_hits[i].id] = {"place":i, "score": 0}
         elif type(sorted_hits[i].meta.sort[0]) == float:
             if distance_sort_boolean:
-                positions[sorted_hits[i].id] = i
-                distance[sorted_hits[i].id] = {'place':i, 'score':sorted_hits[i].meta.sort[0]}
-                logger.error(distance)
+                positions[sorted_hits[i].id] = {"place":i, "score":sorted_hits[i].meta.sort[0]}
+                logger.error(positions)
             else:
-                positions[sorted_hits[i].id] = i
+                positions[sorted_hits[i].id] = {"place":i, "score": 0}
         i=i+1
     return positions
 
@@ -422,7 +420,7 @@ def postcode_order(queryset, postcode):
     positions = positions_dict(postcode_sqs, True)
     return {
         "ids": list(positions.keys()),
-        "order": Case(*[When(id=key, then=positions[key]) for key in positions])
+        "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions])
     }
 
 
@@ -430,7 +428,7 @@ def keyword_order(queryset):
     positions = positions_dict(queryset, False)
     return {
         "ids": list(positions.keys()),
-        "order": Case(*[When(id=key, then=positions[key]) for key in positions])
+        "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions])
     }
 
 
@@ -444,15 +442,15 @@ def combined_order(filtered_queryset, postcode):
     combined = {}
 
     for key in positions["distance"]:
-      if positions["distance"][key] == None:
+      if positions["distance"][key]["place"] == None:
         combined[key] = float(positions["keyword"][key])
       else:
-        total = positions["distance"][key] + positions["keyword"][key]
+        total = positions["distance"][key]["place"] + positions["keyword"][key]["place"]
         combined[key] = (total / 2.0)
 
     return {
         "ids": list(combined.keys()),
-        "order": Case(*[When(id=key, then=combined[key]) for key in combined])
+        "order": Case(*[When(id=key, then=combined[key]["places"]) for key in combined])
     }
 
 def filter_by_claimed_status(queryset, claimed_status):
