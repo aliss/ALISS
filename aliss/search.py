@@ -402,14 +402,13 @@ def positions_dict(queryset, distance_sort_boolean):
     logger = logging.getLogger(__name__)
     while i < results:
         positions[sorted_hits[i].id] = None
-        # distance[sorted_hits[i].id] = None
         if "sort" not in sorted_hits[i].meta:
             positions[sorted_hits[i].id] = {"place":i, "score": 0}
         elif type(sorted_hits[i].meta.sort[0]) == float:
             if distance_sort_boolean:
                 positions[sorted_hits[i].id] = {"place":i, "score":sorted_hits[i].meta.sort[0]}
-            # else:
-            #     positions[sorted_hits[i].id] = {"place":i, "score": 0}
+            else:
+                positions[sorted_hits[i].id] = {"place":i, "score": 0}
         i=i+1
     logger.error(positions)
     return positions
