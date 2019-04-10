@@ -74,8 +74,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return queryset
 
     def filter_queryset(self, queryset):
-        import logging
-        logger = logging.getLogger(__name__)
         if self.category:
             queryset = filter_by_category(queryset, self.category)
         if self.location_type:
@@ -91,7 +89,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
             results = combined_order(queryset, self.postcode)
         else:
             results = postcode_order(queryset, self.postcode)
-        logger.error(results["distance_scores"])
         return {
             "distance_scores":results["distance_scores"],
             "objects":Service.objects.filter(id__in=results["ids"]).order_by(results["order"])

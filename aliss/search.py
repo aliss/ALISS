@@ -458,9 +458,6 @@ def combined_order(filtered_queryset, postcode):
         total = positions["distance"][key]["place"] + positions["keyword"][key]["place"]
         distance = positions["distance"][key]["score"]
         combined[key] = {"place":(total/2.0), "score":distance}
-    # import logging
-    # logger = logging.getLogger(__name__)
-    # logger.error(combined)
     return {
         "ids": list(combined.keys()),
         "order": Case(*[When(id=key, then=combined[key]["place"]) for key in combined]),
