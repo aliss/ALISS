@@ -35,6 +35,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
             context['service_area'] = service_area.name
         context['category'] = self.category
         context['expanded_radius'] = self.radius * 2
+        context['distance_scores'] = self.distance_scores
         return context
 
     def get(self, request, *args, **kwargs):
@@ -73,6 +74,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return queryset
 
     def filter_queryset(self, queryset):
+        import logging
+        logger = logging.getLogger(__name__)
         if self.category:
             queryset = filter_by_category(queryset, self.category)
         if self.location_type:
@@ -88,7 +91,12 @@ class SearchView(MultipleObjectMixin, TemplateView):
             results = combined_order(queryset, self.postcode)
         else:
             results = postcode_order(queryset, self.postcode)
-        return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
+        logger.error(results["distance_scores"])
+        return {
+            "distance_scores":results["distance_scores"],
+            "objects":Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
+        }
+
 
     def assign_legacy_postcode(self, location, legacy_locations_dict):
         postcode = Postcode.objects.get(postcode = legacy_locations_dict.get(str(location)))
@@ -107,7 +115,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return self.define_object_list_return_response()
 
     def define_object_list_return_response(self):
-        self.object_list = self.filter_queryset(self.get_queryset())
+        self.object_list = self.filter_queryset(self.get_queryset())["objects"]
+        self.distance_scores = self.filter_queryset(self.get_queryset())["distance_scores"]
         return self.render_to_response(self.get_context_data())
 
     def prepare_common_params(self, data):

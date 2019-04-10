@@ -118,6 +118,7 @@
         <div class="columns listing">
           <ul class="search-results">
             {% for result in object_list %}
+              <p>{{distance_scores}}</p>
               <li>
                 <div class="heading">
                   {% if result.slug %}

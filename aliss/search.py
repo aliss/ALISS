@@ -419,7 +419,8 @@ def postcode_order(queryset, postcode):
     positions = positions_dict(postcode_sqs, True)
     return {
         "ids": list(positions.keys()),
-        "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions])
+        "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions]),
+        "distance_scores": positions
     }
 
 
@@ -427,7 +428,8 @@ def keyword_order(queryset):
     positions = positions_dict(queryset, False)
     return {
         "ids": list(positions.keys()),
-        "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions])
+        "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions]),
+        "distance_scores": positions
     }
 
 
@@ -450,12 +452,13 @@ def combined_order(filtered_queryset, postcode):
         total = positions["distance"][key]["place"] + positions["keyword"][key]["place"]
         distance = positions["distance"][key]["score"]
         combined[key] = {"place":(total/2.0), "score":distance}
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.error(combined)
+    # import logging
+    # logger = logging.getLogger(__name__)
+    # logger.error(combined)
     return {
         "ids": list(combined.keys()),
-        "order": Case(*[When(id=key, then=combined[key]["place"]) for key in combined])
+        "order": Case(*[When(id=key, then=combined[key]["place"]) for key in combined]),
+        "distance_scores": combined
     }
 
 def filter_by_claimed_status(queryset, claimed_status):
