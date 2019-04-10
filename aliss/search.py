@@ -441,15 +441,10 @@ def generate_distance_scores(positions):
 
 def combined_order(filtered_queryset, postcode):
     postcode_sqs = sort_by_postcode(filtered_queryset, postcode)
-
     distance_sorted = positions_dict(postcode_sqs, True)
-
     keyword_sorted  = positions_dict(filtered_queryset, False)
-
     positions = { "distance": distance_sorted, "keyword": keyword_sorted }
-
     combined = {}
-
 
     for key in positions["distance"]:
       if positions["distance"][key]["place"] == None:
