@@ -118,7 +118,6 @@
         <div class="columns listing">
           <ul class="search-results">
             {% for result in object_list %}
-              <p>Distance Score: {{distance_scores|get_dict_item:result.id}}</p>
               <li>
                 <div class="heading">
                   {% if result.slug %}
@@ -143,7 +142,8 @@
                   {% endfor %}
                 </div>
 
-                {% include 'service/partials/locations.html' with locations=result.locations.all %}
+                {% include 'service/partials/locations.html' with locations=result.locations.all distance=distance_scores|get_score:result.id %}
+                <!-- <p>Distance Score: {{distance_scores|get_score:result.id}}(km)</p> -->
 
                 <ul class="contact-info">
                   {% if result.phone %}
