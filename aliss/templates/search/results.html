@@ -118,11 +118,7 @@
         <div class="columns listing">
           <ul class="search-results">
             {% for result in object_list %}
-              {% with id=result.id%}
-                <p>{{id}}</p>
-                <p>{{distance_scores|get_dict_item:id}}</p>
-              {% endwith %}
-              <p>{{result.id}}</p>
+              <p>Distance Score: {{distance_scores|get_dict_item:result.id}}</p>
               <li>
                 <div class="heading">
                   {% if result.slug %}
