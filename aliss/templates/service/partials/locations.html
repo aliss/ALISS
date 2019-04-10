@@ -8,9 +8,6 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </span>
                     {{ location.formatted_address }}
-                    {% if distance %}
-                      Distance: {{distance}}(km)
-                    {% endif %}
                 </a>
                 <div class="more">
                     <a class="more-link" tabindex="0">More Locations</a>
@@ -22,14 +19,6 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </span>
                     {{ location.formatted_address }}
-                    <br/>
-                    {% if distance %}
-                    <span class="icon">
-                        <i class="fas fa-walking"></i>
-                    </span>
-                      Distance: {{distance}}(km)
-                    {% endif %}
-
                 </a>
             {% endif %}
             {% if forloop.last and not forloop.first %}
