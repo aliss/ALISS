@@ -420,7 +420,7 @@ def postcode_order(queryset, postcode):
     return {
         "ids": list(positions.keys()),
         "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions]),
-        "distance_scores": positions
+        "distance_scores": generate_distance_scores(positions)
     }
 
 
@@ -429,8 +429,14 @@ def keyword_order(queryset):
     return {
         "ids": list(positions.keys()),
         "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions]),
-        "distance_scores": positions
+        "distance_scores": generate_distance_scores(positions)
     }
+
+def generate_distance_scores(positions):
+    distance_scores = {}
+    for key in positions:
+        distance_scores[key] = positions[key]["score"]
+    return distance_scores
 
 
 def combined_order(filtered_queryset, postcode):
@@ -458,7 +464,7 @@ def combined_order(filtered_queryset, postcode):
     return {
         "ids": list(combined.keys()),
         "order": Case(*[When(id=key, then=combined[key]["place"]) for key in combined]),
-        "distance_scores": combined
+        "distance_scores": generate_distance_scores(combined)
     }
 
 def filter_by_claimed_status(queryset, claimed_status):

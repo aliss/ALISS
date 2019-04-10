@@ -118,7 +118,10 @@
         <div class="columns listing">
           <ul class="search-results">
             {% for result in object_list %}
-              <p>{{distance_scores|get_item:"0d76f476-de04-4b2c-8d6d-c78d70c463fc"}}</p>
+              {% with id=result.id%}
+                <p>{{id}}</p>
+                <p>{{distance_scores|get_dict_item:id}}</p>
+              {% endwith %}
               <p>{{result.id}}</p>
               <li>
                 <div class="heading">

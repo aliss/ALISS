@@ -78,6 +78,10 @@ def get_item(dictionary, key):
     return dictionary.get(key)
 
 @register.filter
+def get_dict_item(dictionary, key):
+    return dictionary.get(str(key))
+
+@register.filter
 def format_time_string(value):
     utc = pytz.UTC
     value = value.split('+')
