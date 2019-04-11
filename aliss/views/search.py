@@ -89,10 +89,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
             results = combined_order(queryset, self.postcode)
         else:
             results = postcode_order(queryset, self.postcode)
-        return {
-            "distance_scores":results["distance_scores"],
-            "objects":Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
-        }
+        self.distance_scores = results["distance_scores"]
+        return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
 
 
     def assign_legacy_postcode(self, location, legacy_locations_dict):
@@ -112,8 +110,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return self.define_object_list_return_response()
 
     def define_object_list_return_response(self):
-        self.object_list = self.filter_queryset(self.get_queryset())["objects"]
-        self.distance_scores = self.filter_queryset(self.get_queryset())["distance_scores"]
+        self.object_list = self.filter_queryset(self.get_queryset())
         return self.render_to_response(self.get_context_data())
 
     def prepare_common_params(self, data):
