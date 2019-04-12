@@ -89,7 +89,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
             results = combined_order(queryset, self.postcode)
         else:
             results = postcode_order(queryset, self.postcode)
-        self.distance_scores = results["distance_scores"]
+        self.distance_scores = self.check_distance_within_radius(results["distance_scores"], self.radius)
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
 
 
@@ -133,6 +133,12 @@ class SearchView(MultipleObjectMixin, TemplateView):
                 result["match"] = True
                 result["name"] = str(legacy_location_name)
         return result
+
+    def check_distance_within_radius(self, distance_scores, radius):
+        for key in distance_scores.keys():
+            if distance_scores[key] != None and distance_scores[key] > radius:
+                distance_scores[key] = None
+        return distance_scores
 
 
 class SearchShareView(View):
