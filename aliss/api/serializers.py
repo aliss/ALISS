@@ -60,7 +60,7 @@ class CategorySerializer(serializers.Serializer):
     parent = serializers.PrimaryKeyRelatedField(read_only=True)
 
 
-class LocationSerializer(serializers.Serializer):
+class BaseLocationSerializer(serializers.Serializer):
     id = serializers.UUIDField()
     formatted_address = serializers.CharField()
     name = serializers.CharField()
@@ -71,8 +71,18 @@ class LocationSerializer(serializers.Serializer):
     state = serializers.CharField()
     postal_code = serializers.CharField()
     country = serializers.CharField()
+
+
+class SearchLocationSerializer(BaseLocationSerializer):
+    #serializes location from elasticsearch
     latitude = serializers.FloatField(source='point.lat')
     longitude = serializers.FloatField(source='point.lon')
+
+
+class LocationSerializer(BaseLocationSerializer):
+    #serializes location from db
+    latitude = serializers.FloatField()
+    longitude = serializers.FloatField()
 
 
 class ServiceAreaSerializer(serializers.Serializer):
@@ -100,7 +110,7 @@ class BaseServiceSerializer(serializers.Serializer):
 
 
 class SearchSerializer(BaseServiceSerializer):
-    locations = LocationSerializer(many=True, required=False)
+    locations = SearchLocationSerializer(many=True, required=False)
     organisation = OrganisationSerializer()
 
 
@@ -113,6 +123,7 @@ class v4OrganisationDetailSerializer(OrganisationSerializer):
     email = serializers.CharField()
     last_edited = serializers.DateTimeField()
     services = BaseServiceSerializer(many=True)
+    locations = LocationSerializer(many=True)
 
 
 class v4ServiceSerializer(BaseServiceSerializer):
@@ -121,6 +132,7 @@ class v4ServiceSerializer(BaseServiceSerializer):
     aliss_url    = serializers.SerializerMethodField()
     permalink    = serializers.SerializerMethodField()
     last_updated = serializers.SerializerMethodField()
+    locations = LocationSerializer(many=True)
 
     def get_aliss_url(self, obj):
         return self.context['request'].build_absolute_uri(reverse('service_detail_slug', args=[obj.slug]))
@@ -134,7 +146,7 @@ class v4ServiceSerializer(BaseServiceSerializer):
 
 class v4SearchSerializer(v4ServiceSerializer):
     organisation = OrganisationSerializer()
-    locations = LocationSerializer(many=True, required=False)
+    locations = SearchLocationSerializer(many=True, required=False)
 
 
 class RecursiveField(serializers.Serializer):
