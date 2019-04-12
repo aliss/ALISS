@@ -20,6 +20,8 @@ class v4ServiceDetailViewTestCase(TestCase):
         self.assertTrue('description' in response.data['data'])
         self.assertTrue('categories' in response.data['data'])
         self.assertTrue('service_areas' in response.data['data'])
+        self.assertTrue('locations' in response.data['data'])
+        self.assertTrue('formatted_address' in response.data['data']['locations'][0])
 
     def test_slug(self):
         path = '/api/v4/services/' + str(self.service.slug) + '/'
