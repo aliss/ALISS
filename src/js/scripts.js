@@ -511,7 +511,7 @@ $(document).ready(() => {
 
   var toggleClearableInputs = function(){
     $('div.clearable-input').each(function(i,target){
-      console.log($(target).find('input'));
+      //console.log($(target).find('input'));
       var showClearBtn = ($(target).find('input').val().length > 0);
       $("div.clearable-input").toggleClass('active', showClearBtn);
     });
@@ -552,6 +552,37 @@ $(document).ready(() => {
       $(this).addClass('active');
       $($(this).attr('data-parent')).children().removeClass('active');
       $($(this).attr('data-tab')).addClass('active');
+    });
+  };
+
+  window.handleDistanceFiltering = function(){
+    $("#custom-radius-radio").click(function(){
+      $("div.filter-distance > ul").children().removeClass("active");
+      $("#custom-radius-radio").addClass("active");
+      $("#custom-radius-input").removeAttr("disabled");
+    });
+
+    if (!($("div.filter-distance > ul").children().hasClass("active"))){
+      var urlString = window.location.href;
+      var url = new URL(urlString);
+      var searchedRadius = url.searchParams.get("radius");
+      $("#custom-radius-radio").addClass("active");
+      $("#custom-radius-input").removeAttr("disabled");
+      $("#custom-radius-input").val(searchedRadius);
+    }
+  };
+
+  window.handleRangeSlider = function(){
+    var slider = $('.range-slider'),
+      range = $('.range-slider__range'),
+      value = $('.range-slider__value');
+
+    value.each(function(){
+      $(this).html($(this).prev().attr('value') / 1000 + "km");
+    });
+
+    range.on('input', function(){
+      $(this).next(value).html(this.value / 1000 + "km");
     });
   };
 
