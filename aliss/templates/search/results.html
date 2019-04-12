@@ -45,12 +45,14 @@
                     <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
                   </div>
                   <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                  <input type="hidden" name="radius" value="{{ request.GET.radius }}">
                   <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
                   <input type="hidden" name="category" value="{{ request.GET.category }}">
                   <input type="submit" class="secondary" value="Search">
                 </div>
               </div>
             </form>
+
             <div class="filter category">
               <label>Filter by local or national:</label>
               <ul class="radio-list-links">
@@ -80,6 +82,58 @@
                 </li>
               </ul>
             </div>
+
+            {% if request.GET.location_type != "national" %}
+            <div class="filter-distance">
+              <label>Show me services within a:</label>
+              <ul class="radio-list-links">
+                <li  {% if request.GET.radius == '1000' %} class="active" {% endif %}>
+                  <a href="?{% query_transform request radius='1000' %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      15 minute walk (1km/0.6mi)
+                    </span>
+                  </a>
+                </li>
+                <li {% if not request.GET.radius %}class="active"{% endif %}>
+                  <a href="?{% query_transform request radius=None %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      15 minute drive (10km/6mi)
+                    </span>
+                  </a>
+                </li>
+                <li {% if request.GET.radius == '20000' %}class="active"{% endif %}>
+                  <a href="?{% query_transform request radius='20000' %}">
+                    <span class="radio"></span>
+                    <span class="name">
+                      30 minute drive (20km/6mi)
+                    </span>
+                  </a>
+                </li>
+                <li id="custom-radius-radio">
+                 <a href="#filters">
+                   <span class="radio"></span>
+                   <span class="name">
+                     Custom distance:
+                   </span>
+                 </a>
+                 <form>
+                   <div class="range-slider">
+                      <input class="range-slider__range" id="custom-radius-input" type="range" min="1000" max="50000" value="{% firstof request.GET.radius 10000 %}" step="1000" aria-valuemin="1000" aria-valuemax="50000" aria-valuenow="{% firstof request.GET.radius 10000 %}" name="radius" disabled="disabled">
+                      <span class="range-slider__value"></span>
+                   </div>
+
+                   <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
+                   <input type="hidden" name="q" value="{{ request.GET.q }}">
+                   <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
+                   <input type="hidden" name="category" value="{{ request.GET.category }}">
+                   <input type="submit" class="secondary" value="Search">
+                 </form>
+                </li>
+              </ul>
+            </div>
+            {% endif %}
 
             {% if request.GET.q %}
             <div class="filter sorting">
@@ -202,24 +256,24 @@
   {% else %}
     <section id="error">
       <div class="row">
-      <div class="columns">
-      {% if errors and 'postcode' in errors %}
-        <div class="copy-container">
-          <h1>Sorry, ALISS is not available in your postcode.</h1>
-          <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
+        <div class="columns">
+          {% if errors and 'postcode' in errors %}
+            <div class="copy-container">
+              <h1>Sorry, ALISS is not available in your postcode.</h1>
+              <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
+            </div>
+          {% elif invalid_area %}
+            <div class="copy-container">
+              <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
+              <p>The postcode you entered seems to be in the wrong format, please try again:</p>
+            </div>
+          {% else %}
+            {% include 'partials/forms/errors.html' with form=form %}
+          {% endif %}
+          <div class="buttons">
+            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+          </div>
         </div>
-      {% elif invalid_area %}
-        <div class="copy-container">
-          <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
-          <p>The postcode you entered seems to be in the wrong format, please try again:</p>
-        </div>
-      {% else %}
-        {% include 'partials/forms/errors.html' with form=form %}
-      {% endif %}
-      <div class="buttons">
-        <a href="{% url 'homepage' %}" class="button primary">Search again</a>
-      </div>
-      </div>
       </div>
     </section>
   {% endif %}
@@ -237,8 +291,11 @@ $(document).ready(function(){
   }
 
   if ($("input[name='q']").val() != "") {
-    $(".category-selector *").click(function(){checkword()});
+    $(".category-selector *").click(checkword);
   }
+
+  handleDistanceFiltering();
+  handleRangeSlider()
 
   {% ga_search_events invalid_area errors %}
   {% ga_click_event '#copy_search_link' 'copy-search' "" %}
