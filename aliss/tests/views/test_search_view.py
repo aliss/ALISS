@@ -17,8 +17,9 @@ class SearchViewTestCase(TestCase):
 
         l = Fixtures.create_location(o)
         self.s2.locations.add(l)
+        self.s2.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
         self.s2.save()
-
+        
         brechin_postcode = Postcode.objects.create(
             postcode="DD9 6AD", postcode_district="DD9",  postcode_sector="DD3 8",
             latitude="56.73313937", longitude="-2.65779541",
@@ -129,11 +130,13 @@ class SearchViewTestCase(TestCase):
         response = self.client.get('/search/?postcode=G2+9ZZ&radius=10000')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "G2 9ZZ")
+        self.assertContains(response, "My Testing Service")
         self.assertContains(response, "Distance: 1.4(km)")
 
     def test_1km_radius_filter_returns_distance_score(self):
         response = self.client.get('/search/?postcode=G2+9ZZ&radius=1000')
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "My Testing Service")
         self.assertNotContains(response, "Distance: 1.4(km)")
 
     def tearDown(self):
