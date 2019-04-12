@@ -77,7 +77,7 @@
         </div>
 
         <div class="contact-info">
-          {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
+          {% if object.url or object.phone or object.email or object.website or object.facebook or object.twitter %}
             <h4>Contact information</h4>
             <p>
               {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
@@ -86,9 +86,6 @@
               {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
               {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
             </p>
-            {% if user_can_edit %}
-              <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
-            {% endif %}
           {% endif %}
           {% if object.locations.all %}
             <h4>Locations</h4>
