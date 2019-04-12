@@ -13,6 +13,12 @@ class SearchViewTestCase(TestCase):
         s = Service.objects.create(name="My First Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
         s.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
 
+        self.s2 = Service.objects.create(name="My Testing Service", description="A testing service", organisation=o, created_by=t, updated_by=u)
+
+        l = Fixtures.create_location(o)
+        self.s2.locations.add(l)
+        self.s2.save()
+
         brechin_postcode = Postcode.objects.create(
             postcode="DD9 6AD", postcode_district="DD9",  postcode_sector="DD3 8",
             latitude="56.73313937", longitude="-2.65779541",
@@ -37,6 +43,7 @@ class SearchViewTestCase(TestCase):
     def test_get(self):
         response = self.client.get('/search/?postcode=G2+4AA')
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "My Testing Service")
         self.assertContains(response, 'Help and support in <span class="postcode">G2 4AA</span>')
 
     def test_invalid_postcode(self):
@@ -100,6 +107,7 @@ class SearchViewTestCase(TestCase):
         self.assertContains(response, "New organisations search")
 
     def test_no_results_no_new_organisation_search_button_without_keyword(self):
+        self.s2.delete()
         response = self.client.get('/search/?postcode=G2+4AA&q=')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h2>Sorry, we couldn't find anything using those terms near G2 4AA.</h2>")
@@ -116,6 +124,17 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response_button_click = self.client.get('/organisations/search/?q=bork')
         self.assertEqual(response_button_click.status_code, 200)
+
+    def test_10km_radius_filter_returns_distance_score(self):
+        response = self.client.get('/search/?postcode=G2+9ZZ&radius=10000')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "G2 9ZZ")
+        self.assertContains(response, "Distance: 1.4(km)")
+
+    def test_1km_radius_filter_returns_distance_score(self):
+        response = self.client.get('/search/?postcode=G2+9ZZ&radius=1000')
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Distance: 1.4(km)")
 
     def tearDown(self):
         Fixtures.organisation_teardown()
