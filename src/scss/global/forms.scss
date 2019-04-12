@@ -245,9 +245,9 @@ label {
   }
 }
 input {
-  &[type=text], &[type=phone], &[type=email], &[type=password], &[type=url] {
+  &[type=text], &[type=number], &[type=phone], &[type=email], &[type=password], &[type=url] {
     @extend %form-style;
-    height: 2.95rem;
+    height: 2.99rem;
   }
 }
 textarea {
