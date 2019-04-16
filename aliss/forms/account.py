@@ -29,13 +29,18 @@ class SignupForm(forms.ModelForm):
     )
 
     password1 = forms.CharField(
+        help_text='Passwords must have at least 8 characters.',
         label="Password",
         strip=False,
-        widget=forms.PasswordInput,
+        widget=forms.PasswordInput(attrs={
+            'autocomplete': 'new-password',
+        }),
     )
+
     password2 = forms.CharField(
+        help_text='Both passwords must match.',
         label="Password confirmation",
-        widget=forms.PasswordInput,
+        widget=forms.PasswordInput(),
         strip=False,
     )
 
