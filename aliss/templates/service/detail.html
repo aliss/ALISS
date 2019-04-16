@@ -40,6 +40,29 @@
     </div>
   </div>
 </div>
+<div class="modal" id="delete_service">
+  <div class="pad">
+    <div class="heading">
+      <a class="close alert icon-link">
+        <span class="icon">
+          <i class="fas fa-times"></i>
+        </span>
+        Close
+      </a>
+      <h5>Delete organisation</h5>
+    </div>
+    <div class="content">
+      <p>Are you sure you want to delete your service?</p>
+      <div class="buttons">
+        <form method="post" action="{% url 'service_delete' pk=object.pk %}">
+          {% csrf_token %}
+          <input type="submit" class="button alert" value="Delete">
+          <a class="button secondary cancel">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal" id="add_list">
   <div class="pad">
@@ -66,6 +89,9 @@
 
 <main class="main" role="main">
   <article id="content" class="service">
+    {% if request.user.is_authenticated %}
+      {% can_edit request.user object as user_can_edit %}
+    {% endif %}
     <div class="row">
       <div class="columns options">
         <div class="info-box small toggled" id="service_actions">
@@ -159,6 +185,22 @@
               </span>
               Improve this listing
             </a>
+
+            {% if user_can_edit %}
+              <a href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+                <span class="icon">
+                  <i class="fas fa-pencil-alt"></i>
+                </span>
+                Edit service
+              </a>
+              <a id="delete_service_modal" class="delete icon-link">
+                <span class="icon">
+                  <i class="fas fa-trash-alt"></i>
+                </span>
+                Delete service
+              </a>
+            {% endif %}
+
 
             <a id="back_to_seach" class="icon-link" style="display:none">
               <span class="icon">
