@@ -124,6 +124,12 @@ class Organisation(models.Model):
             queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services = 0, id__in=results["ids"]).order_by(results["order"])
         return queryset
 
+    def generate_permalink(self):
+        id = str(self.id)
+        start_url = "www.aliss.org/organisations/"
+        permalink = start_url + id + "/"
+        return permalink
+
     @property
     def is_claimed(self):
         return not (self.claimed_by == None)
