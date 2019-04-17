@@ -53,7 +53,7 @@
               </a>
             </li>
             <li {% if request.GET.is_claimed == 'false' %}class="active"{% endif %}>
-              <a href="?{% query_transform request is_claimed='false' %}">
+              <a href="?{% query_transform request is_claimed='false' page=None %}">
                 <span class="radio"></span>
                 <span class="name">
                   Only show the unclaimed organisations
@@ -61,7 +61,7 @@
               </a>
             </li>
             <li {% if request.GET.is_claimed == 'true' %}class="active"{% endif %}>
-              <a href="?{% query_transform request is_claimed='true' %}">
+              <a href="?{% query_transform request is_claimed='true' page=None %}">
                 <span class="radio"></span>
                 <span class="name">
                   Only show organisations that are claimed
@@ -83,7 +83,7 @@
                 </a>
               </li>
               <li {% if request.GET.has_services == 'false' %}class="active"{% endif %}>
-                <a href="?{% query_transform request has_services='false' %}">
+                <a href="?{% query_transform request has_services='false' page=None %}">
                   <span class="radio"></span>
                   <span class="name">
                     Show organisations without any services
@@ -91,7 +91,7 @@
                 </a>
               </li>
               <li {% if request.GET.has_services == 'true' %}class="active"{% endif %}>
-                <a href="?{% query_transform request has_services='true' %}">
+                <a href="?{% query_transform request has_services='true' page=None %}">
                   <span class="radio"></span>
                   <span class="name">
                     Show organisations with services
