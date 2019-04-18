@@ -110,11 +110,10 @@ Need to create a new api endpoint which will be queried with three characters wh
 '''
 
 class PostcodeLocationData(generics.ListAPIView):
-    def get_queryset(self):
-        return Postcode.objects.exclude(place_name=None)
-
-    def list(self, request):
-        queryset = self.get_queryset()
+    def get(self, request, q=None):
+        queryset = Postcode.objects.exclude(place_name=None)
+        if q != None:
+            queryset = queryset.filter(place_name__startswith=q)
         serializer = PostcodeLocationSerializer(queryset, many=True)
         data = OrderedDict()
         data['data'] = serializer.data
