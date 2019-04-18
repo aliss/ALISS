@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from . import views as v3
-from aliss.models import Category, ServiceArea, Organisation, Service
+from aliss.models import Category, ServiceArea, Organisation, Service, Postcode
 from collections import OrderedDict
 from copy import deepcopy
 from django.shortcuts import get_object_or_404
@@ -13,7 +13,8 @@ from .serializers import (
     v4CategorySerializer,
     v4ServiceAreaSerializer,
     v4OrganisationDetailSerializer,
-    v4ServiceSerializer
+    v4ServiceSerializer,
+    PostcodeLocationSerializer
 )
 
 class APIv4():
@@ -101,4 +102,20 @@ class ServiceDetailView(v3.TrackUsageMixin, APIView):
         context = { 'request': request }
         data = OrderedDict({'meta': APIv4.META})
         data['data'] = v4ServiceSerializer(service, many=False, context=context).data
+        return Response(data)
+
+
+'''
+Need to create a new api endpoint which will be queried with three characters which will then return json holding matching postcodes. Look to categories for inspiration.
+'''
+
+class PostcodeLocationData(generics.ListAPIView):
+    def get_queryset(self):
+        return Postcode.objects.exclude(place_name=None)
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = PostcodeLocationSerializer(queryset, many=True)
+        data = OrderedDict()
+        data['data'] = serializer.data
         return Response(data)
