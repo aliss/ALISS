@@ -159,3 +159,12 @@ class v4CategorySerializer(serializers.Serializer):
     name = serializers.CharField()
     slug = serializers.SlugField()
     sub_categories = RecursiveField(many=True, source='children')
+
+
+'''
+Need to add a serializer for the locations data set.
+'''
+
+class PostcodeLocationSerializer(serializers.Serializer):
+    place_name = serializers.CharField()
+    postcode = serializers.CharField()
