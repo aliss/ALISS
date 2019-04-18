@@ -14,5 +14,5 @@ urlpatterns = [
     url(r'^v4/organisations/(?P<slug>[0-9A-Za-z\-]+)/$', v4.OrganisationDetailView.as_view()),
     url('v4/services/(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})/', v4.ServiceDetailView.as_view()),
     url(r'^v4/services/(?P<slug>[0-9A-Za-z\-]+)/$',  v4.ServiceDetailView.as_view()),
-    url(r'^v4/postcode-locations/$', v4.PostcodeLocationData.as_view()),
+    url(r'^v4/postcode-locations/((?P<q>.+)/)?$', v4.PostcodeLocationData.as_view()),
 ]
