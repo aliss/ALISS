@@ -125,6 +125,8 @@ class PostcodeLocationData(generics.ListAPIView):
 
     def filter_queryset(self, queryset):
         query = self.input_data.get('q', None)
-        if query:
+        if len(query) > 2:
             queryset = queryset.filter(place_name__istartswith = query)
-        return queryset
+            return queryset
+        else:
+            return None
