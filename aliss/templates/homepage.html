@@ -71,29 +71,30 @@
     $(document).ready(function(){
       var options = {
 
-        /*url: function(phrase) {
-          return "http://api/locations/search/?q=" + phrase;
-        },*/
 
-        data: [
-          {"location_name": "Glasgow", "postcode": "G2 4AA"},
-          {"location_name": "Edinburgh", "postcode": "EH2 4AD"},
-          {"location_name": "Aberdeen", "postcode": "AB10 1FQ"},
-          {"location_name": "Dundee", "postcode": "DD1 1DA"},
-          {"location_name": "Paisley", "postcode": "PA1 2AF"},
-          {"location_name": "East Kilbride", "postcode": "G74 1NX"},
-          {"location_name": "Inverness", "postcode": "IV1 1HD"},
-          {"location_name": "Livingston", "postcode": "EH54 6TP"},
-          {"location_name": "Hamilton", "postcode": "ML3 9AY"},
-          {"location_name": "Cumbernauld", "postcode": "G70 6AD"},
-          {"location_name": "Dunfermline", "postcode": "KY12 7JA"},
-          {"location_name": "Kirkcaldy", "postcode": "KY1 1DL"},
-          {"location_name": "Ayr", "postcode": "KA7 2EL"},
-          {"location_name": "Perth", "postcode": "PH2 8PA"},
-          {"location_name": "Kilmarnock", "postcode": "KA1 1PA"},
-        ],
+        url: function(phrase) {
+          return "/api/v4/postcode-locations/?q=" + phrase;
+        },
 
-        getValue: "location_name",
+        // data: [
+        //   {"place_name": "Glasgow", "postcode": "G2 4AA"},
+        //   {"place_name": "Edinburgh", "postcode": "EH2 4AD"},
+        //   {"place_name": "Aberdeen", "postcode": "AB10 1FQ"},
+        //   {"place_name": "Dundee", "postcode": "DD1 1DA"},
+        //   {"place_name": "Paisley", "postcode": "PA1 2AF"},
+        //   {"place_name": "East Kilbride", "postcode": "G74 1NX"},
+        //   {"place_name": "Inverness", "postcode": "IV1 1HD"},
+        //   {"place_name": "Livingston", "postcode": "EH54 6TP"},
+        //   {"place_name": "Hamilton", "postcode": "ML3 9AY"},
+        //   {"place_name": "Cumbernauld", "postcode": "G70 6AD"},
+        //   {"place_name": "Dunfermline", "postcode": "KY12 7JA"},
+        //   {"place_name": "Kirkcaldy", "postcode": "KY1 1DL"},
+        //   {"place_name": "Ayr", "postcode": "KA7 2EL"},
+        //   {"place_name": "Perth", "postcode": "PH2 8PA"},
+        //   {"place_name": "Kilmarnock", "postcode": "KA1 1PA"},
+        // ],
+
+        getValue: "place_name",
 
         template: {
           type: "custom",
