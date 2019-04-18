@@ -14,7 +14,8 @@ from .serializers import (
     v4ServiceAreaSerializer,
     v4OrganisationDetailSerializer,
     v4ServiceSerializer,
-    PostcodeLocationSerializer
+    PostcodeLocationSerializer,
+    PostcodeLocationSearchSerializer
 )
 
 class APIv4():
@@ -110,15 +111,20 @@ Need to create a new api endpoint which will be queried with three characters wh
 '''
 
 class PostcodeLocationData(generics.ListAPIView):
-    def get(self, request, q=None):
+    serializer_class = PostcodeLocationSerializer
 
+    def get_queryset(self, *args, **kwargs):
         queryset = Postcode.objects.exclude(place_name=None)
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.error(str(q))
-        if q != None:
-            queryset = queryset.filter(place_name__startswith=q)
-        serializer = PostcodeLocationSerializer(queryset, many=True)
-        data = OrderedDict()
-        data['data'] = serializer.data
-        return Response(data)
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        input_serializer = PostcodeLocationSearchSerializer(data=request.query_params)
+        input_serializer.is_valid(raise_exception=True)
+        self.input_data = input_serializer.validated_data
+        return super(PostcodeLocationData, self).list(request, *args, **kwargs)
+
+    def filter_queryset(self, queryset):
+        query = self.input_data.get('q', None)
+        if query:
+            queryset = queryset.filter(place_name__istartswith = query)
+        return queryset
