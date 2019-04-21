@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from aliss.models import *
-
 from django.db import models
+from django.db.models.query import QuerySet
 from django.http import StreamingHttpResponse
 from django.views.generic import View
 import csv
@@ -19,19 +19,29 @@ class Command(BaseCommand):
             return permalink
 
         def get_value(record, key):
-            return getattr(record, key, "")
+            val = getattr(record, key, None)
+            try:
+                val = val.all()
+            except:
+                return val
+            return val
 
         def get_nested_value(record, keys):
             object = get_value(record, keys[0])
             value = get_value(object, keys[1])
+            if value is QuerySet:
+                values = []
+                for object in objects_list:
+                    values.append(str(get_value(object, keys[1])))
+                value = ", ".join(values)
             return value
 
         def get_nested_value_list(record, keys):
-            values = ""
+            values = []
             objects_list = get_value(record, keys[0])
-            for object in objects_list.all():
-                values += "\"" + str(get_value(object, keys[1])) + "\" "
-            return values
+            for object in objects_list:
+                values.append(str(get_value(object, keys[1])))
+            return ", ".join(values)
 
         def get_nested_permalink(record, keys):
             object = get_value(record, keys[0])
@@ -60,7 +70,7 @@ class Command(BaseCommand):
         def write_row_per_nexted(csv_writer, collection):
             for location in collection:
                 for service in location.services.all():
-                    csv_writer.writerow([service.id, location.id, service.name, "www.aliss.org/services/" + str(service.id), location.formatted_address, service.organisation_id])
+                    csv_writer.writerow([service.id, location.id, service.name, "https://www.aliss.org/services/" + str(service.id), location.formatted_address, service.organisation_id])
 
         def get_values_dict(record, value_names):
             list_values = list(value_names)
@@ -99,7 +109,7 @@ class Command(BaseCommand):
             csv_writer.writerow(fieldnames)
             for location in collection:
                 for service in location.services.all():
-                    csv_writer.writerow([service.id, location.id, service.name, "www.aliss.org/services/" + str(service.id), location.formatted_address, service.organisation_id])
+                    csv_writer.writerow([service.id, location.id, service.name, "https://www.aliss.org/services/" + str(service.id), location.formatted_address, service.organisation_id])
 
 
     def handle(self, *args, **options):
@@ -116,9 +126,9 @@ class Command(BaseCommand):
             "last_edited": "last_edited",
             "organisation_id": "organisation_id",
             "organisation_name": ["organisation", "name"],
-            "orgasnisation_permalink": ["organisation", "organisations", "nested_permalink"],
+            "organisation_permalink": ["organisation", "organisations", "nested_permalink"],
             "categories": ["categories", "name", "list"],
-            "service_areas": "service_areas",
+            "service_areas": ["service_areas", "name", "list"],
             "locations_ids": ["locations", "id", "list"],
         }
 
