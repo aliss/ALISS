@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
         def generate_permalink(record, model):
             id = str(record.id)
-            start_url = "www.aliss.org/" + model + "/"
+            start_url = "https://www.aliss.org/" + model + "/"
             permalink = start_url + id + "/"
             return permalink
 
@@ -49,7 +49,7 @@ class Command(BaseCommand):
             aliss_url = ""
             if record.slug:
                 slug = str(record.slug)
-                start_url = "www.aliss.org/" + model + "/"
+                start_url = "https://www.aliss.org/" + model + "/"
                 aliss_url = start_url + slug + "/"
             return aliss_url
 
@@ -100,24 +100,6 @@ class Command(BaseCommand):
             for location in collection:
                 for service in location.services.all():
                     csv_writer.writerow([service.id, location.id, service.name, "www.aliss.org/services/" + str(service.id), location.formatted_address, service.organisation_id])
-
-        '''
-        you need to loop through each service for each location
-        and each of those is one row
-        so for each location
-        loop through services and add a row
-        then go on to next location
-        is that what you meant?
-        "service_id": ["service", "id"],
-        "location_id": ["location", "id"],
-        "service_name": ["service", "name"],
-        "service_permalink": ["service", "permalink"],
-        "formatted_address": "formatted_address",
-        "organisation_id": "organisation_id",
-        '''
-
-
-
 
 
     def handle(self, *args, **options):
