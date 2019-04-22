@@ -75,6 +75,7 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 		}
 	}
 	.content {
+		@extend %scroll;
 		max-height: 75vh;
 		position: block;
 		margin-top: 1em;
