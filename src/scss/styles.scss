@@ -200,7 +200,7 @@ span.alert { color: $alert; }
 .easy-autocomplete-container {
   ul { 
     margin: 0px;
-    li { font-size: 1rem; }
+    li { font-size: 1rem; text-align: left; padding-left: 1rem; }
     span.icon { font-size: 0.9rem; margin-right: 0.3rem; }
   }
 }

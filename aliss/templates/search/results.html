@@ -65,7 +65,7 @@
                   </a>
                 </li>
                 <li {% if request.GET.location_type == 'local' %}class="active"{% endif %}>
-                  <a href="?{% query_transform request location_type='local' %}">
+                  <a href="?{% query_transform request location_type='local' page=None %}">
                     <span class="radio"></span>
                     <span class="name">
                       Only show the services that operate locally
@@ -73,7 +73,7 @@
                   </a>
                 </li>
                 <li {% if request.GET.location_type == 'national' %}class="active"{% endif %}>
-                  <a href="?{% query_transform request location_type='national' %}">
+                  <a href="?{% query_transform request location_type='national' page=None %}">
                     <span class="radio"></span>
                     <span class="name">
                       Only show services that operate nationally
