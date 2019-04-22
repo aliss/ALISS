@@ -159,7 +159,7 @@ urlpatterns = [
         AccountDetailView.as_view(),
         name='account_detail'
     ),
-    url(r'^user/(?P<pk>[0-9A-Za-z\-]+)/editor/$',
+    url(r'^user/(?P<pk>.+)/editor/$',
         AccountIsEditor.as_view(),
         name='account_is_editor'
     )
