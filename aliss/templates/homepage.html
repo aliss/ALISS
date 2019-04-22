@@ -70,41 +70,15 @@
   <script type="text/javascript">
     $(document).ready(function(){
       var options = {
-
-
-        url: function(phrase) {
-          return "/api/v4/postcode-locations/?q=" + phrase;
-        },
-
-        // data: [
-        //   {"place_name": "Glasgow", "postcode": "G2 4AA"},
-        //   {"place_name": "Edinburgh", "postcode": "EH2 4AD"},
-        //   {"place_name": "Aberdeen", "postcode": "AB10 1FQ"},
-        //   {"place_name": "Dundee", "postcode": "DD1 1DA"},
-        //   {"place_name": "Paisley", "postcode": "PA1 2AF"},
-        //   {"place_name": "East Kilbride", "postcode": "G74 1NX"},
-        //   {"place_name": "Inverness", "postcode": "IV1 1HD"},
-        //   {"place_name": "Livingston", "postcode": "EH54 6TP"},
-        //   {"place_name": "Hamilton", "postcode": "ML3 9AY"},
-        //   {"place_name": "Cumbernauld", "postcode": "G70 6AD"},
-        //   {"place_name": "Dunfermline", "postcode": "KY12 7JA"},
-        //   {"place_name": "Kirkcaldy", "postcode": "KY1 1DL"},
-        //   {"place_name": "Ayr", "postcode": "KA7 2EL"},
-        //   {"place_name": "Perth", "postcode": "PH2 8PA"},
-        //   {"place_name": "Kilmarnock", "postcode": "KA1 1PA"},
-        // ],
-
+        url: function(phrase) { return "/api/v4/postcode-locations/?q=" + phrase; },
         getValue: "place_name",
-
         template: {
           type: "custom",
           method: function(value, item){
             return "<span class=\"icon\">📍</span>" + value + " (" + item.postcode + ")"
           }
         },
-
         minCharNumber: 3,
-
         list: {
           match: { enabled: true },
           onSelectItemEvent: function() {
@@ -112,7 +86,7 @@
             $("#postcode").val(value).trigger("change");
           }
         }
-      }
+      };
 
       $("#postcode").easyAutocomplete(options);
     });
