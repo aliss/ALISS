@@ -277,7 +277,7 @@ $(document).ready(() => {
   $('.modal').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
-    $(`#${id}_modal, a[data-modal="${id}"], label[data-modal="${id}"]`).click(function(){
+    $(`#${id}_modal, a[data-modal="${id}"], input[data-modal="${id}"]`).click(function(){
       $(`#${id}`).toggleClass('active');
       $('.black').toggleClass('show');
     });
