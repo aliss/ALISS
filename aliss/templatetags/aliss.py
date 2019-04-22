@@ -1,6 +1,7 @@
 from django import template
 from datetime import datetime
 import pytz
+import logging
 
 from aliss.models import Category, Organisation
 
