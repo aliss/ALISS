@@ -125,30 +125,30 @@
 
     $('input#claim').change(handleClaimFormWithModal);
     handleClaimFormWithModal();
-
-    var closeModal = function(){
-      $('#data_standard_agreement').hide()
-      $('.black').removeClass('show')
-    }
-
-    var openModal = function() {
-      $('#data_standard_agreement').show();
-      $('.black').addClass('show');
-      $('.black').click(closeModal);
-      $('#data_standard_accept').click(handleDataStandardAccepted);
-      $('#data_standard_decline').click(handleDataStandardDeclined);
-      $('#data_standard_close').click(closeModal);
-    }
-
-    var handleDataStandardAccepted = function() {
-     $('input#id_claim-data_quality').prop("checked", true);
-     closeModal()
-    }
-
-    var handleDataStandardDeclined = function() {
-      $('input#id_claim-data_quality').prop("checked", false);
-      closeModal()
-    }
+    //
+    // var closeModal = function(){
+    //   $('#data_standard_agreement').hide()
+    //   $('.black').removeClass('show')
+    // }
+    //
+    // var openModal = function() {
+    //   $('#data_standard_agreement').show();
+    //   $('.black').addClass('show');
+    //   $('.black').click(closeModal);
+    //   $('#data_standard_accept').click(handleDataStandardAccepted);
+    //   $('#data_standard_decline').click(handleDataStandardDeclined);
+    //   $('#data_standard_close').click(closeModal);
+    // }
+    //
+    // var handleDataStandardAccepted = function() {
+    //  $('input#id_claim-data_quality').prop("checked", true);
+    //  closeModal()
+    // }
+    //
+    // var handleDataStandardDeclined = function() {
+    //   $('input#id_claim-data_quality').prop("checked", false);
+    //   closeModal()
+    // }
 
   });
 </script>
