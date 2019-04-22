@@ -72,7 +72,7 @@
 
           <div class="inline-claim">
               <input id="claim" type="checkbox" name="claim" {% if show_claim_form%} checked {% endif %}>
-              <label for="claim">
+              <label for="claim" id="data_standard_agreement_modal">
                 <b>I am a representative of this organisation</b>
                 <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="By checking this box you claim editorial control of the organisation. This ensures only you can make changes without approval of the ALISS team.">
                   <i class="fa fa-question-circle" aria-hidden="true"></i>
@@ -118,9 +118,9 @@
       $('div.inline-claim').toggleClass('active', showForm);
       $('div.inline-claim input, div.inline-claim textarea').prop({
         required: showForm })
-      if ($('div.inline-claim').hasClass('active')){
-        openModal();
-      }
+      // if ($('div.inline-claim').hasClass('active')){
+      //   openModal();
+      // }
     };
 
     $('input#claim').change(handleClaimFormWithModal);
