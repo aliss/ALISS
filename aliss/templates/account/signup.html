@@ -142,3 +142,14 @@
   </section>
 </main>
 {% endblock %}
+
+{% block before_body_close %}
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('#id_password1').on('focus', function(){
+    $('#id_password1-help-text').show()
+    $('#id_password2-help-text').show()
+    })
+  })
+  </script>
+{% endblock%}

@@ -234,6 +234,9 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('organisation_detail_slug', kwargs={ 'slug': self.organisation.slug }))
 
+    def test_organisation_search_page_1_filter_no_results(self):
+        response = self.client.get('/organisations/search/?q=test&is_published=true')
+        self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
         Fixtures.organisation_teardown()
