@@ -25,6 +25,8 @@ Embed ALISS search features on your own site with the [aliss.js plugin](https://
 To run the ALISS project it is necessary to setup the environment on your machine and import data.
 1. Create a hidden file `.env` this will store necessary environment variables.
 2. With the use of `.env.example` copy the contents and customise with the relevant information for your environment.
+3. Import the postcode data with management command `heroku local:run python3 manage.py import_postcodes`.
+4. Import the place names data with management command `heroku local:run python3 manage.py import_places`. 
 
 
 
