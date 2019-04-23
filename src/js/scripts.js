@@ -277,9 +277,12 @@ $(document).ready(() => {
   $('.modal').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
-    $(`#${id}_modal, a[data-modal="${id}"], input[data-modal="${id}"]`).click(function(){
-      $(`#${id}`).toggleClass('active');
-      $('.black').toggleClass('show');
+    $(`#${id}_modal, a[data-modal="${id}"], input[data-modal="${id}"]`).click(function(e){
+      if ($(this).is(':checkbox') && !e.target.checked){
+      } else {
+        $(`#${id}`).toggleClass('active');
+        $('.black').toggleClass('show');
+      }
     });
   });
 
