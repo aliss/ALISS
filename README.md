@@ -28,7 +28,12 @@ To run the ALISS project it is necessary to setup the environment on your machin
 3. Run the local server and start elasticsearch using command `heroku local -i Procfile.dev`.
 4. Import the postcode data with management command `heroku local:run python3 manage.py import_postcodes`.
 5. Import the place names data with management command `heroku local:run python3 manage.py import_places`.
-6. Create a super_user for yourself for local admin privileges using command `heroku local:run python3 manage.py createsuperuser` inputting an email address and password as per the prompts.
+6. Create a super_user account for local admin privileges using command `heroku local:run python3 manage.py createsuperuser` inputting an email address and password as per the prompts.
+
+## Common Commands
+|Command|Description|Further Information|
+|-------|-----------|-------------------|
+|       |           |                   |
 
 
 
