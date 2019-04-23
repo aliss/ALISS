@@ -85,7 +85,8 @@ class Fixtures(TestCase):
                 latitude="55.86529182", longitude="-4.2684418",
                 council_area_2011_code="S12000046",
                 health_board_area_2014_code="S08000021",
-                integration_authority_2016_code="S37000015"
+                integration_authority_2016_code="S37000015",
+                place_name="Glasgow"
             )
         t,u,c,_ = Fixtures.create_users()
         o = Fixtures.create_organisation(t,u,c)

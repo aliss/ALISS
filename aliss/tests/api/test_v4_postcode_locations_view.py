@@ -14,8 +14,7 @@ class v4PostcodeLocationDataViewTestCase(TestCase):
         response = self.client.get('/api/v4/postcode-locations/', { 'q': 'Gla' }, format="json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/json')
-        # print(response.content)
-
+        self.assertContains(response, "Glasgow")
 
     def tearDown(self):
         self.service.delete()
