@@ -198,8 +198,10 @@ span.has-tip { border:none; opacity:0.9; }
 span.alert { color: $alert; }
 
 .easy-autocomplete-container {
-  ul { 
+  ul {
     margin: 0px;
+    max-height: 14rem;
+    overflow-y: scroll;
     li { font-size: 1rem; text-align: left; padding-left: 1rem; }
     span.icon { font-size: 0.9rem; margin-right: 0.3rem; }
   }
