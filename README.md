@@ -33,7 +33,7 @@ To run the ALISS project it is necessary to setup the environment on your machin
 ## Common Commands
 |Command|Description|Further Information|
 |-------|-----------|-------------------|
-|       |           |                   |
+|`heroku local -i Procfile.dev`      |           |                   |
 
 
 
