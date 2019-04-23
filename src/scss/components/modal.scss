@@ -19,7 +19,7 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 	}
 }
 .modal {
-	max-height: 95vh;
+	max-height: 98vh;
 	position: fixed;
 	z-index: 20;
 	left: 50%;
@@ -35,7 +35,6 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 		display: block;
 	}
 	.pad {
-		max-height: 95vh;
 		padding: $info-pad-d;
 		@include small {
 			padding: $info-pad-d-m;
@@ -75,8 +74,7 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 		}
 	}
 	.content {
-		max-height: 75vh;
-		position: block;
+		max-height: 66vh;
 		margin-top: 1em;
 		margin-bottom: 1em;
 	}
@@ -84,5 +82,4 @@ $info-pad-d-m: 1.5rem 1.4rem 1.9rem 1.4rem;
 	.scroll {
 		overflow-y: scroll;
 	}
-
 }
