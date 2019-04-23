@@ -36,7 +36,7 @@ To run the ALISS project it is necessary to setup the environment on your machin
 |`heroku local -i Procfile.dev`|Start the local server for running the app at localhost:5000 in your browser.|https://docs.djangoproject.com/en/1.11/ref/django-admin/#runserver|
 |`heroku local:run python3 manage.py test`|Run the automated tests|https://docs.djangoproject.com/en/1.11/topics/testing/|
 |`heroku local:run python3 manage.py test`|Run the Django shell|https://docs.djangoproject.com/en/1.11/ref/django-admin/#shell|
-|```
+|`
 from aliss.search import *
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
@@ -48,7 +48,7 @@ connections.create_connection(
 queryset = Search(index='organisation_search', doc_type='organisation')
 shed_org = filter_organisations_by_query_all(queryset, "shed")
 shed_org.execute()
-```|Search services in the shell|https://www.elastic.co/guide/en/elasticsearch/reference/6.1/search-search.html|
+`|Search services in the shell|https://www.elastic.co/guide/en/elasticsearch/reference/6.1/search-search.html|
 
 
 
