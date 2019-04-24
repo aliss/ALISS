@@ -29,5 +29,5 @@ notifications:
   email: false
   slack:
     secure: IFSqAotwjmkfFmLLYw0pvjkP6/5t9qNuO6Hy71IUQA/Bao/4iTTGE217JiIvSZiFFBFvhCWdHY0zpNYlQNg7m1c/hw5Frs1I920oFZLvfCmxI7qFESWqc3WcEQo1FXi+cPapyIPLHihLJ+PfncSZgRiBXUo1zUqXG/iFQYt6UM5+6X6Di8XVqsyCbOYUDBQrdFgrIef6sHlz7SjETbzoLlt7voMD6rrNgtCWrnoSG/1dp6e+C+NkQA6zpRnUfvrrZYWmIGfjE9OltQ1YGZZ7UuloPCp1nzT7ZlIzC75UycZMi8uEqsHdmHzeF1oH/LmElyUJISUyh1qA02j5cQmoYznzJoTKp0t5kbB1GAX3U4okzTtrUTokh7elUnyQGisLpCkyEC4VwuCzcrxWcJBwG/rn2VnRuTCZcMd5tvhjHPBg/Y2c8JtLsHcd/lX0jZ6lVEyiOOYk70dllAH+dmFY5cv9//+bZ8rBLpynbpCD/rBaTJSMFCN/9c9IXQWa1HBOclyHLc/ooQFa5JpzgD3IUb2J6wSMWXAuvA9WAXVGv5XH8cxT00Zl7kaDWJZ8oDv+HmDgsKiliViOuKOXiR9A317XWgtfU+0IpyCZi+XcDKK8mwadquq0Au6oiv0rIIYa7Qwe+g4MGAdARf5wjpPQd1PbaKiEckRRoNDEvR0VfAo=
-  template:
-    - "%{repository_slug}#%{build_number} (%{branch} - %{commit}): %{message}"
+    template:
+      - "%{repository_slug}#%{build_number} (%{branch} - %{commit}): %{message}"
