@@ -211,20 +211,21 @@ class Command(BaseCommand):
 
         self.stdout.write("\nWriting Services CSV\n")
         services_collection = Service.objects.all().prefetch_related('organisation')
+        org_ids=services_collection.values_list('organisation_id', flat=True)
         self.write_collection_csv(services_collection, "csv_outputs/aliss_service_result.csv", service_dict)
         check_record_count(services_collection, "csv_outputs/aliss_service_result.csv", "Service")
 
         self.stdout.write("\nWriting Locations CSV\n")
-        locations_collection = Location.objects.all().prefetch_related('organisation')
+        locations_collection = Location.objects.filter(organisation_id__in=org_ids).all().prefetch_related('organisation')
         self.write_collection_csv(locations_collection, "csv_outputs/aliss_location_result.csv", location_dict)
         check_record_count(locations_collection, "csv_outputs/aliss_location_result.csv", "Location")
 
-        self.stdout.write("\nWriting Organisations CSV\n")
-        organisations_collection = Organisation.objects.all().prefetch_related('services')
-        self.write_collection_csv(organisations_collection, "csv_outputs/aliss_organisation_result.csv", organisation_dict)
-        check_record_count(organisations_collection,"csv_outputs/aliss_organisation_result.csv", "Organisation")
-
         self.stdout.write("\nWriting Services at Location CSV\n")
-        services_at_location_collection = Location.objects.all().prefetch_related('services')
+        services_at_location_collection = Location.objects.filter(organisation_id__in=org_ids).all().prefetch_related('services')
         self.write_joining_table_csv(services_at_location_collection, "csv_outputs/aliss_services_at_location_result.csv", services_at_location_dict)
         check_services_at_location_count(services_at_location_collection, "csv_outputs/aliss_services_at_location_result.csv", "Services at Location")
+
+        self.stdout.write("\nWriting Organisations CSV\n")
+        organisations_collection = Organisation.objects.filter(id__in=org_ids).all().prefetch_related('services')
+        self.write_collection_csv(organisations_collection, "csv_outputs/aliss_organisation_result.csv", organisation_dict)
+        check_record_count(organisations_collection,"csv_outputs/aliss_organisation_result.csv", "Organisation")
