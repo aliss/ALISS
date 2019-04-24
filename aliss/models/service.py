@@ -169,6 +169,13 @@ class Service(models.Model):
         self.remove_from_index()
         super(Service, self).delete(*args, **kwargs)
 
+    def generate_permalink(self):
+        id = str(self.id)
+        start_url = "www.aliss.org/services/"
+        permalink = start_url + id + "/"
+        return permalink
+
+
     @property
     def is_claimed(self):
         return self.organisation.is_claimed
