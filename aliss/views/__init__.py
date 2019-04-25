@@ -42,7 +42,7 @@ from .service import (
     ServiceProblemListView,
     ServiceCoverageView,
     ServiceEmailView,
-    ServiceLocationRemove,
+    ServiceAtLocationDelete,
 )
 from .claim import (
     ClaimListView,
