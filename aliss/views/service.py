@@ -28,6 +28,7 @@ from aliss.forms import (
 )
 from aliss.views import OrganisationMixin
 
+import logging
 
 class ServiceCreateView(
     LoginRequiredMixin,
@@ -287,25 +288,31 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
 
 
 class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
-    
     success_message = "Location successfully removed from service."
-    import logging
+    template_name = 'service/detail.html'
+
     logger = logging.getLogger(__name__)
     logger.error('Test hit')
 
+    def get_object(self):
+        service_at_location_slug = self.kwargs.get('service_at_location_pk')
+        service_pk = service_at_location_slug.split(':')[0]
+        queryset = Service.objects.all()[0]
+        return queryset
 
     def get_success_url(self):
         logger = logging.getLogger(__name__)
         logger.error('Success Called')
         return reverse(
             'service_detail',
-            kwargs={'pk': self.object.pk}
+            kwargs={'pk': '0d76f476-de04-4b2c-8d6d-c78d70c463fc'}
         )
 
     def delete(self, request, *args, **kwargs):
         logger = logging.getLogger(__name__)
         logger.error('Delete Called')
         service_at_location_slug = self.kwargs.get("service_at_location_pk")
+        success_url = self.get_success_url()
         messages.success(
             self.request,
             'successfully removed location'
