@@ -289,18 +289,27 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
 class ServiceLocationRemove(LoginRequiredMixin, DeleteView):
     model = Service
     success_message = "Location successfully removed from service."
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.error('Test hit')
+
 
     def get_success_url(self):
+        logger = logging.getLogger(__name__)
+        logger.error('Success Called')
         return reverse(
             'service_detail',
-            kwargs={'pk': self.service.pk}
+            kwargs={'pk': self.object.pk}
         )
 
     def delete(self, request, *args, **kwargs):
+        logger = logging.getLogger(__name__)
+        logger.error('Delete Called')
         self.object = self.get_object()
         success_url = self.get_success_url()
         location_id = self.request.GET.get('location_pk')
-        self.object.locations.get(id=location_id).clear()
+        location = self.object.locations.get(id=location_id)
+        self.object.remove(location)
         self.object.save()
         messages.success(
             self.request,
