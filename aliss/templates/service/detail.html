@@ -251,7 +251,7 @@
                         </span>
                         Edit location
                       </a>
-                      <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=object.pk + : + location.pk %}">
+                      <form method='post' action="{% url 'service_at_location_delete' get_service_at_location_slug object.pk location.pk as service_at_location_pk">
                         {% csrf_token %}
                         <button type="submit" class="txt-button alert icon-link">
                           <span class="icon">
