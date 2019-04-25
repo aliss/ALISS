@@ -10,7 +10,7 @@ from aliss.views import (
     ServiceProblemUpdateView,
     ServiceCoverageView,
     ServiceEmailView,
-    ServiceLocationRemove
+    ServiceAtLocationDelete
 )
 
 urlpatterns = [
