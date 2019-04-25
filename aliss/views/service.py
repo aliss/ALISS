@@ -54,7 +54,7 @@ class ServiceCreateView(
 
     def form_valid(self, form):
         self.object = form.save()
-        
+
 
         messages.success(
             self.request,
@@ -284,3 +284,29 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
         email_message.send()
 
         return super(ServiceEmailView, self).form_valid(form)
+
+
+class ServiceLocationRemove(LoginRequiredMixin, DeleteView):
+    model = Service
+    success_message = "Location successfully removed from service."
+
+    def get_success_url(self):
+        return reverse(
+            'service_detail',
+            kwargs={'pk': self.service.pk}
+        )
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        location_id = self.request.GET.get('location_pk')
+        self.object.locations.get(id=location_id).clear()
+        self.object.save()
+        messages.success(
+            self.request,
+            'Digest for {postcode} and {category} has been successfully deleted.'.format(
+                postcode=self.object.postcode,
+                category=self.object.category
+            )
+        )
+        return HttpResponseRedirect(success_url)
