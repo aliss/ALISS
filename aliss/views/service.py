@@ -287,7 +287,7 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
 
 
 class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
-    model = Service
+    
     success_message = "Location successfully removed from service."
     import logging
     logger = logging.getLogger(__name__)

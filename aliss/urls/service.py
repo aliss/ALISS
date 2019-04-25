@@ -56,7 +56,7 @@ urlpatterns = [
         ),
         name='service_report_problem_thanks'
     ),
-    url(r'^service-at-location/(?P<service_at_location_pk>[0-9A-Za-z\-]+)/delete/$',
+    url(r'^service-at-location/(?P<service_at_location_pk>.+)/delete/$',
         ServiceAtLocationDelete.as_view(),
         name='service_at_location_delete'
     ),
