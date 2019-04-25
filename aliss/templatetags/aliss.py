@@ -3,7 +3,7 @@ from datetime import datetime
 import pytz
 import logging
 
-from aliss.models import Category, Organisation
+from aliss.models import Category, Organisation, Service, Location
 
 register = template.Library()
 
@@ -20,6 +20,10 @@ def can_add_logo(user, object):
     else:
         return object.can_add_logo(user)
 
+@register.assignment_tag
+def get_service_at_location_slug(service, location):
+    slug_service_at_location = str(service) + ':' + str(location)
+    return slug_service_at_location
 
 @register.simple_tag
 def query_transform(request, **kwargs):
