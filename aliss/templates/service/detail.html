@@ -251,12 +251,15 @@
                         </span>
                         Edit location
                       </a>
-                      <a href="{% url 'service_location_remove' pk=object.pk location_pk=location.pk %}" class="txt-button alert icon-link">
-                        <span class="icon">
-                          <i class="fas fa-trash-alt"></i>
-                        </span>
-                        Remove location
-                      </a>
+                      <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=object.pk + : + location.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="txt-button alert icon-link">
+                          <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                          </span>
+                          Remove location
+                        </button>
+                      </form>
                     </div>
                   {% endif %}
                 </div>
