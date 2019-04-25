@@ -304,9 +304,6 @@ class ServiceLocationRemove(LoginRequiredMixin, DeleteView):
         self.object.save()
         messages.success(
             self.request,
-            'Digest for {postcode} and {category} has been successfully deleted.'.format(
-                postcode=self.object.postcode,
-                category=self.object.category
+            'successfully removed location'
             )
-        )
         return HttpResponseRedirect(success_url)
