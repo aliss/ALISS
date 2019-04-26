@@ -297,6 +297,11 @@ class ServiceAtLocationDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteVie
         object = Service.objects.get(pk=service_pk)
         return object
 
+    def get_location_object(self):
+        self.get_service_location_pks()['location_pk']
+        location = Location.objects.get(pk=location_pk)
+        return location
+
     def test_func(self, user):
         return self.get_object().is_edited_by(user)
 
@@ -308,8 +313,7 @@ class ServiceAtLocationDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteVie
 
     def delete(self, request, *args, **kwargs):
         service = self.get_object()
-        location_pk = self.get_service_location_pks()['location_pk']
-        location = Location.objects.get(pk=location_pk)
+        location = self.get_location_object()
         service.locations.remove(location)
         service.save()
         success_url = self.get_success_url()
