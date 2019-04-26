@@ -289,7 +289,7 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
 
 class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
     success_message = "Location successfully removed from service."
-    template_name = 'service/detail.html'
+    # template_name = 'service/detail.html'
 
     logger = logging.getLogger(__name__)
     logger.error('Test hit')
