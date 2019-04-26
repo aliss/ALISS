@@ -315,7 +315,7 @@ class ServiceAtLocationDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteVie
         success_url = self.get_success_url()
         messages.success(
             self.request,
-            'Successfully removed location'
+            'Successfully removed location from service.'
             )
         return HttpResponseRedirect(success_url)
 
