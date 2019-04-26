@@ -297,15 +297,21 @@ class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
     def get_object(self):
         service_at_location_slug = self.kwargs.get('service_at_location_pk')
         service_pk = service_at_location_slug.split(':')[0]
-        queryset = Service.objects.all()[0]
+        queryset = Service.objects.get(pk=service_pk)
+        logger = logging.getLogger(__name__)
+        logger.error("Get object called.")
+        logger.error(service_pk)
         return queryset
 
     def get_success_url(self):
+        service_at_location_slug = self.kwargs.get('service_at_location_pk')
+        service_pk = service_at_location_slug.split(':')[0]
         logger = logging.getLogger(__name__)
         logger.error('Success Called')
+        logger.error(service_pk)
         return reverse(
             'service_detail',
-            kwargs={'pk': '0d76f476-de04-4b2c-8d6d-c78d70c463fc'}
+            kwargs={'pk': service_pk}
         )
 
     def delete(self, request, *args, **kwargs):
@@ -315,6 +321,6 @@ class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
         success_url = self.get_success_url()
         messages.success(
             self.request,
-            'successfully removed location'
+            'Successfully removed location'
             )
         return HttpResponseRedirect(success_url)
