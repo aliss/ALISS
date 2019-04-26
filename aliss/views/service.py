@@ -298,7 +298,7 @@ class ServiceAtLocationDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteVie
         return object
 
     def get_location_object(self):
-        self.get_service_location_pks()['location_pk']
+        location_pk = self.get_service_location_pks()['location_pk']
         location = Location.objects.get(pk=location_pk)
         return location
 
