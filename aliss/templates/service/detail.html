@@ -255,7 +255,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button type="submit" class="txt-button alert icon-link">
+                        <button type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
