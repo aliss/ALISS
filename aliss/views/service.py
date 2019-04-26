@@ -287,44 +287,28 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
         return super(ServiceEmailView, self).form_valid(form)
 
 
-class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
+class ServiceAtLocationDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_message = "Location successfully removed from service."
-    # template_name = 'service/detail.html'
+    model = Service
+    template_name = 'service/detail.html'
 
-    logger = logging.getLogger(__name__)
-    logger.error('Test hit')
+    def get_object(self):
+        service_pk = self.get_service_location_pks()['service_pk']
+        object = Service.objects.get(pk=service_pk)
+        return object
 
-    # def get_object(self):
-    #     service_at_location_slug = self.kwargs.get('service_at_location_pk')
-    #     service_pk = service_at_location_slug.split(':')[0]
-    #     queryset = Service.objects.get(pk=service_pk)
-    #     logger = logging.getLogger(__name__)
-    #     logger.error("Get object called.")
-    #     logger.error(service_pk)
-    #     logger.error(str(queryset))
-    #     return queryset
+    def test_func(self, user):
+        return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
-        service_at_location_slug = self.kwargs.get('service_at_location_pk')
-        pk_array = service_at_location_slug.split(':')
-        service_pk = pk_array[0]
-        location_pk = pk_array[1]
-        logger = logging.getLogger(__name__)
-        logger.error('Success Called')
-        logger.error(location_pk)
         return reverse(
             'service_detail',
-            kwargs={'pk': service_pk}
+            kwargs={'pk': self.get_object().pk}
         )
 
     def delete(self, request, *args, **kwargs):
-        logger = logging.getLogger(__name__)
-        logger.error('Delete Called')
-        service_at_location_slug = self.kwargs.get("service_at_location_pk")
-        pk_array = service_at_location_slug.split(':')
-        service_pk = pk_array[0]
-        location_pk = pk_array[1]
-        service = Service.objects.get(pk=service_pk)
+        service = self.get_object()
+        location_pk = self.get_service_location_pks()['location_pk']
         location = Location.objects.get(pk=location_pk)
         service.locations.remove(location)
         service.save()
@@ -334,3 +318,13 @@ class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
             'Successfully removed location'
             )
         return HttpResponseRedirect(success_url)
+
+    def get_service_location_pks(self):
+        service_at_location_pks = {}
+        service_at_location_slug = self.kwargs.get("service_at_location_pk")
+        pk_array = service_at_location_slug.split(':')
+        service_pk = pk_array[0]
+        location_pk = pk_array[1]
+        service_at_location_pks['service_pk'] = service_pk
+        service_at_location_pks['location_pk'] = location_pk
+        return service_at_location_pks
