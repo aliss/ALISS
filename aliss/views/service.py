@@ -19,7 +19,7 @@ from braces.views import (
     UserPassesTestMixin
 )
 
-from aliss.models import Service, ServiceProblem, ServiceArea, Organisation, RecommendedServiceList
+from aliss.models import Service, ServiceProblem, ServiceArea, Organisation, RecommendedServiceList, Location
 from aliss.forms import (
     ServiceForm,
     ServiceProblemForm,
@@ -305,10 +305,12 @@ class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         service_at_location_slug = self.kwargs.get('service_at_location_pk')
-        service_pk = service_at_location_slug.split(':')[0]
+        pk_array = service_at_location_slug.split(':')
+        service_pk = pk_array[0]
+        location_pk = pk_array[1]
         logger = logging.getLogger(__name__)
         logger.error('Success Called')
-        logger.error(service_pk)
+        logger.error(location_pk)
         return reverse(
             'service_detail',
             kwargs={'pk': service_pk}
@@ -318,6 +320,13 @@ class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
         logger = logging.getLogger(__name__)
         logger.error('Delete Called')
         service_at_location_slug = self.kwargs.get("service_at_location_pk")
+        pk_array = service_at_location_slug.split(':')
+        service_pk = pk_array[0]
+        location_pk = pk_array[1]
+        service = Service.objects.get(pk=service_pk)
+        location = Location.objects.get(pk=location_pk)
+        service.locations.remove(location)
+        service.save()
         success_url = self.get_success_url()
         messages.success(
             self.request,
