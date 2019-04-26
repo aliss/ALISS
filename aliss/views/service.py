@@ -294,14 +294,15 @@ class ServiceAtLocationDelete(LoginRequiredMixin, DeleteView):
     logger = logging.getLogger(__name__)
     logger.error('Test hit')
 
-    def get_object(self):
-        service_at_location_slug = self.kwargs.get('service_at_location_pk')
-        service_pk = service_at_location_slug.split(':')[0]
-        queryset = Service.objects.get(pk=service_pk)
-        logger = logging.getLogger(__name__)
-        logger.error("Get object called.")
-        logger.error(service_pk)
-        return queryset
+    # def get_object(self):
+    #     service_at_location_slug = self.kwargs.get('service_at_location_pk')
+    #     service_pk = service_at_location_slug.split(':')[0]
+    #     queryset = Service.objects.get(pk=service_pk)
+    #     logger = logging.getLogger(__name__)
+    #     logger.error("Get object called.")
+    #     logger.error(service_pk)
+    #     logger.error(str(queryset))
+    #     return queryset
 
     def get_success_url(self):
         service_at_location_slug = self.kwargs.get('service_at_location_pk')
