@@ -140,6 +140,25 @@ class ServiceViewTestCase(TestCase):
         self.assertContains(non_editor_response, "My First Service")
         self.assertNotContains(non_editor_response, "Delete service")
 
+    '''
+    Need to write a test which takes a service with a location and removes the location by hitting the service_at_location url.
+    '''
+
+    def test_service_at_location_delete(self):
+        location_count = self.service.locations.count()
+        self.assertEqual(1, location_count)
+
+        location_pk = self.service.locations.first().pk
+        service_pk = self.service.pk
+        service_at_location_slug = str(service_pk) + ':' + str(location_pk)
+        response = self.client.post(reverse('service_at_location_delete', kwargs={'service_at_location_pk':service_at_location_slug}))
+
+        self.assertEqual(response.status_code, 302)
+
+        new_location_count = self.service.locations.count()
+        self.assertEqual(0, new_location_count)
+
+
     def tearDown(self):
         Fixtures.service_teardown()
         for organisation in Organisation.objects.filter(name="TestOrg"):
