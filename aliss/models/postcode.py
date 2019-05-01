@@ -6,7 +6,7 @@ from django.db.models import Avg
 class Postcode(models.Model):
     postcode = models.CharField(primary_key=True, max_length=9)
     postcode_district = models.CharField(max_length=4)
-    postcode_sector = models.TextField(max_length=4)
+    postcode_sector = models.TextField(max_length=6)
     latitude = models.FloatField()
     longitude = models.FloatField()
     council_area_2011_code = models.CharField(max_length=10)
