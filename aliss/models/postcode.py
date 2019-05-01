@@ -12,7 +12,7 @@ class Postcode(models.Model):
     council_area_2011_code = models.CharField(max_length=10)
     health_board_area_2014_code = models.CharField(max_length=10)
     integration_authority_2016_code = models.CharField(max_length=10)
-    place_name = models.CharField(max_length=100, null=True, default=None)
+    place_name = models.CharField(max_length=100, blank=True, null=True, default=None)
 
     def __str__(self):
         s = self.postcode
