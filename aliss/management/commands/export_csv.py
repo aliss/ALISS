@@ -8,6 +8,22 @@ import csv
 from django.shortcuts import render
 from urllib.request import Request, urlopen
 
+def get_value(record, key):
+    val = getattr(record, key, None)
+    try:
+        val = val.all()
+    except:
+        return val
+    return val
+
+def get_nested_value_list(record, keys):
+    values = []
+    objects_list = get_value(record, keys[0])
+    for object in objects_list:
+        values.append(str(get_value(object, keys[1])))
+    return ", ".join(values)
+
+
 class Command(BaseCommand):
 
     def write_collection_csv(self, collection, filepath, object_dict):
@@ -18,14 +34,6 @@ class Command(BaseCommand):
             permalink = start_url + id + "/"
             return permalink
 
-        def get_value(record, key):
-            val = getattr(record, key, None)
-            try:
-                val = val.all()
-            except:
-                return val
-            return val
-
         def get_nested_value(record, keys):
             object = get_value(record, keys[0])
             value = get_value(object, keys[1])
@@ -35,13 +43,6 @@ class Command(BaseCommand):
                     values.append(str(get_value(object, keys[1])))
                 value = ", ".join(values)
             return value
-
-        def get_nested_value_list(record, keys):
-            values = []
-            objects_list = get_value(record, keys[0])
-            for object in objects_list:
-                values.append(str(get_value(object, keys[1])))
-            return ", ".join(values)
 
         def get_nested_permalink(record, keys):
             object = get_value(record, keys[0])
@@ -109,7 +110,25 @@ class Command(BaseCommand):
             csv_writer.writerow(fieldnames)
             for location in collection:
                 for service in location.services.all():
-                    csv_writer.writerow([service.id, location.id, service.name, "https://www.aliss.org/services/" + str(service.id), location.formatted_address, service.organisation_id])
+                    council_area_2011_code = None
+
+                    try:
+                        council_area_2011_code = Postcode.objects.get(pk=location.postal_code.upper()).council_area_2011_code
+                    except Exception as e:
+                        try:
+                            district = location.postal_code.upper().split()[0]
+                            council_area_2011_code = Postcode.objects.filter(postcode_district=district).first().council_area_2011_code
+                        except:
+                            print("Couldn't find council area for " + location.postal_code)
+
+                    sal_row = [
+                        service.id, location.id, service.name,
+                        "https://www.aliss.org/services/" + str(service.id),
+                        location.formatted_address, service.organisation_id,
+                        location.postal_code.upper(), council_area_2011_code
+                    ]
+                    sal_row.append(get_nested_value_list(service, ["service_areas", "name"]))
+                    csv_writer.writerow(sal_row)
 
 
     def handle(self, *args, **options):
@@ -129,6 +148,7 @@ class Command(BaseCommand):
             "organisation_permalink": ["organisation", "organisations", "nested_permalink"],
             "categories": ["categories", "name", "list"],
             "service_areas": ["service_areas", "name", "list"],
+            "service_area_codes": ["service_areas", "code", "list"],
             "locations_ids": ["locations", "id", "list"],
         }
 
@@ -176,6 +196,9 @@ class Command(BaseCommand):
             "service_permalink": ["service", "permalink"],
             "formatted_address": "formatted_address",
             "organisation_id": "organisation_id",
+            "postcode" : "postal_code",
+            "council_area_2011_code" : "council_area_2011_code",
+            "service_areas" : "service_areas"
         }
 
         #service_id, location_id, service_name, service_permalink, formatted_address, organisation_id
