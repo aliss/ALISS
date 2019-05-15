@@ -49,8 +49,8 @@ class Organisation(models.Model):
     published = models.BooleanField(default=True)
 
     @classmethod
-    def with_services(cls, min_services=0):
-        return cls.objects.distinct().annotate(service_num=Count('services')).filter(service_num__gt=min_services)
+    def with_services(cls, min_services=1):
+        return cls.objects.distinct().annotate(service_num=Count('services')).filter(service_num__gte=min_services)
 
     def is_edited_by(self, user):
         if user == None or user.pk == None:
