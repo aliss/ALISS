@@ -58,3 +58,7 @@ from .digest import (
     DigestMyView,
     DigestDelete
 )
+
+from .landing_page import (
+    LandingPageView
+)
