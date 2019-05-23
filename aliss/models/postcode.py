@@ -4,6 +4,33 @@ from aliss.models import ServiceArea
 from django.db.models import Avg
 from django.utils.text import slugify
 
+# def generate_place_name_slug(self, force=False):
+#     '''
+#     I don't think this solution is taking into account similar place names.
+#     '''
+#     name_changed = False
+#     if self.pk and self.place_name:
+#         result = Postcode.objects.filter(pk=self.pk).values('place_name').first()
+#         name_changed = (result != None) and (result != self.place_name)
+#     if force or name_changed or self.slug == None:
+#         s = slugify(self.place_name)
+#         self.slug = s
+#         print(s)
+#     else:
+#         s = self.postcode
+#         self.slug = s
+#         print(s)
+#     return False
+
+def generate_place_name_slug(self):
+    if self.place_name != None:
+        slug = slugify(self.place_name)
+    else:
+        slug = slugify(self.postcode)
+    return slug
+
+
+
 class Postcode(models.Model):
     postcode = models.CharField(primary_key=True, max_length=9)
     postcode_district = models.CharField(max_length=4)
@@ -14,7 +41,7 @@ class Postcode(models.Model):
     health_board_area_2014_code = models.CharField(max_length=10)
     integration_authority_2016_code = models.CharField(max_length=10)
     place_name = models.CharField(max_length=100, blank=True, null=True, default=None)
-    slug = models.SlugField()
+    slug = models.SlugField(default=generate_place_name_slug)
 
     def __str__(self):
         s = self.postcode
@@ -47,25 +74,3 @@ class Postcode(models.Model):
             ).order_by('-longitude', '-latitude').first()
         except:
             raise self.model.DoesNotExist("%s matching query does not exist." % self.model._meta.object_name)
-
-    def generate_place_name_slug(self, force=False):
-        '''
-        I don't think this solution is taking into account similar place names.
-        '''
-        name_changed = False
-        if self.pk and self.place_name:
-            result = Postcode.objects.filter(pk=self.pk).values('place_name').first()
-            name_changed = (result != None) and (result != self.place_name)
-        if force or name_changed or self.slug == None:
-            s = slugify(self.place_name)
-            self.slug = s
-            print(s)
-        else:
-            s = self.postcode
-            self.slug = s
-            print(s)
-        return False
-
-    def save(self, *args, **kwargs):
-        self.generate_place_name_slug()
-        super(Postcode, self).save(*args, **kwargs)
