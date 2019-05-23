@@ -158,3 +158,18 @@ def delete_index():
     connection = _get_connection()
     connection.indices.delete('search', ignore=404)
     connection.indices.delete('organisation_search', ignore=404)
+
+def create_place_name_slugs(force=False):
+    connection = _get_connection()
+    postcodes = Postcode.objects
+
+    if force:
+        postcodes = postcodes.all()
+
+    else:
+        postcodes = postcodes.filter(slug=None).all()
+
+    print("No. of postcode slugs to update: ", postcodes.count())
+    for p in postcodes:
+        p.generate_place_name_slug(force)
+        p.save()
