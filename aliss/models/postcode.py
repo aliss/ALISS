@@ -23,6 +23,7 @@ from django.utils.text import slugify
 #     return False
 
 def generate_place_name_slug(self):
+    slug = "Failed"
     if self.place_name != None:
         slug = slugify(self.place_name)
     else:
