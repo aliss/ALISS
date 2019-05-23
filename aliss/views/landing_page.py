@@ -1,12 +1,17 @@
 from django.http import HttpResponseRedirect
 from aliss.models import Postcode, Category
+from django.views.generic import View
+from django.urls import reverse
+import logging
+
 
 class LandingPageView(View):
     def get(self, request, *args, **kwargs):
-        category_slug = self.kwargs.get('category')
-        place_name_slug = self.kwargs.get('place-name')
+        logger = logging.getLogger(__name__)
+        category_slug = request.GET.get('category')
+        place_name_slug = request.GET.get('place-name')
+        query="&category=" + str(category_slug)
         postcode = Postcode.objects.get(slug=place_name_slug).postcode
-        query="&category=" + category_slug
         return HttpResponseRedirect(
             "{url}?postcode={postcode}{query}".format(
                 url=reverse('search'),

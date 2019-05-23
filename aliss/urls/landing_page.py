@@ -7,6 +7,6 @@ from aliss.views import (
 urlpatterns = [
     url(r'^$',
         LandingPageView.as_view(),
-        name='claim_list'
+        name='landing_page'
     ),
 ]
