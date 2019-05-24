@@ -9,7 +9,7 @@ urlpatterns = [
         PlacesView.as_view(),
         name='places'
     ),
-    url(r'^(?P<slug>)/(?P<slug>)/$',
+    url(r'^(?P<place_slug>[\w-]+)/(?P<category_slug>[\w-]+)/$',
         PlacesView.as_view(),
         name='place-category'
     ),
