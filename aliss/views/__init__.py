@@ -59,6 +59,6 @@ from .digest import (
     DigestDelete
 )
 
-from .landing_page import (
-    LandingPageView
+from .places import (
+    PlacesView
 )
