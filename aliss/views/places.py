@@ -5,7 +5,7 @@ from django.urls import reverse
 import logging
 
 
-class LandingPageView(View):
+class PlacesView(View):
     def get(self, request, *args, **kwargs):
         logger = logging.getLogger(__name__)
         category_slug = request.GET.get('category')
