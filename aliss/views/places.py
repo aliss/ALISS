@@ -1,3 +1,4 @@
+import string
 from django.http import HttpResponseRedirect, HttpResponse
 from aliss.models import Postcode, Category, Service
 from django.views.generic import View, TemplateView
@@ -16,23 +17,26 @@ from aliss.search import (
     combined_order
 )
 import logging
-
+from django.shortcuts import render
 
 class PlacesView(MultipleObjectMixin, TemplateView):
     template_name = 'places/results.html'
     paginate_by = 10
 
-    def get_context_data(self ,place_slug, category_slug, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super(PlacesView, self).get_context_data(**kwargs)
-        context['postcode'] = Postcode.objects.get(slug=place_slug).postcode()
-        context['category'] = Category.objects.get(slug=category_slug)
+        context['postcode'] = self.postcode
+        service_area = self.postcode.get_local_authority()
+        if service_area:
+            context['service_area'] = service_area.name
+        context['category'] = self.category
         return context
 
     def get(self, request, place_slug, category_slug):
         self.category = Category.objects.get(slug=category_slug)
         self.postcode = Postcode.objects.get(slug=place_slug)
         self.radius = 10000
-        self.define_object_list_return_response(place_slug, category_slug)
+        return self.define_object_list_return_response()
 
     def get_queryset(self, *args, **kwargs):
         connections.create_connection(
@@ -43,14 +47,11 @@ class PlacesView(MultipleObjectMixin, TemplateView):
         return queryset
 
     def filter_queryset(self, queryset):
-        if self.category:
-            queryset = filter_by_category(queryset, self.category)
-        if self.postcode:
-            queryset = filter_by_postcode(queryset, self.postcode, self.radius)
-        results = combined_order(queryset, self.postcode)
+        queryset = filter_by_category(queryset, self.category)
+        queryset = filter_by_postcode(queryset, self.postcode, self.radius)
         results = postcode_order(queryset, self.postcode)
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
 
-    def define_object_list_return_response(self, place_slug, category_slug):
+    def define_object_list_return_response(self):
         self.object_list = self.filter_queryset(self.get_queryset())
-        return self.render_to_response(self.get_context_data(place_slug, category_slug))
+        return self.render_to_response(self.get_context_data())
