@@ -4,6 +4,7 @@ import pytz
 import logging
 
 from aliss.models import Category, Organisation
+from django.urls import reverse
 
 register = template.Library()
 
@@ -23,14 +24,20 @@ def can_add_logo(user, object):
 
 @register.simple_tag
 def query_transform(request, **kwargs):
+    logger = logging.getLogger(__name__)
     updated = request.GET.copy()
     for k, v in kwargs.items():
+        logger.error(k, v)
         if v is not None:
             updated[k] = v
         else:
             updated.pop(k, 0)  # Remove or return 0 - aka, delete safely this key
-
-    return updated.urlencode()
+    logger.error("url: ", updated.urlencode())
+    logger.error("uri: ", request.build_absolute_uri('/search/'))
+    uri = request.build_absolute_uri('/search/')
+    url = updated.urlencode()
+    path = uri + '?' + url
+    return path
 
 @register.simple_tag
 def process_locations(collection, **kwargs):
