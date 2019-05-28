@@ -3,7 +3,7 @@ from datetime import datetime
 import pytz
 import logging
 
-from aliss.models import Category, Organisation
+from aliss.models import Category, Organisation, Postcode
 from django.urls import reverse
 
 register = template.Library()
@@ -23,13 +23,13 @@ def can_add_logo(user, object):
 
 
 @register.simple_tag
-def query_transform(request, root='search', **kwargs):
-    # root = "/" + root + "/"
-    logger = logging.getLogger(__name__)
+def query_transform(request, **kwargs):
     root = request.META['PATH_INFO']
-    if root == '/places/':
+    if '/places/' in root:
+        terms = root.split('/')
+        kwargs['postcode'] = Postcode.objects.get(slug=terms[2]).postcode
+        kwargs['category'] = terms[3]
         root = '/search/'
-    logger.error(root)
     updated = request.GET.copy()
     for k, v in kwargs.items():
         if v is not None:
