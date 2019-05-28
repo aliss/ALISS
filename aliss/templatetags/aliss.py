@@ -23,18 +23,16 @@ def can_add_logo(user, object):
 
 
 @register.simple_tag
-def query_transform(request, **kwargs):
+def query_transform(request, root='search', **kwargs):
+    root = "/" + root + "/"
     logger = logging.getLogger(__name__)
     updated = request.GET.copy()
     for k, v in kwargs.items():
-        logger.error(k, v)
         if v is not None:
             updated[k] = v
         else:
             updated.pop(k, 0)  # Remove or return 0 - aka, delete safely this key
-    logger.error("url: ", updated.urlencode())
-    logger.error("uri: ", request.build_absolute_uri('/search/'))
-    uri = request.build_absolute_uri('/search/')
+    uri = request.build_absolute_uri(root)
     url = updated.urlencode()
     path = uri + '?' + url
     return path
