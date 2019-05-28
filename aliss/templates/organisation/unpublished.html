@@ -82,7 +82,7 @@
             </table>
           {% endif %}
 
-          {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
+          {% include 'partials/pagination.html' with page=page_obj paginator=paginator root='organisations/unpublished'%}
 
           <br/>
           <a href="{% url 'account_dashboard' %}" class="button primary">Back to dashboard</a>
