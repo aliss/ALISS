@@ -24,8 +24,11 @@ def can_add_logo(user, object):
 
 @register.simple_tag
 def query_transform(request, root='search', **kwargs):
-    root = "/" + root + "/"
+    # root = "/" + root + "/"
     logger = logging.getLogger(__name__)
+    if root != '/places/':
+        root = request.META['PATH_INFO']
+    logger.error(root)
     updated = request.GET.copy()
     for k, v in kwargs.items():
         if v is not None:
