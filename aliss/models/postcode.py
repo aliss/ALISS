@@ -59,11 +59,9 @@ class Postcode(models.Model):
         if force or name_changed or self.slug == 'none':
             s = slugify(self.place_name)
             self.slug = s
-            print(s)
         else:
             s = slugify(self.postcode)
             self.slug = s
-            print(s)
         return False
 
     def save(self, *args, **kwargs):
