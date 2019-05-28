@@ -45,7 +45,7 @@
           <label>Filter by claim status</label>
           <ul class="radio-list-links">
             <li  {% if not request.GET.is_claimed %}class="active"{% endif %}>
-              <a href="?{% query_transform request is_claimed=None %}">
+              <a href="{% query_transform request is_claimed=None root='organisations/search' %}">
                 <span class="radio"></span>
                 <span class="name">
                   Show me all organisations, claimed and unclaimed
@@ -53,7 +53,7 @@
               </a>
             </li>
             <li {% if request.GET.is_claimed == 'false' %}class="active"{% endif %}>
-              <a href="?{% query_transform request is_claimed='false' page=None %}">
+              <a href="{% query_transform request is_claimed='false' page=None root='organisations/search'%}">
                 <span class="radio"></span>
                 <span class="name">
                   Only show the unclaimed organisations
@@ -61,7 +61,7 @@
               </a>
             </li>
             <li {% if request.GET.is_claimed == 'true' %}class="active"{% endif %}>
-              <a href="?{% query_transform request is_claimed='true' page=None %}">
+              <a href="{% query_transform request is_claimed='true' page=None root='organisations/search'%}">
                 <span class="radio"></span>
                 <span class="name">
                   Only show organisations that are claimed
@@ -75,7 +75,7 @@
             <label>Filter by number of services</label>
             <ul class="radio-list-links">
               <li  {% if not request.GET.has_services %}class="active"{% endif %}>
-                <a href="?{% query_transform request has_services=None %}">
+                <a href="{% query_transform request has_services=None root='organisations/search'%}">
                   <span class="radio"></span>
                   <span class="name">
                     Show all organisations
@@ -83,7 +83,7 @@
                 </a>
               </li>
               <li {% if request.GET.has_services == 'false' %}class="active"{% endif %}>
-                <a href="?{% query_transform request has_services='false' page=None %}">
+                <a href="{% query_transform request has_services='false' page=None root='organisations/search'%}">
                   <span class="radio"></span>
                   <span class="name">
                     Show organisations without any services
@@ -91,7 +91,7 @@
                 </a>
               </li>
               <li {% if request.GET.has_services == 'true' %}class="active"{% endif %}>
-                <a href="?{% query_transform request has_services='true' page=None %}">
+                <a href="{% query_transform request has_services='true' page=None root='organisations/search'%}">
                   <span class="radio"></span>
                   <span class="name">
                     Show organisations with services
