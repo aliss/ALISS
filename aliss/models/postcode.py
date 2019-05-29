@@ -56,7 +56,7 @@ class Postcode(models.Model):
         if self.pk and self.place_name:
             result = Postcode.objects.filter(pk=self.pk).values('place_name').first()
             name_changed = (result != None) and (result != self.place_name)
-        if force or name_changed or self.slug == 'none':
+        if force or name_changed or self.slug:
             s = slugify(self.place_name)
             self.slug = s
         else:

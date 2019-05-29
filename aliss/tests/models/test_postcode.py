@@ -12,6 +12,9 @@ class PostcodeTestCase(TestCase):
         self.assertTrue(isinstance(self.postcode, Postcode))
 
     def test_slug_exists(self):
-        self.postcode.generate_place_name_slug()
+        postcodes = Postcode.objects.all()
+        for p in postcodes:
+            p.generate_place_name_slug()
+            p.save()
         slug = self.postcode.slug
         self.assertEqual(slug, 'glasgow')
