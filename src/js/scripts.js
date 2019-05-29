@@ -559,6 +559,10 @@ $(document).ready(() => {
   };
 
   window.handleDistanceFiltering = function(){
+    var urlString = window.location.href;
+    if (urlString.includes('places')){
+        $("#custom-radius-radio").hide();
+    }
     $("#custom-radius-radio").click(function(){
       $("div.filter-distance > ul").children().removeClass("active");
       $("#custom-radius-radio").addClass("active");
@@ -567,8 +571,11 @@ $(document).ready(() => {
 
     if (!($("div.filter-distance > ul").children().hasClass("active"))){
       var urlString = window.location.href;
+      console.log(urlString)
       var url = new URL(urlString);
+      console.log(url)
       var searchedRadius = url.searchParams.get("radius");
+      console.log(searchedRadius)
       $("#custom-radius-radio").addClass("active");
       $("#custom-radius-input").removeAttr("disabled");
       $("#custom-radius-input").val(searchedRadius);
