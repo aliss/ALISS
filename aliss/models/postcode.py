@@ -49,17 +49,13 @@ class Postcode(models.Model):
             raise self.model.DoesNotExist("%s matching query does not exist." % self.model._meta.object_name)
 
     def generate_place_name_slug(self, force=False):
-        name_changed = False
-        if self.pk and self.place_name:
-            result = Postcode.objects.filter(pk=self.pk).values('place_name').first()
-            name_changed = (result != None) and (result != self.place_name)
-        if name_changed:
+        if self.place_name:
             s = slugify(self.place_name)
             self.slug = s
-        else:
+        elif self.slug == 'none':
             s = slugify(self.postcode)
-            self.slug = s
-        return False
+            self.slug = s 
+
 
     def save(self, *args, **kwargs):
         self.generate_place_name_slug()
