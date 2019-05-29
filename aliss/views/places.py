@@ -7,6 +7,7 @@ from django.views.generic.list import MultipleObjectMixin
 from elasticsearch_dsl.connections import connections
 from django.conf import settings
 from elasticsearch_dsl import Search
+from django.shortcuts import get_object_or_404
 from aliss.search import (
     filter_by_query,
     filter_by_postcode,
@@ -33,8 +34,8 @@ class PlacesView(MultipleObjectMixin, TemplateView):
         return context
 
     def get(self, request, place_slug, category_slug):
-        self.category = Category.objects.get(slug=category_slug)
-        self.postcode = Postcode.objects.get(slug=place_slug)
+        self.category = get_object_or_404(Category, slug=category_slug)
+        self.postcode = get_object_or_404(Postcode, slug=place_slug)
         self.radius = 10000
         return self.define_object_list_return_response()
 
