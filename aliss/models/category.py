@@ -1,7 +1,6 @@
 import uuid
-
 from django.db import models
-
+from django.db.models import Q
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -23,8 +22,19 @@ class Category(models.Model):
         return Category.objects.filter(parent=self.parent)
 
     @property
+    def all_children(self):
+        immediate = Q(parent=self)
+        grandchildren = Q(parent__in=self.children.all())
+        return Category.objects.filter(immediate | grandchildren)
+
+    @property
     def subcategories(self):
         return Category.objects.filter(parent=self)
+
+    def filter_by_family(self, services):
+        full_family = self.all_children
+        full_family |= Category.objects.filter(pk=self.pk) #join parent with children
+        return services.filter(categories__in=full_family)
 
     def save(self, *args, **kwargs):
         super(Category, self).save(*args, **kwargs)

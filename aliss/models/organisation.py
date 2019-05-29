@@ -120,14 +120,6 @@ class Organisation(models.Model):
             id=self.id, refresh=True, ignore=404
         )
 
-    # The old method for the filter_by_has_services won't work now that the es search has no knowledge of an organisations services.
-    def filter_by_has_services(results, has_services):
-        if has_services == "true":
-            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services__gt = 0, id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
-        else:
-            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services = 0, id__in=results["ids"]).order_by(results["order"])
-        return queryset
-
     def generate_permalink(self):
         id = str(self.id)
         start_url = "www.aliss.org/organisations/"
