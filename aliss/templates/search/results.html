@@ -64,18 +64,10 @@
 {% block before_body_close %}
 <script type="text/javascript">
 $(document).ready(function(){
-  var checkword = function(){
-    var new_term = $("input[name='q']").val();
-    $(".category-selector a").not(".select-category").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&");
-    })
-  }
 
-  if ($("input[name='q']").val() != "") {
-    $(".category-selector *").click(checkword);
-  }
-
+  category_change_keyword_check();
   handleDistanceFiltering();
-  handleRangeSlider()
+  handleRangeSlider();
 
   {% ga_search_events invalid_area errors %}
   {% ga_click_event '#copy_search_link' 'copy-search' "" %}

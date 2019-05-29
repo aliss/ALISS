@@ -589,6 +589,18 @@ $(document).ready(() => {
     });
   };
 
+  window.category_change_keyword_check = function(){
+    var checkword = function(){
+      var new_term = $("input[name='q']").val();
+      $(".category-selector a").not(".select-category").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&");
+      })
+    }
+
+    if ($("input[name='q']").val() != "") {
+      $(".category-selector *").click(checkword);
+    }
+  }
+
   svg4everybody();
   handleTabs();
   checkMaxCategories();
