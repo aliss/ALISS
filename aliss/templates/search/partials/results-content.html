@@ -8,7 +8,7 @@
     <div class="columns filters">
       <h4 class="toggle-heading" id="filters_toggle" tabindex="0">Customise results</h4>
       <div class="filter-group toggled" id="filters">
-        <form>
+        <form action="/search">
           <div class="filter keyword-search">
             <label>Filter by keyword:</label>
             <div class="sbs-inputs">
@@ -16,10 +16,13 @@
                 <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
                 <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
               </div>
-              <!-- <input type="hidden" name="postcode" value="{{ postcode.postcode }}"> -->
+              {% if postcode.postcode %}
+                <input type="hidden" name="postcode" value="{{ postcode.postcode }}">
+              {% else %}
+                <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
+              {% endif %}
               <input type="hidden" name="location_type" value="{{ request.GET.location_type }}">
               <input type="hidden" name="radius" value="{{ request.GET.radius }}">
-              <input type="hidden" name="postcode" value="{{ request.GET.postcode }}">
               <input type="hidden" name="category" value="{{ request.GET.category }}">
               <input type="submit" class="secondary" value="Search">
             </div>
