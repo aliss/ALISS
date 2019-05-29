@@ -51,10 +51,12 @@ class Postcode(models.Model):
     def generate_place_name_slug(self, force=False):
         if self.place_name:
             s = slugify(self.place_name)
-            self.slug = s
-        elif self.slug == 'none':
+            if self.slug != s:
+                self.slug = s
+        else:
             s = slugify(self.postcode)
-            self.slug = s 
+            if self.slug != s:
+                self.slug = s
 
 
     def save(self, *args, **kwargs):
