@@ -167,9 +167,10 @@ def create_place_name_slugs(force=False):
         postcodes = postcodes.all()
 
     else:
-        postcodes = postcodes.filter(slug=None).all()
+        postcodes = postcodes.filter(slug='none').all()
 
     print("No. of postcode slugs to update: ", postcodes.count())
     for p in postcodes:
-        p.generate_place_name_slug(force)
+        p.generate_place_name_slug()
         p.save()
+    print("Successfully updated all records.")

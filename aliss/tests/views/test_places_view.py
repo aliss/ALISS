@@ -4,20 +4,32 @@ from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import *
 
-class SearchViewTestCase(TestCase):
+class PlacesViewTestCase(TestCase):
     fixtures = ['categories.json','service_areas.json', ]
 
     def setUp(self):
-        t, u, c, _ = Fixtures.create_users()
-        o = Fixtures.create_organisation(t, u, c)
-        s = Service.objects.create(name="My First Service", description="A handy service", organisation=o, created_by=t, updated_by=u)
-        s.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
+        self.service = Fixtures.create()
+        self.category = Category.objects.get(slug="conditions")
+        self.service.categories.add(self.category)
+        self.service.save()
+        self.postcode = Postcode.objects.get(place_name='Glasgow')
+        self.postcode.generate_place_name_slug()
 
-        '''
-        '''
+    def test_valid_landing_page(self):
+        response = self.client.get('/places/glasgow/conditions/')
+        self.assertEqual(self.service.categories.first().slug, self.category.slug)
+        self.assertEqual(self.postcode.slug, 'glasgow')
+        self.assertEqual(response.status_code, 200)
 
-        '''
-        '''
+    def test_response_contains_blurb(self):
+        response = self.client.get('/places/glasgow/conditions/')
+        self.assertContains(response, "Help and support with Conditions in")
+        self.assertContains(response, "Glasgow")
 
-        '''
-        '''
+    def test_response_result(self):
+        response = self.client.get('/places/glasgow/conditions/')
+        self.assertContains(response, "My First Service")
+
+    def test_response_with_error(self):
+        response = self.client.get('/places/borkington/borks/')
+        self.assertEqual(response.status_code, 200)
