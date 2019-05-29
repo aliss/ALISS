@@ -11,7 +11,7 @@ class PostcodeTestCase(TestCase):
     def test_postcode_exists(self):
         self.assertTrue(isinstance(self.postcode, Postcode))
 
-    def test_slug_exists(self):
+    def test_generate_slug_method(self):
         postcodes = Postcode.objects.all()
         for p in postcodes:
             p.generate_place_name_slug()
