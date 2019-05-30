@@ -34,7 +34,7 @@ def query_transform(request, **kwargs):
 
 @register.simple_tag
 def process_locations(collection, **kwargs):
-    postcode = kwargs['postcode'].upper()
+    postcode = kwargs['postcode'].upper().strip()
     length = len(postcode)
     specificity = length
     matching_districts = []
@@ -42,7 +42,7 @@ def process_locations(collection, **kwargs):
     while len(collection) > len(matching_districts) and specificity >= 0:
         comparison_code = postcode[:specificity]
         for location in locations:
-            if comparison_code in str(location):
+            if comparison_code in str(location).strip():
                 index = locations.index(location)
                 matching_districts.append(locations.pop(index))
         if specificity == 0:
