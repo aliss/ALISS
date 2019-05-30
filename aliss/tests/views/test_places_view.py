@@ -37,3 +37,7 @@ class PlacesViewTestCase(TestCase):
     def test_response_with_error_status_code(self):
         response = self.client.get('/places/borkington/borks/')
         self.assertContains(response, "<h1>Sorry, borkington or borks doesn't appear to be a valid search.</h1>")
+
+    def test_valid_search_filter_link(self):
+        response = self.client.get('/places/glasgow/conditions/')
+        self.assertContains(response, "/search/?category=conditions&amp;postcode=G2+4AA")
