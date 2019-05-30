@@ -19,7 +19,27 @@
       </div>
     </section>
     {% include 'search/partials/results-content.html' with object_list=object_list %}
+
+  {% else %}
+    <section id="error">
+      <div class="row">
+        <div class="columns">
+          {% if errors %}
+            <div class="copy-container">
+              <h1>Sorry, {{ errors.place_name }} or {{ errors.category }} doesn't appear to be a valid search.</h1>
+              <p>Either the place name or category has a typo or is not yet supported by ALISS. For a wider search please try searching again:</p>
+            </div>
+          {% else %}
+            {% include 'partials/forms/errors.html' with form=form %}
+          {% endif %}
+          <div class="buttons">
+            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+          </div>
+        </div>
+      </div>
+    </section>
   {% endif %}
+
 {% endblock %}
 
 {% block before_body_close %}

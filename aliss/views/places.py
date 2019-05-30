@@ -34,10 +34,21 @@ class PlacesView(MultipleObjectMixin, TemplateView):
         return context
 
     def get(self, request, place_slug, category_slug):
-        self.category = get_object_or_404(Category, slug=category_slug)
-        self.postcode = get_object_or_404(Postcode, slug=place_slug)
-        self.radius = 10000
-        return self.define_object_list_return_response()
+
+        postcodes = Postcode.objects.exclude(place_name=None)
+        if postcodes.filter(slug=place_slug).exists() and Category.objects.filter(slug=category_slug):
+            self.postcode = postcodes.get(slug=place_slug)
+            self.category = Category.objects.get(slug=category_slug)
+            self.radius = 10000
+            return self.define_object_list_return_response()
+
+        else:
+            errors = {}
+            errors['place_name'] = place_slug
+            errors['category'] = category_slug
+            return self.render_to_response(context={
+                'errors': errors,
+            })
 
     def get_queryset(self, *args, **kwargs):
         connections.create_connection(
