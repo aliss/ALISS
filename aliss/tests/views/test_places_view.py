@@ -30,6 +30,10 @@ class PlacesViewTestCase(TestCase):
         response = self.client.get('/places/glasgow/conditions/')
         self.assertContains(response, "My First Service")
 
-    def test_response_with_error(self):
+    def test_response_with_error_status_code(self):
         response = self.client.get('/places/borkington/borks/')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
+
+    def test_response_with_error_status_code(self):
+        response = self.client.get('/places/borkington/borks/')
+        self.assertContains(response, "<h1>Sorry, borkington or borks doesn't appear to be a valid search.</h1>")
