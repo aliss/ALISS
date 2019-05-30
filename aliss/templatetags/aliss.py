@@ -25,12 +25,25 @@ def can_add_logo(user, object):
 @register.simple_tag
 def query_transform(request, **kwargs):
     root = request.META['PATH_INFO']
+    logger = logging.getLogger(__name__)
     if '/places/' in root:
-        terms = root.split('/')
-        if 'category' not in kwargs:
-            kwargs['category'] = terms[3]
-        kwargs['postcode'] = Postcode.objects.get(slug=terms[2]).postcode
-        root = '/search/'
+        logger = logging.getLogger(__name__)
+        if 'page' in kwargs:
+            if kwargs['page'] != None:
+                logger.error('Test')
+                logger.error(kwargs)
+            else:
+                terms = root.split('/')
+                if 'category' not in kwargs:
+                    kwargs['category'] = terms[3]
+                kwargs['postcode'] = Postcode.objects.get(slug=terms[2]).postcode
+                root = '/search/'
+        else:
+            terms = root.split('/')
+            if 'category' not in kwargs:
+                kwargs['category'] = terms[3]
+            kwargs['postcode'] = Postcode.objects.get(slug=terms[2]).postcode
+            root = '/search/'
     updated = request.GET.copy()
     for k, v in kwargs.items():
         if v is not None:
