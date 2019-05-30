@@ -34,18 +34,13 @@ def query_transform(request, **kwargs):
 
 @register.simple_tag
 def process_locations(collection, **kwargs):
-    logger = logging.getLogger(__name__)
     postcode = kwargs['postcode'].upper()
     length = len(postcode)
     specificity = length
     matching_districts = []
     locations = list(collection)
-    logger.error(str(collection.first()))
     while len(collection) > len(matching_districts) and specificity >= 0:
-        logger.error(locations)
         comparison_code = postcode[:specificity]
-        logger.error(comparison_code)
-        logger.error(specificity)
         for location in locations:
             if comparison_code in str(location):
                 index = locations.index(location)
