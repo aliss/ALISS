@@ -32,4 +32,4 @@ class PlacesViewTestCase(TestCase):
 
     def test_response_with_error(self):
         response = self.client.get('/places/borkington/borks/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
