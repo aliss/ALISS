@@ -41,3 +41,7 @@ class PlacesViewTestCase(TestCase):
     def test_valid_search_filter_link(self):
         response = self.client.get('/places/glasgow/conditions/')
         self.assertContains(response, "/search/?category=conditions&amp;postcode=G2+4AA")
+
+    def test_valid_search_category_link(self):
+        response = self.client.get('/places/glasgow/conditions/')
+        self.assertContains(response, "/search/?category=goods&amp;postcode=G2+4AA")

@@ -27,8 +27,9 @@ def query_transform(request, **kwargs):
     root = request.META['PATH_INFO']
     if '/places/' in root:
         terms = root.split('/')
+        if 'category' not in kwargs:
+            kwargs['category'] = terms[3]
         kwargs['postcode'] = Postcode.objects.get(slug=terms[2]).postcode
-        kwargs['category'] = terms[3]
         root = '/search/'
     updated = request.GET.copy()
     for k, v in kwargs.items():
