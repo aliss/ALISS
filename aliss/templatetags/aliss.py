@@ -29,10 +29,7 @@ def query_transform(request, **kwargs):
     if '/places/' in root:
         logger = logging.getLogger(__name__)
         if 'page' in kwargs:
-            if kwargs['page'] != None:
-                logger.error('Test')
-                logger.error(kwargs)
-            else:
+            if kwargs['page'] == None:
                 terms = root.split('/')
                 if 'category' not in kwargs:
                     kwargs['category'] = terms[3]
