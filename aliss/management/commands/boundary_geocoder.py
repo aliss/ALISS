@@ -6,7 +6,7 @@ from aliss.models import Postcode
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        with open('/Users/mike/Freelance/ALISS/ALISS/aliss/fixtures/uk_local_authorities.geojson') as f:
+        with open('./aliss/fixtures/uk_local_authorities.geojson') as f:
             js = json.load(f)
 
         # construct point based on lon/lat returned by geocoder
