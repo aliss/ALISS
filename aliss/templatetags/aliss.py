@@ -22,10 +22,9 @@ def can_add_logo(user, object):
         return object.can_add_logo(user)
 
 
-@register.simple_tag
-def query_transform(request, **kwargs):
+@register.simple_tag(takes_context=True)
+def query_transform(context, request, **kwargs):
     root = request.META['PATH_INFO']
-    logger = logging.getLogger(__name__)
     if '/places/' in root:
         logger = logging.getLogger(__name__)
         if 'page' in kwargs:
