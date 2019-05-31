@@ -36,6 +36,20 @@ def query_transform(request, **kwargs):
 
     return updated.urlencode()
 
+@register.simple_tag
+def process_locations(collection, **kwargs):
+    shortened_postcode = kwargs['postcode'][:3]
+    non_matching_districts = []
+    matching_districts = []
+    for location in collection:
+        if shortened_postcode in str(location):
+            matching_districts.append(location)
+        else:
+            non_matching_districts.append(location)
+    if (len(matching_districts) > 0):
+        return matching_districts + non_matching_districts
+    else:
+        return False
 
 @register.simple_tag
 def get_root_categories():
