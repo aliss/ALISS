@@ -50,18 +50,21 @@ def query_transform(context, request, **kwargs):
 
 @register.simple_tag
 def process_locations(collection, **kwargs):
-    shortened_postcode = kwargs['postcode'][:3]
-    non_matching_districts = []
+    postcode = kwargs['postcode'].upper().strip()
+    length = len(postcode)
+    specificity = length
     matching_districts = []
-    for location in collection:
-        if shortened_postcode in str(location):
-            matching_districts.append(location)
-        else:
-            non_matching_districts.append(location)
-    if (len(matching_districts) > 0):
-        return matching_districts + non_matching_districts
-    else:
-        return False
+    locations = list(collection)
+    while len(collection) > len(matching_districts) and specificity >= 0:
+        comparison_code = postcode[:specificity]
+        for location in locations:
+            if comparison_code in str(location).strip():
+                index = locations.index(location)
+                matching_districts.append(locations.pop(index))
+        if specificity == 0:
+            return matching_districts + locations
+        specificity -= 1
+    return matching_districts
 
 @register.simple_tag
 def get_root_categories():

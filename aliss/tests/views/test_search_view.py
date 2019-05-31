@@ -160,12 +160,12 @@ class SearchViewTestCase(TestCase):
         response_button_click = self.client.get('/organisations/search/?q=bork')
         self.assertEqual(response_button_click.status_code, 200)
 
-    def test_more_locations_doesnt_appear_when_no_district_match(self):
+    def test_more_locations_appears_when_no_district_match(self):
         response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h3>Multi Location Service</h3>")
-        self.assertNotContains(response, "<span>First location:</span>")
-        self.assertNotContains(response, "<a>More Locations</a>")
+        self.assertContains(response, "<span>First location:</span>")
+        self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
 
     def test_more_locations_appears_when_one_district_match(self):
         self.multi_location_service.locations.add(self.location_glasgow_in_district)
