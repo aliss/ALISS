@@ -6,7 +6,7 @@ from aliss.models import Postcode
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        with open('./aliss/fixtures/uk_local_authorities.geojson') as f:
+        with open('./aliss/fixtures/scottish_local_authority.json') as f:
             js = json.load(f)
 
         # construct point based on lon/lat returned by geocoder
@@ -18,6 +18,6 @@ class Command(BaseCommand):
         for feature in js['features']:
             polygon = shape(feature['geometry'])
             if polygon.contains(point):
-                print ('Found containing polygon:', feature['properties']['lad16nm'])
+                print ('Found containing polygon:', feature['properties']['LAD13NM'])
 
         print('test')
