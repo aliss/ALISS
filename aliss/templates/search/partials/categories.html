@@ -17,7 +17,7 @@
                             {% for category in categories %}
                                 {% if category.is_root %}
                                     <li{% if category.slug == request.GET.category %} class='active'{% endif %}>
-                                        <a href="?{% query_transform request category=category.slug page=None %}" tabindex="0">
+                                        <a href="{% query_transform request category=category.slug page=None %}" tabindex="0">
                                             <span class="cat">
                                                 <i class="fa {{ category|get_icon }}"></i>
                                             </span>
@@ -52,14 +52,14 @@
                                     </span>
                                 </a>
                             {% else %}
-                                <a href="?{% query_transform request category=item.slug page=None %}" class="active-cat truncate" tabindex="0">{{ item.name }}</a>
+                                <a href="{% query_transform request category=item.slug page=None %}" class="active-cat truncate" tabindex="0">{{ item.name }}</a>
                             {% endif %}
                             <span class="select"></span>
                             <ul {% if category.is_root %}class="cat-icons"{% endif %}>
                                 {% for sibling in item.siblings %}
                                     {% if sibling.is_root %}
                                         <li{% if sibling.pk == item.pk %} class="active"{% endif %}>
-                                            <a href="?{% query_transform request category=sibling.slug page=None %}">
+                                            <a href="{% query_transform request category=sibling.slug page=None %}">
                                                 <span class="cat">
                                                     <i class="fa {{ sibling|get_icon }}"></i>
                                                 </span>
@@ -69,7 +69,7 @@
                                             </a>
                                         </li>
                                     {% else %}
-                                        <li{% if sibling.pk == item.pk %} class="active"{% endif %}><a href="?{% query_transform request category=sibling.slug page=None %}">{{ sibling.name }}</a></li>
+                                        <li{% if sibling.pk == item.pk %} class="active"{% endif %}><a href="{% query_transform request category=sibling.slug page=None %}">{{ sibling.name }}</a></li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>
@@ -81,7 +81,7 @@
                                     <span class="select"></span>
                                     <ul>
                                         {% for child in item.children.all %}
-                                            <li><a href="?{% query_transform request category=child.slug page=None %}">{{ child.name }}</a></li>
+                                            <li><a href="{% query_transform request category=child.slug page=None %}">{{ child.name }}</a></li>
                                         {% endfor %}
                                     </ul>
                                 </li>
@@ -90,7 +90,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            <p><a href="?{% query_transform request category=None page=None %}" class="clear">Clear Categories</a></p>
+            <p><a href="{% query_transform request category=None page=None %}" class="clear">Clear Categories</a></p>
         {% endif %}
     </div>
 </div>
