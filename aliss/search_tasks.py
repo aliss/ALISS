@@ -4,7 +4,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 
-from aliss.models import Organisation, Service
+from aliss.models import Organisation, Service, Postcode
 from aliss.search import _get_connection, service_to_body, organisation_to_body, service_mapping, organisation_mapping
 
 index_settings = {
@@ -133,7 +133,7 @@ def index_services(connection=None):
 def index_organisations(include_unpublished, connection=None):
     if connection == None:
         connection = _get_connection()
-    
+
     if include_unpublished:
         organisations = Organisation.objects.all().iterator()
     else:
@@ -158,3 +158,19 @@ def delete_index():
     connection = _get_connection()
     connection.indices.delete('search', ignore=404)
     connection.indices.delete('organisation_search', ignore=404)
+
+def create_place_name_slugs(force=False):
+    connection = _get_connection()
+    postcodes = Postcode.objects
+
+    if force:
+        postcodes = postcodes.all()
+
+    else:
+        postcodes = postcodes.filter(slug='none').all()
+
+    print("No. of postcode slugs to update: ", postcodes.count())
+    for p in postcodes:
+        p.generate_place_name_slug()
+        p.save()
+    print("Successfully updated all records.")
