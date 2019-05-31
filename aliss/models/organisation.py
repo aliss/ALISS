@@ -1,11 +1,11 @@
 import uuid
 
 from django.db import models
+from django.db.models import Count
+
 from django.dispatch import receiver
 from django.utils.text import slugify
 from aliss.models import ALISSCloudinaryField
-
-from django.db.models import Count
 
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, organisation_to_body
@@ -47,6 +47,10 @@ class Organisation(models.Model):
 
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
     published = models.BooleanField(default=True)
+
+    @classmethod
+    def with_services(cls, min_services=1):
+        return cls.objects.distinct().annotate(service_num=Count('services')).filter(service_num__gte=min_services)
 
     def is_edited_by(self, user):
         if user == None or user.pk == None:
@@ -116,13 +120,11 @@ class Organisation(models.Model):
             id=self.id, refresh=True, ignore=404
         )
 
-    # The old method for the filter_by_has_services won't work now that the es search has no knowledge of an organisations services.
-    def filter_by_has_services(results, has_services):
-        if has_services == "true":
-            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services__gt = 0, id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
-        else:
-            queryset = Organisation.objects.annotate(num_services=Count('services')).filter(num_services = 0, id__in=results["ids"]).order_by(results["order"])
-        return queryset
+    def generate_permalink(self):
+        id = str(self.id)
+        start_url = "www.aliss.org/organisations/"
+        permalink = start_url + id + "/"
+        return permalink
 
     @property
     def is_claimed(self):
