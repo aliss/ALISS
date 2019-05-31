@@ -295,9 +295,8 @@ class OrganisationSearchView(ListView):
         # Use the keyword_order code to take the elastic search results and create a dictionary of the ids and the ordering positiion called  results.
         results = keyword_order(queryset)
         # Filter the db results using the results dictionary.
-
         if has_services:
-            queryset = Organisation.filter_by_has_services(results, has_services)
+            queryset = Organisation.with_services().filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
         else :
             queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
         # Return all the db records so the ListView can handle the pagination.

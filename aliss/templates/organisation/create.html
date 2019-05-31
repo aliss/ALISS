@@ -1,6 +1,44 @@
 {% extends "base.html" %}
+{% load aliss %}
 
 {% block container %}
+<div class="black"></div>
+<div class="modal" id="data_standard_agreement">
+  <div class="pad">
+    <div class="heading">
+      <a id="data_standard_close" class="close alert icon-link">
+        <span class="icon">
+          <i class="fas fa-times"></i>
+        </span>
+        Close
+      </a>
+      <h5>Agree to ALISS Data Standard</h5>
+    </div>
+    <div class="content scroll">
+      <div class="copy-container">
+        <p>The people who rely on ALISS need the information to be correct and helpful.</p>
+        <p>We know you are here because you care about people and by following these guidelines you will make your time and effort worthwhile. Follow these guidelines when adding information about your organisation and services:</p>
+        <ol>
+          <li>When adding information of your organisation and services ask yourself; how will the text and sentences look to a person who needs the support you offer?</li>
+          <li>Make your sentences and text concise.</li>
+          <li>Don't use jargon, acronyms and long sentences.</li>
+        </ol>
+      </div>
+
+      <div class="copy-container">
+        <br>
+        {% include 'partials/for-not-for.html' %}
+      </div>
+    </div>
+    <div class="buttons">
+      <form>
+        <a id="data_standard_accept" class="button secondary alert close">Accept</a>
+        <a id="data_standard_decline" class="button secondary cancel">Decline</a>
+      </form>
+    </div>
+  </div>
+</div>
+
 <main class="main" role="main">
   <section id="content" class="grid-container">
     <div class="grid-x">
@@ -19,8 +57,8 @@
           {% include 'organisation/forms/organisation_form.html' %}
 
           <div class="inline-claim">
-            <input id="claim" type="checkbox" name="claim" {% if show_claim_form %} checked {% endif %}>
-            <label for="claim">
+            <input id="data_standard_agreement_modal" type="checkbox" name="claim" {% if show_claim_form%} checked {% endif %}>
+            <label for="data_standard_agreement_modal">
               <b>I am a representative of this organisation</b>
               <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="By checking this box you claim editorial control of the organisation. This ensures only you can make changes without approval of the ALISS team.">
                 <i class="fa fa-question-circle" aria-hidden="true"></i>
@@ -61,14 +99,26 @@
       orgNameField.value = searchedOrg
     }
 
-    var handleClaimForm = function(){
-      var showForm = $("input#claim").prop("checked");
+    var handleClaimFormWithModal = function(){
+      var showForm = $("input#data_standard_agreement_modal").prop("checked");
       $('div.inline-claim').toggleClass('active', showForm);
       $('div.inline-claim input, div.inline-claim textarea').prop({
-        required: showForm });
+        required: showForm })
+      $('#data_standard_accept').click(handleDataStandardAccepted);
+      $('#data_standard_decline').click(handleDataStandardDeclined);
     };
-    $('input#claim').change(handleClaimForm);
-    handleClaimForm();
+
+    $('input#data_standard_agreement_modal').change(handleClaimFormWithModal);
+    handleClaimFormWithModal();
+
+    var handleDataStandardAccepted = function() {
+     $('input#id_claim-data_quality').prop("checked", true);
+    }
+
+    var handleDataStandardDeclined = function() {
+      $('input#id_claim-data_quality').prop("checked", false);
+    }
+
   });
 </script>
 {% endblock %}
