@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load aliss %}
+{% load analytics %}
+{% load humanize %}
+
+{% block container %}
+<main class="main" role="main">
+  {% if not invalid_area and not errors %}
+    <section id="content" class="results">
+      <div class="row title">
+        <div class="columns">
+          <h1>Help and support with {{category}} in <span class="postcode">{{ postcode.place_name }}</span>
+          </h1>
+          <p>Below is a lost of services to help users who live in {{postcode.place_name}} who are seeking help wth {{category}}. You can find help from these services are make a new search with different criteria by using any of the filters.</p>
+          <div class="buttons">
+            <a href="{% url 'homepage' %}" class="button primary">New search</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% include 'search/partials/results-content.html' with object_list=object_list %}
+
+  {% else %}
+    <section id="error">
+      <div class="row">
+        <div class="columns">
+          {% if errors %}
+            <div class="copy-container">
+              <h1>Sorry, {{ errors.place_name }} or {{ errors.category }} doesn't appear to be a valid search.</h1>
+              <p>Either the place name or category has a typo or is not yet supported by ALISS. For a wider search please try searching again:</p>
+            </div>
+          {% else %}
+            {% include 'partials/forms/errors.html' with form=form %}
+          {% endif %}
+          <div class="buttons">
+            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+{% endblock %}
+
+{% block before_body_close %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+  category_change_keyword_check();
+  handleDistanceFiltering();
+  handleRangeSlider();
+
+  // {% ga_search_events invalid_area errors %}
+  // {% ga_click_event '#copy_search_link' 'copy-search' "" %}
+});
+</script>
+{% endblock %}

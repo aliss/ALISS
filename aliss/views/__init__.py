@@ -58,3 +58,7 @@ from .digest import (
     DigestMyView,
     DigestDelete
 )
+
+from .places import (
+    PlacesView
+)
