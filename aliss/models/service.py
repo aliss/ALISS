@@ -95,6 +95,10 @@ class Service(models.Model):
     )
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
 
+    @classmethod
+    def published(cls):
+        return cls.objects.filter(organisation__published=True)
+
     def is_published(self):
         return self.organisation.published
 
@@ -168,6 +172,13 @@ class Service(models.Model):
     def delete(self, *args, **kwargs):
         self.remove_from_index()
         super(Service, self).delete(*args, **kwargs)
+
+    def generate_permalink(self):
+        id = str(self.id)
+        start_url = "www.aliss.org/services/"
+        permalink = start_url + id + "/"
+        return permalink
+
 
     @property
     def is_claimed(self):

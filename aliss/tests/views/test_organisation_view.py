@@ -185,7 +185,6 @@ class OrganisationViewTestCase(TestCase):
         self.assertContains(response, "Banana Unpublished")
 
     def test_organisation_potential_create_search_basic_user(self):
-
         self.client.login(username='random@random.org', password='passwurd')
 
         published_org = Organisation.objects.create(name="Banana Published")
@@ -236,6 +235,10 @@ class OrganisationViewTestCase(TestCase):
 
     def test_organisation_search_page_1_filter_no_results(self):
         response = self.client.get('/organisations/search/?q=test&is_published=true')
+        self.assertEqual(response.status_code, 200)
+
+    def test_organisation_search_has_services(self):
+        response = self.client.get('/organisations/search/?q=test&has_services=true')
         self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
