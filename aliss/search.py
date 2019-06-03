@@ -4,6 +4,8 @@ from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 from aliss.models import ServiceArea
 from django.db.models import Case, When
+import json
+from shapely.geometry import shape, Point
 
 def _get_connection():
     import certifi
@@ -457,3 +459,14 @@ def filter_by_claimed_status(queryset, claimed_status):
             }
     })
     return queryset
+
+def check_boundary_matches(lat_long):
+    with open('./aliss/fixtures/scottish_local_authority.json') as f:
+        js = json.load(f)
+    point = Point(lat_long)
+    boundary_matches = []
+    for feature in js['features']:
+        polygon = shape(feature['geometry'])
+        if polygon.contains(point):
+            boundary_matches.append({'code-type':'local_authority', 'code':feature['properties']['LAD13CD'], 'name': feature['properties']['LAD13NM'] })
+    return boundary_matches
