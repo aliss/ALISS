@@ -100,7 +100,7 @@ class SearchTestCase(TestCase):
     #     self.assertEqual(573, count)
 
     def test_boundary_match_single_data_set(self):
-        data_set_path = './aliss/fixtures/scottish_local_authority.json'
+        data_set_path = './aliss/boundary_data_sets/scottish_local_authority.json'
         data_set_keys = {
             'data_set_name': 'local_authority',
             'code':'LAD13CD',
@@ -108,9 +108,15 @@ class SearchTestCase(TestCase):
             }
         p = Postcode.objects.get(postcode='G2 1DY')
         long_lat = (p.longitude, p.latitude)
-        result = find_boundary_matches(data_set_path, data_set_keys, long_lat)
+        boundary = [data_set_path, data_set_keys, long_lat]
+        result = find_boundary_matches(boundary)
         expected =  [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }]
         self.assertEqual(expected, result)
+
+    def test_boundary_matches_multiple_data_sets(self):
+        p = Postcode.objects.get(postcode='G2 1DY')
+        long_lat = (p.longitude, p.latitude)
+        check_boundaries(long_lat)
 
     def tearDown(self):
         Fixtures.organisation_teardown()

@@ -6,6 +6,7 @@ from aliss.models import ServiceArea
 from django.db.models import Case, When
 import json
 from shapely.geometry import shape, Point
+import os
 
 def _get_connection():
     import certifi
@@ -482,11 +483,12 @@ def filter_by_claimed_status(queryset, claimed_status):
 #     print('There are {count} services in this boundary.')
 #     return count
 
-def find_boundary_matches(data_set_path, data_set_keys, long_lat):
-    with open(data_set_path) as f:
+def find_boundary_matches(boundary):
+    with open(boundary[0]) as f:
         js = json.load(f)
-    point = Point(long_lat)
+    point = Point(boundary[2])
     boundary_matches = []
+    data_set_keys = boundary[1]
     for feature in js['features']:
         polygon = shape(feature['geometry'])
         if polygon.contains(point):
@@ -495,4 +497,22 @@ def find_boundary_matches(data_set_path, data_set_keys, long_lat):
             'code':feature['properties'][data_set_keys['code']],
             'name':feature['properties'][data_set_keys['name']],
             })
+    return boundary_matches
+
+def check_boundaries(long_lat):
+    boundaries_data_mappings = []
+    boundary_matches = []
+    boundaries_data_mappings.append([
+        './aliss/boundary_data_sets/scottish_local_authority.json',
+        {
+            'data_set_name': 'local_authority',
+            'code':'LAD13CD',
+            'name':'LAD13NM',
+        },
+        long_lat
+    ])
+    for boundary in boundaries_data_mappings:
+        matches = find_boundary_matches(boundary)
+        if len(matches) > 0:
+            boundary_matches = boundary_matches + (matches)
     return boundary_matches
