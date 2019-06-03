@@ -81,5 +81,12 @@ class SearchTestCase(TestCase):
     #     self.assertEqual(result.count(), 3)
     #     self.assertTrue(success_counter > 8)
 
+    # def test_postcode_in_la_boundary(self):
+    #     p = Postcodce.objects.get(place_name='Glasgow')
+    #     lat_long = (p.longitude, p.latitude)
+    #     check_boundary_matches(lat_long)
+    #     expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }]
+    #     self.assertEqual()
+
     def tearDown(self):
         Fixtures.organisation_teardown()
