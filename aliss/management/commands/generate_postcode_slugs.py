@@ -22,4 +22,4 @@ class Command(BaseCommand):
         for p in postcodes:
             p.generate_place_name_slug()
             p.save()
-            print("Successfully updated all records.")
+        print("Successfully updated all records.")
