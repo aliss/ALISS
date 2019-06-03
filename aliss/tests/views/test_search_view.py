@@ -164,7 +164,7 @@ class SearchViewTestCase(TestCase):
         response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h3>Multi Location Service</h3>")
-        self.assertContains(response, "<span>First location:</span>")
+        self.assertContains(response, "<span class=\"first-location\">")
         self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
 
     def test_more_locations_appears_when_one_district_match(self):
@@ -172,7 +172,7 @@ class SearchViewTestCase(TestCase):
         self.multi_location_service.save()
         response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<span>First location:</span>")
+        self.assertContains(response, "<span class=\"first-location\">")
         self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
 
     def test_more_locations_appears_when_two_district_match(self):
@@ -181,7 +181,7 @@ class SearchViewTestCase(TestCase):
         self.multi_location_service.save()
         response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<span>First location:</span>")
+        self.assertContains(response, "<span class=\"first-location\">")
         self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
 
     def tearDown(self):
