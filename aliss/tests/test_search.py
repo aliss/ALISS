@@ -83,10 +83,17 @@ class SearchTestCase(TestCase):
 
     def test_postcode_in_la_boundary(self):
         p = Postcode.objects.get(postcode='G2 1DY')
-        lat_long = (p.longitude, p.latitude)
-        result = check_boundary_matches(lat_long)
+        long_lat = (p.longitude, p.latitude)
+        result = check_boundary_matches(long_lat)
         expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }]
         self.assertEqual(expected, result)
+
+    def test_postcode__not_in_la_boundary(self):
+        long_lat = (0.121817, 52.205338)
+        result = check_boundary_matches(long_lat)
+        expected = []
+        self.assertEqual(expected, result)
+
 
     def tearDown(self):
         Fixtures.organisation_teardown()
