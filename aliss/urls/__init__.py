@@ -46,6 +46,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="landing-page-leaders.html"),
         name='landing_page_leaders'
     ),
+    url(r'^places/', include('aliss.urls.places')),
     url(r'^reports/$', ReportsView.as_view(), name='reports'),
     url(r'^account/', include('aliss.urls.account')),
     url(r'^search/', include('aliss.urls.search')),
