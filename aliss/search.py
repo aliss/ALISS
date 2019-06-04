@@ -533,5 +533,4 @@ def check_boundaries(long_lat):
         matches = find_boundary_matches(boundary)
         if len(matches) > 0:
             boundary_matches = boundary_matches + matches
-    print(boundary_matches)
     return boundary_matches

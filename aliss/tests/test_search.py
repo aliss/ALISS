@@ -61,44 +61,6 @@ class SearchTestCase(TestCase):
         self.assertEqual(self.org.id, orgs[0].id)
         self.assertEqual(self.org2.id, orgs[1].id)
 
-    # def test_keyword_order(self):
-    #     success_counter = 0
-    #     failure_counter = 0
-    #     loop_counter = 0
-    #     while loop_counter < 10:
-    #         result = filter_by_query(self.queryset, "Physical Activity")
-    #         order  = keyword_order(result)
-    #         services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
-    #         if ((services[0] == self.s2) and (services[2] == self.s4)):
-    #             success_counter += 1
-    #         else:
-    #             failure_counter += 1
-    #         loop_counter += 1
-    #     print ("\n")
-    #     print ("The success count is: " + str(success_counter))
-    #     print ("\n")
-    #     print ("The failure count is: " + str(failure_counter))
-    #     self.assertEqual(result.count(), 3)
-    #     self.assertTrue(success_counter > 8)
-
-    # def test_postcode_in_la_boundary(self):
-    #     p = Postcode.objects.get(postcode='G2 1DY')
-    #     long_lat = (p.longitude, p.latitude)
-    #     result = check_boundary_matches(long_lat)
-    #     expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }]
-    #     self.assertEqual(expected, result)
-    #
-    # def test_postcode__not_in_la_boundary(self):
-    #     long_lat = (0.121817, 52.205338)
-    #     result = check_boundary_matches(long_lat)
-    #     expected = []
-    #     self.assertEqual(expected, result)
-
-    # def test_count_services_in_boundary(self):
-    #     postcodes = Postcode.objects.all()
-    #     count = count_services_in_boundary('./aliss/fixtures/scottish_local_authority.json', postcodes)
-    #     self.assertEqual(573, count)
-
     def test_boundary_match_single_data_set(self):
         data_set_path = './aliss/boundary_data_sets/scottish_local_authority.json'
         data_set_keys = {
@@ -119,6 +81,11 @@ class SearchTestCase(TestCase):
         result = check_boundaries(long_lat)
         expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
         self.assertEqual(result, expected)
+
+    def test_count_services_in_boundary(self):
+        services = Service.objects.all()
+        count = count_services_in_boundary('./aliss/boundary_data_sets/scottish_local_authority.json', services, 'LAD13NM', 'Fife')
+        self.assertEqual(573, count)
 
     def tearDown(self):
         Fixtures.organisation_teardown()
