@@ -511,8 +511,17 @@ def check_boundaries(long_lat):
         },
         long_lat
     ])
+    boundaries_data_mappings.append([
+        './aliss/boundary_data_sets/SG_NHS_HealthBoards_2019.json',
+        {
+            'data_set_name': 'health_board',
+            'code':'HBCode',
+            'name':'HBName',
+        },
+        long_lat
+    ])
     for boundary in boundaries_data_mappings:
         matches = find_boundary_matches(boundary)
         if len(matches) > 0:
-            boundary_matches = boundary_matches + (matches)
+            boundary_matches = boundary_matches + matches
     return boundary_matches
