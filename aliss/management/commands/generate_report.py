@@ -22,8 +22,17 @@ class Command(BaseCommand):
         user_contributions()
         print("\n---------- Categories in Service Area -----------")
         category_in_service_area()
-        print("\n---------- Categories in Service Area -----------")
-        locations_in_service_areas(Location.objects.all())
+        print("\n---------- Location IDs in Regions -----------")
+        location_objects = Location.objects.all()
+        boundary = {
+            'data_file_path':'./aliss/boundary_data_sets/scottish_local_authority.json',
+            'data_set_keys':{
+                'data_set_name': 'local_authority',
+                'code':'LAD13CD',
+                'name':'LAD13NM',
+            }
+        }
+        locations_in_service_area(location_objects, boundary)
 
 def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
     #from aliss.models import *
@@ -110,12 +119,26 @@ def category_in_service_area(category=Category.objects.get(slug='physical-activi
             filtered_services = c.filter_by_family(services)
             print(" ",str(filtered_services.count()), "categorised as", c.name)
 
-def locations_in_service_areas(locations):
-    with open('./aliss/boundary_data_sets/scottish_local_authority.json') as f:
+def locations_in_service_area(location_objects, boundary):
+    location_long_lats = {}
+    for location in location_objects:
+        long_lat = (location.longitude, location.latitude)
+        location_long_lats[location.id] = long_lat
+    local_authority = {}
+    with open(boundary['data_file_path']) as f:
         js = json.load(f)
-    regions = {}
     for feature in js['features']:
-        region = feature['properties']['LAD13NM']
-        regions[region] = ['test']
-    print(regions)
-    print(locations.first())
+        local_authority[feature['properties'][boundary['data_set_keys']['name']]] = []
+    for item in location_long_lats.items():
+        match = find_boundary_matches(boundary, item[1])
+        region = match[0]['name']
+        local_authority[region].append(item[0])
+    boundary_string = boundary['data_set_keys']['data_set_name']
+    print(boundary_string)
+    for region in local_authority.items():
+        print("\n" + "  Region: " + str(region[0]))
+        print("    Location IDs: ")
+        for id in region[1]:
+            print("      " + str(id))
+    print("\n")
+    print(local_authority)
