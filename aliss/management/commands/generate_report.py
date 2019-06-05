@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from aliss.models import *
-from aliss.search import filter_by_category, check_boundaries, find_boundary_matches
+from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_datas_set_doubles
 from django.db.models import F
 from django.contrib import messages
 from django.conf import settings
@@ -24,15 +24,8 @@ class Command(BaseCommand):
         category_in_service_area()
         print("\n---------- Location IDs in Regions -----------")
         location_objects = Location.objects.all()
-        boundary = {
-            'data_file_path':'./aliss/boundary_data_sets/scottish_local_authority.json',
-            'data_set_keys':{
-                'data_set_name': 'local_authority',
-                'code':'LAD13CD',
-                'name':'LAD13NM',
-            }
-        }
-        locations_in_service_area(location_objects, boundary)
+        boundaries_data_mappings = setup_datas_set_doubles()
+        locations_in_boundaries(location_objects, boundaries_data_mappings)
 
 def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
     #from aliss.models import *
@@ -124,21 +117,29 @@ def locations_in_service_area(location_objects, boundary):
     for location in location_objects:
         long_lat = (location.longitude, location.latitude)
         location_long_lats[location.id] = long_lat
-    local_authority = {}
+    service_area = {}
     with open(boundary['data_file_path']) as f:
         js = json.load(f)
     for feature in js['features']:
-        local_authority[feature['properties'][boundary['data_set_keys']['name']]] = []
+        service_area[feature['properties'][boundary['data_set_keys']['name']]] = []
     for item in location_long_lats.items():
         match = find_boundary_matches(boundary, item[1])
         region = match[0]['name']
-        local_authority[region].append(item[0])
+        service_area[region].append(item[0])
     boundary_string = boundary['data_set_keys']['data_set_name']
+    print("\n")
     print(boundary_string)
-    for region in local_authority.items():
+    for region in service_area.items():
         print("\n" + "  Region: " + str(region[0]))
         print("    Location IDs: ")
         for id in region[1]:
             print("      " + str(id))
     print("\n")
-    print(local_authority)
+    return service_area
+
+def locations_in_boundaries(location_objects, boundaries):
+    service_areas = {}
+    for boundary in boundaries:
+        results = locations_in_service_area(location_objects, boundary)
+        service_areas[boundary['data_set_keys']['data_set_name']] = results
+    return service_areas
