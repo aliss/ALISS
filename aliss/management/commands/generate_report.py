@@ -1,10 +1,11 @@
 from django.core.management.base import BaseCommand, CommandError
 from aliss.models import *
-from aliss.search import filter_by_category
+from aliss.search import filter_by_category, check_boundaries, find_boundary_matches
 from django.db.models import F
 from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
+import json
 
 class Command(BaseCommand):
 
@@ -21,6 +22,8 @@ class Command(BaseCommand):
         user_contributions()
         print("\n---------- Categories in Service Area -----------")
         category_in_service_area()
+        print("\n---------- Categories in Service Area -----------")
+        locations_in_service_areas(Location.objects.all())
 
 def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
     #from aliss.models import *
@@ -106,3 +109,13 @@ def category_in_service_area(category=Category.objects.get(slug='physical-activi
         for c in category.all_children:
             filtered_services = c.filter_by_family(services)
             print(" ",str(filtered_services.count()), "categorised as", c.name)
+
+def locations_in_service_areas(locations):
+    with open('./aliss/boundary_data_sets/scottish_local_authority.json') as f:
+        js = json.load(f)
+    regions = {}
+    for feature in js['features']:
+        region = feature['properties']['LAD13NM']
+        regions[region] = ['test']
+    print(regions)
+    print(locations.first())
