@@ -461,28 +461,6 @@ def filter_by_claimed_status(queryset, claimed_status):
     })
     return queryset
 
-# def check_boundary_matches(lat_long):
-#     with open('./aliss/fixtures/scottish_local_authority.json') as f:
-#         js = json.load(f)
-#     point = Point(lat_long)
-#     boundary_matches = []
-#     for feature in js['features']:
-#         polygon = shape(feature['geometry'])
-#         if polygon.contains(point):
-#             boundary_matches.append({'code-type':'local_authority', 'code':feature['properties']['LAD13CD'], 'name': feature['properties']['LAD13NM'] })
-#     return boundary_matches
-#
-# def count_services_in_boundary(data_set, postcodes):
-#     count = 0
-#     with open(data_set) as f:
-#         js = json.load(f)
-#     for postcode in postcodes:
-#         boundary_matches = check_boundary_matches((postcode.longitude, postcode.latitude))
-#         if len(boundary_matches) > 0:
-#             count += 1
-#     print('There are {count} services in this boundary.')
-#     return count
-
 def find_boundary_matches(boundary, long_lat):
     with open(boundary['data_file_path']) as f:
         js = json.load(f)
