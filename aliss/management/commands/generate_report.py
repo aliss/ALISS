@@ -100,7 +100,7 @@ def postcodes_in_service_area(service_area):
     kwargs = { '{0}'.format(field_names[service_area.type]): service_area.code }
     return Postcode.objects.filter(**kwargs)
 
-def category_in_service_area_new(category=Category.objects.get(slug='conditions'), location_objects=Location.objects.all(), service_area='health_board'):
+def category_in_service_area_new(category=Category.objects.get(slug='money'), location_objects=Location.objects.all(), service_area='health_board'):
     service_area_mappings = setup_data_set_doubles()
     boundary = {}
     for mapping in service_area_mappings:
@@ -113,24 +113,24 @@ def category_in_service_area_new(category=Category.objects.get(slug='conditions'
         services = Service.objects.filter(locations__in=service_region_distribution[1]).distinct()
         filtered_services = category.filter_by_family(services).distinct()
         print(" ", category.name+ ":", str(filtered_services.count()))
-        for c in category.all_children:
-            filtered_services = c.filter_by_family(services).distinct()
-            print(" ",str(filtered_services.count()), "categorised as", c.name)
-
-def category_in_service_area(category=Category.objects.get(slug='conditions'), area_type=ServiceArea.HEALTH_BOARD):
-    for service_area in ServiceArea.objects.filter(type=area_type):
-        print("\n"+service_area.name)
-        postcodes = postcodes_in_service_area(service_area)
-        locations = Location.objects.filter(postal_code__in=postcodes.values_list('postcode')).distinct()
-        services = Service.objects.filter(locations__in=locations).distinct()
-        services |= service_area.services.distinct()
-        filtered_services = category.filter_by_family(services)
-        print(" ", category.name+ ":", str(filtered_services.count()))
+        exact_parent_matches = services.filter(categories__name="Money")
+        if exact_parent_matches.count() > 0:
+            print(" ", "Exact match:", str(exact_parent_matches.count()))
         for c in category.all_children:
             filtered_services = c.filter_by_family(services)
             print(" ",str(filtered_services.count()), "categorised as", c.name)
+            if filtered_services.count() > 0:
+                exact_matches = services.filter(categories__name=c.name).distinct()
+                if exact_matches == None:
+                    print("   ", "0 Specific Tags")
+                else:
+                    if exact_matches.count() == 1:
+                        print("   ",  "1 Specific Tag" )
+                    else:
+                        print("   ",  str(exact_matches.count()), "Specific Tags" )
 
-def locations_in_service_area(location_objects, boundary):
+
+def locations_in_service_area(location_objects, boundary, verbose=False):
     location_long_lats = {}
     for location in location_objects:
         long_lat = (location.longitude, location.latitude)
@@ -145,14 +145,15 @@ def locations_in_service_area(location_objects, boundary):
         region = match[0]['name']
         service_area[region].append(item[0])
     boundary_string = boundary['data_set_keys']['data_set_name']
-    # print("\n")
-    # print(boundary_string)
-    # for region in service_area.items():
-    #     print("\n" + "  Region: " + str(region[0]))
-    #     print("    Location IDs: ")
-    #     for id in region[1]:
-    #         print("      " + str(id))
-    # print("\n")
+    if verbose == True:
+        print("\n")
+        print(boundary_string)
+        for region in service_area.items():
+            print("\n" + "  Region: " + str(region[0]))
+            print("    Location IDs: ")
+            for id in region[1]:
+                print("      " + str(id))
+        print("\n")
     return service_area
 
 def locations_in_boundaries(location_objects, boundaries):
