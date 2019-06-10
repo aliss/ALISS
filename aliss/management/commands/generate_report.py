@@ -21,11 +21,10 @@ class Command(BaseCommand):
         print("---------- User Contributions -----------")
         user_contributions()
         print("\n---------- Categories in Service Area -----------")
-        category_in_service_area_new()
-        # category_in_service_area()
+        category_in_service_area()
         # print("\n---------- Location IDs in Regions -----------")
-location_objects = Location.objects.all()
-boundaries_data_mappings = setup_data_set_doubles()
+        # location_objects = Location.objects.all()
+        # boundaries_data_mappings = setup_data_set_doubles()
         # locations_in_boundaries(location_objects, boundaries_data_mappings)
 
 def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
@@ -100,7 +99,7 @@ def postcodes_in_service_area(service_area):
     kwargs = { '{0}'.format(field_names[service_area.type]): service_area.code }
     return Postcode.objects.filter(**kwargs)
 
-def category_in_service_area_new(category=Category.objects.get(slug='physical-activity'), location_objects=Location.objects.all(), service_area='health_board'):
+def category_in_service_area(category=Category.objects.get(slug='physical-activity'), location_objects=Location.objects.all(), service_area='health_board'):
     service_area_mappings = setup_data_set_doubles()
     boundary = {}
     for mapping in service_area_mappings:
