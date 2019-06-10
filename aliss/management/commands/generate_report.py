@@ -115,20 +115,14 @@ def category_in_service_area_new(category=Category.objects.get(slug='money'), lo
         print(" ", category.name+ ":", str(filtered_services.count()))
         exact_parent_matches = services.filter(categories__name="Money")
         if exact_parent_matches.count() > 0:
-            print(" ", "Exact match:", str(exact_parent_matches.count()))
+            print(" ", "Specific tags:", str(exact_parent_matches.count()))
         for c in category.all_children:
             filtered_services = c.filter_by_family(services)
             print(" ",str(filtered_services.count()), "categorised as", c.name)
             if filtered_services.count() > 0:
                 exact_matches = services.filter(categories__name=c.name).distinct()
-                if exact_matches == None:
-                    print("   ", "0 Specific Tags")
-                else:
-                    if exact_matches.count() == 1:
-                        print("   ",  "1 Specific Tag" )
-                    else:
-                        print("   ",  str(exact_matches.count()), "Specific Tags" )
-
+                if exact_matches.count() > 0:
+                    print("   ", "Specific Tags: " + str(exact_matches.count()))
 
 def locations_in_service_area(location_objects, boundary, verbose=False):
     location_long_lats = {}
