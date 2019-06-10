@@ -100,7 +100,7 @@ def postcodes_in_service_area(service_area):
     kwargs = { '{0}'.format(field_names[service_area.type]): service_area.code }
     return Postcode.objects.filter(**kwargs)
 
-def category_in_service_area_new(category=Category.objects.get(slug='money'), location_objects=Location.objects.all(), service_area='health_board'):
+def category_in_service_area_new(category=Category.objects.get(slug='physical-activity'), location_objects=Location.objects.all(), service_area='health_board'):
     service_area_mappings = setup_data_set_doubles()
     boundary = {}
     for mapping in service_area_mappings:
