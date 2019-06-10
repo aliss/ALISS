@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from aliss.models import *
-from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_datas_set_doubles
+from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_data_set_doubles
 from django.db.models import F
 from django.contrib import messages
 from django.conf import settings
@@ -21,11 +21,12 @@ class Command(BaseCommand):
         print("---------- User Contributions -----------")
         user_contributions()
         print("\n---------- Categories in Service Area -----------")
-        category_in_service_area()
-        print("\n---------- Location IDs in Regions -----------")
-        location_objects = Location.objects.all()
-        boundaries_data_mappings = setup_datas_set_doubles()
-        locations_in_boundaries(location_objects, boundaries_data_mappings)
+        category_in_service_area_new()
+        # category_in_service_area()
+        # print("\n---------- Location IDs in Regions -----------")
+location_objects = Location.objects.all()
+boundaries_data_mappings = setup_data_set_doubles()
+        # locations_in_boundaries(location_objects, boundaries_data_mappings)
 
 def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
     #from aliss.models import *
@@ -99,7 +100,24 @@ def postcodes_in_service_area(service_area):
     kwargs = { '{0}'.format(field_names[service_area.type]): service_area.code }
     return Postcode.objects.filter(**kwargs)
 
-def category_in_service_area(category=Category.objects.get(slug='physical-activity'), area_type=ServiceArea.HEALTH_BOARD):
+def category_in_service_area_new(category=Category.objects.get(slug='conditions'), location_objects=Location.objects.all(), service_area='health_board'):
+    service_area_mappings = setup_data_set_doubles()
+    boundary = {}
+    for mapping in service_area_mappings:
+        mapping_name = mapping['data_set_keys']['data_set_name']
+        if mapping_name == service_area:
+            boundary = mapping
+    service_area_distributions = locations_in_service_area(location_objects, boundary)
+    for service_region_distribution in service_area_distributions.items():
+        print("\n"+service_region_distribution[0])
+        services = Service.objects.filter(locations__in=service_region_distribution[1]).distinct()
+        filtered_services = category.filter_by_family(services).distinct()
+        print(" ", category.name+ ":", str(filtered_services.count()))
+        for c in category.all_children:
+            filtered_services = c.filter_by_family(services).distinct()
+            print(" ",str(filtered_services.count()), "categorised as", c.name)
+
+def category_in_service_area(category=Category.objects.get(slug='conditions'), area_type=ServiceArea.HEALTH_BOARD):
     for service_area in ServiceArea.objects.filter(type=area_type):
         print("\n"+service_area.name)
         postcodes = postcodes_in_service_area(service_area)
@@ -127,14 +145,14 @@ def locations_in_service_area(location_objects, boundary):
         region = match[0]['name']
         service_area[region].append(item[0])
     boundary_string = boundary['data_set_keys']['data_set_name']
-    print("\n")
-    print(boundary_string)
-    for region in service_area.items():
-        print("\n" + "  Region: " + str(region[0]))
-        print("    Location IDs: ")
-        for id in region[1]:
-            print("      " + str(id))
-    print("\n")
+    # print("\n")
+    # print(boundary_string)
+    # for region in service_area.items():
+    #     print("\n" + "  Region: " + str(region[0]))
+    #     print("    Location IDs: ")
+    #     for id in region[1]:
+    #         print("      " + str(id))
+    # print("\n")
     return service_area
 
 def locations_in_boundaries(location_objects, boundaries):

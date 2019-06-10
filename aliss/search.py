@@ -478,7 +478,7 @@ def find_boundary_matches(boundary, long_lat):
     return boundary_matches
 
 def check_boundaries(long_lat):
-    boundaries_data_mappings = setup_datas_set_doubles()
+    boundaries_data_mappings = setup_data_set_doubles()
     boundary_matches = []
     for boundary in boundaries_data_mappings:
         matches = find_boundary_matches(boundary, long_lat)
@@ -486,7 +486,7 @@ def check_boundaries(long_lat):
             boundary_matches = boundary_matches + matches
     return boundary_matches
 
-def setup_datas_set_doubles():
+def setup_data_set_doubles():
     boundaries_data_mappings = []
     boundaries_data_mappings.append({
         'data_file_path':'./aliss/boundary_data_sets/scottish_local_authority.json',
