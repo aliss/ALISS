@@ -9,6 +9,8 @@ from aliss.models import ServiceArea
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, service_to_body
 
+from aliss.utils import unique_slug_generator
+
 import pytz
 from datetime import datetime
 
@@ -118,13 +120,7 @@ class Service(models.Model):
             result = Service.objects.filter(pk=self.pk).values('name').first()
             name_changed = (result != None) and (result != self.name)
         if force or self.slug == None or name_changed:
-            s = slugify(self.name)
-            similar = Service.objects.filter(slug__startswith=s).order_by('updated_on')
-            try:
-                slug_n = int(similar.last().slug.split('-')[-1]) + 1
-            except:
-                slug_n = similar.count()
-            self.slug = s + "-" + str(slug_n)
+            self.slug = unique_slug_generator(self, 'name')
             return self.slug
         return False
 
