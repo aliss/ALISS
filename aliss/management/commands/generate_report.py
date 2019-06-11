@@ -101,15 +101,11 @@ def postcodes_in_service_area(service_area):
 
 def category_in_service_area(category=Category.objects.get(slug='physical-activity'), location_objects=Location.objects.all(), service_area='health_board'):
     service_area_mappings = setup_data_set_doubles()
-    boundary = {}
-    for mapping in service_area_mappings:
-        mapping_name = mapping['data_set_keys']['data_set_name']
-        if mapping_name == service_area:
-            boundary = mapping
+    boundary = service_area_mappings[service_area]
     service_area_distributions = locations_in_service_area(location_objects, boundary)
-    for service_region_distribution in service_area_distributions.items():
-        print("\n"+service_region_distribution[0])
-        services = Service.objects.filter(locations__in=service_region_distribution[1]).distinct()
+    for service_area_name, location_ids in service_area_distributions.items():
+        print("\n"+ service_area_name)
+        services = Service.objects.filter(locations__in=location_ids).distinct()
         filtered_services = category.filter_by_family(services).distinct()
         print(" ", category.name+ ":", str(filtered_services.count()))
         exact_parent_matches = services.filter(categories__name="Money")
@@ -133,25 +129,25 @@ def locations_in_service_area(location_objects, boundary, verbose=False):
         js = json.load(f)
     for feature in js['features']:
         service_area[feature['properties'][boundary['data_set_keys']['name']]] = []
-    for item in location_long_lats.items():
-        match = find_boundary_matches(boundary, item[1])
+    for location_id, long_lat in location_long_lats.items():
+        match = find_boundary_matches(boundary, long_lat)
         region = match[0]['name']
-        service_area[region].append(item[0])
+        service_area[region].append(location_id)
     boundary_string = boundary['data_set_keys']['data_set_name']
     if verbose == True:
         print("\n")
         print(boundary_string)
-        for region in service_area.items():
-            print("\n" + "  Region: " + str(region[0]))
+        for region_name, ids in service_area.items():
+            print("\n" + "  Region: " + str(region_name))
             print("    Location IDs: ")
-            for id in region[1]:
+            for id in ids:
                 print("      " + str(id))
         print("\n")
     return service_area
 
 def locations_in_boundaries(location_objects, boundaries):
     service_areas = {}
-    for boundary in boundaries:
+    for service_area, boundary in boundaries.items():
         results = locations_in_service_area(location_objects, boundary)
         service_areas[boundary['data_set_keys']['data_set_name']] = results
     return service_areas
