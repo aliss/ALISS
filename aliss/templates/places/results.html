@@ -11,6 +11,8 @@
         <div class="columns">
           <h1>Help and support with {{category}} in <span class="postcode">{{ postcode.place_name }}</span>
           </h1>
+          {% content_render request.path %}
+
           <p>Below is a lost of services to help users who live in {{postcode.place_name}} who are seeking help wth {{category}}. You can find help from these services are make a new search with different criteria by using any of the filters.</p>
           <div class="buttons">
             <a href="{% url 'homepage' %}" class="button primary">New search</a>
