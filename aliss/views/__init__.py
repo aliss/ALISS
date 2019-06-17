@@ -60,5 +60,5 @@ from .digest import (
 )
 
 from .places import (
-    PlacesView
+    PlacesView,
 )
