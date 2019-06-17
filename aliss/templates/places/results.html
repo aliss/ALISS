@@ -9,11 +9,14 @@
     <section id="content" class="results">
       <div class="row title">
         <div class="columns">
-          <h1>Help and support with {{category}} in <span class="postcode">{{ postcode.place_name }}</span>
-          </h1>
-          {% content_render request.path %}
-
-          <p>Below is a lost of services to help users who live in {{postcode.place_name}} who are seeking help wth {{category}}. You can find help from these services are make a new search with different criteria by using any of the filters.</p>
+          {% content_render request.path as content_result%}
+          {% if content_result%}
+            {{ content_result.body|safe }}
+          {% else %}
+            <h1>Help and support with {{category}} in <span class="postcode">{{ postcode.place_name }}</span>
+            </h1>
+            <p>Below is a lost of services to help users who live in {{postcode.place_name}} who are seeking help wth {{category}}. You can find help from these services are make a new search with different criteria by using any of the filters.</p>
+          {% endif %}
           <div class="buttons">
             <a href="{% url 'homepage' %}" class="button primary">New search</a>
           </div>
