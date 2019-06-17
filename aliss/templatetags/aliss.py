@@ -163,11 +163,10 @@ def meta_location(service, brackets=True):
 
 @register.simple_tag()
 def content_render(path):
-    import logging
-    logger = logging.getLogger(__name__)
-    logger.error(path)
     path_end = len(path) - 1
     s = path[1:path_end].replace("/", "-")
-    logger.error(s)
-    content = ContentBlock.objects.get(slug='places-glasgow')
-    return content.body
+    try:
+        content = ContentBlock.objects.get(slug=s)
+    except ContentBlock.DoesNotExist:
+        content = None
+    return content
