@@ -1,8 +1,10 @@
 from django import template
 from datetime import datetime
 import pytz
+import logging
 
-from aliss.models import Category, Organisation
+from aliss.models import Category, Organisation, Postcode
+from django.urls import reverse
 
 register = template.Library()
 
@@ -20,17 +22,49 @@ def can_add_logo(user, object):
         return object.can_add_logo(user)
 
 
-@register.simple_tag
-def query_transform(request, **kwargs):
+@register.simple_tag(takes_context=True)
+def query_transform(context, request, **kwargs):
+    root = request.META['PATH_INFO']
+    if '/places/' in root:
+        if 'page' in kwargs:
+            if kwargs['page'] == None:
+                if 'category' not in kwargs:
+                    kwargs['category'] = context['category'].slug
+                kwargs['postcode'] = context['postcode'].postcode
+                root = '/search/'
+        else:
+            if 'category' not in kwargs:
+                kwargs['category'] = context['category'].slug
+            kwargs['postcode'] = context['postcode'].postcode
+            root = '/search/'
     updated = request.GET.copy()
     for k, v in kwargs.items():
         if v is not None:
             updated[k] = v
         else:
             updated.pop(k, 0)  # Remove or return 0 - aka, delete safely this key
+    uri = request.build_absolute_uri(root)
+    url = updated.urlencode()
+    path = uri + '?' + url
+    return path
 
-    return updated.urlencode()
-
+@register.simple_tag
+def process_locations(collection, **kwargs):
+    postcode = kwargs['postcode'].upper().strip()
+    length = len(postcode)
+    specificity = length
+    matching_districts = []
+    locations = list(collection)
+    while len(collection) > len(matching_districts) and specificity >= 0:
+        comparison_code = postcode[:specificity]
+        for location in locations:
+            if comparison_code in str(location).strip():
+                index = locations.index(location)
+                matching_districts.append(locations.pop(index))
+        if specificity == 0:
+            return matching_districts + locations
+        specificity -= 1
+    return matching_districts
 
 @register.simple_tag
 def get_root_categories():
