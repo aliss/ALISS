@@ -29,13 +29,18 @@ class SignupForm(forms.ModelForm):
     )
 
     password1 = forms.CharField(
+        help_text='Passwords must have at least 8 characters.',
         label="Password",
         strip=False,
-        widget=forms.PasswordInput,
+        widget=forms.PasswordInput(attrs={
+            'autocomplete': 'new-password',
+        }),
     )
+
     password2 = forms.CharField(
+        help_text='Both passwords must match.',
         label="Password confirmation",
-        widget=forms.PasswordInput,
+        widget=forms.PasswordInput(),
         strip=False,
     )
 
@@ -61,6 +66,10 @@ class SignupForm(forms.ModelForm):
             'name': 'Your name'
         }
         error_css_class = 'has-error'
+
+    def clean_email(self):
+        data = self.cleaned_data.get('email')
+        return data.lower()
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

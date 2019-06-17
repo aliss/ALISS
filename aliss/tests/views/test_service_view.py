@@ -15,6 +15,7 @@ class ServiceViewTestCase(TestCase):
         self.client.login(username='random@random.org', password='passwurd')
         self.organisation = Fixtures.create_organisation(self.user)
         self.service = Fixtures.create_service(self.organisation)
+        self.non_edit_user = ALISSUser.objects.create_user("nonEdit@nonEdit.org", "passwurd")
 
     def test_service_detail(self):
         logged_in_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
@@ -87,7 +88,7 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(category_count, 1)
         self.assertEqual(result['categories'][0]['name'], category.name)
         self.assertEqual(self.service.name, 'an updated service')
-        self.assertEqual(self.service.slug, 'an-updated-service-0')
+        self.assertEqual(self.service.slug, 'an-updated-service')
         self.assertEqual(self.service.updated_by, self.user)
         self.assertEqual(response.status_code, 302)
 
@@ -110,6 +111,34 @@ class ServiceViewTestCase(TestCase):
         new_last_edited_es = result.last_edited
         self.assertFalse(old_last_edited_db == new_last_edited_db)
         self.assertEqual(new_last_edited_db_string, new_last_edited_es)
+
+    def test_editor_sees_edit_service_action(self):
+        editor_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        self.assertEqual(editor_response.status_code, 200)
+        self.assertContains(editor_response, "My First Service")
+        self.assertContains(editor_response, "Edit service")
+
+    def test_editor_sees_delete_service_action(self):
+        editor_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        self.assertEqual(editor_response.status_code, 200)
+        self.assertContains(editor_response, "My First Service")
+        self.assertContains(editor_response, "Delete service")
+
+    def test_non_editor_doesnt_see_edit_service_action(self):
+        self.client.logout()
+        non_editor_client = self.client.login(username='nonEdit@nonEdit.com', password='passwurd')
+        non_editor_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        self.assertEqual(non_editor_response.status_code, 200)
+        self.assertContains(non_editor_response, "My First Service")
+        self.assertNotContains(non_editor_response, "Edit service")
+
+    def test_non_editor_doesnt_see_delete_service_action(self):
+        self.client.logout()
+        non_editor_client = self.client.login(username='nonEdit@nonEdit.com', password='passwurd')
+        non_editor_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        self.assertEqual(non_editor_response.status_code, 200)
+        self.assertContains(non_editor_response, "My First Service")
+        self.assertNotContains(non_editor_response, "Delete service")
 
     def tearDown(self):
         Fixtures.service_teardown()

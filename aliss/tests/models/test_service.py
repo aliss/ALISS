@@ -2,6 +2,7 @@ from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Service, Location, Category
 from aliss.tests.fixtures import Fixtures
 from aliss.search import (get_service)
+from django.db.models import Count
 
 
 class ServiceTestCase(TestCase):
@@ -19,13 +20,14 @@ class ServiceTestCase(TestCase):
     def test_service_slugs(self):
         s1 = Service.objects.get(name="My First Service")
         s2 = Service.objects.create(name="My First Service", description="A handy service", organisation=s1.organisation, created_by=s1.created_by)
-        self.assertEqual(s1.slug, "my-first-service-0")
-        self.assertEqual(s2.slug, "my-first-service-1")
+        self.assertEqual(s1.slug, "my-first-service")
+        self.assertTrue("my-first-service-" in s2.slug)
         s1.name = "My Other Service"
         s1.save()
-        self.assertEqual(s1.slug, "my-other-service-0")
+        self.assertEqual(s1.slug, "my-other-service")
         s3 = Service.objects.create(name="My First Service", description="Another handy service", organisation=s1.organisation, created_by=s1.created_by)
-        self.assertEqual(s3.slug, "my-first-service-2")
+        duplicates = Service.objects.values('slug').annotate(Count('id')).order_by().filter(id__count__gt=1)
+        self.assertEqual(0, duplicates.count())
 
     def test_user_delete_doesnt_cascade(self):
         ALISSUser.objects.get(email="tester@aliss.org").delete()

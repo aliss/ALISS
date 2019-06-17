@@ -38,6 +38,8 @@ from aliss.search import filter_organisations_by_query_all, filter_organisations
 from aliss.paginators import *
 from django.views.generic.list import MultipleObjectMixin
 
+from django.http import Http404
+
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -263,6 +265,7 @@ class OrganisationSearchView(ListView):
     model = Organisation
     template_name = 'organisation/search-results.html'
     paginate_by = 10
+    import logging
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -285,15 +288,15 @@ class OrganisationSearchView(ListView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
+
         has_services = self.request.GET.get('has_services')
         # Apply the urser permission level and the further optional filters to the results.
         queryset = self.filter_queryset(queryset)
         # Use the keyword_order code to take the elastic search results and create a dictionary of the ids and the ordering positiion called  results.
         results = keyword_order(queryset)
         # Filter the db results using the results dictionary.
-
         if has_services:
-            queryset = Organisation.filter_by_has_services(results, has_services)
+            queryset = Organisation.with_services().filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
         else :
             queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
         # Return all the db records so the ListView can handle the pagination.

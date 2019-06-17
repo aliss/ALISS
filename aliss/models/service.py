@@ -9,6 +9,8 @@ from aliss.models import ServiceArea
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, service_to_body
 
+from aliss.utils import unique_slug_generator
+
 import pytz
 from datetime import datetime
 
@@ -95,6 +97,10 @@ class Service(models.Model):
     )
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
 
+    @classmethod
+    def published(cls):
+        return cls.objects.filter(organisation__published=True)
+
     def is_published(self):
         return self.organisation.published
 
@@ -114,13 +120,7 @@ class Service(models.Model):
             result = Service.objects.filter(pk=self.pk).values('name').first()
             name_changed = (result != None) and (result != self.name)
         if force or self.slug == None or name_changed:
-            s = slugify(self.name)
-            similar = Service.objects.filter(slug__startswith=s).order_by('updated_on')
-            try:
-                slug_n = int(similar.last().slug.split('-')[-1]) + 1
-            except:
-                slug_n = similar.count()
-            self.slug = s + "-" + str(slug_n)
+            self.slug = unique_slug_generator(self, 'name')
             return self.slug
         return False
 
@@ -168,6 +168,13 @@ class Service(models.Model):
     def delete(self, *args, **kwargs):
         self.remove_from_index()
         super(Service, self).delete(*args, **kwargs)
+
+    def generate_permalink(self):
+        id = str(self.id)
+        start_url = "www.aliss.org/services/"
+        permalink = start_url + id + "/"
+        return permalink
+
 
     @property
     def is_claimed(self):

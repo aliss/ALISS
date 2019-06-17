@@ -73,3 +73,5 @@ node_modules/
 dump.rdb
 
 devnotes.md
+
+csv_outputs/
