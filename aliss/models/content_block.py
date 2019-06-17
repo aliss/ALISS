@@ -6,3 +6,6 @@ class ContentBlock(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     slug = models.SlugField()
     body = models.TextField()
+
+    def __str__(self):
+        return self.slug
