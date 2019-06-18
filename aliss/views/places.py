@@ -1,6 +1,6 @@
 import string
 from django.http import HttpResponseRedirect, HttpResponse
-from aliss.models import Postcode, Category, Service
+from aliss.models import Postcode, Category, Service, ContentBlock
 from django.views.generic import View, TemplateView
 from django.urls import reverse
 from django.views.generic.list import MultipleObjectMixin
@@ -20,12 +20,12 @@ from aliss.search import (
 import logging
 from django.shortcuts import render
 
-class PlacesView(MultipleObjectMixin, TemplateView):
+class PlaceCategoryView(MultipleObjectMixin, TemplateView):
     template_name = 'places/results.html'
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        context = super(PlacesView, self).get_context_data(**kwargs)
+        context = super(PlaceCategoryView, self).get_context_data(**kwargs)
         context['postcode'] = self.postcode
         service_area = self.postcode.get_local_authority()
         if service_area:
@@ -72,10 +72,10 @@ class PlaceView(TemplateView):
     template_name = 'places/place.html'
 
     def get(self, request, place_slug):
-        supported_places = ['glasgow', 'edinburgh', 'aberdeen']
         logger = logging.getLogger(__name__)
         logger.error(place_slug)
-        if place_slug in supported_places:
+        content_slug = "places" + "-" + place_slug
+        if ContentBlock.objects.filter(slug=content_slug).exists():
             return self.render_to_response(self.get_context_data())
         else:
             if Postcode.objects.filter(slug=place_slug).exists():
