@@ -67,3 +67,28 @@ class PlacesView(MultipleObjectMixin, TemplateView):
     def define_object_list_return_response(self):
         self.object_list = self.filter_queryset(self.get_queryset())
         return self.render_to_response(self.get_context_data())
+
+class PlaceView(TemplateView):
+    template_name = 'places/place.html'
+
+    def get(self, request, place_slug):
+        supported_places = ['glasgow', 'edinburgh', 'aberdeen']
+        logger = logging.getLogger(__name__)
+        logger.error(place_slug)
+        if place_slug in supported_places:
+            return self.render_to_response(self.get_context_data())
+        else:
+            if Postcode.objects.filter(slug=place_slug).exists():
+                postcode = Postcode.objects.get(slug=place_slug)
+                return HttpResponseRedirect(
+                    "{url}?postcode={postcode}".format(
+                        url=reverse('search'),
+                        postcode=postcode.postcode,
+                    )
+                )
+            else:
+                return HttpResponseRedirect(
+                    "{url}".format(
+                        url=reverse('homepage'),
+                    )
+                )
