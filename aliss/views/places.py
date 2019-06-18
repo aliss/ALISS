@@ -72,8 +72,6 @@ class PlaceView(TemplateView):
     template_name = 'places/place.html'
 
     def get(self, request, place_slug):
-        logger = logging.getLogger(__name__)
-        logger.error(place_slug)
         content_slug = "places" + "-" + place_slug
         if ContentBlock.objects.filter(slug=content_slug).exists():
             return self.render_to_response(self.get_context_data())
