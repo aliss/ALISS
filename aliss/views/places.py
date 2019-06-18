@@ -76,17 +76,10 @@ class PlaceView(TemplateView):
         if ContentBlock.objects.filter(slug=content_slug).exists():
             return self.render_to_response(self.get_context_data())
         else:
-            if Postcode.objects.filter(slug=place_slug).exists():
-                postcode = Postcode.objects.get(slug=place_slug)
-                return HttpResponseRedirect(
-                    "{url}?postcode={postcode}".format(
-                        url=reverse('search'),
-                        postcode=postcode.postcode,
-                    )
+            postcode = get_object_or_404(Postcode, slug=place_slug)
+            return HttpResponseRedirect(
+                "{url}?postcode={postcode}".format(
+                    url=reverse('search'),
+                    postcode=postcode.postcode,
                 )
-            else:
-                return HttpResponseRedirect(
-                    "{url}".format(
-                        url=reverse('homepage'),
-                    )
-                )
+            )

@@ -60,8 +60,7 @@ class PlacesViewTestCase(TestCase):
 
     def test_valid_redirect_no_custom_content_no_placename(self):
         response = self.client.get('/places/musselburgh/')
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('homepage'))
+        self.assertEqual(response.status_code, 404)
 
     def tearDown(self):
         for block in ContentBlock.objects.all():
