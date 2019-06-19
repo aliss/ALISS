@@ -7,7 +7,7 @@
     <p>Any services which you maintain which haven't been updated in the last six weeks will appear here. If any of the listed details have changed and or are not correct you can select 'Review Service' to make the necessary edits. If all of the service information is correct you can 'Confirm' the information so that the service won't appear here for another six weeks.</p>
 </div>
 <div class="my-account-details">
-    {% if not services_to_review_ids.all %}
+    {% if not services_to_review.all %}
         <div class="account-list none">
             <p>You have no services to review.</p>
             <p><a href="{% url 'homepage' %}">Start searching</a></p>
@@ -15,7 +15,7 @@
     {% else %}
         <div class="account-list">
             <ul class="search-results">
-                {% for service in services_to_review_ids.all %}
+                {% for service in services_to_review.all %}
                     <li>
                         <div class="heading">
                           <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
