@@ -3,9 +3,9 @@ from datetime import datetime
 import pytz
 import logging
 
-from aliss.models import Category, Organisation, Postcode
+from aliss.models import Category, Organisation, Postcode, ContentBlock
 from django.urls import reverse
-
+from django.utils.text import slugify
 register = template.Library()
 
 
@@ -160,3 +160,13 @@ def meta_location(service, brackets=True):
     if brackets and txt:
         txt = "(" + txt + ")"
     return txt
+
+@register.simple_tag()
+def content_render(path):
+    path_end = len(path) - 1
+    s = path[1:path_end].replace("/", "-")
+    try:
+        content = ContentBlock.objects.get(slug=s)
+    except ContentBlock.DoesNotExist:
+        content = None
+    return content
