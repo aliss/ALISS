@@ -12,7 +12,7 @@ from aliss.search import get_connection, service_to_body
 from aliss.utils import unique_slug_generator
 
 import pytz
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class ServiceProblem(models.Model):
     UNRESOLVED = 0
@@ -155,6 +155,20 @@ class Service(models.Model):
         current_date = utc.localize(current_date)
         self.last_edited = current_date
 
+    def check_service_last_reviewed(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        number_of_weeks = 6
+        comparison_date = current_date - timedelta(weeks=number_of_weeks)
+        if self.last_edited == None:
+            return self.id
+        elif self.last_edited < comparison_date:
+            return self.id
+        else:
+            return None
+
+
     def save(self, *args, **kwargs):
         self.generate_slug()
         self.generate_last_edited()
@@ -174,6 +188,7 @@ class Service(models.Model):
         start_url = "www.aliss.org/services/"
         permalink = start_url + id + "/"
         return permalink
+
 
 
     @property
