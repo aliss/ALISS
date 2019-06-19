@@ -41,9 +41,11 @@ def login_view(request, *args, **kwargs):
         if not request.POST.get('remember_me', None):
             request.session.set_expiry(0)
         logger = logging.getLogger(__name__)
-        if len(user.services_to_review()) > 0:
-            auth_views.login(request, *args, **kwargs)
-            return HttpResponseRedirect(reverse('account_my_reviews'))
+        referer = request.META.get('HTTP_REFERER', '/')
+        if 'next' not in referer:
+            if len(user.services_to_review()) > 0:
+                auth_views.login(request, *args, **kwargs)
+                return HttpResponseRedirect(reverse('account_my_reviews'))
     return auth_views.login(request, *args, **kwargs)
 
 class AccountSignupView(CreateView):
