@@ -66,13 +66,10 @@ class ServiceCreateView(
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        referer = self.request.META.get('HHTP_REFERER', '/')
-        if 'redirect-review' in referer:
-            return reverse('account_my_reviews')
-        else:
-            return reverse('organisation_detail_slug', kwargs={'slug': self.object.organisation.slug}
-            )
-
+        return reverse(
+            'organisation_detail',
+            kwargs={'pk': self.object.organisation.pk}
+        )
 
 class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Service
@@ -91,11 +88,12 @@ class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return kwargs
 
     def get_success_url(self):
-        referer = self.request.META.get('HHTP_REFERER', '/')
+        referer = self.request.META.get('HTTP_REFERER', '/')
         if 'redirect-review' in referer:
             return reverse('account_my_reviews')
         else:
-            return reverse('organisation_detail_slug', kwargs={'slug': self.object.organisation.slug})
+            return reverse('organisation_detail_slug', kwargs={'slug': self.object.organisation.slug}
+            )
 
     def form_valid(self, form):
         self.object.update_service_last_edited()
