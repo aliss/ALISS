@@ -43,20 +43,25 @@
         </a>
       </div>
       <div class="cell small-3 medium-3 large-3">
-        <!--
         <a href="{% url 'account_my_digest'%}" {% if url_name == 'account_my_digest'%}class="active"{% endif %}>
           <span class="text">
             My notifications
           </span>
         </a>
         {% endwith %}
-      -->
+      </div>
+      <div class="cell small-3 medium-3 large-3">
+        <a href="{% url 'account_my_reviews'%}" {% if url_name == 'account_my_reviews'%}class="active"{% endif %}>
+          <span class="text">
+            My reviews
+          </span>
+        </a>
       </div>
     </div>
-  
+
     {% block content %}
     {% endblock %}
-  
+
   </section>
   <section class="mobile-buttons">
     <div class="row">
