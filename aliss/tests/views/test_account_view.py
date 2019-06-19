@@ -69,8 +69,8 @@ class AccountViewTestCase(TestCase):
         homepage = self.client.get('')
         self.assertContains(homepage, 'Connecting Communities')
         self.client.logout()
-        self.client.login(username='random@random.org', password='passwurd')
-        # self.assertContains(response, 'Connecting Communities')
+        response = self.client.login(username='random@random.org', password='passwurd')
+        # self.assertRedirects(response, reverse('homepage'))
 
 
     '''
@@ -80,15 +80,8 @@ class AccountViewTestCase(TestCase):
         homepage = self.client.get('')
         self.assertContains(homepage, 'Connecting Communities')
         self.client.logout()
-        response = self.client.login(username="claimant@user.org", passwrod="passwurd")
-        # self.assertContains(response, self.unreviewed_service.name)
-    '''
-    Test to check that the 'My reviews' page loads when a user has no services to review.
-    '''
-
-    '''
-    Test to check that a user has
-    '''
+        response = self.client.login(username="claimant@user.org", password="passwurd")
+        # self.assertRedirects(response, reverse('account_my_reviews'))
 
     def tearDown(self):
         Fixtures.organisation_teardown()
