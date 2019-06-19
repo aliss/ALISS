@@ -36,8 +36,13 @@ import logging
 
 def login_view(request, *args, **kwargs):
     if request.method == 'POST':
+        username = request.POST.get('username')
+        user = ALISSUser.objects.get(email=username)
         if not request.POST.get('remember_me', None):
             request.session.set_expiry(0)
+        if len(user.services_to_review()) > 0:
+            auth_views.login(request, *args, **kwargs)
+            return HttpResponseRedirect(reverse('account_my_reviews'))
     return auth_views.login(request, *args, **kwargs)
 
 import logging
@@ -427,5 +432,40 @@ class AccountIsEditor(StaffuserRequiredMixin, View):
             url = next
         else:
             url = reverse('account_detail', kwargs={'pk': user.pk})
+
+        return HttpResponseRedirect(url)
+
+class AccountMyReviews(LoginRequiredMixin, TemplateView):
+    template_name = 'account/my_reviews.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountMyReviews, self).get_context_data(**kwargs)
+        user = self.request.user
+        service_ids = user.services_to_review()
+        context['services_to_review'] = Service.objects.filter(id__in=service_ids).order_by('last_edited')
+        return context
+
+class AccountMyReviewsApprove(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error('Review Logger')
+        logger.error(self.kwargs['pk'])
+
+        service = get_object_or_404(
+            Service,
+            pk=self.kwargs['pk']
+        )
+
+        service.update_service_last_edited()
+        service.save()
+        url = reverse(
+            'account_my_reviews'
+        )
+
+        messages.success(
+            self.request,
+            '<p>{name} successfully approved.</p>'.format(name=service.name))
 
         return HttpResponseRedirect(url)

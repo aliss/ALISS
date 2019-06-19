@@ -95,6 +95,22 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
     def claimed_organisations(self):
         return Organisation.objects.filter(claimed_by=self)
 
+    def claimed_services(self):
+        organisations = self.claimed_organisations()
+        services =[]
+        for org in organisations:
+            for service in org.services.all():
+                services.append(service)
+        return services
+
+    def services_to_review(self):
+        services_to_review_ids = []
+        for service in self.claimed_services():
+            service_id = service.check_service_last_reviewed()
+            if service_id:
+                services_to_review_ids.append(service_id)
+        return services_to_review_ids
+
 
 class RecommendedServiceList(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)

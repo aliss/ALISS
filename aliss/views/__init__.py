@@ -19,6 +19,8 @@ from .account import (
     AccountRecommendationListDeleteView,
     AccountRecommendationListPrintView,
     AccountIsEditor,
+    AccountMyReviews,
+    AccountMyReviewsApprove,
 )
 from .search import (
     SearchView,

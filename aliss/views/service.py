@@ -54,7 +54,7 @@ class ServiceCreateView(
 
     def form_valid(self, form):
         self.object = form.save()
-        
+
 
         messages.success(
             self.request,
@@ -66,10 +66,12 @@ class ServiceCreateView(
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.organisation.pk}
-        )
+        referer = self.request.META.get('HHTP_REFERER', '/')
+        if 'redirect-review' in referer:
+            return reverse('account_my_reviews')
+        else:
+            return reverse('organisation_detail_slug', kwargs={'slug': self.object.organisation.slug}
+            )
 
 
 class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -89,10 +91,11 @@ class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return kwargs
 
     def get_success_url(self):
-        return reverse(
-            'organisation_detail_slug',
-            kwargs={'slug': self.object.organisation.slug}
-        )
+        referer = self.request.META.get('HHTP_REFERER', '/')
+        if 'redirect-review' in referer:
+            return reverse('account_my_reviews')
+        else:
+            return reverse('organisation_detail_slug', kwargs={'slug': self.object.organisation.slug})
 
     def form_valid(self, form):
         self.object.update_service_last_edited()
