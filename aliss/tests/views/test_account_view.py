@@ -70,6 +70,7 @@ class AccountViewTestCase(TestCase):
         self.assertContains(homepage, 'Connecting Communities')
         self.client.logout()
         response = self.client.login(username='random@random.org', password='passwurd')
+        # self.assertEqual(response.status_code, 302)
         # self.assertRedirects(response, reverse('homepage'))
 
 
@@ -81,7 +82,14 @@ class AccountViewTestCase(TestCase):
         self.assertContains(homepage, 'Connecting Communities')
         self.client.logout()
         response = self.client.login(username="claimant@user.org", password="passwurd")
+        # self.assertEqual(response.status_code, 302)
         # self.assertRedirects(response, reverse('account_my_reviews'))
+
+    def test_user_services_to_review_content(self):
+        self.client.logout()
+        self.client.login(username="claimant@user.org", password="passwurd")
+        response = self.client.get('/account/my-reviews/')
+        self.assertContains(response, "Old Service")
 
     def tearDown(self):
         Fixtures.organisation_teardown()
