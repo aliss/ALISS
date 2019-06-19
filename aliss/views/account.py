@@ -43,7 +43,7 @@ def login_view(request, *args, **kwargs):
         logger = logging.getLogger(__name__)
         referer = request.META.get('HTTP_REFERER', '/')
         if 'next' not in referer:
-            if len(user.services_to_review()) > 0:
+            if len(user.services_to_review_ids()) > 0:
                 auth_views.login(request, *args, **kwargs)
                 return HttpResponseRedirect(reverse('account_my_reviews'))
     return auth_views.login(request, *args, **kwargs)
@@ -440,7 +440,7 @@ class AccountMyReviews(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AccountMyReviews, self).get_context_data(**kwargs)
         user = self.request.user
-        service_ids = user.services_to_review()
+        service_ids = user.services_to_review_ids()
         context['services_to_review'] = Service.objects.filter(id__in=service_ids).order_by('last_edited')
         return context
 
