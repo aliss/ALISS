@@ -465,6 +465,6 @@ class AccountMyReviewsApprove(LoginRequiredMixin, View):
 
         messages.success(
             self.request,
-            '<p>{name} successfully approved.</p>'.format(name=service.name))
+            '<p>{name} information successfully confirmed.</p>'.format(name=service.name))
 
         return HttpResponseRedirect(url)
