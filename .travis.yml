@@ -7,9 +7,12 @@ env:
 - DB=postgres DATABASE_URL='postgresql://postgres@localhost:5432/alissproject' DJANGO_VERSION=1.11.8
   DJANGO_SETTINGS_MODULE='config.settings.local' SECRET_KEY='thisisasecrettkey' ALLOWED_HOSTS='localhost,www.localhost'
   ELASTICSEARCH_URL=http://localhost:9200 ELASTICSEARCH_USERNAME='' ELASTICSEARCH_PASSWORD=''
-  CLOUDINARY_CLOUD_NAME='test' CLOUDINARY_API_KEY='test' CLOUDINARY_API_SECRET='test' CLOUDINARY_URL='cloudinary://x:y@z'
+  CLOUDINARY_CLOUD_NAME='test' CLOUDINARY_API_KEY='test' CLOUDINARY_API_SECRET='test'
+  CLOUDINARY_URL='cloudinary://x:y@z'
 before_install:
-- curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.4.deb && sudo dpkg -i --force-confnew elasticsearch-6.5.4.deb && sudo service elasticsearch restart
+- curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.4.deb
+  && sudo dpkg -i --force-confnew elasticsearch-6.5.4.deb && sudo service elasticsearch
+  restart
 install:
 - pip install -r requirements.txt
 before_script:
@@ -26,8 +29,10 @@ deploy:
   on:
     repo: staging
 notifications:
-  email: false
   slack:
-    secure: IFSqAotwjmkfFmLLYw0pvjkP6/5t9qNuO6Hy71IUQA/Bao/4iTTGE217JiIvSZiFFBFvhCWdHY0zpNYlQNg7m1c/hw5Frs1I920oFZLvfCmxI7qFESWqc3WcEQo1FXi+cPapyIPLHihLJ+PfncSZgRiBXUo1zUqXG/iFQYt6UM5+6X6Di8XVqsyCbOYUDBQrdFgrIef6sHlz7SjETbzoLlt7voMD6rrNgtCWrnoSG/1dp6e+C+NkQA6zpRnUfvrrZYWmIGfjE9OltQ1YGZZ7UuloPCp1nzT7ZlIzC75UycZMi8uEqsHdmHzeF1oH/LmElyUJISUyh1qA02j5cQmoYznzJoTKp0t5kbB1GAX3U4okzTtrUTokh7elUnyQGisLpCkyEC4VwuCzcrxWcJBwG/rn2VnRuTCZcMd5tvhjHPBg/Y2c8JtLsHcd/lX0jZ6lVEyiOOYk70dllAH+dmFY5cv9//+bZ8rBLpynbpCD/rBaTJSMFCN/9c9IXQWa1HBOclyHLc/ooQFa5JpzgD3IUb2J6wSMWXAuvA9WAXVGv5XH8cxT00Zl7kaDWJZ8oDv+HmDgsKiliViOuKOXiR9A317XWgtfU+0IpyCZi+XcDKK8mwadquq0Au6oiv0rIIYa7Qwe+g4MGAdARf5wjpPQd1PbaKiEckRRoNDEvR0VfAo=
+    rooms:
+      - aliss-team:myOYfFm3gWKEUPcVvRszq6uQ#dev
+    on_success: always
     template:
       - "%{repository_slug}#%{build_number} (%{branch} - %{commit}): %{message}"
+  email: false
