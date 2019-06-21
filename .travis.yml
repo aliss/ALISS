@@ -2,7 +2,7 @@ language: python
 python:
 - 3.6.5
 services:
-- postgres
+- postgresql
 env:
 - DB=postgres DATABASE_URL='postgresql://postgres@localhost:5432/alissproject' DJANGO_VERSION=1.11.8
   DJANGO_SETTINGS_MODULE='config.settings.local' SECRET_KEY='thisisasecrettkey' ALLOWED_HOSTS='localhost,www.localhost'
