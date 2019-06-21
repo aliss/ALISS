@@ -457,7 +457,7 @@ class AccountMyReviewsApprove(LoginRequiredMixin, View):
             pk=self.kwargs['pk']
         )
 
-        service.update_service_last_edited()
+        service.update_last_edited()
         service.save()
         url = reverse(
             'account_my_reviews'

@@ -126,7 +126,7 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
             return reverse('organisation_detail_slug', kwargs={ 'slug': self.object.slug })
 
     def form_valid(self, form):
-        self.object.update_organisation_last_edited()
+        self.object.update_last_edited()
         self.object = form.save(commit=False)
         self.object.updated_by = self.request.user
         self.object.save()

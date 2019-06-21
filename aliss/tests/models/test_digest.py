@@ -117,7 +117,7 @@ class DigestTestCase(TestCase):
         self.assertTrue(isinstance(test_digest, DigestSelection))
         # #Update a service last_edited field
         service2 = Service.objects.get(name="My Second Service")
-        service2.update_service_last_edited()
+        service2.update_last_edited()
         service2.save()
         # retrieve the services which match the digest selection
         retrieved_new = test_digest.retrieve_new_services(self.comparison_date)

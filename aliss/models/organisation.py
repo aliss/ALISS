@@ -82,13 +82,13 @@ class Organisation(models.Model):
     def generate_last_edited(self, force=False):
         if  force or self.last_edited == None:
             if self.updated_on == None:
-                self.update_organisation_last_edited()
+                self.update_last_edited()
             else:
                 self.last_edited = self.updated_on
             return self.last_edited
         return False
 
-    def update_organisation_last_edited(self):
+    def update_last_edited(self):
         utc = pytz.UTC
         current_date = datetime.now()
         current_date = utc.localize(current_date)

@@ -143,19 +143,19 @@ class Service(models.Model):
     def generate_last_edited(self, force=False):
         if force or self.last_edited == None:
             if self.updated_on == None:
-                self.update_service_last_edited()
+                self.update_last_edited()
             else:
                 self.last_edited = self.updated_on
             return self.last_edited
         return False
 
-    def update_service_last_edited(self):
+    def update_last_edited(self):
         utc = pytz.UTC
         current_date = datetime.now()
         current_date = utc.localize(current_date)
         self.last_edited = current_date
 
-    def check_service_last_reviewed(self):
+    def check_last_reviewed(self):
         utc = pytz.UTC
         current_date = datetime.now()
         current_date = utc.localize(current_date)
@@ -167,7 +167,6 @@ class Service(models.Model):
             return self.id
         else:
             return None
-
 
     def save(self, *args, **kwargs):
         self.generate_slug()

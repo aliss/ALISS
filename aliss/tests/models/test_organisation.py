@@ -56,7 +56,7 @@ class OrganisationTestCase(TestCase):
 
     def test_organisation_last_edited_update_method(self):
         old_last_edited = self.org.last_edited
-        self.org.update_organisation_last_edited()
+        self.org.update_last_edited()
         new_last_edited = self.org.last_edited
         self.assertFalse(old_last_edited == new_last_edited)
 
