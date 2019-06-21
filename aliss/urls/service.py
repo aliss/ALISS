@@ -21,6 +21,10 @@ urlpatterns = [
         ServiceEmailView.as_view(),
         name='service_email'
     ),
+    url(r'^edit/(?P<pk>[0-9A-Za-z\-]+)/redirect-review/$',
+        ServiceUpdateView.as_view(),
+        name='service_edit_redirect_review'
+    ),
     url(r'^edit/(?P<pk>[0-9A-Za-z\-]+)/$',
         ServiceUpdateView.as_view(),
         name='service_edit'
