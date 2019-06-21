@@ -7,9 +7,12 @@ env:
 - DB=postgres DATABASE_URL='postgresql://postgres@localhost:5432/alissproject' DJANGO_VERSION=1.11.8
   DJANGO_SETTINGS_MODULE='config.settings.local' SECRET_KEY='thisisasecrettkey' ALLOWED_HOSTS='localhost,www.localhost'
   ELASTICSEARCH_URL=http://localhost:9200 ELASTICSEARCH_USERNAME='' ELASTICSEARCH_PASSWORD=''
-  CLOUDINARY_CLOUD_NAME='test' CLOUDINARY_API_KEY='test' CLOUDINARY_API_SECRET='test' CLOUDINARY_URL='cloudinary://x:y@z'
+  CLOUDINARY_CLOUD_NAME='test' CLOUDINARY_API_KEY='test' CLOUDINARY_API_SECRET='test'
+  CLOUDINARY_URL='cloudinary://x:y@z'
 before_install:
-- curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.4.deb && sudo dpkg -i --force-confnew elasticsearch-6.5.4.deb && sudo service elasticsearch restart
+- curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.5.4.deb
+  && sudo dpkg -i --force-confnew elasticsearch-6.5.4.deb && sudo service elasticsearch
+  restart
 install:
 - pip install -r requirements.txt
 before_script:
@@ -26,8 +29,11 @@ deploy:
   on:
     repo: staging
 notifications:
-  email: false
   slack:
-    secure: IFSqAotwjmkfFmLLYw0pvjkP6/5t9qNuO6Hy71IUQA/Bao/4iTTGE217JiIvSZiFFBFvhCWdHY0zpNYlQNg7m1c/hw5Frs1I920oFZLvfCmxI7qFESWqc3WcEQo1FXi+cPapyIPLHihLJ+PfncSZgRiBXUo1zUqXG/iFQYt6UM5+6X6Di8XVqsyCbOYUDBQrdFgrIef6sHlz7SjETbzoLlt7voMD6rrNgtCWrnoSG/1dp6e+C+NkQA6zpRnUfvrrZYWmIGfjE9OltQ1YGZZ7UuloPCp1nzT7ZlIzC75UycZMi8uEqsHdmHzeF1oH/LmElyUJISUyh1qA02j5cQmoYznzJoTKp0t5kbB1GAX3U4okzTtrUTokh7elUnyQGisLpCkyEC4VwuCzcrxWcJBwG/rn2VnRuTCZcMd5tvhjHPBg/Y2c8JtLsHcd/lX0jZ6lVEyiOOYk70dllAH+dmFY5cv9//+bZ8rBLpynbpCD/rBaTJSMFCN/9c9IXQWa1HBOclyHLc/ooQFa5JpzgD3IUb2J6wSMWXAuvA9WAXVGv5XH8cxT00Zl7kaDWJZ8oDv+HmDgsKiliViOuKOXiR9A317XWgtfU+0IpyCZi+XcDKK8mwadquq0Au6oiv0rIIYa7Qwe+g4MGAdARf5wjpPQd1PbaKiEckRRoNDEvR0VfAo=
+    rooms:
+      - aliss-team:myOYfFm3gWKEUPcVvRszq6uQ#dev
+    on_success: always
+    secure: r42Kyq1vCFG3NKaROnrkz3IEry7LA+1QGkLORHlwB7kJhZqtFOJ2ggMZzAsi9k0bEB2l+v+0PIuecNiARwINVZp2dlce0y482rLcQ7QjXkN/g8CjgsceMm4dseHxg6tj09Y/s46uxIdgvxELa14C0cY5xMew7MPFgctKrj3AhQw0qTBd3VffOlXsqvP26osx8u+g6Y28sAt1401vVOQFCYgFxut8hBVuesq8gWpo5K5i1bmMDNs1kZs3h28sVzvgjr7gxdBFVtREiIpWTTVJFJlK2ghNooYXHyy69q0+7JKY447CV/Ixyqp7xhGw9vcXKSsJjQdF1X7ZqWdhDYx1BKkWSiEye9PG/x8Ut/Uh1l9+xmh64aoeMrqqRwZocPx/mXPFyY9hxWM9PtBGP/bT1f9d+TtZ1nbp1AKOmbQpGZRnlCHt3Ll7f5UJwHrRJfau2RyR7M9JqYXv0AiFWT+86VYoKoEPJBSJAynAIIhjZVXVRdrX1hFVyBRm20vEK9ZR6EVowyvEzoAk1XQM4iEdrN4UV6QCBGUS9ptEmE48Cfgsg1ukFapB6cOigd01YhT2vvHnwIUV/rWn1BwIVAQVfJ0v3Cn9mI0exhMOjlNfdz76Q+P8F2HIul0Iob2UoRyWMMIlRj0HZ4Ir08OzW7h6hW0V7D4K3bQ4KMmcZ6w72dg=
     template:
       - "%{repository_slug}#%{build_number} (%{branch} - %{commit}): %{message}"
+  email: false
