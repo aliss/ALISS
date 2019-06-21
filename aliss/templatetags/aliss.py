@@ -163,8 +163,11 @@ def meta_location(service, brackets=True):
 
 @register.simple_tag()
 def content_render(path):
-    path_end = len(path) - 1
-    s = path[1:path_end].replace("/", "-")
+    if "/" in path:
+        path_end = len(path) - 1
+        s = path[1:path_end].replace("/", "-")
+    else:
+        s = path
     try:
         content = ContentBlock.objects.get(slug=s)
     except ContentBlock.DoesNotExist:
