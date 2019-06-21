@@ -16,7 +16,7 @@ before_install:
 install:
 - pip install -r requirements.txt
 before_script:
-- sleep 10
+- sleep 11
 script:
 - python manage.py shell --command="from aliss.search_tasks import create_index; create_index()"
 - python manage.py collectstatic
