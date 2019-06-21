@@ -114,7 +114,7 @@ class ServiceTestCase(TestCase):
 
     def test_service_last_edited_update_method(self):
         old_last_edited = self.service.last_edited
-        self.service.update_service_last_edited()
+        self.service.update_last_edited()
         new_last_edited = self.service.last_edited
         self.assertFalse(old_last_edited == new_last_edited)
 
@@ -125,7 +125,7 @@ class ServiceTestCase(TestCase):
         out_of_range_date = (current_date - timedelta(weeks=7))
         self.service.last_edited = out_of_range_date
         self.service.save()
-        last_reviewed_status = self.service.check_service_last_reviewed()
+        last_reviewed_status = self.service.check_last_reviewed()
         service_id = self.service.pk
         self.assertEqual(last_reviewed_status, service_id)
 
@@ -136,7 +136,7 @@ class ServiceTestCase(TestCase):
         in_range_date = (current_date - timedelta(weeks=5))
         self.service.last_edited = in_range_date
         self.service.save()
-        last_reviewed_status = self.service.check_service_last_reviewed()
+        last_reviewed_status = self.service.check_last_reviewed()
         service_id = self.service.pk
         self.assertEqual(last_reviewed_status, None)
 

@@ -95,10 +95,6 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
     def claimed_organisations(self):
         return Organisation.objects.filter(claimed_by=self)
 
-    '''
-    Need to identify the users should be alerted to review services. There is precedent for this in showing My Organisations.
-    '''
-
     def organisations_to_review(self):
         claimed_orgs= self.claimed_organisations()
         created_orgs = Organisation.objects.filter(created_by=self).exclude(claimed_by=self)
@@ -115,15 +111,13 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
                 services_to_review.append(service)
         return services_to_review
 
-
     def services_to_review_ids(self):
         services_to_review_ids = []
         for service in self.services_to_review():
-            service_id = service.check_service_last_reviewed()
+            service_id = service.check_last_reviewed()
             if service_id:
                 services_to_review_ids.append(service_id)
         return services_to_review_ids
-
 
 
 class RecommendedServiceList(models.Model):

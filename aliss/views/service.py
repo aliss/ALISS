@@ -96,7 +96,7 @@ class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             )
 
     def form_valid(self, form):
-        self.object.update_service_last_edited()
+        self.object.update_last_edited()
         self.object = form.save()
 
         messages.success(
