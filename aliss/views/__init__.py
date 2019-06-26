@@ -19,6 +19,8 @@ from .account import (
     AccountRecommendationListDeleteView,
     AccountRecommendationListPrintView,
     AccountIsEditor,
+    AccountMyReviews,
+    AccountMyReviewsApprove,
 )
 from .search import (
     SearchView,
@@ -60,5 +62,6 @@ from .digest import (
 )
 
 from .places import (
-    PlacesView
+    PlaceCategoryView,
+    PlaceView
 )

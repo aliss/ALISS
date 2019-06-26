@@ -3,6 +3,8 @@ from aliss.models import Organisation, ALISSUser, Service, Location, Category
 from aliss.tests.fixtures import Fixtures
 from aliss.search import (get_service)
 from django.db.models import Count
+from datetime import datetime, timedelta
+import pytz
 
 
 class ServiceTestCase(TestCase):
@@ -112,9 +114,31 @@ class ServiceTestCase(TestCase):
 
     def test_service_last_edited_update_method(self):
         old_last_edited = self.service.last_edited
-        self.service.update_service_last_edited()
+        self.service.update_last_edited()
         new_last_edited = self.service.last_edited
         self.assertFalse(old_last_edited == new_last_edited)
+
+    def test_check_service_last_reviewed_outwith_date(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        out_of_range_date = (current_date - timedelta(weeks=7))
+        self.service.last_edited = out_of_range_date
+        self.service.save()
+        last_reviewed_status = self.service.check_last_reviewed()
+        service_id = self.service.pk
+        self.assertEqual(last_reviewed_status, service_id)
+
+    def test_check_service_last_reviewed_within_date(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        in_range_date = (current_date - timedelta(weeks=5))
+        self.service.last_edited = in_range_date
+        self.service.save()
+        last_reviewed_status = self.service.check_last_reviewed()
+        service_id = self.service.pk
+        self.assertEqual(last_reviewed_status, None)
 
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):

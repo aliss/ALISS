@@ -570,12 +570,9 @@ $(document).ready(() => {
     });
 
     if (!($("div.filter-distance > ul").children().hasClass("active"))){
-      var urlString = window.location.href;
-      console.log(urlString)
+      urlString = window.location.href;
       var url = new URL(urlString);
-      console.log(url)
       var searchedRadius = url.searchParams.get("radius");
-      console.log(searchedRadius)
       $("#custom-radius-radio").addClass("active");
       $("#custom-radius-input").removeAttr("disabled");
       $("#custom-radius-input").val(searchedRadius);
@@ -599,14 +596,15 @@ $(document).ready(() => {
   window.category_change_keyword_check = function(){
     var checkword = function(){
       var new_term = $("input[name='q']").val();
-      $(".category-selector a").not(".select-category").prop("href", function(i, href){return href.replace(/q.*?&/, "q=" + new_term + "&");
-      })
-    }
+      $(".category-selector a").not(".select-category").prop("href", function(i, href){
+        return href.replace(/q.*?&/, "q=" + new_term + "&");
+      });
+    };
 
     if ($("input[name='q']").val() != "") {
       $(".category-selector *").click(checkword);
     }
-  }
+  };
 
   svg4everybody();
   handleTabs();
