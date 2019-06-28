@@ -9,10 +9,15 @@ from aliss.views import (
     ServiceProblemListView,
     ServiceProblemUpdateView,
     ServiceCoverageView,
-    ServiceEmailView
+    ServiceEmailView,
+    ServiceAtLocationDelete
 )
 
 urlpatterns = [
+    url(r'^service-at-location/(?P<service_at_location_pk>.+)/delete/$',
+        ServiceAtLocationDelete.as_view(),
+        name='service_at_location_delete'
+    ),
     url(r'^coverage/$',
         ServiceCoverageView.as_view(),
         name='service_coverage'
@@ -58,5 +63,6 @@ urlpatterns = [
             template_name='service/report_problem_thanks.html'
         ),
         name='service_report_problem_thanks'
-    )
+    ),
+
 ]

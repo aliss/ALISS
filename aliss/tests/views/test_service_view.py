@@ -140,6 +140,31 @@ class ServiceViewTestCase(TestCase):
         self.assertContains(non_editor_response, "My First Service")
         self.assertNotContains(non_editor_response, "Delete service")
 
+    def test_service_at_location_delete(self):
+        location_count = self.service.locations.count()
+        self.assertEqual(1, location_count)
+        location_pk = self.service.locations.first().pk
+        service_pk = self.service.pk
+        service_at_location_slug = str(service_pk) + ':' + str(location_pk)
+        response = self.client.post(reverse('service_at_location_delete', kwargs={'service_at_location_pk':service_at_location_slug}))
+        self.assertEqual(response.status_code, 302)
+        new_location_count = self.service.locations.count()
+        self.assertEqual(0, new_location_count)
+
+    def test_service_at_location_delete_non_editor(self):
+        self.client.logout()
+        non_editor_client = self.client.login(username='nonEdit@nonEdit.com', password='passwurd')
+        location_count = self.service.locations.count()
+        self.assertEqual(1, location_count)
+        location_pk = self.service.locations.first().pk
+        service_pk = self.service.pk
+        service_at_location_slug = str(service_pk) + ':' + str(location_pk)
+        non_editor_response = self.client.post(reverse('service_at_location_delete', kwargs={'service_at_location_pk':service_at_location_slug}))
+        self.assertEqual(non_editor_response.status_code, 302)
+        new_location_count = self.service.locations.count()
+        self.assertEqual(1, new_location_count)
+
+
     def tearDown(self):
         Fixtures.service_teardown()
         for organisation in Organisation.objects.filter(name="TestOrg"):

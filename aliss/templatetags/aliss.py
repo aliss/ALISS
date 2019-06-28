@@ -1,11 +1,12 @@
 from django import template
 from datetime import datetime
+from aliss.models import Category, Organisation, Postcode, ContentBlock, Location
+from django.urls import reverse
+from django.utils.text import slugify
+
 import pytz
 import logging
 
-from aliss.models import Category, Organisation, Postcode, ContentBlock
-from django.urls import reverse
-from django.utils.text import slugify
 register = template.Library()
 
 
@@ -20,6 +21,12 @@ def can_add_logo(user, object):
         return False# return user.is_staff or user.is_editor
     else:
         return object.can_add_logo(user)
+
+
+@register.assignment_tag
+def get_service_at_location_slug(service, location):
+    slug_service_at_location = str(service) + ':' + str(location)
+    return slug_service_at_location
 
 
 @register.simple_tag(takes_context=True)
@@ -48,6 +55,7 @@ def query_transform(context, request, **kwargs):
     path = uri + '?' + url
     return path
 
+
 @register.simple_tag
 def process_locations(collection, **kwargs):
     postcode = kwargs['postcode'].upper().strip()
@@ -65,6 +73,7 @@ def process_locations(collection, **kwargs):
             return matching_districts + locations
         specificity -= 1
     return matching_districts
+
 
 @register.simple_tag
 def get_root_categories():
@@ -111,6 +120,7 @@ def get_icon(category):
 def get_item(dictionary, key):
     return dictionary.get(key)
 
+
 @register.filter
 def format_time_string(value):
     utc = pytz.UTC
@@ -120,10 +130,12 @@ def format_time_string(value):
     utc.localize(d)
     return d
 
+
 @register.simple_tag(takes_context=True)
 def absolute(context, path):
     request = context["request"]
     return request.scheme + "://" + request.get_host() + path
+
 
 @register.simple_tag()
 def meta_description(service):
@@ -160,6 +172,7 @@ def meta_location(service, brackets=True):
     if brackets and txt:
         txt = "(" + txt + ")"
     return txt
+
 
 @register.simple_tag()
 def content_render(path):
