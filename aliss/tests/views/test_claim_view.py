@@ -33,5 +33,4 @@ class ClaimViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def tearDown(self):
-        for organisation in Organisation.objects.filter(name="TestOrg"):
-            organisation.delete()
+        Fixtures.organisation_teardown()

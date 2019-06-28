@@ -19,7 +19,7 @@ from braces.views import (
     UserPassesTestMixin
 )
 
-from aliss.models import Service, ServiceProblem, ServiceArea, Organisation, RecommendedServiceList
+from aliss.models import Service, ServiceProblem, ServiceArea, Organisation, RecommendedServiceList, Location
 from aliss.forms import (
     ServiceForm,
     ServiceProblemForm,
@@ -28,6 +28,7 @@ from aliss.forms import (
 )
 from aliss.views import OrganisationMixin
 
+import logging
 
 class ServiceCreateView(
     LoginRequiredMixin,
@@ -66,10 +67,17 @@ class ServiceCreateView(
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.organisation.pk}
-        )
+        if (self.object.organisation.services.count() <= 1):
+            return reverse(
+                'organisation_confirm',
+                kwargs={'pk': self.object.organisation.pk}
+            )
+
+        else:
+            return reverse(
+                'organisation_detail',
+                kwargs={'pk': self.object.organisation.pk}
+            )
 
 class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Service
@@ -285,3 +293,50 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
         email_message.send()
 
         return super(ServiceEmailView, self).form_valid(form)
+
+
+class ServiceAtLocationDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    success_message = "Location successfully removed from service."
+    model = Service
+    template_name = 'service/detail.html'
+
+    def get_object(self):
+        service_pk = self.get_service_location_pks()['service_pk']
+        object = Service.objects.get(pk=service_pk)
+        return object
+
+    def get_location_object(self):
+        location_pk = self.get_service_location_pks()['location_pk']
+        location = Location.objects.get(pk=location_pk)
+        return location
+
+    def test_func(self, user):
+        return self.get_object().is_edited_by(user)
+
+    def get_success_url(self):
+        return reverse(
+            'service_detail',
+            kwargs={'pk': self.get_object().pk}
+        )
+
+    def delete(self, request, *args, **kwargs):
+        service = self.get_object()
+        location = self.get_location_object()
+        service.locations.remove(location)
+        service.save()
+        success_url = self.get_success_url()
+        messages.success(
+            self.request,
+            'Successfully removed location from service.'
+            )
+        return HttpResponseRedirect(success_url)
+
+    def get_service_location_pks(self):
+        service_at_location_pks = {}
+        service_at_location_slug = self.kwargs.get("service_at_location_pk")
+        pk_array = service_at_location_slug.split(':')
+        service_pk = pk_array[0]
+        location_pk = pk_array[1]
+        service_at_location_pks['service_pk'] = service_pk
+        service_at_location_pks['location_pk'] = location_pk
+        return service_at_location_pks

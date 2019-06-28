@@ -203,6 +203,36 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "TestOrg")
 
+    def test_organisation_valid_creation_with_claim_redirect_add_service(self):
+        response = self.client.post(reverse('organisation_create'), {
+            'name': 'an organisation', 'description': 'a full description',
+            'claim': 'on', 'claim-comment': 'im important', 'claim-phone': '034343243',
+            'claim-data_quality': 'on'
+        })
+        o = Organisation.objects.latest('created_on')
+        c = Claim.objects.latest('created_on')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('service_create', kwargs={'pk': o.pk }))
+
+    def test_organisation_valid_update_no_services_redirect_to_add_a_service(self):
+        self.assertEqual(self.organisation.services.count(), 0)
+        response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
+            { 'name': 'an updated organisation', 'description': 'a full description' })
+        self.organisation.refresh_from_db()
+        self.assertEqual(self.organisation.name, 'an updated organisation')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('service_create', kwargs={ 'pk': self.organisation.pk }))
+
+    def test_organisation_valid_update_one_service_redirects_to_org_detail(self):
+        Fixtures.create_service(self.organisation)
+        self.assertEqual(self.organisation.services.count(), 1)
+        response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
+            { 'name': 'an updated organisation', 'description': 'a full description' })
+        self.organisation.refresh_from_db()
+        self.assertEqual(self.organisation.name, 'an updated organisation')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('organisation_detail_slug', kwargs={ 'slug': self.organisation.slug }))
+
     def test_organisation_search_page_1_filter_no_results(self):
         response = self.client.get('/organisations/search/?q=test&is_published=true')
         self.assertEqual(response.status_code, 200)
@@ -212,9 +242,10 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
-        for organisation in Organisation.objects.filter(name="TestOrg"):
-            organisation.delete()
+        Fixtures.organisation_teardown()
         for organisation in Organisation.objects.filter(name="Banana Unpublished"):
             organisation.delete()
         for organisation in Organisation.objects.filter(name="Banana Published"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="an updated organisation"):
             organisation.delete()

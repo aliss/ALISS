@@ -83,3 +83,5 @@ class SearchTestCase(TestCase):
 
     def tearDown(self):
         Fixtures.organisation_teardown()
+        for organisation in Organisation.objects.filter(name="Test0rg"):
+            organisation.delete()
