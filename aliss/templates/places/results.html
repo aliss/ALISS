@@ -15,7 +15,7 @@
           {% else %}
             <h1>Help and support with {{category}} in <span class="postcode">{{ postcode.place_name }}</span>
             </h1>
-            <p>Below is a lost of services to help users who live in {{postcode.place_name}} who are seeking help wth {{category}}. You can find help from these services are make a new search with different criteria by using any of the filters.</p>
+            <p>Below is a list of services to help people in {{postcode.place_name}} who are seeking help with {{category}}. You can find help from these services or start a new search with different criteria by using the filters below.</p>
           {% endif %}
           <div class="buttons">
             <a href="{% url 'homepage' %}" class="button primary">New search</a>
