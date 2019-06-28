@@ -112,6 +112,36 @@ class ServiceViewTestCase(TestCase):
         self.assertFalse(old_last_edited_db == new_last_edited_db)
         self.assertEqual(new_last_edited_db_string, new_last_edited_es)
 
+    def test_redirect_to_org_confirm_single_service_valid_create(self):
+        self.organisation.services.first().delete()
+        self.assertEqual(self.organisation.services.count(), 0)
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_create', kwargs={'pk':self.organisation.pk}),{
+            'name': 'A whole new service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk]
+        })
+        queryset = Service.objects.filter(name='A whole new service')
+        self.assertEqual(queryset.count(), 1)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('organisation_confirm',kwargs={'pk': self.organisation.pk}
+        ))
+
+    def test_redirect_to_org_detail_second_service_valid_create(self):
+        self.assertEqual(self.organisation.services.count(), 1)
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_create', kwargs={'pk':self.organisation.pk}),{
+            'name': 'A whole new service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk]
+        })
+        queryset = Service.objects.filter(name='A whole new service')
+        self.assertEqual(queryset.count(), 1)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('organisation_detail',kwargs={'pk': self.organisation.pk}
+        ))
     def test_editor_sees_edit_service_action(self):
         editor_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
         self.assertEqual(editor_response.status_code, 200)
@@ -166,6 +196,5 @@ class ServiceViewTestCase(TestCase):
 
 
     def tearDown(self):
+        Fixtures.organisation_teardown()
         Fixtures.service_teardown()
-        for organisation in Organisation.objects.filter(name="TestOrg"):
-            organisation.delete()
