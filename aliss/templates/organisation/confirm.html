@@ -14,55 +14,40 @@
         <span class="icon">
           <i class="fas fa-pencil-alt"></i>
         </span>
-        No, let me edit it
+        No, let me edit the organsiation.
       </a>
+
       <a href="{% url 'service_create' pk=object.pk %}" class="button secondary bottom-margin">
         <span class="icon">
           <i class="fas fa-check"></i>
         </span>
-        Yes, continue and add a service
-      </a>
-      <a href="{% url 'account_my_organisations' %}" class="button secondary bottom-margin">
-        <span class="icon">
-          <i class="fas fa-check"></i>
-        </span>
-        Yes, save and add a service later
+        Yes, continue and add another service.
       </a>
     </div>
     <br/><br/>
 
-    <div class="grid-x">
-      <div class="cell">
-        <div class="grid-x">
-          <div class="cell small-7 medium-8 large-8">
-            <h1>Confirm: {{ object.name }}</h1>
-            <div class="desc">
-              <p>{{ object.description|linebreaks }}</p>
-              <p>
-                Last updated <span class="updated alert">{{ object.last_edited }}</span>
-              </p>
-            </div>
-          </div>
-          <div class="cell small-5 medium-4 large-4">
-            {% cloudinary object.logo width=230 height=230 crop="fit" class="org-logo" %}
-            <br/>
-          </div>
-        </div>
-      </div>
+    {% include 'organisation/partials/confirmation-detail.html' with object=object %}
 
-      <div class="cell">
-        {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
-          <h4>Contact Information</h4>
-          <p>
-            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-            {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
-            {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
-            {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
-            {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
-          </p>
-        {% endif %}
-      </div>
-    </div>
+    {% if object.services.first %}
+
+      <a href="{% url 'service_edit' pk=object.services.first.pk %}" class="button primary bottom-margin">
+        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span>
+        No, let me edit the service.
+      </a>
+
+      <a href="{% url 'account_my_organisations' %}" class="button secondary bottom-margin">
+        <span class="icon">
+          <i class="fas fa-check"></i>
+        </span>
+        Yes, save and and return to my account.
+      </a>
+      <br/><br/>
+
+      {% include 'organisation/partials/confirmation-detail.html' with object=object.services.first %}
+
+    {% endif %}
   </article>
 </main>
 {% endblock %}

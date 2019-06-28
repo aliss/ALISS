@@ -67,10 +67,17 @@ class ServiceCreateView(
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.organisation.pk}
-        )
+        if (self.object.organisation.services.count() <= 1):
+            return reverse(
+                'organisation_confirm',
+                kwargs={'pk': self.object.organisation.pk}
+            )
+
+        else:
+            return reverse(
+                'organisation_detail',
+                kwargs={'pk': self.object.organisation.pk}
+            )
 
 class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Service
