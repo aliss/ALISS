@@ -91,5 +91,11 @@ class AccountViewTestCase(TestCase):
         response = self.client.get('/account/my-reviews/')
         self.assertContains(response, "Old Service")
 
+    # def test_invalid_user_login_attempt(self):
+    #     self.client.logout()
+    #     response = self.client.login(username="bork@bork.com", password="passwurd")
+    #     self.assertEqual(200, response.status_code)
+
+
     def tearDown(self):
         Fixtures.organisation_teardown()
