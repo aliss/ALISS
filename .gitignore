@@ -72,7 +72,10 @@ staticfiles/
 node_modules/
 dump.rdb
 
-devnotes.md
 
+# Resources / data
+devnotes.md
 csv_outputs/
 boundary_data_sets/
+aliss/data/postcodes/LargeUser.csv
+aliss/data/postcodes/SmallUser.csv
