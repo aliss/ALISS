@@ -174,7 +174,7 @@
 
             {% include 'service/partials/locations.html' with locations=result.locations.all %}
 
-            {% if distance_scores|get_score:result.id%}
+            {% if distance_scores|get_score:result.id %}
               <p>Distance: {{distance_scores|get_score:result.id}}(km)</p>
             {% endif %}
 
