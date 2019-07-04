@@ -3,7 +3,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 from aliss.models import ServiceArea
-from django.db.models import Case,
+from django.db.models import Case
 import json
 from shapely.geometry import shape, Point
 import os
