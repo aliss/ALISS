@@ -120,6 +120,13 @@ def get_icon(category):
 def get_item(dictionary, key):
     return dictionary.get(key)
 
+@register.filter
+def get_score(dictionary, key):
+    distance_meter = dictionary.get(str(key))
+    if type(distance_meter) == float:
+        distance_km = (distance_meter / 1000.0)
+        rounded_km = round(distance_km, 2)
+        return rounded_km
 
 @register.filter
 def format_time_string(value):
