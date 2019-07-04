@@ -3,7 +3,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 from aliss.models import ServiceArea
-from django.db.models import Case
+from django.db.models import Case, When
 import json
 from shapely.geometry import shape, Point
 import os
@@ -489,7 +489,7 @@ def check_boundaries(long_lat):
 def setup_data_set_doubles():
     boundaries_data_mappings = {}
     boundaries_data_mappings['local_authority'] = {
-        'data_file_path':'./aliss/boundary_data_sets/scottish_local_authority.json',
+        'data_file_path':'./aliss/data/boundary_data_sets/scottish_local_authority.json',
         'data_set_keys':{
             'data_set_name': 'local_authority',
             'code':'LAD13CD',
@@ -497,7 +497,7 @@ def setup_data_set_doubles():
         }
     }
     boundaries_data_mappings['health_board'] = {
-        'data_file_path':'./aliss/boundary_data_sets/SG_NHS_HealthBoards_2019.json',
+        'data_file_path':'./aliss/data/boundary_data_sets/SG_NHS_HealthBoards_2019.json',
         'data_set_keys':{
             'data_set_name': 'health_board',
             'code':'HBCode',
@@ -505,7 +505,7 @@ def setup_data_set_doubles():
         }
     }
     boundaries_data_mappings['health_integration_authority'] = {
-        'data_file_path': './aliss/boundary_data_sets/SG_NHS_IntegrationAuthority_2019.json',
+        'data_file_path': './aliss/data/boundary_data_sets/SG_NHS_IntegrationAuthority_2019.json',
         'data_set_keys':{
             'data_set_name': 'health_integration_authority',
             'code':'HIACode',
@@ -517,7 +517,7 @@ def setup_data_set_doubles():
 def return_feature(service_area_type, service_area_code):
     dataset = {
         "0": {
-            "data_path": "./aliss/static/boundary_data_sets/Countries_December_2017_Ultra_Generalised_Clipped_Boundaries_in_UK.geojson",
+            "data_path": "./aliss/data/boundary_data_sets/Countries_December_2017_Ultra_Generalised_Clipped_Boundaries_in_UK.geojson",
             "code_key": "ctry17cd"
          },
         "1": {
@@ -525,15 +525,15 @@ def return_feature(service_area_type, service_area_code):
             "code_key": None
          },
         "2": {
-            "data_path": "./aliss/static/boundary_data_sets/scottish_local_authority.geojson",
+            "data_path": "./aliss/data/boundary_data_sets/scottish_local_authority.geojson",
             "code_key": "lad18cd"
          },
         "3": {
-            "data_path": "./aliss/static/boundary_data_sets/SG_NHS_HealthBoards_2019.json",
+            "data_path": "./aliss/data/boundary_data_sets/SG_NHS_HealthBoards_2019.json",
             "code_key": "HBCode"
         },
         "4": {
-            "data_path": "./aliss/static/boundary_data_sets/SG_NHS_IntegrationAuthority_2019.json",
+            "data_path": "./aliss/data/boundary_data_sets/SG_NHS_IntegrationAuthority_2019.json",
             "code_key": "HIACode"
         }
     }
