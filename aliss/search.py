@@ -3,7 +3,10 @@ from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
 from aliss.models import ServiceArea
-from django.db.models import Case, When
+from django.db.models import Case,
+import json
+from shapely.geometry import shape, Point
+import os
 
 def _get_connection():
     import certifi
@@ -457,3 +460,90 @@ def filter_by_claimed_status(queryset, claimed_status):
             }
     })
     return queryset
+
+def find_boundary_matches(boundary, long_lat):
+    with open(boundary['data_file_path']) as f:
+        js = json.load(f)
+    point = Point(long_lat)
+    boundary_matches = []
+    data_set_keys = boundary['data_set_keys']
+    for feature in js['features']:
+        polygon = shape(feature['geometry'])
+        if polygon.contains(point):
+            boundary_matches.append({
+            'code-type':data_set_keys['data_set_name'],
+            'code':feature['properties'][data_set_keys['code']],
+            'name':feature['properties'][data_set_keys['name']],
+            })
+    return boundary_matches
+
+def check_boundaries(long_lat):
+    boundaries_data_mappings = setup_data_set_doubles()
+    boundary_matches = []
+    for service_area, boundary in boundaries_data_mappings.items():
+        matches = find_boundary_matches(boundary, long_lat)
+        if len(matches) > 0:
+            boundary_matches = boundary_matches + matches
+    return boundary_matches
+
+def setup_data_set_doubles():
+    boundaries_data_mappings = {}
+    boundaries_data_mappings['local_authority'] = {
+        'data_file_path':'./aliss/boundary_data_sets/scottish_local_authority.json',
+        'data_set_keys':{
+            'data_set_name': 'local_authority',
+            'code':'LAD13CD',
+            'name':'LAD13NM',
+        }
+    }
+    boundaries_data_mappings['health_board'] = {
+        'data_file_path':'./aliss/boundary_data_sets/SG_NHS_HealthBoards_2019.json',
+        'data_set_keys':{
+            'data_set_name': 'health_board',
+            'code':'HBCode',
+            'name':'HBName',
+        }
+    }
+    boundaries_data_mappings['health_integration_authority'] = {
+        'data_file_path': './aliss/boundary_data_sets/SG_NHS_IntegrationAuthority_2019.json',
+        'data_set_keys':{
+            'data_set_name': 'health_integration_authority',
+            'code':'HIACode',
+            'name':'HIAName',
+        }
+    }
+    return boundaries_data_mappings
+
+def return_feature(service_area_type, service_area_code):
+    dataset = {
+        "0": {
+            "data_path": "./aliss/static/boundary_data_sets/Countries_December_2017_Ultra_Generalised_Clipped_Boundaries_in_UK.geojson",
+            "code_key": "ctry17cd"
+         },
+        "1": {
+            "data_path": None,
+            "code_key": None
+         },
+        "2": {
+            "data_path": "./aliss/static/boundary_data_sets/scottish_local_authority.geojson",
+            "code_key": "lad18cd"
+         },
+        "3": {
+            "data_path": "./aliss/static/boundary_data_sets/SG_NHS_HealthBoards_2019.json",
+            "code_key": "HBCode"
+        },
+        "4": {
+            "data_path": "./aliss/static/boundary_data_sets/SG_NHS_IntegrationAuthority_2019.json",
+            "code_key": "HIACode"
+        }
+    }
+    if dataset[str(service_area_type)]["data_path"]:
+        with open(dataset[str(service_area_type)]["data_path"])as f:
+            js = json.load(f)
+        return_feature = []
+        for feature in js['features']:
+            if feature['properties'][dataset[str(service_area_type)]["code_key"]] == service_area_code:
+                return_feature = json.dumps(feature)
+        return return_feature
+    else:
+        return None

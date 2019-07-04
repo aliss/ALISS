@@ -6,6 +6,7 @@ from aliss.models import Category, ServiceArea, Organisation, Service, Postcode
 from collections import OrderedDict
 from copy import deepcopy
 from django.shortcuts import get_object_or_404
+from aliss.search import return_feature
 
 from .serializers import (
     v4SearchSerializer,
