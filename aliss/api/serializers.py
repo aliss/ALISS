@@ -171,3 +171,6 @@ class PostcodeLocationSerializer(serializers.Serializer):
 
 class PostcodeLocationSearchSerializer(serializers.Serializer):
     q = serializers.CharField(required=False)
+
+class ServiceAreaSpatialSearchSerializer(serializers.Serializer):
+    service_id = serializers.UUIDField(required=True)
