@@ -55,6 +55,11 @@ class SearchTestCase(TestCase):
         self.assertNotEqual(services[2], self.s4)
         self.assertEqual(result.count(), 3)
 
+    def tearDown(self):
+        Fixtures.organisation_teardown()
+        for organisation in Organisation.objects.filter(name="Test0rg"):
+            organisation.delete()
+
 '''
     def test_organisation_query(self):
         org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org3.pk, self.org2.pk, self.org.pk])
@@ -108,8 +113,3 @@ class SearchTestCase(TestCase):
         self.assertEqual(result.count(), 3)
         self.assertTrue(success_counter > 8)
 '''
-
-    def tearDown(self):
-        Fixtures.organisation_teardown()
-        for organisation in Organisation.objects.filter(name="Test0rg"):
-            organisation.delete()
