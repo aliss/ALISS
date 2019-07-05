@@ -489,7 +489,7 @@ def find_boundary_matches(boundary, long_lat):
  def setup_data_set_doubles():
     boundaries_data_mappings = {}
     boundaries_data_mappings['local_authority'] = {
-        'data_file_path':'./aliss/boundary_data_sets/scottish_local_authority.json',
+        'data_file_path':'./aliss/data/boundary_data_sets/scottish_local_authority.json',
         'data_set_keys':{
             'data_set_name': 'local_authority',
             'code':'LAD13CD',
@@ -497,7 +497,7 @@ def find_boundary_matches(boundary, long_lat):
         }
     }
     boundaries_data_mappings['health_board'] = {
-        'data_file_path':'./aliss/boundary_data_sets/SG_NHS_HealthBoards_2019.json',
+        'data_file_path':'./aliss/data/boundary_data_sets/SG_NHS_HealthBoards_2019.json',
         'data_set_keys':{
             'data_set_name': 'health_board',
             'code':'HBCode',
@@ -505,7 +505,7 @@ def find_boundary_matches(boundary, long_lat):
         }
     }
     boundaries_data_mappings['health_integration_authority'] = {
-        'data_file_path': './aliss/boundary_data_sets/SG_NHS_IntegrationAuthority_2019.json',
+        'data_file_path': './aliss/data/boundary_data_sets/SG_NHS_IntegrationAuthority_2019.json',
         'data_set_keys':{
             'data_set_name': 'health_integration_authority',
             'code':'HIACode',
