@@ -83,7 +83,7 @@ class SearchTestCase(TestCase):
 
     ''' Require boundary_data to work, please see PR. '''
     # def test_boundary_match_single_data_set(self):
-    #     data_set_path = './aliss/data/boundary_data_sets/scottish_local_authority.geojson'
+    #     data_set_path = '.aliss/data/boundaries/scottish_local_authority.geojson'
     #     data_set_keys = {
     #         'data_set_name': 'local_authority',
     #         'code':'lad18cd',
