@@ -60,7 +60,7 @@ class SearchTestCase(TestCase):
         for organisation in Organisation.objects.filter(name="Test0rg"):
             organisation.delete()
 
-'''
+    '''
     def test_organisation_query(self):
         org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org3.pk, self.org2.pk, self.org.pk])
         print("\n\nOrgs")
@@ -92,48 +92,53 @@ class SearchTestCase(TestCase):
 
         self.assertEqual(self.org.id, orgs[0].id)
         self.assertEqual(self.org2.id, orgs[1].id)
+    '''
 
-    # def test_keyword_order(self):
-    #     success_counter = 0
-    #     failure_counter = 0
-    #     loop_counter = 0
-    #     while loop_counter < 10:
-    #         result = filter_by_query(self.queryset, "Physical Activity")
-    #         order  = keyword_order(result)
-    #         services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
-    #         if ((services[0] == self.s2) and (services[2] == self.s4)):
-    #             success_counter += 1
-    #         else:
-    #             failure_counter += 1
-    #         loop_counter += 1
-    #     print ("\n")
-    #     print ("The success count is: " + str(success_counter))
-    #     print ("\n")
-    #     print ("The failure count is: " + str(failure_counter))
-    #     self.assertEqual(result.count(), 3)
-    #     self.assertTrue(success_counter > 8)
+    '''
+    def test_keyword_order(self):
+        success_counter = 0
+        failure_counter = 0
+        loop_counter = 0
+        while loop_counter < 10:
+            result = filter_by_query(self.queryset, "Physical Activity")
+            order  = keyword_order(result)
+            services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
+            if ((services[0] == self.s2) and (services[2] == self.s4)):
+                success_counter += 1
+            else:
+                failure_counter += 1
+            loop_counter += 1
+        print ("\n")
+        print ("The success count is: " + str(success_counter))
+        print ("\n")
+        print ("The failure count is: " + str(failure_counter))
+        self.assertEqual(result.count(), 3)
+        self.assertTrue(success_counter > 8)
+    '''
 
-    ''' Require boundary_data to work, please see PR. '''
-    # def test_boundary_match_single_data_set(self):
-    #     data_set_path = './aliss/data/boundaries/scottish_local_authority.geojson'
-    #     data_set_keys = {
-    #         'data_set_name': 'local_authority',
-    #         'code':'lad18cd',
-    #         'name':'lad18nm',
-    #         }
-    #     p = Postcode.objects.get(postcode='G2 1DY')
-    #     long_lat = (p.longitude, p.latitude)
-    #     boundary = {'data_file_path': data_set_path, 'data_set_keys': data_set_keys}
-    #     result = find_boundary_matches(boundary, long_lat)
-    #     expected =  [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }]
-    #     self.assertEqual(expected, result)
-    #
-    # def test_boundary_matches_multiple_data_sets(self):
-    #     p = Postcode.objects.get(postcode='G2 1DY')
-    #     long_lat = (p.longitude, p.latitude)
-    #     result = check_boundaries(long_lat)
-    #     expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
-    #     self.assertEqual(result, expected)
+    '''
+    Require boundary_data to work, please see PR.
+    def test_boundary_match_single_data_set(self):
+        data_set_path = './aliss/data/boundaries/scottish_local_authority.geojson'
+        data_set_keys = {
+            'data_set_name': 'local_authority',
+            'code':'lad18cd',
+            'name':'lad18nm',
+            }
+        p = Postcode.objects.get(postcode='G2 1DY')
+        long_lat = (p.longitude, p.latitude)
+        boundary = {'data_file_path': data_set_path, 'data_set_keys': data_set_keys}
+        result = find_boundary_matches(boundary, long_lat)
+        expected =  [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }]
+        self.assertEqual(expected, result)
+
+    def test_boundary_matches_multiple_data_sets(self):
+        p = Postcode.objects.get(postcode='G2 1DY')
+        long_lat = (p.longitude, p.latitude)
+        result = check_boundaries(long_lat)
+        expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
+        self.assertEqual(result, expected)
+    '''
 
     def tearDown(self):
         Fixtures.organisation_teardown()
