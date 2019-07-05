@@ -14,6 +14,8 @@ class SearchTestCase(TestCase):
         self.org = Fixtures.create_organisation(t, u, c)
         self.org2 = Organisation.objects.create(name="Test0rg", description="A test description",
             created_by=self.org.created_by, updated_by=self.org.updated_by)
+        self.org3 = Organisation.objects.create(name="Another org", description="A Test0rg description",
+            created_by=self.org.created_by, updated_by=self.org.updated_by)
         location1 = Fixtures.create_location(self.org)
         location2 = Fixtures.create_another_location(self.org)
 
@@ -54,18 +56,22 @@ class SearchTestCase(TestCase):
         self.assertEqual(result.count(), 3)
 
     def test_organisation_query(self):
-        org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org.pk, self.org2.pk])
+        org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org3.pk, self.org2.pk, self.org.pk])
         print("\n\nOrgs")
         print(self.org.name + ": " + str(self.org.pk))
         print(self.org2.name + ": " + str(self.org2.pk))
         result = filter_organisations_by_query_all(org_queryset, "TestOrg")
         print("\nQuery result")
-        print(result.execute)
+        x = result.execute()
+        print("Meta: ")
+        print(x[0])
+        print("\n------\n")
+        print(x[1])
         order = keyword_order(result)
-        print("\nKeyword Order")
+        print("\n\nKeyword Order")
         print(order)
         orgs = Organisation.objects.filter(id__in=order["ids"]).order_by(order["order"])
-        print("\nOrgs")
+        print("\n\nOrgs")
         print(orgs)
         print("\n")
         self.assertEqual(self.org.id, orgs[0].id)
