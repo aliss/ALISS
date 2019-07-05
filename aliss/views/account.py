@@ -36,16 +36,19 @@ import logging
 
 def login_view(request, *args, **kwargs):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        user = ALISSUser.objects.get(email=username)
-        if not request.POST.get('remember_me', None):
-            request.session.set_expiry(0)
-        logger = logging.getLogger(__name__)
-        referer = request.META.get('HTTP_REFERER', '/')
-        if 'next' not in referer:
-            if len(user.services_to_review_ids()) > 0:
-                auth_views.login(request, *args, **kwargs)
-                return HttpResponseRedirect(reverse('account_my_reviews'))
+        try:
+            username = request.POST.get('username')
+            user = ALISSUser.objects.get(email=username)
+            if not request.POST.get('remember_me', None):
+                request.session.set_expiry(0)
+            referer = request.META.get('HTTP_REFERER', '/')
+            if 'next' not in referer:
+                if len(user.services_to_review_ids()) > 0:
+                    auth_views.login(request, *args, **kwargs)
+                    return HttpResponseRedirect(reverse('account_my_reviews'))
+            return auth_views.login(request, *args, **kwargs)
+        except ALISSUser.DoesNotExist:
+            return auth_views.login(request, *args, **kwargs)
     return auth_views.login(request, *args, **kwargs)
 
 class AccountSignupView(CreateView):
