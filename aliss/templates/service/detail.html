@@ -369,7 +369,6 @@
           else {
             desiredSize = (0.4 * innerWidth)
           }
-
           $('#mapid').width(desiredSize);
           $('#mapid').height(desiredSize);
         }
@@ -388,9 +387,20 @@
           url: "/api/v4/service-area-spatial/?service_id=" + "{{service.id}}",
           dataType : "json",
           success: function(result){
+            var singleArea = false
+            if (result.length == 1){
+              singleArea = true;
+            }
             result.forEach(function(feature){
               var geo_feature = JSON.parse(feature)
               var geoJSON = L.geoJson(geo_feature).addTo(mymap);
+              if (singleArea){
+                if (geo_feature["properties"]["long"]){
+                  var long = (geo_feature["properties"]["long"])
+                  var lat = (geo_feature["properties"]["lat"])
+                  mymap.setView([lat, long], 6)
+                }
+              }
             });
           }
         });
