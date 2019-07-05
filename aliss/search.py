@@ -489,7 +489,7 @@ def check_boundaries(long_lat):
 def setup_data_set_doubles():
     boundaries_data_mappings = {}
     boundaries_data_mappings['local_authority'] = {
-        'data_file_path':'.aliss/data/boundaries/scottish_local_authority.geojson',
+        'data_file_path':'./aliss/data/boundaries/scottish_local_authority.geojson',
         'data_set_keys':{
             'data_set_name': 'local_authority',
             'code':'lad18cd',
@@ -497,7 +497,7 @@ def setup_data_set_doubles():
         }
     }
     boundaries_data_mappings['health_board'] = {
-        'data_file_path':'.aliss/data/boundaries/SG_NHS_HealthBoards_2019.geojson',
+        'data_file_path':'./aliss/data/boundaries/SG_NHS_HealthBoards_2019.geojson',
         'data_set_keys':{
             'data_set_name': 'health_board',
             'code':'HBCode',
@@ -505,7 +505,7 @@ def setup_data_set_doubles():
         }
     }
     boundaries_data_mappings['health_integration_authority'] = {
-        'data_file_path': '.aliss/data/boundaries/SG_NHS_IntegrationAuthority_2019.geojson',
+        'data_file_path': './aliss/data/boundaries/SG_NHS_IntegrationAuthority_2019.geojson',
         'data_set_keys':{
             'data_set_name': 'health_integration_authority',
             'code':'HIACode',
@@ -517,7 +517,7 @@ def setup_data_set_doubles():
 def return_feature(service_area_type, service_area_code):
     dataset = {
         "0": {
-            "data_path": ".aliss/data/boundaries/Countries_December_2017_Ultra_Generalised_Clipped_Boundaries_in_UK.geojson",
+            "data_path": "./aliss/data/boundaries/Countries_December_2017_Ultra_Generalised_Clipped_Boundaries_in_UK.geojson",
             "code_key": "ctry17cd"
          },
         "1": {
@@ -525,15 +525,15 @@ def return_feature(service_area_type, service_area_code):
             "code_key": None
          },
         "2": {
-            "data_path": ".aliss/data/boundaries/scottish_local_authority.geojson",
+            "data_path": "./aliss/data/boundaries/scottish_local_authority.geojson",
             "code_key": "lad18cd"
          },
         "3": {
-            "data_path": ".aliss/data/boundaries/SG_NHS_HealthBoards_2019.geojson",
+            "data_path": "./aliss/data/boundaries/SG_NHS_HealthBoards_2019.geojson",
             "code_key": "HBCode"
         },
         "4": {
-            "data_path": ".aliss/data/boundaries/SG_NHS_IntegrationAuthority_2019.geojson",
+            "data_path": "./aliss/data/boundaries/SG_NHS_IntegrationAuthority_2019.geojson",
             "code_key": "HIACode"
         }
     }
