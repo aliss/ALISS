@@ -17,7 +17,7 @@ install:
 - pip install -r requirements.txt
 before_script:
 - sleep 11
-- "elasticsearch -v"
+- "curl -XGET 'localhost:9200'"
 script:
 - python manage.py shell --command="from aliss.search_tasks import create_index; create_index()"
 - python manage.py collectstatic
