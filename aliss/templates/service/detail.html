@@ -373,37 +373,45 @@
           $('#mapid').height(desiredSize);
         }
 
-        setMapSize()
+        var renderMap = function() {
+          var mymap = L.map('mapid').setView([56.816922, -4.18265], 6);
+        	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        		maxZoom: 18,
+        		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        	}).addTo(mymap);
+          return mymap
+        }
 
-    	  var mymap = L.map('mapid').setView([56.816922, -4.18265], 6);
-      	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      		maxZoom: 18,
-      		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      	}).addTo(mymap);
-
-        var features = $.ajax({
-          url: "/api/v4/service-area-spatial/?service_id=" + "{{service.id}}",
-          dataType : "json",
-          success: function(result){
-            var singleArea = false
-            if (result.length == 1){
-              singleArea = true;
-            }
-            result.forEach(function(feature){
-              var geo_feature = JSON.parse(feature)
-              var geoJSON = L.geoJson(geo_feature).addTo(mymap);
-              if (singleArea){
-                if (geo_feature["properties"]["long"]){
-                  var long = (geo_feature["properties"]["long"])
-                  var lat = (geo_feature["properties"]["lat"])
-                  mymap.setView([lat, long], 6)
-                }
+        var renderFeatures = function(mymap){
+          var features = $.ajax({
+            url: "/api/v4/service-area-spatial/?service_id=" + "{{service.id}}",
+            dataType : "json",
+            success: function(result){
+              var singleArea = false
+              if (result.length == 1){
+                singleArea = true;
               }
-            });
-          }
-        });
+              result.forEach(function(feature){
+                var geo_feature = JSON.parse(feature)
+                var geoJSON = L.geoJson(geo_feature).addTo(mymap);
+                if (singleArea){
+                  if (geo_feature["properties"]["long"]){
+                    var long = (geo_feature["properties"]["long"])
+                    var lat = (geo_feature["properties"]["lat"])
+                    mymap.setView([lat, long], 6)
+                  }
+                }
+              });
+            }
+          });
+        }
+
+      setMapSize();
+      var mymap = renderMap();
+      renderFeatures(mymap);
+
       });
     </script>
   {% endif %}
