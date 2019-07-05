@@ -279,7 +279,7 @@
           {% if object.service_areas.all %}
             <h5>Service areas</h5>
             <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-            <div id='mapid' style="width: 36em; height: 30em;"></div>
+            <div id='mapid'></div>
           {% endif %}
         </div>
       </div>
@@ -351,12 +351,31 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin=""/>
+
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
     integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
     crossorigin="">
     </script>
+
     <script type="text/javascript">
       $(document).ready(function(){
+
+        var setMapSize = function(){
+          var innerWidth = window.innerWidth;
+          var desiredSize = 0;
+          if (innerWidth < 900){
+            desiredSize = (0.9 * innerWidth)
+          }
+          else {
+            desiredSize = (0.4 * innerWidth)
+          }
+
+          $('#mapid').width(desiredSize);
+          $('#mapid').height(desiredSize);
+        }
+
+        setMapSize()
+
     	  var mymap = L.map('mapid').setView([56.816922, -4.18265], 6);
       	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       		maxZoom: 18,
@@ -364,6 +383,7 @@
       			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
       			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       	}).addTo(mymap);
+
         var features = $.ajax({
           url: "/api/v4/service-area-spatial/?service_id=" + "{{service.id}}",
           dataType : "json",
