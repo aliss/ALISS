@@ -81,6 +81,28 @@ class SearchTestCase(TestCase):
     #     self.assertEqual(result.count(), 3)
     #     self.assertTrue(success_counter > 8)
 
+    ''' Require boundary_data to work, please see PR. '''
+    # def test_boundary_match_single_data_set(self):
+    #     data_set_path = './aliss/data/boundary_data_sets/scottish_local_authority.json'
+    #     data_set_keys = {
+    #         'data_set_name': 'local_authority',
+    #         'code':'LAD13CD',
+    #         'name':'LAD13NM',
+    #         }
+    #     p = Postcode.objects.get(postcode='G2 1DY')
+    #     long_lat = (p.longitude, p.latitude)
+    #     boundary = {'data_file_path': data_set_path, 'data_set_keys': data_set_keys}
+    #     result = find_boundary_matches(boundary, long_lat)
+    #     expected =  [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }]
+    #     self.assertEqual(expected, result)
+    #
+    # def test_boundary_matches_multiple_data_sets(self):
+    #     p = Postcode.objects.get(postcode='G2 1DY')
+    #     long_lat = (p.longitude, p.latitude)
+    #     result = check_boundaries(long_lat)
+    #     expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
+    #     self.assertEqual(result, expected)
+
     def tearDown(self):
         Fixtures.organisation_teardown()
         for organisation in Organisation.objects.filter(name="Test0rg"):
