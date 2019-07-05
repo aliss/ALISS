@@ -489,11 +489,11 @@ def check_boundaries(long_lat):
 def setup_data_set_doubles():
     boundaries_data_mappings = {}
     boundaries_data_mappings['local_authority'] = {
-        'data_file_path':'./aliss/data/boundary_data_sets/scottish_local_authority.json',
+        'data_file_path':'./aliss/data/boundary_data_sets/scottish_local_authority.geojson',
         'data_set_keys':{
             'data_set_name': 'local_authority',
-            'code':'LAD13CD',
-            'name':'LAD13NM',
+            'code':'lad18cd',
+            'name':'lad18nm',
         }
     }
     boundaries_data_mappings['health_board'] = {

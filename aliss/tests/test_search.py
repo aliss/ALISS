@@ -83,11 +83,11 @@ class SearchTestCase(TestCase):
 
     ''' Require boundary_data to work, please see PR. '''
     # def test_boundary_match_single_data_set(self):
-    #     data_set_path = './aliss/data/boundary_data_sets/scottish_local_authority.json'
+    #     data_set_path = './aliss/data/boundary_data_sets/scottish_local_authority.geojson'
     #     data_set_keys = {
     #         'data_set_name': 'local_authority',
-    #         'code':'LAD13CD',
-    #         'name':'LAD13NM',
+    #         'code':'lad18cd',
+    #         'name':'lad18nm',
     #         }
     #     p = Postcode.objects.get(postcode='G2 1DY')
     #     long_lat = (p.longitude, p.latitude)
