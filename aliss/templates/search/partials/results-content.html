@@ -179,12 +179,6 @@
             <div class="description">{{ result.description|linebreaks|truncatechars:180 }}</div>
 
             <div class="grid-x detail-grid">
-              {% if result.email %}
-                <div class="cell small-12 medium-6">
-                  <p><i class="fas fa-envelope"></i> {{ result.email }}</p>
-                </div>
-              {% endif %}
-
               {% if result.phone %}
                 <div class="cell small-12 medium-6">
                   <p><i class="fas fa-phone"></i> {{ result.phone }}</p>
@@ -220,6 +214,12 @@
                   {% endif %}
                 {% endif %}
               </div>
+
+              {% if result.email %}
+                <div class="cell small-12 medium-6">
+                  <p><i class="fas fa-envelope"></i> {{ result.email }}</p>
+                </div>
+              {% endif %}
             </div>
 
             <div style="display:none;">
