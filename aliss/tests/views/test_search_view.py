@@ -198,13 +198,13 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "G2 9ZZ")
         self.assertContains(response, "My Testing Service")
-        self.assertContains(response, "Distance: 1.4(km)")
+        self.assertContains(response, "Nearest location 1.4km")
 
     def test_1km_radius_filter_returns_distance_score(self):
         response = self.client.get('/search/?postcode=G2+9ZZ&radius=1000')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "My Testing Service")
-        self.assertNotContains(response, "Distance: 1.4(km)")
+        self.assertNotContains(response, "Nearest location 1.4km")
 
     def tearDown(self):
         Fixtures.organisation_teardown()
