@@ -76,6 +76,7 @@ dump.rdb
 # Resources / data
 devnotes.md
 csv_outputs/
-boundary_data_sets/
+aliss/data/boundaries/*.geojson
+aliss/data/boundaries/*.json
 aliss/data/postcodes/LargeUser.csv
 aliss/data/postcodes/SmallUser.csv
