@@ -417,7 +417,7 @@
       console.log(locations)
       $.each(locations, function(key, value){
         L.marker(value).addTo(mymap)
-    .bindPopup(`<b>${key}</b><br />`).openPopup();
+    .bindPopup(`<b>${key}</b>`);
       })
 
 
