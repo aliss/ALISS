@@ -53,14 +53,47 @@ class PlacesViewTestCase(TestCase):
         response = self.client.get('/places/edinburgh/')
         self.assertContains(response, custom_content)
 
+    def test_valid_landing_page_title_content_block(self):
+        custom_content = "Landing page for Edinburgh"
+        ContentBlock.objects.create(slug='places-edinburgh', body="<p>New landing page content for a place.</p>")
+        ContentBlock.objects.create(slug='places-edinburgh-title', body=custom_content)
+        response = self.client.get('/places/edinburgh/')
+        self.assertContains(response, custom_content)
+
+    def test_valid_landing_page_meta_content_blocks(self):
+        custom_meta = "meta description for edinburgh"
+        custom_title = "meta title for edinburgh"
+        ContentBlock.objects.create(slug='places-edinburgh', body="<p>New landing page content for a place.</p>")
+        ContentBlock.objects.create(slug='places-edinburgh-meta-description', body=custom_meta)
+        ContentBlock.objects.create(slug='places-edinburgh-meta-title', body=custom_title)
+        response = self.client.get('/places/edinburgh/')
+        self.assertContains(response, custom_meta)
+        self.assertContains(response, custom_title)
+
     def test_valid_redirect_no_custom_content_when_placename_exists(self):
         response = self.client.get('/places/glasgow/')
         self.assertEqual(response.status_code, 302)
-        # self.assertRedirects(response, reverse('search', kwargs={'postcode': 'G2 4AA'}))
+        #self.assertRedirects(response, reverse('search', kwargs={'postcode': 'G2 4AA'}))
 
     def test_valid_redirect_no_custom_content_no_placename(self):
         response = self.client.get('/places/musselburgh/')
         self.assertEqual(response.status_code, 404)
+
+    def test_valid_landing_page_place_category_with_content(self):
+        custom_content = "<p>Conditions services for Glasgow</p>"
+        custom_title = "Glasgow: conditions and wellbeing services - ALISS"
+        custom_meta_title = "Glasgow conditions / wellbeing services"
+        custom_meta_desc = "Find services on ALISS"
+        ContentBlock.objects.create(slug='places-glasgow-conditions', body=custom_content)
+        ContentBlock.objects.create(slug='places-glasgow-conditions-title', body=custom_title)
+        ContentBlock.objects.create(slug='places-glasgow-conditions-meta-title', body=custom_meta_title)
+        ContentBlock.objects.create(slug='places-glasgow-conditions-meta-description', body=custom_meta_desc)
+        response = self.client.get('/places/glasgow/conditions/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, custom_content)
+        self.assertContains(response, custom_title)
+        self.assertContains(response, custom_meta_desc)
+        self.assertContains(response, custom_meta_title)
 
     def tearDown(self):
         for block in ContentBlock.objects.all():
