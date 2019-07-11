@@ -279,9 +279,8 @@
           {% if object.service_areas.all %}
             <h5>Service areas</h5>
             <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-            <div id='mapid'></div>
-            <p id='locations'></p>
           {% endif %}
+          <div id='mapid'></div>
         </div>
       </div>
       <div class="columns feedback-form">
@@ -348,7 +347,7 @@
   });
   </script>
 
-  {% if service.service_areas.all %}
+  {% if service %}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin=""/>
@@ -409,16 +408,21 @@
           });
         }
 
+        var addLocations = function(mymap){
+          var locations = {{location_lat_longs|safe}}
+          console.log(locations)
+          $.each(locations, function(key, value){
+            L.marker(value).addTo(mymap)
+        .bindPopup(`<b>${key}</b>`);
+          })
+        };
+
       setMapSize();
       var mymap = renderMap();
       renderFeatures(mymap);
+      addLocations(mymap);
 
-      var locations = {{location_lat_longs|safe}}
-      console.log(locations)
-      $.each(locations, function(key, value){
-        L.marker(value).addTo(mymap)
-    .bindPopup(`<b>${key}</b>`);
-      })
+
 
 
 
