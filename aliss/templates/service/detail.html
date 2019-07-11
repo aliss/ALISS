@@ -414,9 +414,10 @@
       renderFeatures(mymap);
 
       var locations = {{location_lat_longs|safe}}
-      locations.forEach(function(point){
-        L.marker(point).addTo(mymap)
-    .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+      console.log(locations)
+      $.each(locations, function(key, value){
+        L.marker(value).addTo(mymap)
+    .bindPopup(`<b>${key}</b><br />`).openPopup();
       })
 
 
