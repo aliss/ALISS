@@ -414,8 +414,8 @@
       renderFeatures(mymap);
 
       var locations = {{location_lat_longs|safe}}
-      console.log(locations)
-      console.log(locations[1])
+      L.marker(locations[0]).addTo(mymap)
+  .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
 
 
       });
