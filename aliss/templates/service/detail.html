@@ -280,6 +280,7 @@
             <h5>Service areas</h5>
             <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
             <div id='mapid'></div>
+            <p id='locations'></p>
           {% endif %}
         </div>
       </div>
@@ -411,6 +412,11 @@
       setMapSize();
       var mymap = renderMap();
       renderFeatures(mymap);
+
+      var locations = {{location_lat_longs|safe}}
+      console.log(locations)
+      console.log(locations[1])
+
 
       });
     </script>
