@@ -385,6 +385,7 @@
         }
 
         var renderFeatures = function(mymap){
+          console.log('Features Requested')
           var features = $.ajax({
             url: "/api/v4/service-area-spatial/?service_id=" + "{{service.id}}",
             dataType : "json",
@@ -409,22 +410,24 @@
         }
 
         var addLocations = function(mymap){
+          console.log('Locations Requested')
           var locations = {{location_lat_longs|safe}}
-          console.log(locations)
           $.each(locations, function(key, value){
             L.marker(value).addTo(mymap)
         .bindPopup(`<b>${key}</b>`);
           })
         };
 
-      setMapSize();
-      var mymap = renderMap();
-      renderFeatures(mymap);
-      addLocations(mymap);
-
-
-
-
+        setMapSize();
+        var mymap = renderMap();
+        if ("{{service.service_areas.all.0|safe}}" != ""){
+          console.log('Features available')
+          renderFeatures(mymap);
+        }
+        if ($({{location_lat_longs|safe}}).length > 0){
+          console.log('Locations Avialable')
+          addLocations(mymap);
+        }
 
       });
     </script>
