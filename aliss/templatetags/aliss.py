@@ -200,3 +200,13 @@ def content_render(path, suffix = ""):
     except ContentBlock.DoesNotExist:
         content = None
     return content
+
+@register.simple_tag
+def get_lat_long(postcode):
+    print(postcode)
+    slugged_post = slugify(postcode)
+    postcode_object = Postcode.objects.get(slug=slugged_post)
+    lat_long = {}
+    lat_long["You are here"] = [postcode_object.latitude, postcode_object.longitude]
+    print(lat_long)
+    return lat_long

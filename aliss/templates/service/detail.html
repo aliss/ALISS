@@ -281,6 +281,9 @@
             <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
           {% endif %}
           <div id='mapid'></div>
+          {% if request.user.postcode %}
+            <p>{% get_lat_long request.user.postcode %}</p>
+          {% endif %}
         </div>
       </div>
       <div class="columns feedback-form">
