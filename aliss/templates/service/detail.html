@@ -419,12 +419,13 @@
         };
 
         setMapSize();
+
         var mymap = renderMap();
         if ("{{service.service_areas.all.0|safe}}" != ""){
           console.log('Features available')
           renderFeatures(mymap);
         }
-        if ($({{location_lat_longs|safe}}).length > 0){
+        if (!$.isEmptyObject({{location_lat_longs|safe}})){
           console.log('Locations Avialable')
           addLocations(mymap);
         }
