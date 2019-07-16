@@ -23,12 +23,14 @@ Embed ALISS search features on your own site with the [aliss.js plugin](https://
 
 ## How to setup ALISS
 To run the ALISS project it is necessary to setup the environment on your machine and import data.
+
 1. Create a hidden file `.env` this will store necessary environment variables.
 2. With the use of `.env.example` copy the contents and customise with the relevant information for your environment.
 3. Run the local server and start elasticsearch using command `heroku local -i Procfile.dev`.
 4. Import the postcode data with management command `heroku local:run python3 manage.py import_postcodes`.
 5. Import the place names data with management command `heroku local:run python3 manage.py import_places`.
-6. Create a super_user account for local admin privileges using command `heroku local:run python3 manage.py createsuperuser` inputting an email address and password as per the prompts.
+6. Import geo-boundary data with management command `heroku local:run python3 manage.py extract_geodata`.
+7. Create a super_user account for local admin privileges using command `heroku local:run python3 manage.py createsuperuser` inputting an email address and password as per the prompts.
 
 ## Common Commands
 |Command|Description|Further Information|
@@ -42,5 +44,6 @@ To run the ALISS project it is necessary to setup the environment on your machin
 - Python 3
 - pip3
 - See `requirements.txt` for pip packages
+- See `package.json` for node packages
 - Elasticsearch >=6.1.3
 - Postgres >= 9.0
