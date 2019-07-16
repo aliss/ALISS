@@ -3,13 +3,45 @@
 {% load analytics %}
 {% load humanize %}
 
+{% block title %}
+  {% content_render request.path "title" as title_content %}
+  {% if title_content %}
+    {{ title_content.body }}
+  {% else %}
+    Find health and wellbeing services in {{ postcode.place_name }} - ALISS
+  {% endif %}
+{% endblock %}
+
+{% block meta_schema %}
+  {% content_render request.path "meta/title" as meta_title_content %}
+  {% content_render request.path "meta/description" as meta_description_content %}
+
+  {% if meta_title_content %}
+    <meta property="og:title" content="{{  meta_title_content.body }}" />
+    <meta name="twitter:title" content="{{  meta_title_content.body }}" />
+  {% else %}
+    <meta property="og:title" content="Find health and wellbeing services in {{ postcode.place_name }} on ALISS.org" />
+    <meta name="twitter:title" content="Find health and wellbeing services in {{ postcode.place_name }} on ALISS.org" />
+  {% endif %}
+
+  {% if meta_description_content %}
+    <meta property="og:description" content="{{ meta_description_content.body }}" />
+    <meta name="twitter:description" content="{{ meta_description_content.body }}" />
+    <meta name="description" content="{{ meta_description_content.body }}" />
+  {% else %}
+    <meta property="og:description" content="Find health and wellbeing services in {{ postcode.place_name }} on ALISS.org" />
+    <meta name="twitter:description" content="Find health and wellbeing services in {{ postcode.place_name }} on ALISS.org" />
+    <meta name="description" content="Find health and wellbeing services in {{ postcode.place_name }} on ALISS.org" />
+  {% endif %}
+{% endblock %}
+
 {% block container %}
 <main class="main" role="main">
   <section id="content" class="results">
     <div class="row title">
       <div class="columns">
-        {% content_render request.path as content_result%}
-        {% if content_result%}
+        {% content_render request.path as content_result %}
+        {% if content_result %}
           {{ content_result.body|safe }}
         {% endif %}
         <div class="buttons">

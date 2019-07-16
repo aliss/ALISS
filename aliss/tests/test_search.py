@@ -60,41 +60,18 @@ class SearchTestCase(TestCase):
         for organisation in Organisation.objects.filter(name="Test0rg"):
             organisation.delete()
 
-    '''
     def test_organisation_query(self):
         org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org3.pk, self.org2.pk, self.org.pk])
-        print("\n\nOrgs")
-        print(self.org.name + ": " + str(self.org.pk))
-        print(self.org2.name + ": " + str(self.org2.pk))
-        print(self.org3.name + ": " + str(self.org3.pk))
-
         result = filter_organisations_by_query_all(org_queryset, "TestOrg")
         x = result.execute()
-        print("Meta: ")
-        print(x[0].name)
-        print(x[0].meta['score'])
-        print("\n------\n")
-        print(x[1].name)
-        print(x[1].meta['score'])
-        print("\n------\n")
-        print(x[2].name)
-        print(x[2].meta['score'])
-        print("\n------\n")
-
         order = keyword_order(result)
-        print("\n\nKeyword Order")
-        print(order)
-
         orgs = Organisation.objects.filter(id__in=order["ids"]).order_by(order["order"])
-        print("\n\nOrgs")
-        print(orgs)
-        print("\n")
+        self.assertTrue(self.org2 in orgs) #basic test for travis
+        self.assertTrue(self.org in orgs)
+        #self.assertEqual(self.org.id, orgs[0].id)
+        #self.assertEqual(self.org2.id, orgs[1].id)
 
-        self.assertEqual(self.org.id, orgs[0].id)
-        self.assertEqual(self.org2.id, orgs[1].id)
-    '''
-
-    '''
+    '''        
     def test_keyword_order(self):
         success_counter = 0
         failure_counter = 0
@@ -108,10 +85,6 @@ class SearchTestCase(TestCase):
             else:
                 failure_counter += 1
             loop_counter += 1
-        print ("\n")
-        print ("The success count is: " + str(success_counter))
-        print ("\n")
-        print ("The failure count is: " + str(failure_counter))
         self.assertEqual(result.count(), 3)
         self.assertTrue(success_counter > 8)
     '''

@@ -9,8 +9,8 @@
     height:1px;
     overflow:hidden;
     z-index:-999;
-}
-a.skip-content:focus, a.skip-content:active {
+  }
+  a.skip-content:focus, a.skip-content:active {
     color: #fff;
     background-color: $brand;
     left: auto;
@@ -23,7 +23,7 @@ a.skip-content:focus, a.skip-content:active {
     text-align:center;
     font-size:1.2em;
     z-index:999;
-}
+  }
 }
 
 .toggle-heading {
@@ -54,6 +54,7 @@ a.skip-content:focus, a.skip-content:active {
     }
   }
 }
+
 #results {
   padding-bottom: 2rem;
   .search-results {
@@ -105,6 +106,7 @@ a.skip-content:focus, a.skip-content:active {
       }
     }
   }
+
   .filters {
     .keyword-search {
       max-width: 400px;
@@ -164,6 +166,7 @@ a.skip-content:focus, a.skip-content:active {
     }
   }
 }
+
 #content.results, #content.my-account {
   h1, h1+.buttons {
     @extend %vam;
@@ -188,6 +191,7 @@ a.skip-content:focus, a.skip-content:active {
     }
   }
 }
+
 span.cat {
   width: 2.25rem;
   // padding-top: 0.2rem;
@@ -209,6 +213,7 @@ span.cat {
     // padding-left: 2px;
   }
 }
+
 .cells {
   font-size: $d-fs;
   background: $light-gray_fade;
@@ -417,6 +422,7 @@ span.cat {
     }
   }
 }
+
 .category-selector {
   @include clear;
   a.clear {
@@ -839,7 +845,9 @@ p.org {
     }
   }
 }
-.search-results, .content .search-results, .recommendations-lists, .rep-organisations, .claim-requests, .problem-reports {
+
+.search-results, .content .search-results, .recommendations-lists,
+.rep-organisations, .claim-requests, .problem-reports {
   @extend %no-list;
   padding-left: 0;
   margin-left: 0;
@@ -1076,6 +1084,7 @@ a.fb {
 a.tw {
   @include fab(twitter);
 }
+
 .claimed {
   @include fas(check);
   margin-left: 0.25rem;
@@ -1096,42 +1105,25 @@ a.tw {
 }
 
 .search-results .claimed {
-  font-size: 0.9rem;
-  top: -5px;
+  -webkit-box-shadow: 0 0 1px #1e7abd;
+  box-shadow: 0 0 1px #1e7abd;
+  font-size: 0.7rem;
+  top: -8px;
   position: relative;
-  margin-left: 0;
+  margin-left: -2px;
   border-radius: 100%;
-  width: 1.8rem;
-  height: 1.8rem;
-  line-height: 1rem;
+  padding-left: .4rem;
+  height: 1.5rem;
+  line-height: .8rem;
+  padding-right: .1rem;
 }
 
-.assigned-category {
-  font-size: $d-fs;
-  font-weight: bold;
-  color: $medium-gray;
-  position: relative;
-  // padding-top: 0.25rem;
-  // padding-bottom: 0.25rem;
-  // padding-left: 2.25rem + 0.45rem;
-  span.cat {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-  @include small {
-    font-size: $d-fs-s;
-  }
-  @media print {
-    display: none;
-    margin-top: 0.35rem;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  &:empty {
-    display: none;
-  }
+.assigned-categories {
+  margin-left: 0.4rem;
+  color: silver;
+  a { color: inherit; }
 }
+
 .updated {
   font-weight: bold;
   &.alert {
@@ -1525,4 +1517,15 @@ ul.claim-requests+.paged, ul.problem-reports+.paged, .content-table+.paged {
       }
     }
   }
+}
+
+.search-results {
+  div.detail-grid {
+    margin-top:1.5rem;
+    p { font-size:1rem; margin-bottom: 0; margin: 0px; }
+    i { font-size: 0.9rem; margin-right:0.3rem; }
+    ul.service-areas { color: $medium-gray; li { margin-right:0.1rem; } }
+  }
+
+  div.description { margin-top: 1.3rem; }
 }

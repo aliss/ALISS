@@ -13,7 +13,6 @@ class ContentBlockTestCase(TestCase):
         body_content = "<h1>Edinburgh Custom Block Content</h2><p>New content block for testing.</p>"
         c = ContentBlock.objects.create(slug='places-edinburgh', body=body_content)
         self.assertTrue(isinstance(c,ContentBlock))
-
         content_block = ContentBlock.objects.get(slug='places-edinburgh')
         self.assertEqual(c, content_block)
 

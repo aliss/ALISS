@@ -29,7 +29,7 @@
           </div>
         </form>
 
-        <div stlye="display:none;" class="filter category">
+        <div class="filter category">
           <label>Filter by local or national:</label>
           <ul class="radio-list-links">
             <li  {% if not request.GET.location_type %}class="active"{% endif %}>
@@ -145,10 +145,10 @@
       </div>
     </div>
 
-    <div class="columns listing">
+    <div class="columns listing grid-container">
       <ul class="search-results">
         {% for result in object_list %}
-          <li>
+          <li class="">
             <div class="heading">
               {% if result.slug %}
                 <a href="{% url 'service_detail_slug' result.slug %}">
@@ -157,45 +157,79 @@
               {% endif %}
               <h3>{{ result.name }}</h3></a>
             </div>
-            <p class="org">by {% if result.slug %}<a href="{% url 'organisation_detail_slug' result.organisation.slug %}">
+
+            <p>by
+              {% if result.slug %}
+                <a href="{% url 'organisation_detail_slug' result.organisation.slug %}">
               {% else %}
                 <a href="{% url 'organisation_detail' result.organisation.id %}">
               {% endif %}{{ result.organisation.name }}</a>
-            {% if result.organisation.is_claimed %}
-            <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
-            {% endif %}
-            </p>
-            <p>{{ result.description|linebreaks|truncatechars:150 }}</p>
-            <div class="assigned-category">
+
+              {% if result.organisation.is_claimed %}
+                <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
+              {% endif %}
+
+              <span class="assigned-categories">
               {% for category in result.categories.all %}
-                <a href="{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
+                {% if forloop.first %}({% endif %}<a href="{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% else %}){% endif %}
               {% endfor %}
+              </span>
+            </p>
+
+            <div class="description">{{ result.description|linebreaks|truncatechars:180 }}</div>
+
+            <div class="grid-x detail-grid">
+              {% if result.phone %}
+                <div class="cell small-12 medium-6">
+                  <p><i class="fas fa-phone"></i> {{ result.phone }}</p>
+                </div>
+              {% endif %}
+
+              {% if result.url %}
+                <div class="cell small-12 medium-6">
+                  <p><i class="fas fa-link"></i> <a href="{{ result.url }}">Website</a></p>
+                </div>
+              {% endif %}
+
+              <div class="cell small-12 medium-6">
+                {% if distance_scores|get_score:result.id %}
+                  <p>
+                    <i class="fas fa-map-marker-alt"></i>
+                    Nearest location {{distance_scores|get_score:result.id}}km
+                  </p>
+                {% else %}
+                  {% if result.service_areas.all|length > 3 %}
+                    <p>
+                      <i class="fas fa-map-marker-alt"></i> Delivered across
+                    </p>
+                    <ul class="service-areas">{% for area in result.service_areas.all %}
+                      <li style="display:inline-block;"> · {{area.name}}</li>
+                    {% endfor %}
+                    </ul>
+                  {% else %}
+                    <p>
+                      <i class="fas fa-map-marker-alt"></i> Delivered across
+                      {% for area in result.service_areas.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{{area.name}}{% endfor %}
+                    </p>
+                  {% endif %}
+                {% endif %}
+              </div>
+
+              {% if result.email %}
+                <div class="cell small-12 medium-6">
+                  <p><i class="fas fa-envelope"></i> {{ result.email }}</p>
+                </div>
+              {% endif %}
             </div>
 
-            {% include 'service/partials/locations.html' with locations=result.locations.all %}
-
-            <ul class="contact-info">
-              {% if result.phone %}
-                <li>
-                  {{ result.phone }}
-                </li>
-              {% endif %}
-              {% if result.url %}
-                <li>
-                  <a href="{{ result.url }}">Website</a>
-                </li>
-              {% endif %}
+            <div style="display:none;">
+              {% include 'service/partials/locations.html' with locations=result.locations.all %}
               {% if result.service_areas %}
-                <li class="service-areas">
-                  <a tabindex="0">Service Areas</a>
-                </li>
+                <div class="service-areas-list">
+                  <p>{% for area in result.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                </div>
               {% endif %}
-            </ul>
-            {% if result.service_areas %}
-              <div class="service-areas-list">
-                <p>{% for area in result.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-              </div>
-            {% endif %}
+            </div>
           </li>
         {% endfor %}
       </ul>
