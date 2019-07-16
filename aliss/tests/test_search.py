@@ -71,7 +71,7 @@ class SearchTestCase(TestCase):
         #self.assertEqual(self.org2.id, orgs[1].id)
 
 
-    '''
+    ''' # Doesnt work on travis
     def test_keyword_order(self):
         success_counter = 0
         failure_counter = 0
@@ -91,7 +91,6 @@ class SearchTestCase(TestCase):
 
 
     #Require boundary_data to work, please see PR.
-
     def test_boundary_match_single_data_set(self):
         data_set_path = './aliss/data/boundaries/scottish_local_authority.geojson'
         data_set_keys = {
