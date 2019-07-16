@@ -161,16 +161,14 @@ class v4CategorySerializer(serializers.Serializer):
     sub_categories = RecursiveField(many=True, source='children')
 
 
-'''
-Need to add a serializer for the locations data set.
-'''
-
 class PostcodeLocationSerializer(serializers.Serializer):
     place_name = serializers.CharField()
     postcode = serializers.CharField()
 
+
 class PostcodeLocationSearchSerializer(serializers.Serializer):
     q = serializers.CharField(required=False)
+
 
 class ServiceAreaSpatialSearchSerializer(serializers.Serializer):
     service_id = serializers.UUIDField(required=True)
