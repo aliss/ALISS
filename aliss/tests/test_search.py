@@ -32,10 +32,12 @@ class SearchTestCase(TestCase):
         pks = [self.s1.pk, self.s2.pk, self.s3.pk, self.s4.pk]
         self.queryset = get_services(Fixtures.es_connection(), pks)
 
+
     def test_filter_by_postcode(self):
         p = Postcode.objects.get(pk="G2 4AA")
         result = filter_by_postcode(self.queryset, p, 100)
         self.assertNotEqual(result.count(), self.queryset.count())
+
 
     def test_postcode_order(self):
         p = Postcode.objects.get(pk="G2 4AA")
@@ -46,6 +48,7 @@ class SearchTestCase(TestCase):
         self.assertEqual(services[3], self.s4)
         self.assertEqual(result.count(), self.queryset.count())
 
+
     def test_combined_order(self):
         p = Postcode.objects.get(pk="G2 9ZZ")
         result = filter_by_postcode(self.queryset, p, 100000)
@@ -54,11 +57,6 @@ class SearchTestCase(TestCase):
         services = Service.objects.filter(id__in=order["ids"]).order_by(order["order"])
         self.assertNotEqual(services[2], self.s4)
         self.assertEqual(result.count(), 3)
-
-    def tearDown(self):
-        Fixtures.organisation_teardown()
-        for organisation in Organisation.objects.filter(name="Test0rg"):
-            organisation.delete()
 
 
     def test_organisation_query(self):
@@ -71,6 +69,7 @@ class SearchTestCase(TestCase):
         self.assertTrue(self.org in orgs)
         #self.assertEqual(self.org.id, orgs[0].id)
         #self.assertEqual(self.org2.id, orgs[1].id)
+
 
     '''
     def test_keyword_order(self):
@@ -90,10 +89,12 @@ class SearchTestCase(TestCase):
         self.assertTrue(success_counter > 8)
     '''
 
-    ''' Require boundary_data to work, please see PR. '''
-    '''
+
+    ''' Require boundary_data to work, please see PR.
+
     def test_boundary_match_single_data_set(self):
-        data_set_path = './aliss/data/boundary_data_sets/scottish_local_authority.geojson'
+        data_set_path = './aliss/data/boundaries/scottish_local_authority.geojson'
+
         data_set_keys = {
             'data_set_name': 'local_authority',
             'code':'lad18cd',
