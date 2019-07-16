@@ -79,15 +79,24 @@ class Fixtures(TestCase):
 
     @classmethod
     def create(self):
-        if Postcode.objects.filter(pk="G2 4AA").count() == 0:
-            Postcode.objects.create(
-                postcode="G2 4AA", postcode_district="G2",  postcode_sector="4",
-                latitude="55.86529182", longitude="-4.2684418",
-                council_area_2011_code="S12000046",
-                health_board_area_2014_code="S08000021",
-                integration_authority_2016_code="S37000015",
-                place_name="Glasgow"
-            )
+        Postcode.objects.get_or_create(pk="G2 4AA", defaults={
+                'postcode': 'G2 4AA', 'postcode_district': 'G2',
+                'postcode_sector': 'G2 4', 'latitude': 55.86523763,
+                'longitude': -4.26974322, 'council_area_2011_code': 'S12000046',
+                'health_board_area_2014_code': 'S08000021',
+                'integration_authority_2016_code': 'S37000015',
+                'place_name': 'Glasgow', 'slug': 'glasgow'
+            }
+        )
+        Postcode.objects.get_or_create(pk="EH1 1BQ", defaults={
+                'postcode': 'EH1 1BQ', 'postcode_district': 'EH1',
+                'postcode_sector': 'EH1 1', 'latitude': 55.95263002,
+                'longitude': -3.19132872, 'council_area_2011_code': 'S12000036',
+                'health_board_area_2014_code': 'S08000024',
+                'integration_authority_2016_code': 'S37000012',
+                'place_name': 'Edinburgh', 'slug': 'edinburgh'
+            }
+        )
         t,u,c,_ = Fixtures.create_users()
         o = Fixtures.create_organisation(t,u,c)
         s = Fixtures.create_service(o)

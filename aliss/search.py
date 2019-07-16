@@ -396,7 +396,7 @@ def filter_by_created_on(queryset, comparison_date):
     return queryset
 
 
-def positions_dict(queryset):
+def positions_dict(queryset, distance_sort_boolean):
     results = queryset.count()
     sorted_hits = queryset[0:results].execute()
     positions = {}
@@ -404,50 +404,62 @@ def positions_dict(queryset):
     while i < results:
         positions[sorted_hits[i].id] = None
         if "sort" not in sorted_hits[i].meta:
-            positions[sorted_hits[i].id] = i
+            positions[sorted_hits[i].id] = {"place":i, "score": None}
         elif type(sorted_hits[i].meta.sort[0]) == float:
-            positions[sorted_hits[i].id] = i
+            if distance_sort_boolean:
+                positions[sorted_hits[i].id] = {"place":i, "score":sorted_hits[i].meta.sort[0]}
+            else:
+                positions[sorted_hits[i].id] = {"place":i, "score": None}
+
+        else:
+            positions[sorted_hits[i].id] = {"place":i, "score": None}
         i=i+1
     return positions
 
 
 def postcode_order(queryset, postcode):
     postcode_sqs = sort_by_postcode(queryset, postcode)
-    positions = positions_dict(postcode_sqs)
+    positions = positions_dict(postcode_sqs, True)
     return {
         "ids": list(positions.keys()),
-        "order": Case(*[When(id=key, then=positions[key]) for key in positions])
+        "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions]),
+        "distance_scores": generate_distance_scores(positions)
     }
-
 
 def keyword_order(queryset):
-    positions = positions_dict(queryset)
+    positions = positions_dict(queryset, False)
     return {
         "ids": list(positions.keys()),
-        "order": Case(*[When(id=key, then=positions[key]) for key in positions])
+        "order": Case(*[When(id=key, then=positions[key]["place"]) for key in positions]),
+        "distance_scores": generate_distance_scores(positions)
     }
 
+def generate_distance_scores(positions):
+    distance_scores = {}
+    for key in positions:
+        distance_scores[key] = positions[key]["score"]
+    return distance_scores
 
 def combined_order(filtered_queryset, postcode):
     postcode_sqs = sort_by_postcode(filtered_queryset, postcode)
-
-    distance_sorted = positions_dict(postcode_sqs)
-    keyword_sorted  = positions_dict(filtered_queryset)
-
+    distance_sorted = positions_dict(postcode_sqs, True)
+    keyword_sorted  = positions_dict(filtered_queryset, False)
     positions = { "distance": distance_sorted, "keyword": keyword_sorted }
     combined = {}
 
     for key in positions["distance"]:
-      if positions["distance"][key] == None:
-        combined[key] = float(positions["keyword"][key])
+      if positions["distance"][key]["place"] == None:
+        combined[key]["place"] = float(positions["keyword"][key]["place"])
       else:
-        total = positions["distance"][key] + positions["keyword"][key]
-        combined[key] = (total / 2.0)
-
+        total = positions["distance"][key]["place"] + positions["keyword"][key]["place"]
+        distance = positions["distance"][key]["score"]
+        combined[key] = {"place":(total/2.0), "score":distance}
     return {
         "ids": list(combined.keys()),
-        "order": Case(*[When(id=key, then=combined[key]) for key in combined])
+        "order": Case(*[When(id=key, then=combined[key]["place"]) for key in combined]),
+        "distance_scores": generate_distance_scores(combined)
     }
+
 
 def filter_by_claimed_status(queryset, claimed_status):
     queryset = queryset.query({
