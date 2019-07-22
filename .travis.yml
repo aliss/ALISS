@@ -21,6 +21,7 @@ before_script:
 script:
 - python manage.py shell --command="from aliss.search_tasks import create_index; create_index()"
 - python manage.py collectstatic
+- python manage.py extract_geodata
 - python manage.py test
 deploy:
   provider: heroku
