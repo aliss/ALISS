@@ -6,6 +6,7 @@ from aliss.models import Category, ServiceArea, Organisation, Service, Postcode
 from collections import OrderedDict
 from copy import deepcopy
 from django.shortcuts import get_object_or_404
+from aliss.search import return_feature
 
 from .serializers import (
     v4SearchSerializer,
@@ -15,7 +16,8 @@ from .serializers import (
     v4OrganisationDetailSerializer,
     v4ServiceSerializer,
     PostcodeLocationSerializer,
-    PostcodeLocationSearchSerializer
+    PostcodeLocationSearchSerializer,
+    ServiceAreaSpatialSearchSerializer,
 )
 
 class APIv4():
@@ -106,10 +108,6 @@ class ServiceDetailView(v3.TrackUsageMixin, APIView):
         return Response(data)
 
 
-'''
-Need to create a new api endpoint which will be queried with three characters which will then return json holding matching postcodes. Look to categories for inspiration.
-'''
-
 class PostcodeLocationData(generics.ListAPIView):
     serializer_class = PostcodeLocationSerializer
 
@@ -130,3 +128,32 @@ class PostcodeLocationData(generics.ListAPIView):
             return queryset
         else:
             return None
+
+
+class ServiceAreaSpatialData(APIView):
+    # serializer_class = ServiceAreaSpatialSerializer
+
+    def get(self, request, *args, **kwargs):
+        input_serializer = ServiceAreaSpatialSearchSerializer(data=request.query_params)
+        input_serializer.is_valid(raise_exception=True)
+        input_data = input_serializer.validated_data
+        service_id = input_data.get('service_id')
+        service_area_objs = Service.objects.get(pk=service_id).service_areas.all()
+        service_area_features = []
+        for service_area_obj in service_area_objs:
+            type = service_area_obj.type
+            code = service_area_obj.code
+            returned = []
+            if type == 0:
+                if code == "XS":
+                    returned.append(return_feature(type, "S92000003"))
+                else:
+                    uk_codes = ["S92000003", "E92000001", "W92000004", "N92000002"]
+                    for uk_code in uk_codes:
+                        returned.append(return_feature(type, uk_code))
+            else:
+                returned.append(return_feature(type, code))
+
+            service_area_features += returned
+        queryset = list(service_area_features)
+        return Response(queryset)
