@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load aliss %}
 {% load analytics %}
+<!-- {% load static %} -->
 
 {% block title %}{{ object.name }} {% meta_location service %} - {{ object.organisation.name }} - ALISS{% endblock %}
 {% block meta_schema %}
@@ -281,9 +282,6 @@
             <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
           {% endif %}
           <div id='mapid'></div>
-          {% if request.user.postcode %}
-            <p>{% get_lat_long request.user.postcode %}</p>
-          {% endif %}
         </div>
       </div>
       <div class="columns feedback-form">
@@ -415,6 +413,12 @@
 
 
         var addLocations = function(mymap){
+
+          // var alissIcon = L.icon({
+          //   iconUrl: "{% static 'img/icons/favicon.png' %}",
+          //   iconSize:     [30, 30], // size of the icon
+          // });
+          
           var locations = {{location_lat_longs|safe}}
           $.each(locations, function(key, value){
             L.marker(value).addTo(mymap)
@@ -431,6 +435,14 @@
         if (!$.isEmptyObject({{location_lat_longs|safe}})){
           addLocations(mymap);
         }
+
+        if ("{{ request.user.postcode }}"){
+          var user_location = {% get_lat_long request.user.postcode %}
+          L.marker(user_location).addTo(mymap)
+      .bindPopup(`<b>You are here</b>`).openPopup();
+        }
+
+
 
       });
     </script>
