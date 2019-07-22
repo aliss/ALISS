@@ -436,7 +436,8 @@
           addLocations(mymap);
         }
 
-        if ("{{ request.user.postcode }}"){
+
+        if ("{{ request.user.prepopulate_postcode }}" == "True"){
           var user_location = {% get_lat_long request.user.postcode %}
           if (user_location.length > 0){
             L.marker(user_location).addTo(mymap)
