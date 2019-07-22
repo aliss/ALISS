@@ -108,10 +108,6 @@ class ServiceDetailView(v3.TrackUsageMixin, APIView):
         return Response(data)
 
 
-'''
-Need to create a new api endpoint which will be queried with three characters which will then return json holding matching postcodes. Look to categories for inspiration.
-'''
-
 class PostcodeLocationData(generics.ListAPIView):
     serializer_class = PostcodeLocationSerializer
 
@@ -132,6 +128,7 @@ class PostcodeLocationData(generics.ListAPIView):
             return queryset
         else:
             return None
+
 
 class ServiceAreaSpatialData(APIView):
     # serializer_class = ServiceAreaSpatialSerializer

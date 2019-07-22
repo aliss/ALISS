@@ -32,10 +32,12 @@ class SearchTestCase(TestCase):
         pks = [self.s1.pk, self.s2.pk, self.s3.pk, self.s4.pk]
         self.queryset = get_services(Fixtures.es_connection(), pks)
 
+
     def test_filter_by_postcode(self):
         p = Postcode.objects.get(pk="G2 4AA")
         result = filter_by_postcode(self.queryset, p, 100)
         self.assertNotEqual(result.count(), self.queryset.count())
+
 
     def test_postcode_order(self):
         p = Postcode.objects.get(pk="G2 4AA")
@@ -46,6 +48,7 @@ class SearchTestCase(TestCase):
         self.assertEqual(services[3], self.s4)
         self.assertEqual(result.count(), self.queryset.count())
 
+
     def test_combined_order(self):
         p = Postcode.objects.get(pk="G2 9ZZ")
         result = filter_by_postcode(self.queryset, p, 100000)
@@ -55,38 +58,20 @@ class SearchTestCase(TestCase):
         self.assertNotEqual(services[2], self.s4)
         self.assertEqual(result.count(), 3)
 
-    def tearDown(self):
-        Fixtures.organisation_teardown()
-        for organisation in Organisation.objects.filter(name="Test0rg"):
-            organisation.delete()
 
-    '''
     def test_organisation_query(self):
         org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org3.pk, self.org2.pk, self.org.pk])
         result = filter_organisations_by_query_all(org_queryset, "TestOrg")
         x = result.execute()
-        print("Meta: ")
-        print(x[0].name)
-        print(x[0].meta['score'])
-        print("\n------\n")
-        print(x[1].name)
-        print(x[1].meta['score'])
-        print("\n------\n")
-        print(x[2].name)
-        print(x[2].meta['score'])
-        print("\n------\n")
-
         order = keyword_order(result)
         orgs = Organisation.objects.filter(id__in=order["ids"]).order_by(order["order"])
-        print("\n\nOrgs")
-        print(orgs)
-        print("\n")
+        self.assertTrue(self.org2 in orgs) #basic test for travis
+        self.assertTrue(self.org in orgs)
+        #self.assertEqual(self.org.id, orgs[0].id)
+        #self.assertEqual(self.org2.id, orgs[1].id)
 
-        self.assertEqual(self.org.id, orgs[0].id)
-        self.assertEqual(self.org2.id, orgs[1].id)
-    '''
 
-    '''
+    ''' # Doesnt work on travis
     def test_keyword_order(self):
         success_counter = 0
         failure_counter = 0
@@ -104,8 +89,8 @@ class SearchTestCase(TestCase):
         self.assertTrue(success_counter > 8)
     '''
 
-    '''
-    Require boundary_data to work, please see PR.
+
+    #Require boundary_data to work, please see PR.
     def test_boundary_match_single_data_set(self):
         data_set_path = './aliss/data/boundaries/scottish_local_authority.geojson'
         data_set_keys = {
@@ -120,13 +105,14 @@ class SearchTestCase(TestCase):
         expected =  [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }]
         self.assertEqual(expected, result)
 
+
     def test_boundary_matches_multiple_data_sets(self):
         p = Postcode.objects.get(postcode='G2 1DY')
         long_lat = (p.longitude, p.latitude)
         result = check_boundaries(long_lat)
         expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
         self.assertEqual(result, expected)
-    '''
+
 
     def tearDown(self):
         Fixtures.organisation_teardown()
