@@ -418,7 +418,7 @@
           //   iconUrl: "{% static 'img/icons/favicon.png' %}",
           //   iconSize:     [30, 30], // size of the icon
           // });
-          
+
           var locations = {{location_lat_longs|safe}}
           $.each(locations, function(key, value){
             L.marker(value).addTo(mymap)
@@ -438,11 +438,11 @@
 
         if ("{{ request.user.postcode }}"){
           var user_location = {% get_lat_long request.user.postcode %}
-          L.marker(user_location).addTo(mymap)
-      .bindPopup(`<b>You are here</b>`).openPopup();
+          if (user_location.length > 0){
+            L.marker(user_location).addTo(mymap)
+        .bindPopup(`<b>You are here</b>`).openPopup();
+          }
         }
-
-
 
       });
     </script>
