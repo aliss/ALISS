@@ -17,6 +17,7 @@ class Command(BaseCommand):
 
 
     def smalluser_update_postcode(self, row):
+        print("Called small user update postcode")
         defaults = {
             'latitude': row[7],
             'longitude': row[8],
@@ -25,7 +26,9 @@ class Command(BaseCommand):
             'integration_authority_2016_code': row[18]
         }
         try:
-            Postcode.objects.filter(postcode=row[0]).update(**defaults)
+            u=Postcode.objects.filter(postcode=row[0]).update(**defaults)
+            if u:
+                print("Updated ", row[0])
             return True
         except Exception as e:
             print(e)
@@ -41,7 +44,9 @@ class Command(BaseCommand):
             'integration_authority_2016_code': row[19]
         }
         try:
-            Postcode.objects.filter(postcode=row[0]).update(**defaults)
+            u=Postcode.objects.filter(postcode=row[0]).update(**defaults)
+            if u:
+                print("Updated ", row[0])
             return True
         except Exception as e:
             print(e)
@@ -49,6 +54,7 @@ class Command(BaseCommand):
 
 
     def handle_smalluser_row(self, row):
+        print("Called handle small user row")
         try:
             Postcode.objects.get(
                 postcode=row[0],
@@ -57,8 +63,8 @@ class Command(BaseCommand):
                 council_area_2011_code=row[10]
             )
         except:
-            print("Couldnt find postcode")
             self.smalluser_update_postcode(row)
+        return True
 
 
     def handle_largeuser_row(self, row):
@@ -71,6 +77,7 @@ class Command(BaseCommand):
             )
         except:
             self.largeuser_update_postcode(row)
+        return True
 
 
     def handle(self, *args, **options):
