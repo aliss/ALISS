@@ -3,7 +3,7 @@ import zipfile
 import csv
 
 from django.core.management.base import BaseCommand, CommandError
-from aliss.models import Postcode
+from aliss.models import Postcode, ServiceArea
 
 
 class Command(BaseCommand):
@@ -80,7 +80,32 @@ class Command(BaseCommand):
         return True
 
 
+    def update_service_area_codes(self):
+        print("Updating service area codes")
+        #Updated codes sourced from: https://www.opendata.nhs.scot/dataset/geography-codes-and-labels/resource/944765d7-d0d9-46a0-b377-abb3de51d08e
+        health_boards = {
+            'S08000027': 'S08000030',
+            'S08000023': 'S08000032',
+            'S08000021': 'S08000031',
+            'S08000018': 'S08000029'
+        }
+        for key in health_boards.keys():
+            if ServiceArea.objects.filter(code=key).update(code=health_boards[key]):
+                print("Updated service area", key, " -> ", hscp[key])
+
+        hscp = {
+            'S37000014': 'S37000032',
+            'S37000015': 'S37000034',
+            'S37000021': 'S37000035',
+            'S37000023': 'S37000033'
+        }
+        for key in hscp.keys():
+            if ServiceArea.objects.filter(code=key).update(code=hscp[key]):
+                print("Updated service area", key, " -> ", hscp[key])
+
+
     def handle(self, *args, **options):
+        self.update_service_area_codes()
         self.extract_postcodes()
 
         print("Updating from SmallUser.csv")
