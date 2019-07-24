@@ -17,7 +17,6 @@ class Command(BaseCommand):
 
 
     def smalluser_update_postcode(self, row):
-        print("Called small user update postcode")
         defaults = {
             'latitude': row[7],
             'longitude': row[8],
@@ -54,7 +53,6 @@ class Command(BaseCommand):
 
 
     def handle_smalluser_row(self, row):
-        print("Called handle small user row")
         try:
             Postcode.objects.get(
                 postcode=row[0],
@@ -91,7 +89,7 @@ class Command(BaseCommand):
         }
         for key in health_boards.keys():
             if ServiceArea.objects.filter(code=key).update(code=health_boards[key]):
-                print("Updated service area", key, " -> ", hscp[key])
+                print("Updated service area", key, " -> ", health_boards[key])
 
         hscp = {
             'S37000014': 'S37000032',
