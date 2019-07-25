@@ -413,12 +413,6 @@
 
 
         var addLocations = function(mymap){
-
-          // var alissIcon = L.icon({
-          //   iconUrl: "{% static 'img/icons/favicon.png' %}",
-          //   iconSize:     [30, 30], // size of the icon
-          // });
-
           var locations = {{location_lat_longs|safe}}
           $.each(locations, function(key, value){
             L.marker(value).addTo(mymap)
@@ -432,17 +426,9 @@
         if ("{{service.service_areas.all.0|safe}}" != ""){
           renderFeatures(mymap);
         }
+
         if (!$.isEmptyObject({{location_lat_longs|safe}})){
           addLocations(mymap);
-        }
-
-
-        if ("{{ request.user.prepopulate_postcode }}" == "True"){
-          var user_location = {% get_lat_long request.user.postcode %}
-          if (user_location.length > 0){
-            L.marker(user_location).addTo(mymap)
-        .bindPopup(`<b>You are here</b>`).openPopup();
-          }
         }
 
       });
