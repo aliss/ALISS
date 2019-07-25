@@ -47,3 +47,7 @@ To run the ALISS project it is necessary to setup the environment on your machin
 - See `package.json` for node packages
 - Elasticsearch >=6.1.3
 - Postgres >= 9.0
+
+## Notes on data
+
+Regarding boundaries and service areas see https://www.opendata.nhs.scot/dataset/geography-codes-and-labels
