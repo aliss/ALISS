@@ -4,6 +4,7 @@ import csv
 
 from django.core.management.base import BaseCommand, CommandError
 from aliss.models import Postcode, ServiceArea
+from aliss.search_tasks import delete_index, create_index, index_all
 
 
 class Command(BaseCommand):
@@ -97,6 +98,7 @@ class Command(BaseCommand):
 
 
     def update_postcode_area_codes(self):
+        print("Updating postcode service area codes")
         for key in self.health_boards.keys():
             if Postcode.objects.filter(health_board_area_2014_code=key).update(health_board_area_2014_code=self.health_boards[key]):
                 print("Updated postcode", key, " -> ", self.health_boards[key])
@@ -109,6 +111,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.update_service_area_codes()
         self.update_postcode_area_codes()
+        delete_index(); create_index(); index_all();
         self.stdout.write(
             self.style.SUCCESS('Successfully updated postcodes')
         )
