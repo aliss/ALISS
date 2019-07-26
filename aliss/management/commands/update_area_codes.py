@@ -4,17 +4,24 @@ import csv
 
 from django.core.management.base import BaseCommand, CommandError
 from aliss.models import Postcode, ServiceArea
+from aliss.search_tasks import delete_index, create_index, index_all
 
 
 class Command(BaseCommand):
 
-    def extract_postcodes(self):
-        postcodes_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../data/postcodes'))
-        postcodes_zip = postcodes_dir + '/postcodes.zip'
-        print("Extracting " + postcodes_zip + " to " + postcodes_dir)
-        with zipfile.ZipFile(postcodes_zip,"r") as zip_ref:
-            zip_ref.extractall(postcodes_dir)
+    health_boards = {
+        'S08000027': 'S08000030',
+        'S08000023': 'S08000032',
+        'S08000021': 'S08000031',
+        'S08000018': 'S08000029'
+    }
 
+    hscp = {
+        'S37000014': 'S37000032',
+        'S37000015': 'S37000034',
+        'S37000021': 'S37000035',
+        'S37000023': 'S37000033'
+    }
 
     def smalluser_update_postcode(self, row):
         defaults = {
@@ -81,29 +88,44 @@ class Command(BaseCommand):
     def update_service_area_codes(self):
         print("Updating service area codes")
         #Updated codes sourced from: https://www.opendata.nhs.scot/dataset/geography-codes-and-labels/resource/944765d7-d0d9-46a0-b377-abb3de51d08e
-        health_boards = {
-            'S08000027': 'S08000030',
-            'S08000023': 'S08000032',
-            'S08000021': 'S08000031',
-            'S08000018': 'S08000029'
-        }
-        for key in health_boards.keys():
-            if ServiceArea.objects.filter(code=key).update(code=health_boards[key]):
-                print("Updated service area", key, " -> ", health_boards[key])
+        for key in self.health_boards.keys():
+            if ServiceArea.objects.filter(code=key).update(code=self.health_boards[key]):
+                print("Updated service area", key, " -> ", self.health_boards[key])
 
-        hscp = {
-            'S37000014': 'S37000032',
-            'S37000015': 'S37000034',
-            'S37000021': 'S37000035',
-            'S37000023': 'S37000033'
-        }
-        for key in hscp.keys():
-            if ServiceArea.objects.filter(code=key).update(code=hscp[key]):
-                print("Updated service area", key, " -> ", hscp[key])
+        for key in self.hscp.keys():
+            if ServiceArea.objects.filter(code=key).update(code=self.hscp[key]):
+                print("Updated service area", key, " -> ", self.hscp[key])
+
+
+    def update_postcode_area_codes(self):
+        print("Updating postcode service area codes")
+        for key in self.health_boards.keys():
+            if Postcode.objects.filter(health_board_area_2014_code=key).update(health_board_area_2014_code=self.health_boards[key]):
+                print("Updated postcode", key, " -> ", self.health_boards[key])
+
+        for key in self.hscp.keys():
+            if Postcode.objects.filter(integration_authority_2016_code=key).update(integration_authority_2016_code=self.hscp[key]):
+                print("Updated postcode", key, " -> ", self.hscp[key])
 
 
     def handle(self, *args, **options):
         self.update_service_area_codes()
+        self.update_postcode_area_codes()
+        delete_index(); create_index(); index_all();
+        self.stdout.write(
+            self.style.SUCCESS('Successfully updated postcodes')
+        )
+
+
+    def extract_postcodes(self):
+        postcodes_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../data/postcodes'))
+        postcodes_zip = postcodes_dir + '/postcodes.zip'
+        print("Extracting " + postcodes_zip + " to " + postcodes_dir)
+        with zipfile.ZipFile(postcodes_zip,"r") as zip_ref:
+            zip_ref.extractall(postcodes_dir)
+
+
+    def update_from_postcodes(self):
         self.extract_postcodes()
 
         print("Updating from SmallUser.csv")
@@ -126,6 +148,4 @@ class Command(BaseCommand):
                 if (i % 1000) == 0:
                     print("Checked/updated " + str(i) + " postcodes")
 
-        self.stdout.write(
-            self.style.SUCCESS('Successfully updated postcodes')
-        )
+
