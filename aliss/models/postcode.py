@@ -32,6 +32,10 @@ class Postcode(models.Model):
             'XB'
         ]
 
+    @property
+    def service_areas(self):
+        return ServiceArea.objects.filter(code__in=self.codes)
+
     def get_local_authority(self):
         return ServiceArea.objects.filter(type=2, code=self.council_area_2011_code).first()
 
