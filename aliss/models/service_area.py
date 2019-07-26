@@ -25,4 +25,4 @@ class ServiceArea(models.Model):
     type = models.IntegerField(choices=AREA_TYPES, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.name +" ("+ str(ServiceArea.AREA_TYPES[self.type][1]) + ")"
