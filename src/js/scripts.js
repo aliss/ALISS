@@ -641,7 +641,7 @@ $(document).ready(() => {
         }
         result.forEach(function(feature){
           if (feature.length != 0){
-            var geo_feature = JSON.parse(feature);
+            var geo_feature = feature;
             var geoJSON = L.geoJson(geo_feature).addTo(mymap);
             if (singleArea){
               if (geo_feature.properties.long){
