@@ -370,7 +370,7 @@
           renderFeatures(mymap, serviceId);
         }
 
-        var locations = {{location_lat_longs|safe}}
+        var locations = {{location_lat_longs|safe}};
         if (!$.isEmptyObject(locations)){
           addLocations(mymap, locations);
         }
