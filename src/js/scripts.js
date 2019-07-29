@@ -606,6 +606,63 @@ $(document).ready(() => {
     }
   };
 
+  window.setMapSize = function(targetId){
+    var innerWidth = window.innerWidth;
+    var desiredSize = 0;
+    if (innerWidth < 900){
+      desiredSize = (0.9 * innerWidth);
+    }
+    else {
+      desiredSize = (0.4 * innerWidth);
+    }
+    $('#' + targetId).width(desiredSize);
+    $('#' + targetId).height(desiredSize);
+  };
+
+  window.renderMap = function(targetId) {
+    var mymap = L.map(targetId).setView([56.816922, -4.18265], 6);
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    }).addTo(mymap);
+    return mymap;
+  };
+
+  window.renderFeatures = function(mymap, serviceId){
+    var features = $.ajax({
+      url: "/api/v4/service-area-spatial/?service_id=" + serviceId,
+      dataType : "json",
+      success: function(result){
+        var singleArea = false;
+        if (result.length == 1){
+          singleArea = true;
+        }
+        result.forEach(function(feature){
+          if (feature.length != 0){
+            var geo_feature = JSON.parse(feature);
+            var geoJSON = L.geoJson(geo_feature).addTo(mymap);
+            if (singleArea){
+              if (geo_feature.properties.long){
+                var long = (geo_feature.properties.long);
+                var lat = (geo_feature.properties.long);
+                mymap.setView([lat, long], 6);
+              }
+            }
+          }
+        });
+      }
+    });
+  };
+
+  window.addLocations = function(mymap, locations){
+    $.each(locations, function(key, value){
+      L.marker(value).addTo(mymap)
+      .bindPopup(`<b>${key}</b>`);
+    });
+  };
+
   svg4everybody();
   handleTabs();
   checkMaxCategories();
@@ -614,4 +671,5 @@ $(document).ready(() => {
   handleClearInputs();
   toggleClearableInputs();
   handleFileInput();
+
 });
