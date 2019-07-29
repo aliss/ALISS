@@ -646,7 +646,7 @@ $(document).ready(() => {
             if (singleArea){
               if (geo_feature.properties.long){
                 var long = (geo_feature.properties.long);
-                var lat = (geo_feature.properties.long);
+                var lat = (geo_feature.properties.lat);
                 mymap.setView([lat, long], 6);
               }
             }
