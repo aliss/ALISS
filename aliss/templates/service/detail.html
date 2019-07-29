@@ -365,7 +365,7 @@
         setMapSize(targetId);
         var mymap = renderMap(targetId);
 
-        var serviceId =  "{{service.id}}"
+        var serviceId =  "{{service.id}}";
         if ("{{service.service_areas.all.0|safe}}" != ""){
           renderFeatures(mymap, serviceId);
         }
