@@ -43,7 +43,13 @@
                   </ul>
                 </div>
               {% endif %}
-              <label for="username">Email</label>
+
+              <label for="username">
+                Email
+                <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="Please ensure email address is the correct combination of uppercase and lowercase i.e. example@aliss.org is not the same as Example@aliss.org">
+                  <i class="fa fa-question-circle" aria-hidden="true"></i>
+                </span>
+              </label>
               {{ form.username }}
               {{ form.password.label_tag }}
               {{ form.password }}
@@ -60,6 +66,10 @@
             <input type="submit" value="Log in">
             <input type="hidden" name="next" value="{{ next }}" />
           </form>
+        </div>
+        </br>
+        <div class="copy-container">
+          <h3>Having issues logging in? <a href="mailto:hello@aliss.org" >hello@aliss.org</a></h3>
         </div>
       </div>
     </div>
