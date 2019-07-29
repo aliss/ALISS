@@ -564,7 +564,7 @@ def return_feature(service_area_type, service_area_code):
         return_feature = []
         for feature in js['features']:
             if feature['properties'][dataset[str(service_area_type)]["code_key"]] == service_area_code:
-                return_feature = json.dumps(feature)
+                return_feature = feature
         return return_feature
     else:
         return None
