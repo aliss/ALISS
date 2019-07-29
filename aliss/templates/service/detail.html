@@ -279,8 +279,8 @@
           {% if object.service_areas.all %}
             <h5>Service areas</h5>
             <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-            <div id='mapid'></div>
           {% endif %}
+          <div id='mapid'></div>
         </div>
       </div>
       <div class="columns feedback-form">
@@ -347,7 +347,7 @@
   });
   </script>
 
-  {% if service.service_areas.all %}
+  {% if service %}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin=""/>
@@ -360,57 +360,20 @@
     <script type="text/javascript">
       $(document).ready(function(){
 
-        var setMapSize = function(){
-          var innerWidth = window.innerWidth;
-          var desiredSize = 0;
-          if (innerWidth < 900){
-            desiredSize = (0.9 * innerWidth)
-          }
-          else {
-            desiredSize = (0.4 * innerWidth)
-          }
-          $('#mapid').width(desiredSize);
-          $('#mapid').height(desiredSize);
+        var targetId = 'mapid'
+
+        setMapSize(targetId);
+        var mymap = renderMap(targetId);
+
+        var serviceId =  "{{service.id}}";
+        if ("{{service.service_areas.all.0|safe}}" != ""){
+          renderFeatures(mymap, serviceId);
         }
 
-        var renderMap = function() {
-          var mymap = L.map('mapid').setView([56.816922, -4.18265], 6);
-        	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        		maxZoom: 18,
-        		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-        			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        	}).addTo(mymap);
-          return mymap
+        var locations = {{location_lat_longs|safe}};
+        if (!$.isEmptyObject(locations)){
+          addLocations(mymap, locations);
         }
-
-        var renderFeatures = function(mymap){
-          var features = $.ajax({
-            url: "/api/v4/service-area-spatial/?service_id=" + "{{service.id}}",
-            dataType : "json",
-            success: function(result){
-              var singleArea = false
-              if (result.length == 1){
-                singleArea = true;
-              }
-              result.forEach(function(feature){
-                var geo_feature = JSON.parse(feature)
-                var geoJSON = L.geoJson(geo_feature).addTo(mymap);
-                if (singleArea){
-                  if (geo_feature["properties"]["long"]){
-                    var long = (geo_feature["properties"]["long"])
-                    var lat = (geo_feature["properties"]["lat"])
-                    mymap.setView([lat, long], 6)
-                  }
-                }
-              });
-            }
-          });
-        }
-
-      setMapSize();
-      var mymap = renderMap();
-      renderFeatures(mymap);
 
       });
     </script>
