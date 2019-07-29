@@ -194,6 +194,17 @@ class ServiceViewTestCase(TestCase):
         new_location_count = self.service.locations.count()
         self.assertEqual(1, new_location_count)
 
+    def test_service_detail_location_lat_longs_context(self):
+        locations = self.service.locations.all()
+        comparison_lat_long_dict = {}
+        for location in locations:
+            street_address = location.street_address
+            lat_long = [location.latitude, location.longitude]
+            comparison_lat_long_dict[street_address] = lat_long
+        response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+        context_lat_longs_dict = response.context['location_lat_longs']
+        self.assertEqual(comparison_lat_long_dict, context_lat_longs_dict)
+
 
     def tearDown(self):
         Fixtures.organisation_teardown()
