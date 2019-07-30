@@ -31,3 +31,9 @@ class UpdateAreaCodesTest(TestCase):
         c.update_service_area_codes()
         self.service_area.refresh_from_db()
         self.assertTrue(self.service_area.code == 'S37000032')
+
+    def test_update_postcode_area_codes(self):
+        c = UpdateAreaCodesCommand()
+        c.update_postcode_area_codes()
+        self.postcode.refresh_from_db()
+        self.assertTrue(self.postcode.health_board_area_2014_code == 'S08000031')

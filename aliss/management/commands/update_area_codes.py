@@ -23,6 +23,10 @@ class Command(BaseCommand):
         'S37000023': 'S37000033'
     }
 
+    local_authorities = {
+        'S12000024': 'S12000048', 'S12000015': 'S12000047'
+    }
+
     def smalluser_update_postcode(self, row):
         defaults = {
             'latitude': row[7],
@@ -96,6 +100,10 @@ class Command(BaseCommand):
             if ServiceArea.objects.filter(code=key).update(code=self.hscp[key]):
                 print("Updated service area", key, " -> ", self.hscp[key])
 
+        for key in self.local_authorities.keys():
+            if ServiceArea.objects.filter(code=key).update(code=self.local_authorities[key]):
+                print("Updated service area", key, " -> ", self.local_authorities[key])
+
 
     def update_postcode_area_codes(self):
         print("Updating postcode service area codes")
@@ -106,6 +114,10 @@ class Command(BaseCommand):
         for key in self.hscp.keys():
             if Postcode.objects.filter(integration_authority_2016_code=key).update(integration_authority_2016_code=self.hscp[key]):
                 print("Updated postcode", key, " -> ", self.hscp[key])
+
+        for key in self.local_authorities.keys():
+            if Postcode.objects.filter(council_area_2011_code=key).update(council_area_2011_code=self.local_authorities[key]):
+                print("Updated postcode", key, " -> ", self.local_authorities[key])
 
 
     def handle(self, *args, **options):
