@@ -667,7 +667,7 @@ $(document).ready(() => {
   window.addLocations = function(mymap, locations){
     $.each(locations, function(key, value){
       L.marker(value).addTo(mymap)
-      .bindPopup(`<b>${key}</b>`);
+      .bindPopup(`<a href=https://maps.google.com/?q=${value[0]},${value[1]} target="_blank">${key}</a>`);
     });
   };
 
