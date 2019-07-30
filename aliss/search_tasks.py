@@ -130,15 +130,10 @@ def index_services(connection=None):
         print("%s Services indexed" % ok)
 
 
-def index_organisations(include_unpublished, connection=None):
+def index_organisations(organisations=Organisation.objects.all(), connection=None):
     if connection == None:
         connection = _get_connection()
-
-    if include_unpublished:
-        organisations = Organisation.objects.all().iterator()
-    else:
-        organisations = Organisation.objects.filter(published=True).all().iterator()
-
+    organisations = organisations.iterator()
     for ok in bulk(connection, ({
         '_index':'organisation_search',
         '_type':'organisation',
@@ -150,8 +145,8 @@ def index_organisations(include_unpublished, connection=None):
 
 def index_all():
     connection = _get_connection()
-    index_services(connection)
-    index_organisations(True, connection)
+    index_services()
+    index_organisations()
 
 
 def delete_index():
