@@ -206,3 +206,12 @@ span.alert { color: $alert; }
     span.icon { font-size: 0.9rem; margin-right: 0.3rem; }
   }
 }
+
+ul.service-areas li {
+  display:inline-block;
+  span.area-type-0 { display:none; }
+  span.area-type-1,
+  span.area-type-2,
+  span.area-type-3,
+  span.area-type-4 { opacity: 0.65; }
+}

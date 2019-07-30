@@ -277,8 +277,12 @@
             {% if object.twitter %}<a href="{{ object.twitter }}">Twitter</a>{% endif %}
           </p>
           {% if object.service_areas.all %}
-            <h5>Service areas</h5>
-            <p>{% for area in object.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+            <h5>Delivered across</h5>
+            <ul class="service-areas">
+              {% for area in object.service_areas.all %}
+                <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
+              {% endfor %}
+            </ul>
           {% endif %}
           <div id='mapid'></div>
         </div>
