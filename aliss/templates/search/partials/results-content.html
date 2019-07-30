@@ -202,14 +202,15 @@
                     <p>
                       <i class="fas fa-map-marker-alt"></i> Delivered across
                     </p>
-                    <ul class="service-areas">{% for area in result.service_areas.all %}
-                      <li style="display:inline-block;"> · {{area.name}}</li>
+                    <ul class="service-areas">
+                    {% for area in result.service_areas.all %}
+                      <li style="display:inline-block;" title="{{ area.type_name }}"> · {{area.name}}</li>
                     {% endfor %}
                     </ul>
                   {% else %}
                     <p>
                       <i class="fas fa-map-marker-alt"></i> Delivered across
-                      {% for area in result.service_areas.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{{area.name}}{% endfor %}
+                      {% for area in result.service_areas.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}<span title="{{ area.type_name }}">{{area.name}}</span>{% endfor %}
                     </p>
                   {% endif %}
                 {% endif %}

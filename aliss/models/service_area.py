@@ -24,5 +24,9 @@ class ServiceArea(models.Model):
     code = models.CharField(max_length=9)
     type = models.IntegerField(choices=AREA_TYPES, blank=True)
 
+    @property
+    def type_name(self):
+        return str(ServiceArea.AREA_TYPES[self.type][1])
+
     def __str__(self):
-        return self.name +" ("+ str(ServiceArea.AREA_TYPES[self.type][1]) + ")"
+        return self.name +" ("+ self.type_name +")"
