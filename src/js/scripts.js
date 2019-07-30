@@ -642,7 +642,15 @@ $(document).ready(() => {
         result.forEach(function(feature){
           if (feature.length != 0){
             var geo_feature = feature;
-            var geoJSON = L.geoJson(geo_feature).addTo(mymap);
+            var feature_name = '';
+            var name_keys = ['lad18nm', 'HBName', 'HIAName', 'ctry17nm'];
+            name_keys.forEach(function(name_key){
+              if (geo_feature.properties[name_key]){
+                feature_name = geo_feature.properties[name_key];
+                return feature_name;
+              }
+            });
+            var geoJSON = L.geoJson(geo_feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
             if (singleArea){
               if (geo_feature.properties.long){
                 var long = (geo_feature.properties.long);
