@@ -100,9 +100,12 @@ def postcodes_in_service_area(service_area):
     return Postcode.objects.filter(**kwargs)
 
 def category_in_service_area(category=Category.objects.get(slug='physical-activity'), location_objects=Location.objects.all(), service_area='health_board'):
+    print("Setting up area mappings")
     service_area_mappings = setup_data_set_doubles()
     boundary = service_area_mappings[service_area]
+    print("Checking for " + service_area + " boundary")
     service_area_distributions = locations_in_service_area(location_objects, boundary)
+    #print("Checking for " + service_area + " boundary")
     for service_area_name, location_ids in service_area_distributions.items():
         print("\n"+ service_area_name)
         services = Service.objects.filter(locations__in=location_ids).distinct()
