@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load aliss %}
+{% load analytics %}
+
+<main class="main" role="main">
+  <article id="content" class="service">
+    <div id='mapid'></div>
+  </article>
+</main>
+
+{% block before_body_close %}
+
+{% if service %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+  crossorigin="">
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+      var targetId = 'mapid'
+
+      setMapSize(targetId);
+      var mymap = renderMap(targetId);
+
+      var serviceId =  "{{service.id}}";
+      if ("{{service.service_areas.all.0|safe}}" != ""){
+        renderFeatures(mymap, serviceId);
+      }
+
+      var locations = {{location_lat_longs|safe}};
+      if (!$.isEmptyObject(locations)){
+        addLocations(mymap, locations);
+      }
+
+    });
+  </script>
+{% endif %}
+
+{% endblock %}
