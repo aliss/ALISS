@@ -151,9 +151,7 @@ class ServiceDetailEmbeddedMapView(UserPassesTestMixin, DetailView):
         return (service.is_published() or service.is_edited_by(user))
 
     def get_context_data(self, **kwargs):
-        context = super(ServiceDetailView, self).get_context_data(**kwargs)
-        if self.request.user.is_authenticated():
-            context['recommended_service_lists'] = RecommendedServiceList.objects.filter(user=self.request.user)
+        context = super(ServiceDetailEmbeddedMapView, self).get_context_data(**kwargs)
         locations = self.object.locations.all()
         lat_longs = {}
         for location in locations:
