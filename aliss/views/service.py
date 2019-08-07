@@ -141,6 +141,26 @@ class ServiceDetailView(UserPassesTestMixin, DetailView):
         context['location_lat_longs'] = lat_longs
         return context
 
+class ServiceDetailEmbeddedMapView(UserPassesTestMixin, DetailView):
+    model = Service
+    template_name = 'service/embedded_map.html'
+    query_pk_and_slug = True
+
+    def test_func(self, user):
+        service = self.get_object()
+        return (service.is_published() or service.is_edited_by(user))
+
+    def get_context_data(self, **kwargs):
+        context = super(ServiceDetailView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated():
+            context['recommended_service_lists'] = RecommendedServiceList.objects.filter(user=self.request.user)
+        locations = self.object.locations.all()
+        lat_longs = {}
+        for location in locations:
+            lat_longs[location.street_address] = [location.latitude, location.longitude]
+        context['location_lat_longs'] = lat_longs
+        return context
+
 
 class ServiceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Service
