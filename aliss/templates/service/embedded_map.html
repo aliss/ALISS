@@ -1,16 +1,16 @@
-{% extends "base.html" %}
 {% load aliss %}
-{% load analytics %}
+{% load static %}
 
-<main class="main" role="main">
-  <article id="content" class="service">
-    <div id='mapid'></div>
-  </article>
-</main>
+  <main class="main" role="main">
+    <article id="content" class="service">
+      <div id="mapid" style="height: 500px; width: 500px;"></div>
+    </article>
+  </main>
 
 {% block before_body_close %}
 
-{% if service %}
+  <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
@@ -40,6 +40,5 @@
 
     });
   </script>
-{% endif %}
 
 {% endblock %}
