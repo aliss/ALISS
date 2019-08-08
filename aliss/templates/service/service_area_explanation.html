@@ -8,12 +8,58 @@
     <div class="row">
       <div class="columns content">
         <div class="copy-container">
-          <h1>What is a Service Area?</h1>
-          <p></p>
+          <h1>What is a service area?</h1>
+          <p>A service area is a boundary in which a service is available. For example a although a service may have a physical location in the city centre the service may be available in all of Glasgow. This could be through home visits or communication about the local area. ALthough, who decides what is and isn't within Glasgow?</p>
+
+          <p>Boundaries are set by different groups to help split the country into regions to ease management of concerns such as budget and responsibility. This can help to tailor the services provided to the needs of those who live and work in the boundary. A small charity may only have the resources and expertise to help individuals locally or be  ALISS supports a numbers of boundaries such as:</p>
+
+          <ul>
+            <li id="national"><a>National</a></li>
+            <li id="local_authority"><a>Local Authority</a></li>
+            <li id="nhs"><a>NHS Healthboard</a></li>
+            <li id="hia"><a>Integration Authority formerly HSCP</a></li>
+          </ul>
+
+          <div id="mapid"></div>
+
+          <!-- <p>Although some boundaries overlap there are some which encompass others. For example a service could be available in Scotland in which case it is not necessary to also add local authroity boundaries as they would already be covered.</p> -->
+
         </div>
       </div>
     </div>
   </article>
 </main>
+{% endblock %}
+
+{% block before_body_close %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+    crossorigin="">
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        var targetId = 'mapid'
+
+        setMapSize(targetId);
+        var mymap = renderMap(targetId);
+
+        // var serviceId =  "{{service.id}}";
+        // if ("{{service.service_areas.all.0|safe}}" != ""){
+        //   renderFeatures(mymap, serviceId);
+        // }
+        //
+        // var locations = {{location_lat_longs|safe}};
+        // if (!$.isEmptyObject(locations)){
+        //   addLocations(mymap, locations);
+        // }
+
+      });
+    </script>
 
 {% endblock %}

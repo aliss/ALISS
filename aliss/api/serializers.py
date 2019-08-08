@@ -172,3 +172,6 @@ class PostcodeLocationSearchSerializer(serializers.Serializer):
 
 class ServiceAreaSpatialSearchSerializer(serializers.Serializer):
     service_id = serializers.UUIDField(required=True)
+
+class ServiceAreaFullSpatialDataSetSearchSerializer(serializers.Serializer):
+    type = serializers.IntegerField()
