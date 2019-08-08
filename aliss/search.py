@@ -534,7 +534,7 @@ def setup_data_set_doubles():
     return boundaries_data_mappings
 
 
-def return_feature(service_area_type, service_area_code):
+def return_feature(service_area_type, service_area_code=0, all_features=False):
     boundaries_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), './data/boundaries'))
     dataset = {
         "0": {
@@ -563,7 +563,9 @@ def return_feature(service_area_type, service_area_code):
             js = json.load(f)
         return_feature = []
         for feature in js['features']:
-            if feature['properties'][dataset[str(service_area_type)]["code_key"]] == service_area_code:
+            if all_features:
+                return_feature.append(feature)
+            elif feature['properties'][dataset[str(service_area_type)]["code_key"]] == service_area_code:
                 return_feature = feature
         return return_feature
     else:

@@ -18,6 +18,7 @@ from .serializers import (
     PostcodeLocationSerializer,
     PostcodeLocationSearchSerializer,
     ServiceAreaSpatialSearchSerializer,
+    ServiceAreaFullSpatialDataSetSearchSerializer
 )
 
 class APIv4():
@@ -155,5 +156,15 @@ class ServiceAreaSpatialData(APIView):
                 returned.append(return_feature(type, code))
 
             service_area_features += returned
+        queryset = list(service_area_features)
+        return Response(queryset)
+
+class ServiceAreaFullSpatialDataSet(APIView):
+    def get(self, request, *args, **kwargs):
+        input_serializer = ServiceAreaFullSpatialDataSetSearchSerializer(data=request.query_params)
+        input_serializer.is_valid(raise_exception=True)
+        input_data = input_serializer.validated_data
+        area_type = input_data.get('type')
+        service_area_features = return_feature(area_type, 0, True)
         queryset = list(service_area_features)
         return Response(queryset)
