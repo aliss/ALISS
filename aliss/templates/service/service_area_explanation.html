@@ -62,8 +62,10 @@
             url: "/api/v4/service-area-spatial/full-set/?type=" + $('#national').val(),
             dataType : "json",
             success: function(result){
-              result.forEach(function(feature){
-                var geoJSON = L.geoJson(feature).addTo(mymap);
+              name_key = result.name_key
+              result.data.forEach(function(feature){
+                feature_name = feature.properties[`${name_key}`];
+                var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
               });
             }
           });
@@ -81,8 +83,10 @@
             url: "/api/v4/service-area-spatial/full-set/?type=" + $('#local_authority').val(),
             dataType : "json",
             success: function(result){
-              result.forEach(function(feature){
-                var geoJSON = L.geoJson(feature).addTo(mymap);
+              name_key = result.name_key
+              result.data.forEach(function(feature){
+                feature_name = feature.properties[`${name_key}`];
+                var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
               });
             }
           });
@@ -100,8 +104,10 @@
             url: "/api/v4/service-area-spatial/full-set/?type=" + $('#nhs').val(),
             dataType : "json",
             success: function(result){
-              result.forEach(function(feature){
-                var geoJSON = L.geoJson(feature).addTo(mymap);
+              name_key = result.name_key
+              result.data.forEach(function(feature){
+                feature_name = feature.properties[`${name_key}`];
+                var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
               });
             }
           });
@@ -119,23 +125,14 @@
             url: "/api/v4/service-area-spatial/full-set/?type=" + $('#hia').val(),
             dataType : "json",
             success: function(result){
-              result.forEach(function(feature){
-                var geoJSON = L.geoJson(feature).addTo(mymap);
+              name_key = result.name_key
+              result.data.forEach(function(feature){
+                feature_name = feature.properties[`${name_key}`];
+                var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
               });
             }
           });
         });
-
-
-        // var serviceId =  "{{service.id}}";
-        // if ("{{service.service_areas.all.0|safe}}" != ""){
-        //   renderFeatures(mymap, serviceId);
-        // }
-        //
-        // var locations = {{location_lat_longs|safe}};
-        // if (!$.isEmptyObject(locations)){
-        //   addLocations(mymap, locations);
-        // }
 
       });
     </script>

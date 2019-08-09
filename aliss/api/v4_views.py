@@ -161,10 +161,19 @@ class ServiceAreaSpatialData(APIView):
 
 class ServiceAreaFullSpatialDataSet(APIView):
     def get(self, request, *args, **kwargs):
+
+        dataset_name_keys = {
+            0: "ctry17nm",
+            2: "lad18nm",
+            3: "HBName",
+            4: "HIAName",
+        }
+
         input_serializer = ServiceAreaFullSpatialDataSetSearchSerializer(data=request.query_params)
         input_serializer.is_valid(raise_exception=True)
         input_data = input_serializer.validated_data
         area_type = input_data.get('type')
         service_area_features = return_feature(area_type, 0, True)
         queryset = list(service_area_features)
-        return Response(queryset)
+        result = {"name_key": dataset_name_keys.get(area_type), "data": queryset}
+        return Response(result)
