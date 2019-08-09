@@ -49,6 +49,55 @@
         setMapSize(targetId);
         var mymap = renderMap(targetId);
 
+        $('#national').click(mymap, function(){
+          var features = $.ajax({
+            url: "/api/v4/service-area-spatial/full-set/?type=0",
+            dataType : "json",
+            success: function(result){
+              result.forEach(function(feature){
+                var geoJSON = L.geoJson(feature).addTo(mymap);
+              });
+            }
+          });
+        });
+
+        $('#local_authority').click(mymap, function(){
+          var features = $.ajax({
+            url: "/api/v4/service-area-spatial/full-set/?type=2",
+            dataType : "json",
+            success: function(result){
+              result.forEach(function(feature){
+                var geoJSON = L.geoJson(feature).addTo(mymap);
+              });
+            }
+          });
+        });
+
+        $('#nhs').click(mymap, function(){
+          var features = $.ajax({
+            url: "/api/v4/service-area-spatial/full-set/?type=3",
+            dataType : "json",
+            success: function(result){
+              result.forEach(function(feature){
+                var geoJSON = L.geoJson(feature).addTo(mymap);
+              });
+            }
+          });
+        });
+
+        $('#hia').click(mymap, function(){
+          var features = $.ajax({
+            url: "/api/v4/service-area-spatial/full-set/?type=4",
+            dataType : "json",
+            success: function(result){
+              result.forEach(function(feature){
+                var geoJSON = L.geoJson(feature).addTo(mymap);
+              });
+            }
+          });
+        });
+
+
         // var serviceId =  "{{service.id}}";
         // if ("{{service.service_areas.all.0|safe}}" != ""){
         //   renderFeatures(mymap, serviceId);
