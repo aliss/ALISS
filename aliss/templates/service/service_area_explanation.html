@@ -14,10 +14,10 @@
           <p>Boundaries are set by different groups to help split the country into regions to ease management of concerns such as budget and responsibility. This can help to tailor the services provided to the needs of those who live and work in the boundary. A small charity may only have the resources and expertise to help individuals locally or be  ALISS supports a numbers of boundaries such as:</p>
 
           <ul>
-            <li id="national"><a>National</a></li>
-            <li id="local_authority"><a>Local Authority</a></li>
-            <li id="nhs"><a>NHS Healthboard</a></li>
-            <li id="hia"><a>Integration Authority formerly HSCP</a></li>
+            <li id="national" value=0><a>National</a></li>
+            <li id="local_authority" value=2><a>Local Authority</a></li>
+            <li id="nhs" value=3><a>NHS Healthboard</a></li>
+            <li id="hia" value=4><a>Integration Authority formerly HSCP</a></li>
           </ul>
 
           <div id="mapid"></div>
@@ -50,8 +50,15 @@
         var mymap = renderMap(targetId);
 
         $('#national').click(mymap, function(){
+          mymap.eachLayer(function(layer){
+            if(layer._url && layer._url.includes('tile')){
+            }
+            else {
+              layer.remove()
+            }
+          })
           var features = $.ajax({
-            url: "/api/v4/service-area-spatial/full-set/?type=0",
+            url: "/api/v4/service-area-spatial/full-set/?type=" + $('#national').val(),
             dataType : "json",
             success: function(result){
               result.forEach(function(feature){
@@ -62,8 +69,15 @@
         });
 
         $('#local_authority').click(mymap, function(){
+          mymap.eachLayer(function(layer){
+            if(layer._url && layer._url.includes('tile')){
+            }
+            else {
+              layer.remove()
+            }
+          })
           var features = $.ajax({
-            url: "/api/v4/service-area-spatial/full-set/?type=2",
+            url: "/api/v4/service-area-spatial/full-set/?type=" + $('#local_authority').val(),
             dataType : "json",
             success: function(result){
               result.forEach(function(feature){
@@ -74,8 +88,15 @@
         });
 
         $('#nhs').click(mymap, function(){
+          mymap.eachLayer(function(layer){
+            if(layer._url && layer._url.includes('tile')){
+            }
+            else {
+              layer.remove()
+            }
+          })
           var features = $.ajax({
-            url: "/api/v4/service-area-spatial/full-set/?type=3",
+            url: "/api/v4/service-area-spatial/full-set/?type=" + $('#nhs').val(),
             dataType : "json",
             success: function(result){
               result.forEach(function(feature){
@@ -86,8 +107,15 @@
         });
 
         $('#hia').click(mymap, function(){
+          mymap.eachLayer(function(layer){
+            if(layer._url && layer._url.includes('tile')){
+            }
+            else {
+              layer.remove()
+            }
+          })
           var features = $.ajax({
-            url: "/api/v4/service-area-spatial/full-set/?type=4",
+            url: "/api/v4/service-area-spatial/full-set/?type=" + $('#hia').val(),
             dataType : "json",
             success: function(result){
               result.forEach(function(feature){
