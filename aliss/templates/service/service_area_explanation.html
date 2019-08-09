@@ -13,7 +13,7 @@
 
           <p>Boundaries are set by different groups to help split the country into regions to ease management of concerns such as budget and responsibility. This can help to tailor the services provided to the needs of those who live in the boundary. A small charity may only have the resources and expertise to help individuals locally or be  ALISS supports several boundaries, such as:</p>
 
-          <ul>
+          <ul id="dataset_options">
             <li id="national" value=0><a href="#mapid">National</a></li>
             <li id="local_authority" value=2><a href="#mapid">Local Authority</a></li>
             <li id="nhs" value=3><a href="#mapid">NHS Healthboard</a></li>
@@ -49,88 +49,28 @@
 
         setMapSize(targetId);
         var mymap = renderMap(targetId);
+        var test_arg = 'this';
 
-        $('#national').click(mymap, function(){
-          mymap.eachLayer(function(layer){
-            if(layer._url && layer._url.includes('tile')){
-            }
-            else {
-              layer.remove()
-            }
-          })
-          var features = $.ajax({
-            url: "/api/v4/service-area-spatial/full-set/?type=" + $('#national').val(),
-            dataType : "json",
-            success: function(result){
-              name_key = result.name_key
-              result.data.forEach(function(feature){
-                feature_name = feature.properties[`${name_key}`];
-                var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
-              });
-            }
-          });
-        });
-
-        $('#local_authority').click(mymap, function(){
-          mymap.eachLayer(function(layer){
-            if(layer._url && layer._url.includes('tile')){
-            }
-            else {
-              layer.remove()
-            }
-          })
-          var features = $.ajax({
-            url: "/api/v4/service-area-spatial/full-set/?type=" + $('#local_authority').val(),
-            dataType : "json",
-            success: function(result){
-              name_key = result.name_key
-              result.data.forEach(function(feature){
-                feature_name = feature.properties[`${name_key}`];
-                var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
-              });
-            }
-          });
-        });
-
-        $('#nhs').click(mymap, function(){
-          mymap.eachLayer(function(layer){
-            if(layer._url && layer._url.includes('tile')){
-            }
-            else {
-              layer.remove()
-            }
-          })
-          var features = $.ajax({
-            url: "/api/v4/service-area-spatial/full-set/?type=" + $('#nhs').val(),
-            dataType : "json",
-            success: function(result){
-              name_key = result.name_key
-              result.data.forEach(function(feature){
-                feature_name = feature.properties[`${name_key}`];
-                var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
-              });
-            }
-          });
-        });
-
-        $('#hia').click(mymap, function(){
-          mymap.eachLayer(function(layer){
-            if(layer._url && layer._url.includes('tile')){
-            }
-            else {
-              layer.remove()
-            }
-          })
-          var features = $.ajax({
-            url: "/api/v4/service-area-spatial/full-set/?type=" + $('#hia').val(),
-            dataType : "json",
-            success: function(result){
-              name_key = result.name_key
-              result.data.forEach(function(feature){
-                feature_name = feature.properties[`${name_key}`];
-                var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
-              });
-            }
+        $('#dataset_options').children().each(function(){
+          $('#'+ this.id).click(function(){
+            mymap.eachLayer(function(layer){
+              if(layer._url && layer._url.includes('tile')){
+              }
+              else {
+                layer.remove()
+              }
+            })
+            var features = $.ajax({
+              url: "/api/v4/service-area-spatial/full-set/?type=" + this.value,
+              dataType : "json",
+              success: function(result){
+                name_key = result.name_key
+                result.data.forEach(function(feature){
+                  feature_name = feature.properties[`${name_key}`];
+                  var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
+                });
+              }
+            });
           });
         });
 
