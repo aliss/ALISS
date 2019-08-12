@@ -13,17 +13,46 @@
 
           <p>Boundaries are set by different groups to help split the country into regions to ease management of concerns such as budget and responsibility. This can help to tailor the services provided to the needs of those who live in the boundary. A small charity may only have the resources and expertise to help individuals locally or be  ALISS supports several boundaries, such as:</p>
 
-          <ul id="dataset_options">
-            <li id="national" value=0><a href="#mapid">National</a></li>
-            <li id="local_authority" value=2><a href="#mapid">Local Authority</a></li>
-            <li id="nhs" value=3><a href="#mapid">NHS Healthboard</a></li>
-            <li id="hia" value=4><a href="#mapid">Integration Authority formerly HSCP</a></li>
-          </ul>
+          <!-- <div class="filter category"> -->
+            <label>Explore datasets</label>
+            <ol id="dataset_options" class="radio-list-links"  style="list-style: none;">
+              <li id="national" value=0>
+                <a>
+                  <span class="radio"></span>
+                  <span class="name">
+                    National
+                  </span>
+                </a>
+              </li>
+              <li id="local_authority" value=2 >
+                <a>
+                  <span class="radio"></span>
+                  <span class="name">
+                    Local Authority
+                  </span>
+                </a>
+              </li>
+              <li id="nhs" value=3>
+                <a>
+                  <span class="radio"></span>
+                  <span class="name">
+                    NHS Healthboard
+                  </span>
+                </a>
+              </li>
+              <li id="hia" value=4 >
+                <a>
+                  <span class="radio"></span>
+                  <span class="name">
+                    Integration Authority formerly HSCP
+                  </span>
+                </a>
+              </li>
+            </ol>
+          <!-- </div> -->
+
 
           <div id="mapid"></div>
-
-          <!-- <p>Although some boundaries overlap there are some which encompass others. For example a service could be available in Scotland in which case it is not necessary to also add local authroity boundaries as they would already be covered.</p> -->
-
 
         </div>
       </div>
@@ -53,6 +82,8 @@
 
         $('#dataset_options').children().each(function(){
           $('#'+ this.id).click(function(){
+            $("li").removeClass("active")
+            $('#'+ this.id).addClass("active")
             mymap.eachLayer(function(layer){
               if(layer._url && layer._url.includes('tile')){
               }
@@ -64,6 +95,7 @@
               url: "/api/v4/service-area-spatial/full-set/?type=" + this.value,
               dataType : "json",
               success: function(result){
+
                 name_key = result.name_key
                 result.data.forEach(function(feature){
                   feature_name = feature.properties[`${name_key}`];
