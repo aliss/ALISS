@@ -3,18 +3,17 @@
 {% load analytics %}
 
 {% block container %}
-<main class="main" role="main">
-  <article id="content" class="service">
-    <div class="row">
-      <div class="columns content">
-        <div class="copy-container">
-          <h1>What is a service area?</h1>
-          <p>A service area is a boundary in which a service is available. For example,  although a service may have a physical location in the city centre, the service may be available in all of Glasgow. This could be possible through home visits or communication about the local area. ALthough, who decides what is and isn't within Glasgow?</p>
+  <main class="main" role="main">
+    <article id="content" class="service">
+      <div class="row">
+        <div class="columns content">
+          <div class="copy-container">
+            <h1>What is a service area?</h1>
+            <p>A service area is a boundary in which a service is available. For example,  although a service may have a physical location in the city centre, the service may be available in all of Glasgow. This could be possible through home visits or communication about the local area. ALthough, who decides what is and isn't within Glasgow?</p>
 
-          <p>Boundaries are set by different groups to help split the country into regions to ease management of concerns such as budget and responsibility. This can help to tailor the services provided to the needs of those who live in the boundary. A small charity may only have the resources and expertise to help individuals locally or be  ALISS supports several boundaries, such as:</p>
+            <p>Boundaries are set by different groups to help split the country into regions to ease management of concerns such as budget and responsibility. This can help to tailor the services provided to the needs of those who live in the boundary. A small charity may only have the resources and expertise to help individuals locally or be  ALISS supports several boundaries, such as:</p>
 
-          <!-- <div class="filter category"> -->
-            <label>Explore datasets</label>
+            <label>Explore datasets:</label>
             <ol id="dataset_options" class="radio-list-links"  style="list-style: none;">
               <li id="national" value=0>
                 <a>
@@ -49,41 +48,51 @@
                 </a>
               </li>
             </ol>
-          <!-- </div> -->
 
 
-          <div id="mapid"></div>
+            <div>
+              <div id="mapid" style="display:inline-block;">
+                <h3 id="loading" style="position: relative; top:40%; text-align: center;">Loading...</h3>
+              </div>
+            </div>
 
+          </div>
         </div>
       </div>
-    </div>
-  </article>
-</main>
+    </article>
+  </main>
 {% endblock %}
 
 {% block before_body_close %}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-    crossorigin=""/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
 
-    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-    crossorigin="">
-    </script>
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+  crossorigin="">
+  </script>
 
-    <script type="text/javascript">
-      $(document).ready(function(){
+  <script type="text/javascript">
+  $(document).ready(function(){
 
-        var targetId = 'mapid'
+    var targetId = 'mapid'
 
-        setMapSize(targetId);
-        var mymap = renderMap(targetId);
-        var test_arg = 'this';
+    setMapSize(targetId);
+    var mymap = renderMap(targetId);
+    var test_arg = 'this';
 
-        $('#dataset_options').children().each(function(){
-          $('#'+ this.id).click(function(){
-            $("li").removeClass("active")
-            $('#'+ this.id).addClass("active")
+    $('#dataset_options').children().each(function(){
+      $('#'+ this.id).click(function(){
+        $("li").removeClass("active")
+        $('#'+ this.id).addClass("active")
+        var features = $.ajax({
+          url: "/api/v4/service-area-spatial/full-set/?type=" + this.value,
+          beforeSend: function(){
+            $(".leaflet-pane").hide()
+          },
+          dataType : "json",
+          success: function(result){
             mymap.eachLayer(function(layer){
               if(layer._url && layer._url.includes('tile')){
               }
@@ -91,22 +100,18 @@
                 layer.remove()
               }
             })
-            var features = $.ajax({
-              url: "/api/v4/service-area-spatial/full-set/?type=" + this.value,
-              dataType : "json",
-              success: function(result){
-
-                name_key = result.name_key
-                result.data.forEach(function(feature){
-                  feature_name = feature.properties[`${name_key}`];
-                  var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
-                });
-              }
+            $(".leaflet-pane").show()
+            name_key = result.name_key
+            result.data.forEach(function(feature){
+              feature_name = feature.properties[`${name_key}`];
+              var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
             });
-          });
+          }
         });
-
       });
-    </script>
+    });
+
+  });
+  </script>
 
 {% endblock %}
