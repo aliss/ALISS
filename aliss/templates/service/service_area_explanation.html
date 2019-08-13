@@ -49,12 +49,7 @@
               </li>
             </ol>
 
-
-            <div>
-              <div id="mapid" style="display:inline-block;">
-                <h3 id="loading" style="position: relative; top:40%; text-align: center;">Loading...</h3>
-              </div>
-            </div>
+            <div id="mapid"></div>
 
           </div>
         </div>
@@ -74,44 +69,19 @@
   </script>
 
   <script type="text/javascript">
-  $(document).ready(function(){
+    $(document).ready(function(){
 
-    var targetId = 'mapid'
+      var targetId = 'mapid'
 
-    setMapSize(targetId);
-    var mymap = renderMap(targetId);
-    var test_arg = 'this';
+      setMapSize(targetId);
+      var mymap = renderMap(targetId);
 
-    $('#dataset_options').children().each(function(){
-      $('#'+ this.id).click(function(){
-        $("li").removeClass("active")
-        $('#'+ this.id).addClass("active")
-        var features = $.ajax({
-          url: "/api/v4/service-area-spatial/full-set/?type=" + this.value,
-          beforeSend: function(){
-            $(".leaflet-pane").hide()
-          },
-          dataType : "json",
-          success: function(result){
-            mymap.eachLayer(function(layer){
-              if(layer._url && layer._url.includes('tile')){
-              }
-              else {
-                layer.remove()
-              }
-            })
-            $(".leaflet-pane").show()
-            name_key = result.name_key
-            result.data.forEach(function(feature){
-              feature_name = feature.properties[`${name_key}`];
-              var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
-            });
-          }
-        });
-      });
+      addLoadingIndicator(mymap)
+
+      var data_set_items = $('#dataset_options').children()
+      setupDataSetLinks(data_set_items, mymap)
+
     });
-
-  });
   </script>
 
 {% endblock %}
