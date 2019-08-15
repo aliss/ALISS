@@ -50,6 +50,12 @@ urlpatterns = [
         ServiceReportProblemView.as_view(),
         name='service_report_problem'
     ),
+    url(r'^service-area-explanation/$',
+        TemplateView.as_view(
+            template_name='service/service_area_explanation.html'
+        ),
+        name='service_area_explanation'
+    ),
     url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})",
         ServiceDetailView.as_view(),
         name='service_detail'
@@ -64,5 +70,4 @@ urlpatterns = [
         ),
         name='service_report_problem_thanks'
     ),
-
 ]
