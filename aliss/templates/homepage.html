@@ -11,7 +11,7 @@
 
 {% block container %}
 <section id="skip-content">
-    <a class="skip-content" href="#search" tabindex="1">Skip to Content</a>
+  <a class="skip-content" href="#search" tabindex="1">Skip to Content</a>
 </section>
 
 <main class="main" role="main">
@@ -84,12 +84,21 @@
           match: { enabled: true },
           onSelectItemEvent: function() {
             var value = $("#postcode").getSelectedItemData().postcode;
+            console.log("Selcted", value);
             $("#postcode").val(value).trigger("change");
           }
         }
       };
 
       $("#postcode").easyAutocomplete(options);
+      $('#postcode').keypress(function(e){
+        if (e.which === 13) {
+          var firstOption = $('#eac-container-postcode li div:visible').first();
+          if (firstOption.length){
+            $('#eac-container-postcode li div:visible').first().click();
+          }
+        }
+      });
     });
   </script>
 {% endblock %}
