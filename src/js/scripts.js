@@ -679,6 +679,45 @@ $(document).ready(() => {
 
   };
 
+  window.clearFeatures = function(mymap){
+    mymap.eachLayer(function(layer){
+      if(!(layer._url && layer._url.includes('tile'))){
+        layer.remove();
+      }
+    });
+  };
+
+  window.addLoadingIndicator = function(mapid){
+    var loading_indicator = "<h3 id='loading' style='position: relative; top: 50%; text-align: center; margin: 0;'>Loading...</h3>";
+    $('#mapid').append(loading_indicator);
+  };
+
+  window.setupDataSetLinks = function(list_items, mymap){
+    list_items.each(function(){
+      $('#'+ this.id).click(function(){
+        list_items.removeClass("active");
+        $('#'+ this.id).addClass("active");
+        var features = $.ajax({
+          url: "/api/v4/service-area-spatial/full-set/?type=" + this.value,
+          beforeSend: function(){
+            $(".leaflet-pane").hide();
+          },
+          dataType : "json",
+          success: function(result){
+            clearFeatures(mymap);
+            $(".leaflet-pane").show();
+            var name_key = result.name_key;
+            result.data.forEach(function(feature){
+              var feature_name = feature.properties[`${name_key}`];
+              var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
+            });
+          }
+        });
+      });
+    });
+  };
+
+
   svg4everybody();
   handleTabs();
   checkMaxCategories();

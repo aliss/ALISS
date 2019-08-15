@@ -15,5 +15,6 @@ urlpatterns = [
     url('v4/services/(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})/', v4.ServiceDetailView.as_view()),
     url(r'^v4/services/(?P<slug>[0-9A-Za-z\-]+)/$',  v4.ServiceDetailView.as_view()),
     url(r'^v4/postcode-locations/$', v4.PostcodeLocationData.as_view()),
+    url(r'^v4/service-area-spatial/full-set/$', v4.ServiceAreaFullSpatialDataSet.as_view()),
     url(r'^v4/service-area-spatial/$', v4.ServiceAreaSpatialData.as_view()),
 ]

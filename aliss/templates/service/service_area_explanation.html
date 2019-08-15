@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load aliss %}
+{% load analytics %}
+
+{% block container %}
+  <main class="main" role="main">
+    <article id="content" class="service">
+      <div class="row">
+        <div class="columns content">
+          <div class="copy-container">
+            <h1>What is a service area?</h1>
+            <p>A service area is a boundary in which a service is available. For example,  although a service may have a physical location in the city centre, the service may be available in all of Glasgow. This could be possible through home visits or communication about the local area. ALthough, who decides what is and isn't within Glasgow?</p>
+
+            <p>Boundaries are set by different groups to help split the country into regions to ease management of concerns such as budget and responsibility. This can help to tailor the services provided to the needs of those who live in the boundary. A small charity may only have the resources and expertise to help individuals locally or be  ALISS supports several boundaries, such as:</p>
+
+            <label>Explore datasets:</label>
+            <ol id="dataset_options" class="radio-list-links"  style="list-style: none;">
+              <li id="national" value=0>
+                <a>
+                  <span class="radio"></span>
+                  <span class="name">
+                    National
+                  </span>
+                </a>
+              </li>
+              <li id="local_authority" value=2 >
+                <a>
+                  <span class="radio"></span>
+                  <span class="name">
+                    Local Authority
+                  </span>
+                </a>
+              </li>
+              <li id="nhs" value=3>
+                <a>
+                  <span class="radio"></span>
+                  <span class="name">
+                    NHS Healthboard
+                  </span>
+                </a>
+              </li>
+              <li id="hia" value=4 >
+                <a>
+                  <span class="radio"></span>
+                  <span class="name">
+                    Integration Authority formerly HSCP
+                  </span>
+                </a>
+              </li>
+            </ol>
+
+            <div id="mapid"></div>
+
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+{% endblock %}
+
+{% block before_body_close %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+  crossorigin="">
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+      var targetId = 'mapid'
+
+      setMapSize(targetId);
+      var mymap = renderMap(targetId);
+
+      addLoadingIndicator(mymap)
+
+      var data_set_items = $('#dataset_options').children()
+      setupDataSetLinks(data_set_items, mymap)
+
+    });
+  </script>
+
+{% endblock %}

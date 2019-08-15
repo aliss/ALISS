@@ -236,12 +236,24 @@ class v4ServiceAreaSpatialDataViewTestCase(TestCase):
         }
     ]
 
-    def test_get(self):
+    def test_get_feature(self):
         path = '/api/v4/service-area-spatial/?service_id=' + str(self.service.pk)
         response = self.client.get(path, format="json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], 'application/json')
         self.assertEqual(response.data, self.json)
+
+    def test_get_full_dataset(self):
+        path = '/api/v4/service-area-spatial/full-set/?type=2'
+        response =  self.client.get(path, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/json')
+
+    def test_get_dataset_name_key(self):
+        path = '/api/v4/service-area-spatial/full-set/?type=0'
+        response =  self.client.get(path, format="json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name_key'], 'ctry17nm')
 
     def tearDown(self):
         self.service.delete()
