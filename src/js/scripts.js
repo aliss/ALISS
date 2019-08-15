@@ -664,11 +664,19 @@ $(document).ready(() => {
     });
   };
 
-  window.addLocations = function(mymap, locations){
+  window.addLocations = function(mymap, locations, no_geo_features = true){
+    var singleLocation = false;
+    if (Object.keys(locations).length == 1){
+      singleLocation = true;
+    }
     $.each(locations, function(key, value){
       L.marker(value).addTo(mymap)
       .bindPopup(`<a href=https://maps.google.com/?q=${value[0]},${value[1]} target="_blank">${key}</a>`);
+      if (singleLocation && no_geo_features){
+          mymap.setView(value, 6);
+      }
     });
+
   };
 
   svg4everybody();
