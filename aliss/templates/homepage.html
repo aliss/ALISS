@@ -82,9 +82,8 @@
         minCharNumber: 3,
         list: {
           match: { enabled: true },
-          onSelectItemEvent: function() {
+          onChooseEvent: function(e){ 
             var value = $("#postcode").getSelectedItemData().postcode;
-            console.log("Selcted", value);
             $("#postcode").val(value).trigger("change");
           }
         }
@@ -98,6 +97,10 @@
             $('#eac-container-postcode li div:visible').first().click();
           }
         }
+      });
+      $('#postcode').parents('form').submit(function(e){
+        e.preventDefault();
+        console.log("Submitting ", $('#postcode').val());
       });
     });
   </script>
