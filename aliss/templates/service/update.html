@@ -34,69 +34,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
-    var regionalWarning = "To add national service area remove all regional."
-    var nationalWarning = "To add regional service areas remove all national."
-    var mixedServiceAreaWarning = "To help users please either use national or regional service areas."
-
-    var serviceArealabel = $('label[for="id_service_areas"]')
-
-    $(serviceArealabel).append("<h4 id='id_service_area_warning'></h4>")
-
-    var selectSpanTarget = {}
-    $('#id_service_areas').siblings().each(function(index, item){
-      if ($(item).is("span")){
-        selectSpanTarget = item
-      }
-    })
-
-    $(selectSpanTarget).click(function(){
-      nationalOptGroups = []
-      regionalOptGroups = []
-
-      var nationalOptions = []
-      var regionalOptions = []
-      var optionGroups = $('#id_service_areas').children()
-
-      optionGroups.each(function(index, group){
-        if (group.label == "Country"){
-          nationalOptGroups.push(group)
-          var groupArray = Array.from(group.children)
-          $.merge(nationalOptions, groupArray)
-        }
-        else {
-          regionalOptGroups.push(group)
-          var groupArray = Array.from(group.children)
-          $.merge(regionalOptions, groupArray)
-        }
-
-      });
-
-      function checkSelected(option){
-        if (option.selected){
-          return option
-        }
-      }
-
-      var nationalSelectedCount = nationalOptions.filter(checkSelected).length
-      var regionalSelectedCount = regionalOptions.filter(checkSelected).length
-
-      if (nationalSelectedCount == 0 && regionalSelectedCount > 0){
-        $('#id_service_area_warning').text(regionalWarning)
-        $('li[aria-label="Country"]').hide()
-      }
-
-      if (nationalSelectedCount > 0 && regionalSelectedCount == 0){
-        $('#id_service_area_warning').text(nationalWarning)
-        $('li[aria-label="Local Authority"]').hide()
-        $('li[aria-label="Health Board"]').hide()
-        $('li[aria-label="Integration Authority (HSCP)"]').hide()
-      }
-
-      if (nationalSelectedCount > 0 && regionalSelectedCount > 0){
-        $('#id_service_area_warning').text(mixedServiceAreaWarning)
-      }
-
-    })
+    serviceAreaClientValidation()
 
   });
 </script>
