@@ -35,15 +35,22 @@
   $(document).ready(function(){
 
     console.log('Test')
+    nationalOptGroups = []
+    regionalOptGroups = []
+
     var nationalOptions = []
     var regionalOptions = []
-    var optionGroups = $('#id_service_areas').children().each(function(index, group){
+    var optionGroups = $('#id_service_areas').children()
+
+    optionGroups.each(function(index, group){
       if (group.label == "Country"){
         console.log('Group: ', group)
+        nationalOptGroups.push(group)
         var groupArray = Array.from(group.children)
         $.merge(nationalOptions, groupArray)
       }
       else {
+        regionalOptGroups.push(group)
         console.log('Group: ', group)
         var groupArray = Array.from(group.children)
         $.merge(regionalOptions, groupArray)
@@ -68,11 +75,42 @@
 
     var regionalWarning = "<h4 id=regional_warning>To add national service area remove all regional</h4>"
 
-    var nationWarning = "<h4 id=national_warning>To add regional service areas remove all national.</h4>"
+    var nationalWarning = "<h4 id=national_warning>To add regional service areas remove all national.</h4>"
+
+    var mixedServiceAreaWarning = "<h4 id=national_warning>To help users please either use national OR regional service areas.</h4>"
 
     var serviceArealabel = $('label[for="id_service_areas"]')
     serviceArealabel.append()
 
+    if (nationalSelectedCount == 0 && regionalSelectedCount > 0){
+      optionGroups.each(function(index, element){
+        if (element.label == "Country"){
+          $('li[aria-label="Country"]').hide()
+        }
+      })
+    }
+
+    if (regionalSelectedCount == 0 && nationalSelectedCount > 0){
+      regionalOptions.hide()
+    }
+    if (regionalSelectedCount > 0 && nationalSelectedCount > 0){
+      serviceArealabel.append(mixedServiceAreaWarning)
+    }
+
+    var selectSpanTarget = {}
+    $('#id_service_areas').siblings().each(function(index, item){
+      if ($(item).is("span")){
+        selectSpanTarget = item
+      }
+    })
+
+    $(selectSpanTarget).click(function(){
+      console.log('Test')
+      $('li[aria-label="Country"]').hide()
+      $('li[aria-label="Local Authority"]').hide()
+      $('li[aria-label="Health Board"]').hide()
+      $('li[aria-label="Integration Authority (HSCP)"]').hide()
+    })
 
   });
 </script>
