@@ -35,27 +35,43 @@
   $(document).ready(function(){
 
     console.log('Test')
-    var selected_options = $('#id_service_areas').children().children().filter(":selected")
-    var country_options = []
-    var regional_options = []
-    var option_groups = $('#id_service_areas').children().each(function(index, group){
+    var nationalOptions = []
+    var regionalOptions = []
+    var optionGroups = $('#id_service_areas').children().each(function(index, group){
       if (group.label == "Country"){
         console.log('Group: ', group)
-        var group_array = Array.from(group.children)
-        $.merge(country_options, group_array)
+        var groupArray = Array.from(group.children)
+        $.merge(nationalOptions, groupArray)
       }
       else {
         console.log('Group: ', group)
-        var group_array = Array.from(group.children)
-        $.merge(regional_options, group_array)
+        var groupArray = Array.from(group.children)
+        $.merge(regionalOptions, groupArray)
       }
 
     });
-    console.log("Country Options: ", country_options)
-    console.log("Regional Options: ", regional_options)
-    
+    console.log("National Options: ", nationalOptions)
+    console.log("Regional Options: ", regionalOptions)
 
 
+    function checkSelected(option){
+      if (option.selected){
+        return option
+      }
+    }
+
+    var nationalSelectedCount = nationalOptions.filter(checkSelected).length
+    var regionalSelectedCount = regionalOptions.filter(checkSelected).length
+
+    console.log(regionalSelectedCount)
+    console.log(nationalSelectedCount)
+
+    var regionalWarning = "<h4 id=regional_warning>To add national service area remove all regional</h4>"
+
+    var nationWarning = "<h4 id=national_warning>To add regional service areas remove all national.</h4>"
+
+    var serviceArealabel = $('label[for="id_service_areas"]')
+    serviceArealabel.append()
 
 
   });
