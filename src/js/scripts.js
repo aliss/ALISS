@@ -717,6 +717,75 @@ $(document).ready(() => {
     });
   };
 
+  window.serviceAreaClientValidation = function(){
+    var regionalWarning = "To add national service area remove all regional.";
+    var nationalWarning = "To add regional service areas remove all national.";
+    var mixedServiceAreaWarning = "Please select either national or regional service areas.";
+    var standardMessage = "Manage service areas below.";
+
+    var serviceArealabel = $('label[for="id_service_areas"]');
+
+    $(serviceArealabel).append(`<h6 id='id_service_area_warning'>${standardMessage}</h6>`);
+
+    var selectSpanTarget = {};
+    $('#id_service_areas').siblings().each(function(index, item){
+      if ($(item).is("span")){
+        selectSpanTarget = item;
+      }
+    });
+
+    $(selectSpanTarget).click(function(){
+
+      var nationalOptions = [];
+      var regionalOptions = [];
+      var optionGroups = $('#id_service_areas').children();
+
+      optionGroups.each(function(index, group){
+        var groupArray = [];
+
+        if (group.label == "Country"){
+          groupArray = Array.from(group.children);
+          $.merge(nationalOptions, groupArray);
+        }
+        else {
+          groupArray = Array.from(group.children);
+          $.merge(regionalOptions, groupArray);
+        }
+
+      });
+
+      function checkSelected(option){
+        if (option.selected){
+          return option;
+        }
+      }
+
+      var nationalSelectedCount = nationalOptions.filter(checkSelected).length;
+      var regionalSelectedCount = regionalOptions.filter(checkSelected).length;
+
+      if (nationalSelectedCount == 0 && regionalSelectedCount > 0){
+        $('#id_service_area_warning').text(regionalWarning);
+        $('li[aria-label="Country"]').hide();
+      }
+
+      if (nationalSelectedCount > 0 && regionalSelectedCount == 0){
+        $('#id_service_area_warning').text(nationalWarning);
+        $('li[aria-label="Local Authority"]').hide();
+        $('li[aria-label="Health Board"]').hide();
+        $('li[aria-label="Integration Authority (HSCP)"]').hide();
+      }
+
+      if (nationalSelectedCount > 0 && regionalSelectedCount > 0){
+        $('#id_service_area_warning').text(mixedServiceAreaWarning);
+      }
+
+      if (nationalSelectedCount == 0 && regionalSelectedCount == 0){
+        $('#id_service_area_warning').text(standardMessage);
+      }
+
+    });
+  };
+
 
   svg4everybody();
   handleTabs();
