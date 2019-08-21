@@ -718,7 +718,7 @@ $(document).ready(() => {
   };
 
   window.serviceAreaClientValidation = function(){
-    var regionalWarning = "To add national service area remove all regional.";
+    var regionalWarning = "To add a national service area remove all regional.";
     var nationalWarning = "To add regional service areas remove all national.";
     var mixedServiceAreaWarning = "Please select either national or regional service areas.";
     var standardMessage = "Manage service areas below.";
