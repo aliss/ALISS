@@ -9,7 +9,7 @@ def service_areas_as_choices():
     data = ServiceArea.objects.order_by('type', 'code')
 
     for k, g in groupby(data, lambda x: x.get_type_display()):
-        choices.append([k, list([[item.pk, item.name] for item in g])])
+        choices.append([k, list([[item.pk, (item.name + " (" + item.get_type_display() + ")")] for item in g])])
 
     return choices
 
