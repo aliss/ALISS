@@ -87,6 +87,29 @@
   </div>
 </div>
 
+<div class="modal" id="iframe_generator">
+  <div class="pad">
+    <div class="heading">
+      <a class="close alert icon-link">
+        <span class="icon">
+          <i class="fas fa-times"></i>
+        </span>
+        Close
+      </a>
+      <h5>Add this map to your website.</h5>
+    </div>
+    <div class="form">
+      <form  action="/">
+        <textarea id="embedded_code">
+{% autoescape off %}
+<iframe src="www.aliss.org/services/{{service.slug}}/embedded-map" width="500" height="500" frameborder="0"></iframe>
+{% endautoescape %}
+        </textarea>
+      </form>
+    </div>
+  </div>
+</div>
+
 <main class="main" role="main">
   <article id="content" class="service">
     {% if request.user.is_authenticated %}
@@ -284,7 +307,15 @@
               {% endfor %}
             </ul>
           {% endif %}
-          <div id='mapid'></div>
+          <div id='mapid' style="z-index: 1;"></div>
+          <div>
+          <a id="iframe_generator_modal" class="icon-link">
+            <span class="icon">
+              <i class="fas fa-map"></i>
+            </span>
+            Add this map to your website.
+          </a>
+        </div>
         </div>
       </div>
       <div class="columns feedback-form">
