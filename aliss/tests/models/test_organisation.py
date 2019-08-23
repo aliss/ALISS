@@ -1,7 +1,7 @@
 from django.test import TestCase
 from aliss.models import Organisation, ALISSUser, Service, Location
 from aliss.tests.fixtures import Fixtures
-from aliss.search import (get_service, get_organisation_by_id, filter_organisations_by_query_all, order_organistations_by_created_on, filter_organisations_by_query_published)
+from aliss.search import (get_service, get_organisation_by_id, filter_organisations_by_query, order_organistations_by_created_on, filter_organisations_by_query_published)
 
 class OrganisationTestCase(TestCase):
     def setUp(self):
@@ -75,12 +75,12 @@ class OrganisationTestCase(TestCase):
         result = get_organisation_by_id(queryset, self.org.id)[0]
         self.assertEqual(result['name'], self.org.name)
 
-    def test_organisation_filter_organisations_by_query_all(self):
+    def test_organisation_filter_organisations_by_query(self):
         queryset = Fixtures.es_organisation_connection()
         self.org.name = "banana weird"
         self.org.save()
 
-        result = filter_organisations_by_query_all(queryset, "banana")
+        result = filter_organisations_by_query(queryset, "banana")
         result = order_organistations_by_created_on(result).execute()
         self.assertEqual(result[0].name, self.org.name)
 
@@ -90,7 +90,7 @@ class OrganisationTestCase(TestCase):
         unpublished_org = Organisation.objects.create(name="Banana Unpublished")
         unpublished_org.published = False
         unpublished_org.save()
-        result_all = filter_organisations_by_query_all(queryset, "Banana")
+        result_all = filter_organisations_by_query(queryset, "Banana")
         result_all = order_organistations_by_created_on(result_all).execute()
 
         result_published = filter_organisations_by_query_published(queryset, "Banana")

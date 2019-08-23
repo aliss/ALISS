@@ -1,6 +1,4 @@
-from django.views.generic import (
-    View, CreateView, UpdateView, DeleteView, DetailView, TemplateView, ListView
-)
+from django.db.models import Q, Count
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
@@ -8,7 +6,13 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-
+from django.conf import settings
+from django.views.generic.list import MultipleObjectMixin
+from django.views.generic import (
+    View, CreateView, UpdateView, DeleteView, DetailView, TemplateView, ListView
+)
+from django.http import Http404
+from django.utils import timezone
 from django_filters.views import FilterView
 from braces.views import (
     LoginRequiredMixin,
@@ -16,29 +20,21 @@ from braces.views import (
     UserPassesTestMixin
 )
 
-from django.utils import timezone
 from datetime import timedelta
 from datetime import datetime
-
-from django.db.models import Q, Count
 
 from aliss.models import Organisation, Claim
 from aliss.filters import OrganisationFilter
 from aliss.views import ProgressMixin
 from aliss.forms import ClaimForm, OrganisationForm
+from aliss.search import filter_organisations_by_query, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, keyword_order
+from aliss.paginators import *
 
 import logging
 import pytz
 
 from elasticsearch_dsl import Search
-from django.conf import settings
 from elasticsearch_dsl.connections import connections
-from aliss.search import filter_organisations_by_query_all, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, keyword_order
-
-from aliss.paginators import *
-from django.views.generic.list import MultipleObjectMixin
-
-from django.http import Http404
 
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
@@ -218,7 +214,7 @@ class OrganisationPotentialCreateView(MultipleObjectMixin, TemplateView):
         query = self.request.GET.get('q')
         if query:
             if self.request.user.is_authenticated() and (self.request.user.is_editor or self.request.user.is_staff):
-                queryset = filter_organisations_by_query_all(queryset, query)
+                queryset = filter_organisations_by_query(queryset, query)
             else:
                 queryset = filter_organisations_by_query_published(queryset, query)
 
@@ -265,7 +261,6 @@ class OrganisationSearchView(ListView):
     model = Organisation
     template_name = 'organisation/search-results.html'
     paginate_by = 10
-    import logging
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -274,13 +269,13 @@ class OrganisationSearchView(ListView):
     def filter_queryset(self, queryset):
         query = self.request.GET.get('q')
         claimed_status = self.request.GET.get('is_claimed')
-        if query:
-            if self.request.user.is_authenticated() and (self.request.user.is_staff):
-                queryset = filter_organisations_by_query_all(queryset, query)
-            else:
-                queryset = filter_organisations_by_query_published(queryset, query)
         if claimed_status:
             queryset = filter_by_claimed_status(queryset, claimed_status)
+        if query:
+            if self.request.user.is_authenticated() and (self.request.user.is_staff):
+                queryset = filter_organisations_by_query(queryset, query)
+            else:
+                queryset = filter_organisations_by_query_published(queryset, query)
         return queryset
 
     def get_queryset(self, *args, **kwargs):
@@ -288,16 +283,17 @@ class OrganisationSearchView(ListView):
         connections.create_connection(
             hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
         queryset = Search(index='organisation_search', doc_type='organisation')
-
-        has_services = self.request.GET.get('has_services')
-        # Apply the urser permission level and the further optional filters to the results.
         queryset = self.filter_queryset(queryset)
-        # Use the keyword_order code to take the elastic search results and create a dictionary of the ids and the ordering positiion called  results.
         results = keyword_order(queryset)
-        # Filter the db results using the results dictionary.
+
+        if self.request.user.is_authenticated and self.request.user.is_staff:
+            has_services = self.request.GET.get('has_services')
+        else:
+            has_services = True
+
+        #TODO: This is very inefficient, we need to filter down to organisations with services before this stage
         if has_services:
             queryset = Organisation.with_services().filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
-        else :
+        else:
             queryset = Organisation.objects.filter(id__in=results["ids"]).order_by(results["order"]).prefetch_related('services')
-        # Return all the db records so the ListView can handle the pagination.
         return queryset
