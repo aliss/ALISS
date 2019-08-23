@@ -784,6 +784,8 @@ $(document).ready(() => {
       }
 
     });
+
+    $(selectSpanTarget).trigger('click');
   };
 
 
