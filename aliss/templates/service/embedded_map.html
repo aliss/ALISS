@@ -26,16 +26,20 @@
 
       var targetId = 'mapid'
 
+      setMapSize(targetId);
       var mymap = renderMap(targetId);
+
+      var no_geo_features = true;
 
       var serviceId =  "{{service.id}}";
       if ("{{service.service_areas.all.0|safe}}" != ""){
         renderFeatures(mymap, serviceId);
+        no_geo_features = false;
       }
 
       var locations = {{location_lat_longs|safe}};
       if (!$.isEmptyObject(locations)){
-        addLocations(mymap, locations);
+        addLocations(mymap, locations, no_geo_features);
       }
 
     });
