@@ -32,8 +32,6 @@
                 <div class="clearable-input">
                   <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
                   <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
-                  <input type="hidden" name="claimed" value="{{ request.GET.is_claimed }}">
-                  <input type="hidden" name="has_services" value="{{ request.GET.has_services }}">
                 </div>
                 <input type="submit" class="secondary" value="Search">
               </div>
@@ -82,14 +80,14 @@
                   </span>
                 </a>
               </li>
-              <li {% if request.GET.has_services == 'false' %}class="active"{% endif %}>
+              <!--<li {% if request.GET.has_services == 'false' %}class="active"{% endif %}>
                 <a href="{% query_transform request has_services='false' page=None %}">
                   <span class="radio"></span>
                   <span class="name">
                     Show organisations without any services
                   </span>
                 </a>
-              </li>
+              </li> -->
               <li {% if request.GET.has_services == 'true' %}class="active"{% endif %}>
                 <a href="{% query_transform request has_services='true' page=None %}">
                   <span class="radio"></span>

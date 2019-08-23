@@ -226,7 +226,7 @@ def filter_by_query(queryset, q):
     return queryset
 
 
-def filter_organisations_by_query_all(queryset, q):
+def filter_organisations_by_query(queryset, q):
     queryset = queryset.query({
         "bool": {
             "must":[
@@ -252,13 +252,21 @@ def filter_organisations_by_query_all(queryset, q):
     return queryset
 
 
-def filter_organisations_by_query_published(queryset, q):
-    queryset = filter_organisations_by_query_all(queryset, q)
+def filter_organisations_by_published(queryset, published=True):
+    published_str = "false"
+    if published:
+        published_str = "true"
     queryset = queryset.query({
         "bool":{
-            "must":{ "term":{ "published":"true" } }
+            "must":{ "term":{ "published": published_str } }
         }
     })
+    return queryset
+
+
+def filter_organisations_by_query_published(queryset, q):
+    queryset = filter_organisations_by_query(queryset, q)
+    queryset = filter_organisations_by_published(queryset)
     return queryset
 
 
@@ -397,7 +405,9 @@ def filter_by_created_on(queryset, comparison_date):
 
 
 def positions_dict(queryset, distance_sort_boolean):
-    results = queryset.count()
+    results = 9999
+    if queryset.count() < results:
+        results = queryset.count()
     sorted_hits = queryset[0:results].execute()
     positions = {}
     i = 0
