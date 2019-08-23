@@ -205,6 +205,13 @@ class ServiceViewTestCase(TestCase):
         context_lat_longs_dict = response.context['location_lat_longs']
         self.assertEqual(comparison_lat_long_dict, context_lat_longs_dict)
 
+    def test_service_detail_slug_embedded_map(self):
+        response = self.client.get(reverse('service_detail_slug_map', kwargs={'slug':self.service.slug}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_service_detail_pk_embedded_map(self):
+        response = self.client.get(reverse('service_detail_map', kwargs={'pk':self.service.pk}))
+        self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
         Fixtures.organisation_teardown()
