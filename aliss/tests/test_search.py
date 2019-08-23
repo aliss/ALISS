@@ -61,7 +61,7 @@ class SearchTestCase(TestCase):
 
     def test_organisation_query(self):
         org_queryset = get_organisations(Fixtures.es_organisation_connection(), [self.org3.pk, self.org2.pk, self.org.pk])
-        result = filter_organisations_by_query_all(org_queryset, "TestOrg")
+        result = filter_organisations_by_query(org_queryset, "TestOrg")
         x = result.execute()
         order = keyword_order(result)
         orgs = Organisation.objects.filter(id__in=order["ids"]).order_by(order["order"])
