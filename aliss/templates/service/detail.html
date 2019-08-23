@@ -100,7 +100,8 @@
     </div>
     <div class="form">
       <form  action="/">
-        <textarea id="embedded_code"><iframe src="https://www.aliss.org/services/{{service.slug}}/embedded-map" width="500" height="500" frameborder="0"></iframe><p><a href="https://www.aliss.org/services/{{service.slug}}">Explore this service on ALISS</a></p></textarea>
+        <textarea id="embedded_code" onclick="this.focus();this.select()" readonly="readonly" ><iframe src="https://www.aliss.org/services/{{service.slug}}/embedded-map"width="500" height="500"frameborder="0"></iframe><p><a href="https://www.aliss.org/services/{{service.slug}}">Explore this service on ALISS</a></p>
+        </textarea>
       </form>
       <p>The map will be embedded at 500 x 500 (px)</p>
       <p>This embedded map will include a link to the ALISS page for this service.</p>
