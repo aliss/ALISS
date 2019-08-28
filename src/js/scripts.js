@@ -719,25 +719,23 @@ $(document).ready(() => {
 
   window.setupCopyToClipboard = function(){
     $('#iframe_generator_modal').click(function(){
-      $('#copy_message').text("")
-    })
+      $('#copy_message').text("");
+    });
 
     $('#copy_to_clipboard').click(function(){
-      var iframeSnippet = $('#embedded_code').val()
+      var iframeSnippet = $('#embedded_code').val();
       if(!!navigator.clipboard){
         navigator.clipboard.writeText(iframeSnippet).then(function() {
-          console.log(iframeSnippet)
-          $('#copy_message').text("Copied to clipboard!")
+          $('#copy_message').text("Copied to clipboard!");
           }, function() {
-            console.log("Failed")
-            $('#copy_message').text("Failed to copy to clipboard.")
+            $('#copy_message').text("Failed to copy to clipboard.");
           });
         }
       else {
-        $('#copy_message').text("Copy not supported in your browser.")
+        $('#copy_message').text("Copy not supported in your browser.");
       }
     });
-  }
+  };
 
 
   svg4everybody();
