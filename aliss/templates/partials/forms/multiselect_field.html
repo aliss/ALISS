@@ -6,6 +6,9 @@
       </span>
       {% endif %}
     </label>
+    {% if add_service_area_explanation_link %}
+      {% include 'service/partials/service_area_explanation_link.html' %}
+    {% endif %}
     {% if annotation %}
       <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ annotation }}</p>
     {% endif %}
