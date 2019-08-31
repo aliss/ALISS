@@ -117,12 +117,12 @@
       {% can_edit request.user object as user_can_edit %}
     {% endif %}
     <div class="row">
+
       <div class="columns options">
         <div class="info-box small toggled" id="service_actions">
           <div class="heading">
             <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
           </div>
-
           <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. 6. Back to Search -->
           <div class="actions toggle-content">
 
@@ -225,7 +225,6 @@
               </a>
             {% endif %}
 
-
             <a id="back_to_seach" class="icon-link" style="display:none">
               <span class="icon">
               <i class="fas fa-arrow-left"></i>
@@ -233,8 +232,10 @@
               Back to last search
             </a>
           </div>
+
         </div>
       </div>
+
       <div class="columns content">
         <div class="copy-container">
           <h1>{{ object.name }}</h1>
@@ -252,7 +253,8 @@
             </a></p>
           </div>
         </div>
-      </div>
+      </div> <!-- columns content -->
+
       <div class="columns contact-info">
         <div class="copy-container">
           {% if object.locations.all %}
@@ -318,8 +320,8 @@
             </a>
           </div>
         </div>
-        </div>
-      </div>
+      </div><!-- columns contact info -->
+
       <div class="columns feedback-form">
         <h5>Was this helpful?</h5>
         {% if user.is_authenticated %}
@@ -337,8 +339,8 @@
         <a class="no alert">
           No
         </a>
-      </div>
-    </div>
+      </div> <!-- feedback -->
+    </div> <!-- row -->
   </article>
 </main>
 
