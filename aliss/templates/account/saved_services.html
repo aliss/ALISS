@@ -6,71 +6,71 @@
 <div class="copy-container">
 </div>
 <div class="my-account-details">
-    {% if not saved_services.all %}
-        <div class="account-list none">
-            <p>You haven't saved any services yet.</p>
-            <p><a href="{% url 'homepage' %}">Start searching</a></p>
-        </div>
-    {% else %}
-        <div class="account-list">
-            <ul class="search-results">
-                {% for service in saved_services.all %}
-                    <li>
-                        <div class="heading">
-                            <form method='post' action="{% url 'account_remove_saved_service' pk=service.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="txt-button alert icon-link">
-                                    <span class="icon">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </span>
-                                    Remove
-                                </button>
-                            </form>
-                            <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
-                        </div>
-                        <p class="org">by <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
-                        <p>Last updated: <span class="updated alert">{{ service.last_edited }}</span></p>
-
-                        <div class="assigned-category">
-                            {% for category in service.categories.all %}
-                                <span class="name">
-                                    {{ category.name }}
-                                </span>
-                                {% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        </div>
-
-                        {% include 'service/partials/locations.html' with locations=service.locations.all %}
-
-                        <ul class="contact-info">
-                            {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
-                            {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
-                            {% if service.service_areas.all %}<li class="service-areas"><a>Service areas</a></li>{% endif %}
-                        </ul>
-                        {% if service.service_areas.all %}
-                            <div class="service-areas-list">
-                                <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-                            </div>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-            <div class="actions">
-                <!-- <a href="#" class="icon-link">
-                    <span class="icon">
-                        <i class="fas fa-envelope"></i>
-                    </span>
-                    Email saved services
-                </a> -->
-                <a href="javascript:window.print();" class="icon-link">
-                    <span class="icon">
-                        <i class="fas fa-print"></i>
-                    </span>
-                    Print saved services
-                </a>
+  {% if not saved_services.all %}
+    <div class="account-list none">
+      <p>You haven't saved any services yet.</p>
+      <p><a href="{% url 'homepage' %}">Start searching</a></p>
+    </div>
+  {% else %}
+    <div class="account-list">
+      <ul class="search-results">
+        {% for service in saved_services.all %}
+          <li>
+            <div class="heading">
+              <form method='post' action="{% url 'account_remove_saved_service' pk=service.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="txt-button alert icon-link">
+                  <span class="icon">
+                    <i class="fas fa-trash-alt"></i>
+                  </span>
+                  Remove
+                </button>
+              </form>
+              <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
             </div>
-        </div>
-        <div class="screen-info">
-        </div>
-    {% endif %}
+            <p class="org">by <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
+            <p>Last updated: <span class="updated alert">{{ service.last_edited }}</span></p>
+
+            <div class="assigned-categories">
+              {% for category in service.categories.all %}
+                <span class="name">
+                  {{ category.name }}
+                </span>
+                {% if not forloop.last %},{% endif %}
+              {% endfor %}
+            </div>
+
+            {% include 'service/partials/locations.html' with locations=service.locations.all %}
+
+            <ul class="contact-info">
+              {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
+              {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
+              {% if service.service_areas.all %}<li class="service-areas"><a>Service areas</a></li>{% endif %}
+            </ul>
+            {% if service.service_areas.all %}
+              <div class="service-areas-list">
+                <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="actions">
+        <!-- <a href="#" class="icon-link">
+          <span class="icon">
+            <i class="fas fa-envelope"></i>
+          </span>
+          Email saved services
+        </a> -->
+        <a href="javascript:window.print();" class="icon-link">
+          <span class="icon">
+            <i class="fas fa-print"></i>
+          </span>
+          Print saved services
+        </a>
+      </div>
+    </div>
+    <div class="screen-info">
+    </div>
+  {% endif %}
 {% endblock %}

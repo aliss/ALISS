@@ -1118,7 +1118,8 @@ a.tw {
 .assigned-categories {
   margin-left: 0.4rem;
   color: silver;
-  a { color: inherit; }
+  a,span { color: inherit; }
+  a:hover,span:hover { color: gray; }
 }
 
 .updated {
