@@ -27,6 +27,3 @@ class DigestSelectionFormTestCase(TestCase):
         # Populate a form object digest_selection form
         form = DigestSelectionForm(request.POST)
         self.assertEqual(form.is_valid(), False)
-
-
-    #  Check the validity

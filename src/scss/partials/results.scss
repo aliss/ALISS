@@ -871,11 +871,8 @@ p.org {
     ol li, ul li {
       font-size: 1rem;
     }
-    &:before {
-      display: none;
-    }
+    &:before { display: none; }
     padding: 1.75rem 0 2.25rem 0;
-    border-bottom: 1px solid $light-gray;
     &.modal {
       padding: 0;
       border: 0;
