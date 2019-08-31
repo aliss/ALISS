@@ -148,14 +148,6 @@
     <div class="columns listing grid-container">
       <ul class="search-results">
         {% for result in object_list %}
-
-          {% service_area_tip key=result.id as following_service_area %}
-          {% if following_service_area %}
-            <li class="">
-            <br/><h2>!!!! Explain service areas !!!</h2>
-            </li>
-          {% endif %}
-
           <li class="">
             {% get_distance key=result.id as distance %}
             <div class="heading">
@@ -241,6 +233,30 @@
               {% endif %}
             </div>
           </li>
+
+          {% service_area_tip key=result.id as following_service_area %}
+          {% if following_service_area %}
+            <li>
+              <div class="message">
+                <div class="grid-x">
+                  <div class="cell small-1 medium-1 large-1">
+                    <span class="icon" style="font-size:2rem;">
+                      <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </span>
+                  </div>
+
+                  <div class="cell small-11 medium-11 large-11">
+                    <p>The following services have no fixed addresses, but are delivered across your area e.g.</p>
+                    <ul class="no-bullets">
+                    <li><i class="fa fa-truck" aria-hidden="true"></i>&nbsp;&nbsp;Mobile libraries</li>
+                    <li><i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Home visits</li>
+                    <li><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;&nbsp;Helplines</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
 

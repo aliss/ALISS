@@ -123,16 +123,19 @@ def get_item(dictionary, key):
 
 @register.simple_tag(takes_context=True)
 def service_area_tip(context, key):
-    try:
-        distance = context["distance_scores"].get(str(key))
-        all_keys = list(context["distance_scores"].keys())
-        idx = all_keys.index(str(key))
-        next_key = all_keys[idx+1]
-        next_distance = context["distance_scores"].get(str(next_key))
-        if (distance != None) and (next_distance == None):
-            return "<h3>EXPLAIN FOLLOWING ARE ALL SERVICE AREAS</h3>"
-    except:
-        return None
+    no_keyword = context["request"].GET.get('q') in [None, ""]
+    if no_keyword or context["request"].GET.get('sort') == 'nearest':
+        try:
+            distance = context["distance_scores"].get(str(key))
+            all_keys = list(context["distance_scores"].keys())
+            idx = all_keys.index(str(key))
+            next_key = all_keys[idx+1]
+            next_distance = context["distance_scores"].get(str(next_key))
+            if (distance != None) and (next_distance == None):
+                return True
+        except:
+            return False
+    return False
 
 
 @register.simple_tag(takes_context=True)
