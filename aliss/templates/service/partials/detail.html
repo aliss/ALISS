@@ -1,49 +1,49 @@
 {% load aliss %}
 
 <li>
-    <div class="heading">
-        <a href="{% url 'service_detail_slug' service.slug %}"><h3>{{ service.name }}</h3></a>
+  <div class="heading">
+    <a href="{% url 'service_detail_slug' service.slug %}"><h3>{{ service.name }}</h3></a>
+  </div>
+  <p>{{ service.description|linebreaks|truncatechars:150 }}</p>
+
+  {% if service.categories.all %}
+    <div class="assigned-categories">
+      {% for category in service.categories.all %}
+        <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
+      {% endfor %}
     </div>
-    <p>{{ service.description|linebreaks|truncatechars:150 }}</p>
+  {% endif %}
 
-    {% if service.categories.all %}
-        <div class="assigned-category">
-            {% for category in service.categories.all %}
-                <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
-            {% endfor %}
-        </div>
-    {% endif %}
+  {% include 'service/partials/locations.html' with locations=service.locations.all %}
 
-    {% include 'service/partials/locations.html' with locations=service.locations.all %}
+  <ul class="contact-info">
+    {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
+    {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
+    {% if service.facebook %}<a href="{{ service.facebook }}">Facebook</a>{% endif %}
+    {% if service.twitter %}<a href="{{ service.twitter }}">Twitter</a>{% endif %}
+    {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
+  </ul>
+  {% if service.service_areas.all %}
+    <div class="service-areas-list">
+      <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    </div>
+  {% endif %}
 
-    <ul class="contact-info">
-        {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
-        {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
-        {% if service.facebook %}<a href="{{ service.facebook }}">Facebook</a>{% endif %}
-        {% if service.twitter %}<a href="{{ service.twitter }}">Twitter</a>{% endif %}
-        {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
-    </ul>
-    {% if service.service_areas.all %}
-        <div class="service-areas-list">
-            <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-        </div>
-    {% endif %}
-
-    {% can_edit request.user service as user_can_edit %}
-    {% if user_can_edit %}
-        <div class="edit-options">
-            <a href="{% url 'service_edit' pk=service.pk %}" class="icon-link">
-                <span class="icon">
-                    <i class="fas fa-pencil-alt"></i>
-                </span>
-                Edit service
-            </a>
-            <a href="{% url 'service_delete' pk=service.pk %}" class="delete icon-link">
-                <span class="icon">
-                    <i class="fas fa-trash-alt"></i>
-                </span>
-                Delete service
-            </a>
-        </div>
-    {% endif %}
+  {% can_edit request.user service as user_can_edit %}
+  {% if user_can_edit %}
+    <div class="edit-options">
+      <a href="{% url 'service_edit' pk=service.pk %}" class="icon-link">
+        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span>
+        Edit service
+      </a>
+      <a href="{% url 'service_delete' pk=service.pk %}" class="delete icon-link">
+        <span class="icon">
+          <i class="fas fa-trash-alt"></i>
+        </span>
+        Delete service
+      </a>
+    </div>
+  {% endif %}
 </li>
