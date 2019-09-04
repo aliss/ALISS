@@ -6,18 +6,15 @@
     </span>
     {% endif %}
   </label>
-  {% if add_service_area_explanation_link %}
-    <p class="small">To learn more about <a href="{% url 'service_area_definition' %}" target="_blank">service areas.</a></p>
-  {% endif %}
   {% if annotation %}
     <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ annotation }}</p>
   {% endif %}
   {{ field }}
   {% if field.errors %}
-      <div class="f-error">
-      {% for error in field.errors %}
-          {{ error }}<br />
-      {% endfor %}
-      </div>
+    <div class="f-error">
+    {% for error in field.errors %}
+      {{ error }}<br />
+    {% endfor %}
+    </div>
   {% endif %}
 </div>

@@ -70,6 +70,7 @@ import easyAutocomplete from 'easy-autocomplete/dist/jquery.easy-autocomplete.mi
 var ALISS = require('./aliss');
 
 $(document).ready(() => {
+
   window.ALISS = ALISS;
 
   //CATEGORY SELECTION
@@ -737,6 +738,67 @@ $(document).ready(() => {
     });
   };
 
+  window.serviceAreaClientValidation = () => {
+    var regionalWarning = "To add a national service area remove all regional.";
+    var nationalWarning = "To add regional service areas remove all national.";
+    var mixedServiceAreaWarning = "Please select either national or regional service areas.";
+    var standardMessage = 'If you select Scotland or United Kingdom as a service area, your listing will not appear when a user filters their search to only show local - not national - services.';
+
+    $('#service-area-warning').innerHTML = standardMessage;
+
+    var selectSpanTarget = {};
+    $('#id_service_areas').siblings().each((index, item) => {
+      if ($(item).is("span")){ selectSpanTarget = item; }
+    });
+
+    $(selectSpanTarget).click(function(){
+      var nationalOptions = [];
+      var regionalOptions = [];
+      var optionGroups = $('#id_service_areas').children();
+
+      optionGroups.each((index, group) => {
+        var groupArray = [];
+
+        if (group.label == "Country"){
+          groupArray = Array.from(group.children);
+          $.merge(nationalOptions, groupArray);
+        }
+        else {
+          groupArray = Array.from(group.children);
+          $.merge(regionalOptions, groupArray);
+        }
+      });
+
+      var checkSelected = (option) => {
+        if (option.selected){ return option; }
+      };
+
+      var nationalSelectedCount = nationalOptions.filter(checkSelected).length;
+      var regionalSelectedCount = regionalOptions.filter(checkSelected).length;
+
+      if (nationalSelectedCount == 0 && regionalSelectedCount > 0){
+        $('#service-area-warning').text(regionalWarning);
+        $('li[aria-label="Country"]').hide();
+      }
+
+      if (nationalSelectedCount > 0 && regionalSelectedCount == 0){
+        $('#service-area-warning').text(nationalWarning);
+        $('li[aria-label="Local Authority"]').hide();
+        $('li[aria-label="Health Board"]').hide();
+        $('li[aria-label="Integration Authority (HSCP)"]').hide();
+      }
+
+      if (nationalSelectedCount > 0 && regionalSelectedCount > 0){
+        $('#service-area-warning').text(mixedServiceAreaWarning);
+      }
+
+      if (nationalSelectedCount == 0 && regionalSelectedCount == 0){
+        $('#service-area-warning').text(standardMessage);
+      }
+    });
+
+    $(selectSpanTarget).trigger('click');
+  };
 
   svg4everybody();
   handleTabs();
