@@ -1,23 +1,23 @@
 <div class="multiselect{% if field.errors %} has-error{% endif %}">
-    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span>(required)</span>{% endif %}
-      {% if field.help_text %}
-      <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="{{field.help_text}}">
-        <i class="fa fa-question-circle" aria-hidden="true"></i>
-      </span>
-      {% endif %}
-    </label>
-    {% if add_service_area_explanation_link %}
-      {% include 'service/partials/service_area_explanation_link.html' %}
+  <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span>(required)</span>{% endif %}
+    {% if field.help_text %}
+    <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="{{field.help_text}}">
+      <i class="fa fa-question-circle" aria-hidden="true"></i>
+    </span>
     {% endif %}
-    {% if annotation %}
-      <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ annotation }}</p>
-    {% endif %}
-    {{ field }}
-    {% if field.errors %}
-        <div class="f-error">
-        {% for error in field.errors %}
-            {{ error }}<br />
-        {% endfor %}
-        </div>
-    {% endif %}
+  </label>
+  {% if add_service_area_explanation_link %}
+    <p class="small">To learn more about <a href="{% url 'service_area_definition' %}" target="_blank">service areas.</a></p>
+  {% endif %}
+  {% if annotation %}
+    <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ annotation }}</p>
+  {% endif %}
+  {{ field }}
+  {% if field.errors %}
+      <div class="f-error">
+      {% for error in field.errors %}
+          {{ error }}<br />
+      {% endfor %}
+      </div>
+  {% endif %}
 </div>
