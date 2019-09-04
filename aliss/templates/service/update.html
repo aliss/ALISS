@@ -28,3 +28,15 @@
   </section>
 </main>
 {% endblock %}
+
+{% block before_body_close%}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    serviceAreaClientValidation()
+
+  });
+</script>
+
+{% endblock %}

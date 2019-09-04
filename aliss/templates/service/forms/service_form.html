@@ -55,6 +55,7 @@
     <div class="cats"></div>
   </div>
 </div>
+
 <div class="f-row">
   {% include 'partials/forms/multiselect_field.html' with field=form.locations %}
 </div>
@@ -89,6 +90,27 @@
     </div>
   </fieldset>
 </div>
+
 <div class="f-row">
-  {% include 'partials/forms/multiselect_field.html' with field=form.service_areas annotation="If you select Scotland or United Kingdom as a service area, your listing will not appear when a user filters their search to only show local - not national - services." add_service_area_explanation_link=True %}
+  <div class="multiselect{% if form.service_areas.errors %} has-error{% endif %}">
+    <label for="{{ form.service_areas.id_for_label }}">{{ form.service_areas.label }}
+      
+      <a class="small" style="margin-left:0.7rem;" href="{% url 'service_area_definition' %}" target="_blank"><span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="This link opens in a new tab">
+      <i class="fa fa-question-circle" aria-hidden="true"></i> Help
+      </span></a>
+    </label>
+
+    <p class="small"><i class="fa fa-info-circle" aria-hidden="true"></i>
+      <span id="service-area-warning">If you select Scotland or United Kingdom as a service area, your listing will not appear when a user filters their search to only show local - not national - services.</span>
+    </p>
+
+    {{ form.service_areas }}
+    {% if form.service_areas.errors %}
+      <div class="f-error">
+      {% for error in form.service_areas.errors %}
+        {{ error }}<br />
+      {% endfor %}
+      </div>
+    {% endif %}
+  </div>
 </div>
