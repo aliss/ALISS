@@ -312,6 +312,7 @@
                 <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
               {% endfor %}
             </ul>
+            {% include 'service/partials/service_area_explanation_link.html' %}
           {% endif %}
           <div id='mapid' style="z-index: 1;"></div>
           <div>
