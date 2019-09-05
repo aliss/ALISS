@@ -29,11 +29,13 @@
   }
 }
 
-p.message {
+.message, p.message {
+  color: $medium-gray;
   border: 1px solid silver;
   padding: 2vh 2vw;
   border-radius: 5px;
   background-color: #f4f4f4;
+  ul { color:inherit; margin: 0px; }
 }
 
 .content ul.progress-breadcrumb:last-child {

@@ -449,25 +449,11 @@ class AccountMyReviews(LoginRequiredMixin, TemplateView):
 
 class AccountMyReviewsApprove(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
-
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.error('Review Logger')
-        logger.error(self.kwargs['pk'])
-
-        service = get_object_or_404(
-            Service,
-            pk=self.kwargs['pk']
-        )
-
+        service = get_object_or_404(Service, pk=self.kwargs['pk'])
         service.update_last_edited()
         service.save()
-        url = reverse(
-            'account_my_reviews'
-        )
-
         messages.success(
             self.request,
             '<p>{name} information successfully confirmed.</p>'.format(name=service.name))
 
-        return HttpResponseRedirect(url)
+        return HttpResponseRedirect(reverse('account_my_reviews'))

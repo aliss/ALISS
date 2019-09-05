@@ -2,29 +2,41 @@
 
 {% block container %}
 <main class="main" role="main">
-    <section class="grid-container" id="content">
-        <div class="grid-x">
-            <div class="cell small-12 medium-8">
-                <h1>{{ organisation.name }}</h1>
-                <div class="breadcrumbs">
-                    <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a>
-                    <span class="sep"></span>
-                    <span>Update Service</span>
-                </div>
-            </div>
+  <section class="grid-container" id="content">
+    <div class="grid-x">
+      <div class="cell small-12 medium-8">
+        <h1>{{ organisation.name }}</h1>
+        <div class="breadcrumbs">
+          <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a>
+          <span class="sep"></span>
+          <span>Update Service</span>
         </div>
+      </div>
+    </div>
 
-        <div class="grid-x">
-            <div class="cell small-12 medium-8">
-                <form method="post">
-                    {% csrf_token %}
-                    {% include 'service/forms/service_form.html' with organisation=organisation %}
-                    <div class="submit">
-                        <input type="submit" value="Update Service">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+    <div class="grid-x">
+      <div class="cell small-12 medium-8">
+        <form method="post">
+          {% csrf_token %}
+          {% include 'service/forms/service_form.html' with organisation=organisation %}
+          <div class="submit">
+            <input type="submit" value="Update Service">
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
 </main>
+{% endblock %}
+
+{% block before_body_close%}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    serviceAreaClientValidation()
+
+  });
+</script>
+
 {% endblock %}
