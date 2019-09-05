@@ -526,7 +526,7 @@ def setup_data_set_doubles():
         }
     }
     boundaries_data_mappings['health_board'] = {
-        'data_file_path': boundaries_dir + '/SG_NHS_HealthBoards_2019.geojson',
+        'data_file_path': boundaries_dir + '/SG_NHS_HealthBoards_2019_clipped.geojson',
         'data_set_keys':{
             'data_set_name': 'health_board',
             'code':'HBCode',
@@ -534,7 +534,7 @@ def setup_data_set_doubles():
         }
     }
     boundaries_data_mappings['health_integration_authority'] = {
-        'data_file_path': boundaries_dir + '/SG_NHS_IntegrationAuthority_2019.geojson',
+        'data_file_path': boundaries_dir + '/SG_NHS_IntegrationAuthority_2019_clipped.geojson',
         'data_set_keys':{
             'data_set_name': 'health_integration_authority',
             'code':'HIACode',
@@ -560,11 +560,11 @@ def return_feature(service_area_type, service_area_code=0, all_features=False):
             "code_key": "lad18cd"
          },
         "3": {
-            "data_path": boundaries_dir + '/SG_NHS_HealthBoards_2019.geojson',
+            "data_path": boundaries_dir + '/SG_NHS_HealthBoards_2019_clipped.geojson',
             "code_key": "HBCode"
         },
         "4": {
-            "data_path": boundaries_dir + '/SG_NHS_IntegrationAuthority_2019.geojson',
+            "data_path": boundaries_dir + '/SG_NHS_IntegrationAuthority_2019_clipped.geojson',
             "code_key": "HIACode"
         }
     }
