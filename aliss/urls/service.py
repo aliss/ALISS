@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 
 from aliss.views import (
     ServiceUpdateView,
+    ServiceDetailEmbeddedMapView,
     ServiceDetailView,
     ServiceDeleteView,
     ServiceReportProblemView,
@@ -50,11 +51,13 @@ urlpatterns = [
         ServiceReportProblemView.as_view(),
         name='service_report_problem'
     ),
-    url(r'^service-area-explanation/$',
-        TemplateView.as_view(
-            template_name='service/service_area_explanation.html'
-        ),
-        name='service_area_explanation'
+    url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})/embedded-map",
+        ServiceDetailEmbeddedMapView.as_view(),
+        name='service_detail_map',
+    ),
+    url(r'^(?P<slug>[0-9A-Za-z\-]+)/embedded-map',
+        ServiceDetailEmbeddedMapView.as_view(),
+        name='service_detail_slug_map',
     ),
     url("(?P<pk>[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})",
         ServiceDetailView.as_view(),

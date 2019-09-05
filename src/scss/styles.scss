@@ -148,6 +148,8 @@ div.actions {
   a.improve { float:none; }
 }
 
+ul.no-bullets { list-style: none; }
+
 a.improve {
   font-size: 1.15rem;
   color: #1e79bd;
@@ -214,4 +216,12 @@ ul.service-areas li {
   span.area-type-2,
   span.area-type-3,
   span.area-type-4 { opacity: 0.65; }
+}
+
+a span.has-tip {
+  cursor: pointer; 
+}
+a span.has-tip:hover {
+  text-decoration: underline;
+  color: $secondary;
 }
