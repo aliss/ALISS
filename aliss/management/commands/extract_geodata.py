@@ -17,8 +17,8 @@ class Command(BaseCommand):
         boundaries_zip = boundaries_dir + '/boundaries.zip'
         boundary_paths = [
             boundaries_dir + '/scottish_local_authority.geojson',
-            boundaries_dir + '/SG_NHS_HealthBoards_2019.geojson',
-            boundaries_dir + '/SG_NHS_IntegrationAuthority_2019.geojson',
+            boundaries_dir + '/SG_NHS_HealthBoards_2019_clipped.geojson',
+            boundaries_dir + '/SG_NHS_IntegrationAuthority_2019_clipped.geojson',
             boundaries_dir + '/Countries_December_2017_Ultra_Generalised_Clipped_Boundaries_in_UK.geojson'
         ]
         if self.all_exist(boundary_paths):
@@ -28,5 +28,3 @@ class Command(BaseCommand):
             with zipfile.ZipFile(boundaries_zip,"r") as zip_ref:
                 zip_ref.extractall(boundaries_dir)
             print("Done.")
-
-
