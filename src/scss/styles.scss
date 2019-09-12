@@ -219,9 +219,25 @@ ul.service-areas li {
 }
 
 a span.has-tip {
-  cursor: pointer; 
+  cursor: pointer;
 }
 a span.has-tip:hover {
   text-decoration: underline;
   color: $secondary;
+}
+
+div.filter.sorting span.has-tip{
+  cursor: help;
+  .fa {
+    opacity: 0.3;
+    vertical-align: middle;
+  }
+  color: $medium-gray;
+  font-size: $d-fs;
+}
+
+div.filter.sorting span.has-tip:hover{
+  .fa { opacity: 1.0; }
+  text-decoration: none;
+  color: $medium-gray;
 }

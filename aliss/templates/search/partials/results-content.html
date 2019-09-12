@@ -122,6 +122,9 @@
                 By best match
               </span>
             </a>
+            <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="This is a combination of nearest first and keyword match.">
+              <i class="fa fa-question-circle" aria-hidden="true"></i>
+            </span>
           </li>
           <li {% if request.GET.sort == "nearest" %}class="active"{% endif %}>
             <a href="{% query_transform request sort="nearest" %}">
