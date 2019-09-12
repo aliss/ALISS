@@ -6,9 +6,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-from django.core.mail import EmailMultiAlternatives
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template import loader
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 import pytz
 from datetime import datetime
@@ -158,6 +158,10 @@ class ServiceDetailEmbeddedMapView(UserPassesTestMixin, DetailView):
             lat_longs[location.street_address] = [location.latitude, location.longitude]
         context['location_lat_longs'] = lat_longs
         return context
+
+    @method_decorator(xframe_options_exempt):
+    def dispatch(self, *args, **kwargs):
+        return super(ServiceDetailEmbeddedMapView, self).dispatch(*args, **kwargs)
 
 
 class ServiceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
