@@ -166,6 +166,12 @@ def absolute(context, path):
     return request.scheme + "://" + request.get_host() + path
 
 
+@register.simple_tag(takes_context=True)
+def absolute_url(context, parser, **kwargs):
+    request = context["request"]
+    return request.scheme + "://" + request.get_host() + reverse(parser, kwargs=kwargs)
+
+
 @register.simple_tag()
 def meta_description(service):
     m_location = meta_location(service)

@@ -96,11 +96,11 @@
         </span>
         Close
       </a>
-      <h5>Add this map to your website.</h5>
+      <h5>Add this map to your website</h5>
     </div>
     <div class="form">
       <form  action="/">
-        <textarea id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="https://www.aliss.org/services/{{service.slug}}/embedded-map"width="500" height="500"frameborder="0"></iframe><p><a href="https://www.aliss.org/services/{{service.slug}}">Explore this service on ALISS</a></p>
+        <textarea id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
         </textarea>
       </form>
       <a id="copy_to_clipboard" class="button secondary-class">Copy to clipboard</a>
@@ -316,11 +316,11 @@
           {% endif %}
           <div id='mapid' style="z-index: 1;"></div>
           <div>
-            <a id="iframe_generator_modal" class="icon-link">
+            <a id="iframe_generator_modal" style="margin-top:1rem;" class="icon-link">
               <span class="icon">
                 <i class="fas fa-map"></i>
               </span>
-              Add this map to your website.
+              Add this map to your website
             </a>
           </div>
         </div>
@@ -349,13 +349,11 @@
 </main>
 
 <script type="application/ld+json">
-{% url 'organisation_detail' pk=object.organisation.pk as org_path %}
-{% url 'service_detail' pk=object.pk as service_path %}
 {
   "@context": "http://schema.org",
   "@type": "Service",
   "name": "{{ object.name }}",
-  "url": "{% absolute service_path %}",
+  "url": "{% absolute_url 'service_detail' pk=object.pk %}",
   {% if object.service_areas.all %}
   "areaServed": [{% for area in object.service_areas.all %}"{{ area.name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
   {% endif %}
@@ -368,7 +366,7 @@
   {% if object.phone %}
   "telephone": "{{ object.phone }}",
   {% endif %}
-  "url": "{% absolute org_path %}"
+  "url": "{% absolute_url 'organisation_detail' pk=object.organisation.pk %}"
   }
 }
 </script>
@@ -377,7 +375,6 @@
 {% block before_body_close %}
   <script type="text/javascript">
   $(document).ready(function(){
-
     {% ga_form_event '#email_service' 'email-service' service.slug %}
     {% ga_form_event '#save_service' 'save-service' service.slug %}
     {% ga_form_event '#recommend form' 'recommend-service' service.slug %}
@@ -402,15 +399,12 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-
         var targetId = 'mapid'
-
         setMapSize(targetId);
         var mymap = renderMap(targetId);
-
         var no_geo_features = true;
-
         var serviceId =  "{{service.id}}";
+
         if ("{{service.service_areas.all.0|safe}}" != ""){
           renderFeatures(mymap, serviceId);
           no_geo_features = false;
@@ -422,7 +416,6 @@
         }
 
         setupCopyToClipboard();
-
       });
     </script>
   {% endif %}

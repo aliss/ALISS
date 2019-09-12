@@ -9,7 +9,6 @@
 </body>
 
 {% block before_body_close %}
-
   <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
@@ -23,11 +22,8 @@
 
   <script type="text/javascript">
     $(document).ready(function(){
-
       var targetId = 'mapid'
-
       var mymap = renderMap(targetId);
-
       var no_geo_features = true;
 
       var serviceId =  "{{service.id}}";
@@ -40,8 +36,6 @@
       if (!$.isEmptyObject(locations)){
         addLocations(mymap, locations, no_geo_features);
       }
-
     });
   </script>
-
 {% endblock %}
