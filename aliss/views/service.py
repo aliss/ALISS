@@ -148,7 +148,7 @@ class ServiceDetailEmbeddedMapView(UserPassesTestMixin, DetailView):
 
     def test_func(self, user):
         service = self.get_object()
-        return (service.is_published() or service.is_edited_by(user))
+        return service.is_published()
 
     def get_context_data(self, **kwargs):
         context = super(ServiceDetailEmbeddedMapView, self).get_context_data(**kwargs)
