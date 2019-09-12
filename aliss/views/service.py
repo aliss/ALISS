@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template import loader
+from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 import pytz
@@ -159,7 +160,7 @@ class ServiceDetailEmbeddedMapView(UserPassesTestMixin, DetailView):
         context['location_lat_longs'] = lat_longs
         return context
 
-    @method_decorator(xframe_options_exempt):
+    @method_decorator(xframe_options_exempt)
     def dispatch(self, *args, **kwargs):
         return super(ServiceDetailEmbeddedMapView, self).dispatch(*args, **kwargs)
 
