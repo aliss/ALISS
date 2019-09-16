@@ -21,9 +21,6 @@ from aliss.search import (
     combined_order
 )
 
-import re
-
-
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
     #paginator_class = ESPaginator
@@ -66,12 +63,11 @@ class SearchView(MultipleObjectMixin, TemplateView):
                 try:
                     lower_searched = searched_term.lower().strip()
                     matched_postcode = Postcode.objects.get(slug=lower_searched).postcode
-                    processed_postcode = matched_postcode.upper().strip()
-
+                    processed_postcode = matched_postcode.upper().strip().replace(' ', '+')
                     return HttpResponseRedirect(
                         "{url}?postcode={postcode}".format(
                             url=reverse('search'),
-                            postcode=matched_postcode,
+                            postcode=processed_postcode,
                         ))
                 except Postcode.DoesNotExist:
                     invalid_area = search_form.cleaned_data.get('postcode', None) == None

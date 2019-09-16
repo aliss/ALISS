@@ -82,7 +82,7 @@
         minCharNumber: 3,
         list: {
           match: { enabled: true },
-          onChooseEvent: function(e){ 
+          onChooseEvent: function(e){
             var value = $("#postcode").getSelectedItemData().postcode;
             $("#postcode").val(value).trigger("change");
           }
@@ -98,6 +98,14 @@
           }
         }
       });
+
+      $('.search-box button').click(function(){
+        var firstOption = $('#eac-container-postcode li div:visible').first();
+        if (firstOption.length){
+          $('#eac-container-postcode li div:visible').first().click();
+        }
+      })
+
     });
   </script>
 {% endblock %}
