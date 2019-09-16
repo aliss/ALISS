@@ -3,7 +3,7 @@ from django.views.generic import View, TemplateView
 from django.views.generic.list import MultipleObjectMixin
 from django.conf import settings
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
@@ -27,7 +27,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        kwargs['postcode'] = self.postcode
         context = super(SearchView, self).get_context_data(**kwargs)
         context['postcode'] = self.postcode
         service_area = self.postcode.get_local_authority()
