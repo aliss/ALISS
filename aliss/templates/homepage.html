@@ -90,20 +90,22 @@
       };
 
       $("#postcode").easyAutocomplete(options);
-      $('#postcode').keypress(function(e){
-        if (e.which === 13) {
-          var firstOption = $('#eac-container-postcode li div:visible').first();
-          if (firstOption.length){
-            $('#eac-container-postcode li div:visible').first().click();
-          }
-        }
-      });
 
-      $('.search-box button').click(function(){
+      var triggerAutoCompleteSelection = function() {
         var firstOption = $('#eac-container-postcode li div:visible').first();
         if (firstOption.length){
           $('#eac-container-postcode li div:visible').first().click();
         }
+      }
+
+      $('#postcode').keypress(function(e){
+        if (e.which === 13) {
+          triggerAutoCompleteSelection()
+        }
+      });
+
+      $('.search-box button').click(function(){
+        triggerAutoCompleteSelection()
       })
 
     });
