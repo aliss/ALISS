@@ -3,7 +3,7 @@ from django.views.generic import View, TemplateView
 from django.views.generic.list import MultipleObjectMixin
 from django.conf import settings
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
@@ -21,6 +21,8 @@ from aliss.search import (
     combined_order
 )
 
+import re
+
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
@@ -28,6 +30,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
+        kwargs['postcode'] = self.postcode
         context = super(SearchView, self).get_context_data(**kwargs)
         context['postcode'] = self.postcode
         service_area = self.postcode.get_local_authority()
@@ -58,12 +61,33 @@ class SearchView(MultipleObjectMixin, TemplateView):
             return self.process_user_submitted_postcode(search_form.cleaned_data)
 
         else:
-            invalid_area = search_form.cleaned_data.get('postcode', None) == None
-            return self.render_to_response(context={
-                'form': search_form,
-                'errors': search_form.errors,
-                'invalid_area': invalid_area
-            })
+            searched_term = search_form.data.get('postcode')
+            if searched_term:
+                try:
+                    lower_searched = searched_term.lower().strip()
+                    matched_postcode = Postcode.objects.get(slug=lower_searched).postcode
+                    processed_postcode = matched_postcode.upper().strip()
+
+                    return HttpResponseRedirect(
+                        "{url}?postcode={postcode}".format(
+                            url=reverse('search'),
+                            postcode=matched_postcode,
+                        ))
+                except Postcode.DoesNotExist:
+                    invalid_area = search_form.cleaned_data.get('postcode', None) == None
+                    return self.render_to_response(context={
+                        'form': search_form,
+                        'errors': search_form.errors,
+                        'invalid_area': invalid_area
+                    })
+            else:
+                invalid_area = search_form.cleaned_data.get('postcode', None) == None
+                return self.render_to_response(context={
+                    'form': search_form,
+                    'errors': search_form.errors,
+                    'invalid_area': invalid_area
+                })
+
 
     def get_queryset(self, *args, **kwargs):
         connections.create_connection(
@@ -113,8 +137,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return self.render_to_response(self.get_context_data())
 
     def prepare_common_params(self, data):
-        import logging
-        logger = logging.getLogger(__name__)
         self.q = data.get('q', None)
         puncstripper = str.maketrans('', '', string.punctuation.replace('-', '')) #keep -
         self.q = self.q.translate(puncstripper)
