@@ -91,6 +91,9 @@
       },
       "theme": "classic",
       "type": "opt-in",
+      "content": {
+        "message": 'We use <a class="cc-link" rel="noopener noreferrer nofollow" href="https://developers.google.com/analytics/devguides/collection/analyticsjs/cookie-usage#analyticsjs">cookies to analyse traffic</a> and improve the experience of ALISS.',
+      },
       onInitialise: function (status) {
         if (this.hasConsented()) {
           window.enableAnalytics();
@@ -106,6 +109,7 @@
         }
       },
       onRevokeChoice: function() {}
+      //https://developers.google.com/analytics/devguides/collection/analyticsjs/cookie-usage#analyticsjs
     });
   </script>
 </body>
