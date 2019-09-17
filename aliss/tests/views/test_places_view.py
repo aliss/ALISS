@@ -104,7 +104,6 @@ class PlacesViewTestCase(TestCase):
 
     def test_invalid_landing_page_uppercase_placename(self):
         place_name_slug = self.postcode.slug
-        print(place_name_slug)
         response = self.client.get('/places/Glasgow/')
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/search/?postcode=G2+4AA')
