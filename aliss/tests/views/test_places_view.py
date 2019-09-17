@@ -95,6 +95,20 @@ class PlacesViewTestCase(TestCase):
         self.assertContains(response, custom_meta_desc)
         self.assertContains(response, custom_meta_title)
 
+    def test_valid_landing_page_uppercase_placename(self):
+        custom_content = "<h1>Edinburgh title test</h1><p>New landing page content for a place.</p>"
+        ContentBlock.objects.create(slug='places-edinburgh', body=custom_content)
+        response = self.client.get('/places/Edinburgh/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, custom_content)
+
+    def test_invalid_landing_page_uppercase_placename(self):
+        place_name_slug = self.postcode.slug
+        print(place_name_slug)
+        response = self.client.get('/places/Glasgow/')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/search/?postcode=G2+4AA')
+
     def tearDown(self):
         for block in ContentBlock.objects.all():
             block.delete()
