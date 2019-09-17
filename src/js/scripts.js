@@ -800,6 +800,44 @@ $(document).ready(() => {
     $(selectSpanTarget).trigger('click');
   };
 
+  window.initSearchAutocomplete = () => {
+    var options = {
+      url: function(phrase) { return "/api/v4/postcode-locations/?q=" + phrase; },
+      getValue: "place_name",
+      template: {
+        type: "custom",
+        method: function(value, item){
+          return "<span class=\"icon\">📍</span>" + value + " (" + item.postcode + ")";
+        }
+      },
+      minCharNumber: 3,
+      list: {
+        match: { enabled: true },
+        onChooseEvent: function(e){
+          var value = $("#postcode").getSelectedItemData().postcode;
+          $("#postcode").val(value).trigger("change");
+        }
+      }
+    };
+
+    $("#postcode").easyAutocomplete(options);
+
+    var triggerAutoCompleteSelection = function() {
+      var firstOption = $('#eac-container-postcode li div:visible').first();
+      if (firstOption.length){
+        $('#eac-container-postcode li div:visible').first().click();
+      }
+    };
+
+    $('#postcode').keypress(function(e){
+      if (e.which === 13) { triggerAutoCompleteSelection(); }
+    });
+
+    $('.search-box button').click(function(){
+      triggerAutoCompleteSelection();
+    });
+  };
+
   svg4everybody();
   handleTabs();
   checkMaxCategories();
@@ -808,5 +846,4 @@ $(document).ready(() => {
   handleClearInputs();
   toggleClearableInputs();
   handleFileInput();
-
 });
