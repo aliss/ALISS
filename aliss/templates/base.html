@@ -82,5 +82,31 @@
 
   {% block before_body_close %}
   {% endblock %}
+
+  <script type="text/javascript">
+    window.cookieconsent.initialise({
+      "palette": {
+        "popup": { "background": "#252e39" },
+        "button": { "background": "#1e7abd" }
+      },
+      "theme": "classic",
+      "type": "opt-in",
+      onInitialise: function (status) {
+        if (this.hasConsented()) {
+          window.enableAnalytics();
+        } else {
+          window.disableAnalytics();
+        }
+      },
+      onStatusChange: function(status, chosenBefore) {
+        if (this.hasConsented()) {
+          window.enableAnalytics();
+        } else {
+          window.disableAnalytics();
+        }
+      },
+      onRevokeChoice: function() {}
+    });
+  </script>
 </body>
 </html>

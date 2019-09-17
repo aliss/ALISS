@@ -6,15 +6,38 @@ register = template.Library()
 
 @register.simple_tag()
 def google_analytics_script():
-    ga_string = '<!-- in debug mode, analytics disabled -->'
+    ga_string = """
+        <!-- in debug mode, analytics disabled -->
+        <script>
+        window.disableAnalytics = function(){
+            console.log("disableAnalytics (called in debug mode)");
+        };
+        window.enableAnalytics = function(){
+            console.log("enableAnalytics (called in debug mode)");
+        };
+        </script>
+    """
     if not settings.DEBUG:
-        ga_string = '<script async src="https://www.googletagmanager.com/gtag/js?id='+settings.ANALYTICS_ID+'"></script>\
-        <script>\
-            window.dataLayer = window.dataLayer || [];\
-            function gtag(){dataLayer.push(arguments);}\
-            gtag(\'js\', new Date());\
-            gtag(\'config\', \''+settings.ANALYTICS_ID+'\');\
-        </script>'
+        ga_string = """
+        <script async src="https://www.googletagmanager.com/gtag/js?id='+settings.ANALYTICS_ID+'"></script>
+        <script>
+        var gtagId = '"""+settings.ANALYTICS_ID+"""';
+        window.disableAnalytics = function(){
+            console.log("Analytics disabled");
+            window['ga-disable-' + gtagId] = true;
+        };
+        window.enableAnalytics = function(){
+            console.log("Analytics enabled");
+            window['ga-disable-' + gtagId] = false;
+            gtag('config', gtagId);
+        };
+        window.disableAnalytics();
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', gtagId);
+        </script>
+        """
     return mark_safe(ga_string)
 
 

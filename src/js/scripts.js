@@ -6,6 +6,8 @@
 //  http://www.thisisbraw.co.uk/
 //
 
+import CC from 'cookieconsent/build/cookieconsent.min.js';
+
 // jQuery
 const $ = global.$ = global.jQuery = require('jquery');
 

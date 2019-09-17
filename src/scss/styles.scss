@@ -28,7 +28,7 @@
 @import "pickadate/lib/compressed/themes/classic";
 @import "pickadate/lib/compressed/themes/classic.date";
 @import "../../node_modules/easy-autocomplete/dist/easy-autocomplete.min.css";
-
+@import "../../node_modules/cookieconsent/build/cookieconsent.min.css";
 
 /* Font Awesome 5
    ================================ */
@@ -68,6 +68,8 @@
 @media screen and (max-height: 620px) {
   html { font-size: $font-size * 0.875; }
 }
+
+.cc-window { font-family: "Sofia Pro", Helvetica, Arial, sans-serif; }
 
 .svg-sprite { display: none; }
 
