@@ -35,9 +35,11 @@ class PlaceCategoryView(MultipleObjectMixin, TemplateView):
 
     def get(self, request, place_slug, category_slug):
         postcodes = Postcode.objects.exclude(place_name=None)
-        if postcodes.filter(slug=place_slug).exists() and Category.objects.filter(slug=category_slug):
-            self.postcode = postcodes.get(slug=place_slug)
-            self.category = Category.objects.get(slug=category_slug)
+        processed_place_slug = place_slug.lower().strip()
+        processed_category_slug = category_slug.lower().strip()
+        if postcodes.filter(slug=processed_place_slug).exists() and Category.objects.filter(slug=processed_category_slug):
+            self.postcode = postcodes.get(slug=processed_place_slug)
+            self.category = Category.objects.get(slug=processed_category_slug)
             self.radius = 10000
             return self.define_object_list_return_response()
         else:

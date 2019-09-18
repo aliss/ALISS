@@ -102,11 +102,24 @@ class PlacesViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, custom_content)
 
-    def test_invalid_landing_page_uppercase_placename(self):
+    def test_invalid_landing_page_uppercase_valid_placename_redirect_search(self):
         place_name_slug = self.postcode.slug
         response = self.client.get('/places/Glasgow/')
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, '/search/?postcode=G2+4AA')
+
+    def test_valid_landing_page_uppercase_placename_uppercase_category(self):
+        custom_content = "<p>Conditions services for Glasgow</p>"
+        ContentBlock.objects.create(slug='places-glasgow-conditions', body=custom_content)
+        response = self.client.get('/places/Glasgow/Conditions/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, custom_content)
+
+    def test_invalid_landing_page_uppercase_placename_uppercase_category_standard_copy(self):
+        response = self.client.get('/places/Glasgow/Conditions/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Glasgow')
+        self.assertContains(response, 'Conditions')
 
     def tearDown(self):
         for block in ContentBlock.objects.all():
