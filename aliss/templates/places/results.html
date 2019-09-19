@@ -36,6 +36,11 @@
   {% endif %}
 {% endblock %}
 
+{% block before_head_close %}
+<section id="skip-content">
+  <a class="skip-content" href="#content">Skip to Content</a>
+</section>
+{% endblock%}
 
 {% block container %}
 <main class="main" role="main">
