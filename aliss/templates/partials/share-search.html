@@ -10,11 +10,11 @@
       <span class="part-url">
         aliss.org/
       </span>
-      <input type="text" placeholder="e.g. G24AA" class="postcode" value="{{ postcode.postcode }}" maxlength="8">
+      <input aria-label="Postcode to search" type="text" placeholder="e.g. G24AA" class="postcode" value="{{ postcode.postcode }}" maxlength="8">
       <span class="part-url">
         /
       </span>
-      <input type="text" placeholder="e.g. food OR mental health" class="category" value="{{ request.GET.q }}">
+      <input aria-label="Category to search" type="text" placeholder="e.g. food OR mental health" class="category" value="{{ request.GET.q }}">
       <div class="buttons">
         <button id="copy_search_link" class="button secondary" data-clipboard-target="#share_url">Copy link</button>
       </div>
