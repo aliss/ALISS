@@ -118,3 +118,5 @@ class SearchTestCase(TestCase):
         Fixtures.organisation_teardown()
         for organisation in Organisation.objects.filter(name="Test0rg"):
             organisation.delete()
+        for organisation in Organisation.objects.filter(name="Another org"):
+            organisation.delete()
