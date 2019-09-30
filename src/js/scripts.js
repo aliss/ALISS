@@ -268,6 +268,7 @@ $(document).ready(() => {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
     $(`#${id}_toggle`).attr('tabindex', '0');
+    $(`#${id}_toggle`).attr('role', 'button');
     $(`#${id}_toggle`).click(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
