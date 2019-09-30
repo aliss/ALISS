@@ -8,6 +8,8 @@ class OrganisationTestCase(TestCase):
         t,u,c,s = Fixtures.create_users()
         self.org = Fixtures.create_organisation(t, u, c)
         self.service = Fixtures.create_service(self.org)
+        self.org2 = Organisation.objects.create(name="Scottish Optometrist Society", description="Description of organisation",
+            created_by=self.org.created_by, updated_by=self.org.updated_by)
 
     def test_org_exists(self):
         o = Organisation.objects.get(name="TestOrg")
@@ -99,6 +101,21 @@ class OrganisationTestCase(TestCase):
         self.assertEqual(unpublished_org.published, False)
         self.assertEqual(result_all[0].name, unpublished_org.name)
         self.assertEqual(result_published[0].name, published_org.name)
+
+    def test_fuzziness_of_organisation_search(self):
+        queryset = Fixtures.es_organisation_connection()
+        exact_query = "Scottish Optometrist Society"
+        inexact_query = "Scottish Optometrist Society Glasgow"
+        result_exact_query = filter_organisations_by_query(queryset, exact_query).execute()
+        result_inexact_query = filter_organisations_by_query(queryset, inexact_query).execute()
+        print(inexact_query)
+        while len(result_inexact_query) == 0:
+            inexact_query = inexact_query[:-1]
+            print(inexact_query)
+            result_inexact_query = filter_organisations_by_query(queryset, inexact_query).execute()
+        print("Successful query: ", inexact_query)
+        self.assertEqual(result_exact_query[0].name, self.org2.name)
+        self.assertEqual(result_inexact_query[0].name, self.org2.name)
 
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
