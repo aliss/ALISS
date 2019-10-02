@@ -35,9 +35,11 @@ class PlaceCategoryView(MultipleObjectMixin, TemplateView):
 
     def get(self, request, place_slug, category_slug):
         postcodes = Postcode.objects.exclude(place_name=None)
-        if postcodes.filter(slug=place_slug).exists() and Category.objects.filter(slug=category_slug):
-            self.postcode = postcodes.get(slug=place_slug)
-            self.category = Category.objects.get(slug=category_slug)
+        processed_place_slug = place_slug.lower().strip()
+        processed_category_slug = category_slug.lower().strip()
+        if postcodes.filter(slug=processed_place_slug).exists() and Category.objects.filter(slug=processed_category_slug):
+            self.postcode = postcodes.get(slug=processed_place_slug)
+            self.category = Category.objects.get(slug=processed_category_slug)
             self.radius = 10000
             return self.define_object_list_return_response()
         else:
@@ -76,14 +78,16 @@ class PlaceView(TemplateView):
         return context
 
     def get(self, request, place_slug):
-        self.postcode = get_object_or_404(Postcode, slug=place_slug)
-        content_slug = "places" + "-" + place_slug
+        processed_slug = place_slug.lower().strip().replace(' ', '+')
+        self.postcode = get_object_or_404(Postcode, slug=processed_slug)
+        processed_postcode = self.postcode.postcode.replace(' ', '+')
+        content_slug = "places" + "-" + processed_slug
         if ContentBlock.objects.filter(slug=content_slug).exists():
             return self.render_to_response(self.get_context_data())
         else:
             return HttpResponseRedirect(
                 "{url}?postcode={postcode}".format(
                     url=reverse('search'),
-                    postcode=self.postcode.postcode,
+                    postcode=processed_postcode,
                 )
             )

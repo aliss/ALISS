@@ -216,9 +216,12 @@ def content_render(path, suffix = ""):
         path_list = path.split("/")
         while("" in path_list):
             path_list.remove("")
-        slug = "-".join(path_list)
+        processed_list = []
+        for item in path_list:
+            processed_list.append(item.lower())
+        slug = "-".join(processed_list)
     else:
-        slug = path
+        slug = path.lower().strip()
     try:
         content = ContentBlock.objects.get(slug=slug)
     except ContentBlock.DoesNotExist:
