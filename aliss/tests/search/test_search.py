@@ -77,7 +77,6 @@ class SearchTestCase(TestCase):
         success_counter = 0
         failure_counter = 0
         loop_counter = 0
-        print("Bork " + settings.TESTING_ENV)
         while loop_counter < 10:
             result = filter_by_query(self.queryset, "Physical Activity")
             order  = keyword_order(result)
