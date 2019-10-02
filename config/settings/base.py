@@ -147,3 +147,8 @@ cloudinary.config(
   api_key = os.environ.get('CLOUDINARY_API_KEY'),
   api_secret = os.environ.get('CLOUDINARY_API_SECRET')
 )
+
+testing_environment = os.environ.get('TESTING_ENV')
+if testing_environment == None:
+   testing_environment = 'standard'
+TESTING_ENV = testing_environment
