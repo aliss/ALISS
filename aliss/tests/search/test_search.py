@@ -1,3 +1,4 @@
+import unittest
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
@@ -71,7 +72,7 @@ class SearchTestCase(TestCase):
         #self.assertEqual(self.org2.id, orgs[1].id)
 
 
-    ''' # Doesnt work on travis
+    @unittest.skipIf(settings.TESTING_ENV=='travis', "Does not work accurately on Travis")
     def test_keyword_order(self):
         success_counter = 0
         failure_counter = 0
@@ -87,7 +88,6 @@ class SearchTestCase(TestCase):
             loop_counter += 1
         self.assertEqual(result.count(), 3)
         self.assertTrue(success_counter > 8)
-    '''
 
 
     #Require boundary_data to work, please see PR.
