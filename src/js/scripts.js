@@ -278,11 +278,14 @@ $(document).ready(() => {
 
   // Modals
   $('.modal').each(function(index, el) {
-    var $thisToggle = $(this);
-    var id = $thisToggle.attr('id');
-    console.log(id);
+    var $thisModal = $(this);
+    var id = $thisModal.attr('id');
+
+    // Updating modal links
     $('#' + `${id}` + '_modal').attr('role', 'button');
     $('#' + `${id}` + '_modal').attr('tabindex', '0');
+
+    //  Adding modal click behaviour
     $(`#${id}_modal, a[data-modal="${id}"], input[data-modal="${id}"]`).click(function(e){
       if ($(this).is(':checkbox') && !e.target.checked){
       } else {
