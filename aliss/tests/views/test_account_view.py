@@ -41,14 +41,17 @@ class AccountViewTestCase(TestCase):
          # Create a service which is not represented by the user.
         self.different_user_editor = Service.objects.create(name="Different Editor Service", description="A service which isn't edited by the other user.", organisation=self.new_org, created_by=self.new_org.created_by)
 
+
     def test_saved_services(self):
         response = self.client.get(reverse('account_saved_services'))
         self.assertEqual(response.status_code, 200)
+
 
     def test_logout_saved_services(self):
         self.client.logout()
         response = self.client.get(reverse('account_saved_services'))
         self.assertEqual(response.status_code, 302)
+
 
     def test_account_valid_creation(self):
         response = self.client.post(reverse('signup'),
@@ -58,38 +61,32 @@ class AccountViewTestCase(TestCase):
         self.assertEqual(u.email, 'bork@bork.com')
         self.assertEqual(response.status_code, 302)
 
+
     def test_my_reviews(self):
         response = self.client.get(reverse('account_my_reviews'))
         self.assertEqual(response.status_code, 200)
 
-    '''
-    Test to check that a user with no claimed services on log in is redirected to the search page.
-    '''
+
+    # Test to check that a user with no claimed services on log in is redirected to the search page.
     def test_user_no_services_to_review(self):
-        homepage = self.client.get('')
-        self.assertContains(homepage, 'Connecting Communities')
         self.client.logout()
-        response = self.client.login(username='random@random.org', password='passwurd')
-        # self.assertEqual(response.status_code, 302)
-        # self.assertRedirects(response, reverse('homepage'))
+        response = self.client.post('/account/login/', { 'username': "random@random.org", 'password': "passwurd" })
+        self.assertRedirects(response, reverse('homepage'), status_code=302, target_status_code=200)
 
 
-    '''
-    Test to check that a user with services to review is redirected to the 'My reviews' page on log in.
-    '''
+    # Test to check that a user with services to review is redirected to the 'My reviews' page on log in.
     def test_user_services_to_review_redirect(self):
-        homepage = self.client.get('')
-        self.assertContains(homepage, 'Connecting Communities')
         self.client.logout()
-        response = self.client.login(username="claimant@user.org", password="passwurd")
-        # self.assertEqual(response.status_code, 302)
-        # self.assertRedirects(response, reverse('account_my_reviews'))
+        response = self.client.post('/account/login/', { 'username': "claimant@user.org", 'password': "passwurd" })
+        self.assertRedirects(response, reverse('account_my_reviews'), status_code=302, target_status_code=200)
+
 
     def test_user_services_to_review_content(self):
         self.client.logout()
         self.client.login(username="claimant@user.org", password="passwurd")
         response = self.client.get('/account/my-reviews/')
         self.assertContains(response, "Old Service")
+
 
     def tearDown(self):
         Fixtures.organisation_teardown()
