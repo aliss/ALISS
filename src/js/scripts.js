@@ -280,7 +280,16 @@ $(document).ready(() => {
   $('.modal').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
+    console.log(id);
+    $('#' + `${id}` + '_modal').attr('role', 'button');
+    $('#' + `${id}` + '_modal').attr('tabindex', '0');
     $(`#${id}_modal, a[data-modal="${id}"], input[data-modal="${id}"]`).click(function(e){
+      if ($(this).is(':checkbox') && !e.target.checked){
+      } else {
+        $(`#${id}`).toggleClass('active');
+        $('.black').toggleClass('show');
+      }
+    }).keypress(function(e){
       if ($(this).is(':checkbox') && !e.target.checked){
       } else {
         $(`#${id}`).toggleClass('active');
@@ -294,6 +303,9 @@ $(document).ready(() => {
     $('.modal').removeClass('active');
   });
   $('.modal a.close, .modal a.cancel').click(function() {
+    $('.black').removeClass('show');
+    $('.modal').removeClass('active');
+  }).keypress(function() {
     $('.black').removeClass('show');
     $('.modal').removeClass('active');
   });
