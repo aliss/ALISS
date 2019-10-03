@@ -281,6 +281,10 @@ $(document).ready(() => {
     var $thisModal = $(this);
     var id = $thisModal.attr('id');
 
+    // Updating modal attributes
+    $(this).attr('role', 'dialog');
+    $(this).attr('aria-modal', 'true');
+
     // Updating modal links
     $('#' + `${id}` + '_modal').attr('role', 'button');
     $('#' + `${id}` + '_modal').attr('tabindex', '0');
@@ -291,12 +295,30 @@ $(document).ready(() => {
       } else {
         $(`#${id}`).toggleClass('active');
         $('.black').toggleClass('show');
+        $(`#${id}`).attr('tabindex', '0');
+        $(`#${id}`).focus();
+        var hideNotTabableAttrs = {
+          'aria-hidden': 'true',
+          'tabindex': '-1',
+        };
+        $("body > *").not("body > " + `#${id}`).attr(...hideNotTabableAttrs);
+
+
+
       }
+    // Adding modal on keypress behaviour
     }).keypress(function(e){
       if ($(this).is(':checkbox') && !e.target.checked){
       } else {
         $(`#${id}`).toggleClass('active');
         $('.black').toggleClass('show');
+        $(`#${id}`).attr('tabindex', '0');
+        $(`#${id}`).focus();
+        var hideNotTabableAttrs = {
+          'aria-hidden': 'true',
+          'tabindex': '-1',
+        };
+        $("body > *").not("body > " + "#" +`${id}`).attr(...hideNotTabableAttrs);
       }
     });
   });
