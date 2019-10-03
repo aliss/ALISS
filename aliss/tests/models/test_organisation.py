@@ -110,15 +110,10 @@ class OrganisationTestCase(TestCase):
         result_exact_query = filter_organisations_by_query(queryset, exact_query).execute()
         result_inexact_query = filter_organisations_by_query(queryset, inexact_query).execute()
         result_undesired_query = filter_organisations_by_query(queryset, undesired_query).execute()
-        print(result_exact_query[0].meta.score)
-        print(result_inexact_query[0].meta.score)
-        print(result_undesired_query[0].meta.score)
-        print(inexact_query)
         while len(result_inexact_query) == 0:
             inexact_query = inexact_query[:-1]
             print(inexact_query)
             result_inexact_query = filter_organisations_by_query(queryset, inexact_query).execute()
-        print("Successful query: ", inexact_query)
         self.assertEqual(result_exact_query[0].name, self.org2.name)
         self.assertEqual(result_inexact_query[0].name, self.org2.name)
         self.assertEqual(result_undesired_query[0].name, self.org2.name)
