@@ -276,6 +276,50 @@ $(document).ready(() => {
     });
   });
 
+  //Handle modal keyboard trap
+  function checkKeyPress(modalId){
+
+    var focusableElements = $('#' + `${modalId}`).find("a, [tabindex='0'], input").not("input[type='hidden']");
+
+    var focusableLength = focusableElements.length;
+    var finalIndex = (focusableLength - 1);
+
+    var firstFocusable = focusableElements[0];
+    var lastFocusable = focusableElements[finalIndex];
+
+    if ($(`#${modalId}`).hasClass('active')){
+      firstFocusable.focus();
+    }
+
+    $('body').keydown(function(e){
+
+      function handleBackwardTab() {
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable.focus();
+        }
+      }
+
+      function handleForwardTab() {
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable.focus();
+        }
+      }
+
+      if ($('#' + `${modalId}`).hasClass('active')){
+
+        if (e.key == "Tab" && !e.shiftKey){
+          console.log("Tabbed")
+          handleForwardTab();
+        }
+        if (e.key == "Tab" && e.shiftKey) {
+          handleBackwardTab();
+        }
+      }
+    })
+  }
+
   // Modals
   $('.modal').each(function(index, el) {
     var $thisModal = $(this);
@@ -295,8 +339,7 @@ $(document).ready(() => {
       } else {
         $(`#${id}`).toggleClass('active');
         $('.black').toggleClass('show');
-        $(`#${id}`).attr('tabindex', '0');
-        $(`#${id}`).focus();
+        checkKeyPress(id);
       }
     // Adding modal on keypress behaviour
     }).keypress(function(e){
@@ -304,8 +347,7 @@ $(document).ready(() => {
       } else {
         $(`#${id}`).toggleClass('active');
         $('.black').toggleClass('show');
-        $(`#${id}`).attr('tabindex', '0');
-        $(`#${id}`).focus();
+        checkKeyPress(id);
       }
     });
   });
