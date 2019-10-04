@@ -297,14 +297,6 @@ $(document).ready(() => {
         $('.black').toggleClass('show');
         $(`#${id}`).attr('tabindex', '0');
         $(`#${id}`).focus();
-        var hideNotTabableAttrs = {
-          'aria-hidden': 'true',
-          'tabindex': '-1',
-        };
-        $("body > *").not("body > " + `#${id}`).attr(...hideNotTabableAttrs);
-
-
-
       }
     // Adding modal on keypress behaviour
     }).keypress(function(e){
@@ -314,11 +306,6 @@ $(document).ready(() => {
         $('.black').toggleClass('show');
         $(`#${id}`).attr('tabindex', '0');
         $(`#${id}`).focus();
-        var hideNotTabableAttrs = {
-          'aria-hidden': 'true',
-          'tabindex': '-1',
-        };
-        $("body > *").not("body > " + "#" +`${id}`).attr(...hideNotTabableAttrs);
       }
     });
   });
