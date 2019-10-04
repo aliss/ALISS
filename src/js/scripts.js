@@ -279,11 +279,9 @@ $(document).ready(() => {
   //Handle modal keyboard trap
   function checkKeyPress(modalId){
 
-    var focusableElements = $('#' + `${modalId}`).find("a, [tabindex='0'], input").not("input[type='hidden']");
-
+    var focusableElements = $('#' + `${modalId}`).find("a, a[role='button'] [tabindex='0'], input, button, textarea").not("input[type='hidden']");
     var focusableLength = focusableElements.length;
     var finalIndex = (focusableLength - 1);
-
     var firstFocusable = focusableElements[0];
     var lastFocusable = focusableElements[finalIndex];
 
@@ -315,6 +313,10 @@ $(document).ready(() => {
         }
         if (e.key == "Tab" && e.shiftKey) {
           handleBackwardTab();
+        }
+        if (e.key == "Escape") {
+          $('.black').removeClass('show');
+          $('.modal').removeClass('active');
         }
       }
     })

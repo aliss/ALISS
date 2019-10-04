@@ -21,7 +21,7 @@
 <div class="modal" id="improve-listing">
   <div class="pad">
     <div class="heading">
-      <a id="improve_listing_modal_close" href="#" tabindex="0" class="close alert icon-link">
+      <a id="improve_listing_modal_close" tabindex="0" role="button" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -43,7 +43,7 @@
 <div class="modal" id="delete_service">
   <div class="pad">
     <div class="heading">
-      <a class="close alert icon-link">
+      <a id="delete_service_modal_close" tabindex="0" role="button" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -57,7 +57,7 @@
         <form method="post" action="{% url 'service_delete' pk=object.pk %}">
           {% csrf_token %}
           <input type="submit" class="button alert" value="Delete">
-          <a class="button secondary cancel">Cancel</a>
+          <a role="button" id="delete_service_cancel" tabindex="0" class="button secondary cancel">Cancel</a>
         </form>
       </div>
     </div>
@@ -67,7 +67,7 @@
 <div class="modal" id="add_list">
   <div class="pad">
     <div class="heading">
-      <a class="close alert icon-link">
+      <a id="add_list_modal_close" role="button" tabindex="0" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -90,7 +90,7 @@
 <div class="modal" id="iframe_generator">
   <div class="pad">
     <div class="heading">
-      <a class="close alert icon-link">
+      <a role="button" id="iframe_generator_modal_close" tabindex="0" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -100,10 +100,10 @@
     </div>
     <div class="form">
       <form  action="/">
-        <textarea id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
+        <textarea tabindex="0" id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
         </textarea>
       </form>
-      <a id="copy_to_clipboard" class="button secondary-class">Copy to clipboard</a>
+      <a id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
       <p id="copy_message" class="small"></p>
       <p>The map will be embedded at 500 x 500 (px)</p>
       <p>This embedded map will include a link to the ALISS page for this service.</p>

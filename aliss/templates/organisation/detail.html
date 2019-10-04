@@ -21,7 +21,7 @@
 <div class="modal" id="delete_org">
   <div class="pad">
     <div class="heading">
-      <a class="close alert icon-link">
+      <a id="delete_organisation_modal_close" role="button" tabindex="0" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -36,7 +36,7 @@
         <form method="post" action="{% url 'organisation_delete' pk=object.pk %}">
           {% csrf_token %}
           <input type="submit" class="button alert" value="Delete">
-          <a class="button secondary cancel">Cancel</a>
+          <a id="delete_organisation_modal_cancel" role="button" tabindex="0" class="button secondary cancel">Cancel</a>
         </form>
       </div>
     </div>
