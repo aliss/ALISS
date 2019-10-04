@@ -308,7 +308,6 @@ $(document).ready(() => {
       if ($('#' + `${modalId}`).hasClass('active')){
 
         if (e.key == "Tab" && !e.shiftKey){
-          console.log("Tabbed")
           handleForwardTab();
         }
         if (e.key == "Tab" && e.shiftKey) {
@@ -319,7 +318,7 @@ $(document).ready(() => {
           $('.modal').removeClass('active');
         }
       }
-    })
+    });
   }
 
   // Modals
