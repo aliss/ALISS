@@ -233,7 +233,6 @@ def filter_organisations_by_query(queryset, q):
                 {
                     "multi_match": {
                         "query": q, "type": "most_fields",
-                        "operator": "and",
                         "fields":["name^2", "description"],
                         "fuzziness": "AUTO:4,7"
                     }
@@ -242,7 +241,7 @@ def filter_organisations_by_query(queryset, q):
                 {
                     "multi_match": {
                         "query": q, "type": "most_fields",
-                        "operator": "or",
+                        "operator": "and",
                         "fields": ["name^2", "description^1.5"],
                     }
                 }
