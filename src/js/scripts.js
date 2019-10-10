@@ -316,6 +316,7 @@ $(document).ready(() => {
         if (e.key == "Escape") {
           $('.black').removeClass('show');
           $('.modal').removeClass('active');
+          $(`#${modalId}_modal`).focus();
         }
       }
     });
