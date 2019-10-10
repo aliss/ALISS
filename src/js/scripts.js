@@ -279,7 +279,7 @@ $(document).ready(() => {
   //Handle modal keyboard trap
   function checkKeyPress(modalId){
 
-    // Setup variables for the focusable elments of the modal 
+    // Setup variables for the focusable elments of the modal
     var focusableElements = $('#' + `${modalId}`).find("a, a[role='button'] [tabindex='0'], input, button, textarea").not("input[type='hidden']");
     var focusableLength = focusableElements.length;
     var finalIndex = (focusableLength - 1);
@@ -336,7 +336,7 @@ $(document).ready(() => {
     $('#' + `${id}` + '_modal').attr('role', 'button');
     $('#' + `${id}` + '_modal').attr('tabindex', '0');
 
-    //  Adding modal click behaviour
+    // Adding modal click behaviour
     $(`#${id}_modal, a[data-modal="${id}"], input[data-modal="${id}"]`).click(function(e){
       if ($(this).is(':checkbox') && !e.target.checked){
       } else {
