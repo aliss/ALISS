@@ -354,17 +354,30 @@ $(document).ready(() => {
     });
   });
 
+  // Find the active modal and get it's id before closing it and returning focus to the element that launched it.
+  function closeModalFocusOnLastClicked(){
+    $('.black').removeClass('show');
+    let id = ''
+    $('.modal').each(function(index, el) {
+      if ($(el).hasClass('active')){
+        id = $(el).attr('id')
+      }
+    })
+    $('.modal').removeClass('active');
+    $(`#${id}_modal`).focus();
+  }
+  // Allow users to click on black modal surround to close it and shift focus to last selected.
   $('.black').click(function() {
-    $(this).removeClass('show');
-    $('.modal').removeClass('active');
+    closeModalFocusOnLastClicked()
   });
+
+  // Add on click listener to cancel and close modal buttons to hide modal and return focus to last element.
   $('.modal a.close, .modal a.cancel').click(function() {
-    $('.black').removeClass('show');
-    $('.modal').removeClass('active');
+    closeModalFocusOnLastClicked()
   }).keypress(function() {
-    $('.black').removeClass('show');
-    $('.modal').removeClass('active');
+    closeModalFocusOnLastClicked()
   });
+
 
   // Results Areas Toggle
   $('.service-areas a').click(function() {
