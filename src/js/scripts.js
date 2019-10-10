@@ -279,6 +279,7 @@ $(document).ready(() => {
   //Handle modal keyboard trap
   function checkKeyPress(modalId){
 
+    // Setup variables for the focusable elments of the modal 
     var focusableElements = $('#' + `${modalId}`).find("a, a[role='button'] [tabindex='0'], input, button, textarea").not("input[type='hidden']");
     var focusableLength = focusableElements.length;
     var finalIndex = (focusableLength - 1);
@@ -304,7 +305,7 @@ $(document).ready(() => {
           firstFocusable.focus();
         }
       }
-
+      // Setup keypress listeners to avoid user tabbing off of modal
       if ($('#' + `${modalId}`).hasClass('active')){
 
         if (e.key == "Tab" && !e.shiftKey){
@@ -357,25 +358,25 @@ $(document).ready(() => {
   // Find the active modal and get it's id before closing it and returning focus to the element that launched it.
   function closeModalFocusOnLastClicked(){
     $('.black').removeClass('show');
-    let id = ''
+    let id = '';
     $('.modal').each(function(index, el) {
       if ($(el).hasClass('active')){
-        id = $(el).attr('id')
+        id = $(el).attr('id');
       }
-    })
+    });
     $('.modal').removeClass('active');
     $(`#${id}_modal`).focus();
   }
   // Allow users to click on black modal surround to close it and shift focus to last selected.
   $('.black').click(function() {
-    closeModalFocusOnLastClicked()
+    closeModalFocusOnLastClicked();
   });
 
   // Add on click listener to cancel and close modal buttons to hide modal and return focus to last element.
   $('.modal a.close, .modal a.cancel').click(function() {
-    closeModalFocusOnLastClicked()
+    closeModalFocusOnLastClicked();
   }).keypress(function() {
-    closeModalFocusOnLastClicked()
+    closeModalFocusOnLastClicked();
   });
 
 
