@@ -579,3 +579,96 @@ def return_feature(service_area_type, service_area_code=0, all_features=False):
         return return_feature
     else:
         return None
+
+# New analytics methods
+
+def organisations_created_by_editor():
+    organisations_created_by_editor = Organisation.objects.filter(created_by__is_editor=True)
+    return organisations_created_by_editor
+
+def services_created_by_editor():
+    services_created_by_editor = Service.objects.filter(created_by__is_editor=True)
+    return services_created_by_editor
+
+def organisations_last_updated_by_editor_creator():
+    organisations_last_updated_by_editor_creator = organisations_created_by_editor().filter(created_by=F('updated_by'))
+    return organisations_last_updated_by_editor_creator
+
+def services_last_updated_by_editor_creator():
+    services_last_updated_by_editor_creator = services_created_by_editor().filter(created_by=F('updated_by'))
+    return services_last_updated_by_editor_creator
+
+def distinct_editors_who_last_updated_content_they_added():
+    editors_who_last_updated_content_they_added = []
+    for organisation in organisations_last_updated_by_editor_creator():
+        editors_who_last_updated_content_they_added.append(organisation.created_by)
+
+    for service in services_last_updated_by_editor_creator():
+        editors_who_last_updated_content_they_added.append(service.created_by)
+
+    editors_who_last_updated_content_they_added = set(editors_who_last_updated_content_they_added)
+    return editors_who_last_updated_content_they_added
+
+def total_number_organisations_added_by_account_holders():
+    import_user = ALISSUser.objects.get(email="technical@aliss.org")
+    total_number_organisations_added_by_account_holders = Organisation.objects.exclude(created_by=import_user).exclude(created_by=None)
+    return total_number_organisations_added_by_account_holders
+
+def total_number_services_added_by_account_holders():
+    import_user = ALISSUser.objects.get(email="technical@aliss.org")
+    total_number_services_added_by_account_holders = Service.objects.exclude(created_by=import_user).exclude(created_by=None)
+    return total_number_services_added_by_account_holders
+
+def total_number_of_claimants_who_last_updated_their_claimed_org():
+    orgs_updated_by_claimant = Organisation.objects.filter(claimed_by=F('updated_by'))
+    claimants_who_updated = []
+    for org in orgs_updated_by_claimant:
+        claimants_who_updated.append(org.claimed_by)
+    claimants_who_updated = set(claimants_who_updated)
+    return claimants_who_updated
+
+def total_number_of_claimants_who_last_updated_their_claimed_service():
+    claimed = Organisation.objects.exclude(claimed_by=None)
+    claimed_services = Service.objects.filter(organisation__in=claimed)
+    services_updated_by_claimant = []
+    claimants_who_updated_their_service = []
+    for service in claimed_services:
+        if service.updated_by == service.organisation.claimed_by:
+            services_updated_by_claimant.append(service)
+    for service in services_updated_by_claimant:
+        claimants_who_updated_their_service.append(service.updated_by)
+    claimants_who_updated_their_service = set(claimants_who_updated_their_service)
+    return claimants_who_updated_their_service
+
+def total_number_of_claimants_who_added_services_to_org():
+    claimed_orgs = Organisation.objects.exclude(claimed_by=None)
+    claimants = []
+    for org in claimed_orgs:
+        claimants.append(org.claimed_by)
+    distinct_claimants = set(claimants)
+
+    print("Users who have claimed at least one organisation:", len(distinct_claimants))
+
+    claimants_who_added_services = []
+    for claimant in distinct_claimants:
+        services_by_claimant = Service.objects.filter(organisation__created_by=claimant).filter(created_by=claimant)
+        if len(services_by_claimant) > 0:
+            claimants_who_added_services.append(claimant)
+
+    distinct_claimants_added_service_to_org = set(claimants_who_added_services)
+
+    print("Users who have claimed at least one organisation and added at least one service to one of those orgs:", len(distinct_claimants_added_service_to_org))
+
+def new_analytics_methods_results():
+    print("Number of organisations created by editor: " , len(organisations_created_by_editor()))
+    print("Number of services created by editor: " , len(services_created_by_editor()))
+    print("Number of organisations updated by their creator who was an editor: ",len(organisations_last_updated_by_editor_creator()))
+    print("Number of services updated by their creator who was an editor: ",len(services_last_updated_by_editor_creator()))
+    print("Totals number of distinct editors who updated content they added: ", len(distinct_editors_who_last_updated_content_they_added()))
+    print("Organisations were created by was not none or import user: ",len(total_number_organisations_added_by_account_holders()))
+    print("Services were created by was not none or import user: ",len(total_number_services_added_by_account_holders()))
+
+    print("Distinct claimants who were last to update the organisation they've claimed:",len(total_number_of_claimants_who_last_updated_their_claimed_org()))
+
+    print("Distinct claimants who were last to update the service they've claimed:",len(total_number_of_claimants_who_last_updated_their_claimed_service()))
+    total_number_of_claimants_who_added_services_to_org()
