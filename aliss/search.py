@@ -2,7 +2,7 @@ from django.conf import settings
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import Q
-from aliss.models import ServiceArea
+from aliss.models import *
 from django.db.models import Case, When
 import json
 from shapely.geometry import shape, Point

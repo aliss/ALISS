@@ -20,6 +20,13 @@ class SearchTestCase(TestCase):
         location1 = Fixtures.create_location(self.org)
         location2 = Fixtures.create_another_location(self.org)
 
+        self.org4 = Organisation.objects.create(
+            name="TestingOrg",
+            description = "A test description",
+            created_by=self.org.updated_by,
+            updated_by=self.org.updated_by,
+        )
+
         self.s1 = Service.objects.create(name="Food For All", description="A handy food activity", organisation=self.org, created_by=t, updated_by=u)
         self.s2 = Service.objects.create(name="Physical Fun", description="Physical activity classes", organisation=self.org, created_by=t, updated_by=u)
         self.s3 = Service.objects.create(name="Step Fit 1", description="Physical activity classes", organisation=self.org, created_by=t, updated_by=u)
@@ -113,10 +120,20 @@ class SearchTestCase(TestCase):
         expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
         self.assertEqual(result, expected)
 
+    '''
+    The total number of organisations added by Editors
+    '''
+
+    def test_organisations_created_by_editors(self):
+        orgs_by_editor = len(organisations_created_by_editor())
+        self.assertEqual(orgs_by_editor, 1)
+
 
     def tearDown(self):
         Fixtures.organisation_teardown()
         for organisation in Organisation.objects.filter(name="Test0rg"):
             organisation.delete()
         for organisation in Organisation.objects.filter(name="Another org"):
+            organisation.delete()
+        for organisation in Organisation.objects.filter(name="TestingOrg"):
             organisation.delete()
