@@ -5,7 +5,7 @@
   <div class="modal" id="email_list">
     <div class="pad">
       <div class="heading">
-        <a class="close alert icon-link">
+        <a role="button" id="email_list_modal_close" tabindex="0" class="close alert icon-link">
           <span class="icon">
             <i class="fas fa-times"></i>
           </span>
@@ -79,7 +79,7 @@
           {% endfor %}
         </ul>
         <div class="actions">
-          <a id="email_list_modal" class="icon-link">
+          <a id="email_list_modal" role="button" tabindex="0" class="icon-link">
             <span class="icon">
               <i class="fas fa-envelope"></i>
             </span>
