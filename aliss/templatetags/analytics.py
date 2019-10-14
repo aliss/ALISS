@@ -28,7 +28,7 @@ def add_analytics_scripts():
                 r=o.createElement('script');r.async=1;
                 r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
                 a.appendChild(r);
-            });
+            };
             var gtagId = '"""+settings.ANALYTICS_ID+"""';
             window.disableAnalytics = function(){
                 window['ga-disable-' + gtagId] = true;
