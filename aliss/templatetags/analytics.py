@@ -5,40 +5,47 @@ from django.utils.safestring import mark_safe
 register = template.Library()
 
 @register.simple_tag()
-def google_analytics_script():
-    ga_string = """
+def add_analytics_scripts():
+    analytics_string = """
         <!-- in debug mode, analytics disabled -->
         <script>
-        window.disableAnalytics = function(){
-            console.log("disableAnalytics (called in debug mode)");
-        };
-        window.enableAnalytics = function(){
-            console.log("enableAnalytics (called in debug mode)");
-        };
+            window.disableAnalytics = function(){
+                console.log("disableAnalytics (called in debug mode)");
+            };
+            window.enableAnalytics = function(){
+                console.log("enableAnalytics (called in debug mode)");
+            };
         </script>
     """
     if not settings.DEBUG:
-        ga_string = """
+        analytics_string = """
         <script async src="https://www.googletagmanager.com/gtag/js?id='+settings.ANALYTICS_ID+'"></script>
         <script>
-        var gtagId = '"""+settings.ANALYTICS_ID+"""';
-        window.disableAnalytics = function(){
-            console.log("Analytics disabled");
-            window['ga-disable-' + gtagId] = true;
-        };
-        window.enableAnalytics = function(){
-            console.log("Analytics enabled");
-            window['ga-disable-' + gtagId] = false;
+            var useHotjar = function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:1526596,hjsv:6};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            });
+            var gtagId = '"""+settings.ANALYTICS_ID+"""';
+            window.disableAnalytics = function(){
+                window['ga-disable-' + gtagId] = true;
+            };
+            window.enableAnalytics = function(){
+                window['ga-disable-' + gtagId] = false;
+                gtag('config', gtagId);
+                useHotjar(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+            };
+            window.disableAnalytics();
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){ dataLayer.push(arguments); }
+            gtag('js', new Date());
             gtag('config', gtagId);
-        };
-        window.disableAnalytics();
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', gtagId);
         </script>
         """
-    return mark_safe(ga_string)
+    return mark_safe(analytics_string)
 
 
 @register.simple_tag(takes_context=True)
