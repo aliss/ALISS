@@ -267,12 +267,29 @@ $(document).ready(() => {
   $('.toggled').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
+    $(`#${id}_toggle`).attr('tabindex', '0');
+    $(`#${id}_toggle`).attr('role', 'button');
+    $(`#${id}_toggle`).attr('aria-expanded', false);
+    $(`#${id}_toggle`).attr('aria-controls', `#${id}`);
     $(`#${id}_toggle`).click(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
+      if ($(this).hasClass('active')){
+        $(`#${id}_toggle`).attr('aria-expanded', true);
+
+      }
+      else {
+        $(`#${id}_toggle`).attr('aria-expanded', false);
+      }
     }).keypress(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
+      if ($(this).hasClass('active')){
+        $(`#${id}_toggle`).attr('aria-expanded', true);
+      }
+      else {
+        $(`#${id}_toggle`).attr('aria-expanded', false);
+      }
     });
   });
 
