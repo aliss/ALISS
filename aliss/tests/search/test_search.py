@@ -120,10 +120,6 @@ class SearchTestCase(TestCase):
         expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
         self.assertEqual(result, expected)
 
-    '''
-    The total number of organisations added by Editors
-    '''
-
     def test_organisations_created_by_editors(self):
         orgs_by_editor = len(organisations_created_by_editor())
         self.assertEqual(orgs_by_editor, 1)
