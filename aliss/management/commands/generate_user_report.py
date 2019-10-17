@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
 from aliss.models import *
-from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_data_set_doubles
 from django.db.models import F
 from django.contrib import messages
 from django.conf import settings
@@ -9,42 +8,19 @@ import json
 
 class Command(BaseCommand):
 
-    def add_arguments(self, parser):
-        parser.add_argument('-p', '--verbose', type=bool, help='Print more details -p 1',)
+        def add_arguments(self, parser):
+            parser.add_argument('-p', '--verbose', type=bool, help='Print more details -p 1',)
 
-    def handle(self, *args, **options):
-        self.stdout.write("\nGenerating Report\n")
-        #self.stderr.write(self.style.SUCCESS('Checking service urls'))
-        print(options)
-        self.verbose = options['verbose']
+        def handle(self, *args, **options):
+            self.stdout.write("\nGenerating User Report\n")
+            #self.stderr.write(self.style.SUCCESS('Checking service urls'))
+            print(options)
+            self.verbose = options['verbose']
 
-        print("---------- User Contributions -----------")
-        user_contributions()
-        print("\n---------- Categories in Service Area -----------")
-        category_in_service_area()
-        # print("\n---------- Location IDs in Regions -----------")
-        # location_objects = Location.objects.all()
-        # boundaries_data_mappings = setup_data_set_doubles()
-        # locations_in_boundaries(location_objects, boundaries_data_mappings)
-        print("\n---------- User Stats -----------")
-        new_analytics_methods_results()
-
-def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
-    #from aliss.models import *
-    import matplotlib.pyplot as plt
-    import pandas as pd
-
-    #setup dataframe
-    fig, ax = plt.subplots()
-    values = qs.values(field)
-    res = []
-    for x in values:
-        res.append(x[field])
-    dataset=pd.DataFrame({ 'date':res })
-    #plot by bins
-    ax = dataset["date"].hist(bins=bins, color='teal', alpha=0.8, rwidth=0.999)
-    ax.set(xlabel='Date', ylabel='Count')
-    plt.show()
+            print("---------- User Contributions -----------")
+            user_contributions()
+            print("\n---------- User Stats -----------")
+            new_analytics_methods_results()
 
 def user_contributions():
     import_user    = ALISSUser.objects.get(email="technical@aliss.org")
@@ -92,72 +68,21 @@ def user_contributions():
     print("  Created by editor:",   Service.published().filter(created_by__in=editors).count())
     print("  Created by other:",    Service.published().filter(created_by__in=other_users).count())
 
-def postcodes_in_service_area(service_area):
-    field_names = {
-        ServiceArea.LOCAL_AUTHORITY: 'council_area_2011_code',
-        ServiceArea.HEALTH_BOARD: 'health_board_area_2014_code',
-        ServiceArea.INTEGRATION_AUTHORITY: 'integration_authority_2016_code'
-    }
-    kwargs = { '{0}'.format(field_names[service_area.type]): service_area.code }
-    return Postcode.objects.filter(**kwargs)
+def new_analytics_methods_results():
+    print("\nEditor Stats:")
+    print("  Number of organisations created by editors: " , organisations_created_by_editor().count())
+    print("  Number of services created by editors: " , services_created_by_editor().count())
+    print("  Number of organisations last updated by their creator who was an editor: ",organisations_last_updated_by_editor_creator().count())
+    print("  Number of services last updated by their creator who was an editor: ", services_last_updated_by_editor_creator().count())
+    print("  Totals number of distinct editors who last updated content they added: ", len(distinct_editors_who_last_updated_content_they_added()))
+    print("\nAccount Holders: ")
+    print("  Organisations were created by was not none or import user: ", total_number_organisations_added_by_account_holders().count())
+    print("  Services were created by was not none or import user: ", total_number_services_added_by_account_holders().count())
+    print("\nClaimants: ")
+    print("  Distinct claimants who were last to update the organisation they've claimed:",len(total_number_of_claimants_who_last_updated_their_claimed_org()))
 
-def category_in_service_area(category=Category.objects.get(slug='physical-activity'), location_objects=Location.objects.all(), service_area='health_board'):
-    print("Setting up area mappings")
-    service_area_mappings = setup_data_set_doubles()
-    boundary = service_area_mappings[service_area]
-    print("Checking for " + service_area + " boundary")
-    service_area_distributions = locations_in_service_area(location_objects, boundary)
-    #print("Checking for " + service_area + " boundary")
-    for service_area_name, location_ids in service_area_distributions.items():
-        print("\n"+ service_area_name)
-        services = Service.objects.filter(locations__in=location_ids).distinct()
-        filtered_services = category.filter_by_family(services).distinct()
-        print(" ", category.name+ ":", str(filtered_services.count()))
-        exact_parent_matches = services.filter(categories__name="Money")
-        if exact_parent_matches.count() > 0:
-            print(" ", "Specific tags:", str(exact_parent_matches.count()))
-        for c in category.all_children:
-            filtered_services = c.filter_by_family(services)
-            print(" ",str(filtered_services.count()), "categorised as", c.name)
-            if filtered_services.count() > 0:
-                exact_matches = services.filter(categories__name=c.name).distinct()
-                if exact_matches.count() > 0:
-                    print("   ", "Specific Tags: " + str(exact_matches.count()))
-
-def locations_in_service_area(location_objects, boundary, verbose=False):
-    location_long_lats = {}
-    for location in location_objects:
-        long_lat = (location.longitude, location.latitude)
-        location_long_lats[location.id] = long_lat
-    service_area = {}
-    with open(boundary['data_file_path']) as f:
-        js = json.load(f)
-    for feature in js['features']:
-        service_area[feature['properties'][boundary['data_set_keys']['name']]] = []
-    for location_id, long_lat in location_long_lats.items():
-        match = find_boundary_matches(boundary, long_lat)
-        region = match[0]['name']
-        service_area[region].append(location_id)
-    boundary_string = boundary['data_set_keys']['data_set_name']
-    if verbose == True:
-        print("\n")
-        print(boundary_string)
-        for region_name, ids in service_area.items():
-            print("\n" + "  Region: " + str(region_name))
-            print("    Location IDs: ")
-            for id in ids:
-                print("      " + str(id))
-        print("\n")
-    return service_area
-
-def locations_in_boundaries(location_objects, boundaries):
-    service_areas = {}
-    for service_area, boundary in boundaries.items():
-        results = locations_in_service_area(location_objects, boundary)
-        service_areas[boundary['data_set_keys']['data_set_name']] = results
-    return service_areas
-
-# New analytics methods
+    print("  Distinct claimants who were last to update the service they've claimed:", len(total_number_of_claimants_who_last_updated_their_claimed_service()))
+    total_number_of_claimants_who_added_services_to_org()
 
 def organisations_created_by_editor():
     organisations_created_by_editor = Organisation.objects.filter(created_by__is_editor=True)
@@ -229,25 +154,9 @@ def total_number_of_claimants_who_added_services_to_org():
     claimants_who_added_services = []
     for claimant in distinct_claimants:
         services_by_claimant = Service.objects.filter(organisation__created_by=claimant).filter(created_by=claimant)
-        if len(services_by_claimant) > 0:
+        if services_by_claimant.count() > 0:
             claimants_who_added_services.append(claimant)
 
     distinct_claimants_added_service_to_org = set(claimants_who_added_services)
 
     print("  Users who have claimed at least one organisation and added at least one service to one of those orgs:", len(distinct_claimants_added_service_to_org))
-
-def new_analytics_methods_results():
-    print("\nEditor Stats:")
-    print("  Number of organisations created by editors: " , len(organisations_created_by_editor()))
-    print("  Number of services created by editors: " , len(services_created_by_editor()))
-    print("  Number of organisations updated by their creator who was an editor: ",len(organisations_last_updated_by_editor_creator()))
-    print("  Number of services updated by their creator who was an editor: ",len(services_last_updated_by_editor_creator()))
-    print("  Totals number of distinct editors who updated content they added: ", len(distinct_editors_who_last_updated_content_they_added()))
-    print("\nAccount Holders: ")
-    print("  Organisations were created by was not none or import user: ",len(total_number_organisations_added_by_account_holders()))
-    print("  Services were created by was not none or import user: ",len(total_number_services_added_by_account_holders()))
-    print("\nClaimants: ")
-    print("  Distinct claimants who were last to update the organisation they've claimed:",len(total_number_of_claimants_who_last_updated_their_claimed_org()))
-
-    print("  Distinct claimants who were last to update the service they've claimed:",len(total_number_of_claimants_who_last_updated_their_claimed_service()))
-    total_number_of_claimants_who_added_services_to_org()
