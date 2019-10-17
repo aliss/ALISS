@@ -1,4 +1,3 @@
-
 //  ALISS
 //  ================================
 //  Habanero + Braw Software
@@ -8,66 +7,19 @@
 
 import CC from 'cookieconsent/build/cookieconsent.min.js';
 
-// jQuery
 const $ = global.$ = global.jQuery = require('jquery');
-
-// Foundation Includes
 require('foundation-sites/dist/js/foundation.min.js');
-// require('foundation-sites/js/foundation.abide.js');
-// require('foundation-sites/js/foundation.accordion.js');
-// require('foundation-sites/js/foundation.accordionMenu.js');
-// require('foundation-sites/js/foundation.drilldown.js');
-// require('foundation-sites/js/foundation.dropdown.js');
-// require('foundation-sites/js/foundation.dropdownMenu.js');
-// require('foundation-sites/js/foundation.equalizer.js');
-// require('foundation-sites/js/foundation.interchange.js');
-// require('foundation-sites/js/foundation.magellan.js');
-// require('foundation-sites/js/foundation.offcanvas.js');
-// require('foundation-sites/js/foundation.orbit.js');
-// require('foundation-sites/js/foundation.responsiveMenu.js');
-// require('foundation-sites/js/foundation.responsiveToggle.js');
-// require('foundation-sites/js/foundation.reveal.js');
-// require('foundation-sites/js/foundation.slider.js');
-// require('foundation-sites/js/foundation.sticky.js');
-// require('foundation-sites/js/foundation.tabs.js');
-// require('foundation-sites/js/foundation.toggler.js');
-// require('foundation-sites/js/foundation.tooltip.js');
-
-// Bootstrap Includes
-// require('bootstrap-sass/assets/javascripts/bootstrap.min.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap-sprockets.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/affix.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/alert.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/button.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/carousel.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/collapse.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/modal.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/popover.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/tab.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
-// require('bootstrap-sass/assets/javascripts/bootstrap/transition.js');
-
-//Date
 require('pickadate/lib/picker.js');
 require('pickadate/lib/picker.date.js');
-
-// Foundation
 $(document).foundation();
-
-// Select2
 require('./partials/select2.min.js');
-// require('clipboard/lib/clipboard.js');
-// require('svg4everybody/dist/svg4everybody.legacy.js');
 
-
-// Imports
 import matchHeight from './partials/match-height';
 import svg4everybody from 'svg4everybody/dist/svg4everybody.js';
 import Clipboard from 'clipboard/lib/clipboard.js';
 import './partials/extensions';
 import easyAutocomplete from 'easy-autocomplete/dist/jquery.easy-autocomplete.min.js';
+import observeModals from './modals';
 
 var ALISS = require('./aliss');
 
@@ -215,6 +167,7 @@ $(document).ready(() => {
     placeholder: "Select Locations",
     mutliple: true
   });
+
   $('#id_service_areas').select2({
     placeholder: "Select Service Areas",
     mutliple: true
@@ -226,6 +179,7 @@ $(document).ready(() => {
     $('#add-location-fieldset').toggleClass('active');
     $('.add-location-form').slideToggle();
   });
+
   $('#add-location').click(function(e){
     e.stopPropagation();
     e.preventDefault();
@@ -267,35 +221,30 @@ $(document).ready(() => {
   $('.toggled').each(function(index, el) {
     var $thisToggle = $(this);
     var id = $thisToggle.attr('id');
+    $(`#${id}_toggle`).attr('tabindex', '0');
+    $(`#${id}_toggle`).attr('role', 'button');
+    $(`#${id}_toggle`).attr('aria-expanded', false);
+    $(`#${id}_toggle`).attr('aria-controls', `#${id}`);
     $(`#${id}_toggle`).click(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
+      if ($(this).hasClass('active')){
+        $(`#${id}_toggle`).attr('aria-expanded', true);
+
+      }
+      else {
+        $(`#${id}_toggle`).attr('aria-expanded', false);
+      }
     }).keypress(function() {
       $(`#${id}`).toggleClass('active');
       $(this).toggleClass('active');
-    });
-  });
-
-  // Modals
-  $('.modal').each(function(index, el) {
-    var $thisToggle = $(this);
-    var id = $thisToggle.attr('id');
-    $(`#${id}_modal, a[data-modal="${id}"], input[data-modal="${id}"]`).click(function(e){
-      if ($(this).is(':checkbox') && !e.target.checked){
-      } else {
-        $(`#${id}`).toggleClass('active');
-        $('.black').toggleClass('show');
+      if ($(this).hasClass('active')){
+        $(`#${id}_toggle`).attr('aria-expanded', true);
+      }
+      else {
+        $(`#${id}_toggle`).attr('aria-expanded', false);
       }
     });
-  });
-
-  $('.black').click(function() {
-    $(this).removeClass('show');
-    $('.modal').removeClass('active');
-  });
-  $('.modal a.close, .modal a.cancel').click(function() {
-    $('.black').removeClass('show');
-    $('.modal').removeClass('active');
   });
 
   // Results Areas Toggle
@@ -392,7 +341,6 @@ $(document).ready(() => {
     }
   });
 
-
   // Messages Hide
   if($('.messages').length > 0) {
     setTimeout(function() {
@@ -425,6 +373,7 @@ $(document).ready(() => {
     }
     return vars;
   }
+
   var report = getUrlVars().report;
   if(report == 'True') {
     // console.log('test');
@@ -848,4 +797,5 @@ $(document).ready(() => {
   handleClearInputs();
   toggleClearableInputs();
   handleFileInput();
+  observeModals();
 });

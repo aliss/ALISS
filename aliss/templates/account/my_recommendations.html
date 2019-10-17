@@ -14,7 +14,7 @@
                     <div class="modal" id="email_list_{{ recommendation_list.pk }}">
                         <div class="pad">
                             <div class="heading">
-                                <a class="close alert icon-link">
+                                <a role="button" id="email_recommendation_modal_close" tabindex="0" class="close alert icon-link">
                                     <span class="icon">
                                         <i class="fas fa-times"></i>
                                     </span>
@@ -53,7 +53,7 @@
                         <div class="modal" id="delete_recommendation_list_{{ recommendation_list.pk }}">
                             <div class="pad">
                                 <div class="heading">
-                                    <a class="close alert icon-link">
+                                    <a role="button" id="delete_recommendation_list_close" tabindex="0" class="close alert icon-link">
                                         <span class="icon">
                                             <i class="fas fa-times"></i>
                                         </span>
@@ -67,7 +67,7 @@
                                         <form method="post" action="{% url 'account_my_recommendations_delete' pk=recommendation_list.pk %}">
                                             {% csrf_token %}
                                             <input type="submit" class="button alert" value="Delete">
-                                            <a class="button secondary cancel">Cancel</a>
+                                            <a role="button" tabindex="0" id="delete_recommendation_list_cancel" class="button secondary cancel">Cancel</a>
                                         </form>
                                     </div>
                                 </div>
