@@ -8,19 +8,19 @@ import json
 
 class Command(BaseCommand):
 
-        def add_arguments(self, parser):
-            parser.add_argument('-p', '--verbose', type=bool, help='Print more details -p 1',)
+    def add_arguments(self, parser):
+        parser.add_argument('-p', '--verbose', type=bool, help='Print more details -p 1',)
 
-        def handle(self, *args, **options):
-            self.stdout.write("\nGenerating User Report\n")
-            #self.stderr.write(self.style.SUCCESS('Checking service urls'))
-            print(options)
-            self.verbose = options['verbose']
+    def handle(self, *args, **options):
+        self.stdout.write("\nGenerating User Report\n")
+        #self.stderr.write(self.style.SUCCESS('Checking service urls'))
+        print(options)
+        self.verbose = options['verbose']
 
-            print("---------- User Contributions -----------")
-            user_contributions()
-            print("\n---------- User Stats -----------")
-            new_analytics_methods_results()
+        print("---------- User Contributions -----------")
+        user_contributions()
+        print("\n---------- User Stats -----------")
+        new_analytics_methods_results()
 
 # Unused user related method?
 def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
