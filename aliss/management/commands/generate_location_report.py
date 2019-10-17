@@ -35,7 +35,7 @@ def postcodes_in_service_area(service_area):
     kwargs = { '{0}'.format(field_names[service_area.type]): service_area.code }
     return Postcode.objects.filter(**kwargs)
 
-def category_in_service_area(category=Category.objects.get(slug='physical-activity'), location_objects=Location.objects.all(), service_area='health_board'):
+def category_in_service_area(category=Category.objects.get(slug='physical-activity'), location_objects=Location.objects.all(), service_area='health_integration_authority'):
     print("Setting up area mappings")
     service_area_mappings = setup_data_set_doubles()
     boundary = service_area_mappings[service_area]
@@ -47,7 +47,7 @@ def category_in_service_area(category=Category.objects.get(slug='physical-activi
         services = Service.objects.filter(locations__in=location_ids).distinct()
         filtered_services = category.filter_by_family(services).distinct()
         print(" ", category.name+ ":", str(filtered_services.count()))
-        exact_parent_matches = services.filter(categories__name="Money")
+        exact_parent_matches = services.filter(categories__name=category)
         if exact_parent_matches.count() > 0:
             print(" ", "Specific tags:", str(exact_parent_matches.count()))
         for c in category.all_children:
@@ -64,6 +64,7 @@ def locations_in_service_area(location_objects, boundary, verbose=False):
         long_lat = (location.longitude, location.latitude)
         location_long_lats[location.id] = long_lat
     service_area = {}
+    service_area['Unmatched'] = []
     with open(boundary['data_file_path']) as f:
         js = json.load(f)
     for feature in js['features']:
@@ -73,6 +74,8 @@ def locations_in_service_area(location_objects, boundary, verbose=False):
         if len(match) > 0:
             region = match[0]['name']
             service_area[region].append(location_id)
+        else:
+            service_area['Unmatched'].append(location_id)
     boundary_string = boundary['data_set_keys']['data_set_name']
     if verbose == True:
         print("\n")
