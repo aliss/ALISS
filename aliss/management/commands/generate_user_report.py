@@ -22,6 +22,24 @@ class Command(BaseCommand):
             print("\n---------- User Stats -----------")
             new_analytics_methods_results()
 
+# Unused user related method?
+def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
+    #from aliss.models import *
+    import matplotlib.pyplot as plt
+    import pandas as pd
+
+    #setup dataframe
+    fig, ax = plt.subplots()
+    values = qs.values(field)
+    res = []
+    for x in values:
+        res.append(x[field])
+    dataset=pd.DataFrame({ 'date':res })
+    #plot by bins
+    ax = dataset["date"].hist(bins=bins, color='teal', alpha=0.8, rwidth=0.999)
+    ax.set(xlabel='Date', ylabel='Count')
+    plt.show()
+
 def user_contributions():
     import_user    = ALISSUser.objects.get(email="technical@aliss.org")
     admins         = ALISSUser.objects.exclude(email="technical@aliss.org").filter(is_staff=True)
