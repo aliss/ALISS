@@ -112,13 +112,10 @@ class SearchTestCase(TestCase):
         result = check_boundaries(long_lat)
         expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
         self.assertEqual(result, expected)
-        
 
     def tearDown(self):
         Fixtures.organisation_teardown()
         for organisation in Organisation.objects.filter(name="Test0rg"):
             organisation.delete()
         for organisation in Organisation.objects.filter(name="Another org"):
-            organisation.delete()
-        for organisation in Organisation.objects.filter(name="TestingOrg"):
             organisation.delete()
