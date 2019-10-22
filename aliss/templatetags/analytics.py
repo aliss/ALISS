@@ -6,8 +6,8 @@ from google_analytics.templatetags.google_analytics_tags import google_analytics
 
 register = template.Library()
 
-@register.simple_tag()
-def add_analytics_scripts():
+@register.simple_tag(takes_context=True)
+def add_analytics_scripts(context):
     analytics_string = """
         <!-- in debug mode, analytics disabled -->
         <script>
@@ -23,7 +23,7 @@ def add_analytics_scripts():
         analytics_string = """
         <div style="display:none">
             <!-- server side analytics -->
-            <img src="{% google_analytics %}" width="0" height="0" />
+            <img src=\""""+ google_analytics(context) +"""\"width="0" height="0" />
         </div>
         <script async src="https://www.googletagmanager.com/gtag/js?id='+settings.ANALYTICS_ID+'"></script>
         <script>
