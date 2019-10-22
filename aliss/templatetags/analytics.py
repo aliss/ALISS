@@ -25,7 +25,7 @@ def add_analytics_scripts(context):
             <!-- server side analytics -->
             <img src=\""""+ google_analytics(context) +"""\"width="0" height="0" />
         </div>
-        <script async src="https://www.googletagmanager.com/gtag/js?id='+settings.ANALYTICS_ID+'"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id="""+settings.ANALYTICS_ID+"""></script>
         <script>
             var useHotjar = function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
