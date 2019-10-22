@@ -16,3 +16,4 @@ django-cors-headers==2.3.0
 cloudinary==1.14.0
 requests==2.22.0
 Shapely==1.6.4.post2
+django-google-analytics-app==4.4.0

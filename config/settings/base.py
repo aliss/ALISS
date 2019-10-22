@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'aliss',
-    'cloudinary'
+    'cloudinary',
+    'google_analytics'
 ]
 
 MIDDLEWARE = [
@@ -139,6 +140,7 @@ SESSION_CACHE_ALIAS = "default"
 
 GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 ANALYTICS_ID = os.environ.get('ANALYTICS_ID')
+GOOGLE_ANALYTICS = {  'google_analytics_id': ANALYTICS_ID } #required for server-side analytics pack
 
 if ANALYTICS_ID == None:
     ANALYTICS_ID = '';

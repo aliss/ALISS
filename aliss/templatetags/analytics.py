@@ -1,6 +1,8 @@
 from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from google_analytics.templatetags.google_analytics_tags import google_analytics
+
 
 register = template.Library()
 
@@ -19,6 +21,10 @@ def add_analytics_scripts():
     """
     if not settings.DEBUG:
         analytics_string = """
+        <div style="display:none">
+            <!-- server side analytics -->
+            <img src="{% google_analytics %}" width="0" height="0" />
+        </div>
         <script async src="https://www.googletagmanager.com/gtag/js?id='+settings.ANALYTICS_ID+'"></script>
         <script>
             var useHotjar = function(h,o,t,j,a,r){
