@@ -3,6 +3,7 @@ from django.db import models
 from aliss.models import ServiceArea
 from django.db.models import Avg
 from django.utils.text import slugify
+from django.contrib.gis.geos import Point, MultiPoint
 
 class Postcode(models.Model):
     postcode = models.CharField(primary_key=True, max_length=9)
@@ -41,8 +42,21 @@ class Postcode(models.Model):
 
     def get_by_district(district):
         try:
+            points = []
+            postcodes_in_district = Postcode.objects.filter(postcode_district=district)
+            for postcode in postcodes_in_district:
+                point = Point((postcode.latitude, postcode.longitude))
+                points.append(point)
+            multi_point = MultiPoint(*points)
+            central_point = multi_point.centroid
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error('Test')
+            logger.error(central_point)
             lng_avg = Postcode.objects.filter(postcode_district=district).aggregate(Avg('longitude'))
             lat_avg = Postcode.objects.filter(postcode_district=district).aggregate(Avg('latitude'))
+            logger.error(lat_avg)
+            logger.error(lng_avg)
             #TODO: avg between lng and lat ordering
             # lte_postcodes = Postcode.objects.filter(
             #     postcode_district=district,
@@ -60,11 +74,11 @@ class Postcode(models.Model):
             #     return gte_postcodes.first()
             return Postcode.objects.filter(
                 postcode_district=district,
-                longitude__gte=lng_avg['longitude__avg'],
+                longitude__lte=lng_avg['longitude__avg'],
                 latitude__lte=lat_avg['latitude__avg']
             ).order_by('-longitude', '-latitude').first()
         except:
-            raise self.model.DoesNotExist("%s matching query does not exist." % self.model._meta.object_name)
+            raise Postcode.DoesNotExist("%s matching query does not exist." % Postcode._meta.object_name)
 
     def generate_place_name_slug(self):
         if self.place_name:
