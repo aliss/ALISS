@@ -59,7 +59,7 @@ class Postcode(models.Model):
                 ).order_by('longitude', 'latitude')
                 return gte_postcodes.first()
         except:
-            raise self.model.DoesNotExist("%s matching query does not exist." % self.model._meta.object_name)
+            raise Postcode.DoesNotExist("%s matching query does not exist." % Postcode._meta.object_name)
 
     def generate_place_name_slug(self):
         if self.place_name:
