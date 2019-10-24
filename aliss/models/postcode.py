@@ -44,11 +44,20 @@ class Postcode(models.Model):
             lng_avg = Postcode.objects.filter(postcode_district=district).aggregate(Avg('longitude'))
             lat_avg = Postcode.objects.filter(postcode_district=district).aggregate(Avg('latitude'))
             #TODO: avg between lng and lat ordering
-            return Postcode.objects.filter(
+            lte_postcodes = Postcode.objects.filter(
                 postcode_district=district,
                 longitude__lte=lng_avg['longitude__avg'],
                 latitude__lte=lat_avg['latitude__avg']
-            ).order_by('-longitude', '-latitude').first()
+            ).order_by('-longitude', '-latitude')
+            if (lte_postcodes.count() > 0):
+                return lte_postcodes.first()
+            else:
+                gte_postcodes = Postcode.objects.filter(
+                    postcode_district=district,
+                    longitude__gte=lng_avg['longitude__avg'],
+                    latitude__gte=lat_avg['latitude__avg']
+                ).order_by('longitude', 'latitude')
+                return gte_postcodes.first()
         except:
             raise self.model.DoesNotExist("%s matching query does not exist." % self.model._meta.object_name)
 
