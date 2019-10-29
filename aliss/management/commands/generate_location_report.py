@@ -24,10 +24,6 @@ class Command(BaseCommand):
         # location_objects = Location.objects.all()
         # boundaries_data_mappings = setup_data_set_doubles()
         # locations_in_boundaries(location_objects, boundaries_data_mappings)
-        # print("\n---------- Services in Region by Service Area Atrribute-----------")
-        # services_by_service_area_attribute()
-        # print("\n---------- Services in Region by Location in Service Area-----------")
-        # services_by_location_match_in_service_area()
         print("\n # ---------- Services by Region -----------")
         services_in_service_area = services_in_service_area_regions('local_authority', 2)
         for key, value in services_in_service_area.items():
