@@ -5,6 +5,7 @@ from django.db.models import F
 from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
+from django.db.models import Count, Case, When, IntegerField, CharField, F
 import json
 
 class Command(BaseCommand):
@@ -145,19 +146,16 @@ def services_in_service_area_regions(service_area_boundary='local_authority', ty
         print("#### Total number of unique published services", str(Service.objects.filter(organisation__published=True).distinct().count()) + "\n")
     return services_by_service_area
 
-def service_area_region_category_top_ten(service_area_boundary, type, region, limit=10):
+def service_area_region_category_top_ten(service_area_boundary, type, region_name, limit=10):
     services_in_service_area = services_in_service_area_regions(service_area_boundary, type)
-    region_queryset = services_in_service_area[region]
-    categories_count = {}
-    for category in Category.objects.all():
-        services_of_category_count = region_queryset.filter(categories__name__icontains=category.name).distinct()
-        categories_count[category.name] = services_of_category_count
-    for key, value in categories_count.items():
-        count = value.count()
-        if count > 0:
-            print("#### " + key + ": " + str(count))
-
-
+    region_queryset = services_in_service_area[region_name]
+    for category in Category.objects.all().annotate(
+        service_count=Count(Case(
+            When(services__in=region_queryset, then=1),
+            output_field=IntegerField(),
+        ))
+    ).order_by('-service_count')[:limit]:
+          print(" - " + category.name + "(" + str(category.service_count) + ")")
 
 def locations_in_boundaries(location_objects, boundaries):
     service_areas = {}
@@ -165,3 +163,29 @@ def locations_in_boundaries(location_objects, boundaries):
         results = locations_in_service_area(location_objects, boundary)
         service_areas[boundary['data_set_keys']['data_set_name']] = results
     return service_areas
+
+ # # ---------- Category Breakdown Service by Region -----------
+ # - Activity(181)
+ # - Social Activity(93)
+ # - Exercise & Get Fit(65)
+ # - Social Group(63)
+ # - Physical Activity(56)
+ # - Health & Social Care Services(53)
+ # - Creative & Cultural Activity(37)
+ # - Mental Health Issues(36)
+ # - Conditions(38)
+ # - Sports & Games(28)
+
+# new values
+#
+# # ---------- Category Breakdown Service by Region -----------
+# - Activity(112)
+# - Social Activity(93)
+# - Exercise & Get Fit(65)
+# - Social Group(63)
+# - Physical Activity(56)
+# - Health & Social Care Services(53)
+# - Creative & Cultural Activity(37)
+# - Mental Health Issues(36)
+# - Conditions(36)
+# - Sports & Games(28)
