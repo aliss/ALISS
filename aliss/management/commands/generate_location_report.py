@@ -24,10 +24,14 @@ class Command(BaseCommand):
         # location_objects = Location.objects.all()
         # boundaries_data_mappings = setup_data_set_doubles()
         # locations_in_boundaries(location_objects, boundaries_data_mappings)
-        print("\n---------- Services in Region by Service Area Atrribute-----------")
-        services_by_service_area_attribute()
-        print("\n---------- Services in Region by Location in Service Area-----------")
-        services_by_location_match_in_service_area()
+        # print("\n---------- Services in Region by Service Area Atrribute-----------")
+        # services_by_service_area_attribute()
+        # print("\n---------- Services in Region by Location in Service Area-----------")
+        # services_by_location_match_in_service_area()
+        print("\n---------- Services in Region -----------")
+        services_in_service_area = services_in_service_area_regions()
+        for key, value in services_in_service_area.items():
+            print(key + ": " + str(value.count()) + "\n")
 
 
 
@@ -97,36 +101,51 @@ def locations_in_service_area(location_objects, boundary, verbose=False):
         print("\n")
     return service_area
 
-def services_by_service_area_attribute(service_area='local_authority', type=2):
-    services_by_service_area_region = {}
-    service_area_regions = []
-    service_areas_of_type = ServiceArea.objects.filter(type=2)
-    services_in_service_area_type = Service.objects.filter(service_areas__type=2, locations=None)
-    print("Distinct services without locations in local_authority: ", services_in_service_area_type.distinct().count())
+def services_by_service_area_attribute(type):
+    services_by_service_area_region_service_area_match = {}
+    service_areas_of_type = ServiceArea.objects.filter(type=type)
+    services_in_service_area_type = Service.objects.filter(service_areas__type=type, organisation__published=True)
     for service_area in service_areas_of_type.all():
         services_in_service_area = services_in_service_area_type.filter(service_areas__name__icontains=service_area.name).all()
-        services_by_service_area_region[service_area.name] = services_in_service_area.distinct().count()
-    for key, value in services_by_service_area_region.items():
-        print(str(key) + ": " + str(value) + "\n")
+        services_by_service_area_region_service_area_match[service_area.name] = services_in_service_area.distinct()
+    print("Found from service area")
+    for key, value in services_by_service_area_region_service_area_match.items():
+        print(key + ": " + str(value.count()) + "\n")
+    return services_by_service_area_region_service_area_match
 
-def services_by_location_match_in_service_area(service_area='local_authority', type=2):
-    services_by_service_area_region = {}
+def services_by_location_match_in_service_area(service_area_boundary, type):
+    services_by_service_area_region_location_match = {}
     service_area_regions = []
-    service_areas_of_type = ServiceArea.objects.filter(type=2)
+    service_areas_of_type = ServiceArea.objects.filter(type=type)
     for service_area_region in service_areas_of_type:
         service_area_regions.append(service_area_region.name)
-    print(service_area_regions)
-    locations_of_services_without_service_area = Location.objects.filter(services__service_areas=None)
+    locations_of_services = Location.objects.all()
     service_area_mappings = setup_data_set_doubles()
-    boundary = service_area_mappings[service_area]
-    print("Checking for " + service_area + " boundary")
-    service_area_distributions = locations_in_service_area(locations_of_services_without_service_area, boundary)
+    boundary = service_area_mappings[service_area_boundary]
+    service_area_distributions = locations_in_service_area(locations_of_services, boundary)
     for key, value in service_area_distributions.items():
         if key in service_area_regions:
-            services_by_service_area_region[key] = Service.objects.filter(locations__in=value).distinct().count()
-    print(services_by_service_area_region)
+            services_by_service_area_region_location_match[key] = Service.objects.filter(locations__in=value, organisation__published=True).distinct()
+    print("Found from location postcode: ")
+    for key, value in services_by_service_area_region_location_match.items():
+        print(key + ": " + str(value.count()) + "\n")
+    return services_by_service_area_region_location_match
 
+def services_in_service_area_regions(service_area_boundary='local_authority', type=2):
+    services_by_service_area_region_service_area_match = services_by_service_area_attribute(type)
+    services_by_service_area_region_location_match = services_by_location_match_in_service_area(service_area_boundary, type)
+    merged_services = services_by_service_area_region_service_area_match
+    merged_services.update(services_by_service_area_region_location_match)
+    services_by_service_area = {}
+    service_count = 0
+    for key, value in merged_services.items():
+        services_by_service_area[key] = value.distinct()
+        service_count = service_count + value.distinct().count()
+    print("Total number of avialable services per region aggregate (counts duplicates)", service_count)
+    return services_by_service_area
 
+def category_split_by_area(service_area_boundary='local_authority', type=2):
+    services_by_service_area = services_in_service_area_regions(service_area_boundary, type=type)
 
 
 def locations_in_boundaries(location_objects, boundaries):
