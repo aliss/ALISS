@@ -134,9 +134,10 @@ def services_by_location_match_in_service_area(service_area_boundary, type):
 def services_in_service_area_regions(service_area_boundary='local_authority', type=2):
     services_by_service_area_region_service_area_match = services_by_service_area_attribute(type)
     services_by_service_area_region_location_match = services_by_location_match_in_service_area(service_area_boundary, type)
-    merged_services = services_by_service_area_region_service_area_match
-    merged_services.update(services_by_service_area_region_location_match)
+    merged_services = {}
     services_by_service_area = {}
+    for key, value in services_by_service_area_region_location_match.items():
+        merged_services[key] = services_by_service_area_region_service_area_match[key] | value
     service_count = 0
     for key, value in merged_services.items():
         services_by_service_area[key] = value.distinct()
