@@ -18,16 +18,18 @@ class Command(BaseCommand):
         print(options)
         self.verbose = options['verbose']
 
-        print("\n---------- Categories in Service Area -----------")
-        category_in_service_area()
+        # print("\n---------- Categories in Service Area -----------")
+        # category_in_service_area()
         # print("\n---------- Location IDs in Regions -----------")
         # location_objects = Location.objects.all()
         # boundaries_data_mappings = setup_data_set_doubles()
         # locations_in_boundaries(location_objects, boundaries_data_mappings)
-        print("\n # ---------- Services by Region -----------")
-        services_in_service_area = services_in_service_area_regions('local_authority', 2)
-        for key, value in services_in_service_area.items():
-            print("#### " + key + ": " + str(value.count()))
+        # print("\n # ---------- Services by Region -----------")
+        # services_in_service_area = services_in_service_area_regions('local_authority', 2)
+        # for key, value in services_in_service_area.items():
+        #     print("#### " + key + ": " + str(value.count()))
+        print("\n # ---------- Category Breakdown Service by Region -----------")
+        service_area_region_category_top_ten('local_authority', 2, 'Aberdeen City')
 
 
 
@@ -142,6 +144,20 @@ def services_in_service_area_regions(service_area_boundary='local_authority', ty
         print("#### Total number of available services per region aggregate (service counted every time it's found available in a region can be duplicate)", service_count)
         print("#### Total number of unique published services", str(Service.objects.filter(organisation__published=True).distinct().count()) + "\n")
     return services_by_service_area
+
+def service_area_region_category_top_ten(service_area_boundary, type, region, limit=10):
+    services_in_service_area = services_in_service_area_regions(service_area_boundary, type)
+    region_queryset = services_in_service_area[region]
+    categories_count = {}
+    for category in Category.objects.all():
+        services_of_category_count = region_queryset.filter(categories__name__icontains=category.name).distinct()
+        categories_count[category.name] = services_of_category_count
+    for key, value in categories_count.items():
+        count = value.count()
+        if count > 0:
+            print("#### " + key + ": " + str(count))
+
+
 
 def locations_in_boundaries(location_objects, boundaries):
     service_areas = {}
