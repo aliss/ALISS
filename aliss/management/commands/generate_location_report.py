@@ -25,10 +25,10 @@ class Command(BaseCommand):
         # location_objects = Location.objects.all()
         # boundaries_data_mappings = setup_data_set_doubles()
         # locations_in_boundaries(location_objects, boundaries_data_mappings)
-        # print("\n # ---------- Services by Region -----------")
-        # services_in_service_area = services_in_service_area_regions('local_authority', 2)
-        # for key, value in services_in_service_area.items():
-        #     print("#### " + key + ": " + str(value.count()))
+        print("\n # ---------- Services by Region -----------")
+        services_in_service_area = services_in_service_area_regions('local_authority', 2)
+        for key, value in services_in_service_area.items():
+            print("#### " + key + ": " + str(value.count()))
         print("\n # ---------- Category Breakdown Service by Region -----------")
         service_area_region_category_top_ten('local_authority', 2, 'Aberdeen City')
 
@@ -105,7 +105,7 @@ def services_by_service_area_attribute(type):
     service_areas_of_type = ServiceArea.objects.filter(type=type)
     services_in_service_area_type = Service.objects.filter(service_areas__type=type, organisation__published=True)
     for service_area in service_areas_of_type.all():
-        services_in_service_area = services_in_service_area_type.filter(service_areas__name__icontains=service_area.name).all()
+        services_in_service_area = services_in_service_area_type.filter(service_areas__name__exact=service_area.name).all()
         services_by_service_area_region_service_area_match[service_area.name] = services_in_service_area.distinct()
     return services_by_service_area_region_service_area_match
 
@@ -163,29 +163,3 @@ def locations_in_boundaries(location_objects, boundaries):
         results = locations_in_service_area(location_objects, boundary)
         service_areas[boundary['data_set_keys']['data_set_name']] = results
     return service_areas
-
- # # ---------- Category Breakdown Service by Region -----------
- # - Activity(181)
- # - Social Activity(93)
- # - Exercise & Get Fit(65)
- # - Social Group(63)
- # - Physical Activity(56)
- # - Health & Social Care Services(53)
- # - Creative & Cultural Activity(37)
- # - Mental Health Issues(36)
- # - Conditions(38)
- # - Sports & Games(28)
-
-# new values
-#
-# # ---------- Category Breakdown Service by Region -----------
-# - Activity(112)
-# - Social Activity(93)
-# - Exercise & Get Fit(65)
-# - Social Group(63)
-# - Physical Activity(56)
-# - Health & Social Care Services(53)
-# - Creative & Cultural Activity(37)
-# - Mental Health Issues(36)
-# - Conditions(36)
-# - Sports & Games(28)
