@@ -322,6 +322,12 @@ class ServiceEmailView(SuccessMessageMixin, FormView):
 
         return super(ServiceEmailView, self).form_valid(form)
 
+    def form_invalid(self, form):
+        self.service = form.cleaned_data.get('service')
+        error_message = "Submitted email not valid, please try again."
+        messages.warning(self.request, error_message)
+        failure_url = reverse('service_detail', kwargs={'pk': self.service.pk})
+        return HttpResponseRedirect(failure_url)
 
 class ServiceAtLocationDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_message = "Location successfully removed from service."
