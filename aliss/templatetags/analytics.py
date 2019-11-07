@@ -40,15 +40,15 @@ def add_analytics_scripts(context):
                 window['ga-disable-' + gtagId] = true;
             };
             window.enableAnalytics = function(){
-                window['ga-disable-' + gtagId] = false;
-                gtag('config', gtagId);
+                //window['ga-disable-' + gtagId] = false;
+                //gtag('config', gtagId);
                 useHotjar(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
             };
             window.disableAnalytics();
             window.dataLayer = window.dataLayer || [];
-            function gtag(){ dataLayer.push(arguments); }
-            gtag('js', new Date());
-            gtag('config', gtagId);
+            //function gtag(){ dataLayer.push(arguments); }
+            //gtag('js', new Date());
+            //gtag('config', gtagId);
         </script>
         """
     return mark_safe(analytics_string)
