@@ -28,7 +28,7 @@ class Command(BaseCommand):
         print("\n # ---------- Services by Region -----------")
         services_in_service_area = services_in_service_area_regions('local_authority', 2)
         for key, value in services_in_service_area.items():
-            print("#### " + key + ": " + str(value.count()))
+            print("- " + key + ": " + str(value.count()))
         print("\n # ---------- Category Breakdown Service by Region -----------")
         service_area_region_category_top_ten('local_authority', 2, 'Aberdeen City')
 
