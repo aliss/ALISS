@@ -18,19 +18,21 @@ class Command(BaseCommand):
         #self.stderr.write(self.style.SUCCESS('Checking service urls'))
         print(options)
         self.verbose = options['verbose']
-
+        print(self.verbose)
         # print("\n---------- Categories in Service Area -----------")
         # category_in_service_area()
         # print("\n---------- Location IDs in Regions -----------")
         # location_objects = Location.objects.all()
         # boundaries_data_mappings = setup_data_set_doubles()
         # locations_in_boundaries(location_objects, boundaries_data_mappings)
-        print("\n # ---------- Services by Region -----------")
-        services_in_service_area = services_in_service_area_regions('local_authority', 2)
-        for key, value in services_in_service_area.items():
-            print("- " + key + ": " + str(value.count()))
-        print("\n # ---------- Category Breakdown Service by Region -----------")
-        service_area_region_category_top_ten('local_authority', 2, 'Aberdeen City')
+        print("\n # Geographical Content Report")
+        '''
+        Second argument is the ServiceArea type, must match boundary data set:
+        ('local_authority' , 2)
+        ('health_board', 3)
+        ('health_integration_authority', 4)
+        '''
+        geographical_content_report('local_authority', 2)
 
 
 
@@ -132,6 +134,7 @@ def services_in_service_area_regions(service_area_boundary='local_authority', ty
     for key, value in services_by_service_area_region_location_match.items():
         merged_services[key] = services_by_service_area_region_service_area_match[key] | value
     service_count = 0
+
     for key, value in merged_services.items():
         services_by_service_area[key] = value.distinct()
         service_count = service_count + value.distinct().count()
@@ -146,16 +149,29 @@ def services_in_service_area_regions(service_area_boundary='local_authority', ty
         print("#### Total number of unique published services", str(Service.objects.filter(organisation__published=True).distinct().count()) + "\n")
     return services_by_service_area
 
-def service_area_region_category_top_ten(service_area_boundary, type, region_name, limit=10):
-    services_in_service_area = services_in_service_area_regions(service_area_boundary, type)
-    region_queryset = services_in_service_area[region_name]
+def service_area_by_region_top_category_count(services_in_service_area_by_region, region_name, limit):
+    print('#### ' + region_name + ':')
+    region_queryset = services_in_service_area_by_region[region_name]
     for category in Category.objects.all().annotate(
         service_count=Count(Case(
             When(services__in=region_queryset, then=1),
             output_field=IntegerField(),
         ))
     ).order_by('-service_count')[:limit]:
-          print(" - " + category.name + "(" + str(category.service_count) + ")")
+          print(" - " + category.name + ": " + str(category.service_count))
+
+def geographical_content_report(service_area_boundary, type, limit=10):
+    service_area_boundary_formatted_name = service_area_boundary.replace('_', ' ').capitalize()
+    print('## ' + service_area_boundary_formatted_name +  ' results:')
+    print('### Service count by region:')
+    print('Service area type: ' + str(type))
+    services_in_service_area_by_region = services_in_service_area_regions(service_area_boundary, type)
+    for key, value in services_in_service_area_by_region.items():
+        print("- " + key + ": " + str(value.count()))
+    print('### Category breakdown by region:')
+    print('Showing top ' + str(limit) + ' categories')
+    for key in services_in_service_area_by_region.keys():
+        service_area_by_region_top_category_count(services_in_service_area_by_region, key, limit)
 
 def locations_in_boundaries(location_objects, boundaries):
     service_areas = {}
