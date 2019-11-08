@@ -60,6 +60,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
             searched_term = search_form.data.get('postcode')
             if searched_term:
                 try:
+                    processed_search_term = searched_term.capitalize().strip()
                     lower_searched = searched_term.lower().strip()
                     matched_postcode = Postcode.objects.get(slug=lower_searched).postcode
                     processed_postcode = matched_postcode.upper().strip().replace(' ', '+')
@@ -67,7 +68,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
                         "{url}?postcode={postcode}&place_name={searched_place}".format(
                             url=reverse('search'),
                             postcode=processed_postcode,
-                            searched_place=searched_term,
+                            searched_place=processed_search_term,
                         ))
                 except Postcode.DoesNotExist:
                     invalid_area = search_form.cleaned_data.get('postcode', None) == None
