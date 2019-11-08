@@ -64,9 +64,10 @@ class SearchView(MultipleObjectMixin, TemplateView):
                     matched_postcode = Postcode.objects.get(slug=lower_searched).postcode
                     processed_postcode = matched_postcode.upper().strip().replace(' ', '+')
                     return HttpResponseRedirect(
-                        "{url}?postcode={postcode}".format(
+                        "{url}?postcode={postcode}&place_name={searched_place}".format(
                             url=reverse('search'),
                             postcode=processed_postcode,
+                            searched_place=searched_term,
                         ))
                 except Postcode.DoesNotExist:
                     invalid_area = search_form.cleaned_data.get('postcode', None) == None
