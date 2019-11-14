@@ -219,7 +219,21 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(edinburgh_postcode[0], postcode)
         response = self.client.get('/search/?postcode=edinburgh+')
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/search/?postcode=EH1+1BQ')
+        self.assertRedirects(response, '/search/?postcode=EH1+1BQ&place_name=Edinburgh')
+
+    def test__valid_placename_search_has_place_in_heading(self):
+        edinburgh_postcode = Postcode.objects.get_or_create(pk="EH1 1BQ", defaults={
+                'postcode': 'EH1 1BQ', 'postcode_district': 'EH1',
+                'postcode_sector': 'EH1 1', 'latitude': 55.95263002,
+                'longitude': -3.19132872, 'council_area_2011_code': 'S12000036',
+                'health_board_area_2014_code': 'S08000024',
+                'integration_authority_2016_code': 'S37000012',
+                'place_name': 'Edinburgh', 'slug': 'edinburgh'
+            }
+        )
+        response = self.client.get('/search/?postcode=EH1+1BQ&place_name=Edinburgh')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h1>Help and support in <span class=\"postcode\">Edinburgh</span><span class=\"assigned-categories\">(EH1 1BQ)</span></h1>", html=True)
 
     def tearDown(self):
         Fixtures.organisation_teardown()
