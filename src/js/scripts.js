@@ -767,7 +767,8 @@ $(document).ready(() => {
         onChooseEvent: function(e){
           var value = $("#postcode").getSelectedItemData().place_name;
           $("#postcode").val(value).trigger("change");
-        }
+          $('.search-box form').submit();
+        },
       }
     };
 
