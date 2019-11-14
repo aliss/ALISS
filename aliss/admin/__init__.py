@@ -4,3 +4,4 @@ from .service import ServiceAreaAdmin
 from .organisation import OrganisationAdmin
 from .postcode import PostcodeAdmin
 from .content_block import ContentBlock
+from .claim import Claim
