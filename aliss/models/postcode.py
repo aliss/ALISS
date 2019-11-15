@@ -42,64 +42,46 @@ class Postcode(models.Model):
         return ServiceArea.objects.filter(type=2, code=self.council_area_2011_code).first()
 
     def get_by_district(district):
-        # try:
-            # Calculate the centroid of the postcode district.
+        try:
             lng_avg = Postcode.objects.filter(postcode_district=district).aggregate(Avg('longitude'))
             lat_avg = Postcode.objects.filter(postcode_district=district).aggregate(Avg('latitude'))
-            logger = logging.getLogger(__name__)
-            logger.error('Avgs')
-            logger.error(lng_avg)
-            logger.error(lat_avg)
-            centroid = Point(lng_avg['longitude__avg'], lat_avg['latitude__avg'])
-            logger.error(centroid)
-            # closest_postcodes = []
-            #TODO: avg between lng and lat ordering
-            '''
-            Could create an array of arrays where each element is the postcode and the second is it's distance to the centroid and then order by distances ascending and select the first item?
-            '''
-            postcodes_and_distances = []
 
-            lng_gte_lat_gte = Postcode.objects.filter(
-                postcode_district=district,
+            centroid = Point(lng_avg['longitude__avg'], lat_avg['latitude__avg'])
+            postcodes_in_district_qs = Postcode.objects.filter(
+                postcode_district=district)
+
+            lng_gte_lat_gte = postcodes_in_district_qs.filter(
                 longitude__gte=lng_avg['longitude__avg'],
                 latitude__gte=lat_avg['latitude__avg']
             ).order_by('longitude', 'latitude').first()
 
-
-            lng_lte_lat_lte = Postcode.objects.filter(
-                postcode_district=district,
+            lng_lte_lat_lte = postcodes_in_district_qs.filter(
                 longitude__lte=lng_avg['longitude__avg'],
                 latitude__lte=lat_avg['latitude__avg']
             ).order_by('-longitude', '-latitude').first()
 
-            lng_gte_lat_lte = Postcode.objects.filter(
-                postcode_district=district,
+            lng_gte_lat_lte = postcodes_in_district_qs.filter(
                 longitude__gte=lng_avg['longitude__avg'],
                 latitude__lte=lat_avg['latitude__avg']
             ).order_by('longitude', '-latitude').first()
 
-            lng_lte_lat_gte = Postcode.objects.filter(
-                postcode_district=district,
+            lng_lte_lat_gte = postcodes_in_district_qs.filter(
                 longitude__lte=lng_avg['longitude__avg'],
                 latitude__gte=lat_avg['latitude__avg']
             ).order_by('-longitude', 'latitude').first()
 
+            postcodes_and_distances = []
             lng_lat_quadrants = [lng_gte_lat_gte, lng_lte_lat_lte, lng_gte_lat_lte, lng_lte_lat_gte]
 
             for quadrant in lng_lat_quadrants:
                 if quadrant is not None:
                     postcodes_and_distances.append([quadrant, centroid.distance(Point(quadrant.longitude, quadrant.latitude))])
 
-            logger.error(postcodes_and_distances)
             postcodes_and_distances.sort(key=lambda x:x[1])
-            logger.error(postcodes_and_distances)
-            for postcode in postcodes_and_distances:
-                logger.error(postcode)
-                logger.error(postcode[0].latitude)
-                logger.error(postcode[0].longitude)
-            return(postcodes_and_distances[0][0])
-        # except:
-        #     raise self.model.DoesNotExist("%s matching query does not exist." % self.model._meta.object_name)
+            return postcodes_and_distances[0][0]
+
+        except:
+            raise Postcode.DoesNotExist("%s matching query does not exist." % Postcode._meta.object_name)
 
     def generate_place_name_slug(self):
         if self.place_name:
