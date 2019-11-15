@@ -57,9 +57,7 @@ class Postcode(models.Model):
             '''
             Could create an array of arrays where each element is the postcode and the second is it's distance to the centroid and then order by distances ascending and select the first item?
             '''
-            postcodes_and_distances = {}
-
-            lng_lat_quadrants = []
+            postcodes_and_distances = []
 
             lng_gte_lat_gte = Postcode.objects.filter(
                 postcode_district=district,
@@ -86,20 +84,20 @@ class Postcode(models.Model):
                 latitude__gte=lat_avg['latitude__avg']
             ).order_by('-longitude', 'latitude').first()
 
-            lng_lat_quadrants.append(lng_gte_lat_gte)
-            lng_lat_quadrants.append(lng_lte_lat_lte)
-            lng_lat_quadrants.append(lng_gte_lat_lte)
-            lng_lat_quadrants.append(lng_lte_lat_gte)
-
-            logger.error(lng_lat_quadrants)
+            lng_lat_quadrants = [lng_gte_lat_gte, lng_lte_lat_lte, lng_gte_lat_lte, lng_lte_lat_gte]
 
             for quadrant in lng_lat_quadrants:
                 if quadrant is not None:
-                    postcodes_and_distances[quadrant] = Point(quadrant.longitude, quadrant.latitude)
+                    postcodes_and_distances.append([quadrant, centroid.distance(Point(quadrant.longitude, quadrant.latitude))])
+
             logger.error(postcodes_and_distances)
-
-            return(lng_lat_quadrants[0])
-
+            postcodes_and_distances.sort(key=lambda x:x[1])
+            logger.error(postcodes_and_distances)
+            for postcode in postcodes_and_distances:
+                logger.error(postcode)
+                logger.error(postcode[0].latitude)
+                logger.error(postcode[0].longitude)
+            return(postcodes_and_distances[0][0])
         # except:
         #     raise self.model.DoesNotExist("%s matching query does not exist." % self.model._meta.object_name)
 
