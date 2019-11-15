@@ -3,7 +3,7 @@ from django.db import models
 from aliss.models import ServiceArea
 from django.db.models import Avg
 from django.utils.text import slugify
-from django.contrib.gis.geos import Point
+from shapely.geometry import Point
 import logging
 
 class Postcode(models.Model):
