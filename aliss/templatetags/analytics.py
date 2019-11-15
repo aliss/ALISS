@@ -40,7 +40,7 @@ def add_analytics_scripts(context):
                 window['ga-disable-' + gtagId] = true;
             };
             window.enableAnalytics = function(){
-                window['ga-disable-' + gtagId] = false;
+                //window['ga-disable-' + gtagId] = false;
                 gtag('config', gtagId);
                 useHotjar(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
             };
