@@ -32,11 +32,11 @@ service_mapping = {
     'slug': {'type': 'keyword'},
     'name': {
         'type': 'text',
-        'analyzer': 'bigram_combiner'
+        'analyzer': 'english'
     },
     'description': {
         'type': 'text',
-        'analyzer': 'description_analyzer',
+        'analyzer': 'english',
     },
     'url': {'type': 'keyword'},
     'phone': {'type': 'keyword'},
