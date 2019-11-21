@@ -3,5 +3,6 @@ Disallow: /search
 Disallow: /organisations/search
 Disallow: /caboose
 Disallow: /api/*
+Disallow: /services/email
 Allow: /search?postcode=*
 Sitemap: https://www.aliss.org/sitemap.xml

@@ -121,7 +121,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
     def process_user_submitted_postcode(self, data):
         postcode = data.get('postcode', None)
         try:
-            if postcode and len(postcode) > 3:
+            if postcode and len(postcode) > 4:
                 self.postcode = Postcode.objects.get(postcode=postcode)
             else:
                 self.postcode = Postcode.get_by_district(postcode)
