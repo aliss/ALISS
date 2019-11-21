@@ -263,5 +263,33 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Sorry, AB4 doesn't appear to be a valid postcode.</h1>", html=True)
 
+    def test_four_character_postcode_district_search_valid(self):
+        edinburgh_postcode = Postcode.objects.get_or_create(pk="AB10 6EJ", defaults={
+                'postcode': 'AB10 6EJ', 'postcode_district': 'AB10',
+                'postcode_sector': 'AB10 6', 'latitude': 57.13375256,
+                'longitude': -2.11863086, 'council_area_2011_code': 'S12000033',
+                'health_board_area_2014_code': 'S08000020',
+                'integration_authority_2016_code': 'S37000001',
+                'slug': 'ab10-6ej'
+            }
+        )
+        response = self.client.get('/search/?postcode=AB10')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h1>Help and support in <span class=\"postcode\">AB10 6EJ</span></h1>", html=True)
+
+    def test_four_character_postcode_district_search_invalid(self):
+        edinburgh_postcode = Postcode.objects.get_or_create(pk="AB10 6EJ", defaults={
+                'postcode': 'AB10 6EJ', 'postcode_district': 'AB10',
+                'postcode_sector': 'AB10 6', 'latitude': 57.13375256,
+                'longitude': -2.11863086, 'council_area_2011_code': 'S12000033',
+                'health_board_area_2014_code': 'S08000020',
+                'integration_authority_2016_code': 'S37000001',
+                'slug': 'ab10-6ej'
+            }
+        )
+        response = self.client.get('/search/?postcode=AB20')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h1>Sorry, AB20 doesn't appear to be a valid postcode.</h1>", html=True)
+
     def tearDown(self):
         Fixtures.organisation_teardown()
