@@ -758,16 +758,17 @@ $(document).ready(() => {
       template: {
         type: "custom",
         method: function(value, item){
-          return "<span class=\"icon\">📍</span>" + value + " (" + item.postcode + ")";
+          return "<span class=\"icon\">📍</span>" + value;
         }
       },
       minCharNumber: 3,
       list: {
         match: { enabled: true },
         onChooseEvent: function(e){
-          var value = $("#postcode").getSelectedItemData().postcode;
+          var value = $("#postcode").getSelectedItemData().place_name;
           $("#postcode").val(value).trigger("change");
-        }
+          $('.search-box form').submit();
+        },
       }
     };
 
