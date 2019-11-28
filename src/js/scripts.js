@@ -660,8 +660,17 @@ $(document).ready(() => {
             $(".leaflet-pane").show();
             var name_key = result.name_key;
             result.data.forEach(function(feature){
-              var feature_name = feature.properties[`${name_key}`];
-              var geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
+              let feature_name = feature.properties[`${name_key}`];
+              // Check whether this is the local_authority dataset
+              if (name_key === "lad18nm"){
+                // Ensure only Scottish datasets are added by checking code for S prefix
+                if(feature.properties.lad18cd[0] === "S"){
+                  let geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
+                }
+              }
+              else {
+                let geoJSON = L.geoJson(feature).addTo(mymap).bindPopup(`<b>${feature_name}</b>`);
+              }
             });
           }
         });
