@@ -7,6 +7,7 @@ from elasticsearch_dsl import Q
 from aliss.models import Organisation, Service, Postcode
 from aliss.search import _get_connection, service_to_body, organisation_to_body, service_mapping, organisation_mapping
 
+
 index_settings = {
     'analysis': {
         "filter": {
@@ -36,7 +37,7 @@ index_settings = {
             "bigram_combiner": {
                 "tokenizer": "standard",
                 "filter": ["lowercase", "custom_shingle", "my_char_filter", "my_stop"]
-           }
+            }
         }
     }
 }
@@ -48,7 +49,8 @@ def create_service_index(connection=None):
     body = {
         'mappings': {
             'service': { 'properties': service_mapping }
-        }, 'settings': index_settings
+        },
+        'settings': index_settings
     }
     connection.indices.create(index='search', body=body)
 
