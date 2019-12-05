@@ -137,7 +137,7 @@
                 {% csrf_token %}
                 <div class="sbs-inputs">
                   <input name="service" type="hidden" value="{{ object.pk }}">
-                  <input name="email" type="email" placeholder="email@company.com">
+                  <input name="email" type="email" placeholder="email@company.com" required>
                   <input type="submit" class="secondary" value="Send">
                 </div>
               </form>
