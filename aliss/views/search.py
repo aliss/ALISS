@@ -72,6 +72,18 @@ class SearchView(MultipleObjectMixin, TemplateView):
                         ))
                 except Postcode.DoesNotExist:
                     invalid_area = search_form.cleaned_data.get('postcode', None) == None
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.error('Hit the search term failed.')
+                    logger.error(searched_term)
+                    if searched_term.isalpha():
+                        logger.error('Is all letters')
+                        logger.error(searched_term)
+                        return self.render_to_response(context={
+                            'form': search_form,
+                            'errors': search_form.errors,
+                            'searched_term': searched_term,
+                        })
                     return self.render_to_response(context={
                         'form': search_form,
                         'errors': search_form.errors,
