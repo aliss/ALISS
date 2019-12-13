@@ -128,8 +128,6 @@ class SearchView(MultipleObjectMixin, TemplateView):
             else:
                 self.postcode = Postcode.get_by_district(postcode)
         except Postcode.DoesNotExist:
-            import logging
-            logger = logging.getLogger(__name__)
             return self.render_to_response(context={'invalid_area': True})
         return self.define_object_list_return_response()
 
