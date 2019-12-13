@@ -81,10 +81,11 @@ class SearchView(MultipleObjectMixin, TemplateView):
                         'invalid_placename': invalid_placename,
                     })
             else:
+                invalid_area = search_form.cleaned_data.get('postcode', None) == None
                 return self.render_to_response(context={
                     'form': search_form,
                     'errors': search_form.errors,
-                    'invalid_area': True,
+                    'invalid_area': invalid_area,
                 })
 
 
