@@ -58,8 +58,17 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
         else:
             searched_term = search_form.data.get('postcode')
+            valid_searched_term = None
             if searched_term:
+                valid_searched_term = searched_term.strip().replace(' ', '').isalpha()
+            import logging
+            logger = logging.getLogger(__name__)
+            # logger.error('valid_searched_term')
+            if valid_searched_term:
                 try:
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.error('valid_searched_term')
                     processed_search_term = searched_term.capitalize().strip()
                     lower_searched = searched_term.lower().strip()
                     matched_postcode = Postcode.objects.get(slug=lower_searched).postcode
@@ -71,30 +80,18 @@ class SearchView(MultipleObjectMixin, TemplateView):
                             searched_place=processed_search_term,
                         ))
                 except Postcode.DoesNotExist:
-                    invalid_area = search_form.cleaned_data.get('postcode', None) == None
-                    import logging
-                    logger = logging.getLogger(__name__)
-                    logger.error('Hit the search term failed.')
-                    logger.error(searched_term)
-                    if searched_term.isalpha():
-                        logger.error('Is all letters')
-                        logger.error(searched_term)
-                        return self.render_to_response(context={
-                            'form': search_form,
-                            'errors': search_form.errors,
-                            'searched_term': searched_term,
-                        })
+                    invalid_placename = True
                     return self.render_to_response(context={
                         'form': search_form,
                         'errors': search_form.errors,
-                        'invalid_area': invalid_area
+                        'invalid_placename': invalid_placename,
                     })
             else:
-                invalid_area = search_form.cleaned_data.get('postcode', None) == None
+                logger.error('help')
                 return self.render_to_response(context={
                     'form': search_form,
                     'errors': search_form.errors,
-                    'invalid_area': invalid_area
+                    'invalid_area': True,
                 })
 
 
@@ -138,6 +135,9 @@ class SearchView(MultipleObjectMixin, TemplateView):
             else:
                 self.postcode = Postcode.get_by_district(postcode)
         except Postcode.DoesNotExist:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error('Here')
             return self.render_to_response(context={'invalid_area': True})
         return self.define_object_list_return_response()
 
