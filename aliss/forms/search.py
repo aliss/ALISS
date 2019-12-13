@@ -15,7 +15,7 @@ class GBPostcodeDistrictField(GBPostcodeField):
         postcode = value.upper().strip()
         # Put a single space before the incode (second part).
         postcode = self.space_regex.sub(r' \1', postcode)
-        if not self.postcode_regex.search(postcode) or not self.district_pattern.search(postcode):
+        if not self.postcode_regex.search(postcode) and not self.district_pattern.search(postcode):
             raise ValidationError(self.error_messages['invalid'])
         return postcode
 
