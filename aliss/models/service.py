@@ -4,8 +4,8 @@ from django.db import models
 from django.urls import reverse
 from django.dispatch import receiver
 from django.utils.text import slugify
-
-from aliss.models import ServiceArea
+from django.contrib.contenttypes.fields import GenericRelation
+from aliss.models import ServiceArea, AssignedProperty
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, service_to_body
 
@@ -95,7 +95,10 @@ class Service(models.Model):
         null=True,
         on_delete=models.SET_NULL
     )
+
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
+
+    assigned_properties = GenericRelation(AssignedProperty)
 
     @classmethod
     def published(cls):

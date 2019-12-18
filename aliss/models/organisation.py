@@ -2,10 +2,10 @@ import uuid
 
 from django.db import models
 from django.db.models import Count
-
+from django.contrib.contenttypes.fields import GenericRelation
 from django.dispatch import receiver
 from django.utils.text import slugify
-from aliss.models import ALISSCloudinaryField
+from aliss.models import ALISSCloudinaryField, AssignedProperty
 
 from elasticsearch_dsl import Search
 from aliss.search import get_connection, organisation_to_body
@@ -47,6 +47,8 @@ class Organisation(models.Model):
 
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
     published = models.BooleanField(default=True)
+
+    assigned_properties = GenericRelation(AssignedProperty)
 
     @classmethod
     def with_services(cls, min_services=1):

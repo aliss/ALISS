@@ -1,3 +1,5 @@
+from .property import Property
+from .assigned_property import AssignedProperty
 from .aliss_cloudinary import ALISSCloudinaryField
 from .category import Category
 from .service_area import ServiceArea

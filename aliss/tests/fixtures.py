@@ -63,6 +63,29 @@ class Fixtures(TestCase):
         return s
 
     @classmethod
+    def create_properties(self):
+        p1 = Property.objects.create(name="Interpretation",
+            description="Translation and interpretation for languages other than English",
+            for_organisations=False, for_locations=False
+        )
+        p2 = Property.objects.create(name="Wheelchair accessible",
+            description="Support for visitors with wheelchairs",
+            for_organisations=False, for_services=False
+        )
+        p3 = Property.objects.create(name="Volunteer run",
+            description="Entirely staffed by volunteers",
+        )
+        p4 = Property.objects.create(name="Living wage employer",
+            description="All our employees are paid a living wage",
+            for_locations=False, for_services=False
+        )
+        return [p1,p2,p3,p4]
+
+    @classmethod
+    def properties_teardown(self):
+        Property.objects.all().delete()
+
+    @classmethod
     def service_teardown(self, service=None):
         if service:
             service.delete()
@@ -76,6 +99,12 @@ class Fixtures(TestCase):
         else:
             for org in Organisation.objects.filter(name="TestOrg").all():
                 org.delete()
+
+    @classmethod
+    def general_teardown(self):
+        Fixtures.service_teardown()
+        Fixtures.organisation_teardown()
+        Fixtures.properties_teardown()
 
     @classmethod
     def create(self):
