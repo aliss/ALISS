@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
-from aliss.models import Organisation, ALISSUser, Service, Location
+from aliss.models import Organisation, ALISSUser, Service, Location, Claim
 from aliss.tests.fixtures import Fixtures
 from datetime import datetime, timedelta
 import pytz
@@ -67,7 +67,7 @@ class AccountViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    # Test to check that a user with no claimed services on log in is redirected to the search page.
+    # Test to check that a user with no claimed services or eligibile organisations on log in is redirected to the search page.
     def test_user_no_services_to_review(self):
         self.client.logout()
         response = self.client.post('/account/login/', { 'username': "random@random.org", 'password': "passwurd" })
@@ -80,13 +80,43 @@ class AccountViewTestCase(TestCase):
         response = self.client.post('/account/login/', { 'username': "claimant@user.org", 'password': "passwurd" })
         self.assertRedirects(response, reverse('account_my_reviews'), status_code=302, target_status_code=200)
 
-
     def test_user_services_to_review_content(self):
         self.client.logout()
         self.client.login(username="claimant@user.org", password="passwurd")
         response = self.client.get('/account/my-reviews/')
         self.assertContains(response, "Old Service")
 
+    # Test to check that a user who has created, claimed or were last to edit an organisation with no reviews is redirected to 'My Organisations'
+    def test_user_without_services_to_review_but_with_eligible_orgs_redirect(self):
+        self.client.logout()
+
+        # Delete the service which needs to be reviewed
+        self.unreviewed_service.delete()
+
+        # Check there are no services to review as this gets priority
+        services_to_review_count = len(self.user.services_to_review_ids())
+        self.assertEqual(0, services_to_review_count)
+
+        # Ensure this mock user has an organisation they maintain.
+        eligible_orgs_to_maintain = len(self.user.organisations_to_review()) > 0
+        self.assertTrue(eligible_orgs_to_maintain)
+
+        response = self.client.post('/account/login/', { 'username': "claimant@user.org", 'password': "passwurd" })
+        self.assertRedirects(response, reverse('account_my_organisations'), status_code=302, target_status_code=200)
+
+    # Test to check that a user who has created, claimed or were last to edit an organisation with no reviews is redirected to 'My Organisations'
+    def test_user_without_services_to_review_but_with_eligible_orgs_redirect_content(self):
+        self.client.logout()
+        self.unreviewed_service.delete()
+        claim = Claim.objects.create(
+            user=self.org.claimed_by,
+            organisation=self.org,
+        )
+        claim.status = 10
+        claim.save()
+        response = self.client.post('/account/login/', { 'username': self.org.claimed_by.email, 'password': "passwurd" }, follow=True)
+        self.assertRedirects(response, reverse('account_my_organisations'))
+        self.assertContains(response, "TestOrg")
 
     def tearDown(self):
         Fixtures.organisation_teardown()
