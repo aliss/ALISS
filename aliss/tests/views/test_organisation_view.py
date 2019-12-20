@@ -9,7 +9,7 @@ class OrganisationViewTestCase(TestCase):
     def setUp(self):
         self.random = ALISSUser.objects.create_user("random@random.org", "passwurd")
         self.user, self.editor, self.claimant, self.staff = Fixtures.create_users()
-        self.client.login(username=self.user.email, password='passwurd')
+        self.client.login(username=self.claimant.email, password='passwurd')
         self.organisation = Fixtures.create_organisation(self.user, self.editor, self.claimant)
 
     def test_organisation_detail(self):
