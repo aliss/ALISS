@@ -104,8 +104,8 @@ class AccountViewTestCase(TestCase):
         response = self.client.post('/account/login/', { 'username': "claimant@user.org", 'password': "passwurd" })
         self.assertRedirects(response, reverse('account_my_organisations'), status_code=302, target_status_code=200)
 
-    # Test to check that a user who has created, claimed or were last to edit an organisation with no reviews is redirected to 'My Organisations'
-    def test_user_without_services_to_review_but_with_eligible_orgs_redirect_content(self):
+    # Test to check that a user who has claimed an organisation with no reviews is redirected to 'My Organisations'
+    def test_user_without_services_to_review_but_with_claimed_org_redirect_content(self):
         self.client.logout()
         self.unreviewed_service.delete()
         claim = Claim.objects.create(
@@ -115,6 +115,22 @@ class AccountViewTestCase(TestCase):
         claim.status = 10
         claim.save()
         response = self.client.post('/account/login/', { 'username': self.org.claimed_by.email, 'password': "passwurd" }, follow=True)
+        self.assertRedirects(response, reverse('account_my_organisations'))
+        self.assertContains(response, "TestOrg")
+
+    # Test to check that a user who has created an organisation with no reviews is redirected to 'My Organisations'
+    def test_user_without_services_to_review_but_with_created_org_redirect_content(self):
+        self.client.logout()
+        self.unreviewed_service.delete()
+        response = self.client.post('/account/login/', { 'username': self.org.created_by.email, 'password': "passwurd" }, follow=True)
+        self.assertRedirects(response, reverse('account_my_organisations'))
+        self.assertContains(response, "TestOrg")
+
+    # Test to check that a user who last to update an organisation with no reviews is redirected to 'My Organisations'
+    def test_user_without_services_to_review_but_with_last_edited_org_redirect_content(self):
+        self.client.logout()
+        self.unreviewed_service.delete()
+        response = self.client.post('/account/login/', { 'username': self.org.updated_by.email, 'password': "passwurd" }, follow=True)
         self.assertRedirects(response, reverse('account_my_organisations'))
         self.assertContains(response, "TestOrg")
 
