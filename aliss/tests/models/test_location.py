@@ -5,11 +5,11 @@ from aliss.tests.fixtures import Fixtures
 class LocationTestCase(TestCase):
     def setUp(self):
         t,u,c,s = Fixtures.create_users()
-        o = Fixtures.create_organisation(t, u, c)
+        self.org = Fixtures.create_organisation(t, u, c)
         l = Location.objects.create(
           name="my location", street_address="my street", locality="a locality",
           postal_code="FK1 5XA", latitude=50.0, longitude=13.0,
-          organisation=o, created_by=t, updated_by=u
+          organisation=self.org, created_by=t, updated_by=u
         )
 
     def test_location_exists(self):
@@ -33,10 +33,21 @@ class LocationTestCase(TestCase):
         editor = ALISSUser.objects.filter(is_editor=True).first()
         punter = ALISSUser.objects.create(name="Ms Random", email="random@random.org")
         staff  = ALISSUser.objects.create(name="Ms Staff", email="msstaff@aliss.org", is_staff=True)
-        self.assertTrue(l.is_edited_by(l.organisation.created_by))
-        self.assertTrue(l.is_edited_by(editor))
         self.assertTrue(l.is_edited_by(rep))
         self.assertTrue(l.is_edited_by(staff))
+        self.assertFalse(l.is_edited_by(editor))
+        self.assertFalse(l.is_edited_by(l.organisation.created_by))
+        self.assertFalse(l.is_edited_by(punter))
+
+    def test_is_edited_by_without_claimant(self):
+        l = Location.objects.get(name="my location", postal_code="FK1 5XA")
+        self.org.claimed_by = None; self.org.save()
+        editor = ALISSUser.objects.filter(is_editor=True).first()
+        punter = ALISSUser.objects.create(name="Ms Random", email="random@random.org")
+        staff  = ALISSUser.objects.create(name="Ms Staff", email="msstaff@aliss.org", is_staff=True)
+        self.assertTrue(l.is_edited_by(staff))
+        self.assertTrue(l.is_edited_by(editor))
+        self.assertTrue(l.is_edited_by(l.organisation.created_by))
         self.assertFalse(l.is_edited_by(punter))
 
     def tearDown(self):

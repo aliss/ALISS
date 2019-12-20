@@ -16,8 +16,9 @@ class LocationViewTestCase(TestCase):
 
     def test_location_edit(self):
         path=reverse('location_edit', kwargs={'pk':self.location.pk})
-        response = self.client.get(path)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.client.get(path).status_code, 200)
+        self.client.login(username="updater@aliss.org", password='passwurd') #editor
+        self.assertEqual(self.client.get(path).status_code, 302)
 
 
     def test_location_update(self):
