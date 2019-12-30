@@ -97,6 +97,9 @@ class Service(models.Model):
     )
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
 
+    start_date = models.DateTimeField(null=True, blank=True, default=None)
+    end_date = models.DateTimeField(null=True, blank=True, default=None)
+
     @classmethod
     def published(cls):
         return cls.objects.filter(organisation__published=True)
