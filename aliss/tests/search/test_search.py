@@ -5,6 +5,8 @@ from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import *
 from aliss.search import *
+from datetime import datetime, timedelta
+import pytz
 
 
 class SearchTestCase(TestCase):
@@ -112,6 +114,27 @@ class SearchTestCase(TestCase):
         result = check_boundaries(long_lat)
         expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
         self.assertEqual(result, expected)
+
+    def test_filter_by_end_date_one_ended_service(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        one_week_ago = (current_date - timedelta(weeks=1))
+        self.s1.end_date = one_week_ago
+        self.s1.save()
+        result = filter_by_end_date(self.queryset, current_date)
+        self.assertNotEqual(result.count(), self.queryset.count() - 1)
+
+    def test_filter_by_end_date_one_service_ended_in_future(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        one_week_in_future = (current_date + timedelta(weeks=1))
+        self.s1.end_date = one_week_in_future
+        self.s1.save()
+        result = filter_by_end_date(self.queryset, current_date)
+        self.assertNotEqual(result.count(), self.queryset.count())
+
 
     def tearDown(self):
         Fixtures.organisation_teardown()

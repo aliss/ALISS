@@ -140,6 +140,32 @@ class ServiceTestCase(TestCase):
         service_id = self.service.pk
         self.assertEqual(last_reviewed_status, None)
 
+    def test_service_start_date_exists_defaults_none(self):
+        start_date = self.service.start_date
+        self.assertTrue(start_date == None)
+
+    def test_service_end_date_exists_defaults_none(self):
+        end_date = self.service.end_date
+        self.assertTrue(end_date == None)
+
+    def test_service_start_date_can_be_edited(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        one_week_ago = (current_date - timedelta(weeks=1))
+        self.service.start_date = one_week_ago
+        self.service.save()
+        self.assertEqual(self.service.start_date, one_week_ago)
+
+    def test_service_end_date_can_be_edited(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        one_week_in_future = (current_date + timedelta(weeks=1))
+        self.service.end_date = one_week_in_future
+        self.service.save()
+        self.assertEqual(self.service.end_date, one_week_in_future)
+
     def tearDown(self):
         for service in Service.objects.filter(name="My First Service"):
             service.delete()
