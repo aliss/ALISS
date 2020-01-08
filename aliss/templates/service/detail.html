@@ -251,6 +251,14 @@
           <div class="desc{% if object.description|length > 350 %} long{% endif %}">
             <p>{{ object.description|linebreaks }}</p>
             <br/>
+
+            <fieldset style="color: #555;"><legend><h5>Properties</h5></legend>
+                {% for ap in object.assigned_properties.all %}
+                <span>&nbsp;{{ ap.property_definition.icon_html }} {{ ap.name }}:</span>
+                <span class="small">{{ ap.description }}</span>
+                {% endfor %}
+              </fieldset>
+
             <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
             <p>Can you help us improve this listing? <a data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
             </a></p>
@@ -265,12 +273,15 @@
               <h4>Locations</h4>
               {% for location in object.locations.all %}
                 <div class="location">
-                  <a href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+                  <a style="display:inline-block;" href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
                     <span class="icon">
                       <i class="fas fa-map-marker-alt"></i>
                     </span>
                     {{ location.formatted_address }}
                   </a>
+                  {% for ap in location.assigned_properties.all %}
+                    <span title="{{ ap.name }}">&nbsp;{{ ap.property_definition.icon_html }}</span>
+                  {% endfor %}
                   {% can_edit request.user location as user_can_edit %}
                   {% if user_can_edit %}
                     <div class="edit-options">

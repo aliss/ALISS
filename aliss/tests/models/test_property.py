@@ -82,3 +82,5 @@ class PropertyTestCase(TestCase):
 
     def tearDown(self):
         Fixtures.general_teardown()
+
+#TODO Make sure we cant assign same property twice! E.g. wheelchair accessible x2 on same location

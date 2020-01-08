@@ -137,6 +137,13 @@
             {% endif %}
             <div class="desc">
               <p>{{ object.description|linebreaks }}</p>
+
+              <fieldset style="color: #555;"><legend><h5>Properties</h5></legend>
+                {% for ap in object.assigned_properties.all %}
+                <span>&nbsp;{{ ap.property_definition.icon_html }} {{ ap.name }}</span>
+                {% endfor %}
+              </fieldset>
+
               <p>Last updated <span class="updated">{{ object.last_edited }}</span></p>
             </div>
           </div>

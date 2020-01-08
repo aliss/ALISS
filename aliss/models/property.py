@@ -20,5 +20,3 @@ class Property(models.Model):
 
     def icon_html(self):
         return format_html('<i class="{}" aria-hidden="true"></i>', self.icon)
-
-
