@@ -1,0 +1,48 @@
+// ADMIN
+
+
+body.app-aliss {
+  color: #333;
+  background: #fff;
+  font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+
+  label, .breadcrumbs, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, h1 a {
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    font-weight: 300;
+  }
+
+  tr.row2 { background: #f9f9f9; }
+
+  div.breadcrumbs { margin-top: 0px; font-family: inherit; }
+
+  label, fieldset label { font-size: 13px; line-height: 1; display:inline; box-sizing: content-box; margin: 0px; }
+
+  #changelist .actions {
+    label { line-height: 24px; }
+    button { box-sizing: border-box; }
+  }
+
+  input[type=checkbox] { height: auto; width: auto; }
+
+  fieldset button[type="submit"], fieldset select, fieldset input[type="text"], fieldset input[type="submit"], fieldset input[type=submit], button[type="submit"], select, input[type=text], input[type="text"], input[type="submit"], input[type=submit] {
+    height: auto;
+    width: auto;
+    font-size: 13px;
+    padding: 5px 6px;
+    display: inline-block;
+    min-width: 0px;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    box-sizing: content-box;
+    line-height: normal;
+  }
+
+  #content { padding: 20px 40px; }
+  #content h1 {
+    margin: 0 0 20px; font-weight: 300; font-size: 20px; color: #666;
+  }
+  #header { box-sizing: content-box; }
+  #branding h1 { box-sizing: content-box; line-height: 40px; }
+
+  .submit-row a {     padding: 10px 15px; font-size: 14px; box-sizing: content-box; }
+  .submit-row input { padding: 10px 15px; box-sizing: border-box; }
+}
