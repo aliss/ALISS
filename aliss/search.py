@@ -485,12 +485,12 @@ def filter_by_claimed_status(queryset, claimed_status):
     })
     return queryset
 
-def filter_by_end_date(queryset, comparison_date):
-    queryset = queryset.query({
-        "bool": {
-            "filter": {"range":{"end_date":{"lte":comparison_date}}}
-    }})
-    return queryset
+# def filter_by_end_date(queryset, comparison_date):
+#     queryset = queryset.query({
+#         "bool": {
+#             "filter": {"range":{"end_date":{"lte":comparison_date}}}
+#     }})
+#     return queryset
 
 
 def find_boundary_matches(boundary, long_lat):
