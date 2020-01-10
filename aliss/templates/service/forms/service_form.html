@@ -94,7 +94,7 @@
 <div class="f-row">
   <div class="multiselect{% if form.service_areas.errors %} has-error{% endif %}">
     <label for="{{ form.service_areas.id_for_label }}">{{ form.service_areas.label }}
-      
+
       <a class="small" style="margin-left:0.7rem;" href="{% url 'service_area_definition' %}" target="_blank"><span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="This link opens in a new tab">
       <i class="fa fa-question-circle" aria-hidden="true"></i> Help
       </span></a>
@@ -113,4 +113,18 @@
       </div>
     {% endif %}
   </div>
+</div>
+
+
+<div class="f-row">
+  <label>Service Availability <span>(required)</span></label>
+  <p class="small">
+    <i class="fa fa-info-circle" aria-hidden="true"></i>
+    If the service you are adding is only temporary please enter the dates it is available between as below.
+  </p>
+
+  {% include 'partials/forms/field.html' with field=form.start_date %}
+
+  {% include 'partials/forms/field.html' with field=form.end_date %}
+
 </div>

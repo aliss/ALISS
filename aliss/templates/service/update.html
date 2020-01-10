@@ -36,6 +36,14 @@
 
     serviceAreaClientValidation()
 
+    $('#id_start_date').pickadate({ formatSubmit: 'yyyy/mm/dd' })
+        .pickadate('picker')
+        .set('select', new Date('{{ start_date|date:"Y/m/d" }}'));
+
+    $('#id_end_date').pickadate({ formatSubmit: 'yyyy/mm/dd' })
+        .pickadate('picker')
+        .set('select', new Date('{{ end_date|date:"Y/m/d" }}'));
+
   });
 </script>
 

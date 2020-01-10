@@ -26,7 +26,9 @@ class ServiceForm(forms.ModelForm):
             'url',
             'categories',
             'locations',
-            'service_areas'
+            'service_areas',
+            'start_date',
+            'end_date',
         ]
 
         labels = {
@@ -67,7 +69,10 @@ class ServiceForm(forms.ModelForm):
         cleaned_data = super(ServiceForm, self).clean()
         locations = cleaned_data.get("locations")
         service_areas = cleaned_data.get("service_areas")
-
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error("Test Date")
+        logger.error(cleaned_data.get("start_date_submit"))
         if (locations.count() == 0) and (service_areas.count() == 0):
             raise forms.ValidationError('Please provide a location and/or a service area for this service.')
         return cleaned_data

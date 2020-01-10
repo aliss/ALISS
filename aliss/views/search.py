@@ -121,7 +121,8 @@ class SearchView(MultipleObjectMixin, TemplateView):
         else:
             results = postcode_order(queryset, self.postcode)
         self.distance_scores = self.check_distance_within_radius(results["distance_scores"], self.radius)
-        services = Service.objects.filter(id__in=results["ids"]).order_by(results["order"]).exclude(end_date__lt=current_date)
+        services = Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
+        # .exclude(end_date__lt=current_date)
         return services
 
     def assign_legacy_postcode(self, location, legacy_locations_dict):

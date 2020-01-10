@@ -115,6 +115,16 @@ class SearchTestCase(TestCase):
         expected = [{'code-type':'local_authority', 'code':'S12000046', 'name': 'Glasgow City' }, {'code-type':'health_board', 'code':'S08000031', 'name': 'Greater Glasgow and Clyde' }, {'code-type': 'health_integration_authority', 'code': 'S37000034', 'name': 'Glasgow City'}]
         self.assertEqual(result, expected)
 
+    def test_filter_end_date_none_not_excluded(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        one_week_ago = (current_date - timedelta(weeks=1))
+        # self.s1.end_date = one_week_ago
+        # self.s1.save()
+        result = filter_by_end_date(self.queryset, current_date)
+        self.assertEqual(result.count(), self.queryset.count())
+
     # def test_filter_by_end_date_one_ended_service(self):
     #     utc = pytz.UTC
     #     current_date = datetime.now()

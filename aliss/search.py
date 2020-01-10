@@ -29,6 +29,8 @@ service_mapping = {
     'created_on': {'type': 'date'},
     'updated_on': {'type': 'date'},
     'last_edited': {'type': 'date'},
+    'start_date': {'type': 'date'},
+    'end_date': {'type': 'date'},
     'slug': {'type': 'keyword'},
     'name': {
         'type': 'text',
@@ -136,6 +138,8 @@ def service_to_body(service):
         'created_on': service.created_on,
         'updated_on': service.updated_on,
         'last_edited': service.last_edited,
+        'start_date': service.start_date,
+        'end_date': service.end_date,
         'name': service.name,
         'description': service.description,
         'slug': service.slug,
@@ -485,12 +489,28 @@ def filter_by_claimed_status(queryset, claimed_status):
     })
     return queryset
 
-# def filter_by_end_date(queryset, comparison_date):
-#     queryset = queryset.query({
-#         "bool": {
-#             "filter": {"range":{"end_date":{"lte":comparison_date}}}
-#     }})
-#     return queryset
+def filter_by_end_date(queryset, comparison_date):
+    queryset = queryset.query({
+        "bool": {
+            "must_not": {
+                "exists": {
+                    "field": "end_date"
+                }
+            }
+        }
+    #     "bool": {
+    #         # "filter":{
+    #         {"must_not":{"exists":{"field":"end_date"}}},
+    #         # }
+    #         # "should": {
+    #         # [
+    #         #     {{"range":{"end_date":{"lte":comparison_date}}}},
+    #
+    #         # ]
+    #         # }
+    # }
+    })
+    return queryset
 
 
 def find_boundary_matches(boundary, long_lat):
