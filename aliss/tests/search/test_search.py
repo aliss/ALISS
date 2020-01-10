@@ -122,28 +122,34 @@ class SearchTestCase(TestCase):
         one_week_ago = (current_date - timedelta(weeks=1))
         # self.s1.end_date = one_week_ago
         # self.s1.save()
-        result = filter_by_end_date(self.queryset, current_date)
+        current_date_string = current_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
+        print(current_date_string)
+        result = filter_by_end_date(self.queryset, current_date_string)
         self.assertEqual(result.count(), self.queryset.count())
 
-    # def test_filter_by_end_date_one_ended_service(self):
-    #     utc = pytz.UTC
-    #     current_date = datetime.now()
-    #     current_date = utc.localize(current_date)
-    #     one_week_ago = (current_date - timedelta(weeks=1))
-    #     self.s1.end_date = one_week_ago
-    #     self.s1.save()
-    #     result = filter_by_end_date(self.queryset, current_date)
-    #     self.assertNotEqual(result.count(), self.queryset.count() - 1)
-    #
-    # def test_filter_by_end_date_one_service_ended_in_future(self):
-    #     utc = pytz.UTC
-    #     current_date = datetime.now()
-    #     current_date = utc.localize(current_date)
-    #     one_week_in_future = (current_date + timedelta(weeks=1))
-    #     self.s1.end_date = one_week_in_future
-    #     self.s1.save()
-    #     result = filter_by_end_date(self.queryset, current_date)
-    #     self.assertNotEqual(result.count(), self.queryset.count())
+    def test_filter_by_end_date_one_ended_service(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        current_date_string = current_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
+        one_week_ago = (current_date - timedelta(weeks=1))
+        self.s1.end_date = one_week_ago
+        self.s1.save()
+        print(current_date)
+        print(current_date_string)
+        result = filter_by_end_date(self.queryset, current_date_string)
+        self.assertNotEqual(result.count(), self.queryset.count() - 1)
+
+    def test_filter_by_end_date_one_service_ended_in_future(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        one_week_in_future = (current_date + timedelta(weeks=1))
+        self.s1.end_date = one_week_in_future
+        self.s1.save()
+        current_date_string = current_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
+        result = filter_by_end_date(self.queryset, current_date_string)
+        self.assertNotEqual(result.count(), self.queryset.count())
 
 
     def tearDown(self):
