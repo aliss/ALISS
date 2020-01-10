@@ -492,25 +492,28 @@ def filter_by_claimed_status(queryset, claimed_status):
 def filter_by_end_date(queryset, comparison_date_string):
     queryset = queryset.query({
         "bool": {
-            # "should": {[
-            #     {
-            #         "must_not": {
-            #             "exists": {
-            #                 "field": "end_date"
-            #             }
-            #         }
-            #     },
-            #     {
-            "filter": {
-                "range": {
-                    "end_date": {
-                        "lte":comparison_date_string
+            "should": [
+                {
+                    "bool": {
+                        "must_not": {
+                            "exists": {
+                                "field": "end_date"
+                            }
+                        }
+                    }
+                },
+                {
+                    "bool": {
+                        "filter": {
+                            "range": {
+                                "end_date": {
+                                    "lte":comparison_date_string
+                                }
+                            }
+                        }
                     }
                 }
-            }
-
-                # }
-            # ]}
+            ]
         }
     })
     return queryset
