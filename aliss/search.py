@@ -7,6 +7,8 @@ from django.db.models import Case, When
 import json
 from shapely.geometry import shape, Point
 import os
+from datetime import datetime, timedelta
+import pytz
 
 def _get_connection():
     import certifi
@@ -489,7 +491,8 @@ def filter_by_claimed_status(queryset, claimed_status):
     })
     return queryset
 
-def filter_by_end_date(queryset, comparison_date_string):
+def filter_by_end_date(queryset, comparison_date):
+    comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
     queryset = queryset.query({
         "bool": {
             "should": [
@@ -507,7 +510,7 @@ def filter_by_end_date(queryset, comparison_date_string):
                         "filter": {
                             "range": {
                                 "end_date": {
-                                    "lte":comparison_date_string
+                                    "gte":comparison_date_string
                                 }
                             }
                         }
