@@ -38,11 +38,11 @@
 
     $('#id_start_date').pickadate({ formatSubmit: 'mm/dd/yyyy', hiddenName: true })
         .pickadate('picker')
-        .set('select', new Date('{{ start_date|date:"Y/m/d" }}'));
+        .set('select', new Date('{{ service.start_date|date:"Y/d/m" }}'));
 
     $('#id_end_date').pickadate({ formatSubmit: 'mm/dd/yyyy', hiddenName: true })
         .pickadate('picker')
-        .set('select', new Date('{{ end_date|date:"Y/m/d" }}'));
+        .set('select', new Date('{{ service.end_date|date:"Y/d/m" }}'));
 
   });
 </script>

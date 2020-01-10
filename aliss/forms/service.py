@@ -1,6 +1,9 @@
 from itertools import groupby
 
 from django import forms
+import pytz
+
+from datetime import datetime, timedelta
 
 from aliss.models import Service, ServiceArea, ServiceProblem, Location
 
@@ -69,8 +72,21 @@ class ServiceForm(forms.ModelForm):
         cleaned_data = super(ServiceForm, self).clean()
         locations = cleaned_data.get("locations")
         service_areas = cleaned_data.get("service_areas")
-        if cleaned_data.get("start_date") >= cleaned_data.get("end_date"):
-            raise forms.ValidationError('Please ensure this service starts before it ends.')
+        start_date = cleaned_data.get("start_date")
+        start_date = datetime.strftime(start_date, '%Y/%d/%m')
+        end_date = cleaned_data.get("end_date")
+        end_date = datetime.strftime(end_date, '%Y/%d/%m')
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error("Form")
+        logger.error(cleaned_data.get("start_date"))
+        logger.error(cleaned_data.get("end_date"))
+        logger.error((start_date != None) and (end_date != None))
+        logger.error(start_date >= end_date)
+        if ((start_date != None) and (end_date != None)):
+            if (start_date >= end_date):
+                raise forms.ValidationError('Please ensure this service starts before it ends.')
+
         if (locations.count() == 0) and (service_areas.count() == 0):
             raise forms.ValidationError('Please provide a location and/or a service area for this service.')
         return cleaned_data
