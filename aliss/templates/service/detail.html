@@ -277,7 +277,7 @@
                     </a>
                     <br/>
                     {% for ap in location.assigned_properties.all %}
-                      <span data-tooltip aria-haspopup="true" class="property has-tip right" data-disable-hover="false" tabindex="2" title="{{ ap.name }}  {{ ap.property.description }}" title="{{ ap.name }}">{{ ap.property_definition.icon_html }}</span>
+                      <span data-tooltip aria-haspopup="true" class="property has-tip right" data-disable-hover="false" tabindex="2" title="{{ ap.name }}: {{ ap.property_definition.description }}" title="{{ ap.name }}">{{ ap.property_definition.icon_html }}</span>
                     {% endfor %}
 
                     {% can_edit request.user location as user_can_edit %}
@@ -351,8 +351,8 @@
             </form>
           {% else %}
             <a class="yes">Yes</a>
-            <a class="no alert">No</a>
           {% endif %}
+          <a class="no alert">No</a>
         </div> <!-- feedback -->
 
       </div> <!-- columns -->

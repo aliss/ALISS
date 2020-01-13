@@ -6,9 +6,9 @@
 }
 
 .logo-select {
-  label { 
+  label {
     display: inline-block; position: relative;
-    span { 
+    span {
       position: absolute;
       bottom: .5rem;
       left: 3%;
@@ -59,7 +59,7 @@ ul.progress-breadcrumb {
 }
 
 ul.progress-breadcrumb.step-1 {
-  li:nth-child(1) { text-decoration: line-through; } 
+  li:nth-child(1) { text-decoration: line-through; }
 }
 
 ul.progress-breadcrumb.step-2 {
@@ -67,12 +67,12 @@ ul.progress-breadcrumb.step-2 {
 }
 
 ul.progress-breadcrumb.step-3 {
-  li:nth-child(1), li:nth-child(2), 
+  li:nth-child(1), li:nth-child(2),
   li:nth-child(3) { text-decoration: line-through; }
 }
 
 ul.progress-breadcrumb.step-4 {
-  li:nth-child(1), li:nth-child(2), 
+  li:nth-child(1), li:nth-child(2),
   li:nth-child(3), li:nth-child(4) { text-decoration: line-through; }
 }
 
@@ -93,6 +93,7 @@ ul.progress-breadcrumb.step-4 {
 
 .organisation-form {
   .cell.large-6:first-child div { padding-right: 2%; }
+  .properties {}
 }
 
 div.inline-claim {
@@ -114,13 +115,13 @@ div.inline-claim.active {
 
   .annotation { right :-40%; width: 37%; }
 
-  .f-row { 
+  .f-row {
     position: relative;
     margin-right: 5%;
     padding-right: 0;
   }
 
-  .f-row:after { content: none; } 
+  .f-row:after { content: none; }
 }
 
 .progress-container {
@@ -160,7 +161,7 @@ ul.progress-breadcrumb {
     margin-top: 0.01rem;
     margin-bottom: 0rem;
     a { color:inherit; }
-    i.fa {  
+    i.fa {
       margin-right: 0.5rem;
       margin-left: 0.5rem;
     }
@@ -193,7 +194,7 @@ ul.progress-breadcrumb {
   }
 
   li:last-child:after,
-  li:last-child:before { 
+  li:last-child:before {
     border:none;
   }
 }
@@ -286,7 +287,7 @@ ul.orgs+.paged {
 }
 
 .org-results {
-  .has-tip { 
+  .has-tip {
     border:none;
     .fa { opacity: 0.3; }
   }
@@ -298,6 +299,6 @@ ul.orgs+.paged {
 
 /* Unpublished Orgs */
 
-table td.options { 
+table td.options {
   input[type="submit"] { font-size:100%; }
 }
