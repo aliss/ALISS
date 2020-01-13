@@ -1175,21 +1175,16 @@ a.tw {
   }
   .services-list {
     margin-top: 2.5rem;
-    @include small {
-      margin-top: 1.5rem;
-    }
+    @include small { margin-top: 1.5rem; }
+    ul.search-results li { padding: 0px; margin-bottom:1rem; }
   }
   .columns {
     &.content, &.contact-info {
       @include grid-column(8);
       @include grid-column-end;
-      // min-height: 350px;
       .copy-container, .services-list {
         padding-right: rem-calc($gutter);
       }
-      // @include small {
-      //   min-height: 0;
-      // }
     }
     &.contact-info {
       min-height: 0;

@@ -146,11 +146,13 @@
           <section class="description">
             <p>{{ object.description|linebreaks }}</p>
 
+            {% if object.assigned_properties.all %}
             <fieldset style="color: #555;"><legend><h5>Properties</h5></legend>
               {% for ap in object.assigned_properties.all %}
               <span>&nbsp;{{ ap.property_definition.icon_html }} {{ ap.name }}</span>
               {% endfor %}
             </fieldset>
+            {% endif %}
 
             <p>Last updated <span class="updated">{{ object.last_edited }}</span></p>
           </section>
@@ -185,19 +187,19 @@
             <br/>
           </section>
 
+          {% if object.locations.all %}
           <section class="locations-list">
-            {% if object.locations.all %}
-              <h4>Locations</h4>
-              <div class="all-locations">
-                {% for location in object.locations.all %}
-                  {% include 'location/partials/detail.html' %}
-                {% endfor %}
-                {% if user_can_edit %}
-                  <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
-                {% endif %}
-              </div>
-            {% endif %}
+            <h3>Locations</h3><br/>
+            <div class="all-locations">
+              {% for location in object.locations.all %}
+                {% include 'location/partials/detail.html' %}
+              {% endfor %}
+              {% if user_can_edit %}
+                <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
+              {% endif %}
+            </div>
           </section>
+          {% endif %}
         </div>
       </div>
     </div>
