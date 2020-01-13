@@ -54,6 +54,14 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('service_create', kwargs={'pk': self.object.pk })
 
+    def get_form_kwargs(self):
+        kwargs = super(OrganisationCreateView, self).get_form_kwargs()
+        kwargs.update({
+            'updated_by': self.request.user,
+            'created_by': self.request.user
+        })
+        return kwargs
+
     def send_new_org_email(self, organisation):
         message = '{organisation} has been added to ALISS by {user}.'.format(organisation=organisation, user=organisation.created_by)
         if organisation.published:
@@ -91,11 +99,7 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form, claim_form=claim_form))
 
     def form_valid(self, form, claim_form):
-        self.object = form.save(commit=False)
-        self.object.created_by = self.request.user
-        self.object.published = self.request.user.is_editor or self.request.user.is_staff
-        self.object.save()
-
+        self.object = form.save()
         if claim_form:
             Claim.objects.create(
                 user=self.request.user, organisation=self.object,
@@ -115,6 +119,11 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
     def test_func(self, user):
         return self.get_object().is_edited_by(user)
 
+    def get_form_kwargs(self):
+        kwargs = super(OrganisationUpdateView, self).get_form_kwargs()
+        kwargs.update({ 'updated_by': self.request.user })
+        return kwargs
+
     def get_success_url(self):
         if (self.object.services.count() == 0):
             return reverse('service_create', kwargs={ 'pk': self.object.pk })
@@ -123,14 +132,11 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 
     def form_valid(self, form):
         self.object.update_last_edited()
-        self.object = form.save(commit=False)
-        self.object.updated_by = self.request.user
-        self.object.save()
+        self.object = form.save()
 
         messages.success(
             self.request,
-            '{name} has been successfully updated.'.format(
-                name=self.object.name
+            '{name} has been successfully updated.'.format(name=self.object.name
             )
         )
         return HttpResponseRedirect(self.get_success_url())

@@ -27,6 +27,11 @@
   {% include 'partials/forms/field.html' with field=form.twitter %}
 </div>
 
+<div class="f-row properties">
+  <h4>Properties</h4>
+  {{ form.properties }}
+</div>
+
 {% can_add_logo request.user form.instance as user_can_add_logo %}
 {% if user_can_add_logo %}
 <div class="f-row logo-select">

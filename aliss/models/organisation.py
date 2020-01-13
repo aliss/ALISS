@@ -99,10 +99,14 @@ class Organisation(models.Model):
     def save(self, *args, **kwargs):
         self.generate_slug()
         self.generate_last_edited()
-        super(Organisation, self).save(*args, **kwargs)
-        for s in self.services.all():
-            s.update_index()
-        self.update_index()
+        do_index = True
+        if 'skip_index' in kwargs:
+            do_index = False; kwargs.pop('skip_index')
+        super(Organisation, self).save(*args)
+        if do_index:
+            for s in self.services.all():
+                s.update_index()
+            self.update_index()
 
     def delete(self, *args, **kwargs):
         self.remove_from_organisation_index()
