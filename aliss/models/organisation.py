@@ -102,7 +102,7 @@ class Organisation(models.Model):
         super(Organisation, self).save(*args, **kwargs)
         for s in self.services.all():
             s.update_index()
-        self.add_to_organisation_index()
+        self.update_index()
 
     def delete(self, *args, **kwargs):
         self.remove_from_organisation_index()
@@ -110,7 +110,7 @@ class Organisation(models.Model):
             s.remove_from_index()
         super(Organisation, self).delete(*args, **kwargs)
 
-    def add_to_organisation_index(self):
+    def update_index(self):
         connection = get_connection()
         return connection.index(index='organisation_search', doc_type='organisation',
             id=self.id, body=organisation_to_body(self), refresh=True
