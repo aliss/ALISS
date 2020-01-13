@@ -1141,6 +1141,14 @@ a.tw {
   }
 }
 #content.service, #content.organisation {
+  .properties {
+    margin-bottom: 2.5rem;
+    color: #555;
+    font-size: 1.2rem;
+    i { font-size: 90%; }
+    .prop-name { font-weight: bold; }
+  }
+
   @include clear;
   .all-locations {
     margin-bottom: 2rem;
@@ -1176,21 +1184,16 @@ a.tw {
   .services-list {
     margin-top: 2.5rem;
     @include small { margin-top: 1.5rem; }
-    ul.search-results li { padding: 0px; margin-bottom:1rem; }
+    ul.search-results > li { padding: 0px; margin-bottom:1rem; }
   }
   .columns {
-    &.content, &.contact-info {
+    &.content {
       @include grid-column(8);
       @include grid-column-end;
       .copy-container, .services-list {
         padding-right: rem-calc($gutter);
       }
     }
-    &.contact-info {
-      min-height: 0;
-      margin-top: 1.25rem;
-    }
-    // &.options, &.contact-info {
     &.options {
       @include grid-column(4);
       float: right;
@@ -1227,7 +1230,7 @@ a.tw {
     }
   }
 }
-.desc.long {
+.description.long {
   position: relative;
   min-height: 250px;
   &:before {
@@ -1257,7 +1260,7 @@ a.tw {
     }
   }
 }
-.desc.long+p {
+.description.long+p {
   margin-top: 0;
 }
 .read-more {
@@ -1279,7 +1282,7 @@ a.tw {
     }
   }
 }
-.desc.long+p>.read-more {
+.description.long+p>.read-more {
   @include media(0, $search-break) {
     display: inline-block;
   }
