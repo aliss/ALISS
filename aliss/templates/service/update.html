@@ -36,13 +36,13 @@
 
     serviceAreaClientValidation()
 
-    $('#id_start_date').pickadate({ formatSubmit: 'mm/dd/yyyy', hiddenName: true })
+    $('#id_start_date').pickadate({ formatSubmit: 'dd/mm/yyyy', hiddenName: true })
         .pickadate('picker')
-        .set('select', new Date('{{ service.start_date|date:"Y/d/m" }}'));
+        .set('select', new Date('{{ service.start_date|date:"Y/m/d" }}'));
 
-    $('#id_end_date').pickadate({ formatSubmit: 'mm/dd/yyyy', hiddenName: true })
+    $('#id_end_date').pickadate({ formatSubmit: 'dd/mm/yyyy', hiddenName: true })
         .pickadate('picker')
-        .set('select', new Date('{{ service.end_date|date:"Y/d/m" }}'));
+        .set('select', new Date('{{ service.end_date|date:"Y/m/d" }}'));
 
   });
 </script>
