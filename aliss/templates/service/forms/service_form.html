@@ -121,7 +121,10 @@
   <p>
     <input id="short_term_service" type="checkbox" name="short_term"
     {% if service.start_date != None or service.end_date != None %} checked {% endif %}>
-    If the service you are adding is only temporary please enter the dates it is available between as below.
+    Is your service temporary?
+    <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="If your service will only be avialable for a limited time you can select the start and end date. Once expired service will still be saved but will not appear in results.">
+      <i class="fa fa-question-circle" aria-hidden="true" style="color:#C5C3C6"></i>
+    </span>
   </p>
 
   <div id="short_term_form" hidden=true>

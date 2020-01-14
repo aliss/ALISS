@@ -36,21 +36,23 @@
 
     serviceAreaClientValidation()
 
-    var setupPickadate = function(){
+    var setupShortTermServicePickadate = function(){
       $('#id_start_date').pickadate({ formatSubmit: 'dd/mm/yyyy', hiddenName: true })
           .pickadate('picker')
-          .set('select', new Date('{{ service.start_date|date:"Y/m/d" }}'));
+          .set('select', new Date('{{ service.start_date|date:"Y/m/d" }}'))
 
       $('#id_end_date').pickadate({ formatSubmit: 'dd/mm/yyyy', hiddenName: true })
           .pickadate('picker')
-          .set('select', new Date('{{ service.end_date|date:"Y/m/d" }}'));
+          .set('select', new Date('{{ service.end_date|date:"Y/m/d" }}'))
+
+      $('.picker__input').css({"width":"9rem", "background-color":"#C5C3C6"})
     }
 
     var short_term_checkbox = $('#short_term_service')
-    
+
     if (short_term_checkbox.is(':checked')){
       $('#short_term_form').show()
-      setupPickadate()
+      setupShortTermServicePickadate()
     }
     else {
       $('#short_term_form').hide()
@@ -59,7 +61,7 @@
     short_term_checkbox.click(function(box){
       if ($(this).is(':checked')){
         $('#short_term_form').show()
-        setupPickadate()
+        setupShortTermServicePickadate()
       }
       else {
           $('#id_start_date').pickadate('picker').set('clear')
