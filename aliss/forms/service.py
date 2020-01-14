@@ -73,18 +73,11 @@ class ServiceForm(forms.ModelForm):
         locations = cleaned_data.get("locations")
         service_areas = cleaned_data.get("service_areas")
         start_date = cleaned_data.get("start_date")
-        start_date = datetime.strftime(start_date, '%Y/%d/%m')
         end_date = cleaned_data.get("end_date")
-        end_date = datetime.strftime(end_date, '%Y/%d/%m')
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.error("Form")
-        logger.error(cleaned_data.get("start_date"))
-        logger.error(cleaned_data.get("end_date"))
-        logger.error((start_date != None) and (end_date != None))
-        logger.error(start_date >= end_date)
         if ((start_date != None) and (end_date != None)):
-            if (start_date >= end_date):
+            start_date_string = datetime.strftime(start_date, '%Y/%d/%m')
+            end_date_string = datetime.strftime(end_date, '%Y/%d/%m')
+            if (start_date_string >= end_date_string):
                 raise forms.ValidationError('Please ensure this service starts before it ends.')
 
         if (locations.count() == 0) and (service_areas.count() == 0):
