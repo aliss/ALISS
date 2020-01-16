@@ -44,7 +44,7 @@ To run the ALISS project it is necessary to setup the environment on your machin
 1. Create a hidden file `.env` this will store necessary environment variables.
 2. With the use of `.env.example` copy the contents and customise with the relevant information for your environment.
 3. Ensure elasticsearch server is running `systemctl start elasticsearch.service`
-4. Import the place name/postcode data with management command `python3 manage.py loaddata aliss/data/postcodes.json.zip`.
+4. Import the place name/postcode data with management command `python3 manage.py loaddata aliss/data/postcodes/postcodes.json.zip`.
 5. Import geo-boundary data with management command `python3 manage.py extract_geodata`.
 6. Create a super_user account for local admin privileges using command `python3 manage.py createsuperuser` inputting an email address and password as per the prompts.
 
