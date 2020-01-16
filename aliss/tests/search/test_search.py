@@ -35,6 +35,10 @@ class SearchTestCase(TestCase):
         pks = [self.s1.pk, self.s2.pk, self.s3.pk, self.s4.pk]
         self.queryset = get_services(Fixtures.es_connection(), pks)
 
+        utc = pytz.UTC
+        current_date = datetime.now()
+        self.current_date = utc.localize(current_date)
+
 
     def test_filter_by_postcode(self):
         p = Postcode.objects.get(pk="G2 4AA")
@@ -116,30 +120,21 @@ class SearchTestCase(TestCase):
         self.assertEqual(result, expected)
 
     def test_filter_end_date_none_not_excluded(self):
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-        result = filter_by_end_date(self.queryset, current_date)
+        result = filter_by_end_date(self.queryset, self.current_date)
         self.assertEqual(result.count(), self.queryset.count())
 
     def test_filter_by_end_date_one_ended_service(self):
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-        one_week_ago = (current_date - timedelta(weeks=1))
+        one_week_ago = (self.current_date - timedelta(weeks=1))
         self.s1.end_date = one_week_ago
         self.s1.save()
-        result = filter_by_end_date(self.queryset, current_date)
+        result = filter_by_end_date(self.queryset, self.current_date)
         self.assertEqual(result.count(), self.queryset.count() - 1)
 
     def test_filter_by_end_date_one_service_ended_in_future(self):
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-        one_week_in_future = (current_date + timedelta(weeks=1))
+        one_week_in_future = (self.current_date + timedelta(weeks=1))
         self.s1.end_date = one_week_in_future
         self.s1.save()
-        result = filter_by_end_date(self.queryset, current_date)
+        result = filter_by_end_date(self.queryset, self.current_date)
         self.assertEqual(result.count(), self.queryset.count())
 
 

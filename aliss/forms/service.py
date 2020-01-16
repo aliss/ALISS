@@ -1,9 +1,9 @@
 from itertools import groupby
 
 from django import forms
-import pytz
 
 from datetime import datetime, timedelta
+import pytz
 
 from aliss.models import Service, ServiceArea, ServiceProblem, Location
 
@@ -74,8 +74,6 @@ class ServiceForm(forms.ModelForm):
         service_areas = cleaned_data.get("service_areas")
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
-        import logging
-        logger = logging.getLogger(__name__)
         if ((start_date != None) and (end_date != None)):
             end_date_valid = end_date - timedelta(days=2)
             if (start_date >= end_date_valid):

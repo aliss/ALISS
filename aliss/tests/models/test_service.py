@@ -14,6 +14,9 @@ class ServiceTestCase(TestCase):
         t,u,c,_ = Fixtures.create_users()
         self.org = Fixtures.create_organisation(t, u, c)
         self.service = Service.objects.create(name="My First Service", description="A handy service", organisation=self.org, created_by=t, updated_by=u)
+        utc = pytz.UTC
+        current_date = datetime.now()
+        self.current_date = utc.localize(current_date)
 
     def test_service_exists(self):
         s = Service.objects.get(name="My First Service")
@@ -119,10 +122,7 @@ class ServiceTestCase(TestCase):
         self.assertFalse(old_last_edited == new_last_edited)
 
     def test_check_service_last_reviewed_outwith_date(self):
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-        out_of_range_date = (current_date - timedelta(weeks=7))
+        out_of_range_date = (self.current_date - timedelta(weeks=7))
         self.service.last_edited = out_of_range_date
         self.service.save()
         last_reviewed_status = self.service.check_last_reviewed()
@@ -130,10 +130,7 @@ class ServiceTestCase(TestCase):
         self.assertEqual(last_reviewed_status, service_id)
 
     def test_check_service_last_reviewed_within_date(self):
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-        in_range_date = (current_date - timedelta(weeks=5))
+        in_range_date = (self.current_date - timedelta(weeks=5))
         self.service.last_edited = in_range_date
         self.service.save()
         last_reviewed_status = self.service.check_last_reviewed()
@@ -149,19 +146,13 @@ class ServiceTestCase(TestCase):
         self.assertTrue(end_date == None)
 
     def test_service_start_date_can_be_edited(self):
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-        one_week_ago = (current_date - timedelta(weeks=1))
+        one_week_ago = (self.current_date - timedelta(weeks=1))
         self.service.start_date = one_week_ago
         self.service.save()
         self.assertEqual(self.service.start_date, one_week_ago)
 
     def test_service_end_date_can_be_edited(self):
-        utc = pytz.UTC
-        current_date = datetime.now()
-        current_date = utc.localize(current_date)
-        one_week_in_future = (current_date + timedelta(weeks=1))
+        one_week_in_future = (self.current_date + timedelta(weeks=1))
         self.service.end_date = one_week_in_future
         self.service.save()
         self.assertEqual(self.service.end_date, one_week_in_future)
