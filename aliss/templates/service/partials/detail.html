@@ -23,6 +23,7 @@
     {% if service.twitter %}<a href="{{ service.twitter }}">Twitter</a>{% endif %}
     {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
   </ul>
+
   {% if service.service_areas.all %}
     <div class="service-areas-list">
       <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>

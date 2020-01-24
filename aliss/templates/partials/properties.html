@@ -1,0 +1,10 @@
+{% if object.assigned_properties.all %}
+  <section class="properties">
+    {% for ap in object.assigned_properties.all %}
+    <span data-tooltip aria-haspopup="true" class="property has-tip right" data-disable-hover="false" tabindex="2" title="{{ ap.name }}: {{ ap.property_definition.description }}" title="{{ ap.name }}">
+      {{ ap.property_definition.icon_html }} {{ ap.name }}{% if ap.description%}: {% endif %}
+    </span>
+    <span class="small">{{ ap.description }}</span>
+    {% endfor %}
+  </section>
+{% endif %}
