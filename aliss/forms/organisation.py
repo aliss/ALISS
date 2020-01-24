@@ -5,8 +5,6 @@ from django.template.defaultfilters import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from aliss.models import Organisation, Service, Property, AssignedProperty
 from cloudinary import CloudinaryResource
-import logging
-logger = logging.getLogger(__name__)
 
 
 class AssignedPropertyForm(forms.Form):
@@ -40,7 +38,6 @@ class BaseAssignedPropertyFormSet(BaseFormSet):
         #NB: this will not trigger any re-index on organisation search index
         self.organisation.assigned_properties = []
         for f in self:
-            logger.error(f.cleaned_data)
             if not f.cleaned_data.get('selected'):
                 continue
             AssignedProperty.objects.create(
