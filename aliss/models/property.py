@@ -18,5 +18,14 @@ class Property(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def relevant_properties(cls, obj):
+        if obj.__class__.__name__ == "Organisation":
+            return cls.objects.filter(for_organisations=True)
+        elif obj.__class__.__name__ == "Location":
+            return cls.objects.filter(for_locations=True)
+        else:
+            return cls.objects.filter(for_services=True)
+
     def icon_html(self):
         return format_html('<i class="{}" aria-hidden="true"></i>', self.icon)

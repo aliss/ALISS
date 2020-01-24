@@ -13,15 +13,15 @@ class AssignedPropertyForm(forms.Form):
 
 
 class BaseAssignedPropertyFormSet(BaseFormSet):
-    def __init__(self, organisation, *args, **kwargs):
+    def __init__(self, property_holder, *args, **kwargs):
         super(BaseAssignedPropertyFormSet, self).__init__(*args, **kwargs)
-        self.organisation = organisation
-        i = 0;
-        properties = Property.objects.filter(for_organisations=True)
+        self.property_holder = property_holder
+        properties = Property.relevant_properties(property_holder)
         self.initial = [{'property_pk': p.pk} for p in properties]
+        i = 0;
         for p in properties:
             self[i].fields['selected'].label = mark_safe("%s %s" % (p.icon_html(), p.name))
-            assigned_prop = organisation.assigned_properties.filter(property_definition=p.pk).first()
+            assigned_prop = property_holder.assigned_properties.filter(property_definition=p.pk).first()
             if assigned_prop:
                 self[i].fields['description'].initial = assigned_prop.description
                 self[i].fields['selected'].initial = True
@@ -34,18 +34,17 @@ class BaseAssignedPropertyFormSet(BaseFormSet):
 
     def save(self):
         #Replaces old assigned properties with ones contained in formset
-        #NB: this will not trigger any re-index on organisation search index
-        self.organisation.assigned_properties = []
+        #NB: this will not trigger any re-index on organisation/service search index
+        self.property_holder.assigned_properties = []
         for f in self:
             if not f.cleaned_data.get('selected'):
                 continue
             AssignedProperty.objects.create(
                 property_definition=Property.objects.get(pk=f.cleaned_data.get("property_pk")),
                 description=f.cleaned_data.get("description"),
-                holder=self.organisation
+                holder=self.property_holder
             )
-        return self.organisation.assigned_properties
+        return self.property_holder.assigned_properties
 
 
 AssignedPropertiesFormSet = formset_factory(AssignedPropertyForm, extra=0, formset=BaseAssignedPropertyFormSet)
-

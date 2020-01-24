@@ -191,8 +191,6 @@ class Service(models.Model):
         permalink = start_url + id + "/"
         return permalink
 
-
-
     @property
     def is_claimed(self):
         return self.organisation.is_claimed
