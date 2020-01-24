@@ -12,6 +12,8 @@ class LocationViewTestCase(TestCase):
         self.organisation = self.service.organisation
         self.location = self.organisation.locations.first()
         self.client.login(username="tester@aliss.org", password="passwurd")
+        self.properties = Fixtures.create_properties()
+        self.default_property_data = Fixtures.get_properties_form_data_for(Location)
 
 
     def test_location_edit(self):
@@ -27,13 +29,12 @@ class LocationViewTestCase(TestCase):
                 (55.9714304, -3.1715182)
             )
             path=reverse('location_edit', kwargs={'pk':self.location.pk})
+            self.default_property_data['form-0-selected'] = True
             response = self.client.post(path,{
                 'name': 'Leith Community Education Centre',
                 'street_address': '12A Newkirkgate',
                 'locality': 'Edinburgh', 'postal_code': 'EH6 6AD',
-                'form-TOTAL_FORMS': '0',
-                'form-INITIAL_FORMS': '0',
-                'form-MAX_NUM_FORMS': ''
+                **self.default_property_data
             })
 
             self.location.refresh_from_db()
@@ -42,6 +43,7 @@ class LocationViewTestCase(TestCase):
             self.assertEqual(self.location.latitude, 55.9714304)
             self.assertEqual(self.location.longitude, -3.1715182)
             self.assertEqual(response.status_code, 302)
+            self.assertEqual(self.location.assigned_properties.count(), 1)
 
 
     def test_location_create(self):

@@ -82,6 +82,22 @@ class Fixtures(TestCase):
         return [p1,p2,p3,p4]
 
     @classmethod
+    def get_properties_form_data_for(self, holder_class):
+        properties = Property.relevant_properties_for(holder_class).all()
+        assigned_prop_form_count = len(properties)
+        return {
+            'form-0-selected': False,
+            'form-0-description': 'My prop description',
+            'form-0-property_pk': properties[0].pk,
+            'form-1-selected': False,
+            'form-1-description': 'My prop description 2',
+            'form-1-property_pk': properties[1].pk,
+            'form-TOTAL_FORMS': assigned_prop_form_count,
+            'form-INITIAL_FORMS': assigned_prop_form_count,
+            'form-MAX_NUM_FORMS': ''
+        }
+
+    @classmethod
     def properties_teardown(self):
         Property.objects.all().delete()
 

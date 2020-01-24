@@ -1,6 +1,6 @@
 from django import template
 from datetime import datetime
-from aliss.models import Category, Organisation, Postcode, ContentBlock, Location, Property
+from aliss.models import Category, Organisation, Postcode, ContentBlock, Location
 from django.urls import reverse
 from django.utils.text import slugify
 
