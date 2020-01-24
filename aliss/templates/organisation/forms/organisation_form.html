@@ -29,7 +29,11 @@
 
 <div class="f-row properties">
   <h4>Properties</h4>
-  {{ form.properties }}
+  {{ assigned_properties_formset.management_form }}
+  {{ assigned_properties_formset.non_form_errors }}
+  {% for ap_form in assigned_properties_formset %}
+    {{ ap_form }}
+  {% endfor %}
 </div>
 
 {% can_add_logo request.user form.instance as user_can_add_logo %}

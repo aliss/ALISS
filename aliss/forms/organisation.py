@@ -1,15 +1,60 @@
-from itertools import groupby
 from django import forms
-from cloudinary import CloudinaryResource
-from aliss.models import Organisation, Service, Property, AssignedProperty
+from django.forms.formsets import BaseFormSet
+from django.forms.models import formset_factory
+from django.template.defaultfilters import mark_safe
 from django.utils.translation import ugettext_lazy as _
+from aliss.models import Organisation, Service, Property, AssignedProperty
+from cloudinary import CloudinaryResource
 import logging
+logger = logging.getLogger(__name__)
+
+
+class AssignedPropertyForm(forms.Form):
+    selected    = forms.BooleanField(required=False)
+    description = forms.CharField(required=False)
+    property_pk = forms.UUIDField(required=True, widget=forms.HiddenInput)
+
+
+class BaseAssignedPropertyFormSet(BaseFormSet):
+    def __init__(self, organisation, *args, **kwargs):
+        super(BaseAssignedPropertyFormSet, self).__init__(*args, **kwargs)
+        self.organisation = organisation
+        i = 0;
+        properties = Property.objects.filter(for_organisations=True)
+        self.initial = [{'property_pk': p.pk} for p in properties]
+        for p in properties:
+            self[i].fields['selected'].label = mark_safe("%s %s" % (p.icon_html(), p.name))
+            assigned_prop = organisation.assigned_properties.filter(property_definition=p.pk).first()
+            if assigned_prop:
+                self[i].fields['description'].initial = assigned_prop.description
+                self[i].fields['selected'].initial = True
+            i = i + 1
+
+    def clean(self):
+        if any(self.errors):# Don't bother validating the formset unless each form is valid on its own
+            return
+        #raise forms.ValidationError("Something wrong with collection.")
+
+    def save(self):
+        #Replaces old assigned properties with ones contained in formset
+        #NB: this will not trigger any re-index on organisation search index
+        self.organisation.assigned_properties = []
+        for f in self:
+            logger.error(f.cleaned_data)
+            if not f.cleaned_data.get('selected'):
+                continue
+            AssignedProperty.objects.create(
+                property_definition=Property.objects.get(pk=f.cleaned_data.get("property_pk")),
+                description=f.cleaned_data.get("description"),
+                holder=self.organisation
+            )
+        return self.organisation.assigned_properties
+
+
+AssignedPropertiesFormSet = formset_factory(AssignedPropertyForm, extra=0, formset=BaseAssignedPropertyFormSet)
+
 
 class OrganisationForm(forms.ModelForm):
-    properties = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-        choices=[(p.pk, p.name) for p in Property.objects.filter(for_organisations=True).all()],
-        required=False)
 
     class Meta:
         model = Organisation
@@ -44,27 +89,13 @@ class OrganisationForm(forms.ModelForm):
         if 'created_by' in kwargs:
             created_by_user = kwargs.pop('created_by')
         super(OrganisationForm, self).__init__(*args, **kwargs)
-
-        self.fields['properties'].initial = [ap.property_definition.pk for ap in self.instance.assigned_properties.all()]
         self.instance.updated_by = updated_by_user
         if created_by_user:
             self.instance.created_by = created_by_user
             self.instance.published = created_by_user.is_editor or created_by_user.is_staff
 
-    def clean_assigned_properties(self, cleaned_data):
-        assigned_properties = []
-        if cleaned_data["properties"]:
-            property_query = Property.objects.filter(pk__in=cleaned_data["properties"])
-            if property_query.count() == len(cleaned_data["properties"]):
-                for p in cleaned_data["properties"]:
-                    assigned_properties.append(property_query.get(pk=p))
-            else:
-                raise forms.ValidationError('Selected properties are invalid.')
-        return assigned_properties
-
     def clean(self):
         cleaned_data = super(OrganisationForm, self).clean()
-        cleaned_data["assigned_properties"] = self.clean_assigned_properties(cleaned_data)
         logo = cleaned_data.get("logo")
         if (not isinstance(logo, CloudinaryResource)) and logo and logo.size < 5000:
             del cleaned_data['logo']
@@ -82,9 +113,6 @@ class OrganisationForm(forms.ModelForm):
         if commit:
             self.instance.save(kwargs={'skip_index': True})
             self._save_m2m()
-            self.instance.assigned_properties = []
-            for prop in self.cleaned_data["assigned_properties"]:
-                AssignedProperty.objects.create(property_definition=prop, holder=self.instance)
             self.instance.update_index()
         else:
             self.save_m2m = self._save_m2m
