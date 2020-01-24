@@ -15,3 +15,4 @@ from .service import (
 from .claim import ClaimForm, ClaimUpdateForm
 from .digest_selection import DigestSelectionForm
 from .organisation import *
+from .assigned_property import *
