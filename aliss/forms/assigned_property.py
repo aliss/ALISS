@@ -21,10 +21,11 @@ class BaseAssignedPropertyFormSet(BaseFormSet):
         i = 0;
         for p in properties:
             self[i].fields['selected'].label = mark_safe("%s %s" % (p.icon_html(), p.name))
-            assigned_prop = property_holder.assigned_properties.filter(property_definition=p.pk).first()
-            if assigned_prop:
-                self[i].fields['description'].initial = assigned_prop.description
-                self[i].fields['selected'].initial = True
+            if property_holder:
+              assigned_prop = property_holder.assigned_properties.filter(property_definition=p.pk).first()
+              if assigned_prop:
+                  self[i].fields['description'].initial = assigned_prop.description
+                  self[i].fields['selected'].initial = True
             i = i + 1
 
     def clean(self):
@@ -32,9 +33,11 @@ class BaseAssignedPropertyFormSet(BaseFormSet):
             return
         #raise forms.ValidationError("Something wrong with collection.")
 
-    def save(self):
+    def save(self, property_holder=None):
         #Replaces old assigned properties with ones contained in formset
         #NB: this will not trigger any re-index on organisation/service search index
+        if property_holder:
+          self.property_holder = property_holder
         self.property_holder.assigned_properties = []
         for f in self:
             if not f.cleaned_data.get('selected'):

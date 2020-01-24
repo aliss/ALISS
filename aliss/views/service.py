@@ -3,10 +3,10 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
-from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template import loader
 from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
@@ -25,19 +25,16 @@ from aliss.forms import (
     ServiceForm,
     ServiceProblemForm,
     ServiceProblemUpdateForm,
-    ServiceEmailForm
+    ServiceEmailForm,
+    AssignedPropertiesFormSet,
+    AssignedPropertyForm
 )
 from aliss.views import OrganisationMixin
 
-import logging
+#import logging
+#logger = logging.getLogger(__name__)
 
-class ServiceCreateView(
-    LoginRequiredMixin,
-    UserPassesTestMixin,
-    OrganisationMixin,
-    CreateView
-):
-
+class ServiceCreateView(LoginRequiredMixin, UserPassesTestMixin, OrganisationMixin, CreateView):
     model = Service
     form_class = ServiceForm
     template_name = 'service/create.html'
@@ -54,31 +51,42 @@ class ServiceCreateView(
         })
         return kwargs
 
-    def form_valid(self, form):
+    def get_context_data(self, **kwargs):
+        context = super(ServiceCreateView, self).get_context_data(**kwargs)
+        if 'formset' in kwargs:
+            context['assigned_properties_formset'] = kwargs['formset']
+        else:
+            context['assigned_properties_formset'] = AssignedPropertiesFormSet(self.object)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.organisation = self.get_organisation()
+        self.object = None
+        form = self.get_form()
+        formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
         self.object = form.save()
-
-
+        self.assigned_properties = formset.save(self.object)
         messages.success(
             self.request,
-            '{name} has been successfully created.'.format(
-                name=self.object.name
-            )
+            '{name} has been successfully created.'.format(name=self.object.name)
         )
-
         return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_success_url(self):
         if (self.object.organisation.services.count() <= 1):
-            return reverse(
-                'organisation_confirm',
-                kwargs={'pk': self.object.organisation.pk}
-            )
-
+            return reverse('organisation_confirm', kwargs={'pk': self.object.organisation.pk})
         else:
-            return reverse(
-                'organisation_detail',
-                kwargs={'pk': self.object.organisation.pk}
-            )
+            return reverse('organisation_detail', kwargs={'pk': self.object.organisation.pk})
+
 
 class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Service
@@ -101,25 +109,37 @@ class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if 'redirect-review' in referer:
             return reverse('account_my_reviews')
         else:
-            return reverse('organisation_detail_slug', kwargs={'slug': self.object.organisation.slug}
-            )
+            return reverse('organisation_detail_slug', kwargs={'slug': self.object.organisation.slug})
 
-    def form_valid(self, form):
+    def form_valid(self, form, formset):
         self.object.update_last_edited()
+        self.assigned_properties = formset.save()
         self.object = form.save()
-
         messages.success(
-            self.request,
-            '{name} has been successfully updated.'.format(
-                name=self.object.name
-            )
+            self.request, '{name} has been successfully updated.'.format(name=self.object.name)
         )
         return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_context_data(self, **kwargs):
         context = super(ServiceUpdateView, self).get_context_data(**kwargs)
         context['organisation'] = self.object.organisation
+        if 'formset' in kwargs:
+            context['assigned_properties_formset'] = kwargs['formset']
+        else:
+            context['assigned_properties_formset'] = AssignedPropertiesFormSet(self.object)
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
 
 
 class ServiceDetailView(UserPassesTestMixin, DetailView):

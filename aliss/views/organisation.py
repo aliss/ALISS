@@ -33,8 +33,8 @@ from aliss.paginators import *
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
 
-import logging
-logger = logging.getLogger(__name__)
+#import logging
+#logger = logging.getLogger(__name__)
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
