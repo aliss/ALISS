@@ -19,7 +19,7 @@ class Property(models.Model):
         return self.name
 
     @classmethod
-    def relevant_properties(cls, obj):
+    def relevant_properties_for(cls, obj):
         if obj.__class__.__name__ == "Organisation":
             return cls.objects.filter(for_organisations=True)
         elif obj.__class__.__name__ == "Location":

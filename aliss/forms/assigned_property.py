@@ -4,6 +4,8 @@ from django.forms.models import formset_factory
 from django.template.defaultfilters import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from aliss.models import Organisation, Service, Location, Property, AssignedProperty
+#import logging
+#logger = logging.getLogger(__name__)
 
 
 class AssignedPropertyForm(forms.Form):
@@ -16,12 +18,12 @@ class BaseAssignedPropertyFormSet(BaseFormSet):
     def __init__(self, property_holder, *args, **kwargs):
         super(BaseAssignedPropertyFormSet, self).__init__(*args, **kwargs)
         self.property_holder = property_holder
-        properties = Property.relevant_properties(property_holder)
+        properties = Property.relevant_properties_for(self.property_holder)
         self.initial = [{'property_pk': p.pk} for p in properties]
         i = 0;
         for p in properties:
             self[i].fields['selected'].label = mark_safe("%s %s" % (p.icon_html(), p.name))
-            if property_holder:
+            if property_holder.pk:
               assigned_prop = property_holder.assigned_properties.filter(property_definition=p.pk).first()
               if assigned_prop:
                   self[i].fields['description'].initial = assigned_prop.description

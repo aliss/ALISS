@@ -56,7 +56,7 @@ class ServiceCreateView(LoginRequiredMixin, UserPassesTestMixin, OrganisationMix
         if 'formset' in kwargs:
             context['assigned_properties_formset'] = kwargs['formset']
         else:
-            context['assigned_properties_formset'] = AssignedPropertiesFormSet(self.object)
+            context['assigned_properties_formset'] = AssignedPropertiesFormSet(context['form'].instance)
         return context
 
     def post(self, request, *args, **kwargs):

@@ -44,10 +44,15 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(OrganisationCreateView, self).get_context_data(**kwargs)
         if (('claim_form' not in kwargs) or (kwargs['claim_form'] == None)):
-            context['claim_form'] = ClaimForm(prefix="claim",
+            context['claim_form'] = ClaimForm(
+                prefix="claim",
                 initial={ 'phone': self.request.user.phone_number })
         else:
             context['show_claim_form'] = True
+        if 'formset' in kwargs:
+            context['assigned_properties_formset'] = kwargs['formset']
+        else:
+            context['assigned_properties_formset'] = AssignedPropertiesFormSet(context['form'].instance)
         return context
 
     def get_success_url(self):
@@ -81,29 +86,30 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
+        formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
         claim_form = None
         self.object = None
 
         if request.POST.get('claim'):
             claim_form = ClaimForm(request.POST, prefix='claim')
-
         claim_valid = (claim_form == None or claim_form.is_valid())
         form_valid = form.is_valid()
-        if (form_valid and claim_valid):
-            return self.form_valid(form, claim_form)
+
+        if (form_valid and claim_valid and formset.is_valid()):
+            return self.form_valid(form, claim_form, formset)
         else:
-            return self.form_invalid(form, claim_form)
+            return self.form_invalid(form, claim_form, formset)
 
-    def form_invalid(self, form, claim_form):
-        return self.render_to_response(self.get_context_data(form=form, claim_form=claim_form))
+    def form_invalid(self, form, claim_form, formset):
+        return self.render_to_response(self.get_context_data(form=form, claim_form=claim_form, formset=formset))
 
-    def form_valid(self, form, claim_form):
+    def form_valid(self, form, claim_form, formset):
         self.object = form.save()
         if claim_form:
             Claim.objects.create(
                 user=self.request.user, organisation=self.object,
                 comment=claim_form.cleaned_data.get('comment'))
-
+        self.assigned_properties = formset.save(self.object)
         self.send_new_org_email(self.object)
         msg = '<p>{name} has been successfully created.</p>'.format(name=self.object.name)
         messages.success(self.request, msg)
