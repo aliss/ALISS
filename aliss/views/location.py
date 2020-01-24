@@ -47,11 +47,16 @@ class LocationCreateView(
         self.organisation = self.get_organisation()
         self.object = None
         form = self.get_form()
-        formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
-        is_ajax = self.request.is_ajax()
-        form_valid    = form.is_valid()
-        formset_valid = formset.is_valid()
-        if (form_valid and is_ajax) or (form_valid and formset_valid):
+        form_valid = form.is_valid()
+
+        if self.request.is_ajax(): #No formset handling from ajax requests
+            formset = None
+            formset_valid = True
+        else:
+            formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
+            formset_valid = formset.is_valid()
+
+        if (formset_valid and form_valid):
             return self.form_valid(form, formset)
         else:
             return self.form_invalid(form, formset)
@@ -61,7 +66,8 @@ class LocationCreateView(
         self.object.organisation = self.organisation
         self.object.created_by = self.request.user
         self.object.save()
-        self.assigned_properties = formset.save(self.object)
+        if formset:
+            self.assigned_properties = formset.save(self.object)
 
         services = self.object.services.all()
         for service in services:
