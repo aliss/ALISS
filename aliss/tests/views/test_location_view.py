@@ -27,9 +27,14 @@ class LocationViewTestCase(TestCase):
                 (55.9714304, -3.1715182)
             )
             path=reverse('location_edit', kwargs={'pk':self.location.pk})
-            response = self.client.post(path,
-                { 'name': 'Leith Community Education Centre', 'street_address': '12A Newkirkgate',
-                  'locality': 'Edinburgh', 'postal_code': 'EH6 6AD' })
+            response = self.client.post(path,{
+                'name': 'Leith Community Education Centre',
+                'street_address': '12A Newkirkgate',
+                'locality': 'Edinburgh', 'postal_code': 'EH6 6AD',
+                'form-TOTAL_FORMS': '0',
+                'form-INITIAL_FORMS': '0',
+                'form-MAX_NUM_FORMS': ''
+            })
 
             self.location.refresh_from_db()
             self.assertEqual(self.location.name, 'Leith Community Education Centre')

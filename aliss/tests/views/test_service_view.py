@@ -52,7 +52,10 @@ class ServiceViewTestCase(TestCase):
             'name': 'A whole new service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
         queryset = Service.objects.filter(name='A whole new service')
         self.assertEqual(queryset.count(), 1)
@@ -64,7 +67,10 @@ class ServiceViewTestCase(TestCase):
             'name': 'A whole new service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
         s = Service.objects.get(name='A whole new service')
         last_edited = s.last_edited
@@ -77,7 +83,10 @@ class ServiceViewTestCase(TestCase):
             'name': 'an updated service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
 
         self.service.refresh_from_db()
@@ -99,7 +108,10 @@ class ServiceViewTestCase(TestCase):
             'name': 'an updated service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
         self.service.refresh_from_db()
         queryset = Fixtures.es_connection()
@@ -120,7 +132,10 @@ class ServiceViewTestCase(TestCase):
             'name': 'A whole new service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
         queryset = Service.objects.filter(name='A whole new service')
         self.assertEqual(queryset.count(), 1)
@@ -135,7 +150,10 @@ class ServiceViewTestCase(TestCase):
             'name': 'A whole new service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
         queryset = Service.objects.filter(name='A whole new service')
         self.assertEqual(queryset.count(), 1)

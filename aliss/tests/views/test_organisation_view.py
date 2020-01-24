@@ -41,14 +41,20 @@ class OrganisationViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_organisation_invalid_creation(self):
-        response = self.client.post(reverse('organisation_create'), { 'name': '' })
+        response = self.client.post(reverse('organisation_create'), { 'name': '',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '' })
         self.assertEqual(Organisation.objects.count(), 1)
         self.assertEqual(response.status_code, 200)
 
     def test_organisation_valid_creation(self):
         cn = Claim.objects.count()
         response = self.client.post(reverse('organisation_create'),
-            { 'name': 'an organisation', 'description': 'a full description' })
+            { 'name': 'an organisation', 'description': 'a full description',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '' })
         o = Organisation.objects.latest('created_on')
 
         self.assertEqual(cn, Claim.objects.count())
@@ -60,7 +66,10 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.post(reverse('organisation_create'), {
             'name': 'an organisation', 'description': 'a full description',
             'claim': 'on', 'claim-comment': 'im important', 'claim-phone': '034343243',
-            'claim-data_quality': 'on'
+            'claim-data_quality': 'on',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
 
         o = Organisation.objects.latest('created_on')
@@ -76,7 +85,10 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.post(reverse('organisation_create'), {
             'name': 'an organisation', 'description': 'a full description',
             'claim': 'on', 'claim-comment': '', 'claim-phone': '',
-            'claim-data_quality': 'on'
+            'claim-data_quality': 'on',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
         self.assertEqual(on, Organisation.objects.count())
         self.assertEqual(cn, Claim.objects.count())
@@ -85,7 +97,10 @@ class OrganisationViewTestCase(TestCase):
     def test_organisation_valid_creation_with_editor(self):
         self.client.login(username='updater@aliss.org', password='passwurd')
         response = self.client.post(reverse('organisation_create'),
-            { 'name': 'an organisation', 'description': 'a full description' })
+            { 'name': 'an organisation', 'description': 'a full description',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '' })
         o = Organisation.objects.latest('created_on')
 
         self.assertEqual(o.name, 'an organisation')
@@ -100,14 +115,20 @@ class OrganisationViewTestCase(TestCase):
     def test_organisation_valid_creation_last_edited(self):
         self.client.login(username='updater@aliss.org', password='passwurd')
         response = self.client.post(reverse('organisation_create'),
-            { 'name': 'an organisation', 'description': 'a full description' })
+            { 'name': 'an organisation', 'description': 'a full description',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '' })
         o = Organisation.objects.latest('created_on')
         last_edited = o.last_edited
         self.assertFalse(last_edited == None)
 
     def test_organisation_valid_update(self):
         response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
-            { 'name': 'an updated organisation', 'description': 'a full description' })
+            { 'name': 'an updated organisation', 'description': 'a full description',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '' })
         self.organisation.refresh_from_db()
         self.assertEqual(self.organisation.name, 'an updated organisation')
         self.assertEqual(response.status_code, 302)
@@ -115,7 +136,10 @@ class OrganisationViewTestCase(TestCase):
     def test_last_edited_valid_update(self):
         old_last_edited = self.organisation.last_edited
         response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
-            { 'name': 'an updated organisation', 'description': 'a full description' })
+            { 'name': 'an updated organisation', 'description': 'a full description',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '' })
         self.organisation.refresh_from_db()
         new_last_edited = self.organisation.last_edited
         self.assertFalse(old_last_edited == new_last_edited)
@@ -207,7 +231,10 @@ class OrganisationViewTestCase(TestCase):
         response = self.client.post(reverse('organisation_create'), {
             'name': 'an organisation', 'description': 'a full description',
             'claim': 'on', 'claim-comment': 'im important', 'claim-phone': '034343243',
-            'claim-data_quality': 'on'
+            'claim-data_quality': 'on',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': ''
         })
         o = Organisation.objects.latest('created_on')
         c = Claim.objects.latest('created_on')
@@ -217,7 +244,10 @@ class OrganisationViewTestCase(TestCase):
     def test_organisation_valid_update_no_services_redirect_to_add_a_service(self):
         self.assertEqual(self.organisation.services.count(), 0)
         response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
-            { 'name': 'an updated organisation', 'description': 'a full description' })
+            { 'name': 'an updated organisation', 'description': 'a full description',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '' })
         self.organisation.refresh_from_db()
         self.assertEqual(self.organisation.name, 'an updated organisation')
         self.assertEqual(response.status_code, 302)
@@ -227,7 +257,10 @@ class OrganisationViewTestCase(TestCase):
         Fixtures.create_service(self.organisation)
         self.assertEqual(self.organisation.services.count(), 1)
         response = self.client.post(reverse('organisation_edit', kwargs={'pk': self.organisation.pk}),
-            { 'name': 'an updated organisation', 'description': 'a full description' })
+            { 'name': 'an updated organisation', 'description': 'a full description',
+            'form-TOTAL_FORMS': '0',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '' })
         self.organisation.refresh_from_db()
         self.assertEqual(self.organisation.name, 'an updated organisation')
         self.assertEqual(response.status_code, 302)
