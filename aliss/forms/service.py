@@ -2,6 +2,9 @@ from itertools import groupby
 
 from django import forms
 
+from datetime import datetime, timedelta
+import pytz
+
 from aliss.models import Service, ServiceArea, ServiceProblem, Location
 
 def service_areas_as_choices():
@@ -26,7 +29,9 @@ class ServiceForm(forms.ModelForm):
             'url',
             'categories',
             'locations',
-            'service_areas'
+            'service_areas',
+            'start_date',
+            'end_date',
         ]
 
         labels = {
@@ -67,6 +72,12 @@ class ServiceForm(forms.ModelForm):
         cleaned_data = super(ServiceForm, self).clean()
         locations = cleaned_data.get("locations")
         service_areas = cleaned_data.get("service_areas")
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+        if ((start_date != None) and (end_date != None)):
+            end_date_valid = end_date - timedelta(days=2)
+            if (start_date >= end_date_valid):
+                raise forms.ValidationError('Please ensure this service starts at least three days before it ends.')
 
         if (locations.count() == 0) and (service_areas.count() == 0):
             raise forms.ValidationError('Please provide a location and/or a service area for this service.')

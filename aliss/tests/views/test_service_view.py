@@ -4,7 +4,9 @@ from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import Organisation, ALISSUser, Service, Location, Category, ServiceArea
 from aliss.search import (get_service)
-from datetime import datetime
+from datetime import datetime, timedelta
+import pytz
+
 
 
 class ServiceViewTestCase(TestCase):
@@ -16,6 +18,17 @@ class ServiceViewTestCase(TestCase):
         self.organisation = Fixtures.create_organisation(self.user)
         self.service = Fixtures.create_service(self.organisation)
         self.non_edit_user = ALISSUser.objects.create_user("nonEdit@nonEdit.org", "passwurd")
+
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+
+        self.start_date = current_date - timedelta(weeks=3)
+        self.start_date_string = self.start_date.strftime("%d/%m/%Y")
+
+        self.end_date = current_date + timedelta(weeks=6)
+        self.end_date_string = self.end_date.strftime("%d/%m/%Y")
+
 
     def test_service_detail(self):
         logged_in_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
@@ -212,6 +225,69 @@ class ServiceViewTestCase(TestCase):
     def test_service_detail_pk_embedded_map(self):
         response = self.client.get(reverse('service_detail_map', kwargs={'pk':self.service.pk}))
         self.assertEqual(response.status_code, 200)
+
+    def test_service_valid_create_start_end_date(self):
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_create', kwargs={'pk':self.organisation.pk}),{
+            'name': 'A whole new service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk],
+            'start_date': self.start_date_string,
+            'end_date': self.end_date_string,
+        })
+        queryset = Service.objects.filter(name='A whole new service')
+        self.assertEqual(queryset.count(), 1)
+        self.assertEqual(response.status_code, 302)
+
+    def test_service_invalid_create_start_end_date(self):
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_create', kwargs={'pk':self.organisation.pk}),{
+            'name': 'A whole new service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk],
+            'start_date': self.start_date_string,
+            'end_date': self.start_date_string,
+        })
+        queryset = Service.objects.filter(name='A whole new service')
+        self.assertEqual(queryset.count(), 0)
+        self.assertContains(response, 'Please ensure this service starts at least three days before it ends')
+
+    def test_service_valid_update_start_end_date(self):
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }),{
+            'name': 'an updated service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk],
+            'start_date': self.start_date_string,
+            'end_date': self.end_date_string,
+        })
+
+        self.service.refresh_from_db()
+        queryset = Fixtures.es_connection()
+        result = get_service(queryset, self.service.id)[0]
+        self.assertEqual(self.service.start_date.strftime("%d/%m/%Y"), self.start_date_string)
+        self.assertEqual(self.service.end_date.strftime("%d/%m/%Y"), self.end_date_string)
+        self.assertEqual(response.status_code, 302)
+
+    def test_service_invalid_update_start_end_date(self):
+        category = Category.objects.first()
+        response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }),{
+            'name': 'an updated service',
+            'description': 'a full description',
+            'categories': [category.pk],
+            'service_areas': [ServiceArea.objects.first().pk],
+            'start_date': self.start_date_string,
+            'end_date': self.start_date_string,
+        })
+
+        self.service.refresh_from_db()
+        queryset = Fixtures.es_connection()
+        result = get_service(queryset, self.service.id)[0]
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Please ensure this service starts at least three days before it ends')
 
     def tearDown(self):
         Fixtures.organisation_teardown()

@@ -94,7 +94,6 @@
 <div class="f-row">
   <div class="multiselect{% if form.service_areas.errors %} has-error{% endif %}">
     <label for="{{ form.service_areas.id_for_label }}">{{ form.service_areas.label }}
-      
       <a class="small" style="margin-left:0.7rem;" href="{% url 'service_area_definition' %}" target="_blank"><span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="This link opens in a new tab">
       <i class="fa fa-question-circle" aria-hidden="true"></i> Help
       </span></a>
@@ -113,4 +112,23 @@
       </div>
     {% endif %}
   </div>
+</div>
+
+
+<div class="f-row">
+  <label>Service Availability</label>
+  <p>
+    <input id="short_term_service" type="checkbox" name="short_term"
+    {% if service.start_date != None or service.end_date != None %} checked {% endif %}>
+    Is your service temporary?
+    <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="If your service will only be avialable for a limited time you can select the start and end date. Once expired service will still be saved but will not appear in results.">
+      <i class="fa fa-question-circle" aria-hidden="true" style="color:#C5C3C6"></i>
+    </span>
+  </p>
+
+  <div id="short_term_form" hidden=true>
+    {% include 'partials/forms/field.html' with field=form.start_date %}
+    {% include 'partials/forms/field.html' with field=form.end_date %}
+  </div>
+
 </div>

@@ -3,6 +3,8 @@ from django.test import Client
 from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import *
+from datetime import datetime, timedelta
+import pytz
 
 class SearchViewTestCase(TestCase):
     fixtures = ['service_areas.json', 'g2_postcodes.json']
@@ -19,6 +21,10 @@ class SearchViewTestCase(TestCase):
         self.s2.locations.add(l)
         self.s2.service_areas.add(ServiceArea.objects.get(name="Glasgow City", type=2))
         self.s2.save()
+
+        utc = pytz.UTC
+        current_date = datetime.now()
+        self.current_date = utc.localize(current_date)
 
         brechin_postcode = Postcode.objects.create(
             postcode="DD9 6AD", postcode_district="DD9",  postcode_sector="DD3 8",
@@ -290,6 +296,24 @@ class SearchViewTestCase(TestCase):
         response = self.client.get('/search/?postcode=AB20')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Sorry, AB20 doesn't appear to be a valid postcode.</h1>", html=True)
+
+    def test_filter_by_end_date_one_ended_service(self):
+        one_week_ago = (self.current_date - timedelta(weeks=1))
+        response = self.client.get('/search/?postcode=G2+4AA')
+        self.assertContains(response, "My Testing Service")
+        self.s2.end_date = one_week_ago
+        self.s2.save()
+        response = self.client.get('/search/?postcode=G2+4AA')
+        self.assertNotContains(response, "My Testing Service")
+
+    def test_filter_by_end_date_one_service_ended_in_future(self):
+        one_week_in_future = (self.current_date + timedelta(weeks=1))
+        response = self.client.get('/search/?postcode=G2+4AA')
+        self.assertContains(response, "My Testing Service")
+        self.s2.end_date = one_week_in_future
+        self.s2.save()
+        response = self.client.get('/search/?postcode=G2+4AA')
+        self.assertContains(response, "My Testing Service")
 
     def tearDown(self):
         Fixtures.organisation_teardown()

@@ -7,6 +7,8 @@ from django.db.models import Case, When
 import json
 from shapely.geometry import shape, Point
 import os
+from datetime import datetime, timedelta
+import pytz
 
 def _get_connection():
     import certifi
@@ -29,6 +31,8 @@ service_mapping = {
     'created_on': {'type': 'date'},
     'updated_on': {'type': 'date'},
     'last_edited': {'type': 'date'},
+    'start_date': {'type': 'date'},
+    'end_date': {'type': 'date'},
     'slug': {'type': 'keyword'},
     'name': {
         'type': 'text',
@@ -136,6 +140,8 @@ def service_to_body(service):
         'created_on': service.created_on,
         'updated_on': service.updated_on,
         'last_edited': service.last_edited,
+        'start_date': service.start_date,
+        'end_date': service.end_date,
         'name': service.name,
         'description': service.description,
         'slug': service.slug,
@@ -482,6 +488,36 @@ def filter_by_claimed_status(queryset, claimed_status):
                     }
                 }
             }
+    })
+    return queryset
+
+def filter_by_end_date(queryset, comparison_date):
+    comparison_date_string = comparison_date.strftime("%Y-%m-%d"'T'"%H:%M:%S")
+    queryset = queryset.query({
+        "bool": {
+            "should": [
+                {
+                    "bool": {
+                        "must_not": {
+                            "exists": {
+                                "field": "end_date"
+                            }
+                        }
+                    }
+                },
+                {
+                    "bool": {
+                        "filter": {
+                            "range": {
+                                "end_date": {
+                                    "gte":comparison_date_string
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
     })
     return queryset
 

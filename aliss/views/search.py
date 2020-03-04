@@ -8,6 +8,9 @@ from django.http import HttpResponseRedirect
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
 
+from datetime import datetime, timedelta
+import pytz
+
 from aliss.paginators import ESPaginator
 from aliss.forms import SearchForm
 from aliss.models import Postcode, Service, Category
@@ -16,6 +19,7 @@ from aliss.search import (
     filter_by_postcode,
     filter_by_location_type,
     filter_by_category,
+    filter_by_end_date,
     postcode_order,
     keyword_order,
     combined_order
@@ -95,6 +99,14 @@ class SearchView(MultipleObjectMixin, TemplateView):
         return queryset
 
     def filter_queryset(self, queryset):
+        '''
+        Add the current date to allow comparison with end_date
+        '''
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        queryset = filter_by_end_date(queryset, current_date)
+
         if self.category:
             queryset = filter_by_category(queryset, self.category)
         if self.location_type:
@@ -111,6 +123,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
         else:
             results = postcode_order(queryset, self.postcode)
         self.distance_scores = self.check_distance_within_radius(results["distance_scores"], self.radius)
+
         return Service.objects.filter(id__in=results["ids"]).order_by(results["order"])
 
     def assign_legacy_postcode(self, location, legacy_locations_dict):
