@@ -1,11 +1,14 @@
-from itertools import groupby
 from django import forms
-from cloudinary import CloudinaryResource
-from aliss.models import Organisation, Service
+from django.forms.formsets import BaseFormSet
+from django.forms.models import formset_factory
+from django.template.defaultfilters import mark_safe
 from django.utils.translation import ugettext_lazy as _
+from aliss.models import Organisation, Service, Property, AssignedProperty
+from cloudinary import CloudinaryResource
 
 
 class OrganisationForm(forms.ModelForm):
+
     class Meta:
         model = Organisation
 
@@ -33,6 +36,17 @@ class OrganisationForm(forms.ModelForm):
             'logo': _('An image file for the logo of the organisation you would like to add.'),
         }
 
+    def __init__(self, *args, **kwargs):
+        updated_by_user = kwargs.pop('updated_by')
+        created_by_user = None
+        if 'created_by' in kwargs:
+            created_by_user = kwargs.pop('created_by')
+        super(OrganisationForm, self).__init__(*args, **kwargs)
+        self.instance.updated_by = updated_by_user
+        if created_by_user:
+            self.instance.created_by = created_by_user
+            self.instance.published = created_by_user.is_editor or created_by_user.is_staff
+
     def clean(self):
         cleaned_data = super(OrganisationForm, self).clean()
         logo = cleaned_data.get("logo")
@@ -40,3 +54,19 @@ class OrganisationForm(forms.ModelForm):
             del cleaned_data['logo']
             raise forms.ValidationError('The image selected for the logo is too small, please use a higher quality image.')
         return cleaned_data
+
+    def save(self, commit=True):
+        if self.errors:
+            raise ValueError(
+                "The %s could not be %s because the data didn't validate." % (
+                    self.instance._meta.object_name,
+                    'created' if self.instance._state.adding else 'changed',
+                )
+            )
+        if commit:
+            self.instance.save(kwargs={'skip_index': True})
+            self._save_m2m()
+            self.instance.update_index()
+        else:
+            self.save_m2m = self._save_m2m
+        return self.instance

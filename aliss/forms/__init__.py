@@ -13,7 +13,6 @@ from .service import (
     ServiceEmailForm
 )
 from .claim import ClaimForm, ClaimUpdateForm
-
 from .digest_selection import DigestSelectionForm
-
-from .organisation import OrganisationForm
+from .organisation import *
+from .assigned_property import *

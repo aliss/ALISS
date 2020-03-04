@@ -5,3 +5,4 @@ from .organisation import OrganisationAdmin
 from .postcode import PostcodeAdmin
 from .content_block import ContentBlock
 from .claim import Claim
+from .property import PropertyAdmin

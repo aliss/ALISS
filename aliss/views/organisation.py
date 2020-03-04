@@ -1,17 +1,16 @@
-from django.db.models import Q, Count
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q, Count
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
-from django.conf import settings
 from django.views.generic.list import MultipleObjectMixin
 from django.views.generic import (
     View, CreateView, UpdateView, DeleteView, DetailView, TemplateView, ListView
 )
-from django.http import Http404
+
 from django.utils import timezone
 from django_filters.views import FilterView
 from braces.views import (
@@ -22,20 +21,20 @@ from braces.views import (
 
 from datetime import timedelta
 from datetime import datetime
+import pytz
 
-from aliss.models import Organisation, Claim
+from aliss.models import Organisation, Claim, AssignedProperty, Property
 from aliss.filters import OrganisationFilter
 from aliss.views import ProgressMixin
-from aliss.forms import ClaimForm, OrganisationForm
+from aliss.forms import ClaimForm, OrganisationForm, AssignedPropertiesFormSet, AssignedPropertyForm
 from aliss.search import filter_organisations_by_query, filter_organisations_by_query_published, get_organisation_by_id, order_organistations_by_created_on, filter_by_claimed_status, keyword_order
 from aliss.paginators import *
-
-import logging
-import pytz
 
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
 
+#import logging
+#logger = logging.getLogger(__name__)
 
 class OrganisationCreateView(LoginRequiredMixin, CreateView):
     model = Organisation
@@ -45,14 +44,27 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(OrganisationCreateView, self).get_context_data(**kwargs)
         if (('claim_form' not in kwargs) or (kwargs['claim_form'] == None)):
-            context['claim_form'] = ClaimForm(prefix="claim",
+            context['claim_form'] = ClaimForm(
+                prefix="claim",
                 initial={ 'phone': self.request.user.phone_number })
         else:
             context['show_claim_form'] = True
+        if 'formset' in kwargs:
+            context['assigned_properties_formset'] = kwargs['formset']
+        else:
+            context['assigned_properties_formset'] = AssignedPropertiesFormSet(context['form'].instance)
         return context
 
     def get_success_url(self):
         return reverse('service_create', kwargs={'pk': self.object.pk })
+
+    def get_form_kwargs(self):
+        kwargs = super(OrganisationCreateView, self).get_form_kwargs()
+        kwargs.update({
+            'updated_by': self.request.user,
+            'created_by': self.request.user
+        })
+        return kwargs
 
     def send_new_org_email(self, organisation):
         message = '{organisation} has been added to ALISS by {user}.'.format(organisation=organisation, user=organisation.created_by)
@@ -74,33 +86,30 @@ class OrganisationCreateView(LoginRequiredMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
+        formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
         claim_form = None
         self.object = None
 
         if request.POST.get('claim'):
             claim_form = ClaimForm(request.POST, prefix='claim')
-
         claim_valid = (claim_form == None or claim_form.is_valid())
         form_valid = form.is_valid()
-        if (form_valid and claim_valid):
-            return self.form_valid(form, claim_form)
+
+        if (form_valid and claim_valid and formset.is_valid()):
+            return self.form_valid(form, claim_form, formset)
         else:
-            return self.form_invalid(form, claim_form)
+            return self.form_invalid(form, claim_form, formset)
 
-    def form_invalid(self, form, claim_form):
-        return self.render_to_response(self.get_context_data(form=form, claim_form=claim_form))
+    def form_invalid(self, form, claim_form, formset):
+        return self.render_to_response(self.get_context_data(form=form, claim_form=claim_form, formset=formset))
 
-    def form_valid(self, form, claim_form):
-        self.object = form.save(commit=False)
-        self.object.created_by = self.request.user
-        self.object.published = self.request.user.is_editor or self.request.user.is_staff
-        self.object.save()
-
+    def form_valid(self, form, claim_form, formset):
+        self.object = form.save()
         if claim_form:
             Claim.objects.create(
                 user=self.request.user, organisation=self.object,
                 comment=claim_form.cleaned_data.get('comment'))
-
+        self.assigned_properties = formset.save(self.object)
         self.send_new_org_email(self.object)
         msg = '<p>{name} has been successfully created.</p>'.format(name=self.object.name)
         messages.success(self.request, msg)
@@ -115,25 +124,45 @@ class OrganisationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
     def test_func(self, user):
         return self.get_object().is_edited_by(user)
 
+    def get_form_kwargs(self):
+        kwargs = super(OrganisationUpdateView, self).get_form_kwargs()
+        kwargs.update({ 'updated_by': self.request.user })
+        return kwargs
+
     def get_success_url(self):
         if (self.object.services.count() == 0):
             return reverse('service_create', kwargs={ 'pk': self.object.pk })
         else:
             return reverse('organisation_detail_slug', kwargs={ 'slug': self.object.slug })
 
-    def form_valid(self, form):
-        self.object.update_last_edited()
-        self.object = form.save(commit=False)
-        self.object.updated_by = self.request.user
-        self.object.save()
+    def get_context_data(self, **kwargs):
+        data = super(OrganisationUpdateView, self).get_context_data(**kwargs)
+        if 'formset' in kwargs:
+            data['assigned_properties_formset'] = kwargs['formset']
+        else:
+            data['assigned_properties_formset'] = AssignedPropertiesFormSet(self.object)
+        return data
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
+        self.object.update_last_edited()
+        self.assigned_properties = formset.save()
+        self.object = form.save()
         messages.success(
-            self.request,
-            '{name} has been successfully updated.'.format(
-                name=self.object.name
-            )
+            self.request,'{name} has been successfully updated.'.format(name=self.object.name)
         )
         return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
 class OrganisationListView(StaffuserRequiredMixin, FilterView):

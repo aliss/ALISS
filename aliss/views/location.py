@@ -11,7 +11,7 @@ from braces.views import (
 )
 
 from aliss.models import Location, Organisation
-from aliss.forms import LocationForm
+from aliss.forms import LocationForm, AssignedPropertiesFormSet, AssignedPropertyForm
 from aliss.views import OrganisationMixin, ProgressMixin
 
 
@@ -35,34 +35,54 @@ class LocationCreateView(
             kwargs={'pk': self.organisation.pk}
         )
 
-    def form_valid(self, form):
+    def get_context_data(self, **kwargs):
+        context = super(LocationCreateView, self).get_context_data(**kwargs)
+        if 'formset' in kwargs:
+            context['assigned_properties_formset'] = kwargs['formset']
+        else:
+            context['assigned_properties_formset'] = AssignedPropertiesFormSet(context['form'].instance)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.organisation = self.get_organisation()
+        self.object = None
+        form = self.get_form()
+        form_valid = form.is_valid()
+
+        if self.request.is_ajax(): #No formset handling from ajax requests
+            formset = None
+            formset_valid = True
+        else:
+            formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
+            formset_valid = formset.is_valid()
+
+        if (formset_valid and form_valid):
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
+
+    def form_valid(self, form, formset):
         self.object = form.save(commit=False)
         self.object.organisation = self.organisation
         self.object.created_by = self.request.user
         self.object.save()
+        if formset:
+            self.assigned_properties = formset.save(self.object)
 
         services = self.object.services.all()
         for service in services:
             service.update_index()
-
         if self.request.is_ajax():
-            return JsonResponse({
-                    'pk': self.object.pk,
-                    'address': self.object.formatted_address
-                })
+            return JsonResponse({ 'pk': self.object.pk,'address': self.object.formatted_address })
         else:
-            messages.success(
-                self.request,
-                'Location has been successfully created.'
-            )
+            messages.success(self.request, 'Location has been successfully created.')
             return HttpResponseRedirect(self.get_success_url())
 
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
-class LocationUpdateView(
-    LoginRequiredMixin,
-    UserPassesTestMixin,
-    UpdateView
-):
+
+class LocationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Location
     form_class = LocationForm
     template_name = 'location/update.html'
@@ -71,31 +91,39 @@ class LocationUpdateView(
         return self.get_object().is_edited_by(user)
 
     def get_success_url(self):
-        return reverse(
-            'organisation_detail',
-            kwargs={'pk': self.object.organisation.pk}
-        )
+        return reverse('organisation_detail', kwargs={'pk': self.object.organisation.pk})
 
-    def form_valid(self, form):
+    def form_valid(self, form, formset):
         self.object = form.save(commit=False)
         self.object.updated_by = self.request.user
         self.object.save()
-
+        self.assigned_properties = formset.save()
         services = self.object.services.all()
         for service in services:
             service.update_index()
-
-        messages.success(
-            self.request,
-            'Location has been successfully updated.'
-        )
-
+        messages.success(self.request, 'Location has been successfully updated.')
         return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form, formset):
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
     def get_context_data(self, **kwargs):
         context = super(LocationUpdateView, self).get_context_data(**kwargs)
         context['organisation'] = self.object.organisation
+        if 'formset' in kwargs:
+            context['assigned_properties_formset'] = kwargs['formset']
+        else:
+            context['assigned_properties_formset'] = AssignedPropertiesFormSet(self.object)
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        formset = AssignedPropertiesFormSet(form.instance, self.request.POST)
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        else:
+            return self.form_invalid(form, formset)
 
 
 class LocationDetailView(StaffuserRequiredMixin, DetailView):

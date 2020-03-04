@@ -130,55 +130,66 @@
     <div class="columns content">
       <div class="cell small-12 medium-8 large-8">
         <div class="grid-x">
-          <div class="cell small-7 medium-8 large-8">
+          <div class="cell small-12 medium-8 large-8">
             <h1>{{ object.name }}</h1>
             {% if object.claimed_by %}
               <p class="org"><span class="claimed">Claimed</span></p>
             {% endif %}
-            <div class="desc">
-              <p>{{ object.description|linebreaks }}</p>
-              <p>Last updated <span class="updated">{{ object.last_edited }}</span></p>
-            </div>
+            <br/>
           </div>
-          <div class="cell small-5 medium-4 large-4">
+          <div class="cell small-12 medium-4 large-4">
             {% cloudinary object.logo width=230 height=230 crop="fit" class="org-logo" %}
             <br/>
           </div>
         </div>
 
-        <div class="contact-info">
-          {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
-            <br/><h3>Contact information</h3>
-            <p>
-              {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-              {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
-              {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
-              {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
-              {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
-            </p>
-            {% if user_can_edit %}
-              <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
-            {% endif %}
-          {% endif %}
-        </div>
+        <div class="grid-x">
+          <section class="description{% if object.description|length > 350 %} long{% endif %}">
+            <p class="small">Last updated <span class="updated">{{ object.last_edited }}</span></p>
+            <p>{{ object.description|linebreaks }}</p>
+          </section>
 
-        <div class="services-list">
-          <h3>Services</h3>
-          {% if object.services.all %}
-            <ul class="search-results{% if user_can_edit %} edit{% endif %}">
-              {% for service in object.services.all %}
-                {% include 'service/partials/detail.html' with service=service %}
+          {% if object.assigned_properties.all %}
+            <section class="properties">
+              {% for ap in object.assigned_properties.all %}
+              <span class="prop-name">{{ ap.property_definition.icon_html }} {{ ap.name }}</span>
               {% endfor %}
-            </ul>
-          {% else %}
-            <p>No services have been added to this organisation</p>
+            </section>
           {% endif %}
-          <br/>
-        </div>
 
-        <div class="contact-info">
+          {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
+            <section class="contact-info">
+              <h3>Contact information</h3>
+              <p>
+                {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+                {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
+                {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
+                {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+                {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+              </p>
+              {% if user_can_edit %}
+                <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
+              {% endif %}
+            </section>
+          {% endif %}
+
+          <section class="services-list">
+            <h3>Services</h3>
+            {% if object.services.all %}
+              <ul class="search-results{% if user_can_edit %} edit{% endif %}">
+                {% for service in object.services.all %}
+                  {% include 'service/partials/detail.html' with service=service %}
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p>No services have been added to this organisation</p>
+            {% endif %}
+            <br/>
+          </section>
+
           {% if object.locations.all %}
-            <h4>Locations</h4>
+          <section class="locations-list">
+            <h3>Locations</h3>
             <div class="all-locations">
               {% for location in object.locations.all %}
                 {% include 'location/partials/detail.html' %}
@@ -187,6 +198,7 @@
                 <a href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
               {% endif %}
             </div>
+          </section>
           {% endif %}
         </div>
       </div>

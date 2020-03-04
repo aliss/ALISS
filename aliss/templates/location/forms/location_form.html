@@ -21,3 +21,12 @@
 </div>
 {{ form.latitude }}
 {{ form.longitude }}
+
+<div class="f-row properties">
+  <h4>Properties</h4>
+  {{ assigned_properties_formset.management_form }}
+  {{ assigned_properties_formset.non_form_errors }}
+  {% for ap_form in assigned_properties_formset %}
+    {{ ap_form }}
+  {% endfor %}
+</div>

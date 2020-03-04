@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test import Client
 from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
-from aliss.models import Organisation, ALISSUser, Service, Location, Category, ServiceArea
+from aliss.models import Organisation, ALISSUser, Service, Location, Category, ServiceArea, Property
 from aliss.search import (get_service)
 from datetime import datetime
 
@@ -16,6 +16,8 @@ class ServiceViewTestCase(TestCase):
         self.organisation = Fixtures.create_organisation(self.user)
         self.service = Fixtures.create_service(self.organisation)
         self.non_edit_user = ALISSUser.objects.create_user("nonEdit@nonEdit.org", "passwurd")
+        self.properties = Fixtures.create_properties()
+        self.default_property_data = Fixtures.get_properties_form_data_for(Service)
 
     def test_service_detail(self):
         logged_in_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
@@ -52,7 +54,8 @@ class ServiceViewTestCase(TestCase):
             'name': 'A whole new service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            **self.default_property_data
         })
         queryset = Service.objects.filter(name='A whole new service')
         self.assertEqual(queryset.count(), 1)
@@ -64,7 +67,8 @@ class ServiceViewTestCase(TestCase):
             'name': 'A whole new service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            **self.default_property_data
         })
         s = Service.objects.get(name='A whole new service')
         last_edited = s.last_edited
@@ -73,13 +77,15 @@ class ServiceViewTestCase(TestCase):
 
     def test_service_valid_update(self):
         category = Category.objects.first()
-        response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }),{
+        self.default_property_data['form-0-selected'] = True
+        request_data = {
             'name': 'an updated service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
-        })
-
+            'service_areas': [ServiceArea.objects.first().pk],
+            **self.default_property_data
+        }
+        response = self.client.post(reverse('service_edit', kwargs={ 'pk': self.service.pk }), request_data)
         self.service.refresh_from_db()
         queryset = Fixtures.es_connection()
         result = get_service(queryset, self.service.id)[0]
@@ -90,6 +96,7 @@ class ServiceViewTestCase(TestCase):
         self.assertEqual(self.service.name, 'an updated service')
         self.assertEqual(self.service.slug, 'an-updated-service')
         self.assertEqual(self.service.updated_by, self.user)
+        self.assertEqual(self.service.assigned_properties.count(), 1)
         self.assertEqual(response.status_code, 302)
 
     def test_service_last_edited_valid_update(self):
@@ -99,7 +106,8 @@ class ServiceViewTestCase(TestCase):
             'name': 'an updated service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            **self.default_property_data
         })
         self.service.refresh_from_db()
         queryset = Fixtures.es_connection()
@@ -120,7 +128,8 @@ class ServiceViewTestCase(TestCase):
             'name': 'A whole new service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            **self.default_property_data
         })
         queryset = Service.objects.filter(name='A whole new service')
         self.assertEqual(queryset.count(), 1)
@@ -135,7 +144,8 @@ class ServiceViewTestCase(TestCase):
             'name': 'A whole new service',
             'description': 'a full description',
             'categories': [category.pk],
-            'service_areas': [ServiceArea.objects.first().pk]
+            'service_areas': [ServiceArea.objects.first().pk],
+            **self.default_property_data
         })
         queryset = Service.objects.filter(name='A whole new service')
         self.assertEqual(queryset.count(), 1)

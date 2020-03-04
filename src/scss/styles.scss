@@ -56,6 +56,7 @@
 @import "components/account";
 @import "components/services";
 @import "components/organisation";
+@import "components/admin";
 
 
 /* Partials
@@ -64,6 +65,7 @@
 @import "partials/results";
 @import "partials/center-section";
 @import "partials/landing-page";
+
 
 @media screen and (max-height: 620px) {
   html { font-size: $font-size * 0.875; }
@@ -141,6 +143,8 @@ fieldset#add-location-fieldset.active {
   border: 1px solid silver;
   legend::before { content: "- "; }
 }
+
+section { width: 100%; }
 
 span.helptext { margin-bottom:2rem; display:inline-block; }
 

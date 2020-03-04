@@ -1,6 +1,7 @@
 import uuid
-
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from aliss.models import AssignedProperty
 
 
 class Location(models.Model):
@@ -35,6 +36,8 @@ class Location(models.Model):
         null=True,
         on_delete=models.SET_NULL
     )
+
+    assigned_properties = GenericRelation(AssignedProperty)
 
     def is_edited_by(self, user):
         if user == None or user.pk == None:
