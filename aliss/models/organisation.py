@@ -55,12 +55,12 @@ class Organisation(models.Model):
     def is_edited_by(self, user):
         if user == None or user.pk == None:
             return False
-        return (
-            user.is_staff or \
-            user.is_editor or \
-            self.created_by == user or \
-            self.claimed_by == user
-        )
+        elif user.is_staff:
+            return True
+        elif self.claimed_by == None:
+            return (user.is_editor or (self.created_by == user))
+        else:
+            return self.claimed_by == user
 
     def can_add_logo(self, user):
         if user == None or user.pk == None:
