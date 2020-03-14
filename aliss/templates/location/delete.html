@@ -8,7 +8,7 @@
       <div class="columns content">
         <div class="copy-container">
           <div class="breadcrumbs">
-            <a title="{ object.organisation.name }}" href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>
+            <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>
             <span class="sep"></span>
             <span>Delete location</span>
           </div>

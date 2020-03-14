@@ -17,7 +17,7 @@
               {% for category in categories %}
                 {% if category.is_root %}
                   <li{% if category.slug == request.GET.category %} class='active'{% endif %}>
-                    <a title="This service is under the {{ category.name }} category." href="{% query_transform request category=category.slug page=None %}" tabindex="0">
+                    <a title="Apply a filter for {{ category.name }} results." href="{% query_transform request category=category.slug page=None %}" tabindex="0">
                       <span class="cat">
                         <i class="fa {{ category|get_icon }}"></i>
                       </span>

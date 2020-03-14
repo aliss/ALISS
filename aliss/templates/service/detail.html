@@ -154,7 +154,7 @@
               <form method='post' id="" action="{% url 'account_remove_saved_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button type="submit" class="txt-button alert icon-link">
+                <button title="Click to remove this lisiting from your saved services." type="submit" class="txt-button alert icon-link">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
@@ -165,7 +165,7 @@
               <form method='post' id="save_service" action="{% url 'account_save_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button type="submit" class="txt-button primary icon-link">
+                <button title="Click to add this lisiting to your saved services." type="submit" class="txt-button primary icon-link">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
@@ -203,7 +203,7 @@
               </form>
             </div>
 
-            <a title="Provide information to improve this listing." id="improve-listing_modal" class="icon-link improve">
+            <a title="Click here to provide information to improve this listing." id="improve-listing_modal" class="icon-link improve">
               <span class="icon">
               <i class="fas fa-comment"></i>
               </span>
@@ -211,13 +211,13 @@
             </a>
 
             {% if user_can_edit %}
-              <a title="Edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+              <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
                 <span class="icon">
                   <i class="fas fa-pencil-alt"></i>
                 </span>
                 Edit service
               </a>
-              <a title="Delete this service." id="delete_service_modal" class="delete icon-link">
+              <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
                 <span class="icon">
                   <i class="fas fa-trash-alt"></i>
                 </span>
@@ -225,7 +225,7 @@
               </a>
             {% endif %}
 
-            <a title="Go back to your last search." id="back_to_seach" class="icon-link" style="display:none">
+            <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link" style="display:none">
               <span class="icon">
               <i class="fas fa-arrow-left"></i>
               </span>
@@ -239,10 +239,10 @@
       <div class="columns content">
         <div class="copy-container">
           <h1>{{ object.name }}</h1>
-          <p class="org">by <a title="{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}
+          <p class="org">by <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span title="This is a claimed service." class="claimed">Claimed</span>{% endif %}
             <span class="assigned-categories">(
               {% for category in object.categories.all %}
-                <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
+                <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
               {% endfor %}
               )
             </span>

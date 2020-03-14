@@ -57,7 +57,7 @@
                     <div class="account-info">
                         <ul>
                             <li{% if request.resolver_match.url_name == 'login' %} class="active"{% endif %}>
-                                <a title="Click here to login." href="{% url 'login' %}">Log in</a>
+                                <a title="Click here to log in." href="{% url 'login' %}">Log in</a>
                             </li>
                             <li{% if request.resolver_match.url_name == 'signup' %} class="active"{% endif %}>
                                 <a title="Click here to sign up." href="{% url 'signup' %}">Sign up</a>
