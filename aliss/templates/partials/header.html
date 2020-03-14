@@ -3,10 +3,10 @@
 <header class="header {% if request.user.is_authenticated %}logged-in{% endif %}" role="banner">
     <div class="row">
         <div class="columns">
-            <a title="Navigate to the ALISS homepage." href="{% url 'homepage' %}">
+            <a title="Click here to navigate to the ALISS homepage." href="{% url 'homepage' %}">
                 <div id="branding">
                     <svg style="fill: white">
-                        <title>ALISS</title>
+                        <title>ALISS logo. (Clicking here will take you to the homepage.</title>
                         <desc>A Local Information System for Scotland</desc>
                         <use xlink:href="#logo" />
                     </svg>
@@ -16,7 +16,7 @@
                 {% if request.user.is_authenticated %}
                     <div class="account-info">
                         <div class="account hide-notifications">
-                            <a title="User details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
+                            <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
                             {% comment %}
                             <div class="notifications-holder">
                                 <a id="notifications_toggle" class="notifications-count items">1</a>
