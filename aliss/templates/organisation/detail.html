@@ -21,7 +21,7 @@
 <div class="modal" id="delete_org">
   <div class="pad">
     <div class="heading">
-      <a id="delete_organisation_modal_close" role="button" tabindex="0" class="close alert icon-link">
+      <a title="Close this modal." id="delete_organisation_modal_close" role="button" tabindex="0" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -36,7 +36,7 @@
         <form method="post" action="{% url 'organisation_delete' pk=object.pk %}">
           {% csrf_token %}
           <input type="submit" class="button alert" value="Delete">
-          <a id="delete_organisation_modal_cancel" role="button" tabindex="0" class="button secondary cancel">Cancel</a>
+          <a title="Cancel the deletion of this organisation." id="delete_organisation_modal_cancel" role="button" tabindex="0" class="button secondary cancel">Cancel</a>
         </form>
       </div>
     </div>
@@ -53,7 +53,7 @@
         <span class="icon">
           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
         </span> No services have been added for this organisation. Until a service is added this organisation won't be visible on ALISS.
-        <a style="font-size: 0.9em; margin-left: 6px;" href="{% url 'service_create' pk=object.pk %}">Add a service.</a>
+        <a title="Add a service." style="font-size: 0.9em; margin-left: 6px;" href="{% url 'service_create' pk=object.pk %}">Add a service.</a>
       </p>
     {% endif %}
 
@@ -67,25 +67,25 @@
             <div class="actions toggle-content">
               {% if request.user.is_authenticated %}
                 {% if user_can_edit %}
-                  <a id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
+                  <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                     <span class="icon">
                       <i class="fas fa-plus"></i>
                     </span>
                     Add service
                   </a>
-                  <a href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+                  <a title="Add a loction." href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
                     <span class="icon">
                       <i class="fas fa-map-marker-alt"></i>
                     </span>
                     Add location
                   </a>
-                  <a href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
+                  <a title="Edit an organisation." href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
                     <span class="icon">
                       <i class="fas fa-pencil-alt"></i>
                     </span>
                     Edit organisation
                   </a>
-                  <a id="delete_org_modal" class="delete icon-link">
+                  <a title="Delete an organisation." id="delete_org_modal" class="delete icon-link">
                     <span class="icon">
                       <i class="fas fa-trash-alt"></i>
                     </span>
@@ -108,7 +108,7 @@
                 </a>
               {% endif %}
 
-              <a id="back_to_seach" class="icon-link" style = "display:none">
+              <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link" style = "display:none">
                 <span class="icon">
                 <i class="fas fa-arrow-left"></i>
                 </span>
@@ -151,10 +151,10 @@
             <br/><h3>Contact information</h3>
             <p>
               {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-              {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
-              {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
-              {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
-              {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+              {% if object.email %}<a title="Email this contact." href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
+              {% if object.url %}<a title="View this contacts website." href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
+              {% if object.facebook %}<a title="View this contacts Facebook profile." href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+              {% if object.twitter %}<a title="View this contacts Twitter profile." href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
             </p>
             {% if user_can_edit %}
               <a href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>

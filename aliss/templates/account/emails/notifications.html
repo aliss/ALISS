@@ -23,12 +23,12 @@
                         <!-- Lists first 3 services per cat -->
                         {% for service in categories.services.all %}
                             <div class="service" style="margin: 20px 0 25px 0;">
-                                <h2 style="margin-bottom: 0; font-size: 24px; line-height: 30px; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;"><a href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration:  none !important;">{{ service.name }}</a></h2>
-                                <p style="margin-top: 10px; font-size: 16px; line-height: 22px; ">by <a href="{{ protocol }}://{{ domain }}{% url 'organisation_detail' pk=service.organisation.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration: none !important;">{{ service.organisation.name }}</a></p>
+                                <h2 style="margin-bottom: 0; font-size: 24px; line-height: 30px; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;"><a title="{{ service.name }}." href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration:  none !important;">{{ service.name }}</a></h2>
+                                <p style="margin-top: 10px; font-size: 16px; line-height: 22px; ">by <a title="{{ service.organisation.name }}." href="{{ protocol }}://{{ domain }}{% url 'organisation_detail' pk=service.organisation.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration: none !important;">{{ service.organisation.name }}</a></p>
                             </div>
                         {% endfor %}
                         <!-- then remaining count, generate link to category with user postcode -->
-                        <a href="{{ protocol }}://{{ domain }}/search/?postcode={{ user.postcode }}&category={{ category.name }}" class="more" style="color: #22b2aa !important; font-weight: bold; text-decoration: none;">and 15 more...</a>
+                        <a title="Click here to view all added services." href="{{ protocol }}://{{ domain }}/search/?postcode={{ user.postcode }}&category={{ category.name }}" class="more" style="color: #22b2aa !important; font-weight: bold; text-decoration: none;">and 15 more...</a>
                     {% endfor %}
                 </div>
             </td>
@@ -40,8 +40,8 @@
                     <!-- shows all saved services that have been updated -->
                     {% for category in notifications.updated.all %}
                         <div class="service" style="margin: 20px 0 25px 0;">
-                            <h2 style="margin-bottom: 0; font-size: 24px; line-height: 30px; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;"><a href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration:  none !important;">{{ service.name }}</a></h2>
-                            <p style="margin-top: 10px; font-size: 16px; line-height: 22px; ">by <a href="{{ protocol }}://{{ domain }}{% url 'organisation_detail' pk=service.organisation.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration: none !important;">{{ service.organisation.name }}</a></p>
+                            <h2 style="margin-bottom: 0; font-size: 24px; line-height: 30px; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;"><a title="{{ service.name }}." href="{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration:  none !important;">{{ service.name }}</a></h2>
+                            <p style="margin-top: 10px; font-size: 16px; line-height: 22px; ">by <a title="{{ service.organisation.name }}." href="{{ protocol }}://{{ domain }}{% url 'organisation_detail' pk=service.organisation.pk %}" style="color: #22b2aa !important; font-weight: bold; text-decoration: none !important;">{{ service.organisation.name }}</a></p>
                         </div>
                     {% endfor %}
                 </div>
@@ -49,7 +49,7 @@
         </tr>
         <tr>
             <td valign="top" align="left" style="background: #ffffff; padding: 0 35px;" colspan="2" class="d-pad-alt">
-                <a href="{{ protocol }}://{{ domain }}{% url 'login' %}" style="color: #22B2AA !important; font-weight: bold !important;"><div class="button" style="width: 145px; padding: 20px 32px 18px 32px; font-size: 20px; line-height: 20px; background: #F49C27; text-align: center; color: #fff; text-decoration: none; border-radius: 5px; display: inline-block; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;">Log-in to ALISS</div></a>
+                <a title="Click here to log in to ALISS." href="{{ protocol }}://{{ domain }}{% url 'login' %}" style="color: #22B2AA !important; font-weight: bold !important;"><div class="button" style="width: 145px; padding: 20px 32px 18px 32px; font-size: 20px; line-height: 20px; background: #F49C27; text-align: center; color: #fff; text-decoration: none; border-radius: 5px; display: inline-block; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;">Log-in to ALISS</div></a>
             </td>
         </tr>
         <tr>
@@ -58,7 +58,7 @@
         <tr style="background: #4C5C68; color: #ffffff" class="brand-bg head">
             <td valign="center" align="center" style="background: #4C5C68; color: #ffffff; padding: 25px 35px; padding-bottom: 30px !important;" colspan="2" class="brand-bg d-pad">
                 <p style="font-size: 16px; line-height: 22px; margin-top: 0px !important">You're receiving this email because someone has recommended services to you on ALISS.</p>
-                <p style="font-size: 16px; line-height: 22px; margin-bottom: 0 !important"><a href="{% url 'account_update' %}" style="color: #ffffff !important; font-weight: bold;">Update your notification preferences</a></p>
+                <p style="font-size: 16px; line-height: 22px; margin-bottom: 0 !important"><a title="Click here to update your notification preferences." href="{% url 'account_update' %}" style="color: #ffffff !important; font-weight: bold;">Update your notification preferences</a></p>
             </td>
         </tr>
     </table>

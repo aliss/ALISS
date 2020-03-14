@@ -8,7 +8,7 @@
         <div class="copy-container">
           <h1>{{ organisation.name }}</h1>
           <div class="breadcrumbs">
-            <a href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
+            <a title="{{ organisation.name }}" href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
             <span class="sep"></span>
             <span>Add location</span>
           </div>

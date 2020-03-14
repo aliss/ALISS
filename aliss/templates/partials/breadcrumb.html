@@ -7,7 +7,7 @@
   </li>
   <li>
     {% if organisation and progress == 2 %}
-      <a href="{% url 'service_create' pk=organisation.pk %}">
+      <a title="Click here to add your organisation's services." href="{% url 'service_create' pk=organisation.pk %}">
     {% endif %}
     <label for="add-service-action"><i class="fa fa-users" aria-hidden="true"></i> Add your organisation's services</label>
     {% if organisation and progress == 2 %}</a>{% endif %}

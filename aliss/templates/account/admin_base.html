@@ -7,7 +7,7 @@
         <div class="cell">
           <h1>Hello, {% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</h1>
           <div class="buttons">
-            <a href="{% url 'account_update' %}" class="button primary">Edit account</a>
+            <a title="Click here to edit your account." ref="{% url 'account_update' %}" class="button primary">Edit account</a>
           </div>
         </div>
       </div>
@@ -19,35 +19,35 @@
 
       <div class="grid-x my-account-links">
         <div class="cell small-6 medium-4 large-2">
-          <a href="{% url 'account_dashboard' %}" {% if request.resolver_match.url_name == 'account_dashboard' %}class="active"{% endif %}>
+          <a title="Click here to navigate to your dashboard." href="{% url 'account_dashboard' %}" {% if request.resolver_match.url_name == 'account_dashboard' %}class="active"{% endif %}>
             <span class="text">
               Dashboard
             </span>
           </a>
         </div>
         <div class="cell small-6 medium-4 large-2">
-          <a href="{% url 'claim_list' %}" {% if request.resolver_match.url_name == 'claim_list' %}class="active"{% endif %}>
+          <a title="Click here to view claim requests." href="{% url 'claim_list' %}" {% if request.resolver_match.url_name == 'claim_list' %}class="active"{% endif %}>
             <span class="text">
               Claim requests
             </span>
           </a>
         </div>
         <div class="cell small-6 medium-4 large-2">
-          <a href="{% url 'account_list' %}" {% if request.resolver_match.url_name == 'account_list' or request.resolver_match.url_name == 'account_detail' %}class="active"{% endif %}>
+          <a title="Click here to view users." href="{% url 'account_list' %}" {% if request.resolver_match.url_name == 'account_list' or request.resolver_match.url_name == 'account_detail' %}class="active"{% endif %}>
             <span class="text">
               Users
             </span>
           </a>
         </div>
         <div class="cell small-6 medium-6 large-3">
-          <a href="{% url 'service_problem_list' %}" {% if request.resolver_match.url_name == 'service_problem_list' %}class="active"{% endif %}>
+          <a title="Click here to view suggested improvements." href="{% url 'service_problem_list' %}" {% if request.resolver_match.url_name == 'service_problem_list' %}class="active"{% endif %}>
             <span class="text">
               Suggested improvements
             </span>
           </a>
         </div>
         <div class="cell s-12 medium-6 large-3">
-          <a href="{% url 'reports' %}" {% if request.resolver_match.url_name == 'reports' %}class="active"{% endif %}>
+          <a title="Click here to view activity reports." href="{% url 'reports' %}" {% if request.resolver_match.url_name == 'reports' %}class="active"{% endif %}>
             <span class="text">
               Activity reports
             </span>
@@ -61,8 +61,8 @@
     <section class="mobile-buttons">
       <div class="row">
         <div class="columns">
-          <a href="{% url 'account_update' %}" class="button primary">Edit account</a>
-          <a href="{% url 'logout' %}" class="button secondary">Logout</a>
+          <a title="Click here to edit your account." href="{% url 'account_update' %}" class="button primary">Edit account</a>
+          <a title="Click here to logout of your account." href="{% url 'logout' %}" class="button secondary">Logout</a>
         </div>
       </div>
     </section>

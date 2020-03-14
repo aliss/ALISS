@@ -2,18 +2,18 @@
   <div class="location{% if locations|length > 1 %} multiple{% endif %}">
     {% for location in locations %}
       {% if forloop.first and not forloop.last %}
-        <a href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+        <a title="{{ location.formatted_address }}." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
           <span class="icon">
             <i class="fas fa-map-marker-alt"></i>
           </span>
           {{ location.formatted_address }}
         </a>
         <div class="more">
-          <a class="more-link">More Locations</a>
+          <a title="Click here to view more locations." class="more-link">More Locations</a>
         </div>
         <div class="locations-list">
       {% else %}
-        <a href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+        <a title="{{ location.formatted_address }}." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
           <span class="icon">
             <i class="fas fa-map-marker-alt"></i>
           </span>

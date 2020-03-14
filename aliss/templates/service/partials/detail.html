@@ -2,7 +2,7 @@
 
 <li>
   <div class="heading">
-    <a href="{% url 'service_detail_slug' service.slug %}"><h3>{{ service.name }}</h3></a>
+    <a title="Further information on {{ service.name }}." href="{% url 'service_detail_slug' service.slug %}"><h3>{{ service.name }}</h3></a>
   </div>
   <p>{{ service.description|linebreaks|truncatechars:150 }}</p>
 
@@ -18,9 +18,9 @@
 
   <ul class="contact-info">
     {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
-    {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
-    {% if service.facebook %}<a href="{{ service.facebook }}">Facebook</a>{% endif %}
-    {% if service.twitter %}<a href="{{ service.twitter }}">Twitter</a>{% endif %}
+    {% if service.url %}<li><a title="View this services website." href="{{ service.url }}">Website</a></li>{% endif %}
+    {% if service.facebook %}<a title="View this services Facebook." href="{{ service.facebook }}">Facebook</a>{% endif %}
+    {% if service.twitter %}<a title="View this services Twitter." href="{{ service.twitter }}">Twitter</a>{% endif %}
     {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
   </ul>
   {% if service.service_areas.all %}
@@ -32,13 +32,13 @@
   {% can_edit request.user service as user_can_edit %}
   {% if user_can_edit %}
     <div class="edit-options">
-      <a href="{% url 'service_edit' pk=service.pk %}" class="icon-link">
+      <a title="Edit this service." href="{% url 'service_edit' pk=service.pk %}" class="icon-link">
         <span class="icon">
           <i class="fas fa-pencil-alt"></i>
         </span>
         Edit service
       </a>
-      <a href="{% url 'service_delete' pk=service.pk %}" class="delete icon-link">
+      <a title="Delete this service." href="{% url 'service_delete' pk=service.pk %}" class="delete icon-link">
         <span class="icon">
           <i class="fas fa-trash-alt"></i>
         </span>
