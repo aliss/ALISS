@@ -7,10 +7,10 @@
       <h4>Users</h4>
       <ul class="claim-type">
         <li>
-          <a href="{% query_transform request editor='true' page=None %}" {% if request.GET.editor == 'true' %}class="active"{% endif %}>Editors ({{ editor_count }})</a>
+          <a title="The editor count is: {{ editor_count }}." href="{% query_transform request editor='true' page=None %}" {% if request.GET.editor == 'true' %}class="active"{% endif %}>Editors ({{ editor_count }})</a>
         </li>
         <li>
-          <a href="{% query_transform request editor='false' page=None %}" {% if request.GET.editor == 'false' %}class="active"{% endif %}>Non-editors ({{ user_count }})</a>
+          <a title="The non-editor count is: {{ user_count }}." href="{% query_transform request editor='false' page=None %}" {% if request.GET.editor == 'false' %}class="active"{% endif %}>Non-editors ({{ user_count }})</a>
         </li>
       </ul>
       <div class="filter user-search">
@@ -38,13 +38,13 @@
           <tbody>
             {% for user in object_list %}
               <tr>
-                <td><a href="{% url 'account_detail' pk=user.pk %}">{{ user.name }}</a></td>
-                <td><a href="{% url 'account_detail' pk=user.pk %}">{{ user.email }}</a></td>
+                <td><a title="{{ user.name }}" href="{% url 'account_detail' pk=user.pk %}">{{ user.name }}</a></td>
+                <td><a title="{{ user.email }}" href="{% url 'account_detail' pk=user.pk %}">{{ user.email }}</a></td>
                 <td>{{ user.postcode }}</td>
                 <td>{{ user.date_joined|date:"j M Y" }}</td>
                 <td align="center">{{ user.claimed_organisations.count }}</td>
                 <td align="center">{{ user.created_organisations.count }}</td>
-                <td><a id="user-{{user.pk}}_modal" class="button primary">Show details</a></td>
+                <td><a title="Click here for more details." id="user-{{user.pk}}_modal" class="button primary">Show details</a></td>
               </tr>
             {% endfor %}
           </tbody>
@@ -60,7 +60,7 @@
     <div class="modal" id="user-{{user.pk}}">
     <div class="pad">
       <div class="heading">
-        <a id="user-{{user.pk}}_modal_close" role="button" tabindex="0" class="close alert icon-link">
+        <a title="Click here to close this modal." id="user-{{user.pk}}_modal_close" role="button" tabindex="0" class="close alert icon-link">
           <span class="icon">
             <i class="fas fa-times"></i>
           </span>
@@ -84,13 +84,13 @@
         <div class="s-12 m-6 l-6">
           <p><b>Organisations created</b></p>
           {% for org in user.created_organisations.all %}
-            <p><a target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
+            <p><a title="{{ org.name }}" target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
           {% endfor %}
         </div>
         <div class="s-12 m-6 l-6">
           <p><b>Organisations claimed</b></p>
           {% for org in user.claimed_organisations %}
-            <p><a target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
+            <p><a title="{{ org.name }}" target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
           {% endfor %}
         </div>
       </div>

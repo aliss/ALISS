@@ -2,7 +2,7 @@
 
 <div class="grid-x account-switch">
   <div class="cell small-6 medium-6 large-3">
-    <a href="{% url 'account_saved_services' %}" {% if url_name == 'account_saved_services' or url_name == 'account_my_recommendations' or url_name == 'account_my_organisations' or url_name == 'claim_create' %}class="active"{% endif %}>
+    <a title="Click here to navigate to your dashboard." href="{% url 'account_saved_services' %}" {% if url_name == 'account_saved_services' or url_name == 'account_my_recommendations' or url_name == 'account_my_organisations' or url_name == 'claim_create' %}class="active"{% endif %}>
       <span class="text">
         User dashboard
       </span>
@@ -10,7 +10,7 @@
   </div>
 
   <div class="cell small-6 medium-6 large-3">
-    <a href="{% url 'account_dashboard' %}" {% if url_name == 'account_dashboard' or url_name == 'claim_list' or url_name == 'account_list' or url_name == 'service_problem_list' or url_name == 'reports' %}class="active"{% endif %}>
+    <a title="Click here to navigate to your admin dashboard." href="{% url 'account_dashboard' %}" {% if url_name == 'account_dashboard' or url_name == 'claim_list' or url_name == 'account_list' or url_name == 'service_problem_list' or url_name == 'reports' %}class="active"{% endif %}>
       <span class="text">
         Admin dashboard
       </span>

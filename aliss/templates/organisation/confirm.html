@@ -10,14 +10,14 @@
     <div class="">
       <h3>Does the information below look correct?</h3>
       <br/>
-      <a href="{% url 'organisation_edit' pk=object.pk %}" class="button primary bottom-margin">
+      <a title="Click here to continue editing this organisation." href="{% url 'organisation_edit' pk=object.pk %}" class="button primary bottom-margin">
         <span class="icon">
           <i class="fas fa-pencil-alt"></i>
         </span>
         No, let me edit the organsiation.
       </a>
 
-      <a href="{% url 'service_create' pk=object.pk %}" class="button secondary bottom-margin">
+      <a title="Click here to finish editing this service." href="{% url 'service_create' pk=object.pk %}" class="button secondary bottom-margin">
         <span class="icon">
           <i class="fas fa-check"></i>
         </span>
@@ -30,14 +30,14 @@
 
     {% if object.services.first %}
 
-      <a href="{% url 'service_edit' pk=object.services.first.pk %}" class="button primary bottom-margin">
+      <a title="Click here to continu editing this service." href="{% url 'service_edit' pk=object.services.first.pk %}" class="button primary bottom-margin">
         <span class="icon">
           <i class="fas fa-pencil-alt"></i>
         </span>
         No, let me edit the service.
       </a>
 
-      <a href="{% url 'account_my_organisations' %}" class="button secondary bottom-margin">
+      <a title="Click here to finish editing this service." href="{% url 'account_my_organisations' %}" class="button secondary bottom-margin">
         <span class="icon">
           <i class="fas fa-check"></i>
         </span>

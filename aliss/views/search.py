@@ -58,7 +58,10 @@ class SearchView(MultipleObjectMixin, TemplateView):
 
         else:
             searched_term = search_form.data.get('postcode')
+            valid_searched_term = None
             if searched_term:
+                valid_searched_term = searched_term.strip().isalpha()
+            if valid_searched_term:
                 try:
                     processed_search_term = searched_term.capitalize().strip()
                     lower_searched = searched_term.lower().strip()
@@ -71,18 +74,18 @@ class SearchView(MultipleObjectMixin, TemplateView):
                             searched_place=processed_search_term,
                         ))
                 except Postcode.DoesNotExist:
-                    invalid_area = search_form.cleaned_data.get('postcode', None) == None
+                    invalid_placename = True
                     return self.render_to_response(context={
                         'form': search_form,
                         'errors': search_form.errors,
-                        'invalid_area': invalid_area
+                        'invalid_placename': invalid_placename,
                     })
             else:
                 invalid_area = search_form.cleaned_data.get('postcode', None) == None
                 return self.render_to_response(context={
                     'form': search_form,
                     'errors': search_form.errors,
-                    'invalid_area': invalid_area
+                    'invalid_area': invalid_area,
                 })
 
 

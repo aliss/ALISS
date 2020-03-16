@@ -21,7 +21,7 @@
           <div class="sbs-inputs">
             <form class="">
               <input id="org-search-input" class="glow" type="text" placeholder="e.g. The ALLIANCE" value="{{ request.GET.q }}" name="q">
-              <input type="submit" value="Search" class="secondary">
+              <input title="Click here to search to see if your organisation has already been listed." type="submit" value="Search" class="secondary">
             </form>
           </div>
         </div>
@@ -41,7 +41,7 @@
               {% for organisation in object_list %}
                 <tr>
                   <td>
-                  <span class="name"><a target="_blank" href="{% url 'organisation_detail' pk=organisation.id %}">{{ organisation.name }}</a></span>
+                  <span class="name"><a title="Click here for more information on {{ organisation.name }}. (This page will open in a new window)" target="_blank" href="{% url 'organisation_detail' pk=organisation.id %}">{{ organisation.name }}</a></span>
                 </td>
                   <ul class="options">
                     <td>
@@ -51,7 +51,7 @@
                           <i class="fa fa-question-circle" aria-hidden="true"></i>
                         </span>
                       {% else %}
-                        <a href="{% url 'claim_create' pk=organisation.id %}">
+                        <a title="Click here to claim {{ organisation.name }} as your organisation." href="{% url 'claim_create' pk=organisation.id %}">
                           Claim organisation
                         </a>
                         <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="If you are a member of an organisation you can claim representation and gain edit rights over its entry on ALISS.">
@@ -79,13 +79,13 @@
               <div class="s-12 m-6 l-6 columns">
                 <h5>Couldn't find your organisation?</h5>
                 <p>Start the process by adding your organisation: </p>
-                <a href="{% url 'organisation_create' %}" class="button primary">Add your organisation</a>
+                <a title="Click here to add your organisation." href="{% url 'organisation_create' %}" class="button primary">Add your organisation</a>
               </div>
             {% else %}
               <div class="s-12 m-6 l-6 columns">
                 <h5>No organisations were found with the name '{{ request.GET.q }}'</h5>
                 <p>Start the process by adding your organisation: </p>
-                <a href="{% url 'organisation_create' %}" class="button primary">Add your organisation</a>
+                <a title="Click here to add your organisation." href="{% url 'organisation_create' %}" class="button primary">Add your organisation</a>
               </div>
             {% endif %}
           {% endif %}

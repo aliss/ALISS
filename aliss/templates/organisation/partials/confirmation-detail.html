@@ -27,10 +27,10 @@
       <h4>Contact Information</h4>
       <p>
         {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-        {% if object.email %}<a href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
-        {% if object.url %}<a href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
-        {% if object.facebook %}<a href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
-        {% if object.twitter %}<a href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+        {% if object.email %}<a title="Click here to email this contact. (This page will open your email client)" href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
+        {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
+        {% if object.facebook %}<a title="Click here to view this contacts Facebook profile. (This page will open in a new window)" href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+        {% if object.twitter %}<a title="Click here to view this contacts Twitter profile. (This page will open in a new window)" href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
       </p>
     {% endif %}
   </div>
