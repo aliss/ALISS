@@ -110,3 +110,19 @@ class ServiceAreaListView(TrackUsageMixin, generics.ListAPIView):
     queryset = ServiceArea.objects.all()
     serializer_class = ServiceAreaSerializer
     pagination_class = None
+
+class ImportView(generics.ListAPIView):
+    serializer_class = SearchSerializer
+    pagination_class = ESPageNumberPagination
+
+    def list(self, request, *args, **kwargs):
+        return super(ImportView, self).list(request, *args, **kwargs)
+
+    def filter_queryset(self, queryset):
+        return queryset
+
+    def get_queryset(self, *args, **kwargs):
+        connections.create_connection(
+            hosts=[settings.ELASTICSEARCH_URL], timeout=20, http_auth=(settings.ELASTICSEARCH_USERNAME, settings.ELASTICSEARCH_PASSWORD))
+        queryset = Search(index='search', doc_type='service')
+        return queryset 
