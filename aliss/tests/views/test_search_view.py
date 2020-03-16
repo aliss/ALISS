@@ -291,5 +291,20 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Sorry, AB20 doesn't appear to be a valid postcode.</h1>", html=True)
 
+    def test_invalid_placename_search_error_page(self):
+        response = self.client.get('/search/?postcode=Argyll ')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h1>Sorry, Argyll couldn't be matched with a postcode.</h1>", html=True)
+
+    def test_invalid_search_ALISS_not_available_error_page(self):
+        response = self.client.get('/search/?postcode=Argyll Test')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h1>Sorry, ALISS is not available in your postcode.</h1>", html=True)
+
+    def test_invalid_postcode_error_page(self):
+        response = self.client.get('/search/?postcode=G2 4ZZ')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h1>Sorry, G2 4ZZ doesn't appear to be a valid postcode.</h1>", html=True)
+
     def tearDown(self):
         Fixtures.organisation_teardown()
