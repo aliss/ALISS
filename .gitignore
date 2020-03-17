@@ -80,3 +80,6 @@ aliss/data/boundaries/*.geojson
 aliss/data/boundaries/*.json
 aliss/data/postcodes/LargeUser.csv
 aliss/data/postcodes/SmallUser.csv
+
+#vs code
+.vscode
