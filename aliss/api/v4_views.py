@@ -52,12 +52,16 @@ class ImportView(v3.ImportView):
         total = res.hits.total
         request._mutable = True
         request.query_params._mutable = True
-        pagesize = request.query_params['page_size']
-        if int(pagesize) < 0 :
+
+        if 'format' not in request.query_params:
+            request.query_params['format'] = 'json'
+        
+        if 'page_size' not in request.query_params:
             request.query_params['page_size'] = total
-
-        request._mutable = False
-
+        
+        if 'page' not in request.query_params:
+            request.query_params['page'] = 1
+        
         response = self.list(request, *args, **kwargs)
         data = OrderedDict({'meta': APIv4.META})   
         data['count'] = response.data['count']
