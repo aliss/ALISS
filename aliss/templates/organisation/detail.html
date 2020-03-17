@@ -96,7 +96,7 @@
                     <span class="icon">
                       <i class="fas fa-hand-paper"></i>
                     </span>
-                    Claim this organisation
+                    Claim this organisation 
                   </a>
                 {% endif %}
               {% elif not object.claimed_by %}
@@ -107,7 +107,15 @@
                   Claim this organisation
                 </a>
               {% endif %}
-
+              {% if object.claimed_by %}
+              <p>This organisation or service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes please click on Improve this Listing or contact <a>hello@aliss.org</a></p>
+              <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link" style = "display:none">
+                <span class="icon">
+                <i class="fas fa-arrow-left"></i>
+                </span>
+                Back to last search
+              </a>
+              {% endif %}
               <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link" style = "display:none">
                 <span class="icon">
                 <i class="fas fa-arrow-left"></i>
@@ -159,7 +167,7 @@
             {% if user_can_edit %}
               <a title="Click here to edit this organisations information." href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
             {% endif %}
-          {% endif %}
+             {% endif %}
         </div>
 
         <div class="services-list">
