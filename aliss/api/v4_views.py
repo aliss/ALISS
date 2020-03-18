@@ -39,6 +39,36 @@ class APIv4():
         }]
     }
 
+class ImportView(v3.ImportView):
+    serializer_class = v4SearchSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        res = queryset.query({ "match_all":{}}).execute()
+        total = res.hits.total
+        request._mutable = True
+        request.query_params._mutable = True
+
+        if 'format' not in request.query_params:
+            request.query_params['format'] = 'json'
+        
+        if 'page_size' not in request.query_params:
+            request.query_params['page_size'] = total
+        
+        if 'page' not in request.query_params:
+            request.query_params['page'] = 1
+        
+        response = self.list(request, *args, **kwargs)
+        data = OrderedDict({'meta': APIv4.META})   
+        data['count'] = response.data['count']
+        data['next'] = response.data['next']
+        data['previous'] = response.data['previous']
+        data['data'] = response.data['results']
+        return Response(data)
 
 class SearchView(v3.SearchView):
     serializer_class = v4SearchSerializer
