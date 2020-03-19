@@ -84,13 +84,13 @@
         <div class="s-12 m-6 l-6">
           <p><b>Organisations created</b></p>
           {% for org in user.created_organisations.all %}
-            <p><a title="{{ org.name }}" target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
+            <p><a title="Click here for more informtion on {{ org.name }} (This will open in a new window)." target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
           {% endfor %}
         </div>
         <div class="s-12 m-6 l-6">
           <p><b>Organisations claimed</b></p>
           {% for org in user.claimed_organisations %}
-            <p><a title="{{ org.name }}" target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
+            <p><a title="Click here for more information on {{ org.name }} (This will open in a new window)." target="_blank" href="{% url 'organisation_detail' pk=org.pk %}">{{ org.name }}</a></p>
           {% endfor %}
         </div>
       </div>
