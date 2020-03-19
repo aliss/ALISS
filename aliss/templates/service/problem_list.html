@@ -5,7 +5,7 @@
     <div class="columns">
         <div class="copy-container">
             <h3>Suggested improvements</h3>
-            <p>Show: <a title="Show all." href="?f=all">all</a> | <a title="Show resolved." href="?f=resolved">resolved</a> |  <a title="Show unresolved." href="?f=unresolved">unresolved</a></p>
+            <p>Show: <a title="Click here to show all items." href="?f=all">all</a> | <a title="Show resolved." href="?f=resolved">resolved</a> |  <a title="Click here to show unresolved." href="?f=unresolved">unresolved</a></p>
 
             <ul class="problem-reports edit">
                 {% for report in object_list %}
@@ -18,7 +18,7 @@
                         <p>Reported by <a title="This was reported by, {{ report.user.get_full_name }}." href="{% url 'account_detail' pk=report.user.pk %}">{{ report.user.get_full_name }}</a> on {{ report.created_on }}</p>
                         {% if report.status == report.UNRESOLVED %}
                             <div class="edit-options">
-                                <a title="Edit this services details." href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">
+                                <a title="Click here to edit this services details." href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">
                                     <span class="icon">
                                         <i class="fas fa-pencil-alt"></i>
                                     </span>

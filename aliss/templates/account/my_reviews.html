@@ -20,9 +20,9 @@
         {% for service in services_to_review.all %}
           <li>
             <div class="heading">
-              <a title="{{ service.name }}" href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
+              <a title="Click here for further information on {{ service.name }}." href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
             </div>
-            <p class="org">by <a title="{{ service.organisation.name }}" href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
+            <p class="org">by <a title="Click here for further information on {{ service.organisation.name }}." href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span></p>{% endif %}
             <p>Last updated: <span class="updated alert">{{ service.last_edited }}</span></p>
 
              <div class="assigned-categories">
