@@ -50,9 +50,9 @@
                     Remove
                   </button>
                 </form>
-                <a title="{{ service.name }}" href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
+                <a title="Click here for further information on {{ service.name }}." href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
               </div>
-              <p class="org">by <a title="{{ service.organisation.name }}" href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
+              <p class="org">by <a title="Click here for further information on {{ service.organisation.name }}." href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
               <p class="last-updated">Last Updated <span class="updated alert">{{ service.last_edited }}</span></p>
               <div class="assigned-categories">
                 {% for category in service.categories.all %}
@@ -100,7 +100,7 @@
       </div>
     {% endif %}
     <div class="back">
-      <a title="Navigate back to your recommendations." href="{% url 'account_my_recommendations' %}" class="back-link"><span class="icon"></span> Back to recommendations</a>
+      <a title="Click here to navigate back to your recommendations." href="{% url 'account_my_recommendations' %}" class="back-link"><span class="icon"></span> Back to recommendations</a>
     </div>
   </div>
 {% endblock %}

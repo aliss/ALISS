@@ -101,7 +101,7 @@
               <ul>
                 {% for service in area.services.all %}
                   <li>
-                    <a title="{{ service.name }}." href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>
+                    <a title="Click here for further information on {{ service.name }}." href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>
                   </li>
                 {% endfor %}
               </ul>
