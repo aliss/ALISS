@@ -2,7 +2,7 @@
 
 {% block content %}
 <h4>My Organisations</h4>
-<p><a href="{% url 'potential_create' %}">Add or edit another organisation</a></p>
+<p><a title="Click here to add or edit an organisation." href="{% url 'potential_create' %}">Add or edit another organisation</a></p>
 <table class="stack">
   <thead>
     <tr>
@@ -17,7 +17,7 @@
     {% for claim in object_list %}
     <tr>
       <td>
-        <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}
+        <a title="Click here for further information on {{ claim.organisation.name }}." href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}
         </a>
       </td>
       <td>
@@ -32,13 +32,13 @@
       </td>
       <td>{{ claim.organisation.last_edited }}</td>
       <td>
-        <a href="{% url 'organisation_edit' pk=claim.organisation.pk %}">
+        <a title="Click here to edit this organisation." href="{% url 'organisation_edit' pk=claim.organisation.pk %}">
           <i class="fa fa-edit" aria-hidden="true"></i> Edit
         </a>&nbsp;
-        <a href="{% url 'claim_delete' pk=claim.pk %}" class="alert">
+        <a title="Click here to stop representing this organisation." href="{% url 'claim_delete' pk=claim.pk %}" class="alert">
           <i class="fas fa-minus-hexagon"></i> Stop representing
         </a>&nbsp;
-        <a href="{% url 'service_create' pk=claim.organisation.pk %}">
+        <a title="Click here to add a service." href="{% url 'service_create' pk=claim.organisation.pk %}">
           <i class="fa fa-plus" aria-hidden="true"></i> Add service
         </a>
       </td>
@@ -51,7 +51,7 @@
       <tr><td colspan="4">
         <p class="center">
           You are not currently representing any organisations<br/>
-          <a href="{% url 'potential_create' %}">Add an organisation</a>
+          <a title="Click here to add an organisation." href="{% url 'potential_create' %}">Add an organisation</a>
         </p>
       </td></tr>
     {% endif %}

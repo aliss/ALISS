@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^v4/postcode-locations/$', v4.PostcodeLocationData.as_view()),
     url(r'^v4/service-area-spatial/full-set/$', v4.ServiceAreaFullSpatialDataSet.as_view()),
     url(r'^v4/service-area-spatial/$', v4.ServiceAreaSpatialData.as_view()),
+    url(r'^v4/import/$', v4.ImportView.as_view()),
 ]

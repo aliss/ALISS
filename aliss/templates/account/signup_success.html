@@ -16,28 +16,28 @@
 
             <div class="actions toggle-content">
 
-              <a href="/" class="icon-link">
+              <a title="Click here to start a new search." href="/" class="icon-link">
               <span class="icon">
                 <i class="fas fa-search"></i>
               </span>
               Start a new search
               </a>
 
-              <a id="back_to_seach" class="icon-link" style = "display:none">
+              <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link" style="display:none">
               <span class="icon">
                 <i class="fas fa-arrow-left"></i>
               </span>
               Back to last search
               </a>
 
-              <a href="{% url 'potential_create' %}" class="icon-link">
+              <a title="Click here to add an organisation." href="{% url 'potential_create' %}" class="icon-link">
               <span class="icon">
                 <i class="far fa-handshake"></i>
               </span>
               Add an organisation
               </a>
 
-              <a class="icon-link" id="add_service">
+              <a title="Click here to add a service." class="icon-link" id="add_service">
               <span class="icon">
                 <i class="far fa-paper-plane"></i>
               </span>
@@ -45,13 +45,13 @@
               </a>
 
               <p id="add_explanation" style="display:none">
-              You will first need to <a href="{% url 'potential_create' %}">add the organisation</a> that provides the service.
+              You will first need to <a title="Click here to add an organisation." href="{% url 'potential_create' %}">add the organisation</a> that provides the service.
               </p>
 
               <!-- TODO: Add a service to a new organisation -->
               <!-- TODO: Add a service to an existing organisation -->
 
-              <a href="{% url 'account_saved_services' %}" id="back_to_seach" class="icon-link">
+              <a title="Click here for further information on navigate to your account." href="{% url 'account_saved_services' %}" id="back_to_seach" class="icon-link">
               <span class="icon">
                 <i class="fas fa-home"></i>
               </span>

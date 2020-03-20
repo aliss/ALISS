@@ -90,10 +90,10 @@
             {{ service.helped_users.count }}
         </td>
         <td>
-            <a href="{% url 'service_detail' service.id %}">{{ service.name|truncatechars:47 }}</a>
+            <a title="Click here for further information on {{ service.name|truncatechars:47 }}." href="{% url 'service_detail' service.id %}">{{ service.name|truncatechars:47 }}</a>
         </td>
         <td>
-            <a href="{% url 'organisation_detail' service.organisation_id %}">{{ service.organisation.name|truncatechars:47 }}</a>
+            <a title="Click here for further information on {{ service.organisation.name|truncatechars:47 }}." href="{% url 'organisation_detail' service.organisation_id %}">{{ service.organisation.name|truncatechars:47 }}</a>
         </td>
     </tr>
     {% endfor %}

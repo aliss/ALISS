@@ -128,7 +128,11 @@ DEFAULT_FROM_EMAIL = 'info@aliss.org'
 # Error Reporting
 ADMINS = (
     ('Vinh Tran', 'vtran@tactuum.com'),
+<<<<<<< HEAD
     ('Stefano Labia', 'slabia@tactuum.com'),
+=======
+    ('Stefano Labia', 's.labia@tactuum.com'),
+>>>>>>> testing-aliss
 )
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"

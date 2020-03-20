@@ -7,19 +7,19 @@
         <p class="total">Showing page {{ page.number }} of {{ paginator.num_pages }}</p>
         <div class="pages">
             {% if page.has_previous %}
-                <a href="{% query_transform request page=page.previous_page_number %}" class="prev">Prev</a>
+                <a title="Click here to view the previous page." href="{% query_transform request page=page.previous_page_number %}" class="prev">Prev</a>
             {% endif %}
 
             {% for n in page_range %}
                 {% if page_num == n %}
                     <span class="number">{{ n }}</span>
                 {% elif page_num|add:'-3' < n and n < page_num|add:'3' %}
-                    <a href="{% query_transform request page=n %}" class="number">{{ n }}</a>
+                    <a title="Click here to view this page." href="{% query_transform request page=n %}" class="number">{{ n }}</a>
                 {% endif %}
             {% endfor %}
 
             {% if page.has_next %}
-                <a href="{% query_transform request page=page.next_page_number %}" class="next">Next</a>
+                <a title="Click here to view the next page." href="{% query_transform request page=page.next_page_number %}" class="next">Next</a>
             {% endif %}
         </div>
     </div>

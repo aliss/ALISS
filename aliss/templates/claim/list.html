@@ -8,23 +8,23 @@
         <h3>Claim requests</h3>
         <ul class="claim-type">
           <li>
-            <a href="{% query_transform request status=0 page=None  %}" {% if request.GET.status == '0' or request.GET.status == None %}class="active"{% endif %}>Unreviewed ({{ unreviewed_count }})</a>
+            <a title="Click here to view all unreviewed claims." href="{% query_transform request status=0 page=None  %}" {% if request.GET.status == '0' or request.GET.status == None %}class="active"{% endif %}>Unreviewed ({{ unreviewed_count }})</a>
           </li>
           <li>
-            <a href="{% query_transform request status=10 page=None  %}" {% if request.GET.status == '10' %}class="active"{% endif %}>Approved requests ({{ confirmed_count }})</a>
+            <a title="Click here to view all approved claim requests." href="{% query_transform request status=10 page=None  %}" {% if request.GET.status == '10' %}class="active"{% endif %}>Approved requests ({{ confirmed_count }})</a>
           </li>
           <li>
-            <a href="{% query_transform request status=20 page=None %}" {% if request.GET.status == '20' %}class="active"{% endif %}>Denied requests ({{ denied_count }})</a>
+            <a title="Click here to view all denied claim requests." href="{% query_transform request status=20 page=None %}" {% if request.GET.status == '20' %}class="active"{% endif %}>Denied requests ({{ denied_count }})</a>
           </li>
           <li>
-            <a href="{% query_transform request status=30 page=None %}" {% if request.GET.status == '30' %}class="active"{% endif %}>Revoked requests ({{ revoked_count }})</a>
+            <a title="Click here to view all revoked claim requests." href="{% query_transform request status=30 page=None %}" {% if request.GET.status == '30' %}class="active"{% endif %}>Revoked requests ({{ revoked_count }})</a>
           </li>
         </ul>
         <ul class="claim-requests edit">
           {% for claim in object_list %}
             <li>
               <div class="heading">
-                <h4>User <a href="{% url 'account_detail' pk=claim.user.pk %}">{{ claim.user.get_short_name }}</a> has claimed <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}</a></h4>
+                <h4>User <a title="{{ claim.user.get_short_name }} has claimed this organisation." href="{% url 'account_detail' pk=claim.user.pk %}">{{ claim.user.get_short_name }}</a> has claimed <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}</a></h4>
               </div>
               <p>{{ claim.comment }}</p>
               <p>Request made on {{ claim.created_on }}</p>
@@ -43,7 +43,7 @@
                   </li>
                 {% endif %}
                 <li>
-                  <a href="mailto:{{ claim.user.email }}">{{ claim.user.email }}</a>
+                  <a title="Click here to email the contact who has claimed this organisation." href="mailto:{{ claim.user.email }}">{{ claim.user.email }}</a>
                 </li>
               </ul>
               {% if claim.status == claim.UNREVIEWED %}

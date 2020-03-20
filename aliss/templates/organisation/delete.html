@@ -9,17 +9,17 @@
                 <div class="copy-container">
                     <h1>{{ object.name }}</h1>
                     <div class="breadcrumbs">
-                        <a href="{% url 'organisation_detail' pk=object.pk %}">{{ object.name }}</a>
+                        <a title="{{ object.name }}" href="{% url 'organisation_detail' pk=object.pk %}">{{ object.name }}</a>
                         <span class="sep"></span>
                         <span>Delete organisation</span>
                     </div>
-                    <p>Are you sure you want to delete <a href="{% url 'organisation_detail' pk=object.pk %}">{{ object.name }}</a>?</p>
+                    <p>Are you sure you want to delete <a title="{{ object.name }}" href="{% url 'organisation_detail' pk=object.pk %}">{{ object.name }}</a>?</p>
                     <!-- TODO if statement -->
                     <p>The following services's and location's will be deleted if you delete this organisation:</p>
                     <h4>Services:</h4>
                     <ul>
                         {% for service in object.services.all %}
-                            <li><a href="{% url 'service_detail' pk=service.pk %}">{{ service }}</a></li>
+                            <li><a title="{{ service }}" href="{% url 'service_detail' pk=service.pk %}">{{ service }}</a></li>
                         {% endfor %}
                     </ul>
                     <h4>Locations:</h4>
@@ -39,7 +39,7 @@
                     {% csrf_token %}
                     <div class="submit">
                         <input type="submit" class="alert" value="Delete Service">
-                        <a href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
+                        <a title="Cancel the deletion of this organisation." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
                     </div>
                 </form>
             </div>

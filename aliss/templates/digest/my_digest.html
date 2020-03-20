@@ -12,7 +12,7 @@
       <b>You haven't selected any postcode areas to form your notification yet.</b>
     </p>
     <hr class="clear" />
-    <a href="{% url 'account_create_my_digest' %}" class="button primary">
+    <a title="Click here to be notified of new services." href="{% url 'account_create_my_digest' %}" class="button primary">
       Notify me of new services
     </a>
   {% else %}
@@ -37,7 +37,7 @@
             {% else %}
               {% for service in selection_option|get_item:"values" %}
                 <p class="org">
-                  <a href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a>
+                  <a title="{{ service.name }}" href="{% url 'service_detail' pk=service.id %}">{{ service.name }}</a>
                 </p>
                 <p>Created on: <span class="updated alert">{{ service.created_on|format_time_string }} </span></p>
               {% endfor %}
@@ -61,7 +61,7 @@
     </table>
 
     <hr class="clear" />
-    <a href="{% url 'account_create_my_digest' %}" class="button primary">
+    <a title="Click here to add another area to service notifications." href="{% url 'account_create_my_digest' %}" class="button primary">
       Add another area to service notifications
     </a>
   {% endif %}

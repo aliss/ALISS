@@ -13,7 +13,7 @@
             <label>Filter by keyword:</label>
             <div class="sbs-inputs">
               <div class="clearable-input">
-                <i class="clear-input fas fa-times-circle" title="Clear keywords"></i>
+                <i class="clear-input fas fa-times-circle" title="Click here to clear keywords"></i>
                 <input type="text" placeholder="e.g. Diabetes" name="q" value="{{ request.GET.q }}">
               </div>
               {% if postcode.postcode %}
@@ -33,7 +33,7 @@
           <label>Filter by local or national:</label>
           <ul class="radio-list-links">
             <li  {% if not request.GET.location_type %}class="active"{% endif %}>
-              <a href="{% query_transform request location_type=None %}">
+              <a title="Click here to view all local and national services." href="{% query_transform request location_type=None %}">
                 <span class="radio"></span>
                 <span class="name">
                   Show me all services, local and national
@@ -41,7 +41,7 @@
               </a>
             </li>
             <li {% if request.GET.location_type == 'local' %}class="active"{% endif %}>
-              <a href="{% query_transform request location_type='local' page=None %}">
+              <a title="Click here to view all the local services only." href="{% query_transform request location_type='local' page=None %}">
                 <span class="radio"></span>
                 <span class="name">
                   Only show the services that operate locally
@@ -49,7 +49,7 @@
               </a>
             </li>
             <li {% if request.GET.location_type == 'national' %}class="active"{% endif %}>
-              <a href="{% query_transform request location_type='national' page=None %}">
+              <a title="Click here to view all the national services only." href="{% query_transform request location_type='national' page=None %}">
                 <span class="radio"></span>
                 <span class="name">
                   Only show services that operate nationally
@@ -64,7 +64,7 @@
           <label>Show me services within a:</label>
           <ul class="radio-list-links">
             <li  {% if request.GET.radius == '1000' %} class="active" {% endif %}>
-              <a href="{% query_transform request radius='1000' %}">
+              <a title="Click here to show me services within a 15 minute walk." href="{% query_transform request radius='1000' %}">
                 <span class="radio"></span>
                 <span class="name">
                   15 minute walk (1km/0.6mi)
@@ -72,7 +72,7 @@
               </a>
             </li>
             <li {% if not request.GET.radius %}class="active"{% endif %}>
-              <a href="{% query_transform request radius=None %}">
+              <a title="Click here to show me services within a 10 minute drive." href="{% query_transform request radius=None %}">
                 <span class="radio"></span>
                 <span class="name">
                   10 minute drive (10km/6mi)
@@ -80,7 +80,7 @@
               </a>
             </li>
             <li {% if request.GET.radius == '20000' %}class="active"{% endif %}>
-              <a href="{% query_transform request radius='20000' %}">
+              <a title="Click here to show me services within a 30 minute drive." href="{% query_transform request radius='20000' %}">
                 <span class="radio"></span>
                 <span class="name">
                   30 minute drive (20km/12mi)
@@ -88,7 +88,7 @@
               </a>
             </li>
             <li id="custom-radius-radio">
-             <a href="#filters">
+             <a title="Click here to apply custom distance filters." href="#filters">
                <span class="radio"></span>
                <span class="name">
                  Custom distance:
@@ -116,7 +116,7 @@
           <label>Sort method:</label>
           <ul class="radio-list-links">
           <li {% if not request.GET.sort %}class="active"{% endif %}>
-            <a href="{% query_transform request sort=None %}">
+            <a title="Click here to sort by best match." href="{% query_transform request sort=None %}">
               <span class="radio"></span>
               <span class="name">
                 By best match
@@ -127,7 +127,7 @@
             </span>
           </li>
           <li {% if request.GET.sort == "nearest" %}class="active"{% endif %}>
-            <a href="{% query_transform request sort="nearest" %}">
+            <a title="Click here to sort by the closest items first." href="{% query_transform request sort="nearest" %}">
               <span class="radio"></span>
               <span class="name">
                 By nearest first
@@ -135,7 +135,7 @@
             </a>
           </li>
           <li {% if request.GET.sort == "keyword" %}class="active"{% endif %}>
-            <a href="{% query_transform request sort="keyword" %}">
+            <a title="Click here to sort by keyword match." href="{% query_transform request sort="keyword" %}">
               <span class="radio"></span>
               <span class="name">
                 By keyword match
@@ -155,18 +155,18 @@
             {% get_distance key=result.id as distance %}
             <div class="heading">
               {% if result.slug %}
-                <a href="{% url 'service_detail_slug' result.slug %}">
+                <a title="Click here for further infromation on {{ result.name }}" href="{% url 'service_detail_slug' result.slug %}">
               {% else %}
-                <a href="{% url 'service_detail' result.pk %}">
+                <a title="Click here for further infromation on {{ result.name }}" href="{% url 'service_detail' result.pk %}">
               {% endif %}
               <h3>{{ result.name }}</h3></a>
             </div>
 
             <p>by
               {% if result.slug %}
-                <a href="{% url 'organisation_detail_slug' result.organisation.slug %}">
+                <a title="Click here for further information {{ result.organisation.name }}." href="{% url 'organisation_detail_slug' result.organisation.slug %}">
               {% else %}
-                <a href="{% url 'organisation_detail' result.organisation.id %}">
+                <a title="Click here for further information {{ result.organisation.name }}." href="{% url 'organisation_detail' result.organisation.id %}">
               {% endif %}{{ result.organisation.name }}</a>
 
               {% if result.organisation.is_claimed %}
@@ -175,7 +175,7 @@
 
               <span class="assigned-categories">
               {% for category in result.categories.all %}
-                {% if forloop.first %}({% endif %}<a href="{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% else %}){% endif %}
+                {% if forloop.first %}({% endif %}<a title="This service is under the {{ category.name }} category." href="{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% else %}){% endif %}
               {% endfor %}
               </span>
             </p>
@@ -191,7 +191,7 @@
 
               {% if result.url %}
                 <div class="cell small-12 medium-6">
-                  <p><i class="fas fa-link"></i> <a href="{{ result.url }}">Website</a></p>
+                  <p><i class="fas fa-link"></i> <a title="View this services website." href="{{ result.url }}">Website</a></p>
                 </div>
               {% endif %}
 
@@ -276,12 +276,12 @@
         </div>
         <div class="buttons">
           {% if request.GET.radius %}
-            <a href="{% query_transform request radius=expanded_radius page=1 %}" class="button primary">Search again</a>
+            <a title="Click here to search again." href="{% query_transform request radius=expanded_radius page=1 %}" class="button primary">Search again</a>
           {% else %}
-            <a href="{% query_transform request radius='20000' page=1 %}" class="button primary">Search again</a>
+            <a title="Click here to search again." href="{% query_transform request radius='20000' page=1 %}" class="button primary">Search again</a>
           {% endif %}
           {% if request.GET.q %}
-            <a href="{% url 'organisation_search_results' %}?q={{request.GET.q}}" class="button primary">New organisations search</a>
+            <a title="Click here to start a new search." href="{% url 'organisation_search_results' %}?q={{request.GET.q}}" class="button primary">New organisations search</a>
           {% endif %}
         </div>
       </div>

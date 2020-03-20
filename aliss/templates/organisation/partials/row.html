@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <a href="{% url 'organisation_detail' pk=organisation.pk %}">
+    <a title="{{ organisation.name }}" href="{% url 'organisation_detail' pk=organisation.pk %}">
     {{ organisation.name }}</a>
   </td>
   <td>
@@ -15,10 +15,10 @@
   </td>
   <td>{{ organisation.last_edited }}</td>
   <td>
-    <a href="{% url 'organisation_edit' pk=organisation.pk %}">
+    <a title="Click here to edit this organisation." href="{% url 'organisation_edit' pk=organisation.pk %}">
       <i class="fa fa-edit" aria-hidden="true"></i> Edit
     </a>&nbsp;
-    <a href="{% url 'service_create' pk=organisation.pk %}">
+    <a title="Click here to add a service to this organisation." href="{% url 'service_create' pk=organisation.pk %}">
       <i class="fa fa-plus" aria-hidden="true"></i> Add service
     </a>
   </td>

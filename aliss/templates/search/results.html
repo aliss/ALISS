@@ -14,7 +14,7 @@
 
 {% block before_head_close %}
 <section id="skip-content">
-  <a class="skip-content" href="#content">Skip to Content</a>
+  <a title="Click here to skip to the main content of this page." class="skip-content" href="#content">Skip to Content</a>
 </section>
 {% endblock%}
 
@@ -30,7 +30,7 @@
             <h1>Help and support in <span class="postcode">{{ postcode.postcode }}</span></h1>
           {% endif%}
           <div class="buttons">
-            <a href="{% url 'homepage' %}" class="button primary">New search</a>
+            <a title="Click here to start a new search." href="{% url 'homepage' %}" class="button primary">New search</a>
           </div>
         </div>
       </div>
@@ -42,21 +42,29 @@
     <section id="error">
       <div class="row">
         <div class="columns">
-          {% if errors and 'postcode' in errors %}
+          {% if errors and 'postcode' in errors and not invalid_placename %}
             <div class="copy-container">
               <h1>Sorry, ALISS is not available in your postcode.</h1>
-              <p>We're always adding new services to ALISS but it seems like we've not reached your area yet. Please try again with a different postcode:</p>
+              <p>We're always adding new services to ALISS but it seems like we've not reached your area yet.</p>
+              <p>Please try searching again with a different postcode.</p>
+            </div>
+          {% elif invalid_placename %}
+            <div class="copy-container">
+              <h1>Sorry, {{ request.GET.postcode }} couldn't be matched with a postcode.</h1>
+              <p>Sorry, we are still working on search by place name and not every location name has been added yet. You can still search for services in your area using a postcode instead of a place name.</p>
+              <p>Please try searching again with a different place name or postcode.</p>
             </div>
           {% elif invalid_area %}
-            <div class="copy-container">
-              <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
-              <p>The postcode you entered seems to be in the wrong format, please try again:</p>
-            </div>
+          <div class="copy-container">
+            <h1>Sorry, {{ request.GET.postcode }} doesn't appear to be a valid postcode.</h1>
+            <p>Sorry, the postcode you entered seems to be in the wrong format.</p>
+            <p>Please try searching again.</p>
+          </div>
           {% else %}
             {% include 'partials/forms/errors.html' with form=form %}
           {% endif %}
           <div class="buttons">
-            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+            <a title="Click here to search again." href="{% url 'homepage' %}" class="button primary">Search again</a>
           </div>
         </div>
       </div>

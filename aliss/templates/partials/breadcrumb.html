@@ -1,24 +1,24 @@
 <ul class="progress-breadcrumb step-{{ progress }}" data-progress="{{ progress }}">
   <li>
-     <label for="org-search-input"><i class="fa fa-search" aria-hidden="true"></i> Check organisation isn't listed</label>
+     <label for="org-search-input"><i title="Check organisation isn't listed" class="fa fa-search" aria-hidden="true"></i> Check organisation isn't listed.</label>
   </li>
   <li>
-    <label for="id_name"><i class="fa fa-pencil" aria-hidden="true"></i> Add organisation details</label>
+    <label for="id_name"><i title="Add organisation details" class="fa fa-pencil" aria-hidden="true"></i> Add organisation details.</label>
   </li>
   <li>
     {% if organisation and progress == 2 %}
-      <a href="{% url 'service_create' pk=organisation.pk %}">
+      <a title="Click here to add your organisation's services." href="{% url 'service_create' pk=organisation.pk %}">
     {% endif %}
-    <label for="add-service-action"><i class="fa fa-users" aria-hidden="true"></i> Add your organisation's services</label>
+    <label for="add-service-action"><i title="Add your organisation's services." class="fa fa-users" aria-hidden="true"></i> Add your organisation's services.</label>
     {% if organisation and progress == 2 %}</a>{% endif %}
 
   </li>
   {% if not request.user.is_staff and not request.user.is_editor %}
   <li>
-    <i class="fa fa-hourglass-half" aria-hidden="true"></i> Await approval by ALISS staff
+    <i title="Await approval by ALISS staff" class="fa fa-hourglass-half" aria-hidden="true"></i> Await approval by ALISS staff.
   </li>
   {% endif %}
   <li>
-    <i title="Once approved your organisation and related services will be published on ALISS." class="fa fa-check-circle"></i> Approved and available on ALISS
+    <i title="Once approved your organisation and related services will be published on ALISS." class="fa fa-check-circle"></i> Approved and available on ALISS.
   </li>
 </ul>
