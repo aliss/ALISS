@@ -100,7 +100,7 @@
                   </a>
                 {% endif %}
               {% elif not object.claimed_by %}
-                <a title="Log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
+                <a title="Click here to log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                   <span class="icon">
                     <i class="fas fa-hand-paper"></i>
                   </span>
@@ -108,15 +108,15 @@
                 </a>
               {% endif %}
               {% if object.claimed_by %}
-              <p>This organisation or service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes please click on Improve this Listing or contact <a>hello@aliss.org</a></p>
-              <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link" style = "display:none">
+              <p>This organisation or service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes please click on Improve this Listing or contact <a title="Click here to email ALISS (This will open your email client)." href="mailto:hello@aliss.org" target="_blank">hello@aliss.org</a></p>
+              <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link">
                 <span class="icon">
                 <i class="fas fa-arrow-left"></i>
                 </span>
                 Back to last search
               </a>
               {% endif %}
-              <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link" style = "display:none">
+              <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link">
                 <span class="icon">
                 <i class="fas fa-arrow-left"></i>
                 </span>
