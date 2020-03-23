@@ -203,13 +203,6 @@
               </form>
             </div>
 
-            <a title="Click here to provide information to improve this listing." id="improve-listing_modal" class="icon-link improve">
-              <span class="icon">
-              <i class="fas fa-comment"></i>
-              </span>
-              Improve this listing
-            </a>
-
             {% if user_can_edit %}
               <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
                 <span class="icon">
@@ -225,7 +218,7 @@
               </a>
               {% else %}
               <br>
-              <p>This organisation or service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes please click on Improve this Listing or contact <a>hello@aliss.org</a></p>
+              <p> This service has been claimed. Only the person who has claimed can edit this information.  If you want to suggest any changes please click on  <a title="Click here to provide information to improve this listing." id="improve-listing_modal" > <span class="icon"> <i class="fas fa-comment"></i> </span> Improve this listing </a> or contact <a>hello@aliss.org</a></p>
              
             {% endif %}
           
