@@ -27,9 +27,9 @@ deploy:
   provider: heroku
   api_key:
     secure: BWMfE40cTZobWVdBZw6NQNqc8OMPCXsepn0KDfg7cVMUUHcWhUkY3QAjizLbVZ6hhaNRlz/SaBDlZjlWpX+IlYONVR5odVl04q+gvLzLlWUzB5KPeD6ISPCDqH80cORS42tEhyv+eB4+Th80dPcBc4Ls0HlCDRmIvZCzudvVBJwTxVWyEJRMWMU47xvztFnFHXCJSrGsQwNR7qT0bnAZ2htfdE60gtH5iniWu717kvTgs1NI/nOkSnv3Y9YX2+9/ylLACpg1JaRTmNlP7kofrnBDrxzdvTEi14PkvaeCFMrSUO9hx7kdbAXy0DGsRCrSWz6+Eojq8WGEPxBGD4+FapWmGPBLqtE+r2RlrN3ZgyGPj/hK4cjMTpISIiyoWTqRHmm3hRQ00CuMfqcZ6kVJqirdTBZ+qpiYGI7TbTZQF89l0NrIaL7yIHuRqCFwCWmTTH+9edjR1Md2hxVUrs5Q1hiJD8nbSFHVZOMwSitprmng0BZAK0sWGGk8yHHsAWt9sUfO/5pOZz7mPb1pJhS1AO0FXBqivBqxbotmOQT4ogrEqjV8GL5LsY0SmEWpCJvtFpgiyEMZDM1ISrkhGykGp51UbpZENJV39pfxpQJwjYSXAz/EyUnwTBtWbPLQHPvzAM0ZKl2qDOm9oj3+O+kXdZefami/AiYAQPRpblsXQ3U=
-  app: staging-aliss
+  app: testing-aliss
   on:
-    repo: staging
+    repo: testing-aliss
 notifications:
   slack:
     rooms:
