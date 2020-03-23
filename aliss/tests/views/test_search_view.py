@@ -173,7 +173,7 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h3>Multi Location Service</h3>")
         self.assertContains(response, "<span class=\"first-location\">")
-        self.assertContains(response, "<a title='Click here to view more locations.' class=\"more-link\" tabindex=\"0\">More Locations</a>")
+        self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
 
     def test_more_locations_appears_when_one_district_match(self):
         self.multi_location_service.locations.add(self.location_glasgow_in_district)
@@ -181,7 +181,7 @@ class SearchViewTestCase(TestCase):
         response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<span class=\"first-location\">")
-        self.assertContains(response, "<a title='Click here to view more locations.' class=\"more-link\" tabindex=\"0\">More Locations</a>")
+        self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
 
     def test_more_locations_appears_when_two_district_match(self):
         self.multi_location_service.locations.add(self.location_glasgow_in_district)
@@ -190,7 +190,7 @@ class SearchViewTestCase(TestCase):
         response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<span class=\"first-location\">")
-        self.assertContains(response, "<a title='Click here to view more locations.' class=\"more-link\" tabindex=\"0\">More Locations</a>")
+        self.assertContains(response, "<a class=\"more-link\" tabindex=\"0\">More Locations</a>")
 
     def test_10km_radius_filter_returns_distance_score(self):
         response = self.client.get('/search/?postcode=G2+9ZZ&radius=10000')
