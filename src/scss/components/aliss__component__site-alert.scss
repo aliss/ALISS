@@ -1,0 +1,15 @@
+
+.aliss__component-wrapper {
+    width: 100%;
+    max-width: 1280px;
+    padding: 25px;
+} 
+.aliss__component__site-alert {
+    display: block;
+    margin: 0 auto;
+    background-color: rgba(190, 34, 31, 1);
+} 
+
+.aliss__component__site-alert h2, .aliss__component__site-alert p  {
+    color: white;
+}
