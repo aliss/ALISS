@@ -202,31 +202,61 @@
                 </div>
               </form>
             </div>
-            {% if user_can_edit %}
-              <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
-                <span class="icon">
-                  <i class="fas fa-pencil-alt"></i>
-                </span>
-                Edit service
-              </a>
-              <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
-                <span class="icon">
-                  <i class="fas fa-trash-alt"></i>
-                </span>
-                Delete service
-              </a>
-              {% else %}
-              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-                <span class="icon">
-                <i class="fas fa-comment"></i>
-                </span>
-                Improve this listing
-              </a>
-            <br>
-
-              <p>This service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</p>
            
-            {% endif %}
+
+
+ 
+            
+            {% if object.organisation.claimed_by != user %}
+            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              <span class="icon">
+              <i class="fas fa-comment"></i>
+              </span>
+              Improve this listing
+            </a>
+          <br>
+            <p>This service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</p>
+
+       
+            {% elif object.organisation.claimed_by%}
+            <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+              <span class="icon">
+                <i class="fas fa-pencil-alt"></i>
+              </span>
+              Edit service
+            </a>
+            <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
+              <span class="icon">
+                <i class="fas fa-trash-alt"></i>
+              </span>
+              Delete service
+            </a>
+         
+          {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link">
               <span class="icon">
