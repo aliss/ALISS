@@ -3,10 +3,10 @@
 <header class="header {% if request.user.is_authenticated %}logged-in{% endif %}" role="banner">
     <div class="row">
         <div class="columns">
-            <a href="{% url 'homepage' %}">
+            <a title="Click here to navigate to the ALISS homepage." href="{% url 'homepage' %}">
                 <div id="branding">
                     <svg style="fill: white">
-                        <title>ALISS</title>
+                        <title>ALISS logo. (Clicking here will take you to the homepage.</title>
                         <desc>A Local Information System for Scotland</desc>
                         <use xlink:href="#logo" />
                     </svg>
@@ -16,7 +16,7 @@
                 {% if request.user.is_authenticated %}
                     <div class="account-info">
                         <div class="account hide-notifications">
-                            <a href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
+                            <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
                             {% comment %}
                             <div class="notifications-holder">
                                 <a id="notifications_toggle" class="notifications-count items">1</a>
@@ -28,7 +28,7 @@
                                                 <div class="details">
                                                     <ul>
                                                         <li>1 min ago</li>
-                                                        <li><a href="#" class="delete">Dismiss</a></li>
+                                                        <li><a title="Dismiss this notification." href="#" class="delete">Dismiss</a></li>
                                                     </ul>
                                                 </div>
                                             </li>
@@ -37,7 +37,7 @@
                                                 <div class="details">
                                                     <ul>
                                                         <li>1 min ago</li>
-                                                        <li><a href="#" class="delete">Dismiss</a></li>
+                                                        <li><a title="Dismiss this notification." href="#" class="delete">Dismiss</a></li>
                                                     </ul>
                                                 </div>
                                             </li>
@@ -49,7 +49,7 @@
                         </div>
                         <ul>
                             <li>
-                                <a href="{% url 'logout' %}">Logout</a>
+                                <a title="Click here to logout." href="{% url 'logout' %}">Logout</a>
                             </li>
                         </ul>
                     </div>
@@ -57,20 +57,20 @@
                     <div class="account-info">
                         <ul>
                             <li{% if request.resolver_match.url_name == 'login' %} class="active"{% endif %}>
-                                <a href="{% url 'login' %}">Log in</a>
+                                <a title="Click here to log in." href="{% url 'login' %}">Log in</a>
                             </li>
                             <li{% if request.resolver_match.url_name == 'signup' %} class="active"{% endif %}>
-                                <a href="{% url 'signup' %}">Sign up</a>
+                                <a title="Click here to sign up." href="{% url 'signup' %}">Sign up</a>
                             </li>
                         </ul>
                     </div>
                 {% endif %}
                 <div class="tab-button">
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeehb6FgGxPQLisbpS5qsQ7pa-BB0luWStRhhnHCSGNpGGC4A/viewform" target="_blank" class="button secondary">Give feedback</a>
+                    <a title="Click here to give feedback (This will open in a new window)." href="https://docs.google.com/forms/d/e/1FAIpQLSeehb6FgGxPQLisbpS5qsQ7pa-BB0luWStRhhnHCSGNpGGC4A/viewform" target="_blank" class="button secondary">Give feedback</a>
                 </div>
             </div>
             <div class="navigation">
-                <a id="menu_toggle" tabindex="0">
+                <a title="Click here to toggle the navigation bars visibility." id="menu_toggle" tabindex="0">
                     <span class="nav">
                         <span class="text">Navigation</span>
                     </span>
@@ -83,16 +83,16 @@
                         <nav role="navigation">
                             <ul>
                                 <li{% if request.resolver_match.url_name == 'homepage' or request.resolver_match.url_name == 'search' %} class="active"{% endif %}>
-                                    <a href="{% url 'homepage' %}">Search</a>
+                                    <a title="Click here to navigate to the search page." href="{% url 'homepage' %}">Search</a>
                                 </li>
                                 <li{% if request.resolver_match.url_name == 'about' %} class="active"{% endif %}>
-                                    <a href="{% url 'about' %}">About</a>
+                                    <a title="Click here to navigate to the about us page." href="{% url 'about' %}">About</a>
                                 </li>
                                 <li>
-                                    <a href="https://medium.com/@ALISSProgramme" target="_blank">News</a>
+                                    <a title="Visit Medium.com for the latest news and updates on ALISS. (This page will open in a new window)" href="https://medium.com/@ALISSProgramme" target="_blank">News</a>
                                 </li>
                                 <li{% if request.resolver_match.url_name == 'organisation_create' or request.resolver_match.url_name == 'organisation_search' %} class="active"{% endif %}>
-                                    <a href="{% url 'potential_create' %}">Add an organisation</a>
+                                    <a title="Click here to add an organisation." href="{% url 'potential_create' %}">Add an organisation</a>
                                 </li>
                             </ul>
                         </nav>
@@ -103,7 +103,7 @@
         </div>
     </div>
     <div id="branding_print">
-        <img src="{% static 'img/logo-print.png' %}">
+        <img alt="" src="{% static 'img/logo-print.png' %}">
         <h2>aliss.org</h2>
     </div>
 </header>

@@ -9,7 +9,7 @@
                 <div class="copy-container">
                     <h1>Suggest an improvement for {{ service.name }}</h1>
                     <div class="breadcrumbs">
-                        <a href="{% url 'service_detail' pk=service.pk %}">{{ service.name }}</a>
+                        <a title="Click here to suggest an improvement for {{ service.name }}" href="{% url 'service_detail' pk=service.pk %}">{{ service.name }}</a>
                         <span class="sep"></span>
                         <span>Improve this service</span>
                     </div>

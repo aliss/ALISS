@@ -95,7 +95,7 @@
   <div class="multiselect{% if form.service_areas.errors %} has-error{% endif %}">
     <label for="{{ form.service_areas.id_for_label }}">{{ form.service_areas.label }}
       
-      <a class="small" style="margin-left:0.7rem;" href="{% url 'service_area_definition' %}" target="_blank"><span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="This link opens in a new tab">
+      <a title="Click here for help (This will open in a new window)." class="small" style="margin-left:0.7rem;" href="{% url 'service_area_definition' %}" target="_blank"><span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="This link opens in a new tab">
       <i class="fa fa-question-circle" aria-hidden="true"></i> Help
       </span></a>
     </label>

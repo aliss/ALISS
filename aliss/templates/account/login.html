@@ -15,9 +15,9 @@
           <h3>
           {% url 'potential_create' as src %}
           {% if request.GET.next == src %}
-            Before adding an organisation you will need to <a href="{% url 'signup' %}">sign up</a> or login:
+            Before adding an organisation you will need to <a title="Click here to sign up." href="{% url 'signup' %}">sign up</a> or login:
           {% else %}
-            Not got an account? <a href="{% url 'signup' %}">Sign up</a>
+            Not got an account? <a title="Click here to sign up." href="{% url 'signup' %}">Sign up</a>
           {% endif %}
           </h3>
         </div>
@@ -44,7 +44,7 @@
                 </div>
               {% endif %}
 
-              <label for="username">
+              <label for="id_username">
                 Email
                 <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="Please ensure email address is the correct combination of uppercase and lowercase i.e. example@aliss.org is not the same as Example@aliss.org">
                   <i class="fa fa-question-circle" aria-hidden="true"></i>
@@ -61,7 +61,7 @@
                   </label>
                 </div>
               </p>
-              <p><a href="{% url 'password_reset' %}">I've forgotten my password</a></p>
+              <p><a title="Click here if you have forgotten your password." href="{% url 'password_reset' %}">I've forgotten my password</a></p>
             </div>
             <input type="submit" value="Log in">
             <input type="hidden" name="next" value="{{ next }}" />
@@ -69,7 +69,7 @@
         </div>
         </br>
         <div class="copy-container">
-          <h3>Having issues logging in? <a href="mailto:hello@aliss.org" >hello@aliss.org</a></h3>
+          <h3>Having issues logging in? <a title="Click here for assistance if you are having issues logging in." href="mailto:hello@aliss.org" >hello@aliss.org</a></h3>
         </div>
       </div>
     </div>

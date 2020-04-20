@@ -8,31 +8,31 @@
         <h4 id="admin_actions_toggle" class="toggle-heading">Actions</h4>
       </div>
       <div class="actions toggle-content">
-        <a href="{% url 'potential_create' %}" class="primary icon-link">
+        <a title="Click here to add an organisation." href="{% url 'potential_create' %}" class="primary icon-link">
           <span class="icon">
             <i class="fas fa-plus-square"></i>
           </span>
           Add an organisation
         </a>
-        <a href="{% url 'claim_list' %}" class="icon-link" id="recommend_toggle">
+        <a title="Click here to view and approve claim requests." href="{% url 'claim_list' %}" class="icon-link" id="recommend_toggle">
           <span class="icon">
             <i class="fas fa-inbox"></i>
           </span>
           Approve claim requests
         </a>
-        <a href="{% url 'organisation_unpublished' %}" class="icon-link" id="recommend_toggle">
+        <a title="Click here to view and approve new organisation submissions." href="{% url 'organisation_unpublished' %}" class="icon-link" id="recommend_toggle">
           <span class="icon">
             <i class="fas fa-inbox"></i>
           </span>
           Approve new organisations
         </a>
-        <a href="{% url 'account_list' %}" class="icon-link">
+        <a title="Click here to manage users." href="{% url 'account_list' %}" class="icon-link">
           <span class="icon">
             <i class="fas fa-user"></i>
           </span>
           Manage users
         </a>
-        <a href="{% url 'service_problem_list' %}" class="alert icon-link">
+        <a title="Click here to view suggested improvements." href="{% url 'service_problem_list' %}" class="alert icon-link">
           <span class="icon">
             <i class="fas fa-exclamation-circle"></i>
           </span>
@@ -101,7 +101,7 @@
               <ul>
                 {% for service in area.services.all %}
                   <li>
-                    <a href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>
+                    <a title="Click here for further information on {{ service.name }}." href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>
                   </li>
                 {% endfor %}
               </ul>
@@ -122,10 +122,10 @@
             <span class="name">{{ service.name }}</span>
             <ul class="options">
               <li>
-                <a href="{% url 'service_detail' pk=service.pk %}">View service</a>
+                <a title="Click here to view this service." href="{% url 'service_detail' pk=service.pk %}">View service</a>
               </li>
               <li>
-                <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">View organisation</a>
+                <a title="Click here to view this organisation." href="{% url 'organisation_detail' pk=service.organisation.pk %}">View organisation</a>
               </li>
             </ul>
           </li>
@@ -168,7 +168,7 @@
     {% for service in services %}
       {% for location in service.locations.all %}
       {
-        label: "<a href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>",
+        label: "<a title='Click here to view this service' href='{% url 'service_detail' service.pk %}'>{{ service.name }}</a>",
         position: {lat: {{ location.latitude }}, lng: {{ location.longitude}} },
       },
       {% endfor %}

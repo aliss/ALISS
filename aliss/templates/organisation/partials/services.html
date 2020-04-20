@@ -3,18 +3,18 @@
         {% for service in services %}
             {% if forloop.first and not forloop.last %}
                 <span>First service:</span>
-                <a href="{% url 'service_detail_slug' service.slug %}" class="icon-link">
+                <a title="{{ service.name }}" href="{% url 'service_detail_slug' service.slug %}" class="icon-link">
                     <span class="icon">
                         <i class="far fa-handshake"></i>
                     </span>
                     {{ service.name }}
                 </a>
                 <div class="more">
-                    <a class="more-link">More Services</a>
+                    <a title="Click here to view more services." class="more-link">More Services</a>
                 </div>
                 <div class="locations-list">
             {% else %}
-                <a href="{% url 'service_detail_slug' service.slug %}" class="icon-link">
+                <a title="{{ service.name }}" href="{% url 'service_detail_slug' service.slug %}" class="icon-link">
                     <span class="icon">
                         <i class="far fa-handshake"></i>
                     </span>

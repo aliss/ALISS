@@ -8,7 +8,7 @@
       <div class="columns content">
         <div class="copy-container">
           <div class="breadcrumbs">
-            <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>
+            <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>
             <span class="sep"></span>
             <span>Delete location</span>
           </div>
@@ -31,7 +31,7 @@
           {% csrf_token %}
           <div class="submit">
             <input type="submit" class="alert" value="Delete Location">
-            <a href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
+            <a title="Cancel the deletion of this organisation." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
           </div>
         </form>
       </div>

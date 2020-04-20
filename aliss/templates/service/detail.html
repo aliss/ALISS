@@ -21,7 +21,7 @@
 <div class="modal" id="improve-listing">
   <div class="pad">
     <div class="heading">
-      <a id="improve_listing_modal_close" tabindex="0" role="button" class="close alert icon-link">
+      <a title="Click here to close this modal." id="improve_listing_modal_close" tabindex="0" role="button" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -35,7 +35,7 @@
           {% include 'service/forms/feedback.html' with service=object %}
         </div>
       {% else %}
-        <p>Please <a href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
+        <p>Please <a title="Click here to login to provide feedback on a service." href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
       {% endif %}
     </div>
   </div>
@@ -43,7 +43,7 @@
 <div class="modal" id="delete_service">
   <div class="pad">
     <div class="heading">
-      <a id="delete_service_modal_close" tabindex="0" role="button" class="close alert icon-link">
+      <a title="Click here to close this modal." id="delete_service_modal_close" tabindex="0" role="button" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -57,7 +57,7 @@
         <form method="post" action="{% url 'service_delete' pk=object.pk %}">
           {% csrf_token %}
           <input type="submit" class="button alert" value="Delete">
-          <a role="button" id="delete_service_cancel" tabindex="0" class="button secondary cancel">Cancel</a>
+          <a title="Click here to cancel the deletion of this service." role="button" id="delete_service_cancel" tabindex="0" class="button secondary cancel">Cancel</a>
         </form>
       </div>
     </div>
@@ -67,7 +67,7 @@
 <div class="modal" id="add_list">
   <div class="pad">
     <div class="heading">
-      <a id="add_list_modal_close" role="button" tabindex="0" class="close alert icon-link">
+      <a title="Click here to close this modal." id="add_list_modal_close" role="button" tabindex="0" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -90,7 +90,7 @@
 <div class="modal" id="iframe_generator">
   <div class="pad">
     <div class="heading">
-      <a role="button" id="iframe_generator_modal_close" tabindex="0" class="close alert icon-link">
+      <a title="Click here to close this modal." role="button" id="iframe_generator_modal_close" tabindex="0" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -100,10 +100,10 @@
     </div>
     <div class="form">
       <form  action="/">
-        <textarea tabindex="0" id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
+        <textarea tabindex="0" id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a title="Click here for further information on this service." href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
         </textarea>
       </form>
-      <a id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
+      <a title="Click here to copy this content to your clipboard." id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
       <p id="copy_message" class="small"></p>
       <p>The map will be embedded at 500 x 500 (px)</p>
       <p>This embedded map will include a link to the ALISS page for this service.</p>
@@ -126,7 +126,7 @@
           <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. 6. Back to Search -->
           <div class="actions toggle-content">
 
-            <a class="icon-link" id="email_service_toggle">
+            <a title="Click here to email this listing. (This page will open your email client)" class="icon-link" id="email_service_toggle">
               <span class="icon">
                 <i class="fas fa-envelope"></i>
               </span>
@@ -143,7 +143,7 @@
               </form>
             </div>
 
-            <a href="javascript:window.print();" id="print-listing" class="icon-link">
+            <a title="Click here to print this lisiting. (This will open a print window)" href="javascript:window.print();" id="print-listing" class="icon-link">
               <span class="icon">
                 <i class="fas fa-print"></i>
               </span>
@@ -154,7 +154,7 @@
               <form method='post' id="" action="{% url 'account_remove_saved_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button type="submit" class="txt-button alert icon-link">
+                <button title="Click here to remove this lisiting from your saved services." type="submit" class="txt-button alert icon-link">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
@@ -165,7 +165,7 @@
               <form method='post' id="save_service" action="{% url 'account_save_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button type="submit" class="txt-button primary icon-link">
+                <button title="Click here to add this lisiting to your saved services." type="submit" class="txt-button primary icon-link">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
@@ -175,9 +175,9 @@
             {% endif %}
 
             {% if not request.user.is_authenticated %}
-              <a href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
+              <a title="Click here to recommend this service." href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
             {% else %}
-              <a class="primary icon-link" id="recommend_toggle">
+              <a title="Click here to recommend this service." class="primary icon-link" id="recommend_toggle">
             {% endif %}
               <span class="icon">
                 <i class="fas fa-bullhorn"></i>
@@ -198,12 +198,12 @@
                   </select>
                   <input type="hidden" value="{{ object.pk }}" name="service" />
                   <input type="submit" class="secondary" value="Add">
-                  <a id="add_list_modal" class="button secondary">Add</a>
+                  <a title="Add to your recommended service list." id="add_list_modal" class="button secondary">Add</a>
                 </div>
               </form>
             </div>
 
-            <a id="improve-listing_modal" class="icon-link improve">
+            <a title="Click here to provide information to improve this listing." id="improve-listing_modal" class="icon-link improve">
               <span class="icon">
               <i class="fas fa-comment"></i>
               </span>
@@ -211,13 +211,13 @@
             </a>
 
             {% if user_can_edit %}
-              <a href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+              <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
                 <span class="icon">
                   <i class="fas fa-pencil-alt"></i>
                 </span>
                 Edit service
               </a>
-              <a id="delete_service_modal" class="delete icon-link">
+              <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
                 <span class="icon">
                   <i class="fas fa-trash-alt"></i>
                 </span>
@@ -225,7 +225,7 @@
               </a>
             {% endif %}
 
-            <a id="back_to_seach" class="icon-link" style="display:none">
+            <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link">
               <span class="icon">
               <i class="fas fa-arrow-left"></i>
               </span>
@@ -239,10 +239,10 @@
       <div class="columns content">
         <div class="copy-container">
           <h1>{{ object.name }}</h1>
-          <p class="org">by <a href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}
+          <p class="org">by <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span title="This is a claimed service." class="claimed">Claimed</span>{% endif %}
             <span class="assigned-categories">(
               {% for category in object.categories.all %}
-                <span class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
+                <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
               {% endfor %}
               )
             </span>
@@ -252,7 +252,7 @@
             <p>{{ object.description|linebreaks }}</p>
             <br/>
             <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
-            <p>Can you help us improve this listing? <a data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
+            <p>Can you help us improve this listing? <a title="Click here to provide feedback to help improve this listing." data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
             </a></p>
           </div>
         </div>
@@ -265,7 +265,7 @@
               <h4>Locations</h4>
               {% for location in object.locations.all %}
                 <div class="location">
-                  <a href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+                  <a title="Click here to view this location on Google Maps." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
                     <span class="icon">
                       <i class="fas fa-map-marker-alt"></i>
                     </span>
@@ -274,7 +274,7 @@
                   {% can_edit request.user location as user_can_edit %}
                   {% if user_can_edit %}
                     <div class="edit-options">
-                      <a href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+                      <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                         <span class="icon">
                           <i class="fas fa-pencil-alt"></i>
                         </span>
@@ -284,7 +284,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -301,9 +301,9 @@
           <p>
             {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
             {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
-            {% if object.url %}<a href="{{ object.url }}">Website</a>{% endif %}
-            {% if object.facebook %}<a href="{{ object.facebook }}">Facebook</a>{% endif %}
-            {% if object.twitter %}<a href="{{ object.twitter }}">Twitter</a>{% endif %}
+            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
+            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
+            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
           </p>
           {% if object.service_areas.all %}
             <h5>Delivered across</h5>
@@ -312,11 +312,11 @@
                 <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
               {% endfor %}
             </ul>
-            <p class="small">To learn more about <a href="{% url 'service_area_definition' %}" target="_blank">service areas.</a></p>
+            <p class="small">To learn more about <a title="Click here for more information on service areas. (This page will open in a new window)" href="{% url 'service_area_definition' %}" target="_blank">service areas.</a></p>
           {% endif %}
           <div id='mapid' style="z-index: 1;"></div>
           <div>
-            <a id="iframe_generator_modal" style="margin-top:1rem;" class="icon-link">
+            <a title="Click here to embed this map on your website." id="iframe_generator_modal" style="margin-top:1rem;" class="icon-link">
               <span class="icon">
                 <i class="fas fa-map"></i>
               </span>
@@ -336,11 +336,11 @@
             </button>
           </form>
         {% else %}
-          <a class="yes">
+          <a title="Click here if you found this information useful." class="yes">
             Yes
           </a>
         {% endif %}
-        <a class="no alert">
+        <a title="Click here if you did not find this information useful." class="no alert">
           No
         </a>
       </div> <!-- feedback -->

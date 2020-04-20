@@ -1,7 +1,7 @@
 {% load aliss %}
 
 <div class="location">
-  <a href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+  <a title="{{ location.formatted_address }}." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
     <span class="icon">
       <i class="fas fa-map-marker-alt"></i>
     </span>
@@ -10,13 +10,13 @@
   {% can_edit request.user location as user_can_edit %}
   {% if user_can_edit %}
     <div class="edit-options">
-      <a href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+      <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
         <span class="icon">
           <i class="fas fa-pencil-alt"></i>
         </span>
         Edit location
       </a>
-      <a href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+      <a title="Click here to delete this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
         <span class="icon">
           <i class="fas fa-trash-alt"></i>
         </span>

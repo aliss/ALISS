@@ -10,14 +10,14 @@
       <div class="cells one toggled" id="select_cat">
         <ul>
           <li>
-            <a class="select-category" tabindex="0">Filter by category</a>
+            <a title="Filter services by category." class="select-category" tabindex="0">Filter by category</a>
             <span class="select" ></span>
             <ul class="cat-icons">
               {% get_categories as categories %}
               {% for category in categories %}
                 {% if category.is_root %}
                   <li{% if category.slug == request.GET.category %} class='active'{% endif %}>
-                    <a href="{% query_transform request category=category.slug page=None %}" tabindex="0">
+                    <a title="Apply a filter for {{ category.name }} results." href="{% query_transform request category=category.slug page=None %}" tabindex="0">
                       <span class="cat">
                         <i class="fa {{ category|get_icon }}"></i>
                       </span>
@@ -43,7 +43,7 @@
           {% for item in category_tree %}
             <li>
               {% if item.is_root %}
-                <a href="#" class="active-cat icon truncate" tabindex="0">
+                <a title="{{ item.name }}" href="#" class="active-cat icon truncate" tabindex="0">
                   <span class="cat">
                     <i class="fa {{ item|get_icon }}"></i>
                   </span>
@@ -52,14 +52,14 @@
                   </span>
                 </a>
               {% else %}
-                <a href="{% query_transform request category=item.slug page=None %}" class="active-cat truncate" tabindex="0">{{ item.name }}</a>
+                <a title="{{ item.name }}" href="{% query_transform request category=item.slug page=None %}" class="active-cat truncate" tabindex="0">{{ item.name }}</a>
               {% endif %}
               <span class="select"></span>
               <ul {% if category.is_root %}class="cat-icons"{% endif %}>
                 {% for sibling in item.siblings %}
                   {% if sibling.is_root %}
                     <li{% if sibling.pk == item.pk %} class="active"{% endif %}>
-                      <a href="{% query_transform request category=sibling.slug page=None %}">
+                      <a title="{{ sibling.name }}" href="{% query_transform request category=sibling.slug page=None %}">
                         <span class="cat">
                           <i class="fa {{ sibling|get_icon }}"></i>
                         </span>
@@ -69,7 +69,7 @@
                       </a>
                     </li>
                   {% else %}
-                    <li{% if sibling.pk == item.pk %} class="active"{% endif %}><a href="{% query_transform request category=sibling.slug page=None %}">{{ sibling.name }}</a></li>
+                    <li{% if sibling.pk == item.pk %} class="active"{% endif %}><a title="{{ sibling.name }}" href="{% query_transform request category=sibling.slug page=None %}">{{ sibling.name }}</a></li>
                   {% endif %}
                 {% endfor %}
               </ul>
@@ -77,11 +77,11 @@
             {% if forloop.last %}
               {% if item.children.all %}
                 <li>
-                  <a href="#" class="select-category">Select Sub Category</a>
+                  <a title="Select a sub category." href="#" class="select-category">Select Sub Category</a>
                   <span class="select"></span>
                   <ul>
                     {% for child in item.children.all %}
-                      <li><a href="{% query_transform request category=child.slug page=None %}">{{ child.name }}</a></li>
+                      <li><a title="{{ child.name }}" href="{% query_transform request category=child.slug page=None %}">{{ child.name }}</a></li>
                     {% endfor %}
                   </ul>
                 </li>
@@ -90,7 +90,7 @@
           {% endfor %}
         </ul>
       </div>
-      <p><a href="{% query_transform request category=None page=None %}" class="clear">Clear Categories</a></p>
+      <p><a title="Click here to clear all selected categories." href="{% query_transform request category=None page=None %}" class="clear">Clear Categories</a></p>
     {% endif %}
   </div>
 </div>
