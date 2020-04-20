@@ -6,7 +6,7 @@
     {% if ordered_locations %}
       {% for location in ordered_locations %}
         {% if forloop.first and not forloop.last %}
-          <a href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+          <a title="Click here to view this location on Google Maps. (This page will open in a new window)" href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
             <span class="icon">
               <i class="fas fa-map-marker-alt"></i>
             </span>
@@ -15,11 +15,11 @@
             </span>
           </a>
           <div class="more">
-            <a class="more-link" tabindex="0">More Locations</a>
+            <a title="Click here to view more locations." class="more-link" tabindex="0">More Locations</a>
           </div>
           <div class="locations-list">
         {% else %}
-          <a href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+          <a title="Click here to view this location on Google Maps. (This page will open in a new window)" href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
             <span class="icon">
               <i class="fas fa-map-marker-alt"></i>
             </span>

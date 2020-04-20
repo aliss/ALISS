@@ -5,20 +5,20 @@
     <div class="columns">
         <div class="copy-container">
             <h3>Suggested improvements</h3>
-            <p>Show: <a href="?f=all">all</a> | <a href="?f=resolved">resolved</a> |  <a href="?f=unresolved">unresolved</a></p>
+            <p>Show: <a title="Click here to show all items." href="?f=all">all</a> | <a title="Show resolved." href="?f=resolved">resolved</a> |  <a title="Click here to show unresolved." href="?f=unresolved">unresolved</a></p>
 
             <ul class="problem-reports edit">
                 {% for report in object_list %}
                     <li>
                         <div class="heading">
-                            <h4>Improvements suggested for <a href="{% url 'service_detail' pk=report.service.pk %}">{{ report.service }}</a></h4>
+                            <h4>Improvements suggested for <a title="Improvements suggested for this service." href="{% url 'service_detail' pk=report.service.pk %}">{{ report.service }}</a></h4>
                         </div>
                         <p>Reason: {{ report.get_type_display }}</p>
                         <p>{{ report.message }}</p>
-                        <p>Reported by <a href="{% url 'account_detail' pk=report.user.pk %}">{{ report.user.get_full_name }}</a> on {{ report.created_on }}</p>
+                        <p>Reported by <a title="This was reported by, {{ report.user.get_full_name }}." href="{% url 'account_detail' pk=report.user.pk %}">{{ report.user.get_full_name }}</a> on {{ report.created_on }}</p>
                         {% if report.status == report.UNRESOLVED %}
                             <div class="edit-options">
-                                <a href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">
+                                <a title="Click here to edit this services details." href="{% url 'service_edit' pk=report.service.pk %}" class="icon-link">
                                     <span class="icon">
                                         <i class="fas fa-pencil-alt"></i>
                                     </span>

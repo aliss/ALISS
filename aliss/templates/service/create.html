@@ -8,7 +8,7 @@
       <div class="cell small-12 medium-12">
         <h1>{{ organisation.name }}</h1>
         <div class="breadcrumbs">
-          <a href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
+          <a title="Further information on {{ organisation.name }}." href="{% url 'organisation_detail' pk=organisation.pk %}">{{ organisation.name }}</a>
           <span class="sep"></span>
           <span>Add service</span>
         </div>

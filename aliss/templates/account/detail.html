@@ -40,9 +40,9 @@
       <div class="copy-container">
         {% if object.username %}
           <h2>{{ object.username }}</h2>
-          <p><a href="mailto:{{ object.email }}">{{ object.email }}</a></p>
+          <p><a title="Click here to email: {{ object.email }} (This will open your email client)." href="mailto:{{ object.email }}">{{ object.email }}</a></p>
         {% else %}
-          <h3><a href="mailto:{{ object.email }}">{{ object.email }}</a></h3>
+          <h3><a title="Click here to email: {{ object.email }} (This will open your email client)." href="mailto:{{ object.email }}">{{ object.email }}</a></h3>
         {% endif %}
         <p>{{ object.date_joined }}</p>
 
@@ -50,7 +50,7 @@
           <h4>Created Services:</h4>
           <ul>
           {% for service in object.created_services.all %}
-            <li><a href="{% url 'service_detail' service.id %}">{{ service.name }}</a></li>
+            <li><a title="Click here for further information on {{ service.name }}." href="{% url 'service_detail' service.id %}">{{ service.name }}</a></li>
           {% endfor %}
           </ul>
         {% endif %}
@@ -59,7 +59,7 @@
           <h4>Updated Services:</h4>
           <ul>
           {% for service in object.updated_services.all %}
-            <li><a href="{% url 'service_detail' service.id %}">{{ service.name }}</a></li>
+            <li><a title="Click here for further information on {{ service.name }}." href="{% url 'service_detail' service.id %}">{{ service.name }}</a></li>
           {% endfor %}
           </ul>
         {% endif %}
@@ -68,7 +68,7 @@
           <h4>Created Organisations:</h4>
           <ul>
           {% for organisation in object.created_organisations.all %}
-            <li><a href="{% url 'organisation_detail' organisation.id %}">{{ organisation.name }}</a></li>
+            <li><a title="Click here for further information on {{ organisation.name }}." href="{% url 'organisation_detail' organisation.id %}">{{ organisation.name }}</a></li>
           {% endfor %}
           </ul>
         {% endif %}
@@ -77,7 +77,7 @@
           <h4>Updated Organisations:</h4>
           <ul>
           {% for organisation in object.updated_organisations.all %}
-            <li><a href="{% url 'organisation_detail' organisation.id %}">{{ organisation.name }}</a></li>
+            <li><a title="Click here for further information on {{ organisation.name }}" href="{% url 'organisation_detail' organisation.id %}">{{ organisation.name }}</a></li>
           {% endfor %}
           </ul>
         {% endif %}

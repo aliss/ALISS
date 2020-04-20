@@ -38,7 +38,7 @@
 
 {% block before_head_close %}
 <section id="skip-content">
-  <a class="skip-content" href="#content">Skip to Content</a>
+  <a title="Click here to skip to the pages main content." class="skip-content" href="#content">Skip to Content</a>
 </section>
 {% endblock%}
 
@@ -57,7 +57,7 @@
             <p>Below is a list of services to help people in {{postcode.place_name}} who are seeking help with {{category}}. You can find help from these services or start a new search with different criteria by using the filters below.</p>
           {% endif %}
           <div class="buttons">
-            <a href="{% url 'homepage' %}" class="button primary">New search</a>
+            <a title="Click here to start a new search." href="{% url 'homepage' %}" class="button primary">New search</a>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@
             {% include 'partials/forms/errors.html' with form=form %}
           {% endif %}
           <div class="buttons">
-            <a href="{% url 'homepage' %}" class="button primary">Search again</a>
+            <a title="Click here to search again." href="{% url 'homepage' %}" class="button primary">Search again</a>
           </div>
         </div>
       </div>

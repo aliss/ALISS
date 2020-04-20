@@ -7,7 +7,7 @@
       <div class="cell small-12 medium-8">
         <h1>{{ organisation.name }}</h1>
         <div class="breadcrumbs">
-          <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a>
+          <a title="Click here to update the {{ service.organisation.name }} service." href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a>
           <span class="sep"></span>
           <span>Update Service</span>
         </div>

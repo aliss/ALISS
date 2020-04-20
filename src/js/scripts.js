@@ -623,7 +623,7 @@ $(document).ready(() => {
     }
     $.each(locations, function(key, value){
       L.marker(value).addTo(mymap)
-      .bindPopup(`<a href=https://maps.google.com/?q=${value[0]},${value[1]} target="_blank">${key}</a>`);
+      .bindPopup(`<a title="Click here to view this location on google maps (This will open in a new window)." href=https://maps.google.com/?q=${value[0]},${value[1]} target="_blank">${key}</a>`);
       if (singleLocation && no_geo_features){
           mymap.setView(value, 6);
       }

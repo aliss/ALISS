@@ -5,7 +5,7 @@
   <div class="modal" id="email_list">
     <div class="pad">
       <div class="heading">
-        <a role="button" id="email_list_modal_close" tabindex="0" class="close alert icon-link">
+        <a title="Click here to close this modal." role="button" id="email_list_modal_close" tabindex="0" class="close alert icon-link">
           <span class="icon">
             <i class="fas fa-times"></i>
           </span>
@@ -25,7 +25,7 @@
     </div>
   </div>
   <div class="breadcrumbs">
-    <a href="{% url 'account_my_recommendations' %}">My recommendations</a>
+    <a title="Click here to view your recommendations." href="{% url 'account_my_recommendations' %}">My recommendations</a>
     <span class="sep"></span>
     <span>Recommended for {{ object.name }}</span>
   </div>
@@ -50,9 +50,9 @@
                     Remove
                   </button>
                 </form>
-                <a href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
+                <a title="Click here for further information on {{ service.name }}." href="{% url 'service_detail' pk=service.pk %}"><h3>{{ service.name }}</h3></a>
               </div>
-              <p class="org">by <a href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
+              <p class="org">by <a title="Click here for further information on {{ service.organisation.name }}." href="{% url 'organisation_detail' pk=service.organisation.pk %}">{{ service.organisation.name }}</a> {% if service.organisation.claimed_by %}<span class="claimed">Claimed</span>{% endif %}</p>
               <p class="last-updated">Last Updated <span class="updated alert">{{ service.last_edited }}</span></p>
               <div class="assigned-categories">
                 {% for category in service.categories.all %}
@@ -67,7 +67,7 @@
 
               <ul class="contact-info">
                 {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
-                {% if service.url %}<li><a href="{{ service.url }}">Website</a></li>{% endif %}
+                {% if service.url %}<li><a title="Click here to view this services website." href="{{ service.url }}">Website</a></li>{% endif %}
                 {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
               </ul>
               {% if service.service_areas.all %}
@@ -79,13 +79,13 @@
           {% endfor %}
         </ul>
         <div class="actions">
-          <a id="email_list_modal" role="button" tabindex="0" class="icon-link">
+          <a title="Click here to email recommendations." id="email_list_modal" role="button" tabindex="0" class="icon-link">
             <span class="icon">
               <i class="fas fa-envelope"></i>
             </span>
             Email recommendations
           </a>
-          <a href="javascript:window.print();" class="icon-link">
+          <a title="Click here to print your recomendations." href="javascript:window.print();" class="icon-link">
             <span class="icon">
               <i class="fas fa-print"></i>
             </span>
@@ -96,11 +96,11 @@
     {% else %}
       <div class="account-list none">
         <p>You haven't recommended any services for {{ object.name }} yet.</p>
-        <p><a href="{% url 'homepage' %}">Start Searching</a></p>
+        <p><a title="Click here to start searching." href="{% url 'homepage' %}">Start Searching</a></p>
       </div>
     {% endif %}
     <div class="back">
-      <a href="{% url 'account_my_recommendations' %}" class="back-link"><span class="icon"></span> Back to recommendations</a>
+      <a title="Click here to navigate back to your recommendations." href="{% url 'account_my_recommendations' %}" class="back-link"><span class="icon"></span> Back to recommendations</a>
     </div>
   </div>
 {% endblock %}

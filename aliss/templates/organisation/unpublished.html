@@ -53,8 +53,8 @@
               {% for organisation in object_list %}
                 <tr>
                   <td class="name">
-                    <a href="{% url 'organisation_detail' pk=organisation.pk %}">
-                    {{ organisation.name }}
+                    <a title="{{ organisation.name }}." href="{% url 'organisation_detail' pk=organisation.pk %}">
+                    {{ organisation.name }.}
                     </a>
                   </td>
                   <td>
@@ -66,7 +66,7 @@
                   </td>
                   <td>
                     {% if organisation.created_by %}
-                      <a href="{% url 'account_detail' pk=organisation.created_by.pk %}">{{ organisation.created_by }}</a>
+                      <a title="{{ organisation.created_by }}." href="{% url 'account_detail' pk=organisation.created_by.pk %}">{{ organisation.created_by }}</a>
                     {% else %}
                       n/a
                     {% endif %}
@@ -85,7 +85,7 @@
           {% include 'partials/pagination.html' with page=page_obj paginator=paginator %}
 
           <br/>
-          <a href="{% url 'account_dashboard' %}" class="button primary">Back to dashboard</a>
+          <a title="Click here to navigate back to the dashboard." href="{% url 'account_dashboard' %}" class="button primary">Back to dashboard</a>
         </div>
       </div>
     </dv>

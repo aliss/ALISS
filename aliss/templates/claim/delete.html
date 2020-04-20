@@ -7,7 +7,7 @@
       <div class="columns content">
         <div class="copy-container">
           <h1>Stop representation</h1>
-          <p>Are you sure you want to stop representing <a href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>?</p>
+          <p>Are you sure you want to stop representing <a title="Click here for further information on further this organisation." href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>?</p>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
           {% csrf_token %}
           <div class="submit">
             <input type="submit" class="alert" value="Stop representation">
-            <a href="{% url 'account_my_organisations' %}" class="button secondary">Cancel</a>
+            <a title="Click here to cancel this action." href="{% url 'account_my_organisations' %}" class="button secondary">Cancel</a>
           </div>
         </form>
       </div>

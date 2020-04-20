@@ -7,7 +7,7 @@
     <div class="row">
       <div class="columns content">
         <div class="copy-container">
-          <h1>Edit account <a class="button success" href="{% url 'password_change' %}">Change password</a></h1>
+          <h1>Edit account <a title="Click here to change your password." class="button success" href="{% url 'password_change' %}">Change password</a></h1>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
                     {% endfor %}
                   </ul>
                 </div>
-                <p><a class="clear-all">Clear All</a></p>
+                <p><a title="Click here to clear your selected categories." class="clear-all">Clear All</a></p>
               </div>
               <div class="info-box notifications">
                 <div class="heading">
@@ -108,7 +108,7 @@
           <div class="submit">
             {% include 'partials/forms/checkbox_agree.html' with field=form.prepopulate_postcode %}
             <input type="submit" class="" value="Update info">
-            <a class="button warning" href="{% url 'account_saved_services' %}">Back</a>
+            <a title="Click here to go back." class="button warning" href="{% url 'account_saved_services' %}">Back</a>
           </div>
         </form>
       </div>

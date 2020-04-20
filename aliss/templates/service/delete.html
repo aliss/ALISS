@@ -7,7 +7,7 @@
             <div class="columns content">
                 <div class="copy-container">
                     <h1>Delete service</h1>
-                    <p>Are you sure you want to delete <a href="{% url 'service_detail' pk=object.pk %}">{{ object.name }}</a>?</p>
+                    <p>Are you sure you want to delete <a title="Click here to delete this service." href="{% url 'service_detail' pk=object.pk %}">{{ object.name }}</a>?</p>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
                     {% csrf_token %}
                     <div class="submit">
                         <input type="submit" class="alert" value="Delete Service">
-                        <a href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
+                        <a title="Click here to cancel the deletion of this service." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
                     </div>
                 </form>
             </div>
