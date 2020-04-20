@@ -106,7 +106,7 @@
       <a title="Click here to copy this content to your clipboard." id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
       <p id="copy_message" class="small"></p>
       <p>The map will be embedded at 500 x 500 (px)</p>
-      <p>This embedded map will include a link to the ALISS page for this service.</p>
+      <p>This embedded map will include a link to the ALISS page for this service</p>
     </div>
   </div>
 </div>
@@ -137,7 +137,7 @@
                 {% csrf_token %}
                 <div class="sbs-inputs">
                   <input name="service" type="hidden" value="{{ object.pk }}">
-                  <input name="email" type="email" placeholder="email@company.com">
+                  <input name="email" type="email" placeholder="email@company.com" required>
                   <input type="submit" class="secondary" value="Send">
                 </div>
               </form>
@@ -202,14 +202,6 @@
                 </div>
               </form>
             </div>
-
-            <a title="Click here to provide information to improve this listing." id="improve-listing_modal" class="icon-link improve">
-              <span class="icon">
-              <i class="fas fa-comment"></i>
-              </span>
-              Improve this listing
-            </a>
-
             {% if user_can_edit %}
               <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
                 <span class="icon">
@@ -223,6 +215,17 @@
                 </span>
                 Delete service
               </a>
+              {% else %}
+              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                <span class="icon">
+                <i class="fas fa-comment"></i>
+                </span>
+                Improve this listing
+              </a>
+            <br>
+
+              <p>This service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</p>
+           
             {% endif %}
 
             <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link">

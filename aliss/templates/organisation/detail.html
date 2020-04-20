@@ -18,6 +18,28 @@
 
 {% block container %}
 <div class="black"></div>
+<div class="modal" id="improve-listing">
+  <div class="pad">
+    <div class="heading">
+      <a title="Click here to close this modal." id="improve_listing_modal_close" tabindex="0" role="button" class="close alert icon-link">
+        <span class="icon">
+          <i class="fas fa-times"></i>
+        </span>
+        Close
+      </a>
+      <h5>Improve this listing</h5>
+    </div>
+    <div class="form">
+      {% if request.user.is_authenticated %}
+        <div class="copy-container">
+          {% include 'service/forms/feedback.html' with service=object %}
+        </div>
+      {% else %}
+        <p>Please <a title="Click here to login to provide feedback on a service." href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
 <div class="modal" id="delete_org">
   <div class="pad">
     <div class="heading">
@@ -66,7 +88,8 @@
             </div>
             <div class="actions toggle-content">
               {% if request.user.is_authenticated %}
-                {% if user_can_edit %}
+                {% if user_can_edit %}   
+                  
                   <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                     <span class="icon">
                       <i class="fas fa-plus"></i>
@@ -106,15 +129,21 @@
                   </span>
                   Claim this organisation
                 </a>
+                <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                  <span class="icon">
+                  <i class="fas fa-comment"></i>
+                  </span>
+                  Improve this listing
+                </a>
               {% endif %}
               {% if object.claimed_by %}
-              <p>This organisation or service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes please click on Improve this Listing or contact <a title="Click here to email ALISS (This will open your email client)." href="mailto:hello@aliss.org" target="_blank">hello@aliss.org</a></p>
-              <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link">
+              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                 <span class="icon">
-                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-comment"></i>
                 </span>
-                Back to last search
+                Improve this listing
               </a>
+              <p>This organisation has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes please click on the "Improve this listing" link above to submit your feedback</a></p>
               {% endif %}
               <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link">
                 <span class="icon">
