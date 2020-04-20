@@ -155,9 +155,9 @@
             {% get_distance key=result.id as distance %}
             <div class="heading">
               {% if result.slug %}
-                <a title="Click here for further infromation on {{ result.name }}" href="{% url 'service_detail_slug' result.slug %}">
+                <a title="Click here for further information on {{ result.name }}" href="{% url 'service_detail_slug' result.slug %}">
               {% else %}
-                <a title="Click here for further infromation on {{ result.name }}" href="{% url 'service_detail' result.pk %}">
+                <a title="Click here for further information on {{ result.name }}" href="{% url 'service_detail' result.pk %}">
               {% endif %}
               <h3>{{ result.name }}</h3></a>
             </div>
