@@ -164,7 +164,7 @@
 
             <p>by
               {% if result.slug %}
-                <a title="Click here for further information {{ result.organisation.name }}." href="{% url 'organisation_detail_slug' result.organisation.slug %}">
+                <a title="Click here for further information on {{ result.organisation.name }}." href="{% url 'organisation_detail_slug' result.organisation.slug %}">
               {% else %}
                 <a title="Click here for further information {{ result.organisation.name }}." href="{% url 'organisation_detail' result.organisation.id %}">
               {% endif %}{{ result.organisation.name }}</a>
