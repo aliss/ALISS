@@ -230,30 +230,6 @@
          
           {% endif %}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link">
               <span class="icon">
               <i class="fas fa-arrow-left"></i>
@@ -301,7 +277,7 @@
                     {{ location.formatted_address }}
                   </a>
                   {% can_edit request.user location as user_can_edit %}
-                  {% if user_can_edit %}
+                  {% if object.claimed_by != user  %}
                     <div class="edit-options">
                       <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                         <span class="icon">
