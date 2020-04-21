@@ -11,14 +11,13 @@ class LocationViewTestCase(TestCase):
         self.service = Fixtures.create()
         self.organisation = self.service.organisation
         self.location = self.organisation.locations.first()
-        self.client.login(username="claimant@user.org", password="passwurd")
+        self.client.login(username="tester@aliss.org", password="passwurd")
 
 
     def test_location_edit(self):
         path=reverse('location_edit', kwargs={'pk':self.location.pk})
-        self.assertEqual(self.client.get(path).status_code, 200)
-        self.client.login(username="updater@aliss.org", password='passwurd') #editor
-        self.assertEqual(self.client.get(path).status_code, 302)
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 200)
 
 
     def test_location_update(self):
