@@ -202,19 +202,7 @@
                 </div>
               </form>
             </div>
-            
-            {% if object.organisation.claimed_by != user %}
-            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-              <span class="icon">
-              <i class="fas fa-comment"></i>
-              </span>
-              Improve this listing
-            </a>
-          <br>
-            <p>This service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</p>
-
-       
-            {% elif object.organisation.claimed_by%}
+            {% if object.organisation.claimed_by == user or user.is_staff%}
             <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
               <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
@@ -227,8 +215,19 @@
               </span>
               Delete service
             </a>
-         
-          {% endif %}
+      
+            {% else %}
+            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              <span class="icon">
+              <i class="fas fa-comment"></i>
+              </span>
+              Improve this listing
+            </a>
+          <br>
+            <p>This service has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</p>
+       
+            {% endif %}
+          
 
             <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link">
               <span class="icon">
@@ -277,7 +276,7 @@
                     {{ location.formatted_address }}
                   </a>
                   {% can_edit request.user location as user_can_edit %}
-                  {% if object.claimed_by == user %}
+                  {% if object.claimed_by == user or user.is_staff%}
                     <div class="edit-options">
                       <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                         <span class="icon">

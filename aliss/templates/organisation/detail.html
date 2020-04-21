@@ -69,7 +69,7 @@
     {% if request.user.is_authenticated %}
       {% can_edit request.user object as user_can_edit %}
     {% endif %}
-
+     
     {% if user_can_edit and object.services.count == 0 %}
       <p class="message">
         <span class="icon">
@@ -87,9 +87,17 @@
               <h4 id="organisation_actions_toggle" class="toggle-heading">Actions</h4>
             </div>
             <div class="actions toggle-content">
+              {% if not user.is_authenticated %}
+              <a title="Click here to log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
+                <span class="icon">
+                  <i class="fas fa-hand-paper"></i>
+                </span>
+                Claim this organisation
+              </a>
+            {% endif %}
               {% if request.user.is_authenticated %}
          
-              {% if object.claimed_by == user%}
+              {% if object.claimed_by == user or user.is_staff%}
               <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                 <span class="icon">
                   <i class="fas fa-plus"></i>
@@ -114,38 +122,28 @@
                 </span>
                 Delete organisation
               </a>
-              {% endif %}
+              {% else %}
      
               
-
-              {% if not object.claimed_by == user %}
-              {% if object.claimed_by %}
-                   
-              <p>This organisation has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</a></p>
               <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span>
                 Improve this listing
               </a>
-              {% elif not object.claimed_by %}
+             
               <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                 <span class="icon">
                   <i class="fas fa-hand-paper"></i>
                 </span>
                 Claim this organisation 
               </a>
-            
-          {% elif not object.claimed_by %}
-            <a title="Click here to log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
-              <span class="icon">
-                <i class="fas fa-hand-paper"></i>
-              </span>
-              Claim this organisation
-            </a>
-          {% endif %}
-          {% endif %}
+              <p>This organisation has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</a></p>
+
               {% endif %}
+        
+                {% endif %}
+             
               <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link">
                 <span class="icon">
                 <i class="fas fa-arrow-left"></i>
