@@ -195,7 +195,7 @@
               {% if object.facebook %}<a title="Click here to view this contacts Facebook profile. (This page will open in a new window)" href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
               {% if object.twitter %}<a title="Click here to view this contacts Twitter profile. (This page will open in a new window)" href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
             </p>
-            {% if user_can_edit and object.claimed_by %}
+            {% if user_can_edit and object.claimed_by == user %}
               <a title="Click here to edit this organisations information." href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
             {% endif %}
              {% endif %}
@@ -217,12 +217,13 @@
 
         <div class="contact-info">
           {% if object.locations.all %}
+          
             <h4>Locations</h4>
             <div class="all-locations">
               {% for location in object.locations.all %}
                 {% include 'location/partials/detail.html' %}
               {% endfor %}
-              {% if user_can_edit %}
+              {% if object.claimed_by == user %}
                 <a title="Click here to add a location to this service." href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
               {% endif %}
             </div>
