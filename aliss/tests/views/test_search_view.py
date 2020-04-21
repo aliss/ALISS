@@ -157,17 +157,16 @@ class SearchViewTestCase(TestCase):
         self.assertNotContains(response, "New organisations search")
 
     def test_no_results_new_organisation_search_button_with_keyword_correct_link(self):
-        response = self.client.get('/search/?postcode=G2+4AA&q=bork')
+        response = self.client.get('/organisations/search/?postcode=G2+4AA&q=bork')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h2>Sorry, we couldn't find anything using those terms near G2 4AA.</h2>")
-        self.assertContains(response, "<a href=\"/organisations/search/?q=bork\" class=\"button primary\">New organisations search</a>")
+        self.assertContains(response, "<a title='Click here to start a new organisation search.' href=\"/organisations/search/new/\" class=\"button primary\">New organisation search</a>")
 
     def test_no_results_new_organisation_search_button_with_keyword_redirect(self):
         response = self.client.get('/search/?postcode=G2+4AA&q=bork')
         self.assertEqual(response.status_code, 200)
         response_button_click = self.client.get('/organisations/search/?q=bork')
         self.assertEqual(response_button_click.status_code, 200)
-
+        
     def test_more_locations_appears_when_no_district_match(self):
         response = self.client.get('/search/?postcode=G2+4AA&q=multi+location+service')
         self.assertEqual(response.status_code, 200)
@@ -292,14 +291,14 @@ class SearchViewTestCase(TestCase):
         self.assertContains(response, "<h1>Sorry, AB20 doesn't appear to be a valid postcode.</h1>", html=True)
 
     # def test_invalid_placename_search_error_page(self):
-    #     response = self.client.get('/search/?postcode=Argyll ')
+    #     response = self.client.get('/search/?postcode=Argyll')
     #     self.assertEqual(response.status_code, 200)
-    #     self.assertContains(response, "<h1>Sorry, Argyll couldn't be matched with a postcode.</h1>", html=True)
+    #     self.assertContains(response, '<h1>Sorry, ALISS is not available in your postcode.</h1>', html=True)
 
     def test_invalid_search_ALISS_not_available_error_page(self):
         response = self.client.get('/search/?postcode=Argyll Test')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Sorry, ALISS is not available in your postcode.</h1>", html=True)
+        self.assertContains(response, '<h1>Sorry, ALISS is not available in your postcode.</h1>', html=True)
 
     def test_invalid_postcode_error_page(self):
         response = self.client.get('/search/?postcode=G2 4ZZ')
