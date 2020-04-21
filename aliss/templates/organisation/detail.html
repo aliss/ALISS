@@ -89,17 +89,7 @@
             <div class="actions toggle-content">
               {% if request.user.is_authenticated %}
          
-              {% if object.claimed_by != user %}
-             
-          
-              <p>This organisation has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</a></p>
-              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-                <span class="icon">
-                <i class="fas fa-comment"></i>
-                </span>
-                Improve this listing
-              </a>
-              {% elif object.claimed_by%}
+              {% if object.claimed_by == user%}
               <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                 <span class="icon">
                   <i class="fas fa-plus"></i>
@@ -125,7 +115,20 @@
                 Delete organisation
               </a>
               {% endif %}
+     
+              
+
               {% if not object.claimed_by == user %}
+              {% if object.claimed_by %}
+                   
+              <p>This organisation has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</a></p>
+              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                <span class="icon">
+                <i class="fas fa-comment"></i>
+                </span>
+                Improve this listing
+              </a>
+              {% elif not object.claimed_by %}
               <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                 <span class="icon">
                   <i class="fas fa-hand-paper"></i>
@@ -140,6 +143,7 @@
               </span>
               Claim this organisation
             </a>
+          {% endif %}
           {% endif %}
               {% endif %}
               <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link">
