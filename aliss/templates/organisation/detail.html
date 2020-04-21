@@ -125,7 +125,7 @@
                 Delete organisation
               </a>
               {% endif %}
-            {% if not object.claimed_by %}
+            {% if not object.claimed_by == user %}
               <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                 <span class="icon">
                   <i class="fas fa-hand-paper"></i>
