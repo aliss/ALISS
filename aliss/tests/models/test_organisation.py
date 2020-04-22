@@ -27,10 +27,11 @@ class OrganisationTestCase(TestCase):
         staff  = ALISSUser.objects.get(email="staff@aliss.org")
         editor = ALISSUser.objects.filter(is_editor=True).first()
         punter = ALISSUser.objects.create(name="Ms Random", email="random@random.org")
-        self.assertTrue(o.is_edited_by(o.created_by))
+        self.assertEqual(rep, o.claimed_by)
         self.assertTrue(o.is_edited_by(staff))
-        self.assertTrue(o.is_edited_by(editor))
         self.assertTrue(o.is_edited_by(rep))
+        self.assertFalse(o.is_edited_by(o.created_by))
+        self.assertFalse(o.is_edited_by(editor))
         self.assertFalse(o.is_edited_by(punter))
 
     def test_rename_is_reflected_in_index(self):
