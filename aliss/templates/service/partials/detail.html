@@ -30,7 +30,7 @@
   {% endif %}
 
   {% can_edit request.user service as user_can_edit%}
-  {% if object.claimed_by == user %}
+  {% if object.claimed_by == user or user or user.is_staff%}
     <div class="edit-options">
       <a title="Click here to edit this service." href="{% url 'service_edit' pk=service.pk %}" class="icon-link">
         <span class="icon">
