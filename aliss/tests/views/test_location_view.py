@@ -11,7 +11,7 @@ class LocationViewTestCase(TestCase):
         self.service = Fixtures.create()
         self.organisation = self.service.organisation
         self.location = self.organisation.locations.first()
-        self.client.login(username="tester@aliss.org", password="passwurd")
+        self.client.login(username="claimant@user.org", password="passwurd")
 
 
     def test_location_edit(self):
