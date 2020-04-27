@@ -53,12 +53,15 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-# CORS Config
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
 X_FRAME_OPTIONS = 'DENY'
-# CORS_ORIGIN_WHITELIST = False
 CORS_URLS_REGEX = r'^/api/.*$'
+SECURE_HSTS_SECONDS = 3600
+XSS_PROTECT  = 'on'
+SECURE_BROWSER_XSS_FILTER = True
+
 
 
 ROOT_URLCONF = 'config.urls'
