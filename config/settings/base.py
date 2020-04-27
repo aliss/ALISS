@@ -69,8 +69,6 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_FRAME_DENY = True
 
 
-https://testing-aliss.herokuapp.com/
-
 ROOT_URLCONF = 'config.urls'
 
 CORS_ALLOW_HEADERS = [
