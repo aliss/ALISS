@@ -106,7 +106,7 @@
       <a title="Click here to copy this content to your clipboard." id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
       <p id="copy_message" class="small"></p>
       <p>The map will be embedded at 500 x 500 (px)</p>
-      <p>This embedded map will include a link to the ALISS page for this service.</p>
+      <p>This embedded map will include a link to the ALISS page for this service</p>
     </div>
   </div>
 </div>
@@ -136,7 +136,7 @@
                 {% csrf_token %}
                 <div class="sbs-inputs">
                   <input name="service" type="hidden" value="{{ object.pk }}">
-                  <input name="email" type="email" placeholder="email@company.com">
+                  <input name="email" type="email" placeholder="email@company.com" required>
                   <input type="submit" class="secondary" value="Send">
                 </div>
               </form>
@@ -201,24 +201,30 @@
                 </div>
               </form>
             </div>
-
-            {% if user_can_edit %}
-              <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
-                <span class="icon">
-                  <i class="fas fa-pencil-alt"></i>
-                </span>
-                Edit service
-              </a>
-              <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
-                <span class="icon">
-                  <i class="fas fa-trash-alt"></i>
-                </span>
-                Delete service
-              </a>
-              {% else %}
-              <br>
-              <p> This service has been claimed. Only the person who has claimed can edit this information.  If you want to suggest any changes please click on  <a title="Click here to provide information to improve this listing." id="improve-listing_modal" > <span class="icon"> <i class="fas fa-comment"></i> </span> Improve this listing </a> or contact <a>hello@aliss.org</a></p>
-             
+            {% if object.organisation.claimed_by == user or user.is_staff%}
+            <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+              <span class="icon">
+                <i class="fas fa-pencil-alt"></i>
+              </span>
+              Edit service
+            </a>
+            <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
+              <span class="icon">
+                <i class="fas fa-trash-alt"></i>
+              </span>
+              Delete service
+            </a>
+      
+            {%  elif object.organisation.claimed_by %}
+            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              <span class="icon">
+              <i class="fas fa-comment"></i>
+              </span>
+              Improve this listing
+            </a>
+          <br>
+          <p>This service can be edited only by the person who has claimed the organisation. If you want to suggest any changes, please click on the “Improve this listing” link above to submit your feedback.</p>
+       
             {% endif %}
           
 
@@ -269,7 +275,7 @@
                     {{ location.formatted_address }}
                   </a>
                   {% can_edit request.user location as user_can_edit %}
-                  {% if user_can_edit %}
+                  {% if object.claimed_by == user or user.is_staff%}
                     <div class="edit-options">
                       <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                         <span class="icon">

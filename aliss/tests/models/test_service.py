@@ -64,6 +64,17 @@ class ServiceTestCase(TestCase):
         self.service.delete()
         result = get_service(queryset, service_id)
         self.assertEqual(len(result), 0)
+    
+    def test_is_edited_by_without_claimant(self):
+        o = Fixtures.create_organisation(self.org.created_by, self.org.created_by)
+        s = Service.objects.create(name="My Other Service", description="A handy service", organisation=o, created_by=o.created_by, updated_by=o.created_by)
+        editor = ALISSUser.objects.filter(is_editor=True).first()
+        punter = ALISSUser.objects.create(name="Ms Random", email="random@random.org")
+        staff  = ALISSUser.objects.create(name="Ms Staff", email="msstaff@aliss.org", is_staff=True)
+        self.assertTrue(s.is_edited_by(staff))
+        self.assertTrue(s.is_edited_by(s.organisation.created_by))
+        self.assertTrue(s.is_edited_by(editor))
+        self.assertFalse(s.is_edited_by(punter))
 
     def test_is_edited_by_without_claimant(self):
         o = Fixtures.create_organisation(self.org.created_by, self.org.created_by)
@@ -84,6 +95,8 @@ class ServiceTestCase(TestCase):
         staff  = ALISSUser.objects.create(name="Ms Staff", email="msstaff@aliss.org", is_staff=True)
         self.assertEqual(rep, s.organisation.claimed_by)
         self.assertTrue(s.is_edited_by(staff))
+        self.assertFalse(s.is_edited_by(s.organisation.created_by))
+        self.assertFalse(s.is_edited_by(editor))
         self.assertTrue(s.is_edited_by(rep))
         self.assertFalse(s.is_edited_by(s.organisation.created_by))
         self.assertFalse(s.is_edited_by(editor))
