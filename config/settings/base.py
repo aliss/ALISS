@@ -54,15 +54,20 @@ MIDDLEWARE = [
 ]
 
 # CORS Config
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = False
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+    "https://testing-aliss.herokuapp.com",
+    "https://sub.testing-aliss.herokuapp.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000"
+]
+
 CORS_URLS_REGEX = r'^/api/.*$'
-# X-FRAME Config
 X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True 
 SECURE_FRAME_DENY = True
-SECURE_HSTS_SECONDS = 3600
-XSS_PROTECT  = 'on'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
 
 
 
