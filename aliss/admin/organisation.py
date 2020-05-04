@@ -30,5 +30,5 @@ class OrganisationAdmin(admin.ModelAdmin, ExportCsvMixin):
     ordering = ('claimed_by',)
     search_fields = ['name']
     actions = ['export_as_csv']
-    list_filter = ('claimed_by'),
+    # list_filter = ('claimed_by'),
     
