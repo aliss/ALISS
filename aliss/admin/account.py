@@ -1,7 +1,10 @@
 import csv
 from django.http import HttpResponse
 from django.contrib import admin
-from aliss.models import ALISSUser
+from aliss.models import ALISSUser, Organisation
+
+
+admin.site.site_header = 'Aliss Team Administration'
 
 class ExportCsvMixin:
     def export_as_csv(self, request, queryset):
@@ -12,7 +15,7 @@ class ExportCsvMixin:
         response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
         writer = csv.writer(response)
 
-        writer.writerow(field_names)
+        writer.writerow(field_names, delimiter=";")
         for obj in queryset:
             row = writer.writerow([getattr(obj, field) for field in field_names])
 
@@ -26,3 +29,5 @@ class ALISSUserAdmin(admin.ModelAdmin, ExportCsvMixin):
     search_fields = ['email']
     list_display = ['email', 'name', 'is_editor', 'is_staff', 'last_login']
     actions = ['export_as_csv']
+    
+
