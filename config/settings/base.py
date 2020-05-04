@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.sitemaps',
     'django_admin_listfilter_dropdown',
-    'django_admin_bootstrapped',
+    'django_admin_bootstrapped.bootstrap3'
+    'django-admin-bootstrapped',
 
     'django_filters',
     'rest_framework',
