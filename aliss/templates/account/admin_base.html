@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block branding %}
+    <a href="{% url 'admin:index' %}" class="django-admin-logo">
+        <!-- Django Administration -->
+        <img height="60" src="{% static "src/img/logo-print.png" %}" alt="{{ site_header|default:_('Django administration') }}">
+    </a>
+{% endblock branding %}
+
 {% block container %}
   <main class="main" role="main">
     <section id="content" class="my-account">
@@ -19,7 +28,7 @@
 
       <div class="grid-x my-account-links">
         <div class="cell small-6 medium-4 large-2">
-          <a title="Click here to navigate to your dashboard" href="{% url 'account_dashboard' %}" {% if request.resolver_match.url_name == 'account_dashboard' %}class="active"{% endif %}>
+          <a title="Click here to navigate to your dashboard." href="{% url 'account_dashboard' %}" {% if request.resolver_match.url_name == 'account_dashboard' %}class="active"{% endif %}>
             <span class="text">
               Dashboard
             </span>

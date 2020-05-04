@@ -1,6 +1,16 @@
 {% extends "base.html" %}
-
+{% extends 'admin/login.html' %}
+{% load i18n static %}
 {% block title %}Log In - ALISS{% endblock %}
+
+
+{% block branding %}
+    <a href="{% url 'admin:index' %}" class="django-admin-logo">
+        <!-- Django Administration -->
+        <img height="60" src="{% static "src/img/logo-print.png" %}" alt="{{ site_header|default:_('Django administration') }}">
+    </a>
+{% endblock branding %}
+
 {% block meta_schema %}
   <meta property="og:title" content="Log In - ALISS" />
   <meta name="twitter:title" content="Log In - ALISS" />
