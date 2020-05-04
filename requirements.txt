@@ -6,6 +6,7 @@ whitenoise==3.3.0
 django-filter==1.0.4
 elasticsearch==5.2.0
 elasticsearch-dsl==6.1.0
+bootstrap-admin>=0.4.3
 geopy==1.11.0
 djangorestframework>=3.9.1
 certifi==2017.1.23
