@@ -104,7 +104,7 @@ CORS_ALLOW_METHODS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'aliss/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
