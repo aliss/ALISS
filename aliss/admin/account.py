@@ -4,7 +4,9 @@ from django.contrib import admin
 from aliss.models import ALISSUser, Organisation
 
 
-admin.site.site_header = 'Aliss Team Administration'
+admin.site.site_header = "Aliss Admin"
+admin.site.site_title = "Aliss Admin Portal"
+admin.site.index_title = "Welcome to Aliss admin Portal"
 
 class ExportCsvMixin:
     def export_as_csv(self, request, queryset):
