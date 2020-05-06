@@ -24,10 +24,18 @@ class ExportCsvMixin:
 
 @admin.register(Organisation)
 class OrganisationAdmin(admin.ModelAdmin, ExportCsvMixin):
+    def custom_titled_filter(title):
+        class Wrapper(admin.FieldListFilter):
+            def __new__(cls, *args, **kwargs):
+                instance = admin.FieldListFilter.create(*args, **kwargs)
+                instance.title = title
+                return instance
+        return Wrapper
+
     exclude = ('id', 'created_by',  )
     list_display = ('name',  'claimed_by',  'created_on', 'last_edited', 'published')
     ordering = ('claimed_by',)
     search_fields = ['name']
     actions = ['export_as_csv']
-    list_filter = ('created_on'),
+    list_filter = ('created_on', custom_titled_filter('Last created')),
     
