@@ -17,18 +17,17 @@ class ExportCsvMixin:
         for obj in queryset:
             row = writer.writerow([getattr(obj, field) for field in field_names])
         
-  
         return response
 
     export_as_csv.short_description = "Export claimed Organisation"
-
+    
 
 @admin.register(Organisation)
 class OrganisationAdmin(admin.ModelAdmin, ExportCsvMixin):
-    exclude = ('id', 'created_by', 'created_on', )
-    list_display = ('name',  'claimed_by',  'last_edited', 'published')
+    exclude = ('id', 'created_by',  )
+    list_display = ('name',  'claimed_by',  'created_on', 'last_edited', 'published')
     ordering = ('claimed_by',)
     search_fields = ['name']
     actions = ['export_as_csv']
-    # list_filter = ('claimed_by'),
+    list_filter = ('created_on'),
     
