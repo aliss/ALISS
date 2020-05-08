@@ -49,6 +49,7 @@ class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
 
     def send_user_email(self, claim):
         if claim.status == Claim.CONFIRMED:
+            
             message = 'Congratulations, your claim of ownership for {organisation} on ALISS has been confirmed.'.format(organisation=claim.organisation)
         elif claim.status == Claim.REVOKED:
             message = 'We are sorry, but your claim of ownership for {organisation} on ALISS has been revoked.'.format(
@@ -82,6 +83,7 @@ class ClaimDetailView(StaffuserRequiredMixin, UpdateView):
         if self.object.status == Claim.CONFIRMED:
             self.object.organisation.claimed_by = self.object.user
             self.object.organisation.save()
+        
         elif self.object.status == Claim.REVOKED:
             self.object.organisation.claimed_by = None
             self.object.organisation.save()

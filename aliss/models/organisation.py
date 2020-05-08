@@ -12,6 +12,7 @@ from aliss.search import get_connection, organisation_to_body
 
 import pytz
 from datetime import datetime
+from aliss.models.claim import Claim
 
 class Organisation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
@@ -24,12 +25,13 @@ class Organisation(models.Model):
     twitter  = models.URLField(blank=True)
     slug     = models.CharField(max_length=120, null=True, blank=True, default=None)
     logo     = ALISSCloudinaryField('image', null=True, blank=True)
-
+    
     claimed_by = models.ForeignKey(
         'aliss.ALISSUser',
         null=True,
         on_delete=models.SET_NULL
     )
+
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         'aliss.ALISSUser',
@@ -43,6 +45,7 @@ class Organisation(models.Model):
         related_name='updated_organisations',
         null=True,
         on_delete=models.SET_NULL
+
     )
 
     last_edited = models.DateTimeField(null=True, blank=True, default=None)
