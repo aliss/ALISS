@@ -6,12 +6,12 @@ from aliss.models import Claim, Organisation, ALISSUser
 
 
 class ExportCsvMixin:
-
-    def export_as_csv(self, request, queryset):
     
+    def export_as_csv(self, request, queryset):
+      
         meta = self.model._meta
        
-        field = ['organisation', 'organisation_id' ]
+        field = ['organisation', 'user',]
   
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
@@ -19,8 +19,9 @@ class ExportCsvMixin:
         writer = csv.writer(response)
         writer.writerow(queryset)      
         for obj in queryset:
-
+    
             row = writer.writerow([getattr(obj, field) for field in field])        
+        
         return response
         
         export_as_csv.short_description = "Export claimed Organisation"
