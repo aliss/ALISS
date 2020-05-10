@@ -75,20 +75,6 @@ class ServiceTestCase(TestCase):
         self.assertTrue(s.is_edited_by(s.organisation.created_by))
         self.assertTrue(s.is_edited_by(editor))
         self.assertFalse(s.is_edited_by(punter))
-<<<<<<< HEAD
-=======
-
-    def test_is_edited_by_without_claimant(self):
-        o = Fixtures.create_organisation(self.org.created_by, self.org.created_by)
-        s = Service.objects.create(name="My Other Service", description="A handy service", organisation=o, created_by=o.created_by, updated_by=o.created_by)
-        editor = ALISSUser.objects.filter(is_editor=True).first()
-        punter = ALISSUser.objects.create(name="Ms Random", email="random@random.org")
-        staff  = ALISSUser.objects.create(name="Ms Staff", email="msstaff@aliss.org", is_staff=True)
-        self.assertTrue(s.is_edited_by(staff))
-        self.assertTrue(s.is_edited_by(s.organisation.created_by))
-        self.assertTrue(s.is_edited_by(editor))
-        self.assertFalse(s.is_edited_by(punter))
->>>>>>> feature/user_django__admin
 
     def test_is_edited_by(self):
         s = Service.objects.get(name="My First Service")
