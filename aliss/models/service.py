@@ -132,7 +132,7 @@ class Service(models.Model):
             )
         else:
             return self.remove_from_index()
-
+ 
     def remove_from_index(self, connection=None):
         if connection == None:
             connection = get_connection()

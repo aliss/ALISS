@@ -21,6 +21,16 @@ class OrganisationTestCase(TestCase):
         ALISSUser.objects.get(email="claimant@user.org").delete()
         self.test_org_exists()
 
+    def test_is_edited_by_without_claimant(self):
+        o = Fixtures.create_organisation(self.org.created_by, self.org.created_by)
+        staff  = ALISSUser.objects.get(email="staff@aliss.org")
+        editor = ALISSUser.objects.filter(is_editor=True).first()
+        punter = ALISSUser.objects.create(name="Ms Random", email="random@random.org")
+        self.assertTrue(o.is_edited_by(o.created_by))
+        self.assertTrue(o.is_edited_by(staff))
+        self.assertTrue(o.is_edited_by(editor))
+        self.assertFalse(o.is_edited_by(punter))
+
     def test_is_edited_by(self):
         o = Organisation.objects.get(name="TestOrg")
         rep    = ALISSUser.objects.get(email="claimant@user.org")

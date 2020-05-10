@@ -21,6 +21,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(',')
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap_admin', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sitemaps',
+    
+
 
     'django_filters',
     'rest_framework',
@@ -101,7 +104,7 @@ CORS_ALLOW_METHODS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'aliss/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

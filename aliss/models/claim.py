@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.conf import settings
 
 
+
 class Claim(models.Model):
     UNREVIEWED = 0
     CONFIRMED = 10
@@ -24,6 +25,7 @@ class Claim(models.Model):
     phone = models.CharField(max_length=30, default="")
     comment = models.TextField()
     status = models.IntegerField(choices=STATUS_CHOICES, default=UNREVIEWED)
+
 
     created_on = models.DateTimeField(default=timezone.now, editable=False)
 
