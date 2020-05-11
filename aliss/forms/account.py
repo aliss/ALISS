@@ -4,6 +4,7 @@ from django.contrib.auth import password_validation
 from django.urls import reverse_lazy
 from django.utils.functional import lazy
 from django.utils.safestring import mark_safe
+from captcha.fields  import CaptchaField
 
 from aliss.models import ALISSUser, RecommendedServiceList, Postcode
 
@@ -19,6 +20,7 @@ get_accept_terms_and_conditions_label_lazy = lazy(get_accept_terms_and_condition
 
 
 class SignupForm(forms.ModelForm):
+    
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
     }
@@ -68,8 +70,11 @@ class SignupForm(forms.ModelForm):
         error_css_class = 'has-error'
 
     def clean_email(self):
-        data = self.cleaned_data.get('email')
-        return data.lower()
+        data = self.cleaned_data['email']
+        if not data.islower():
+            raise forms.ValidationError("The email should be in lowercase")
+        return data
+        
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

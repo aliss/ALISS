@@ -11,6 +11,7 @@ from .organisation import Organisation
 
 
 class ALISSUserManager(BaseUserManager):
+        
     def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('The given email must be set')
