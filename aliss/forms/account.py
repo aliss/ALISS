@@ -4,7 +4,7 @@ from django.contrib.auth import password_validation
 from django.urls import reverse_lazy
 from django.utils.functional import lazy
 from django.utils.safestring import mark_safe
-from captcha.fields  import CaptchaField
+
 
 from aliss.models import ALISSUser, RecommendedServiceList, Postcode
 
