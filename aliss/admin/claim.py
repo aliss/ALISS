@@ -17,7 +17,7 @@ class ExportCsvMixin:
         response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
     
         writer = csv.writer(response)
-        writer.writerow(queryset)      
+     
         for obj in queryset:
     
             row = writer.writerow([getattr(obj, field) for field in field])        
