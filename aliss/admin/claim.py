@@ -34,5 +34,6 @@ class ClaimAdmin(admin.ModelAdmin, ExportCsvMixin):
     list_display = ['organisation', 'organisation_id', 'status', 'created_on']
     def organisation_id(self, obj):
             return obj.organisation.claimed_by
+    ordering = ['-created_on', ]
     search_fields = ['organisation__name']
     actions = ['export_as_csv']
