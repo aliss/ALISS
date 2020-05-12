@@ -24,8 +24,11 @@ class ExportCsvMixin:
 
 @admin.register(ALISSUser)
 class ALISSUserAdmin(admin.ModelAdmin, ExportCsvMixin):
-    search_fields = ['email']
-    list_display = ['email', 'name', 'is_editor', 'is_staff', 'last_login']
+    def custom_titled_filter(title):
+        class Wrapper(admin.FieldListFilter):
+         def __new__(cls, *args, **kwargs):
+          search_fields = ['email']
+    list_display = ['email', 'name', 'is_editor', 'is_staff', 'date_joined']
     list_filter = ('is_editor'),
     actions = ['export_as_csv']
     
