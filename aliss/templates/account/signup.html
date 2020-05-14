@@ -35,8 +35,12 @@
                     <i class="fa fa-info-circle" aria-hidden="true"></i> Use only lower case characters when you create a new account.
                     </p>
                     <br><br>
-                    <div class="f-row two">
+                    <div class="f-row three">
                         {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %}
+                        <label for="female">Email confirmation (Required)</label>
+                         <input type="email" name="Email" ><br> 
+
+                    
                     </div>
                     <div class="f-row two">
                         {% include 'partials/forms/field.html' with field=form.phone_number %} {% include 'partials/forms/field.html' with field=form.postcode %}
