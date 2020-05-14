@@ -70,7 +70,7 @@ class SignupForm(forms.ModelForm):
         error_css_class = 'has-error'
 
     def clean_email(self):
-        data = self.cleaned_data['email']
+        data = self.cleaned_data.get('email')
         if not data.islower():
             raise forms.ValidationError("The email should be in lowercase")
         return data
