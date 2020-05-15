@@ -37,8 +37,7 @@
                     <br><br>
                     <div class="f-row three">
                         {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %}
-                        <label for="female">Email confirmation (Required)</label>
-                         <input type="email" name="Email" ><br> 
+                        {% include 'partials/forms/field.html' with field=form.Email_two%}
 
                     
                     </div>

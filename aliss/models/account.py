@@ -17,13 +17,14 @@ class ALISSUserManager(BaseUserManager):
             raise ValueError('The given email must be set')
 
         email = self.normalize_email(email)
+        Email_two = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
 
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email, Email_two, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -32,7 +33,7 @@ class ALISSUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self.create_user(email, password, **extra_fields)
+        return self.create_user(email, Email_two, password, **extra_fields)
 
 
 class ALISSUser(AbstractBaseUser, PermissionsMixin):
@@ -42,6 +43,12 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
             'unique': _("A user with that email address already exists."),
         },
     )
+    Email_two = models.EmailField(
+        unique=False,
+    #     error_messages={
+    #         'unique': _("A user with that email address already exists."),
+    #     },
+     )
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -88,10 +95,10 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
         return reverse('user_detail', args=[str(self.username)])
 
     def get_full_name(self):
-        return self.name or self.email
+        return self.name or self.email or self.Email_two
 
     def get_short_name(self):
-        return self.name or self.email
+        return self.name or self.email or self.Email_two
 
     def claimed_organisations(self):
         return Organisation.objects.filter(claimed_by=self)

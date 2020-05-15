@@ -23,6 +23,7 @@ class SignupForm(forms.ModelForm):
     
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
+    
     }
 
     postcode = GBPostcodeField(
@@ -56,6 +57,7 @@ class SignupForm(forms.ModelForm):
         fields = (
             'name',
             'email',
+            'Email_two',
             'phone_number',
             'postcode',
             'password1',
@@ -70,11 +72,17 @@ class SignupForm(forms.ModelForm):
         error_css_class = 'has-error'
 
     def clean_email(self):
+    
         data = self.cleaned_data.get('email')
+        Email_two = self.cleaned_data.get("Email_two")
         if not data.islower():
             raise forms.ValidationError("The email should be in lowercase")
-        return data
+        # if Email_two == data:
+        #     raise forms.ValidationError("The two email fields didn't match.")
         
+        self.instance.username = self.cleaned_data.get('username')
+        return data
+     
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -94,6 +102,7 @@ class AccountUpdateForm(forms.ModelForm):
         fields = (
             'name',
             'email',
+            'Email_two',
             'phone_number',
             'postcode',
             'prepopulate_postcode'
@@ -120,6 +129,10 @@ class RecommendationServiceListForm(forms.ModelForm):
 
 class RecommendationListEmailForm(forms.Form):
     email = forms.EmailField()
+    recommendation_list = forms.ModelChoiceField(
+        queryset=RecommendedServiceList.objects.all()
+    )
+    Email_two= forms.EmailField()
     recommendation_list = forms.ModelChoiceField(
         queryset=RecommendedServiceList.objects.all()
     )
