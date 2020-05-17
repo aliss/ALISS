@@ -61,7 +61,7 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
     is_editor = models.BooleanField(default=False)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     name = models.CharField(max_length=50)
-    email_two = models.CharField(max_length=50)
+    email_two = models.EmailField(max_length=50)
     postcode = models.CharField(max_length=9, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
 
