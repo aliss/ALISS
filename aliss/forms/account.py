@@ -57,7 +57,7 @@ class SignupForm(forms.ModelForm):
         fields = (
             'name',
             'email',
-            'Email_two',
+            'email_two',
             'phone_number',
             'postcode',
             'password1',
@@ -74,11 +74,11 @@ class SignupForm(forms.ModelForm):
     def clean_email(self):
     
         data = self.cleaned_data.get('email')
-        Email_two = self.cleaned_data.get("Email_two")
+        email_two = self.cleaned_data.get("email_two")
         if not data.islower():
             raise forms.ValidationError("The email should be in lowercase")
-        # if Email_two == data:
-        #     raise forms.ValidationError("The two email fields didn't match.")
+        if email_two != data:
+             raise forms.ValidationError("The two email fields didn't match.")
         
         self.instance.username = self.cleaned_data.get('username')
         return data
@@ -102,7 +102,7 @@ class AccountUpdateForm(forms.ModelForm):
         fields = (
             'name',
             'email',
-            'Email_two',
+            'email_two',
             'phone_number',
             'postcode',
             'prepopulate_postcode'
@@ -132,7 +132,7 @@ class RecommendationListEmailForm(forms.Form):
     recommendation_list = forms.ModelChoiceField(
         queryset=RecommendedServiceList.objects.all()
     )
-    Email_two= forms.EmailField()
+    email_two= forms.EmailField()
     recommendation_list = forms.ModelChoiceField(
         queryset=RecommendedServiceList.objects.all()
     )

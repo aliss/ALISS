@@ -36,10 +36,9 @@
                     </p>
                     <br><br>
                     <div class="f-row three">
-                        {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %}
-                        {% include 'partials/forms/field.html' with field=form.Email_two%}
+                        {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %} {% include 'partials/forms/field.html' with field=form.email_two%}
 
-                    
+
                     </div>
                     <div class="f-row two">
                         {% include 'partials/forms/field.html' with field=form.phone_number %} {% include 'partials/forms/field.html' with field=form.postcode %}

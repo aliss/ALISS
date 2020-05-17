@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='alissuser',
-            name='Email_two',
+            name='email_two',
             field=models.EmailField(default=django.utils.datetime_safe.date.today, error_messages={'unique': 'A user with that email address already exists.'}, max_length=254),
             preserve_default=False,
         ),
