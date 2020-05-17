@@ -76,17 +76,18 @@ class SignupForm(forms.ModelForm):
         error_css_class = 'has-error'
 
     def clean_email(self):
-    
-        data = self.cleaned_data.get('email')
-        email2 = data.get('email_two')
+         data = self.cleaned_data.get('email')
+         email2 = self.cleaned_data.get("email_two")
+         if not data.islower():
+             raise forms.ValidationError("The email should be in lowercase")
+            
+         if data and email2 and data != email2:
+             raise forms.ValidationError(
+                 self.error_messages['email_mismatch'],
+                 code='email_mismatch',
+             )
+         return data
 
-        if not data.islower():
-            raise forms.ValidationError("The email should be in lowercase")
-        if email2 != data:
-              raise forms.ValidationError("The two email fields didn't match.")
-    
-
-        return data
         
 
     def clean_password2(self):
