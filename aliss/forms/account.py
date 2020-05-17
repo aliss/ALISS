@@ -27,6 +27,7 @@ class SignupForm(forms.ModelForm):
     
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
+        'email_mismatch' : "The two email fields didn't match.",
     
     }
 
