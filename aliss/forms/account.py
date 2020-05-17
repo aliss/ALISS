@@ -1,6 +1,7 @@
 from django import forms
 from localflavor.gb.forms import GBPostcodeField
 from django.contrib.auth import password_validation
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.utils.functional import lazy
 from django.utils.safestring import mark_safe
@@ -18,6 +19,9 @@ def get_accept_terms_and_conditions_label():
 
 get_accept_terms_and_conditions_label_lazy = lazy(get_accept_terms_and_conditions_label, str)
 
+email_two = forms.CharField(
+    label="Email Check"
+)
 
 class SignupForm(forms.ModelForm):
     
@@ -74,17 +78,16 @@ class SignupForm(forms.ModelForm):
     def clean_email(self):
     
         data = self.cleaned_data.get('email')
-        email_two = self.cleaned_data.get("email_two")
-        # if not data.islower():
-        #     raise forms.ValidationError("The email should be in lowercase")
-        # if email_two != data:
-        #      raise forms.ValidationError("The two email fields didn't match.")
-        if not email_two.islower():
-              raise forms.ValidationError("The email should be in lowercase")
-        
-        self.instance.username = self.cleaned_data.get('username')
+        email2 = data.get('email_two')
+
+        if not data.islower():
+            raise forms.ValidationError("The email should be in lowercase")
+        if email2 != data:
+              raise forms.ValidationError("The two email fields didn't match.")
+    
+
         return data
-     
+        
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

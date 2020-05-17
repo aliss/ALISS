@@ -105,6 +105,7 @@ class BaseServiceSerializer(serializers.Serializer):
     url = serializers.URLField(required=False)
     phone = serializers.CharField(required=False)
     email = serializers.CharField(required=False)
+    email_two = serializers.CharField(required=False)
     categories = CategorySearchSerializer(many=True, required=False)
     service_areas = ServiceAreaSerializer(many=True, required=False)
 
@@ -121,6 +122,7 @@ class v4OrganisationDetailSerializer(OrganisationSerializer):
     url = serializers.URLField()
     phone = serializers.CharField()
     email = serializers.CharField()
+    email_two = serializers.CharField()
     last_edited = serializers.DateTimeField()
     services = BaseServiceSerializer(many=True)
     locations = LocationSerializer(many=True)
