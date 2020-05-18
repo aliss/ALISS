@@ -1,9 +1,11 @@
 from django import forms
 from localflavor.gb.forms import GBPostcodeField
 from django.contrib.auth import password_validation
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.utils.functional import lazy
 from django.utils.safestring import mark_safe
+
 
 from aliss.models import ALISSUser, RecommendedServiceList, Postcode
 
@@ -17,10 +19,11 @@ def get_accept_terms_and_conditions_label():
 
 get_accept_terms_and_conditions_label_lazy = lazy(get_accept_terms_and_conditions_label, str)
 
-
 class SignupForm(forms.ModelForm):
+    
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
+    
     }
 
     postcode = GBPostcodeField(
@@ -36,13 +39,16 @@ class SignupForm(forms.ModelForm):
             'autocomplete': 'new-password',
         }),
     )
-
+   
+    email2 = forms.EmailField(label='Confirm Email')
+    
     password2 = forms.CharField(
         help_text='Both passwords must match.',
         label="Password confirmation",
         widget=forms.PasswordInput(),
         strip=False,
     )
+    
 
     accept_terms_and_conditions = forms.BooleanField(
         required=True,
@@ -54,6 +60,7 @@ class SignupForm(forms.ModelForm):
         fields = (
             'name',
             'email',
+            'email2',
             'phone_number',
             'postcode',
             'password1',
@@ -68,8 +75,14 @@ class SignupForm(forms.ModelForm):
         error_css_class = 'has-error'
 
     def clean_email(self):
-        data = self.cleaned_data.get('email')
-        return data.lower()
+         email= self.cleaned_data.get('email')
+       
+         if not email.islower():
+             raise forms.ValidationError("The email should be in lowercase")
+ 
+         return email
+
+        
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -114,10 +127,12 @@ class RecommendationServiceListForm(forms.ModelForm):
 
 
 class RecommendationListEmailForm(forms.Form):
+    
     email = forms.EmailField()
     recommendation_list = forms.ModelChoiceField(
         queryset=RecommendedServiceList.objects.all()
     )
+    
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')

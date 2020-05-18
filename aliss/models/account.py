@@ -11,6 +11,7 @@ from .organisation import Organisation
 
 
 class ALISSUserManager(BaseUserManager):
+        
     def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('The given email must be set')
@@ -22,7 +23,7 @@ class ALISSUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email, email_two, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -31,7 +32,7 @@ class ALISSUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self.create_user(email, password, **extra_fields)
+        return self.create_user(email, email_two, password, **extra_fields)
 
 
 class ALISSUser(AbstractBaseUser, PermissionsMixin):
@@ -41,6 +42,7 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
             'unique': _("A user with that email address already exists."),
         },
     )
+    
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -90,7 +92,7 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
         return self.name or self.email
 
     def get_short_name(self):
-        return self.name or self.email
+        return self.name or self.email or self.email_two
 
     def claimed_organisations(self):
         return Organisation.objects.filter(claimed_by=self)

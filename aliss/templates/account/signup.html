@@ -1,70 +1,75 @@
-{% extends "base.html" %}
-{% load aliss %}
-
-{% block title %}Sign Up - ALISS{% endblock %}
-{% block meta_schema %}
-  <meta property="og:title" content="Sign Up - ALISS" />
-  <meta name="twitter:title" content="Sign Up - ALISS" />
-  <meta name="description" content="Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.">
-  <meta property="og:description" content="Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more." />
-  <meta name="twitter:description" content="Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more." />
-{% endblock %}
-
-{% block container %}
+{% extends "base.html" %} {% load aliss %} {% block title %}Sign Up - ALISS{% endblock %} {% block meta_schema %}
+<meta property="og:title" content="Sign Up - ALISS" />
+<meta name="twitter:title" content="Sign Up - ALISS" />
+<meta name="description" content="Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more.">
+<meta property="og:description" content="Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more." />
+<meta name="twitter:description" content="Joining ALISS allows you to receive notifications about new services in your area, get updates if a service you frequent is changed and more." /> {% endblock %} {% block container %}
 <main class="main" role="main">
-  <section id="content">
-    <div class="row">
-      <div class="columns content">
-        <div class="copy-container">
-          <h1>Sign up</h1>
-          <p>By joining our community you can:</p>
-          <ul>
-            <li>Add your organisation, and its services to ALISS</li>
-            <li>If your organisation is already on ALISS, you can submit a claim to gain editorial control over its page</li>
-            <li>Pre-fill the search box with your postcode for a quick and easy search</li>
-            <!--
+    <section id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>Sign up</h1>
+                    <p>By joining our community you can:</p>
+                    <ul>
+                        <li>Add your organisation, and its services to ALISS</li>
+                        <li>If your organisation is already on ALISS, you can submit a claim to gain editorial control over its page</li>
+                        <li>Pre-fill the search box with your postcode for a quick and easy search</li>
+                        <!--
             <li>Configure your search options allowing for easier searching and better results</li>
             <li>Receive notifications about new services or changes to service information</li>
             -->
-            <li>Save services that matter to you and the people you work with</li>
-            <!-- <li>Get an email digest of changes straight into your inbox</li> -->
-            <li>Share service information with people you work with and care about</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="large-form">
-    <div class="row">
-      <div class="columns">
-        <form method="post">
-          {% csrf_token %}
-          <div class="f-row two">
-            {% include 'partials/forms/field.html' with field=form.name %}
-            {% include 'partials/forms/field.html' with field=form.email %}
-          </div>
-          <div class="f-row two">
-            {% include 'partials/forms/field.html' with field=form.phone_number %}
-            {% include 'partials/forms/field.html' with field=form.postcode %}
-          </div>
-          <div class="f-row two">
-            {% include 'partials/forms/field.html' with field=form.password1 %}
-            {% include 'partials/forms/field.html' with field=form.password2 %}
-          </div>
-          {% comment %}
-          <div class="preferences">
-            <div class="pad">
-              <div class="info-box needs">
-                <div class="heading">
-                  <h4>My needs</h4>
+                        <li>Save services that matter to you and the people you work with</li>
+                        <!-- <li>Get an email digest of changes straight into your inbox</li> -->
+                        <li>Share service information with people you work with and care about</li>
+                    </ul>
                 </div>
-                <p>Which categories are most relevant to your current needs?</p>
-                {% get_root_categories as root_categories %}
-                <div class="all-categories">
-                  <ul class="radio-list cat truncate">
-                    {% for category in root_categories %}
-                      <li>
-                        <label>
+            </div>
+        </div>
+    </section>
+    <section class="large-form">
+        <div class="row">
+            <div class="columns">
+                <form method="post" name="registration">
+                    {% csrf_token %}
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> Use only lower case characters when you create a new account.
+                    </p>
+                    <br><br>
+                    <div class="f-row three">
+                        {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %}
+                        <div class="f-error" id="toggle1" style="display:none">The two mail didn’t match.<br></div>
+                        <!-- <div id="emailerror"></div> -->
+                        {% include 'partials/forms/field.html' with field=form.email2%}
+                        <div class="f-error" id="toggle2" style="display:none">The two mail didn’t match.<br></div>
+
+
+                    </div>
+
+                    <div class="f-row two">
+                        {% include 'partials/forms/field.html' with field=form.phone_number %} {% include 'partials/forms/field.html' with field=form.postcode %}
+                    </div>
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> Password must have 8 character, both lowercase and Uppercase are accepted the password must much.
+                    </p>
+                    <br><br>
+                    <div class="f-row two">
+                        {% include 'partials/forms/field.html' with field=form.password1 %} {% include 'partials/forms/field.html' with field=form.password2 %}
+
+                    </div>
+
+                    {% comment %}
+                    <div class="preferences">
+                        <div class="pad">
+                            <div class="info-box needs">
+                                <div class="heading">
+                                    <h4>My needs</h4>
+                                </div>
+                                <p>Which categories are most relevant to your current needs?</p>
+                                {% get_root_categories as root_categories %}
+                                <div class="all-categories">
+                                    <ul class="radio-list cat truncate">
+                                        {% for category in root_categories %}
+                                        <li>
+                                            <label>
                           <input type="checkbox">
                           <span class="cat">
                             <i class="fa fa-utensil-fork"></i>
@@ -73,83 +78,121 @@
                             {{ category.name }}
                           </span>
                         </label>
-                      </li>
-                    {% endfor %}
-                  </ul>
-                </div>
-                <p><a title="Click here to deselect all your selected categories." class="clear-all">Clear All</a></p>
-              </div>
-              <div class="info-box notifications">
-                <div class="heading">
-                  <h4>My notifications</h4>
-                </div>
-                <div class="checkbox-list">
-                  <div>
-                    <label>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <p><a title="Click here to deselect all your selected categories." class="clear-all">Clear All</a></p>
+                            </div>
+                            <div class="info-box notifications">
+                                <div class="heading">
+                                    <h4>My notifications</h4>
+                                </div>
+                                <div class="checkbox-list">
+                                    <div>
+                                        <label>
                       <input type="checkbox">
                       <span class="name">
                         Let me know when new services relevant to my needs open up in my postcode
                       </span>
                     </label>
-                  </div>
-                  <div>
-                    <label>
+                                    </div>
+                                    <div>
+                                        <label>
                       <input type="checkbox">
                       <span class="name">
                         Let me know when information changes for a service I’ve saved
                       </span>
                     </label>
-                  </div>
-                </div>
-              </div>
-              <div class="info-box contact-me">
-                <div class="heading">
-                  <h4>How to contact me</h4>
-                </div>
-                <div class="checkbox-list">
-                  <div>
-                    <label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-box contact-me">
+                                <div class="heading">
+                                    <h4>How to contact me</h4>
+                                </div>
+                                <div class="checkbox-list">
+                                    <div>
+                                        <label>
                       <input type="checkbox">
                       <span class="name">
                         Send me email notifications
                       </span>
                     </label>
-                  </div>
-                  <div>
-                    <label>
+                                    </div>
+                                    <div>
+                                        <label>
                       <input type="checkbox" disabled>
                       <span class="name">
                         Send me notifications by text (coming soon)
                       </span>
                     </label>
-                  </div>
-                </div>
-              </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="copy-container">
+                            <p>You can change these preferences at any time. Email notifications are sent in the form of one weekly digest so we don’t overload your inbox.</p>
+                        </div>
+                    </div>
+                    {% endcomment %}
+                    <div class="submit">
+                        {% include 'partials/forms/checkbox_agree.html' with field=form.prepopulate_postcode %} {% include 'partials/forms/checkbox_agree.html' with field=form.accept_terms_and_conditions %}
+                        <input type="submit" value="Sign up">
+                    </div>
+                </form>
             </div>
-            <div class="copy-container">
-              <p>You can change these preferences at any time. Email notifications are sent in the form of one weekly digest so we don’t overload your inbox.</p>
-            </div>
-          </div>
-          {% endcomment %}
-          <div class="submit">
-            {% include 'partials/forms/checkbox_agree.html' with field=form.prepopulate_postcode %}
-            {% include 'partials/forms/checkbox_agree.html' with field=form.accept_terms_and_conditions %}
-            <input type="submit" value="Sign up">
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
+        </div>
+    </section>
 </main>
-{% endblock %}
+{% endblock %} {% block before_body_close %}
+<script type="text/javascript">
+    var _isvalid = true;
+    $(document).ready(function() {
 
-{% block before_body_close %}
-  <script type="text/javascript">
-  $(document).ready(function(){
-    $('#id_password1').on('focus', function(){
-    $('#id_password1-help-text').show()
-    $('#id_password2-help-text').show()
+        validatesignupform();
     })
-  })
-  </script>
+
+    function validatetoggle() {
+        var email1 = $('#id_email');
+        var email2 = $('#id_email2');
+        var error1 = $('#toggle1');
+        var error2 = $('#toggle2');
+
+        if (email1.val() != email2.val()) {
+            _isvalid = false;
+            error1.show();
+            error2.show();
+        } else {
+            _isvalid = true;
+            error1.hide();
+            error2.hide();
+
+        }
+
+    }
+
+    function validatesignupform() {
+
+        $("#id_email2").on('blur', function() {
+            validatetoggle();
+        });
+        $("#id_email1").on('blur', function() {
+            validatetoggle();
+
+        });
+        $('#id_password1').on('focus', function() {
+            $('#id_password1-help-text').show()
+            $('#id_password2-help-text').show()
+        });
+
+        $("form").submit(function() {
+
+            if (_isvalid) {
+                return true;
+            }
+        });
+
+    }
+</script>
 {% endblock%}
