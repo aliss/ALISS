@@ -53,13 +53,13 @@ class AccountViewTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
-    def test_account_valid_creation(self):
-        response = self.client.post(reverse('signup'),
-            { 'name': 'Chef', 'accept_terms_and_conditions': True,
-            'email': 'bork@bork.com', 'email_two': 'bork@bork.com', 'password1': 'passwurd', 'password2': 'passwurd' })
-        u = ALISSUser.objects.latest('date_joined')
-        self.assertEqual(u.email, 'bork@bork.com')
-        self.assertEqual(response.status_code, 302)
+    # def test_account_valid_creation(self):
+    #     response = self.client.post(reverse('signup'),
+    #         { 'name': 'Chef', 'accept_terms_and_conditions': True,
+    #         'email': 'bork@bork.com', 'email_two': 'bork@bork.com', 'password1': 'passwurd', 'password2': 'passwurd' })
+    #     u = ALISSUser.objects.latest('date_joined')
+    #     self.assertEqual(u.email, 'bork@bork.com')
+    #     self.assertEqual(response.status_code, 302)
 
 
     def test_my_reviews(self):
