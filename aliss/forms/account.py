@@ -23,7 +23,6 @@ class SignupForm(forms.ModelForm):
     
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
-        'email_mismatch' : "The two email fields didn't match.",
     
     }
 
@@ -40,7 +39,9 @@ class SignupForm(forms.ModelForm):
             'autocomplete': 'new-password',
         }),
     )
-
+   
+    email2 = forms.EmailField(label='Confirm Email')
+    
     password2 = forms.CharField(
         help_text='Both passwords must match.',
         label="Password confirmation",
@@ -48,20 +49,6 @@ class SignupForm(forms.ModelForm):
         strip=False,
     )
     
-    email1= forms.CharField(
-        help_text='Both emails must match.',
-        label="Email",
-        widget=forms.EmailInput(),
-        strip=False,
-    )
-
-    email2= forms.CharField(
-        help_text='Both emails must match.',
-        label="Email confirmation",
-        widget=forms.EmailInput(),
-        strip=False,
-    )
-
 
     accept_terms_and_conditions = forms.BooleanField(
         required=True,
@@ -72,7 +59,7 @@ class SignupForm(forms.ModelForm):
         model = ALISSUser
         fields = (
             'name',
-            'email1',
+            'email',
             'email2',
             'phone_number',
             'postcode',
@@ -88,14 +75,13 @@ class SignupForm(forms.ModelForm):
         error_css_class = 'has-error'
 
     def clean_email(self):
-         data = self.cleaned_data.get('email1')
-         email2 = self.cleaned_data.get("email2")
-         if not data.islower():
+         email= self.cleaned_data.get('email')
+        #  email2 = self.cleaned_data.get("email2")
+         if not email.islower():
              raise forms.ValidationError("The email should be in lowercase")
-            
-         if data and email2 and data != email2:
-            raise forms.ValidationError("The two email fields didn't match.")
-         return email2
+        #  if email and email2 and email != email2:
+        #        raise forms.ValidationError("Emails do not match")
+         return email
 
         
 

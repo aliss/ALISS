@@ -121,7 +121,6 @@ class v4OrganisationDetailSerializer(OrganisationSerializer):
     url = serializers.URLField()
     phone = serializers.CharField()
     email = serializers.CharField()
-    email_two = serializers.CharField()
     last_edited = serializers.DateTimeField()
     services = BaseServiceSerializer(many=True)
     locations = LocationSerializer(many=True)

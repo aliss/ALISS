@@ -30,16 +30,18 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                <form method="post">
+                <form method="post" name="registration">
                     {% csrf_token %}
                     <i class="fa fa-info-circle" aria-hidden="true"></i> Use only lower case characters when you create a new account.
                     </p>
+                    <div id="formerror"></div>
                     <br><br>
                     <div class="f-row three">
-                        {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email1 %} {% include 'partials/forms/field.html' with field=form.email2%}
+                        {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %} {% include 'partials/forms/field.html' with field=form.email2%}
 
 
                     </div>
+                    <div id="emailerror"></div>
                     <div class="f-row two">
                         {% include 'partials/forms/field.html' with field=form.phone_number %} {% include 'partials/forms/field.html' with field=form.postcode %}
                     </div>
@@ -48,7 +50,9 @@
                     <br><br>
                     <div class="f-row two">
                         {% include 'partials/forms/field.html' with field=form.password1 %} {% include 'partials/forms/field.html' with field=form.password2 %}
+
                     </div>
+
                     {% comment %}
                     <div class="preferences">
                         <div class="pad">
@@ -141,10 +145,55 @@
 {% endblock %} {% block before_body_close %}
 <script type="text/javascript">
     $(document).ready(function() {
+
+        validatesignupform();
+    })
+
+    function validatesignupform() {
+        var _isvalid = true;
+        console.log('testvt');
+
+        $("#id_email2").blur(function() {
+            var email1 = $('#id_email').val();
+            var email2 = $('#id_email2').val();
+            if (email1 != email2) {
+                _isvalid = false;
+                $('#emailerror').html("<p style='color:red'>error email does not match</p>");
+                // $('#formerror').html('error email does not match');
+            } // $('#formerror').html('error email does not match');
+            else {
+                $('#emailerror').html("");
+
+            }
+
+        });
+        $("#id_email1").blur(function() {
+            var email1 = $('#id_email').val();
+            var email2 = $('#id_email2').val();
+            if (email1 != email2) {
+                _isvalid = false;
+                $('#emailerror').html("<p style='color:red'>error email does not match</p>");
+            } // $('#formerror').html('error email does not match');
+            else {
+                $('#emailerror').html("");
+
+            }
+        });
         $('#id_password1').on('focus', function() {
             $('#id_password1-help-text').show()
             $('#id_password2-help-text').show()
-        })
-    })
+        });
+
+        $("form").submit(function() {
+
+
+
+
+            if (_isvalid) {
+                return true;
+            }
+        });
+
+    }
 </script>
 {% endblock%}

@@ -38,7 +38,7 @@ def login_view(request, *args, **kwargs):
     if request.method == 'POST':
         try:
             username = request.POST.get('username')
-            user = ALISSUser.objects.get(email1=username)
+            user = ALISSUser.objects.get(email=username)
             if not request.POST.get('remember_me', None):
                 request.session.set_expiry(0)
             referer = request.META.get('HTTP_REFERER', '/')
@@ -59,7 +59,7 @@ class AccountSignupView(CreateView):
 
     def form_valid(self, form):
         self.object = ALISSUser.objects.create_user(
-            email=form.cleaned_data['email1'],
+            email=form.cleaned_data['email'],
             password=form.cleaned_data['password1'],
             name=form.cleaned_data['name'],
             phone_number=form.cleaned_data['phone_number'],
@@ -70,7 +70,7 @@ class AccountSignupView(CreateView):
         # Authenticate the newly created user
         user = authenticate(
             request=self.request,
-            username=form.cleaned_data['email1'],
+            username=form.cleaned_data['email'],
             password=form.cleaned_data['password1']
         )
         login(self.request, user)
@@ -353,7 +353,7 @@ class AccountRecommendationListPrintView(
             subject,
             body,
             settings.DEFAULT_FROM_EMAIL,
-            [form.cleaned_data.get('email1')]
+            [form.cleaned_data.get('email')]
         )
         html_email = loader.render_to_string(
             "account/emails/recommendations.html",
