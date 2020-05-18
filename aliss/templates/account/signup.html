@@ -34,14 +34,17 @@
                     {% csrf_token %}
                     <i class="fa fa-info-circle" aria-hidden="true"></i> Use only lower case characters when you create a new account.
                     </p>
-                    <div id="formerror"></div>
                     <br><br>
                     <div class="f-row three">
-                        {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %} {% include 'partials/forms/field.html' with field=form.email2%}
+                        {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %}
+                        <div class="f-error" id="toggle1" style="display:none">The two mail didn’t match.<br></div>
+                        <!-- <div id="emailerror"></div> -->
+                        {% include 'partials/forms/field.html' with field=form.email2%}
+                        <div class="f-error" id="toggle2" style="display:none">The two mail didn’t match.<br></div>
 
 
                     </div>
-                    <div id="emailerror"></div>
+
                     <div class="f-row two">
                         {% include 'partials/forms/field.html' with field=form.phone_number %} {% include 'partials/forms/field.html' with field=form.postcode %}
                     </div>
@@ -144,39 +147,38 @@
 </main>
 {% endblock %} {% block before_body_close %}
 <script type="text/javascript">
+    var _isvalid = true;
     $(document).ready(function() {
 
         validatesignupform();
     })
 
+    function validatetoggle() {
+        var email1 = $('#id_email');
+        var email2 = $('#id_email2');
+        var error1 = $('#toggle1');
+        var error2 = $('#toggle2');
+
+        if (email1.val() != email2.val()) {
+            _isvalid = false;
+            error1.show();
+            error2.show();
+        } else {
+            _isvalid = true;
+            error1.hide();
+            error2.hide();
+
+        }
+
+    }
+
     function validatesignupform() {
-        var _isvalid = true;
 
-        $("#id_email2").blur(function() {
-            var email1 = $('#id_email').val();
-            var email2 = $('#id_email2').val();
-            if (email1 != email2) {
-                _isvalid = false;
-                $('#emailerror').html("<p style='color:red'>error email does not match</p>");
-
-            } else {
-                $('#emailerror').html("");
-
-            }
-
+        $("#id_email2").on('blur', function() {
+            validatetoggle();
         });
-        $("#id_email1").blur(function() {
-            var email1 = $('#id_email').val();
-            var email2 = $('#id_email2').val();
-            if (email1 != email2) {
-                _isvalid = false;
-
-                $('#emailerror').html("<p style='color:red'>error email does not match</p>");
-
-            } else {
-                $('#emailerror').html("");
-
-            }
+        $("#id_email1").on('blur', function() {
+            validatetoggle();
 
         });
         $('#id_password1').on('focus', function() {
