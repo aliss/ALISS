@@ -151,7 +151,6 @@
 
     function validatesignupform() {
         var _isvalid = true;
-        console.log('testvt');
 
         $("#id_email2").blur(function() {
             var email1 = $('#id_email').val();
@@ -159,9 +158,8 @@
             if (email1 != email2) {
                 _isvalid = false;
                 $('#emailerror').html("<p style='color:red'>error email does not match</p>");
-                // $('#formerror').html('error email does not match');
-            } // $('#formerror').html('error email does not match');
-            else {
+
+            } else {
                 $('#emailerror').html("");
 
             }
@@ -172,12 +170,14 @@
             var email2 = $('#id_email2').val();
             if (email1 != email2) {
                 _isvalid = false;
+
                 $('#emailerror').html("<p style='color:red'>error email does not match</p>");
-            } // $('#formerror').html('error email does not match');
-            else {
+
+            } else {
                 $('#emailerror').html("");
 
             }
+
         });
         $('#id_password1').on('focus', function() {
             $('#id_password1-help-text').show()
@@ -185,9 +185,6 @@
         });
 
         $("form").submit(function() {
-
-
-
 
             if (_isvalid) {
                 return true;

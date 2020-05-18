@@ -76,11 +76,10 @@ class SignupForm(forms.ModelForm):
 
     def clean_email(self):
          email= self.cleaned_data.get('email')
-        #  email2 = self.cleaned_data.get("email2")
+       
          if not email.islower():
              raise forms.ValidationError("The email should be in lowercase")
-        #  if email and email2 and email != email2:
-        #        raise forms.ValidationError("Emails do not match")
+ 
          return email
 
         
