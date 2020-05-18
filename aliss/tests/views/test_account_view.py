@@ -61,7 +61,6 @@ class AccountViewTestCase(TestCase):
     #     self.assertEqual(u.email, 'bork@bork.com')
     #     self.assertEqual(response.status_code, 302)
 
-
     def test_my_reviews(self):
         response = self.client.get(reverse('account_my_reviews'))
         self.assertEqual(response.status_code, 200)
