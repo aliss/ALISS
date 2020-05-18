@@ -19,10 +19,6 @@ def get_accept_terms_and_conditions_label():
 
 get_accept_terms_and_conditions_label_lazy = lazy(get_accept_terms_and_conditions_label, str)
 
-email_two = forms.CharField(
-    label="Email Check"
-)
-
 class SignupForm(forms.ModelForm):
     
     error_messages = {
@@ -51,6 +47,21 @@ class SignupForm(forms.ModelForm):
         widget=forms.PasswordInput(),
         strip=False,
     )
+    
+    email1= forms.CharField(
+        help_text='Both emails must match.',
+        label="Email",
+        widget=forms.EmailInput(),
+        strip=False,
+    )
+
+    email2= forms.CharField(
+        help_text='Both emails must match.',
+        label="Email confirmation",
+        widget=forms.EmailInput(),
+        strip=False,
+    )
+
 
     accept_terms_and_conditions = forms.BooleanField(
         required=True,
@@ -61,8 +72,8 @@ class SignupForm(forms.ModelForm):
         model = ALISSUser
         fields = (
             'name',
-            'email',
-            'email_two',
+            'email1',
+            'email2',
             'phone_number',
             'postcode',
             'password1',
@@ -77,17 +88,14 @@ class SignupForm(forms.ModelForm):
         error_css_class = 'has-error'
 
     def clean_email(self):
-         data = self.cleaned_data.get('email')
-         email2 = self.cleaned_data.get("email_two")
+         data = self.cleaned_data.get('email1')
+         email2 = self.cleaned_data.get("email2")
          if not data.islower():
              raise forms.ValidationError("The email should be in lowercase")
             
          if data and email2 and data != email2:
-             raise forms.ValidationError(
-                 self.error_messages['email_mismatch'],
-                 code='email_mismatch',
-             )
-         return data
+            raise forms.ValidationError("The two email fields didn't match.")
+         return email2
 
         
 
@@ -109,7 +117,6 @@ class AccountUpdateForm(forms.ModelForm):
         fields = (
             'name',
             'email',
-            'email_two',
             'phone_number',
             'postcode',
             'prepopulate_postcode'
@@ -135,14 +142,12 @@ class RecommendationServiceListForm(forms.ModelForm):
 
 
 class RecommendationListEmailForm(forms.Form):
+    
     email = forms.EmailField()
     recommendation_list = forms.ModelChoiceField(
         queryset=RecommendedServiceList.objects.all()
     )
-    email_two= forms.EmailField()
-    recommendation_list = forms.ModelChoiceField(
-        queryset=RecommendedServiceList.objects.all()
-    )
+    
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')

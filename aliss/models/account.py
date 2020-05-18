@@ -17,7 +17,6 @@ class ALISSUserManager(BaseUserManager):
             raise ValueError('The given email must be set')
 
         email = self.normalize_email(email)
-        email_two = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
 
@@ -43,13 +42,6 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
             'unique': _("A user with that email address already exists."),
         },
     )
-    email_two  = models.EmailField(
-        unique=True,
-        error_messages={
-            'unique': _("A user with that email address already exists."),
-        },
-    )
-    
     
     is_staff = models.BooleanField(
         _('staff status'),
@@ -97,7 +89,7 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
         return reverse('user_detail', args=[str(self.username)])
 
     def get_full_name(self):
-        return self.name or self.email or self.email_two
+        return self.name or self.email
 
     def get_short_name(self):
         return self.name or self.email or self.email_two
