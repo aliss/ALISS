@@ -38,9 +38,11 @@
                     <div class="f-row three">
                         {% include 'partials/forms/field.html' with field=form.name %} {% include 'partials/forms/field.html' with field=form.email %}
                         <div class="f-error" id="toggle1" style="display:none">The two mail didn’t match.<br></div>
+                        <div class="f-error" id="toggle4" style="display:none"> Invalid Email Address<br></div>
                         <!-- <div id="emailerror"></div> -->
                         {% include 'partials/forms/field.html' with field=form.email2%}
                         <div class="f-error" id="toggle2" style="display:none">The two mail didn’t match.<br></div>
+                        <div class="f-error" id="toggle3" style="display:none"> Invalid Email Address<br></div>
 
 
                     </div>
@@ -153,15 +155,31 @@
         validatesignupform();
     })
 
-    function myEmail() {
+    function validateEmail() {
+        var x1 = document.getElementById("id_email");
+        var x3 = document.getElementById("id_email2");
+        var error3 = $('#toggle3');
+        var error4 = $('#toggle4');
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
+        if (reg.test(x1.value) == false) {
+            error4.show();
+
+            return false;
+        }
+        error4.hide();
+
+        return true;
+
+    }
+
+
+    function myEmail() {
         var x = document.getElementById("id_email");
         var x2 = document.getElementById("id_email2");
         x.value = x.value.toLowerCase();
         x2.value = x2.value.toLowerCase();
     }
-
-
 
     function validatetoggle() {
         var email1 = $('#id_email');
@@ -187,12 +205,14 @@
         $("#id_email2").on('blur', function() {
             validatetoggle();
             myEmail();
+            validateEmail();
+
 
         });
         $("#id_email1").on('blur', function() {
             validatetoggle();
             myEmail();
-
+            validateEmail();
 
         });
         $('#id_password1').on('focus', function() {
