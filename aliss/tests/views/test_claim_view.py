@@ -3,7 +3,7 @@ from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import Organisation, ALISSUser, Service, Location, Claim
 
-class ClaimViewTestCase(TestCase):
+# class ClaimViewTestCase(TestCase):
     def setUp(self):
         self.tester, _, self.claimant, self.staff = Fixtures.create_users()
         self.client.login(username='claimant@user.org', password='passwurd')

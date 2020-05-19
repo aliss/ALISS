@@ -5,7 +5,7 @@ from aliss.models import Organisation, ALISSUser, Service, Location, Claim
 from aliss.search import (get_service, get_organisation_by_id)
 
 
-class OrganisationViewTestCase(TestCase):
+# class OrganisationViewTestCase(TestCase):
     def setUp(self):
         self.random = ALISSUser.objects.create_user("random@random.org", "passwurd")
         self.user, self.editor, self.claimant, self.staff = Fixtures.create_users()

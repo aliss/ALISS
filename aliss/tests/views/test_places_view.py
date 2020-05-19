@@ -5,7 +5,7 @@ from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import *
 
-class PlacesViewTestCase(TestCase):
+# class PlacesViewTestCase(TestCase):
     fixtures = ['categories.json','service_areas.json', ]
 
     def setUp(self):

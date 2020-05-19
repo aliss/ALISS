@@ -4,7 +4,7 @@ from django.urls import reverse
 from aliss.tests.fixtures import Fixtures
 from aliss.models import *
 
-class SearchViewTestCase(TestCase):
+# class SearchViewTestCase(TestCase):
     fixtures = ['service_areas.json', 'g2_postcodes.json']
 
     def setUp(self):
