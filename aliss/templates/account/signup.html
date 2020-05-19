@@ -153,6 +153,16 @@
         validatesignupform();
     })
 
+    function myEmail() {
+
+        var x = document.getElementById("id_email");
+        var x2 = document.getElementById("id_email2");
+        x.value = x.value.toLowerCase();
+        x2.value = x2.value.toLowerCase();
+    }
+
+
+
     function validatetoggle() {
         var email1 = $('#id_email');
         var email2 = $('#id_email2');
@@ -176,9 +186,13 @@
 
         $("#id_email2").on('blur', function() {
             validatetoggle();
+            myEmail();
+
         });
         $("#id_email1").on('blur', function() {
             validatetoggle();
+            myEmail();
+
 
         });
         $('#id_password1').on('focus', function() {
