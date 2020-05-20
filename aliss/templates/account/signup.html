@@ -156,6 +156,7 @@
     $(document).ready(function() {
 
         validatesignupform();
+        myEmail();
     })
 
     function validateEmail() {
@@ -205,16 +206,16 @@
 
     function validatesignupform() {
 
-        $("#id_email2").on('blur', function() {
+        $("#id_email2").on('focus', function() {
             validatetoggle();
-            myEmail();
+
             validateEmail();
 
 
         });
         $("#id_email1").on('blur', function() {
             validatetoggle();
-            myEmail();
+
             validateEmail();
 
         });
