@@ -156,7 +156,7 @@
     $(document).ready(function() {
 
         validatesignupform();
-        myEmail();
+
     })
 
     function validateEmail() {
@@ -178,12 +178,7 @@
     }
 
 
-    function myEmail() {
-        var x = document.getElementById("id_email");
-        var x2 = document.getElementById("id_email2");
-        x.value = x.value.toLowerCase();
-        x2.value = x2.value.toLowerCase();
-    }
+
 
     function validatetoggle() {
         var email1 = $('#id_email');
@@ -206,7 +201,7 @@
 
     function validatesignupform() {
 
-        $("#id_email2").on('focus', function() {
+        $("#id_email2").on('blur', function() {
             validatetoggle();
 
             validateEmail();
