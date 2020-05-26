@@ -1,6 +1,5 @@
 <div class="f-row">
-    <label for="comment">What is your role in the organisation? <span>(required)</span></label>
-    {{ form.comment }}
+    <label for="comment">What is your role in the organisation? <span>(required)</span></label> {{ form.comment }}
 </div>
 
 <div class="f-row two">
@@ -8,6 +7,45 @@
 </div>
 
 
-<div class="submit">
-    {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
+
+<label class="button-fancy" for="showblock">
+    <p>
+        <i class="fa fa-" aria-hidden="true"></i>
+        Read 
+    </p> </label>
+<input type="checkbox" id="showblock" />
+<div id="modal">
+    <div class="container">
+        <div class="modal-inner">
+            <label class="close" for="showblock">X</label>
+
+            <div>
+                <div class="social-connect">
+                    <div>Organisation claim responsabilities</div>
+
+                    <div class="or"><span><p><i class="fa fa-arrow-down"></i></p></span></div>
+                </div>
+
+                <div class="modal-form">
+                    <br>
+                    <p>As an account owner (person who has claimed an organisation), I understand and accept the following responsibilities</p>
+
+                    <p style="font-weight: 700;"> Claiming an Organisation</p>
+                    <ul>
+                        <li>An organisation can be claimed by someone from the organisatiion with a central overview</li>
+                        <li>All claims need to be approved by the ALISS team</li>
+                        <li>If someone claims an organisation, they automatically claim all services attached to the organisation. Find more about the <a href="help.html"> Editor</a>role</li>
+                        <li>If you claim an organisation and become the Account Owner, you will be responsible for ensuring that information is kept up-to-date</li>
+                    </ul>
+
+
+                    <br>
+                    <div class="submit">
+                        {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
