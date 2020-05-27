@@ -132,9 +132,10 @@ a {
     transform: translate(-50%, -50%);
 }
 
-#modal .modal-inner .modal-form {
+
+/* #modal .modal-inner .modal-form {
     padding: 30px;
-}
+} */
 
 #modal .modal-inner .modal-form h3 {
     text-transform: uppercase;
@@ -21192,10 +21193,17 @@ ul.social li.instagram a:before {
     }
 }
 
+
+/* modify form */
+
 .large-form .f-row {
     clear: left;
     position: relative;
-    padding-right: 36.25%
+    margin-right: 150px;
+}
+
+.modal_claim {
+    margin-left: 150px;
 }
 
 .large-form .f-row:after {
@@ -21217,9 +21225,9 @@ ul.social li.instagram a:before {
 }
 
 .large-form .f-row.two>div {
-    float: left;
-    width: 48%;
-    margin-left: 4%
+    float: unset;
+    width: 38%;
+    margin-left: 30%
 }
 
 .large-form .f-row.two>div:first-child {
@@ -22223,7 +22231,8 @@ div.inline-claim.active div.claim-form {
 }
 
 .claim-form textarea {
-    height: 5rem
+    height: 5rem;
+    max-width: 60%;
 }
 
 .new-location.large-form,
@@ -22241,7 +22250,7 @@ div.inline-claim.active div.claim-form {
 .new-service.large-form .f-row {
     position: relative;
     margin-right: 5%;
-    padding-right: 0
+    padding-right: 0;
 }
 
 .new-location.large-form .f-row:after,

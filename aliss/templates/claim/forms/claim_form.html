@@ -1,14 +1,50 @@
+<div class="social-connect" style="background-color: #EDEDED;">
+    <div style="text-align: center; font-weight: 700; font-size: 22px">Personal information</div>
+</div>
+<br>
 <div class="f-row">
     <label for="comment">What is your role in the organisation? <span>(required)</span></label> {{ form.comment }}
 </div>
 
 <div class="f-row two">
     {% include 'partials/forms/field.html' with field=form.phone %}
+    <br>
+</div>
+<div class="modal_fix">
+
+    <div>
+        <div class="social-connect" style="background-color: #EDEDED;">
+            <div style="text-align: center; font-weight: 700; font-size: 22px">Organisation claim responsabilities</div>
+        </div>
+        <br>
+        <p>As an account owner (person who has claimed an organisation), I understand and accept the following responsibilities:</p>
+        <p style="font-weight: 700;"> Claiming an Organisation</p>
+        <ul>
+            <li>An organisation can be claimed by someone from the organisatiion with a central overview.</li>
+            <li>All claims need to be approved by the ALISS team.</li>
+            <li>If someone claims an organisation, they automatically claim all services attached to the organisation. Find more about the <a href="help.html"> Editor </a>role.</li>
+            <li>If you claim an organisation and become the Account Owner, you will be responsible for ensuring that information is kept up-to-date.</li>
+        </ul>
+    </div>
+    <br>
+    <div class="submit">
+        {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
+    </div>
+
 </div>
 
 
 
-<label class="button-fancy" for="showblock">
+
+
+
+
+
+
+
+
+
+<!-- <label class="button-fancy" for="showblock">
     <p>
         <i class="fa fa-" aria-hidden="true"></i>
         Read 
@@ -28,14 +64,14 @@
 
                 <div class="modal-form">
                     <br>
-                    <p>As an account owner (person who has claimed an organisation), I understand and accept the following responsibilities</p>
+                    <p>As an account owner (person who has claimed an organisation), I understand and accept the following responsibilities:</p>
 
                     <p style="font-weight: 700;"> Claiming an Organisation</p>
                     <ul>
-                        <li>An organisation can be claimed by someone from the organisatiion with a central overview</li>
-                        <li>All claims need to be approved by the ALISS team</li>
-                        <li>If someone claims an organisation, they automatically claim all services attached to the organisation. Find more about the <a href="help.html"> Editor</a>role</li>
-                        <li>If you claim an organisation and become the Account Owner, you will be responsible for ensuring that information is kept up-to-date</li>
+                        <li>An organisation can be claimed by someone from the organisatiion with a central overview.</li>
+                        <li>All claims need to be approved by the ALISS team.</li>
+                        <li>If someone claims an organisation, they automatically claim all services attached to the organisation. Find more about the <a href="help.html"> Editor </a>role.</li>
+                        <li>If you claim an organisation and become the Account Owner, you will be responsible for ensuring that information is kept up-to-date.</li>
                     </ul>
 
 
@@ -48,4 +84,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
