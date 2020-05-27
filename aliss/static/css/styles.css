@@ -30055,5 +30055,11 @@ div.filter.sorting span.has-tip:hover .fa {
     opacity: 1
 }
 
+.claim_header {
+    text-align: left;
+    font-weight: 700;
+    font-size: 22px
+}
+
 
 /*# sourceMappingURL=styles.css.map */
