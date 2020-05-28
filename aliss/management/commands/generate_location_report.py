@@ -55,7 +55,7 @@ class Command(BaseCommand):
             exact_parent_matches = services.filter(categories__name=category)
             if exact_parent_matches.count() > 0:
                 print(" ", "Specific tags:", str(exact_parent_matches.count()))
-                print("TEST", str(exact_parent_matches()))
+  
             for c in category.all_children:
                 filtered_services = c.filter_by_family(services)
                 print(" ",str(filtered_services.count()), "categorised as", c.name)
