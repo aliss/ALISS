@@ -143,7 +143,7 @@ class Command(BaseCommand):
     def service_area_by_region_top_category_count(self, services_in_service_area_by_region, region_name, limit):
         print('#### ' + region_name + ':')
         region_queryset = services_in_service_area_by_region[region_name]
-        for category in Category.objects.all().annotate(
+        for category in Category.objects.annotate(
             service_count=Count(Case(
                 When(services__in=region_queryset, then=1),
                 output_field=IntegerField(),
