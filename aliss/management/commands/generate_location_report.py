@@ -15,15 +15,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write("\nGenerating Report\n")
-        #self.stderr.write(self.style.SUCCESS('Checking service urls'))
+        self.stderr.write(self.style.SUCCESS('Checking service urls'))
         print(options)
         self.verbose = options['verbose']
-        # print("\n---------- Categories in Service Area -----------")
-        # self.category_in_service_area()
-        # print("\n---------- Location IDs in Regions -----------")
-        # location_objects = Location.objects.all()
-        # boundaries_data_mappings = setup_data_set_doubles()
-        # self.locations_in_boundaries(location_objects, boundaries_data_mappings)
+        print("\n---------- Categories in Service Area -----------")
+        self.category_in_service_area()
+        print("\n---------- Location IDs in Regions -----------")
+        location_objects = Location.objects.all()
+        boundaries_data_mappings = setup_data_set_doubles()
+        self.locations_in_boundaries(location_objects, boundaries_data_mappings)
         print("\n # Geographical Content Report")
         self.geographical_content_report()
 
@@ -55,6 +55,7 @@ class Command(BaseCommand):
             exact_parent_matches = services.filter(categories__name=category)
             if exact_parent_matches.count() > 0:
                 print(" ", "Specific tags:", str(exact_parent_matches.count()))
+                print("TEST", str(exact_parent_matches()))
             for c in category.all_children:
                 filtered_services = c.filter_by_family(services)
                 print(" ",str(filtered_services.count()), "categorised as", c.name)
