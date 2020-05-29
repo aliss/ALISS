@@ -62,15 +62,8 @@ class Command(BaseCommand):
                     exact_matches = services.filter(categories__name=c.name).distinct()
                     if exact_matches.count() > 0:
                         print("   ", "Specific Tags: "+  exact_matches + str(exact_matches.count()))
-                        for c in category.all_children:
-                              filtered_services = c.filter_by_family(services)
-                              exact_matches = services.filter(categories__name=c.name).distinct()
-                              print(exact_matches)
-                              print(filtered_services)
-                               
-                            
-                            
-                     
+                  
+
 
     def locations_in_service_area(self, location_objects, boundary):
         location_long_lats = {}
