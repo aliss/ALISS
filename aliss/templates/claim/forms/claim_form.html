@@ -1,13 +1,35 @@
+<div class="claim_header">
+    <p> Personal information</p>
+</div>
+<br>
 <div class="f-row">
-    <label for="comment">What is your role in the organisation? <span>(required)</span></label>
-    {{ form.comment }}
+    <label for="comment">What is your role in the organisation? <span>(required)</span></label> {{ form.comment }}
 </div>
 
 <div class="f-row two">
     {% include 'partials/forms/field.html' with field=form.phone %}
+    <br>
 </div>
+<div class="modal_fix">
 
+    <div>
+        <div class="claim_header">
+            <p>Organisation claim responsabilities</p>
+        </div>
+        <br>
+        <p>As an account owner (person who has claimed an organisation), I understand and accept the following responsibilities:</p>
+        <p style="font-weight: 600;"> Claiming an Organisation</p>
+        <ul>
+            <li>An organisation can be claimed by someone from the organisatiion with a central overview.</li>
+            <li>All claims need to be approved by the ALISS team.</li>
+            <li>If someone claims an organisation, they automatically claim all services attached to the organisation. Find more about the <a href="help.html"> Editor </a>role.</li>
+            <li>If you claim an organisation and become the Account Owner, you will be responsible for ensuring that information is kept up-to-date.</li>
+            <li>Please read the <a href="aliss/static/pdf/ALISS_data-standards.pdf">Data Standard</a> before claiming the organisation.</li>
+        </ul>
+    </div>
+    <br>
+    <div class="submit">
+        {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
+    </div>
 
-<div class="submit">
-    {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
 </div>
