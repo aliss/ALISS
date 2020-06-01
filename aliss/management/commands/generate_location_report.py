@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError, call_command
+from django.core.management.base import BaseCommand, CommandError
 from aliss.models import *
 from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_data_set_doubles
 from django.db.models import F
@@ -176,5 +176,4 @@ class Command(BaseCommand):
             results = self.locations_in_service_area(location_objects, boundary)
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
-        with open('aliss/static/pdf', 'w') as f:
-            call_command('dumpdata', stdout=f)
+     
