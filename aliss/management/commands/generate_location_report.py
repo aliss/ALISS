@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand, CommandError, call_command
 from aliss.models import *
 from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_data_set_doubles
 from django.db.models import F
@@ -15,15 +15,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write("\nGenerating Report\n")
-        self.stderr.write(self.style.SUCCESS('Checking service urls'))
+        #self.stderr.write(self.style.SUCCESS('Checking service urls'))
         print(options)
         self.verbose = options['verbose']
-        print("\n---------- Categories in Service Area -----------")
-        self.category_in_service_area()
-        print("\n---------- Location IDs in Regions -----------")
-        location_objects = Location.objects.all()
-        boundaries_data_mappings = setup_data_set_doubles()
-        self.locations_in_boundaries(location_objects, boundaries_data_mappings)
+        # print("\n---------- Categories in Service Area -----------")
+        # self.category_in_service_area()
+        # print("\n---------- Location IDs in Regions -----------")
+        # location_objects = Location.objects.all()
+        # boundaries_data_mappings = setup_data_set_doubles()
+        # self.locations_in_boundaries(location_objects, boundaries_data_mappings)
         print("\n # Geographical Content Report")
         self.geographical_content_report()
 
@@ -55,7 +55,6 @@ class Command(BaseCommand):
             exact_parent_matches = services.filter(categories__name=category)
             if exact_parent_matches.count() > 0:
                 print(" ", "Specific tags:", str(exact_parent_matches.count()))
-  
             for c in category.all_children:
                 filtered_services = c.filter_by_family(services)
                 print(" ",str(filtered_services.count()), "categorised as", c.name)
@@ -177,3 +176,5 @@ class Command(BaseCommand):
             results = self.locations_in_service_area(location_objects, boundary)
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
+        with open('aliss/static/pdf', 'w') as f:
+            call_command('dumpdata', stdout=f)
