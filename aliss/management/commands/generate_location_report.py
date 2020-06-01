@@ -42,7 +42,7 @@ class Command(BaseCommand):
         boundary = service_area_mappings[service_area]
         print("Checking for " + service_area + " boundary")
         service_area_distributions = self.locations_in_service_area(location_objects, boundary)
-        print("Checking for " + service_area + " boundary")
+        #print("Checking for " + service_area + " boundary")
         for service_area_name, location_ids in service_area_distributions.items():
             if (service_area_name == 'Unmatched'):
                 print("Unmatched IDs: ")
@@ -176,4 +176,3 @@ class Command(BaseCommand):
             results = self.locations_in_service_area(location_objects, boundary)
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
-     
