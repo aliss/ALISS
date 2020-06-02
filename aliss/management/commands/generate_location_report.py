@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
 from django.db.models import Count, Case, When, IntegerField, CharField, F
-import json, sys
+import json
 
 class Command(BaseCommand):
 
@@ -130,7 +130,6 @@ class Command(BaseCommand):
             services_by_service_area[key] = value.distinct()
             service_count = service_count + value.distinct().count()
             if self.verbose:
-                sys.stdout = open('output.txt','wt')
                 print("## " + str(key) + ": ")
                 print("#### Services in region matched by service area: ",  services_by_service_area_region_service_area_match[key].count())
                 print("#### Services in region matched by location in service area geospatial data: ", services_by_service_area_region_location_match[key].count())
