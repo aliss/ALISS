@@ -15,7 +15,6 @@ from aliss.views import (
     AccountAdminDashboard,
     AccountListView,
     AccountDetailView,
-    AccountLocationExport,
     AccountServiceHelpfulView,
     AccountRecommendationListDetailView,
     AccountRecommendationListAddServiceView,
@@ -65,7 +64,6 @@ urlpatterns = [
         {'template_name': 'account/logout.html'},
         name='logout'
     ),
-
     url(r'^password/reset/$',
         auth_views.password_reset,
         {
@@ -102,10 +100,6 @@ urlpatterns = [
     url(r'^update/$',
         AccountUpdateView.as_view(),
         name='account_update'
-    ),
-       url(r'^location-export/$',
-        AccountLocationExport.as_view(),
-        name='location_export'
     ),
     url(r'^saved-services/$',
         AccountSavedServicesView.as_view(),

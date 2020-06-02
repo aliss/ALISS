@@ -12,8 +12,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
 from django.template import loader
 from django.db.models import Q
-from django.core import management
-
 
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
@@ -53,8 +51,6 @@ def login_view(request, *args, **kwargs):
             return auth_views.login(request, *args, **kwargs)
     return auth_views.login(request, *args, **kwargs)
 
-
-
 class AccountSignupView(CreateView):
     model = ALISSUser
     form_class = SignupForm
@@ -91,10 +87,7 @@ class AccountUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
-    
-class AccountLocationExport():
 
- management.call_command('generate_location_report')
 
 class AccountListView(StaffuserRequiredMixin, FilterView):
     model = ALISSUser
