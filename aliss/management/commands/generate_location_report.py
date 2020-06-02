@@ -9,8 +9,7 @@ from django.db.models import Count, Case, When, IntegerField, CharField, F
 import json
 
 class Command(BaseCommand):
- f = open("output.txt", "a")
- with open("output.txt", "a") as f:
+
     def add_arguments(self, parser):
         parser.add_argument('-p', '--verbose', type=bool, help='Print more details -p 1',)
 
@@ -25,7 +24,7 @@ class Command(BaseCommand):
         # location_objects = Location.objects.all()
         # boundaries_data_mappings = setup_data_set_doubles()
         # self.locations_in_boundaries(location_objects, boundaries_data_mappings)
-        print("\n # Geographical Content Report", file=f)
+        print("\n # Geographical Content Report")
         self.geographical_content_report()
 
     def postcodes_in_service_area(self, service_area):
@@ -131,18 +130,18 @@ class Command(BaseCommand):
             services_by_service_area[key] = value.distinct()
             service_count = service_count + value.distinct().count()
             if self.verbose:
-                print("## " + str(key) + ": ", file=f)
-                print("#### Services in region matched by service area: ",  services_by_service_area_region_service_area_match[key].count(), file=f)
-                print("#### Services in region matched by location in service area geospatial data: ", services_by_service_area_region_location_match[key].count(), file=f)
-                print("#### Combined services deduplicated: ", str(value.distinct().count()) + "\n", file=f)
+                print("## " + str(key) + ": ")
+                print("#### Services in region matched by service area: ",  services_by_service_area_region_service_area_match[key].count())
+                print("#### Services in region matched by location in service area geospatial data: ", services_by_service_area_region_location_match[key].count())
+                print("#### Combined services deduplicated: ", str(value.distinct().count()) + "\n")
         if self.verbose:
-            print("## Meta", file=f)
-            print("#### Total number of available services per region aggregate (service counted every time it's found available in a region can be duplicate)", service_count, file=f)
-            print("#### Total number of unique published services", str(Service.objects.filter(organisation__published=True).distinct().count()) + "\n", file=f)
+            print("## Meta")
+            print("#### Total number of available services per region aggregate (service counted every time it's found available in a region can be duplicate)", service_count)
+            print("#### Total number of unique published services", str(Service.objects.filter(organisation__published=True).distinct().count()) + "\n")
         return services_by_service_area
 
     def service_area_by_region_top_category_count(self, services_in_service_area_by_region, region_name, limit):
-        print('#### ' + region_name + ':', file=f)
+        print('#### ' + region_name + ':')
         region_queryset = services_in_service_area_by_region[region_name]
         for category in Category.objects.all().annotate(
             service_count=Count(Case(
@@ -150,7 +149,7 @@ class Command(BaseCommand):
                 output_field=IntegerField(),
             ))
         ).order_by('-service_count')[:limit]:
-              print(" - " + category.name + ": " + str(category.service_count), file=f)
+              print(" - " + category.name + ": " + str(category.service_count))
 
     def geographical_content_report(self, service_area_boundary='local_authority', type=2, limit=10):
         '''
@@ -160,14 +159,14 @@ class Command(BaseCommand):
         ('health_integration_authority', 4)
         '''
         service_area_boundary_formatted_name = service_area_boundary.replace('_', ' ').capitalize()
-        print('## ' + service_area_boundary_formatted_name +  ' results:', file=f)
-        print('### Service count by region:', file=f)
-        print('Service area type: ' + str(type), file=f)
+        print('## ' + service_area_boundary_formatted_name +  ' results:')
+        print('### Service count by region:')
+        print('Service area type: ' + str(type))
         services_in_service_area_by_region = self.services_in_service_area_regions(service_area_boundary, type)
         for key, value in services_in_service_area_by_region.items():
             print("- " + key + ": " + str(value.count()))
-        print('### Category breakdown by region:', file=f)
-        print('Showing top ' + str(limit) + ' categories', file=f)
+        print('### Category breakdown by region:')
+        print('Showing top ' + str(limit) + ' categories')
         for key in services_in_service_area_by_region.keys():
             self.service_area_by_region_top_category_count(services_in_service_area_by_region, key, limit)
 
