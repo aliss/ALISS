@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'aliss',
     'cloudinary',
     'google_analytics',
-    'fdpf'
+    'PyFPDF'
 ]
 
 MIDDLEWARE = [
