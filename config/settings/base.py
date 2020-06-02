@@ -39,7 +39,8 @@ INSTALLED_APPS = [
 
     'aliss',
     'cloudinary',
-    'google_analytics'
+    'google_analytics',
+    'fdpf'
 ]
 
 MIDDLEWARE = [
