@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
 from django.db.models import Count, Case, When, IntegerField, CharField, F
-import json, fpdf
+import json
 
 class Command(BaseCommand):
     
@@ -177,11 +177,3 @@ class Command(BaseCommand):
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
 
-pdf = fpdf.FPDF(format='letter')
-pdf.add_page()
-pdf.set_font("Arial", size=12)
-
-for i in Command:
-    pdf.write(5,str(i))
-    pdf.ln()
-pdf.output("testings.pdf")
