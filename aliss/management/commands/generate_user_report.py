@@ -4,6 +4,7 @@ from django.db.models import F, Count
 from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
+from aliss.models import ALISSUser
 import json
 
 class Command(BaseCommand):
@@ -13,7 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write("\nGenerating User Report\n")
-        #self.stderr.write(self.style.SUCCESS('Checking service urls'))
+        self.stderr.write(self.style.SUCCESS('Checking service urls'))
         print(options)
         self.verbose = options['verbose']
 
@@ -24,7 +25,7 @@ class Command(BaseCommand):
 
 # Unused user related method?
 def graph(qs=ALISSUser.objects, field='date_joined', bins=5):
-    #from aliss.models import *
+    from aliss.models import *
     import matplotlib.pyplot as plt
     import pandas as pd
 
