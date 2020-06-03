@@ -6,9 +6,6 @@ from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
 from django.db.models import Count, Case, When, IntegerField, CharField, F
-from django.http import HttpResponse
-from reportlab.pdfgen import canvas
-import reportlab
 import json
 
 class Command(BaseCommand):
@@ -180,20 +177,3 @@ class Command(BaseCommand):
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
 
-def some_view(request):
-  
-    # Create the HttpResponse object with the appropriate PDF headers.
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="somefilename.pdf"'
-
-    # Create the PDF object, using the response object as its "file."
-    p = canvas.Canvas(response)
-
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-    p.drawString(100, 100, Command)
-
-    # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
-    return response
