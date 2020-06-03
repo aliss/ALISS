@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'aliss',
     'cloudinary',
     'google_analytics',
+    'roportlab'
    
 ]
 
