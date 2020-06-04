@@ -6,18 +6,8 @@ from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
 from django.db.models import Count, Case, When, IntegerField, CharField, F
-import subprocess
 import json
 
-from django.core.management.base import BaseCommand, CommandError
-from aliss.models import *
-from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_data_set_doubles
-from django.db.models import F
-from django.contrib import messages
-from django.conf import settings
-from django.urls import reverse
-from django.db.models import Count, Case, When, IntegerField, CharField, F
-import json
 
 class Command(BaseCommand):
 
@@ -188,6 +178,5 @@ class Command(BaseCommand):
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
 
-with open("location.txt", "w+") as output:
-    subprocess.call(["python", "./script.py"], stdout=output);
+
     
