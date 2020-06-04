@@ -188,6 +188,6 @@ class Command(BaseCommand):
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
 
-# with open("static/pdf/location.txt", "w+") as output:
-#     subprocess.call(["python", "./script.py"], stdout=output);
+with open("location.txt", "w+") as output:
+    subprocess.call(["python", "./script.py"], stdout=output);
     
