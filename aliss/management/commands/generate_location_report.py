@@ -9,22 +9,32 @@ from django.db.models import Count, Case, When, IntegerField, CharField, F
 import subprocess
 import json
 
+from django.core.management.base import BaseCommand, CommandError
+from aliss.models import *
+from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_data_set_doubles
+from django.db.models import F
+from django.contrib import messages
+from django.conf import settings
+from django.urls import reverse
+from django.db.models import Count, Case, When, IntegerField, CharField, F
+import json
+
 class Command(BaseCommand):
-    
+
     def add_arguments(self, parser):
         parser.add_argument('-p', '--verbose', type=bool, help='Print more details -p 1',)
 
     def handle(self, *args, **options):
         self.stdout.write("\nGenerating Report\n")
-        self.stderr.write(self.style.SUCCESS('Checking service urls'))
+        #self.stderr.write(self.style.SUCCESS('Checking service urls'))
         print(options)
         self.verbose = options['verbose']
-        print("\n---------- Categories in Service Area -----------")
-        self.category_in_service_area()
-        print("\n---------- Location IDs in Regions -----------")
-        location_objects = Location.objects.all()
-        boundaries_data_mappings = setup_data_set_doubles()
-        self.locations_in_boundaries(location_objects, boundaries_data_mappings)
+        # print("\n---------- Categories in Service Area -----------")
+        # self.category_in_service_area()
+        # print("\n---------- Location IDs in Regions -----------")
+        # location_objects = Location.objects.all()
+        # boundaries_data_mappings = setup_data_set_doubles()
+        # self.locations_in_boundaries(location_objects, boundaries_data_mappings)
         print("\n # Geographical Content Report")
         self.geographical_content_report()
 
@@ -43,7 +53,7 @@ class Command(BaseCommand):
         boundary = service_area_mappings[service_area]
         print("Checking for " + service_area + " boundary")
         service_area_distributions = self.locations_in_service_area(location_objects, boundary)
-        print("Checking for " + service_area + " boundary")
+        #print("Checking for " + service_area + " boundary")
         for service_area_name, location_ids in service_area_distributions.items():
             if (service_area_name == 'Unmatched'):
                 print("Unmatched IDs: ")
