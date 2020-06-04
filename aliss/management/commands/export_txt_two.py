@@ -1,8 +1,9 @@
-from django.core.management import call_command
+import os.path
 import sys
+from django.core import management
+
+local_exp = management.call_command("generate_location_report")
 
 
-
-stdout_backup, sys.stdout = sys.stdout, open('location.txt', 'w+')
-call_command('generate_location_report')
-sys.stdout = stdout_backup
+with open('location.txt', 'w') as f:
+    sys.stdout = f
