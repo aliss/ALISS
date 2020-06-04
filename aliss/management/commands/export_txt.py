@@ -9,7 +9,7 @@ completeName = os.path.join(save_path, name_of_file+".txt")
 
 file1 = open(completeName, "w")
 
-toFile = call_command('generate_location_report')
+toFile = call_command('generate_location_report.command')
 
 file1.write(toFile)
 
