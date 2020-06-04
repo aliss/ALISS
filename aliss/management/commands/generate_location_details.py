@@ -6,10 +6,11 @@ from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
 from django.db.models import Count, Case, When, IntegerField, CharField, F
+import subprocess
 import json
 
 class Command(BaseCommand):
-
+    
     def add_arguments(self, parser):
         parser.add_argument('-p', '--verbose', type=bool, help='Print more details -p 1',)
 
@@ -61,9 +62,7 @@ class Command(BaseCommand):
                 if filtered_services.count() > 0:
                     exact_matches = services.filter(categories__name=c.name).distinct()
                     if exact_matches.count() > 0:
-                        print("   ", "Specific Tags: "+  exact_matches + str(exact_matches.count()))
-                  
-
+                        print("   ", "Specific Tags: " + str(exact_matches.count()))
 
     def locations_in_service_area(self, location_objects, boundary):
         location_long_lats = {}
@@ -145,7 +144,7 @@ class Command(BaseCommand):
     def service_area_by_region_top_category_count(self, services_in_service_area_by_region, region_name, limit):
         print('#### ' + region_name + ':')
         region_queryset = services_in_service_area_by_region[region_name]
-        for category in Category.objects.annotate(
+        for category in Category.objects.all().annotate(
             service_count=Count(Case(
                 When(services__in=region_queryset, then=1),
                 output_field=IntegerField(),
@@ -178,3 +177,6 @@ class Command(BaseCommand):
             results = self.locations_in_service_area(location_objects, boundary)
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
+
+with open("location.txt", "w+") as output:
+    subprocess.call(["python", "./script.py"], stdout=output);
