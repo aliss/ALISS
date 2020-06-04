@@ -9,7 +9,7 @@ name_of_file = 'location'
 
 completeName = os.path.join(save_path, name_of_file+".txt")         
 
-file1 = open(completeName, "a")
+file1 = open(completeName, "w")
 
 toFile = location_export
 
