@@ -1,18 +1,17 @@
-import os.path
+import csv
+from django.http import HttpResponse
 from django.core import management
-
 location_export = management.call_command("generate_location_report")
 
-save_path = 'aliss/static/location/'
+def some_view(request):
 
-name_of_file = 'location'
 
-completeName = os.path.join(save_path, name_of_file+".txt")         
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
 
-file1 = open(completeName, "w")
+    writer = csv.writer(response)
+    writer.writerow([location_export])
 
-toFile = location_export
 
-file1.write(toFile)
-
-file1.close()
+    return response
