@@ -4,8 +4,8 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 import reportlab
 
-
-management.call_command("generate_location_report")
+class printReport(MultipleObjectMixin, TemplateView):
+ management.call_command("generate_location_report")
 
 def some_view(request):
     report_pdf = management.call_command("generate_location_report")

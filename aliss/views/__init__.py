@@ -1,4 +1,5 @@
 from .mixins import OrganisationMixin, ProgressMixin
+from aliss.views.pdf import printReport
 from .account import (
     login_view,
     AccountSignupView,
@@ -67,3 +68,8 @@ from .places import (
     PlaceCategoryView,
     PlaceView
 )
+
+
+
+
+
