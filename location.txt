@@ -1,4 +1,35 @@
-
+- City of Edinburgh: 288
+- Clackmannanshire: 42
+- Dumfries and Galloway: 168
+- East Ayrshire: 71
+- East Lothian: 110
+- East Renfrewshire: 54
+- Na h-Eileanan Siar: 28
+- Falkirk: 117
+- Highland: 201
+- Inverclyde: 56
+- Midlothian: 209
+- Renfrewshire: 764
+- Moray: 123
+- North Ayrshire: 94
+- Orkney Islands: 24
+- Scottish Borders: 212
+- Shetland Islands: 50
+- South Ayrshire: 73
+- South Lanarkshire: 147
+- Stirling: 84
+- Aberdeen City: 487
+- Aberdeenshire: 399
+- West Dunbartonshire: 91
+- West Lothian: 116
+- Angus: 95
+- Dundee City: 318
+- North Lanarkshire: 153
+- East Dunbartonshire: 67
+- Glasgow City: 589
+- Argyll and Bute: 44
+- Fife: 174
+- Perth and Kinross: 66
 #### City of Edinburgh:
  - Exercise & Get Fit: 62
  - Sports & Games: 50

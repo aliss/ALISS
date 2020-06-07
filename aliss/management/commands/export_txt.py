@@ -7,7 +7,8 @@ from django.conf import settings
 from django.urls import reverse
 from django.db.models import Count, Case, When, IntegerField, CharField, F
 import json
-from aliss.management.commands import export_txt
+import os
+
 
 
 class Command(BaseCommand):
@@ -168,6 +169,8 @@ class Command(BaseCommand):
         services_in_service_area_by_region = self.services_in_service_area_regions(service_area_boundary, type)
         for key, value in services_in_service_area_by_region.items():
             print("- " + key + ": " + str(value.count()))
+            with open("location.txt", "a") as file_prime:
+             file_prime.write(str("- " + key + ": " + str(value.count()))+ '\n')
         print('### Category breakdown by region:')
         print('Showing top ' + str(limit) + ' categories')
         for key in services_in_service_area_by_region.keys():
@@ -180,5 +183,5 @@ class Command(BaseCommand):
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
 
-
+raw = open("location.txt", "w")
     
