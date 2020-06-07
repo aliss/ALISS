@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.db import models
 from aliss.models import Category
+from aliss.search import filter_by_category, check_boundaries, find_boundary_matches, setup_data_set_doubles
+from django.db.models import Count, Case, When, IntegerField, CharField, F
+import json
 
 
 def remove_categories(modeladmin, request, queryset):
@@ -35,3 +38,14 @@ class CategoryAdmin(admin.ModelAdmin):
         del actions['delete_selected']
         return actions
 
+    def service_area_by_region_top_category_count(self, services_in_service_area_by_region, region_name, limit):
+           reaction = ('#### ' + region_name + ':')
+           region_queryset = services_in_service_area_by_region[region_name]
+           for category in Category.objects.all().annotate(
+                service_count=Count(Case(
+                    When(services__in=region_queryset, then=1),
+                    output_field=IntegerField(),
+                ))
+            ).order_by('-service_count')[:limit]:
+               action = (" - " + category.name + ": " + str(category.service_count))
+           return service_area_by_region_top_category_count

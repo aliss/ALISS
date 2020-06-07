@@ -7,6 +7,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.db.models import Count, Case, When, IntegerField, CharField, F
 import json
+from aliss.management.commands import export_txt
 
 
 class Command(BaseCommand):
@@ -133,16 +134,25 @@ class Command(BaseCommand):
             print("#### Total number of unique published services", str(Service.objects.filter(organisation__published=True).distinct().count()) + "\n")
         return services_by_service_area
 
+
+
     def service_area_by_region_top_category_count(self, services_in_service_area_by_region, region_name, limit):
         print('#### ' + region_name + ':')
+        with open("location.txt", "a") as file_prime:
+         file_prime.write(str('#### ' + region_name + ':')+ '\n')
         region_queryset = services_in_service_area_by_region[region_name]
-        for category in Category.objects.all().annotate(
+        with open("location.txt", "a") as file_prime:
+         for category in Category.objects.all().annotate(
             service_count=Count(Case(
                 When(services__in=region_queryset, then=1),
                 output_field=IntegerField(),
             ))
         ).order_by('-service_count')[:limit]:
               print(" - " + category.name + ": " + str(category.service_count))
+              file_prime.write(str(" - " + category.name + ": " + str(category.service_count))+ '\n')
+    
+    
+
 
     def geographical_content_report(self, service_area_boundary='local_authority', type=2, limit=10):
         '''
