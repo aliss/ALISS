@@ -134,9 +134,8 @@ class Command(BaseCommand):
             print("#### Total number of available services per region aggregate (service counted every time it's found available in a region can be duplicate)", service_count)
             print("#### Total number of unique published services", str(Service.objects.filter(organisation__published=True).distinct().count()) + "\n")
         return services_by_service_area
-
-
-
+    
+# Print the report
     def service_area_by_region_top_category_count(self, services_in_service_area_by_region, region_name, limit):
         print('#### ' + region_name + ':')
         with open("location.txt", "a") as file_prime:
@@ -151,9 +150,6 @@ class Command(BaseCommand):
         ).order_by('-service_count')[:limit]:
               print(" - " + category.name + ": " + str(category.service_count))
               file_prime.write(str(" - " + category.name + ": " + str(category.service_count))+ '\n')
-    
-    
-
 
     def geographical_content_report(self, service_area_boundary='local_authority', type=2, limit=10):
         '''
@@ -182,6 +178,6 @@ class Command(BaseCommand):
             results = self.locations_in_service_area(location_objects, boundary)
             service_areas[boundary['data_set_keys']['data_set_name']] = results
         return service_areas
-
+# delete the file
 raw = open("location.txt", "w")
     
