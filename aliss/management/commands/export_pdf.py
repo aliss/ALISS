@@ -138,12 +138,12 @@ class Command(BaseCommand):
 # Print the report
     def service_area_by_region_top_category_count(self, services_in_service_area_by_region, region_name, limit):
         print('#### ' + region_name + ':')
-        data_folder = "static/location/"
+        data_folder = "/app/aliss/static/location/"
         file_to_open = data_folder + "location.txt" 
         with open(file_to_open, "a") as file_prime:
          file_prime.write(str('#### ' + region_name + ':')+ '\n')
         region_queryset = services_in_service_area_by_region[region_name]
-        data_folder = "static/location/"
+        data_folder = "/app/aliss/static/location/"
         file_to_open = data_folder + "location.txt" 
         with open(file_to_open, "a") as file_prime:
          for category in Category.objects.all().annotate(
@@ -169,7 +169,7 @@ class Command(BaseCommand):
         services_in_service_area_by_region = self.services_in_service_area_regions(service_area_boundary, type)
         for key, value in services_in_service_area_by_region.items():
             print("- " + key + ": " + str(value.count()))
-            data_folder = "static/location/"
+            data_folder = "/app/aliss/static/location/"
         file_to_open = data_folder + "location.txt" 
         with open(file_to_open, "a") as file_prime:
              file_prime.write(str("- " + key + ": " + str(value.count()))+ '\n')
