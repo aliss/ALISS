@@ -141,7 +141,7 @@ class Command(BaseCommand):
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         data_folder = BASE_DIR + "/static/location/location.csv"
         with open(data_folder, "a") as file_prime:
-         file_prime.write(str( '\n' + '#### ' + region_name + ':')+ '\n')
+         file_prime.write(str( '\n' + '#### ' + region_name + ':' + '\n')+ '\n')
         region_queryset = services_in_service_area_by_region[region_name]
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         data_folder = BASE_DIR + "/static/location/location.csv"
