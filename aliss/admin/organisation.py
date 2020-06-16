@@ -33,7 +33,7 @@ class OrganisationAdmin(admin.ModelAdmin, ExportCsvMixin):
 
 
     exclude = ('id', 'created_by',)
-    list_display = ('name', 'claimed_by', 'last_edited', 'created_on',  'published')
+    list_display = ('name', 'created_by', 'claimed_by', 'last_edited', 'created_on',  'published')
     ordering = ('claimed_by','created_on')
     search_fields = ['name']
     actions = ['export_as_csv']
