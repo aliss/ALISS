@@ -1,14 +1,14 @@
 {% if form.non_field_errors %}
-    <div class="f-error all content">
-        <ul>
-            {% for item in form.non_field_errors %}
-                <li>{{ item }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+<div class="f-error all content">
+    <ul>
+        {% for item in form.non_field_errors %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endif %}
 <div class="f-row">
-    {% include 'partials/forms/field.html' with field=form.name annotation="If entered, this name appears on your organisation page so try to avoid duplicates." %}
+    {% include 'partials/forms/field.html' with field=form.name annotation="If entered, this name appears on your organisation page so try to avoid duplicates" %}
 </div>
 <div class="f-row">
     {% include 'partials/forms/field.html' with field=form.street_address %}
@@ -19,5 +19,4 @@
 <div class="f-row">
     {% include 'partials/forms/field.html' with field=form.postal_code %}
 </div>
-{{ form.latitude }}
-{{ form.longitude }}
+{{ form.latitude }} {{ form.longitude }}
