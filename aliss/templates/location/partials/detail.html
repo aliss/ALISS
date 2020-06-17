@@ -39,6 +39,21 @@
         Delete location
       </a>
     </div>
+    {% elif user.is_staff %}
+    <div class="edit-options">
+      <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span>
+        Edit location
+      </a>
+      <a title="Click here to delete this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+        <span class="icon">
+          <i class="fas fa-trash-alt"></i>
+        </span>
+        Delete location
+      </a>
+    </div>
     
   {% endif %}
 </div>
