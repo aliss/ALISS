@@ -9,7 +9,22 @@
   </a>
   {% can_edit request.user location as user_can_edit %}
 
-  {% if object.claimed_by == user or user.is_editor %}
+  {% if object.claimed_by == user %}
+    <div class="edit-options">
+      <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span>
+        Edit location
+      </a>
+      <a title="Click here to delete this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+        <span class="icon">
+          <i class="fas fa-trash-alt"></i>
+        </span>
+        Delete location
+      </a>
+    </div>
+    {% elif not object.claimed_by and user.is_editor %}
     <div class="edit-options">
       <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
         <span class="icon">

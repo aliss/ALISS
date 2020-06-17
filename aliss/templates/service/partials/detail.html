@@ -45,5 +45,23 @@
         Delete service
       </a>
     </div>
+    {% elif not object.claimed_by and user.is_editor %}
+ <div class="edit-options">
+      <a title="Click here to edit this service." href="{% url 'service_edit' pk=service.pk %}" class="icon-link">
+        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span>
+        Edit service
+      </a>
+      <a title="Click here to delete this service." href="{% url 'service_delete' pk=service.pk %}" class="delete icon-link">
+        <span class="icon">
+          <i class="fas fa-trash-alt"></i>
+        </span>
+        Delete service
+      </a>
+    </div>
+
   {% endif %}
 </li>
+
+   
