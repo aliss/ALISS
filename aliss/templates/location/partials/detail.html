@@ -8,7 +8,8 @@
     {{ location.formatted_address }}
   </a>
   {% can_edit request.user location as user_can_edit %}
-  {% if object.claimed_by == user %}
+
+  {% if object.claimed_by == user or user.is_editor %}
     <div class="edit-options">
       <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
         <span class="icon">
@@ -23,5 +24,6 @@
         Delete location
       </a>
     </div>
+    
   {% endif %}
 </div>

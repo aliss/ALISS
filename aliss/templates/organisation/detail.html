@@ -251,7 +251,7 @@
               {% for location in object.locations.all %}
                 {% include 'location/partials/detail.html' %}
               {% endfor %}
-              {% if object.claimed_by == user %}
+              {% if object.claimed_by == user or user.is_editor %}
                 <a title="Click here to add a location to this service." href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
               {% endif %}
             </div>
