@@ -41,7 +41,7 @@
               {% for organisation in object_list %}
                 <tr>
                   <td>
-                  <span class="name"><a title="Click here for more information on {{ organisation.name }}. (This page will open in a new window)" target="_blank" href="{% url 'organisation_detail' pk=organisation.id %}">{{ organisation.name }}</a></span>
+                  <span class="name"><a title="Click here for more information on {{ organisation.name }}. (This page will open in a new window)" target="_self" href="{% url 'organisation_detail' pk=organisation.id %}">{{ organisation.name }}</a></span>
                 </td>
                   <ul class="options">
                     <td>

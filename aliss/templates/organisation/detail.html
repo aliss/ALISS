@@ -217,12 +217,15 @@
         
                 {% endif %}
              
-              <a title="Click here to go back to the last search." id="back_to_seach" class="icon-link">
+              <a title="Click here to go back to the last search." id="back_to_search" class="icon-link">
                 <span class="icon">
                 <i class="fas fa-arrow-left"></i>
                 </span>
                 Back to last search
               </a>
+             
+
+             
             
             </div>
           </div>
@@ -329,11 +332,19 @@
 
 {% block before_body_close %}
   <script type="text/javascript">
-  $(document).ready(function(){
-    var searchURL = localStorage.getItem('searchURL');
-    if (searchURL != null){
-    $('#back_to_seach').attr('href', searchURL).show();
-    }
-  })
+$(document).ready(function() {
+	var ref = document.referrer;
+	if (ref.indexOf('aliss') === -1) {
+		$('#back_to_search').addClass('hidden');
+	}
+	$('#back_to_search').click(function() {
+		if (ref.indexOf('aliss') > -1) {
+			window.history.back();
+		} else {
+			alert('Please try searching through ALISS before trying to navigate back to your last search.');
+			$('#back_to_search').addClass('disable');
+		}
+	});
+});
   </script>
 {% endblock%}
