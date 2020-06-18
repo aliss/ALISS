@@ -223,7 +223,8 @@
                 </span>
                 Back to last search
               </a>
-             
+             <br>
+              <div class="f-error" id="toggle1" style="display:none">Please try searching through ALISS before trying to navigate back to your last search.<br></div>
 
              
             
@@ -331,17 +332,19 @@
 {% endblock %}
 
 {% block before_body_close %}
-  <script type="text/javascript">
+  <script>
 $(document).ready(function() {
 	var ref = document.referrer;
 	if (ref.indexOf('aliss') === -1) {
 		$('#back_to_search').addClass('hidden');
 	}
 	$('#back_to_search').click(function() {
+    var error1 = $('#toggle1');
 		if (ref.indexOf('aliss') > -1) {
 			window.history.back();
 		} else {
-			alert('Please try searching through ALISS before trying to navigate back to your last search.');
+      error1.show();
+			
 			$('#back_to_search').addClass('disable');
 		}
 	});
