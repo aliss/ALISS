@@ -3,7 +3,7 @@
     "window.title": "Project: ${rootName} ~ // ~ [ CrispySinger ]",
     "editor.wordWrap": "on",
     "editor.matchBrackets": true,
-    "editor.fontSize": 15,
+    "editor.fontSize": 18,
     "editor.fontWeight": "100",
     "editor.letterSpacing": 0.5,
     "workbench.editor.tabSizing": "shrink",
@@ -74,7 +74,6 @@
     },
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "typescript.preferences.quoteStyle": "single",
-    // "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
     "workbench.startupEditor": "newUntitledFile",
     "[json]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
