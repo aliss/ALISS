@@ -27,7 +27,7 @@
     <div class="service-areas-list">
       <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
     </div>
-  {% endif %}
+  {% endif %} 
 
   {% can_edit request.user service as user_can_edit%} 
   {% if object.claimed_by == user or user.is_staff%}

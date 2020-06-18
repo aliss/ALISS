@@ -304,12 +304,12 @@
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
-                          Remove location
+                          Delete location
                         </button>
                       </form>
                     </div>
-
-                     {% elif not object.claimed_by and user.is_editor %}
+                    {% endif %}
+                      {% if user.is_editor and object.claimed_by %}
                     <div class="edit-options">
                       <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                         <span class="icon">
@@ -325,7 +325,7 @@
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
-                          Remove location
+                          Delete location
                         </button>
                       </form>
                     </div>
