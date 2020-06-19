@@ -121,5 +121,6 @@
         "titleBar.inactiveBackground": "#1e7abd99",
         "titleBar.inactiveForeground": "#e7e7e799"
       },
-  "peacock.color": "#1E7ABD"
+  "peacock.color": "#1E7ABD",
+  "vscode-pull-requests-azure-devops.collection": "f-err"
 }
