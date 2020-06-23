@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "python.pythonPath": "/usr/bin/python3"
+=======
+    "python.pythonPath": "/Users/root1/Dev_Project/env/bin/python"
+>>>>>>> feature/telephone_number
 } // {
 //     "python.pythonPath": "/usr/local/bin/python3",
 //     "window.title": "Project: ${rootName} ~ // ~ [ CrispySinger ]",
