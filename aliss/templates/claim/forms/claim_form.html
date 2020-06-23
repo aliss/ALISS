@@ -7,9 +7,11 @@
     <label for="comment">What is your role in the organisation? <span>(required)</span></label> {{ form.comment }}
 </div>
 
-<div class="f-row two">
+<div class="f-row">
     {% include 'partials/forms/field.html' with field=form.phone %}
+    <div class="f-error" id="toggle3" style="display:none">Insert a valid telephone number.<br></div>
 </div>
+
 
 <div>
     <div class="claim_header">
@@ -32,3 +34,25 @@
 <div class="submit">
     {% include 'partials/forms/checkbox_agree.html' with field=form.data_quality %}
 </div>
+
+<script type="text/javascript">
+    function setInputFilter(textbox, inputFilter) {
+       
+      ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+        textbox.addEventListener(event, function() {
+          if (inputFilter(this.value)) {
+            this.oldValue = this.value;
+            this.oldSelectionStart = this.selectionStart;
+            this.oldSelectionEnd = this.selectionEnd;
+            
+          } else if (this.hasOwnProperty("oldValue")) {
+            this.value = this.oldValue;
+            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+          } else {
+            this.value = "";
+          }
+        });
+      });
+    }
+    setInputFilter(document.getElementById("id_phone"), function(value) { return /^-?\d*$/.test(value); });
+    </script>
