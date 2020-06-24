@@ -10,7 +10,7 @@
           <div class="breadcrumbs">
             <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail' pk=object.organisation.pk %}">{{ object.organisation.name }}</a>
             <span class="sep"></span>
-            <span>Delete location</span>
+            <span>Remove location</span>
           </div>
           <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
           <!-- TODO if statement -->
@@ -30,7 +30,7 @@
         <form method="post">
           {% csrf_token %}
           <div class="submit">
-            <input type="submit" class="alert" value="Delete Location">
+            <input type="submit" class="alert" value="Remove location">
             <a title="Cancel the deletion of this organisation." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
           </div>
         </form>
