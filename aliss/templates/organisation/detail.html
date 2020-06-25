@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block container %}
-<div class="black"></div>
+{% comment %} <div class="black"></div>
 <div class="modal" id="improve-listing">
   <div class="pad">
     <div class="heading">
@@ -39,7 +39,7 @@
       {% endif %}
     </div>
   </div>
-</div>
+</div> {% endcomment %}
 <div class="modal" id="delete_org">
   <div class="pad">
     <div class="heading">
@@ -95,21 +95,21 @@
                 </span>
                 Claim this organisation
               </a>
-              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              {% comment %} <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span>
                 Improve this listing
-              </a>
+              </a> {% endcomment %}
               
   {% elif  object.claimed_by and not user.is_authenticated %}
 
-     <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+     {% comment %} <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span>
                 Improve this listing
-              </a>
+              </a> {% endcomment %}
                  
             {% endif %}
 
@@ -135,12 +135,12 @@
                 </span>
                 Delete organisation
               </a>
-            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+            {% comment %} <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span>
                 Improve this listing
-              </a>
+              </a> {% endcomment %}
               
               {% elif user.is_editor and not object.claimed_by %}
 
@@ -169,12 +169,12 @@
                 </span>
                 Claim this organisation 
               </a>
-              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              {% comment %} <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span>
                 Improve this listing
-              </a>
+              </a> {% endcomment %}
               
 
               {% elif not object.claimed_by %}
@@ -186,22 +186,22 @@
                 </span>
                 Claim this organisation 
               </a>
-              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              {% comment %} <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span>
                 Improve this listing
-              </a>
+              </a> {% endcomment %}
               
 
               {% elif object.claimed_by != user  %}
-              <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              {% comment %} <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span>
                 Improve this listing
-              </a>
-              <p>This organisation has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</a></p>
+              </a> {% endcomment %}
+              <p>This organisation has been claimed. Only the person who has claimed can edit this information. </a></p>
 
               {% endif %}
         
