@@ -131,6 +131,6 @@ class LocationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
         messages.success(
             self.request,
-            'Location has been successfully deleted.'
+            'Location has been successfully removed.'
         )
         return HttpResponseRedirect(success_url)
