@@ -99,7 +99,118 @@
     <article id="content" class="service">
         {% if request.user.is_authenticated %} {% can_edit request.user object as user_can_edit %} {% endif %}
         <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>{{ object.name }}</h1>
+                    <p class="org">by <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span title="This is a claimed service."
+                            class="claimed">Claimed</span>{% endif %}
+                        <span class="assigned-categories">(
+              {% for category in object.categories.all %}
+                <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %} {% endfor %} )
+                        </span>
+                    </p>
 
+                    <div class="desc{% if object.description|length > 350 %} long{% endif %}">
+                        <p>{{ object.description|linebreaks }}</p>
+                        <br/>
+                        <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
+                        <p>Can you help us improve this listing? <a title="Click here to provide feedback to help improve this listing." data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
+            </a></p>
+                    </div>
+                </div>
+                <div class="columns contact-info">
+                    <div class="copy-container">
+                        {% if object.locations.all %}
+                        <div class="all-locations">
+                            <h4>Locations</h4>
+                            {% for location in object.locations.all %}
+                            <div class="location">
+                                <a title="Click here to view this location on Google Maps." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+                                    <span class="icon">
+                      <i class="fas fa-map-marker-alt"></i>
+                    </span> {{ location.formatted_address }}
+                                </a>
+                                {% can_edit request.user location as user_can_edit %} {% if user_can_edit or user.is_staff%}
+
+                                <div class="edit-options">
+                                    <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+                                        <span class="icon">
+                       <i class="fas fa-pencil-alt"></i>
+                   </span> Edit location
+                                    </a>
+                                    <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                                        <span class="icon">
+          <i class="fas fa-trash-alt"></i>
+        </span> Remove location
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %} {% if user.is_editor and object.claimed_by %}
+                            <div class="edit-options">
+                                <div class="edit-options">
+                                    <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+                                        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span> Edit location
+                                    </a>
+                                    <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                                        <span class="icon">
+          <i class="fas fa-trash-alt"></i>
+        </span> Remove location
+                                    </a>
+                                </div>
+
+
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <h4>Contact information</h4>
+                        <p>
+                            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %} {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %} {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)"
+                                href="{{ object.url }}">Website</a>{% endif %} {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
+                            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
+                        </p>
+                        {% if object.service_areas.all %}
+                        <h5>Delivered across</h5>
+                        <ul class="service-areas">
+                            {% for area in object.service_areas.all %}
+                            <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
+                            {% endfor %}
+                        </ul>
+                        <p class="small">To learn more about <a title="Click here for more information on service areas. (This page will open in a new window)" href="{% url 'service_area_definition' %}" target="_blank">service areas.</a></p>
+                        {% endif %}
+                        <div id='mapid' style="z-index: 1;"></div>
+                        <div>
+                            <a title="Click here to embed this map on your website." id="iframe_generator_modal" style="margin-top:1rem;" class="icon-link">
+                                <span class="icon">
+                <i class="fas fa-map"></i>
+              </span> Add this map to your website
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- columns contact info -->
+                <div class="columns feedback-form">
+                    <h5>Was this helpful?</h5>
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
+              Yes
+            </button>
+                    </form>
+                    {% else %}
+                    <a title="Click here if you found this information useful." class="yes">
+            Yes
+          </a> {% endif %}
+                    <a title="Click here if you did not find this information useful." class="no alert">
+          No
+        </a>
+                </div>
+                <!-- feedback -->
+            </div>
             <div class="columns options">
                 <div class="info-box small toggled" id="service_actions">
                     <div class="heading">
@@ -230,118 +341,7 @@
                 </div>
             </div>
 
-            <div class="columns content">
-                <div class="copy-container">
-                    <h1>{{ object.name }}</h1>
-                    <p class="org">by <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span title="This is a claimed service."
-                            class="claimed">Claimed</span>{% endif %}
-                        <span class="assigned-categories">(
-              {% for category in object.categories.all %}
-                <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %} {% endfor %} )
-                        </span>
-                    </p>
 
-                    <div class="desc{% if object.description|length > 350 %} long{% endif %}">
-                        <p>{{ object.description|linebreaks }}</p>
-                        <br/>
-                        <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
-                        <p>Can you help us improve this listing? <a title="Click here to provide feedback to help improve this listing." data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
-            </a></p>
-                    </div>
-                </div>
-                <div class="columns contact-info">
-                    <div class="copy-container">
-                        {% if object.locations.all %}
-                        <div class="all-locations">
-                            <h4>Locations</h4>
-                            {% for location in object.locations.all %}
-                            <div class="location">
-                                <a title="Click here to view this location on Google Maps." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
-                                    <span class="icon">
-                      <i class="fas fa-map-marker-alt"></i>
-                    </span> {{ location.formatted_address }}
-                                </a>
-                                {% can_edit request.user location as user_can_edit %} {% if user_can_edit or user.is_staff%}
-
-                                <div class="edit-options">
-                                    <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
-                                        <span class="icon">
-                       <i class="fas fa-pencil-alt"></i>
-                   </span> Edit location
-                                    </a>
-                                    <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
-                                        <span class="icon">
-          <i class="fas fa-trash-alt"></i>
-        </span> Remove location
-                                    </a>
-                                </div>
-                            </div>
-                            {% endif %} {% if user.is_editor and object.claimed_by %}
-                            <div class="edit-options">
-                                <div class="edit-options">
-                                    <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
-                                        <span class="icon">
-          <i class="fas fa-pencil-alt"></i>
-        </span> Edit location
-                                    </a>
-                                    <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
-                                        <span class="icon">
-          <i class="fas fa-trash-alt"></i>
-        </span> Remove location
-                                    </a>
-                                </div>
-
-
-                                {% endif %}
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        <h4>Contact information</h4>
-                        <p>
-                            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %} {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %} {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)"
-                                href="{{ object.url }}">Website</a>{% endif %} {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
-                            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
-                        </p>
-                        {% if object.service_areas.all %}
-                        <h5>Delivered across</h5>
-                        <ul class="service-areas">
-                            {% for area in object.service_areas.all %}
-                            <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
-                            {% endfor %}
-                        </ul>
-                        <p class="small">To learn more about <a title="Click here for more information on service areas. (This page will open in a new window)" href="{% url 'service_area_definition' %}" target="_blank">service areas.</a></p>
-                        {% endif %}
-                        <div id='mapid' style="z-index: 1;"></div>
-                        <div>
-                            <a title="Click here to embed this map on your website." id="iframe_generator_modal" style="margin-top:1rem;" class="icon-link">
-                                <span class="icon">
-                <i class="fas fa-map"></i>
-              </span> Add this map to your website
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- columns contact info -->
-                <div class="columns feedback-form">
-                    <h5>Was this helpful?</h5>
-                    {% if user.is_authenticated %}
-                    <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
-              Yes
-            </button>
-                    </form>
-                    {% else %}
-                    <a title="Click here if you found this information useful." class="yes">
-            Yes
-          </a> {% endif %}
-                    <a title="Click here if you did not find this information useful." class="no alert">
-          No
-        </a>
-                </div>
-                <!-- feedback -->
-            </div>
             <!-- columns content -->
 
 
