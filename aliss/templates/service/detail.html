@@ -1,104 +1,121 @@
-{% extends "base.html" %} {% load aliss %} {% load analytics %} {% block title %}{{ object.name }} {% meta_location service %} - {{ object.organisation.name }} - ALISS{% endblock %} {% block meta_schema %}
-<meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
-<meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
-<meta property="og:title" content="{{ object.name }} on ALISS.org" />
-<meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
-<meta name="description" content="{% meta_description service %}"> {% if view.kwargs.slug %}
-<link rel="canonical" href="{% url 'service_detail' object.pk %}" /> {% else %}
-<link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" /> {% endif %} {% endblock %} {% block container %}
+{% extends "base.html" %}
+{% load aliss %}
+{% load analytics %}
+
+{% block title %}{{ object.name }} {% meta_location service %} - {{ object.organisation.name }} - ALISS{% endblock %}
+{% block meta_schema %}
+  <meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
+  <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
+  <meta property="og:title" content="{{ object.name }} on ALISS.org" />
+  <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
+  <meta name="description" content="{% meta_description service %}">
+  {% if view.kwargs.slug %}
+    <link rel="canonical" href="{% url 'service_detail' object.pk %}" />
+  {% else %}
+    <link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" />
+  {% endif %}
+{% endblock %}
+
+{% block container %}
 <div class="black"></div>
 <div class="modal" id="improve-listing">
-    <div class="pad">
-        <div class="heading">
-            <a title="Click here to close this modal." id="improve_listing_modal_close" tabindex="0" role="button" class="close alert icon-link">
-                <span class="icon">
+  <div class="pad">
+    <div class="heading">
+      <a title="Click here to close this modal." id="improve_listing_modal_close" tabindex="0" role="button" class="close alert icon-link">
+        <span class="icon">
           <i class="fas fa-times"></i>
-        </span> Close
-            </a>
-            <h5>Improve this listing</h5>
-        </div>
-        <div class="form">
-            {% if request.user.is_authenticated %}
-            <div class="copy-container">
-                {% include 'service/forms/feedback.html' with service=object %}
-            </div>
-            {% else %}
-            <p>Please <a title="Click here to login to provide feedback on a service." href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
-            {% endif %}
-        </div>
+        </span>
+        Close
+      </a>
+      <h5>Improve this listing</h5>
     </div>
+    <div class="form">
+      {% if request.user.is_authenticated %}
+        <div class="copy-container">
+          {% include 'service/forms/feedback.html' with service=object %}
+        </div>
+      {% else %}
+        <p>Please <a title="Click here to login to provide feedback on a service." href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
+      {% endif %}
+    </div>
+  </div>
 </div>
 <div class="modal" id="delete_service">
-    <div class="pad">
-        <div class="heading">
-            <a title="Click here to close this modal." id="delete_service_modal_close" tabindex="0" role="button" class="close alert icon-link">
-                <span class="icon">
+  <div class="pad">
+    <div class="heading">
+      <a title="Click here to close this modal." id="delete_service_modal_close" tabindex="0" role="button" class="close alert icon-link">
+        <span class="icon">
           <i class="fas fa-times"></i>
-        </span> Close
-            </a>
-            <h5>Delete organisation</h5>
-        </div>
-        <div class="content">
-            <p>Are you sure you want to delete your service?</p>
-            <div class="buttons">
-                <form method="post" action="{% url 'service_delete' pk=object.pk %}">
-                    {% csrf_token %}
-                    <input type="submit" class="button alert" value="Delete">
-                    <a title="Click here to cancel the deletion of this service." role="button" id="delete_service_cancel" tabindex="0" class="button secondary cancel">Cancel</a>
-                </form>
-            </div>
-        </div>
+        </span>
+        Close
+      </a>
+      <h5>Delete organisation</h5>
     </div>
+    <div class="content">
+      <p>Are you sure you want to delete your service?</p>
+      <div class="buttons">
+        <form method="post" action="{% url 'service_delete' pk=object.pk %}">
+          {% csrf_token %}
+          <input type="submit" class="button alert" value="Delete">
+          <a title="Click here to cancel the deletion of this service." role="button" id="delete_service_cancel" tabindex="0" class="button secondary cancel">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="modal" id="add_list">
-    <div class="pad">
-        <div class="heading">
-            <a title="Click here to close this modal." id="add_list_modal_close" role="button" tabindex="0" class="close alert icon-link">
-                <span class="icon">
+  <div class="pad">
+    <div class="heading">
+      <a title="Click here to close this modal." id="add_list_modal_close" role="button" tabindex="0" class="close alert icon-link">
+        <span class="icon">
           <i class="fas fa-times"></i>
-        </span> Close
-            </a>
-            <h5>Add to new recommendations list</h5>
-        </div>
-        <div class="form">
-            <form method="post" action="{% url 'account_my_recommendations' %}">
-                {% csrf_token %}
-                <label for="name">Who is this recommendation for? <span>(required)</span></label>
-                <input type="text" name="name" id="name" placeholder="e.g. John Smith">
-                <input type="hidden" name="services" value="{{ object.pk }}" />
-                <input type="submit" value="Recommend">
-            </form>
-        </div>
+        </span>
+        Close
+      </a>
+      <h5>Add to new recommendations list</h5>
     </div>
+    <div class="form">
+      <form method="post" action="{% url 'account_my_recommendations' %}">
+        {% csrf_token %}
+        <label for="name">Who is this recommendation for? <span>(required)</span></label>
+        <input type="text" name="name" id="name" placeholder="e.g. John Smith">
+        <input type="hidden" name="services" value="{{ object.pk }}" />
+        <input type="submit" value="Recommend">
+      </form>
+    </div>
+  </div>
 </div>
 
 <div class="modal" id="iframe_generator">
-    <div class="pad">
-        <div class="heading">
-            <a title="Click here to close this modal." role="button" id="iframe_generator_modal_close" tabindex="0" class="close alert icon-link">
-                <span class="icon">
+  <div class="pad">
+    <div class="heading">
+      <a title="Click here to close this modal." role="button" id="iframe_generator_modal_close" tabindex="0" class="close alert icon-link">
+        <span class="icon">
           <i class="fas fa-times"></i>
-        </span> Close
-            </a>
-            <h5>Add this map to your website</h5>
-        </div>
-        <div class="form">
-            <form action="/">
-                <textarea tabindex="0" id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a title="Click here for further information on this service." href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
-        </textarea>
-            </form>
-            <a title="Click here to copy this content to your clipboard." id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
-            <p id="copy_message" class="small"></p>
-            <p>The map will be embedded at 500 x 500 (px)</p>
-            <p>This embedded map will include a link to the ALISS page for this service</p>
-        </div>
+        </span>
+        Close
+      </a>
+      <h5>Add this map to your website</h5>
     </div>
+    <div class="form">
+      <form  action="/">
+        <textarea tabindex="0" id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a title="Click here for further information on this service." href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
+        </textarea>
+      </form>
+      <a title="Click here to copy this content to your clipboard." id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
+      <p id="copy_message" class="small"></p>
+      <p>The map will be embedded at 500 x 500 (px)</p>
+      <p>This embedded map will include a link to the ALISS page for this service</p>
+    </div>
+  </div>
 </div>
 <main class="main" role="main">
-    <article id="content" class="service">
-        {% if request.user.is_authenticated %} {% can_edit request.user object as user_can_edit %} {% endif %}
-        <div class="row">
+  <article id="content" class="service">
+    {% if request.user.is_authenticated %}
+      {% can_edit request.user object as user_can_edit %}
+    {% endif %}
+    <div class="row">
             <div class="columns content">
                 <div class="copy-container">
                     <h1>{{ object.name }}</h1>
@@ -342,7 +359,8 @@
             </div>
 
 
-            <!-- columns content -->
+        </div><!-- columns contact info -->
+    </div> <!-- columns content -->
 
 
 
@@ -448,4 +466,6 @@
         setupCopyToClipboard();
     });
 </script>
-{% endif %} {% endblock %}
+{% endif %} 
+
+{% endblock %}
