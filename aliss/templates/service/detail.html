@@ -117,7 +117,30 @@
     {% endif %}
     <div class="row">
 
-      <div class="columns options">
+     
+
+      <div class="columns content">
+        <div class="copy-container">
+          <h1>{{ object.name }}</h1>
+          <p class="org">by <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span title="This is a claimed service." class="claimed">Claimed</span>{% endif %}
+            <span class="assigned-categories">(
+              {% for category in object.categories.all %}
+                <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
+              {% endfor %}
+              )
+            </span>
+          </p>
+
+          <div class="desc{% if object.description|length > 350 %} long{% endif %}">
+            <p>{{ object.description|linebreaks }}</p>
+            <br/>
+            <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
+            <p>Can you help us improve this listing? <a title="Click here to provide feedback to help improve this listing." data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
+            </a></p>
+          </div>
+        </div>
+      </div> <!-- columns content -->
+ <div class="columns options">
         <div class="info-box small toggled" id="service_actions">
           <div class="heading">
             <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
@@ -238,29 +261,6 @@
            
         </div>
       </div>
-
-      <div class="columns content">
-        <div class="copy-container">
-          <h1>{{ object.name }}</h1>
-          <p class="org">by <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span title="This is a claimed service." class="claimed">Claimed</span>{% endif %}
-            <span class="assigned-categories">(
-              {% for category in object.categories.all %}
-                <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
-              {% endfor %}
-              )
-            </span>
-          </p>
-
-          <div class="desc{% if object.description|length > 350 %} long{% endif %}">
-            <p>{{ object.description|linebreaks }}</p>
-            <br/>
-            <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
-            <p>Can you help us improve this listing? <a title="Click here to provide feedback to help improve this listing." data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
-            </a></p>
-          </div>
-        </div>
-      </div> <!-- columns content -->
-
       <div class="columns contact-info">
         <div class="copy-container">
           {% if object.locations.all %}
