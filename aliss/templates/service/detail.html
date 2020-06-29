@@ -269,7 +269,7 @@
                        <i class="fas fa-pencil-alt"></i>
                    </span> Edit location
                                     </a>
-                                    <a title="Click here to delete this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                                    <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
                                         <span class="icon">
           <i class="fas fa-trash-alt"></i>
         </span> Remove location
@@ -284,7 +284,7 @@
           <i class="fas fa-pencil-alt"></i>
         </span> Edit location
                                     </a>
-                                    <a title="Click here to delete this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                                    <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
                                         <span class="icon">
           <i class="fas fa-trash-alt"></i>
         </span> Remove location
@@ -323,24 +323,24 @@
                     </div>
                 </div>
                 <!-- columns contact info -->
-                            <div class="columns feedback-form">
-                <h5>Was this helpful?</h5>
-                {% if user.is_authenticated %}
-                <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
+                <div class="columns feedback-form">
+                    <h5>Was this helpful?</h5>
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
               Yes
             </button>
-                </form>
-                {% else %}
-                <a title="Click here if you found this information useful." class="yes">
+                    </form>
+                    {% else %}
+                    <a title="Click here if you found this information useful." class="yes">
             Yes
           </a> {% endif %}
-                <a title="Click here if you did not find this information useful." class="no alert">
+                    <a title="Click here if you did not find this information useful." class="no alert">
           No
         </a>
-            </div>
-            <!-- feedback -->
+                </div>
+                <!-- feedback -->
             </div>
             <!-- columns content -->
 
