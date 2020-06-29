@@ -117,7 +117,7 @@
     {% endif %}
     <div class="row">
 
-     
+
 
       <div class="columns content">
         <div class="copy-container">
@@ -140,7 +140,8 @@
           </div>
         </div>
       </div> <!-- columns content -->
- <div class="columns options">
+
+            <div class="columns options">
         <div class="info-box small toggled" id="service_actions">
           <div class="heading">
             <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
@@ -237,7 +238,27 @@
               </span>
               Delete service
             </a>
-      
+  <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                                        <span class="icon">
+                        <i class="fas fa-comment"></i>
+                        </span> Improve this listing
+                                    </a>
+         {% elif user.is_editor and not object.organisation.claimed_by %}
+                                    <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+                                        <span class="icon">
+                            <i class="fas fa-pencil-alt"></i>
+                        </span> Edit service
+                                    </a>
+                                    <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
+                                        <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                        </span> Delete service
+                                    </a>
+  <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                                        <span class="icon">
+                        <i class="fas fa-comment"></i>
+                        </span> Improve this listing
+                                    </a>
             {%  elif object.organisation.claimed_by %}
             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
               <span class="icon">
@@ -255,12 +276,13 @@
               <span class="icon">
               <i class="fas fa-arrow-left"></i>
               </span>
-              Back to last search
+               Back to previous page 
             </a>
           </div>
            
         </div>
       </div>
+
       <div class="columns contact-info">
         <div class="copy-container">
           {% if object.locations.all %}
@@ -274,8 +296,8 @@
                     </span>
                     {{ location.formatted_address }}
                   </a>
-                  {% can_edit request.user location as user_can_edit %}
-                  {% if object.claimed_by == user or user.is_staff%}
+                   {% can_edit request.user location as user_can_edit %} 
+                    {% if user_can_edit or user.is_staff%}
                     <div class="edit-options">
                       <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                         <span class="icon">
@@ -287,15 +309,31 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
-                          <span class="icon">
-                            <i class="fas fa-trash-alt"></i>
-                          </span>
-                          Remove location
-                        </button>
+                         <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                                       <span class="icon">
+                                <i class="fas fa-trash-alt"></i>
+                            </span> Remove location
+                           </a>
                       </form>
                     </div>
                   {% endif %}
+                   {% if user.is_editor and object.claimed_by %}
+                                            <div class="edit-options">
+                                                <div class="edit-options">
+                                                    <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+                                                        <span class="icon">
+                                <i class="fas fa-pencil-alt"></i>
+                                </span> Edit location
+                                                    </a>
+                                                    <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                                                                <span class="icon">
+                                <i class="fas fa-trash-alt"></i>
+                                </span> Remove location
+                                                    </a>
+                                                </div>
+
+
+                     {% endif %}
                 </div>
               {% endfor %}
             </div>
