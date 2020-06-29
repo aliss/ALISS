@@ -146,7 +146,7 @@
           <div class="heading">
             <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
           </div>
-          <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. 6. Back to Search -->
+     
           <div class="actions toggle-content">
 
             <a title="Click here to email this listing. (This page will open your email client)" class="icon-link" id="email_service_toggle">
@@ -272,12 +272,15 @@
             {% endif %}
           
 
-            <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link">
-              <span class="icon">
-              <i class="fas fa-arrow-left"></i>
-              </span>
-               Back to previous page 
-            </a>
+         <a title="Click here to go back to the previous page." id="back_to_search" class="icon-link">
+                                <span class="icon">
+                <i class="fas fa-arrow-left"></i>
+                </span> Back to previous page
+                            </a>
+                <br>
+                            <div class="f-error" id="toggle1" style="display:none; background-color:#fbeeca; color: #4c5c68"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Please search through ALISS before trying to navigate back to the previous page<br></div>
+
+
           </div>
            
         </div>
@@ -460,6 +463,24 @@
         setupCopyToClipboard();
       });
     </script>
+  
   {% endif %}
+<script>
+    $(document).ready(function() {
+        var ref = document.referrer;
+        if (ref.indexOf('aliss') === -1) {
+            $('#back_to_search').addClass('hidden');
+        }
+        $('#back_to_search').click(function() {
+            var error1 = $('#toggle1');
+            if (ref.indexOf('aliss') > -1) {
+                window.history.back();
+            } else {
+                error1.show();
 
+                $('#back_to_search').addClass('disable');
+            }
+        });
+    });
+</script>
 {% endblock %}
