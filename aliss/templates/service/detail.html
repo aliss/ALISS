@@ -1,180 +1,159 @@
-{% extends "base.html" %}
-{% load aliss %}
-{% load analytics %}
-
-{% block title %}{{ object.name }} {% meta_location service %} - {{ object.organisation.name }} - ALISS{% endblock %}
-{% block meta_schema %}
-  <meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
-  <meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
-  <meta property="og:title" content="{{ object.name }} on ALISS.org" />
-  <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
-  <meta name="description" content="{% meta_description service %}">
-  {% if view.kwargs.slug %}
-    <link rel="canonical" href="{% url 'service_detail' object.pk %}" />
-  {% else %}
-    <link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" />
-  {% endif %}
-{% endblock %}
-
-{% block container %}
+{% extends "base.html" %} {% load aliss %} {% load analytics %} {% block title %}{{ object.name }} {% meta_location service %} - {{ object.organisation.name }} - ALISS{% endblock %} {% block meta_schema %}
+<meta name="twitter:title" content="{{ object.name }} on ALISS.org" />
+<meta name="twitter:description" content="{{ object.description|truncatechars:121 }}" />
+<meta property="og:title" content="{{ object.name }} on ALISS.org" />
+<meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
+<meta name="description" content="{% meta_description service %}"> {% if view.kwargs.slug %}
+<link rel="canonical" href="{% url 'service_detail' object.pk %}" /> {% else %}
+<link rel="canonical" href="{% url 'service_detail_slug' object.slug %}" /> {% endif %} {% endblock %} {% block container %}
 <div class="black"></div>
 <div class="modal" id="improve-listing">
-  <div class="pad">
-    <div class="heading">
-      <a title="Click here to close this modal." id="improve_listing_modal_close" tabindex="0" role="button" class="close alert icon-link">
-        <span class="icon">
+    <div class="pad">
+        <div class="heading">
+            <a title="Click here to close this modal." id="improve_listing_modal_close" tabindex="0" role="button" class="close alert icon-link">
+                <span class="icon">
           <i class="fas fa-times"></i>
-        </span>
-        Close
-      </a>
-      <h5>Improve this listing</h5>
-    </div>
-    <div class="form">
-      {% if request.user.is_authenticated %}
-        <div class="copy-container">
-          {% include 'service/forms/feedback.html' with service=object %}
+        </span> Close
+            </a>
+            <h5>Improve this listing</h5>
         </div>
-      {% else %}
-        <p>Please <a title="Click here to login to provide feedback on a service." href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
-      {% endif %}
+        <div class="form">
+            {% if request.user.is_authenticated %}
+            <div class="copy-container">
+                {% include 'service/forms/feedback.html' with service=object %}
+            </div>
+            {% else %}
+            <p>Please <a title="Click here to login to provide feedback on a service." href="{% url 'login' %}?next={{ request.get_full_path }}">login</a> to leave feedback about a service</p>
+            {% endif %}
+        </div>
     </div>
-  </div>
 </div>
 <div class="modal" id="delete_service">
-  <div class="pad">
-    <div class="heading">
-      <a title="Click here to close this modal." id="delete_service_modal_close" tabindex="0" role="button" class="close alert icon-link">
-        <span class="icon">
+    <div class="pad">
+        <div class="heading">
+            <a title="Click here to close this modal." id="delete_service_modal_close" tabindex="0" role="button" class="close alert icon-link">
+                <span class="icon">
           <i class="fas fa-times"></i>
-        </span>
-        Close
-      </a>
-      <h5>Delete organisation</h5>
+        </span> Close
+            </a>
+            <h5>Delete organisation</h5>
+        </div>
+        <div class="content">
+            <p>Are you sure you want to delete your service?</p>
+            <div class="buttons">
+                <form method="post" action="{% url 'service_delete' pk=object.pk %}">
+                    {% csrf_token %}
+                    <input type="submit" class="button alert" value="Delete">
+                    <a title="Click here to cancel the deletion of this service." role="button" id="delete_service_cancel" tabindex="0" class="button secondary cancel">Cancel</a>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="content">
-      <p>Are you sure you want to delete your service?</p>
-      <div class="buttons">
-        <form method="post" action="{% url 'service_delete' pk=object.pk %}">
-          {% csrf_token %}
-          <input type="submit" class="button alert" value="Delete">
-          <a title="Click here to cancel the deletion of this service." role="button" id="delete_service_cancel" tabindex="0" class="button secondary cancel">Cancel</a>
-        </form>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="modal" id="add_list">
-  <div class="pad">
-    <div class="heading">
-      <a title="Click here to close this modal." id="add_list_modal_close" role="button" tabindex="0" class="close alert icon-link">
-        <span class="icon">
+    <div class="pad">
+        <div class="heading">
+            <a title="Click here to close this modal." id="add_list_modal_close" role="button" tabindex="0" class="close alert icon-link">
+                <span class="icon">
           <i class="fas fa-times"></i>
-        </span>
-        Close
-      </a>
-      <h5>Add to new recommendations list</h5>
+        </span> Close
+            </a>
+            <h5>Add to new recommendations list</h5>
+        </div>
+        <div class="form">
+            <form method="post" action="{% url 'account_my_recommendations' %}">
+                {% csrf_token %}
+                <label for="name">Who is this recommendation for? <span>(required)</span></label>
+                <input type="text" name="name" id="name" placeholder="e.g. John Smith">
+                <input type="hidden" name="services" value="{{ object.pk }}" />
+                <input type="submit" value="Recommend">
+            </form>
+        </div>
     </div>
-    <div class="form">
-      <form method="post" action="{% url 'account_my_recommendations' %}">
-        {% csrf_token %}
-        <label for="name">Who is this recommendation for? <span>(required)</span></label>
-        <input type="text" name="name" id="name" placeholder="e.g. John Smith">
-        <input type="hidden" name="services" value="{{ object.pk }}" />
-        <input type="submit" value="Recommend">
-      </form>
-    </div>
-  </div>
 </div>
 
 <div class="modal" id="iframe_generator">
-  <div class="pad">
-    <div class="heading">
-      <a title="Click here to close this modal." role="button" id="iframe_generator_modal_close" tabindex="0" class="close alert icon-link">
-        <span class="icon">
+    <div class="pad">
+        <div class="heading">
+            <a title="Click here to close this modal." role="button" id="iframe_generator_modal_close" tabindex="0" class="close alert icon-link">
+                <span class="icon">
           <i class="fas fa-times"></i>
-        </span>
-        Close
-      </a>
-      <h5>Add this map to your website</h5>
-    </div>
-    <div class="form">
-      <form  action="/">
-        <textarea tabindex="0" id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a title="Click here for further information on this service." href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
+        </span> Close
+            </a>
+            <h5>Add this map to your website</h5>
+        </div>
+        <div class="form">
+            <form action="/">
+                <textarea tabindex="0" id="embedded_code" onclick="this.focus();this.select()" readonly="readonly"><iframe src="{% absolute_url 'service_detail_map' pk=object.pk %}" width="500" height="500" frameborder="0"></iframe><p><a title="Click here for further information on this service." href="{% absolute_url 'service_detail' pk=object.pk %}">Explore this service on ALISS</a></p>
         </textarea>
-      </form>
-      <a title="Click here to copy this content to your clipboard." id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
-      <p id="copy_message" class="small"></p>
-      <p>The map will be embedded at 500 x 500 (px)</p>
-      <p>This embedded map will include a link to the ALISS page for this service</p>
+            </form>
+            <a title="Click here to copy this content to your clipboard." id="copy_to_clipboard" role="button" tabindex="0" class="button secondary-class">Copy to clipboard</a>
+            <p id="copy_message" class="small"></p>
+            <p>The map will be embedded at 500 x 500 (px)</p>
+            <p>This embedded map will include a link to the ALISS page for this service</p>
+        </div>
     </div>
-  </div>
 </div>
 <main class="main" role="main">
-  <article id="content" class="service">
-    {% if request.user.is_authenticated %}
-      {% can_edit request.user object as user_can_edit %}
-    {% endif %}
-    <div class="row">
+    <article id="content" class="service">
+        {% if request.user.is_authenticated %} {% can_edit request.user object as user_can_edit %} {% endif %}
+        <div class="row">
 
-      <div class="columns options">
-        <div class="info-box small toggled" id="service_actions">
-          <div class="heading">
-            <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
-          </div>
-          <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. 6. Back to Search -->
-          <div class="actions toggle-content">
+            <div class="columns options">
+                <div class="info-box small toggled" id="service_actions">
+                    <div class="heading">
+                        <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
+                    </div>
+                    <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. 6. Back to Search -->
+                    <div class="actions toggle-content">
 
-            <a title="Click here to email this listing. (This page will open your email client)" class="icon-link" id="email_service_toggle">
-              <span class="icon">
+                        <a title="Click here to email this listing. (This page will open your email client)" class="icon-link" id="email_service_toggle">
+                            <span class="icon">
                 <i class="fas fa-envelope"></i>
-              </span>
-              Email this listing
-            </a>
-            <div class="email-listing-form toggled" id="email_service">
-              <form action="{% url 'service_email' %}" method="post">
-                {% csrf_token %}
-                <div class="sbs-inputs">
-                  <input name="service" type="hidden" value="{{ object.pk }}">
-                  <input name="email" type="email" placeholder="email@company.com" required>
-                  <input type="submit" class="secondary" value="Send">
-                </div>
-              </form>
-            </div>
+              </span> Email this listing
+                        </a>
+                        <div class="email-listing-form toggled" id="email_service">
+                            <form action="{% url 'service_email' %}" method="post">
+                                {% csrf_token %}
+                                <div class="sbs-inputs">
+                                    <input name="service" type="hidden" value="{{ object.pk }}">
+                                    <input name="email" type="email" placeholder="email@company.com" required>
+                                    <input type="submit" class="secondary" value="Send">
+                                </div>
+                            </form>
+                        </div>
 
-            <a title="Click here to print this lisiting. (This will open a print window)" href="javascript:window.print();" id="print-listing" class="icon-link">
-              <span class="icon">
+                        <a title="Click here to print this lisiting. (This will open a print window)" href="javascript:window.print();" id="print-listing" class="icon-link">
+                            <span class="icon">
                 <i class="fas fa-print"></i>
-              </span>
-              Print this listing
-            </a>
+              </span> Print this listing
+                        </a>
 
-            {% if object in request.user.saved_services.all %}
-              <form method='post' id="" action="{% url 'account_remove_saved_service' pk=object.pk %}">
-                {% csrf_token %}
-                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button title="Click here to remove this lisiting from your saved services." type="submit" class="txt-button alert icon-link">
+                        {% if object in request.user.saved_services.all %}
+                        <form method='post' id="" action="{% url 'account_remove_saved_service' pk=object.pk %}">
+                            {% csrf_token %}
+                            <input type='hidden' name='next' value="{{ request.get_full_path }}" />
+                            <button title="Click here to remove this lisiting from your saved services." type="submit" class="txt-button alert icon-link">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
                   Remove from saved services
                 </button>
-              </form>
-            {% else %}
-              <form method='post' id="save_service" action="{% url 'account_save_service' pk=object.pk %}">
-                {% csrf_token %}
-                <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button title="Click here to add this lisiting to your saved services." type="submit" class="txt-button primary icon-link">
+                        </form>
+                        {% else %}
+                        <form method='post' id="save_service" action="{% url 'account_save_service' pk=object.pk %}">
+                            {% csrf_token %}
+                            <input type='hidden' name='next' value="{{ request.get_full_path }}" />
+                            <button title="Click here to add this lisiting to your saved services." type="submit" class="txt-button primary icon-link">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
                   Add to saved services
                 </button>
-              </form>
-            {% endif %}
-
-            {% if not request.user.is_authenticated %}
-              <a title="Click here to recommend this service." href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
+                        </form>
+                        {% endif %} {% if not request.user.is_authenticated %}
+                        <a title="Click here to recommend this service." href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
             {% else %}
               <a title="Click here to recommend this service." class="primary icon-link" id="recommend_toggle">
             {% endif %}
@@ -184,286 +163,289 @@
               Recommend this service
             </a>
 
-            <div class="recommend-form toggled" id="recommend">
-              <form method="post" action="{% url 'account_my_recommendations_add_service' %}">
-                {% csrf_token %}
-                <div class="sbs-inputs select">
-                  <select name="recommendation_list">
+                        <div class="recommend-form toggled" id="recommend">
+                            <form method="post" action="{% url 'account_my_recommendations_add_service' %}">
+                                {% csrf_token %}
+                                <div class="sbs-inputs select">
+                                    <select name="recommendation_list">
                     <option value="">Select list</option>
                     {% for recommendation_list in recommended_service_lists %}
                       <option value="{{ recommendation_list.pk }}">{{ recommendation_list.name }}</option>
                     {% endfor %}
                     <option value="new">Create new</option>
                   </select>
-                  <input type="hidden" value="{{ object.pk }}" name="service" />
-                  <input type="submit" class="secondary" value="Add">
-                  <a title="Add to your recommended service list." id="add_list_modal" class="button secondary">Add</a>
-                </div>
-              </form>
-            </div>
-            {% if object.organisation.claimed_by == user or user.is_staff%}
-            <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
-              <span class="icon">
+                                    <input type="hidden" value="{{ object.pk }}" name="service" />
+                                    <input type="submit" class="secondary" value="Add">
+                                    <a title="Add to your recommended service list." id="add_list_modal" class="button secondary">Add</a>
+                                </div>
+                            </form>
+                        </div>
+                        {% if object.organisation.claimed_by == user or user.is_staff%}
+                        <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+                            <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
-              </span>
-              Edit service
-            </a>
-            <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
-              <span class="icon">
+              </span> Edit service
+                        </a>
+                        <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
+                            <span class="icon">
                 <i class="fas fa-trash-alt"></i>
-              </span>
-              Delete service
-            </a>
-             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-              <span class="icon">
+              </span> Delete service
+                        </a>
+                        <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                            <span class="icon">
               <i class="fas fa-comment"></i>
-              </span>
-              Improve this listing
-            </a>
-             {% elif user.is_editor and not object.organisation.claimed_by %}
-                <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
-              <span class="icon">
+              </span> Improve this listing
+                        </a>
+                        {% elif user.is_editor and not object.organisation.claimed_by %}
+                        <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+                            <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
-              </span>
-              Edit service
-            </a>
-            <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
-              <span class="icon">
+              </span> Edit service
+                        </a>
+                        <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
+                            <span class="icon">
                 <i class="fas fa-trash-alt"></i>
-              </span>
-              Delete service
-            </a>
-           
-            {%  elif object.organisation.claimed_by %}
-            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-              <span class="icon">
-              <i class="fas fa-comment"></i>
-              </span>
-              Improve this listing
-            </a>
-          <br>
-            <p>This service can be edited only by the person who has claimed the organisation. If you want to suggest any changes, please click on the “Improve this listing” link above to submit your feedback.</p>
-       
-            {% endif %}
-          
+              </span> Delete service
+                        </a>
 
-            <a title="Click here to go back to the previous page." id="back_to_seach" class="icon-link">
-              <span class="icon">
+                        {% elif object.organisation.claimed_by %}
+                        <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                            <span class="icon">
+              <i class="fas fa-comment"></i>
+              </span> Improve this listing
+                        </a>
+                        <br>
+                        <p>This service can be edited only by the person who has claimed the organisation. If you want to suggest any changes, please click on the “Improve this listing” link above to submit your feedback.</p>
+
+                        {% endif %}
+
+
+                        <a title="Click here to go back to the previous page." id="back_to_seach" class="icon-link">
+                            <span class="icon">
               <i class="fas fa-arrow-left"></i>
-              </span>
-              Back to previous page
-            </a>
-          </div>
-           
-        </div>
-      </div>
-
-      <div class="columns content">
-        <div class="copy-container">
-          <h1>{{ object.name }}</h1>
-          <p class="org">by <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span title="This is a claimed service." class="claimed">Claimed</span>{% endif %}
-            <span class="assigned-categories">(
-              {% for category in object.categories.all %}
-                <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
-              {% endfor %}
-              )
-            </span>
-          </p>
-
-          <div class="desc{% if object.description|length > 350 %} long{% endif %}">
-            <p>{{ object.description|linebreaks }}</p>
-            <br/>
-            <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
-            <p>Can you help us improve this listing? <a title="Click here to provide feedback to help improve this listing." data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
-            </a></p>
-          </div>
-        </div>
-        <div class="columns contact-info">
-        <div class="copy-container">
-          {% if object.locations.all %}
-            <div class="all-locations">
-              <h4>Locations</h4>
-              {% for location in object.locations.all %}
-                <div class="location">
-                  <a title="Click here to view this location on Google Maps." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
-                    <span class="icon">
-                      <i class="fas fa-map-marker-alt"></i>
-                    </span>
-                    {{ location.formatted_address }}
-                  </a>
-                  {% can_edit request.user location as user_can_edit %}
-                  {% if user_can_edit or user.is_staff%}
-                    <div class="edit-options">
-                      <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
-                        <span class="icon">
-                          <i class="fas fa-pencil-alt"></i>
-                        </span>
-                        Edit location
-                      </a>
-                      {% get_service_at_location_slug object.pk location.pk as service_at_location_slug %}
-                      <p>{{service_at_location_pk}}</p>
-                      <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
-                        {% csrf_token %}
-                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
-                          <span class="icon">
-                            <i class="fas fa-trash-alt"></i>
-                          </span>
-                          Remove location
-                        </button>
-                      </form>
+              </span> Back to previous page
+                        </a>
                     </div>
-                    {% endif %}
-                      {% if user.is_editor and object.claimed_by %}
-                    <div class="edit-options">
-                      <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
-                        <span class="icon">
-                          <i class="fas fa-pencil-alt"></i>
-                        </span>
-                        Edit location
-                      </a>
-                      {% get_service_at_location_slug object.pk location.pk as service_at_location_slug %}
-                      <p>{{service_at_location_pk}}</p>
-                      <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
-                        {% csrf_token %}
-                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
-                          <span class="icon">
-                            <i class="fas fa-trash-alt"></i>
-                          </span>
-                          Remove location
-                        </button>
-                      </form>
-                    </div>
-                 
-                  {% endif %}
+
                 </div>
-              {% endfor %}
             </div>
-          {% endif %}
-          <h4>Contact information</h4>
-          <p>
-            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
-            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
-            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
-            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
-          </p>
-          {% if object.service_areas.all %}
-            <h5>Delivered across</h5>
-            <ul class="service-areas">
-              {% for area in object.service_areas.all %}
-                <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
-              {% endfor %}
-            </ul>
-            <p class="small">To learn more about <a title="Click here for more information on service areas. (This page will open in a new window)" href="{% url 'service_area_definition' %}" target="_blank">service areas.</a></p>
-          {% endif %}
-          <div id='mapid' style="z-index: 1;"></div>
-          <div>
-            <a title="Click here to embed this map on your website." id="iframe_generator_modal" style="margin-top:1rem;" class="icon-link">
-              <span class="icon">
+
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>{{ object.name }}</h1>
+                    <p class="org">by <a title="{{ object.organisation.name }}" href="{% url 'organisation_detail_slug' slug=object.organisation.slug %}">{{ object.organisation.name }}</a> {% if object.organisation.claimed_by %}<span title="This is a claimed service."
+                            class="claimed">Claimed</span>{% endif %}
+                        <span class="assigned-categories">(
+              {% for category in object.categories.all %}
+                <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %} {% endfor %} )
+                        </span>
+                    </p>
+
+                    <div class="desc{% if object.description|length > 350 %} long{% endif %}">
+                        <p>{{ object.description|linebreaks }}</p>
+                        <br/>
+                        <p>Last updated <span class="updated alert">{{ object.last_edited }}</span></p>
+                        <p>Can you help us improve this listing? <a title="Click here to provide feedback to help improve this listing." data-modal="improve-listing" class="improve"> Give feedback <i class="fas fa-comment"></i>
+            </a></p>
+                    </div>
+                </div>
+                <div class="columns contact-info">
+                    <div class="copy-container">
+                        {% if object.locations.all %}
+                        <div class="all-locations">
+                            <h4>Locations</h4>
+                            {% for location in object.locations.all %}
+                            <div class="location">
+                                <a title="Click here to view this location on Google Maps." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
+                                    <span class="icon">
+                      <i class="fas fa-map-marker-alt"></i>
+                    </span> {{ location.formatted_address }}
+                                </a>
+                                {% can_edit request.user location as user_can_edit %} {% if user_can_edit or user.is_staff%}
+
+                                <div class="edit-options">
+                                    <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+                                        <span class="icon">
+                       <i class="fas fa-pencil-alt"></i>
+                   </span> Edit location
+                                    </a>
+                                    <a title="Click here to delete this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                                        <span class="icon">
+          <i class="fas fa-trash-alt"></i>
+        </span> Remove location
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %} {% if user.is_editor and object.claimed_by %}
+                            <div class="edit-options">
+                                <div class="edit-options">
+                                    <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+                                        <span class="icon">
+          <i class="fas fa-pencil-alt"></i>
+        </span> Edit location
+                                    </a>
+                                    <a title="Click here to delete this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
+                                        <span class="icon">
+          <i class="fas fa-trash-alt"></i>
+        </span> Remove location
+                                    </a>
+                                </div>
+
+
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <h4>Contact information</h4>
+                        <p>
+                            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %} {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %} {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)"
+                                href="{{ object.url }}">Website</a>{% endif %} {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
+                            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
+                        </p>
+                        {% if object.service_areas.all %}
+                        <h5>Delivered across</h5>
+                        <ul class="service-areas">
+                            {% for area in object.service_areas.all %}
+                            <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
+                            {% endfor %}
+                        </ul>
+                        <p class="small">To learn more about <a title="Click here for more information on service areas. (This page will open in a new window)" href="{% url 'service_area_definition' %}" target="_blank">service areas.</a></p>
+                        {% endif %}
+                        <div id='mapid' style="z-index: 1;"></div>
+                        <div>
+                            <a title="Click here to embed this map on your website." id="iframe_generator_modal" style="margin-top:1rem;" class="icon-link">
+                                <span class="icon">
                 <i class="fas fa-map"></i>
-              </span>
-              Add this map to your website
-            </a>
-          </div>
-        </div>
-      </div><!-- columns contact info -->
-      </div> <!-- columns content -->
-
-      
-
-      <div class="columns feedback-form">
-        <h5>Was this helpful?</h5>
-        {% if user.is_authenticated %}
-          <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
+              </span> Add this map to your website
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- columns contact info -->
+                            <div class="columns feedback-form">
+                <h5>Was this helpful?</h5>
+                {% if user.is_authenticated %}
+                <form action="{% url 'account_service_helpful' pk=object.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="txt-button yes{% if user in object.helped_users.all %} active{% endif %}">
               Yes
             </button>
-          </form>
-        {% else %}
-          <a title="Click here if you found this information useful." class="yes">
+                </form>
+                {% else %}
+                <a title="Click here if you found this information useful." class="yes">
             Yes
-          </a>
-        {% endif %}
-        <a title="Click here if you did not find this information useful." class="no alert">
+          </a> {% endif %}
+                <a title="Click here if you did not find this information useful." class="no alert">
           No
         </a>
-      </div> <!-- feedback -->
-    </div> <!-- row -->
-  </article>
+            </div>
+            <!-- feedback -->
+            </div>
+            <!-- columns content -->
+
+
+
+
+        </div>
+        <!-- row -->
+    </article>
 </main>
 
 <script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Service",
-  "name": "{{ object.name }}",
-  "url": "{% absolute_url 'service_detail' pk=object.pk %}",
-  {% if object.service_areas.all %}
-  "areaServed": [{% for area in object.service_areas.all %}"{{ area.name }}"{% if not forloop.last %},{% endif %}{% endfor %}],
-  {% endif %}
-  "provider": {
-  "@type": "Organization",
-  "name": "{{ object.organisation.name }}",
-  {% if object.email %}
-  "email": "{{ object.email }}",
-  {% endif %}
-  {% if object.phone %}
-  "telephone": "{{ object.phone }}",
-  {% endif %}
-  "url": "{% absolute_url 'organisation_detail' pk=object.organisation.pk %}"
-  }
-}
-</script>
-{% endblock %}
-
-{% block before_body_close %}
-  <script type="text/javascript">
-  $(document).ready(function(){
-    {% ga_form_event '#email_service' 'email-service' service.slug %}
-    {% ga_form_event '#save_service' 'save-service' service.slug %}
-    {% ga_form_event '#recommend form' 'recommend-service' service.slug %}
-    {% ga_click_event '#print-listing' 'print-listing' service.slug %}
-    {% ga_click_event '#iframe_generator_modal' 'embed-service-map' service.slug %}
-
-    var searchURL = localStorage.getItem('searchURL');
-    if (searchURL != null){
-      $('#back_to_seach').attr('href', searchURL).show();
+    {
+        "@context": "http://schema.org",
+        "@type": "Service",
+        "name": "{{ object.name }}",
+        "url": "{% absolute_url 'service_detail' pk=object.pk %}",
+        { %
+            if object.service_areas.all %
+        }
+        "areaServed": [{ %
+                for area in object.service_areas.all %
+            }
+            "{{ area.name }}" { %
+                if not forloop.last %
+            }, { % endif %
+            } { % endfor %
+            }
+        ],
+        { % endif %
+        }
+        "provider": {
+            "@type": "Organization",
+            "name": "{{ object.organisation.name }}",
+            { %
+                if object.email %
+            }
+            "email": "{{ object.email }}",
+            { % endif %
+            } { %
+                if object.phone %
+            }
+            "telephone": "{{ object.phone }}",
+            { % endif %
+            }
+            "url": "{% absolute_url 'organisation_detail' pk=object.organisation.pk %}"
+        }
     }
-  });
-  </script>
+</script>
+{% endblock %} {% block before_body_close %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        { % ga_form_event '#email_service'
+            'email-service'
+            service.slug %
+        } { % ga_form_event '#save_service'
+            'save-service'
+            service.slug %
+        } { % ga_form_event '#recommend form'
+            'recommend-service'
+            service.slug %
+        } { % ga_click_event '#print-listing'
+            'print-listing'
+            service.slug %
+        } { % ga_click_event '#iframe_generator_modal'
+            'embed-service-map'
+            service.slug %
+        }
 
-  {% if service %}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-    crossorigin=""/>
+        var searchURL = localStorage.getItem('searchURL');
+        if (searchURL != null) {
+            $('#back_to_seach').attr('href', searchURL).show();
+        }
+    });
+</script>
 
-    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-    crossorigin="">
-    </script>
+{% if service %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
 
-    <script type="text/javascript">
-      $(document).ready(function(){
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin="">
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
         var targetId = 'mapid'
         setMapSize(targetId);
         var mymap = renderMap(targetId);
         var no_geo_features = true;
-        var serviceId =  "{{service.id}}";
+        var serviceId = "{{service.id}}";
 
-        if ("{{service.service_areas.all.0|safe}}" != ""){
-          renderFeatures(mymap, serviceId);
-          no_geo_features = false;
+        if ("{{service.service_areas.all.0|safe}}" != "") {
+            renderFeatures(mymap, serviceId);
+            no_geo_features = false;
         }
 
-        var locations = {{location_lat_longs|safe}};
-        if (!$.isEmptyObject(locations)){
-          addLocations(mymap, locations, no_geo_features);
+        var locations = {
+            {
+                location_lat_longs | safe
+            }
+        };
+        if (!$.isEmptyObject(locations)) {
+            addLocations(mymap, locations, no_geo_features);
         }
 
         setupCopyToClipboard();
-      });
-    </script>
-  {% endif %}
-
-{% endblock %}
+    });
+</script>
+{% endif %} {% endblock %}
