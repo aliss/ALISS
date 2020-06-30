@@ -63,7 +63,8 @@ CORS_ORIGIN_WHITELIST = [
     "https://testing-aliss.herokuapp.com",
     "https://sub.testing-aliss.herokuapp.com",
     "http://localhost:8080",
-    "http://127.0.0.1:9000"
+    "http://127.0.0.1:9000",
+    "http://localhost:5000"
 ]
 
 CORS_URLS_REGEX = r'^/api/.*$'
