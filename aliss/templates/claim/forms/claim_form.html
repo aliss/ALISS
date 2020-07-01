@@ -1,4 +1,6 @@
 {% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 <div class="claim_header">
     <p> Personal information</p>
 </div>
@@ -36,27 +38,31 @@
 </div>
 
 <script type="text/javascript">
-    function setInputFilter(textbox, inputFilter) {
+    $("#id_phone").keypress(
+        function(e) {
+            var charTyped = String.fromCharCode(e.which);
+            var letterRegex = /[^0-9 ]/;
+            var error2 = $('#toggle3');
 
-        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
-            textbox.addEventListener(event, function() {
 
-                if (inputFilter(this.value)) {
-                    this.oldValue = this.value;
-                    this.oldSelectionStart = this.selectionStart;
-                    this.oldSelectionEnd = this.selectionEnd;
+            if (charTyped.match(letterRegex)) {
+                return false;
 
-                } else if (this.hasOwnProperty("oldValue")) {
-                    this.value = this.oldValue;
-                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-                } else {
-                    this.value = "";
-                }
-            });
+            } else if (charTyped.length <= 10) {
+                error2.show();
+
+            } else if (charTyped.length >= 10) {
+                error2.hide();
+
+
+
+            } else {
+                return true;
+
+
+            }
+
+
+
         });
-
-    }
-    setInputFilter(document.getElementById("id_phone"), function(value) {
-        return /^-?[\d ]*$/.test(value);
-    });
 </script>

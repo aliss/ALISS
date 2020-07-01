@@ -16,7 +16,7 @@
         <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
             <span class="icon">
           <i class="fas fa-trash-alt"></i>
-        </span> Remove location
+        </span> Delete location
         </a>
     </div>
     {% elif not object.claimed_by and user.is_editor %}
@@ -29,7 +29,7 @@
         <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
             <span class="icon">
           <i class="fas fa-trash-alt"></i>
-        </span> Remove location
+        </span> Delete location
         </a>
     </div>
     {% elif user.is_staff %}
@@ -42,7 +42,7 @@
         <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
             <span class="icon">
           <i class="fas fa-trash-alt"></i>
-        </span> Remove location
+        </span> Delete location
         </a>
     </div>
 
