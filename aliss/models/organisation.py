@@ -13,12 +13,13 @@ from aliss.search import get_connection, organisation_to_body
 import pytz
 from datetime import datetime
 from aliss.models.claim import Claim
+from django.core.validators import RegexValidator
 
 class Organisation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=100)
     description = models.TextField()
-    phone = models.CharField(max_length=15, blank=True)
+    phone = models.CharField(max_length=30, blank=True, validators=[RegexValidator(regex='^.{11}$', message='Length has to be 11', code='nomatch')])
     email = models.EmailField(blank=True)
     url      = models.URLField(blank=True, verbose_name="Web address")
     facebook = models.URLField(blank=True)

@@ -3,6 +3,7 @@ import uuid
 from django.db import IntegrityError, models, transaction
 from django.utils import timezone
 from django.conf import settings
+from django.core.validators import RegexValidator
 
 
 
@@ -22,7 +23,7 @@ class Claim(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey('aliss.ALISSUser')
     organisation = models.ForeignKey('aliss.Organisation')
-    phone = models.CharField(max_length=30, default="")
+    phone = models.CharField(max_length=30, default="", validators=[RegexValidator(regex='^.{11}$', message='Length has to be 11', code='nomatch')]);
     comment = models.TextField()
     status = models.IntegerField(choices=STATUS_CHOICES, default=UNREVIEWED)
 
