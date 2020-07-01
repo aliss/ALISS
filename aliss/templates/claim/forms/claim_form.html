@@ -51,6 +51,7 @@
             function(e) {
                 var charTyped = String.fromCharCode(e.which);
                 var letterRegex = /[^0-9 ]/;
+                var longRegex = /^.{6,}$/;
                 var error2 = $('#toggle3'); // min 11 char
                 var error3 = $('#toggle4'); // only number
 
