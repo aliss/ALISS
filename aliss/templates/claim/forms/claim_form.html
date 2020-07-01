@@ -12,6 +12,7 @@
 <div class="f-row">
     {% include 'partials/forms/field.html' with field=form.phone %}
     <div class="f-error" id="toggle3" style="display:none">Insert a valid telephone number.<br></div>
+    <div class="f-error" id="toggle4" style="display:none">Only numeric character are accepted<br></div>
 </div>
 
 
@@ -38,31 +39,33 @@
 </div>
 
 <script type="text/javascript">
-    $("#id_phone").keypress(
-        function(e) {
-            var charTyped = String.fromCharCode(e.which);
-            var letterRegex = /[^0-9 ]/;
-            var error2 = $('#toggle3');
+    $(document).ready(function() {
+
+        validatesignupform()
+
+    })
+
+    function validatesignupform() {
+        var _isvalid = true;
+        $("#id_phone").keypress(
+            function(e) {
+                var charTyped = String.fromCharCode(e.which);
+                var letterRegex = /[^0-9 ]/;
+                var error2 = $('#toggle3'); // min 11 char
+                var error3 = $('#toggle4'); // only number
+
+                // if you type character the field stop work
+                if (charTyped.match(letterRegex)) {
+                    error3.show();
+                    var _isvalid = false;
+                    return false;
+                    // if you type number the field work again
+                } else if (charTyped) {
+                    error3.hide();
+                    // TO DO
+                }
+            });
 
 
-            if (charTyped.match(letterRegex)) {
-                return false;
-
-            } else if (charTyped.length <= 10) {
-                error2.show();
-
-            } else if (charTyped.length >= 10) {
-                error2.hide();
-
-
-
-            } else {
-                return true;
-
-
-            }
-
-
-
-        });
+    }
 </script>
