@@ -41,9 +41,9 @@
     $(document).ready(function() {
         var _isvalid = true;
         $('#id_phone').attr('maxlength', 15);
-        $('#id_phone').attr("pattern", '{6,15}');
+        $('#id_phone').attr("pattern", '/{6,15}/');
         validateNumber();
-        maximumLength();
+
 
     })
 
@@ -69,14 +69,7 @@
                 });
             });
 
-        function maximumLength() {
-            var yourTextArea = $('#id_phone').attr('maxlength', 15);
-            var error4 = $('#toggle3');
-            if (yourTextArea.length < 10 || yourTextArea.length > 15) {
-                _isvalid = false;
-                return false;
-            }
-        }
+
 
     }
 </script>
