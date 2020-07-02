@@ -15,7 +15,6 @@
     <div class="f-error" id="toggle4" style="display:none">Only numeric character are accepted<br></div>
 </div>
 
-
 <div>
     <div class="claim_header">
         <p>Organisation claim responsibilities</p>
@@ -40,33 +39,44 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-
-        validatesignupform()
+        var _isvalid = true;
+        $('#id_phone').attr('maxlength', 15);
+        $('#id_phone').attr("pattern", '{6,15}');
+        validateNumber();
+        maximumLength();
 
     })
 
-    function validatesignupform() {
-        var _isvalid = true;
+    function validateNumber() {
+
         $("#id_phone").keypress(
             function(e) {
                 var charTyped = String.fromCharCode(e.which);
                 var letterRegex = /[^0-9 ]/;
-                var longRegex = /^.{6,}$/;
-                var error2 = $('#toggle3'); // min 11 char
-                var error3 = $('#toggle4'); // only number
-
-                // if you type character the field stop work
+                var error3 = $('#toggle4');
                 if (charTyped.match(letterRegex)) {
                     error3.show();
-                    var _isvalid = false;
                     return false;
-                    // if you type number the field work again
+
                 } else if (charTyped) {
                     error3.hide();
-                    // TO DO
                 }
+                $("form").submit(function() {
+
+                    if (_isvalid) {
+                        return true;
+                    }
+                });
             });
 
+        function maximumLength() {
+            var yourTextArea = $('#id_phone').attr('maxlength', 15);
+            var error4 = $('#toggle3');
+            if (yourTextArea.length < 10 || yourTextArea.length > 15) {
+                _isvalid = false;
+                return false;
+            }
+        }
 
     }
 </script>
