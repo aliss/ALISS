@@ -25,7 +25,7 @@ class OrganisationForm(forms.ModelForm):
         help_texts = {
             'name': _('The official name of the organisation you would like to add.'),
             'description': _('A clear and concise description of the organisation you would like to add. The description will be used for the search feature so keep in mind key words or phrases.'),
-            'phone': _('The most appropriate telephone number for someone to contact the organisation with.'),
+            'phone': _("Please enter a valid UK phone number consisting of 10-11 digits only. The most appropriate email address for someone to contact the organisation with."),
             'email': _('The most appropriate email address for someone to contact the organisation with.'),
             'url': _('The URL (website address) of the organisation\'s offical webpage e.g. https://www.organisation.com'),
             'facebook': _('A link to the official Facebook page for the organisation you would like to add e.g. https://en-gb.facebook.com/rnibuk'),
