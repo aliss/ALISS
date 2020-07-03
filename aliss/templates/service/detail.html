@@ -49,7 +49,7 @@
         </span>
         Close
       </a>
-      <h5>Delete organisation</h5>
+      <h5>Delete service</h5>
     </div>
     <div class="content">
       <p>Are you sure you want to delete your service?</p>
@@ -301,7 +301,7 @@
                   </a>
                    {% can_edit request.user location as user_can_edit %} 
                     {% if user_can_edit or user.is_staff%}
-                    <div class="edit-options">
+                      <div class="edit-options">
                       <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                         <span class="icon">
                           <i class="fas fa-pencil-alt"></i>
@@ -312,29 +312,35 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                         <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
-                                       <span class="icon">
-                                <i class="fas fa-trash-alt"></i>
-                            </span> Delete location
-                           </a>
+                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                          <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                          </span>
+                          Remove location
+                        </button>
                       </form>
                     </div>
                   {% endif %}
                    {% if user.is_editor and object.claimed_by %}
-                                            <div class="edit-options">
-                                                <div class="edit-options">
-                                                    <a title="Click here to edit this location." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
-                                                        <span class="icon">
-                                <i class="fas fa-pencil-alt"></i>
-                                </span> Edit location
-                                                    </a>
-                                                    <a title="Click here to remove this location." href="{% url 'location_delete' pk=location.pk %}" class="delete icon-link">
-                                                                <span class="icon">
-                                <i class="fas fa-trash-alt"></i>
-                                </span> Delete location
-                                                    </a>
-                                                </div>
-
+                                           <div class="edit-options">
+                      <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+                        <span class="icon">
+                          <i class="fas fa-pencil-alt"></i>
+                        </span>
+                        Edit location
+                      </a>
+                      {% get_service_at_location_slug object.pk location.pk as service_at_location_slug %}
+                      <p>{{service_at_location_pk}}</p>
+                      <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
+                        {% csrf_token %}
+                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                          <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                          </span>
+                          Remove location
+                        </button>
+                      </form>
+                    </div>
 
                      {% endif %}
                 </div>
