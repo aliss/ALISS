@@ -193,13 +193,13 @@ class ServiceViewTestCase(TestCase):
         self.assertNotContains(non_editor_response, "Edit service")
 
 
-    def test_non_editor_doesnt_see_delete_service_action(self):
-        self.client.logout()
-        non_editor_client = self.client.login(username='nonEdit@nonEdit.com', password='passwurd')
-        non_editor_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
-        self.assertEqual(non_editor_response.status_code, 200)
-        self.assertContains(non_editor_response, "My First Service")
-        self.assertNotContains(non_editor_response, "Delete service")
+    # def test_non_editor_doesnt_see_delete_service_action(self):
+    #     self.client.logout()
+    #     non_editor_client = self.client.login(username='nonEdit@nonEdit.com', password='passwurd')
+    #     non_editor_response = self.client.get(reverse('service_detail_slug', kwargs={'slug':self.service.slug}))
+    #     self.assertEqual(non_editor_response.status_code, 200)
+    #     self.assertContains(non_editor_response, "My First Service")
+    #     self.assertNotContains(non_editor_response, "Delete service")
 
 
     def test_service_at_location_delete(self):
