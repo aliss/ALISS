@@ -28,12 +28,6 @@
         </div>
     </div>
 </div> 
-<a title="Add a loction." href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
-    <span class="icon">
-      <i class="fas fa-map-marker-alt"></i>
-    </span>
-    Add location
-  </a>
 <div class="modal" id="delete_org">
     <div class="pad">
         <div class="heading">
@@ -141,57 +135,62 @@
                   <i class="fas fa-hand-paper"></i>
                 </span> Claim this organisation
                             </a>
-                            {% comment %}
+              
                             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span> Improve this listing
-                            </a> {% endcomment %} {% elif object.claimed_by and not user.is_authenticated %} {% comment %}
+                            </a> {% elif object.claimed_by and not user.is_authenticated %} 
                             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span> Improve this listing
-                            </a> {% endcomment %} {% endif %} {% if request.user.is_authenticated %} {% if object.claimed_by == user or user.is_staff%}
+                            </a> {% endif %} {% if request.user.is_authenticated %} {% if object.claimed_by == user or user.is_staff%}
                             <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                                 <span class="icon">
                   <i class="fas fa-plus"></i>
                 </span> Add service
                             </a>
-
-                            <a title="Edit an organisation." href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
-                                <span class="icon">
-                  <i class="fas fa-pencil-alt"></i>
-                </span> Edit organisation
-                            </a>
-                            <a title="Delete an organisation." id="delete_org_modal" class="delete icon-link">
-                                <span class="icon">
-                  <i class="fas fa-trash-alt"></i>
-                </span> Delete organisation
-                            </a>
-                            {% comment %}
-                            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-                                <span class="icon">
-                <i class="fas fa-comment"></i>
-                </span> Improve this listing
-                            </a> {% endcomment %} {% elif user.is_editor and not object.claimed_by %}
-
-                            <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
-                                <span class="icon">
-                  <i class="fas fa-plus"></i>
-                </span> Add service
-                            </a>
-
-                            <a title="Edit an organisation." href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
-                                <span class="icon">
-                  <i class="fas fa-pencil-alt"></i>
-                </span> Edit organisation
-                            </a>
-                            <a title="Add a loction." href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+   <a title="Add a loction." href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
                                 <span class="icon">
                                   <i class="fas fa-map-marker-alt"></i>
                                 </span>
                                 Add location
                               </a>
+                            <a title="Edit an organisation." href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
+                                <span class="icon">
+                  <i class="fas fa-pencil-alt"></i>
+                </span> Edit organisation
+                            </a>
+                            <a title="Delete an organisation." id="delete_org_modal" class="delete icon-link">
+                                <span class="icon">
+                  <i class="fas fa-trash-alt"></i>
+                </span> Delete organisation
+                            </a>
+                
+                            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                                <span class="icon">
+                <i class="fas fa-comment"></i>
+                </span> Improve this listing
+                            </a> {% elif user.is_editor and not object.claimed_by %}
+
+                            <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
+                                <span class="icon">
+                  <i class="fas fa-plus"></i>
+                </span> Add service
+                            </a>
+   <a title="Add a loction." href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+                                <span class="icon">
+                                  <i class="fas fa-map-marker-alt"></i>
+                                </span>
+                                Add location
+                              </a>
+                            <a title="Edit an organisation." href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
+                                <span class="icon">
+                  <i class="fas fa-pencil-alt"></i>
+                </span> Edit organisation
+                            </a>
+                         
                             <a title="Delete an organisation." id="delete_org_modal" class="delete icon-link">
                                 <span class="icon">
                   <i class="fas fa-trash-alt"></i>
@@ -202,12 +201,12 @@
                   <i class="fas fa-hand-paper"></i>
                 </span> Claim this organisation
                             </a>
-                            {% comment %}
+                   
                             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span> Improve this listing
-                            </a> {% endcomment %} {% elif not object.claimed_by %}
+                            </a>  {% elif not object.claimed_by %}
 
 
                             <a title="By claiming an organisation you'll be able to edit and manage services for the organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
@@ -215,17 +214,17 @@
                   <i class="fas fa-hand-paper"></i>
                 </span> Claim this organisation
                             </a>
-                            {% comment %}
+                
                             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span> Improve this listing
-                            </a> {% endcomment %} {% elif object.claimed_by != user %} {% comment %}
+                            </a> {% elif object.claimed_by != user %} 
                             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span> Improve this listing
-                            </a> {% endcomment %}
+                            </a> 
                             <p>This organisation has been claimed. Only the person who has claimed can edit this information. </a>
                             </p>
 
