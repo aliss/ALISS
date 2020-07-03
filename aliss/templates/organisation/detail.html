@@ -5,7 +5,7 @@
 <meta property="og:description" content="{{ object.description|truncatechars:147 }}" />
 <meta name="description" content="{{ object.description }}"> {% if view.kwargs.slug %}
 <link rel="canonical" href="{% url 'organisation_detail' object.pk %}" /> {% else %}
-<link rel="canonical" href="{% url 'organisation_detail_slug' object.slug %}" /> {% endif %} {% endblock %} {% block container %} {% comment %}
+<link rel="canonical" href="{% url 'organisation_detail_slug' object.slug %}" /> {% endif %} {% endblock %} {% block container %} 
 <div class="black"></div>
 <div class="modal" id="improve-listing">
     <div class="pad">
@@ -27,7 +27,13 @@
             {% endif %}
         </div>
     </div>
-</div> {% endcomment %}
+</div> 
+<a title="Add a loction." href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+    <span class="icon">
+      <i class="fas fa-map-marker-alt"></i>
+    </span>
+    Add location
+  </a>
 <div class="modal" id="delete_org">
     <div class="pad">
         <div class="heading">
@@ -180,6 +186,12 @@
                   <i class="fas fa-pencil-alt"></i>
                 </span> Edit organisation
                             </a>
+                            <a title="Add a loction." href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+                                <span class="icon">
+                                  <i class="fas fa-map-marker-alt"></i>
+                                </span>
+                                Add location
+                              </a>
                             <a title="Delete an organisation." id="delete_org_modal" class="delete icon-link">
                                 <span class="icon">
                   <i class="fas fa-trash-alt"></i>
