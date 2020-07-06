@@ -2,18 +2,28 @@
 
 {% block title %}Logout - ALISS{% endblock %}
 {% block meta_schema %}
+   <body onload="removeCache()">
+     <script type="text/javascript">
+            function removeCache() {
+            localStorage.clear();
+ 
+}
+</script>
     <meta property="og:title" content="Logout - ALISS" />
     <meta name="twitter:title" content="Logout - ALISS" />
 {% endblock %}
 
 {% block container %}
+
 <main class="main" role="main">
     <section id="error">
         <div class="row">
             <div class="columns content">
                 <div class="copy-container" style="min-height: 350px;">
                     <h1>Logged out</h1>
+                 
                     <p>You have been logged out.</p>
+                 
                     <div class="buttons">
                         <a title="Click here to navigate to the homepage." href="{% url 'homepage' %}" class="button primary">Go to Homepage</a>
                     </div>
@@ -22,11 +32,7 @@
         </div>
     </section>
 </main>
+
 {% endblock %}
 
-<script>
-  function foo() {
-        localStorage.clear();
-                }
- window.onload = foo()
-</script>
+ 
