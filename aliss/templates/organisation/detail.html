@@ -136,15 +136,15 @@
                 </span> Claim this organisation
                             </a>
               
-                            <!-- <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                          <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                                 <span class="icon">
                 <i class="fas fa-comment"></i>
                 </span> Improve this listing
                             </a> {% elif object.claimed_by and not user.is_authenticated %} 
-                            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+                            {% comment %} <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
                                 <span class="icon">
                 <i class="fas fa-comment"></i>
-                </span> Improve this listing -->
+                </span> Improve this listing  {% endcomment %}
                             </a> {% endif %} {% if request.user.is_authenticated %} {% if object.claimed_by == user or user.is_staff%}
                             <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                                 <span class="icon">
