@@ -141,7 +141,7 @@ class Command(BaseCommand):
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         data_folder = BASE_DIR + "/static/location/location.csv"
         with open(data_folder, "a") as file_prime:
-         file_prime.write(str( '\n' + '#### ' + region_name + ', ' + '\n')+ '\n')
+         file_prime.write(str( '\n' + '#### ' + region_name + ':' + '\n')+ '\n')
         region_queryset = services_in_service_area_by_region[region_name]
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         data_folder = BASE_DIR + "/static/location/location.csv"
@@ -172,7 +172,7 @@ class Command(BaseCommand):
             BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             data_folder = BASE_DIR + "/static/location/location.csv"
             with open(data_folder, "a") as file_prime:
-             file_prime.write(str("- " + key + ", " + str(value.count()))+ '\n')
+             file_prime.write(str( key + ", " + str(value.count()))+ '\n')
         print('### Category breakdown by region:')
         print('Showing top ' + str(limit) + ' categories')
         for key in services_in_service_area_by_region.keys():
