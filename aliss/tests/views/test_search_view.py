@@ -299,7 +299,7 @@ class SearchViewTestCase(TestCase):
     def test_invalid_search_ALISS_not_available_error_page(self):
         response = self.client.get('/search/?postcode=Argyll Test')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Sorry, ALISS is not available in your postcode.</h1>", html=True)
+        self.assertContains(response, "<h1>Sorry, Argyll Test' is not available in your postcode.</h1>", html=True)
 
     def test_invalid_postcode_error_page(self):
         response = self.client.get('/search/?postcode=G2 4ZZ')
