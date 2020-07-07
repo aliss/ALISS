@@ -153,7 +153,7 @@ class Command(BaseCommand):
             ))
         ).order_by('-service_count')[:limit]:
               print(" - " + category.name + ": " + str(category.service_count))
-              file_prime.write(str(" - " + category.name + ",  " + str(category.service_count))+ '\n')
+              file_prime.write(str(" - " + category.name + ", " + str(category.service_count))+ '\n')
 
     def geographical_content_report(self, service_area_boundary='local_authority', type=2, limit=10):
         '''
@@ -172,7 +172,7 @@ class Command(BaseCommand):
             BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             data_folder = BASE_DIR + "/static/location/location.csv"
             with open(data_folder, "a") as file_prime:
-             file_prime.write(str("- " + key + ",  " + str(value.count()))+ '\n')
+             file_prime.write(str("- " + key + ", " + str(value.count()))+ '\n')
         print('### Category breakdown by region:')
         print('Showing top ' + str(limit) + ' categories')
         for key in services_in_service_area_by_region.keys():

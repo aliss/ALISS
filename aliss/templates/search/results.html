@@ -44,11 +44,10 @@
         <div class="columns">
           {% if errors and 'postcode' in errors and not invalid_placename %}
             <div class="copy-container">
-              <h1>Sorry, {{ request.GET.postcode }} is not available in your postcode.</h1>
+              <h1>Sorry, ALISS is not available in your postcode.</h1>
               <p>We're always adding new services to ALISS but it seems like we've not reached your area yet.</p>
-              <p>Please try searching again  with a different place name or postcode.</p>
+              <p>Please try searching again with a different postcode.</p>
             </div>
-            
           {% elif invalid_placename %}
             <div class="copy-container">
               <h1>Sorry, {{ request.GET.postcode }} couldn't be matched with a postcode.</h1>
