@@ -40,6 +40,7 @@
     {% include 'partials/share-search.html' %}
   {% else %}
     <section id="error">
+      {% endif %}
       <div class="row">
         <div class="columns">
           {% if errors and 'postcode' in errors and not invalid_placename %}
