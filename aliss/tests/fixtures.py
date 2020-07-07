@@ -96,7 +96,9 @@ class Fixtures(TestCase):
                 'integration_authority_2016_code': 'S37000012',
                 'place_name': 'Edinburgh', 'slug': 'edinburgh'
             }
+        
         )
+    
         t,u,c,_ = Fixtures.create_users()
         o = Fixtures.create_organisation(t,u,c)
         s = Fixtures.create_service(o)
