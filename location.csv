@@ -1,0 +1,10 @@
+[OKAY] Loaded ENV .env File as KEY=VALUE Format
+[DONE] Killing all processes with signal  SIGINT
+
+Generating Report
+{'verbosity': 1, 'settings': None, 'pythonpath': None, 'traceback': False, 'no_color': False, 'verbose': None}
+
+ # Geographical Content Report
+## Local authority results:
+### Service count by region:
+Service area type: 2
