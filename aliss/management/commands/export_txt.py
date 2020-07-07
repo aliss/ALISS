@@ -153,7 +153,7 @@ class Command(BaseCommand):
             ))
         ).order_by('-service_count')[:limit]:
               print(" - " + category.name + ": " + str(category.service_count))
-              file_prime.write(str(" - " + category.name + ", " + str(category.service_count))+ '\n')
+              file_prime.write(str(category.name + ", " + str(category.service_count))+ '\n')
 
     def geographical_content_report(self, service_area_boundary='local_authority', type=2, limit=10):
         '''
