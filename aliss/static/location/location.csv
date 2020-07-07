@@ -1,37 +1,37 @@
-- City of Edinburgh, 287
-- Clackmannanshire, 42
-- Dumfries and Galloway, 168
-- East Ayrshire, 70
-- East Lothian, 110
-- East Renfrewshire, 54
-- Na h-Eileanan Siar, 28
-- Falkirk, 117
-- Highland, 201
-- Inverclyde, 54
-- Midlothian, 209
-- Renfrewshire, 764
-- Moray, 123
-- North Ayrshire, 93
-- Orkney Islands, 24
-- Scottish Borders, 212
-- Shetland Islands, 50
-- South Ayrshire, 72
-- South Lanarkshire, 147
-- Stirling, 84
-- Aberdeen City, 487
-- Aberdeenshire, 399
-- West Dunbartonshire, 91
-- West Lothian, 116
-- Angus, 95
-- Dundee City, 318
-- North Lanarkshire, 153
-- East Dunbartonshire, 67
-- Glasgow City, 586
-- Argyll and Bute, 44
-- Fife, 174
-- Perth and Kinross, 66
+City of Edinburgh, 287
+Clackmannanshire, 42
+Dumfries and Galloway, 168
+East Ayrshire, 70
+East Lothian, 110
+East Renfrewshire, 54
+Na h-Eileanan Siar, 28
+Falkirk, 117
+Highland, 201
+Inverclyde, 54
+Midlothian, 209
+Renfrewshire, 764
+Moray, 123
+North Ayrshire, 93
+Orkney Islands, 24
+Scottish Borders, 212
+Shetland Islands, 50
+South Ayrshire, 72
+South Lanarkshire, 147
+Stirling, 84
+Aberdeen City, 487
+Aberdeenshire, 399
+West Dunbartonshire, 91
+West Lothian, 116
+Angus, 95
+Dundee City, 318
+North Lanarkshire, 153
+East Dunbartonshire, 67
+Glasgow City, 586
+Argyll and Bute, 44
+Fife, 174
+Perth and Kinross, 66
 
-#### City of Edinburgh, 
+#### City of Edinburgh:
 
  - Exercise & Get Fit, 62
  - Sports & Games, 50
@@ -44,7 +44,7 @@
  - Support Group, 16
  - Mental Health Issues, 15
 
-#### Clackmannanshire, 
+#### Clackmannanshire:
 
  - Exercise & Get Fit, 9
  - Health & Social Care Services, 8
@@ -57,7 +57,7 @@
  - Social Group, 3
  - Rights & Representation, 3
 
-#### Dumfries and Galloway, 
+#### Dumfries and Galloway:
 
  - Exercise & Get Fit, 53
  - Sports & Games, 36
@@ -70,7 +70,7 @@
  - Mens Health, 11
  - Social Group, 9
 
-#### East Ayrshire, 
+#### East Ayrshire:
 
  - Exercise & Get Fit, 28
  - Sports & Games, 17
@@ -83,7 +83,7 @@
  - Social Group, 3
  - Support Network, 3
 
-#### East Lothian, 
+#### East Lothian:
 
  - Exercise & Get Fit, 37
  - Sports & Games, 25
@@ -96,7 +96,7 @@
  - Cancer, 6
  - Mens Health, 5
 
-#### East Renfrewshire, 
+#### East Renfrewshire:
 
  - Mental Health Issues, 10
  - Health & Social Care Services, 7
@@ -109,7 +109,7 @@
  - Counselling, 3
  - Arts & Crafts, 3
 
-#### Na h-Eileanan Siar, 
+#### Na h-Eileanan Siar:
 
  - Exercise & Get Fit, 15
  - Sports & Games, 11
@@ -122,7 +122,7 @@
  - Counselling, 2
  - Bereavement, 2
 
-#### Falkirk, 
+#### Falkirk:
 
  - Activity, 25
  - Social Activity, 20
@@ -135,7 +135,7 @@
  - Conditions, 9
  - Support Group, 7
 
-#### Highland, 
+#### Highland:
 
  - Exercise & Get Fit, 88
  - Sports & Games, 74
@@ -148,7 +148,7 @@
  - Social Group, 11
  - Outdoor Pursuits, 11
 
-#### Inverclyde, 
+#### Inverclyde:
 
  - Exercise & Get Fit, 17
  - Social Group, 15
@@ -161,7 +161,7 @@
  - Sensory Impairment, 3
  - Physical Activity, 3
 
-#### Midlothian, 
+#### Midlothian:
 
  - Support Network, 31
  - Mental Health Issues, 26
@@ -174,7 +174,7 @@
  - Social Group, 16
  - Disability, 14
 
-#### Renfrewshire, 
+#### Renfrewshire:
 
  - Social Activity, 345
  - Physical Activity, 196
@@ -187,7 +187,7 @@
  - Health & Social Care Services, 27
  - Outdoor Pursuits, 27
 
-#### Moray, 
+#### Moray:
 
  - Exercise & Get Fit, 29
  - Sports & Games, 22
@@ -200,7 +200,7 @@
  - Activity, 10
  - Mental Health Issues, 10
 
-#### North Ayrshire, 
+#### North Ayrshire:
 
  - Exercise & Get Fit, 57
  - Sports & Games, 37
@@ -213,7 +213,7 @@
  - Support Network, 3
  - Money Advice, 3
 
-#### Orkney Islands, 
+#### Orkney Islands:
 
  - Exercise & Get Fit, 12
  - Sports & Games, 9
@@ -226,7 +226,7 @@
  - Counselling, 2
  - Bereavement, 2
 
-#### Scottish Borders, 
+#### Scottish Borders:
 
  - Exercise & Get Fit, 71
  - Social Group, 54
@@ -239,7 +239,7 @@
  - Outdoor Pursuits, 15
  - Dementia, 13
 
-#### Shetland Islands, 
+#### Shetland Islands:
 
  - Exercise & Get Fit, 20
  - Sports & Games, 18
@@ -252,7 +252,7 @@
  - Neurological Conditions, 3
  - Physical Activity, 3
 
-#### South Ayrshire, 
+#### South Ayrshire:
 
  - Exercise & Get Fit, 34
  - Sports & Games, 16
@@ -265,7 +265,7 @@
  - Health & Social Care Services, 4
  - Social Activity, 4
 
-#### South Lanarkshire, 
+#### South Lanarkshire:
 
  - Exercise & Get Fit, 50
  - Social Group, 35
@@ -278,7 +278,7 @@
  - Conditions, 9
  - Community Cafe, 8
 
-#### Stirling, 
+#### Stirling:
 
  - Exercise & Get Fit, 28
  - Sports & Games, 25
@@ -291,7 +291,7 @@
  - Cancer, 5
  - Social Group, 5
 
-#### Aberdeen City, 
+#### Aberdeen City:
 
  - Activity, 113
  - Social Activity, 94
@@ -304,7 +304,7 @@
  - Conditions, 36
  - Sports & Games, 28
 
-#### Aberdeenshire, 
+#### Aberdeenshire:
 
  - Exercise & Get Fit, 86
  - Physical Activity, 76
@@ -317,7 +317,7 @@
  - Cancer, 22
  - Mental Health Issues, 20
 
-#### West Dunbartonshire, 
+#### West Dunbartonshire:
 
  - Mental Health Issues, 17
  - Independent Advocacy, 10
@@ -330,7 +330,7 @@
  - Peer Support, 5
  - Counselling, 4
 
-#### West Lothian, 
+#### West Lothian:
 
  - Exercise & Get Fit, 43
  - Sports & Games, 34
@@ -343,7 +343,7 @@
  - Activity, 6
  - Housing and Homelessness, 6
 
-#### Angus, 
+#### Angus:
 
  - Exercise & Get Fit, 35
  - Sports & Games, 33
@@ -356,7 +356,7 @@
  - Social Activity, 6
  - Activity, 5
 
-#### Dundee City, 
+#### Dundee City:
 
  - Health & Social Care Services, 60
  - Education & Employability, 28
@@ -369,7 +369,7 @@
  - Sports & Games, 19
  - Conditions, 18
 
-#### North Lanarkshire, 
+#### North Lanarkshire:
 
  - Exercise & Get Fit, 51
  - Social Group, 29
@@ -382,7 +382,7 @@
  - Conditions, 9
  - Activity, 8
 
-#### East Dunbartonshire, 
+#### East Dunbartonshire:
 
  - Exercise & Get Fit, 11
  - Rights & Representation, 9
@@ -395,7 +395,7 @@
  - Sports & Games, 5
  - Activity, 4
 
-#### Glasgow City, 
+#### Glasgow City:
 
  - Activity, 67
  - Exercise & Get Fit, 66
@@ -408,7 +408,7 @@
  - Children & Families, 34
  - Support Network, 31
 
-#### Argyll and Bute, 
+#### Argyll and Bute:
 
  - Independent Advocacy, 10
  - Support Network, 7
@@ -421,7 +421,7 @@
  - Exercise & Get Fit, 4
  - Outdoor Pursuits, 4
 
-#### Fife, 
+#### Fife:
 
  - Exercise & Get Fit, 79
  - Sports & Games, 56
@@ -434,7 +434,7 @@
  - Support Group, 8
  - Counselling, 7
 
-#### Perth and Kinross, 
+#### Perth and Kinross:
 
  - Exercise & Get Fit, 23
  - Sports & Games, 16
