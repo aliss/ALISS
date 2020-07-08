@@ -26,6 +26,7 @@
               <div class="heading">
                 <h4>User <a title="{{ claim.user.get_short_name }} has claimed this organisation." href="{% url 'account_detail' pk=claim.user.pk %}">{{ claim.user.get_short_name }}</a> has claimed <a href="{% url 'organisation_detail' pk=claim.organisation.pk %}">{{ claim.organisation.name }}</a></h4>
               </div>
+              <p>{{ claim.name }}</p>
               <p>{{ claim.comment }}</p>
               <p>Request made on {{ claim.created_on }}</p>
 
