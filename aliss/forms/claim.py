@@ -4,8 +4,14 @@ from aliss.models import Claim
 
 
 class ClaimForm(forms.Form):
-    comment = forms.CharField(required=True,
+    comment = forms.CharField(
+        required=True,
         widget=forms.Textarea(), label="What is your role in the organisation?")
+    
+    name = forms.CharField(
+        required=True,
+        help_text="Please enter the name of the persone who clain the organisation")
+    
     phone = forms.CharField(
         required=True,
         help_text="Please enter a valid UK phone number consisting of 10-11 digits only. The phone number will be used to verify you as the owner of this organisation")
