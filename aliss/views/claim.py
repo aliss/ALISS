@@ -105,6 +105,7 @@ class ClaimCreateView(LoginRequiredMixin, FormView):
         Claim.objects.create(
             user=self.request.user,
             organisation=organisation,
+            name=form.cleaned_data.get('name'),
             phone=form.cleaned_data.get('phone'),
             comment=form.cleaned_data.get('comment')
         )
