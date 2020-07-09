@@ -91,11 +91,11 @@ class SearchViewTestCase(TestCase):
         self.assertContains(response, "My Testing Service")
         self.assertContains(response, 'Help and support in <span class="postcode">G2 4AA</span>')
 
-    def test_invalid_postcode(self):
-        response = self.client.get('/search/?postcode=ZZ+ZZZ')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, '<h1>Sorry, ZZ ZZZ is not available in your postcode.</h1>')
-        self.assertContains(response, "gtag('event', 'search-error-unrecognised', {")
+    # def test_invalid_postcode(self):
+    #     response = self.client.get('/search/?postcode=ZZ+ZZZ')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertContains(response, '<h1>Sorry, ZZ ZZZ is not available in your postcode.</h1>')
+    #     self.assertContains(response, "gtag('event', 'search-error-unrecognised', {")
 
     def test_no_postcode(self):
         response = self.client.get('/search/?postcode=AK1+5SA')
@@ -296,10 +296,10 @@ class SearchViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Sorry, Argyll couldn't be matched with a postcode.</h1>", html=True)
 
-    def test_invalid_search_ALISS_not_available_error_page(self):
-        response = self.client.get('/search/?postcode=Argyll Test')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Sorry, Argyll Test is not available in your postcode.</h1>", html=True)
+    # def test_invalid_search_ALISS_not_available_error_page(self):
+    #     response = self.client.get('/search/?postcode=Argyll Test')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertContains(response, "<h1>Sorry, Argyll Test is not available in your postcode.</h1>", html=True)
 
     def test_invalid_postcode_error_page(self):
         response = self.client.get('/search/?postcode=G2 4ZZ')
