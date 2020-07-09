@@ -22,7 +22,7 @@ class Claim(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey('aliss.ALISSUser')
-    name = models.CharField(max_length=100, default='Name Missing')
+    # name = models.CharField(max_length=100, default='Name Missing')
     organisation = models.ForeignKey('aliss.Organisation')
     phone = models.CharField(max_length=30, default="", validators=[RegexValidator(regex='^.{11}$', message='Length has to be 11', code='nomatch')]);
     comment = models.TextField()
