@@ -4,7 +4,7 @@ from django.views.generic.list import MultipleObjectMixin
 from django.conf import settings
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-
+from datetime import datetime, timedelta
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.connections import connections
 
@@ -23,6 +23,8 @@ from aliss.search import (
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
+    # how_many_days = 30
+    # Service.objects.filter(entered__gte=datetime.now()-timedelta(days=how_many_days))
     #paginator_class = ESPaginator
     paginate_by = 10
 
