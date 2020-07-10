@@ -151,8 +151,31 @@
     <div class="columns listing grid-container">
       <ul class="search-results">
         {% for result in object_list %}
-          <li class="">
+          <li class="" data-date='{{ result.last_edited }}'>
             {% get_distance key=result.id as distance %}
+
+          <script>
+          // If you can change the way the date is stored and or rendered to macth the date below this should work.
+         var diff =(new Date(2018,01,01).getTime() - new Date(2017,03,01).getTime()) / 1000;
+          diff = diff / (60 * 60 * 24 * 10 * 3);
+          var diffMonths = Math.abs(Math.round(diff));
+
+          if (diffMonths >= 6 ) {
+            console.log('A 6 month, or older fart.' + diffMonths);
+          }
+
+          </script>
+          <span>
+
+            TEST BOI: {{ result.last_edited }}
+    
+
+            {% if result.last_edited %}
+                <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
+                {{ farts }}
+              {% endif %}
+          </span>
+
             <div class="heading">
               {% if result.slug %}
                 <a title="Click here for further information on {{ result.name }}" href="{% url 'service_detail_slug' result.slug %}">
