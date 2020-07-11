@@ -23,8 +23,6 @@ from aliss.search import (
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
-    # how_many_days = 30
-    # Service.objects.filter(entered__gte=datetime.now()-timedelta(days=how_many_days))
     #paginator_class = ESPaginator
     paginate_by = 10
 

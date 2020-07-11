@@ -153,28 +153,32 @@
         {% for result in object_list %}
           <li class="" data-date='{{ result.last_edited }}'>
             {% get_distance key=result.id as distance %}
-
+            
+          {% comment %} «««««««««««««««««««««««««««««««««START«««««««««««««««««««««««««««««««««««««««««««« {% endcomment %}
+          {% comment %} ««««««««««««««««««««««««««««««JAVASCRIPT«««««««««««««««««««««««««««««««««««««««««« {% endcomment %}
           <script>
-          // If you can change the way the date is stored and or rendered to macth the date below this should work.
-         var diff =(new Date(2018,01,01).getTime() - new Date(2017,03,01).getTime()) / 1000;
+        
+          var diff =(new Date(2018,01,01).getTime() - new Date(2017,03,01).getTime()) / 1000;
           diff = diff / (60 * 60 * 24 * 10 * 3);
           var diffMonths = Math.abs(Math.round(diff));
 
-          if (diffMonths >= 6 ) {
-            console.log('A 6 month, or older fart.' + diffMonths);
+          if (diffMonths >= ({{ result.last_edited }} - 10)) {
+            console.log('A 6 month, or older fart    '  + {{ result.last_edited }} );
           }
-
           </script>
+        {% comment %} ««««««««««««««««««««««««««««««««««««HTML««««««««««««««««««««««««««««««««««««««««««« {% endcomment %}            
           <span>
-
-            TEST BOI: {{ result.last_edited }}
-    
-
             {% if result.last_edited %}
-                <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
-                {{ farts }}
-              {% endif %}
+
+              TEST BOI: {{ result.last_edited }} <br>
+              TEST BOI: {{ result.last_edited | date:"Y/m/d"}} <br>
+              TEST BOI: {{ result.last_edited | date:"M d, Y"}}
+            
+            {% endif %}
+
           </span>
+
+           {% comment %} ««««««««««««««««««««««««««««««««««««END««««««««««««««««««««««««««««««««««««««««««« {% endcomment %}
 
             <div class="heading">
               {% if result.slug %}

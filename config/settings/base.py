@@ -146,8 +146,14 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-gb'
 TIME_ZONE = 'UTC'
 USE_I18N = True
-USE_L10N = True
+USE_L10N = False
 USE_TZ = True
+# Change format of the data system
+
+DATETIME_FORMAT = 'Y/m/d'
+DATE_FORMAT = 'Y-m-d'
+
+
 
 
 # Static files (CSS, JavaScript, Images)
