@@ -6,6 +6,7 @@ from django.utils.text import slugify
 
 import pytz
 import logging
+from django.template.defaultfilters import date
 
 register = template.Library()
 
@@ -150,6 +151,9 @@ def get_distance(context, key):
     except:
         return None
 
+@property
+def is_past_due(self):
+    return date.today() > self.date
 
 @register.filter
 def format_time_string(value):

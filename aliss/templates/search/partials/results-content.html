@@ -157,26 +157,34 @@
           {% comment %} «««««««««««««««««««««««««««««««««START«««««««««««««««««««««««««««««««««««««««««««« {% endcomment %}
           {% comment %} ««««««««««««««««««««««««««««««JAVASCRIPT«««««««««««««««««««««««««««««««««««««««««« {% endcomment %}
           <script>
-        
-          var diff =(new Date(2018,01,01).getTime() - new Date(2017,03,01).getTime()) / 1000;
+
+          var diff =(new Date(2018,07,01).getTime() - new Date(2018,01,01).getTime()) / 1000;
           diff = diff / (60 * 60 * 24 * 10 * 3);
           var diffMonths = Math.abs(Math.round(diff));
+          var date_modify = {{ result.last_edited }} 
 
-          if (diffMonths >= ({{ result.last_edited }} - 10)) {
-            console.log('A 6 month, or older fart    '  + {{ result.last_edited }} );
+          if (diffMonths < date_modify) {
+            console.log({{ result.last_edited }} + "  :  " + diffMonths + " months");
+            console.log('A 6 month, or older fart    '  +  date_modify  );
+          } else{
+            console.log(' NEW ' );
           }
+        
           </script>
 
         {% comment %} ««««««««««««««««««««««««««««««««««««HTML««««««««««««««««««««««««««««««««««««««««««« {% endcomment %}            
           
           <span>
-            {% if result.last_edited %}
+       
+                    {% if result.last_edited  %}
+                              <div id="">
 
-              TEST BOI: {{ result.last_edited }} <br>
-              TEST BOI: {{ result.last_edited | date:"Y/m/d"}} <br>
-              TEST BOI: {{ result.last_edited | date:"M d, Y"}}
-            
-            {% endif %}
+                                      TEST BOI: {{ result.last_edited }} <br>
+                                      TEST BOI: {{ result.last_edited | date:"Y/m/d"}} <br>
+                                      TEST BOI: {{ result.last_edited | date:"M d, Y"}}
+                         
+                              </div>
+                            {% endif %}
 
           </span>
 
