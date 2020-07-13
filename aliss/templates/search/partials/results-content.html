@@ -151,42 +151,20 @@
 
     <div class="columns listing grid-container">
       <ul class="search-results">
+ <ul class="search-results">
+        {% for service in services_to_review.all %}
+    
 
-        {% for result in object_list %}
-
-        {% trans "Title" as title %}
-
-            
-
-           {% if title == "Title" %}
-            {% comment %} {{ title }}  {% endcomment %}
+        
+    
            
 
-          <li id="aliss_{{ result.id }}" class="" data-date='{{ result.last_edited }}'>
+         
             {% get_distance key=result.id as distance %}
 
             
 
-            <script>
-            var result_item_id = document.getElementById('aliss_{{ result.id }}');
-            var visiblity_class = '';
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
-            today = mm + ', ' + dd + ' ,  ' + yyyy;
-
-            var diffInMonths = (end, start) => {
-              var timeDiff = Math.abs(end.getTime() - start.getTime());
-              return Math.round(timeDiff / (2e3 * 3600 * 365.25));
-            }
-
-            var month_count = diffInMonths(new Date(today), new Date({{ result.last_edited | date:"Y, m, d"}} ));
-
-            if (month_count >= 6) {
-              console.log(result_item_id);
-            }
-            </script>
+          
 
             <div class="heading">
               {% if result.slug %}

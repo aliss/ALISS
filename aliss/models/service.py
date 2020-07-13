@@ -167,6 +167,7 @@ class Service(models.Model):
             return self.id
         else:
             return None
+        
 
     def save(self, *args, **kwargs):
         self.generate_slug()

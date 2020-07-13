@@ -20,11 +20,14 @@ from aliss.search import (
     keyword_order,
     combined_order
 )
+import pytz
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
     # paginator_class = ESPaginator
     paginate_by = 10
+
+
 
     def get_context_data(self, **kwargs):
         context = super(SearchView, self).get_context_data(**kwargs)
@@ -36,6 +39,19 @@ class SearchView(MultipleObjectMixin, TemplateView):
         context['expanded_radius'] = self.radius * 2
         context['distance_scores'] = self.distance_scores
         return context
+    
+    def filter_search(self):
+        utc = pytz.UTC
+        current_date = datetime.now()
+        current_date = utc.localize(current_date)
+        number_of_weeks = 6
+        comparison_date = current_date - timedelta(weeks=number_of_weeks)
+        if self.last_edited == None:
+            return self.id
+        elif self.last_edited < comparison_date:
+            return self.id
+        else:
+            return None
 
     def get(self, request, *args, **kwargs):
         legacy_locations_dict = {
