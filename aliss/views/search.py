@@ -23,7 +23,7 @@ from aliss.search import (
 
 class SearchView(MultipleObjectMixin, TemplateView):
     template_name = 'search/results.html'
-    #paginator_class = ESPaginator
+    # paginator_class = ESPaginator
     paginate_by = 10
 
     def get_context_data(self, **kwargs):

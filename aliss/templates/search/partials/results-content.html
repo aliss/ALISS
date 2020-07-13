@@ -1,6 +1,7 @@
 {% load aliss %}
 {% load analytics %}
 {% load humanize %}
+{% load i18n%}
 
 <section id="results">
   {% include 'search/partials/categories.html' with category=category %}
@@ -150,45 +151,41 @@
 
     <div class="columns listing grid-container">
       <ul class="search-results">
+
         {% for result in object_list %}
-          <li class="" data-date='{{ result.last_edited }}'>
+
+        {% trans "ryyrty" as title %}
+
+            
+
+           {% if title == "Title" %}
+          
+
+          <li id="aliss_{{ result.id }}" class="" data-date='{{ result.last_edited }}'>
             {% get_distance key=result.id as distance %}
 
-          {% comment %} «««««««««««««««««««««««««««««««««START«««««««««««««««««««««««««««««««««««««««««««« {% endcomment %}
-          {% comment %} ««««««««««««««««««««««««««««««JAVASCRIPT«««««««««««««««««««««««««««««««««««««««««« {% endcomment %}
-          <script>
+            
 
-          var diff =(new Date(2018,07,01).getTime() - new Date(2018,01,01).getTime()) / 1000;
-          diff = diff / (60 * 60 * 24 * 10 * 3);
-          var diffMonths = Math.abs(Math.round(diff));
-          var date_modify = {{ result.last_edited }} 
+            <script>
+            var result_item_id = document.getElementById('aliss_{{ result.id }}');
+            var visiblity_class = '';
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            today = mm + ', ' + dd + ' ,  ' + yyyy;
 
-          if (diffMonths < date_modify) {
-            console.log({{ result.last_edited }} + "  :  " + diffMonths + " months");
-            console.log('A 6 month, or older fart    '  +  date_modify  );
-          } else{
-            console.log(' NEW ' );
-          }
-        
-          </script>
+            var diffInMonths = (end, start) => {
+              var timeDiff = Math.abs(end.getTime() - start.getTime());
+              return Math.round(timeDiff / (2e3 * 3600 * 365.25));
+            }
 
-        {% comment %} ««««««««««««««««««««««««««««««««««««HTML««««««««««««««««««««««««««««««««««««««««««« {% endcomment %}            
-          
-          <span>
-       
-                    {% if result.last_edited  %}
-                              <div id="">
+            var month_count = diffInMonths(new Date(today), new Date({{ result.last_edited | date:"Y, m, d"}} ));
 
-                                      TEST BOI: {{ result.last_edited }} <br>
-                                      TEST BOI: {{ result.last_edited | date:"Y/m/d"}} <br>
-                                      TEST BOI: {{ result.last_edited | date:"M d, Y"}}
-                         
-                              </div>
-                            {% endif %}
-
-          </span>
-
-           {% comment %} ««««««««««««««««««««««««««««««««««««END««««««««««««««««««««««««««««««««««««««««««« {% endcomment %}
+            if (month_count >= 6) {
+              console.log(result_item_id);
+            }
+            </script>
 
             <div class="heading">
               {% if result.slug %}
@@ -273,6 +270,8 @@
               {% endif %}
             </div>
           </li>
+
+          {% endif %}
 
           {% service_area_tip key=result.id as following_service_area %}
           {% if following_service_area %}
