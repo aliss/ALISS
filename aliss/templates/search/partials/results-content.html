@@ -154,12 +154,13 @@
 
         {% for result in object_list %}
 
-        {% trans "ryyrty" as title %}
+        {% trans "Title" as title %}
 
             
 
            {% if title == "Title" %}
-          
+            {% comment %} {{ title }}  {% endcomment %}
+           
 
           <li id="aliss_{{ result.id }}" class="" data-date='{{ result.last_edited }}'>
             {% get_distance key=result.id as distance %}
