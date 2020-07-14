@@ -19,7 +19,8 @@
                 <form method="post">
                     {% csrf_token %} {% include 'location/forms/location_form.html' %}
                     <div class="submit">
-                        <input type="submit" value="Update Location">
+                        <input type="submit" class="alert" value="Update Location">
+                        <a title="Cancel the edit of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -27,19 +28,3 @@
     </section>
 </main>
 {% endblock %}
-
-<script>
-    $(form).on('submit', function() {
-        var $this = $(this); // reference to the current scope
-
-        dialog.confirm({
-            message: 'Do you really want to submit the form?',
-            confirm: function() {
-                $this.off('submit').submit();
-            },
-            cancel: function() {}
-        });
-
-        return false;
-    });
-</script>
