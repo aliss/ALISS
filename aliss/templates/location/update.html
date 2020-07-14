@@ -20,7 +20,7 @@
                     {% csrf_token %} {% include 'location/forms/location_form.html' %}
                     <div class="submit">
                         <input type="submit" class="alert" value="Update Location">
-                        <a title="Cancel the edit of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
+                        <a title="Cancel the edit of this location." href="{% url 'organisation_detail' pk=location.organisation.pk  %}" class="button secondary">Cancel</a>
                     </div>
                 </form>
             </div>
