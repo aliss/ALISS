@@ -14,7 +14,7 @@ class ClaimForm(forms.Form):
     
     phone = forms.CharField(
         required=True,
-        help_text="Please enter a valid UK phone number consisting of 10-11 digits only. The phone number will be used to verify you as the owner of this organisation")
+        help_text="Please enter a valid UK phone number consisting of 10-14 digits only. The phone number will be used to verify you as the owner of this organisation")
   
     data_quality = forms.BooleanField(
         required=True,
