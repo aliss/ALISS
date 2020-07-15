@@ -79,7 +79,74 @@
       </p>
     {% endif %}
 
-    <div class="columns options">
+   
+
+    <div class="columns content">
+      <div class="cell small-12 medium-8 large-8">
+        <div class="grid-x">
+          <div class="cell small-7 medium-8 large-8">
+            <h1>{{ object.name }}</h1>
+            {% if object.claimed_by %}
+              <p class="org"><span class="claimed">Claimed</span></p>
+            {% endif %}
+            <div class="desc">
+              <p>{{ object.description|linebreaks }}</p>
+              <p>Last updated <span class="updated">{{ object.last_edited }}</span></p>
+            </div>
+          </div>
+          <div class="cell small-5 medium-4 large-4">
+            {% cloudinary object.logo width=230 height=230 crop="fit" class="org-logo" %}
+            <br/>
+          </div>
+        </div>
+
+        <div class="contact-info">
+          {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
+            <br/><h3>Contact information</h3>
+            <p>
+              {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+              {% if object.email %}<a title="Click here to email this contact. (This page will open your email client)" href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
+              {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
+              {% if object.facebook %}<a title="Click here to view this contacts Facebook profile. (This page will open in a new window)" href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
+              {% if object.twitter %}<a title="Click here to view this contacts Twitter profile. (This page will open in a new window)" href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
+            </p>
+            {% if user_can_edit and object.claimed_by == user %}
+              <a title="Click here to edit this organisations information." href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
+            {% endif %}
+             {% endif %}
+        </div>
+
+        <div class="services-list">
+          <h3>Services</h3>
+          {% if object.services.all %}
+            <ul class="search-results{% if user_can_edit %} edit{% endif %}">
+              {% for service in object.services.all %}
+                {% include 'service/partials/detail.html' with service=service %}
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>No services have been added to this organisation</p>
+          {% endif %}
+          <br/>
+        </div>
+
+        <div class="contact-info">
+          {% if object.locations.all %}
+          
+            <h4>Locations</h4>
+            <div class="all-locations">
+              {% for location in object.locations.all %}
+                {% include 'location/partials/detail.html' %}
+              {% endfor %}
+              {% if object.claimed_by == user %}
+                <a title="Click here to add a location to this service." href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+ <div class="columns options">
       <div class="cell small-12 medium-4 large-4">
         <div class="pad">
           <div class="info-box toggled" id="organisation_actions">
@@ -166,73 +233,6 @@
         </div>
       </div>
     </div>
-
-    <div class="columns content">
-      <div class="cell small-12 medium-8 large-8">
-        <div class="grid-x">
-          <div class="cell small-7 medium-8 large-8">
-            <h1>{{ object.name }}</h1>
-            {% if object.claimed_by %}
-              <p class="org"><span class="claimed">Claimed</span></p>
-            {% endif %}
-            <div class="desc">
-              <p>{{ object.description|linebreaks }}</p>
-              <p>Last updated <span class="updated">{{ object.last_edited }}</span></p>
-            </div>
-          </div>
-          <div class="cell small-5 medium-4 large-4">
-            {% cloudinary object.logo width=230 height=230 crop="fit" class="org-logo" %}
-            <br/>
-          </div>
-        </div>
-
-        <div class="contact-info">
-          {% if object.phone or object.email or object.website or object.facebook or object.twitter %}
-            <br/><h3>Contact information</h3>
-            <p>
-              {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-              {% if object.email %}<a title="Click here to email this contact. (This page will open your email client)" href="mailto:{{ object.email }}">{{ object.email }}</a><br />{% endif %}
-              {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}" target="_blank">Website</a><br />{% endif %}
-              {% if object.facebook %}<a title="Click here to view this contacts Facebook profile. (This page will open in a new window)" href="{{ object.facebook }}" class="fb" target="_blank">Facebook</a><br />{% endif %}
-              {% if object.twitter %}<a title="Click here to view this contacts Twitter profile. (This page will open in a new window)" href="{{ object.twitter }}" class="tw" target="_blank">Twitter</a>{% endif %}
-            </p>
-            {% if user_can_edit and object.claimed_by == user %}
-              <a title="Click here to edit this organisations information." href="{% url 'organisation_edit' pk=object.pk %}" class="button secondary">Edit organisation info</a>
-            {% endif %}
-             {% endif %}
-        </div>
-
-        <div class="services-list">
-          <h3>Services</h3>
-          {% if object.services.all %}
-            <ul class="search-results{% if user_can_edit %} edit{% endif %}">
-              {% for service in object.services.all %}
-                {% include 'service/partials/detail.html' with service=service %}
-              {% endfor %}
-            </ul>
-          {% else %}
-            <p>No services have been added to this organisation</p>
-          {% endif %}
-          <br/>
-        </div>
-
-        <div class="contact-info">
-          {% if object.locations.all %}
-          
-            <h4>Locations</h4>
-            <div class="all-locations">
-              {% for location in object.locations.all %}
-                {% include 'location/partials/detail.html' %}
-              {% endfor %}
-              {% if object.claimed_by == user %}
-                <a title="Click here to add a location to this service." href="{% url 'location_create' pk=object.pk %}" class="button primary">Add location</a>
-              {% endif %}
-            </div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-
   </article>
 </main>
 

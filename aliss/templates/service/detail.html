@@ -49,7 +49,7 @@
         </span>
         Close
       </a>
-      <h5>Delete service</h5>
+      <h5>Delete organisation</h5>
     </div>
     <div class="content">
       <p>Are you sure you want to delete your service?</p>
@@ -117,7 +117,7 @@
     {% endif %}
     <div class="row">
 
-
+    
 
       <div class="columns content">
         <div class="copy-container">
@@ -140,13 +140,12 @@
           </div>
         </div>
       </div> <!-- columns content -->
-
-            <div class="columns options">
+  <div class="columns options">
         <div class="info-box small toggled" id="service_actions">
           <div class="heading">
             <h4 id="service_actions_toggle" class="toggle-heading">Actions</h4>
           </div>
-     
+          <!-- 1. Email, 2. Print, 3. Recommend, 4. Remove 5. Improve. 6. Back to Search -->
           <div class="actions toggle-content">
 
             <a title="Click here to email this listing. (This page will open your email client)" class="icon-link" id="email_service_toggle">
@@ -238,27 +237,7 @@
               </span>
               Delete service
             </a>
-  <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-                                        <span class="icon">
-                        <i class="fas fa-comment"></i>
-                        </span> Improve this listing
-                                    </a>
-         {% elif user.is_editor and not object.organisation.claimed_by %}
-                                    <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
-                                        <span class="icon">
-                            <i class="fas fa-pencil-alt"></i>
-                        </span> Edit service
-                                    </a>
-                                    <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
-                                        <span class="icon">
-                            <i class="fas fa-trash-alt"></i>
-                        </span> Delete service
-                                    </a>
-  <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-                                        <span class="icon">
-                        <i class="fas fa-comment"></i>
-                        </span> Improve this listing
-                                    </a>
+      
             {%  elif object.organisation.claimed_by %}
             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
               <span class="icon">
@@ -267,25 +246,21 @@
               Improve this listing
             </a>
           <br>
-          <p>This service can be edited only by the person who has claimed the organisation. If you want to suggest any changes, please click on the “Improve this listing” link above to submit your feedback.</p>
+            <p>This service can be edited only by the person who has claimed the organisation. If you want to suggest any changes, please click on the “Improve this listing” link above to submit your feedback.</p>
        
             {% endif %}
           
 
-         <a title="Click here to go back to the previous page." id="back_to_search" class="icon-link">
-                                <span class="icon">
-                <i class="fas fa-arrow-left"></i>
-                </span> Back to previous page
-                            </a>
-                <br>
-                            <div class="f-error" id="toggle1" style="display:none; background-color:#fbeeca; color: #4c5c68"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Please search through ALISS before trying to navigate back to the previous page<br></div>
-
-
+            <a title="Click here to go back to your last search." id="back_to_seach" class="icon-link">
+              <span class="icon">
+              <i class="fas fa-arrow-left"></i>
+              </span>
+              Back to last search
+            </a>
           </div>
            
         </div>
       </div>
-
       <div class="columns contact-info">
         <div class="copy-container">
           {% if object.locations.all %}
@@ -299,9 +274,9 @@
                     </span>
                     {{ location.formatted_address }}
                   </a>
-                   {% can_edit request.user location as user_can_edit %} 
-                    {% if user_can_edit or user.is_staff%}
-                      <div class="edit-options">
+                  {% can_edit request.user location as user_can_edit %}
+                  {% if object.claimed_by == user or user.is_staff%}
+                    <div class="edit-options">
                       <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
                         <span class="icon">
                           <i class="fas fa-pencil-alt"></i>
@@ -321,28 +296,6 @@
                       </form>
                     </div>
                   {% endif %}
-                   {% if user.is_editor and object.claimed_by %}
-                                           <div class="edit-options">
-                      <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
-                        <span class="icon">
-                          <i class="fas fa-pencil-alt"></i>
-                        </span>
-                        Edit location
-                      </a>
-                      {% get_service_at_location_slug object.pk location.pk as service_at_location_slug %}
-                      <p>{{service_at_location_pk}}</p>
-                      <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
-                        {% csrf_token %}
-                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
-                          <span class="icon">
-                            <i class="fas fa-trash-alt"></i>
-                          </span>
-                          Remove location
-                        </button>
-                      </form>
-                    </div>
-
-                     {% endif %}
                 </div>
               {% endfor %}
             </div>
@@ -469,24 +422,6 @@
         setupCopyToClipboard();
       });
     </script>
-  
   {% endif %}
-<script>
-    $(document).ready(function() {
-        var ref = document.referrer;
-        if (ref.indexOf('aliss') === -1) {
-            $('#back_to_search').addClass('hidden');
-        }
-        $('#back_to_search').click(function() {
-            var error1 = $('#toggle1');
-            if (ref.indexOf('aliss') > -1) {
-                window.history.back();
-            } else {
-                error1.show();
 
-                $('#back_to_search').addClass('disable');
-            }
-        });
-    });
-</script>
 {% endblock %}
