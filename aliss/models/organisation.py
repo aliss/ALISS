@@ -19,7 +19,7 @@ class Organisation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=100)
     description = models.TextField()
-    phone = models.CharField(max_length=30, blank=True, validators=[RegexValidator(regex='^.{13}$', message='Length has to be max.13', code='nomatch')])
+    phone = models.CharField(max_length=30, blank=True)
     email = models.EmailField(blank=True)
     url      = models.URLField(blank=True, verbose_name="Web address")
     facebook = models.URLField(blank=True)
