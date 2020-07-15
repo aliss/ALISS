@@ -1,4 +1,4 @@
-{% load aliss %}
+{% load aliss %}{% load static %}
 
 {% if form.errors %}
 <div class="f-row">
@@ -114,3 +114,42 @@
     {% endif %}
   </div>
 </div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var _isvalid = false;
+        $('#id_phone').attr('maxlength', 11);
+        $('#id_phone').attr("pattern", '.{10,11}');
+        validateNumber();
+
+
+    })
+
+    function validateNumber() {
+
+        $("#id_phone").keypress(
+            function(e) {
+                var charTyped = String.fromCharCode(e.which);
+                var letterRegex = /[^0-9 ]/;
+                var error3 = $('#toggle4');
+                if (charTyped.match(letterRegex)) {
+                    error3.show();
+                    return false;
+
+                } else if (charTyped) {
+                    error3.hide();
+                }
+                $("form").submit(function() {
+
+                    if (_isvalid) {
+                        return true;
+                    }
+                });
+            });
+
+
+
+    }
+</script>

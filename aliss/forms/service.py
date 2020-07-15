@@ -3,6 +3,7 @@ from itertools import groupby
 from django import forms
 
 from aliss.models import Service, ServiceArea, ServiceProblem, Location
+from django.core.exceptions import ValidationError
 
 def service_areas_as_choices():
     choices = []
@@ -104,3 +105,5 @@ class ServiceProblemUpdateForm(forms.ModelForm):
 class ServiceEmailForm(forms.Form):
     email = forms.EmailField()
     service = forms.ModelChoiceField(queryset=Service.objects.all())
+    
+
