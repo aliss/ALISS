@@ -1,4 +1,6 @@
-{% load aliss %}{% load static %}
+{% load aliss %}
+{% load static %}
+
 
 {% if form.errors %}
 <div class="f-row">
@@ -28,8 +30,10 @@
 </div>
 <div class="f-row two">
   {% include 'partials/forms/field.html' with field=form.phone %}
+         <div class="f-error" id="toggle4" style="display:none">Only numeric character are accepted<br></div>
   {% include 'partials/forms/field.html' with field=form.email %}
 </div>
+
 <div class="f-row">
   {% include 'partials/forms/field.html' with field=form.url %}
 </div>
@@ -115,41 +119,37 @@
   </div>
 </div>
 
-
-
 <script type="text/javascript">
+    /** @format */
     $(document).ready(function() {
-        var _isvalid = false;
-        $('#id_phone').attr('maxlength', 11);
-        $('#id_phone').attr("pattern", '.{10,11}');
+
         validateNumber();
 
-
-    })
+        $('form').submit(function() {
+            if (is_phone_valid ) {
+                return true;
+            }
+        });
+    });
 
     function validateNumber() {
-
-        $("#id_phone").keypress(
-            function(e) {
-                var charTyped = String.fromCharCode(e.which);
-                var letterRegex = /[^0-9 ]/;
-                var error3 = $('#toggle4');
-                if (charTyped.match(letterRegex)) {
-                    error3.show();
-                    return false;
-
-                } else if (charTyped) {
-                    error3.hide();
-                }
-                $("form").submit(function() {
-
-                    if (_isvalid) {
-                        return true;
-                    }
-                });
-            });
-
-
-
+        $('#id_phone').keypress(function(e) {
+            var charTyped = String.fromCharCode(e.which);
+            var letterRegex = /[^0-9 ]/;
+            var error3 = $('#toggle4');
+            if (charTyped.match(letterRegex)) { // Is this checking if it matches or if it isnt?
+                error3.show();
+                is_phone_valid = true;
+                return false;
+            } else if (charTyped) {
+                error3.hide();
+                is_phone_valid = false;
+            }
+        });
     }
+
+
+    
 </script>
+
+
