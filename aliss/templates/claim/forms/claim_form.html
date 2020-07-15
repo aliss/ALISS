@@ -18,7 +18,7 @@
 <div class="f-row">
     {% include 'partials/forms/field.html' with field=form.phone %}
     <div class="f-error" id="toggle3" style="display:none">Insert a valid telephone number.<br></div>
-    <div class="f-error" id="toggle4" style="display:none">Only numeric character are accepted<br></div>
+    <div class="f-error" id="toggle5" style="display:none">Only numeric character are accepted<br></div>
 </div>
 
 
@@ -50,6 +50,7 @@
         $('#id_phone').attr('maxlength', 14);
         $('#id_phone').attr("pattern", '.{10,14}');
         validateNumber();
+        validateName();
 
 
     })
@@ -76,7 +77,30 @@
                 });
             });
 
+        function validateName() {
+
+            $("#id_phone").keypress(
+                function(e) {
+                    var charTyped = String.fromCharCode(e.which);
+                    var letterRegex = /[\u\l]+/;
+                    var error4 = $('#toggle5');
+                    if (charTyped.match(letterRegex)) {
+                        error4.show();
+                        return false;
+
+                    } else if (charTyped) {
+                        error4.hide();
+                    }
+                    $("form").submit(function() {
+
+                        if (_isvalid) {
+                            return true;
+                        }
+                    });
+                });
 
 
-    }
+
+
+        }
 </script>
