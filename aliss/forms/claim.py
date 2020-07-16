@@ -10,7 +10,8 @@ class ClaimForm(forms.Form):
     
     name = forms.CharField(
         required=True,
-        help_text="Please enter the name of the persone who claim the organisation")
+        help_text="Please enter the name of the person who claim the organisation")
+
     
     phone = forms.CharField(
         required=True,
