@@ -11,7 +11,7 @@ class ExportCsvMixin:
       
         meta = self.model._meta
        
-        fields = ['organisation', 'user',]
+        fields = ['organisation', 'user', 'name']
   
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
@@ -31,7 +31,7 @@ class ExportCsvMixin:
 class ClaimAdmin(admin.ModelAdmin, ExportCsvMixin):
     
     list_filter = ['status', 'created_on']
-    list_display = ['organisation', 'organisation_id', 'status', 'created_on']
+    list_display = ['organisation', 'organisation_id', 'status', 'created_on', 'name']
     def organisation_id(self, obj):
             return obj.organisation.claimed_by
     ordering = ['-created_on', ]
