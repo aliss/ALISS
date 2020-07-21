@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% block container %}
+
 <main class="main" role="main">
     <section id="content">
         <div class="row">
@@ -16,25 +17,38 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                <form method="post"> {% csrf_token %}{% include 'location/forms/location_form.html' %}
+                <form name="myForm" method="POST"> {% csrf_token %}{% include 'location/forms/location_form.html' %}
                     <i class="fa fa-info-circle" aria-hidden="true"></i> These location changes will also affect the location attached to the organisation and any other services which have this location attached to the organisation.
                     <br><br>
-                    <input type="submit" onclick="clicked(event)" value="Update Location">
+                    <input type="submit" onclick="validateForm()" class="btn btn-danger btn-xs" value="Update Location">
                     <a title="Cancel the deletion of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
             </div>
             </form>
+
         </div>
         </div>
     </section>
 </main>
 
 <script type="text/javascript">
-    function clicked() {
-        if (confirm('Do you want to submit?')) {
-            yourformelement.submit();
-        } else {
-            return false;
-        }
+    function validateForm() {
+        event.preventDefault(); // prevent form submit
+        var form = document.forms["myForm"]; // storing the form
+        swal({
+                title: "Are you sure?",
+                text: "Once edited, the information will also affect the location attached to the organisation and any other services which have this location attached to the organisation.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                } else {
+                    swal("You cancel the editing");
+                }
+            });
     }
 </script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 {% endblock %}
