@@ -295,6 +295,26 @@
                         </button>
                       </form>
                     </div>
+                    {% elif not object.claimed_by and user.is_editor %}
+                    <div class="edit-options">
+                      <a title="Click here to edit the location of this service." href="{% url 'location_edit' pk=location.pk %}" class="icon-link">
+                        <span class="icon">
+                          <i class="fas fa-pencil-alt"></i>
+                        </span>
+                        Edit location
+                      </a>
+                      {% get_service_at_location_slug object.pk location.pk as service_at_location_slug %}
+                      <p>{{service_at_location_pk}}</p>
+                      <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
+                        {% csrf_token %}
+                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                          <span class="icon">
+                            <i class="fas fa-trash-alt"></i>
+                          </span>
+                          Remove location
+                        </button>
+                      </form>
+                    </div>
                   {% endif %}
                 </div>
               {% endfor %}
