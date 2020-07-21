@@ -81,7 +81,7 @@
     function validateName() {
         $('#id_name').bind('keypress', function(event) {
             if (event.charCode != 0) {
-                var regex = new RegExp('^[a-zA-Z ]+$');
+                var regex = new RegExp('^[a-zA-Z -]+$');
                 var error4 = $('#toggle5');
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                 error4.show();
