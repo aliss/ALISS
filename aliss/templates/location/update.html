@@ -16,10 +16,10 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                <form method="post">
-                    {% csrf_token %} {% include 'location/forms/location_form.html' %}
+                <form method="post"> {% csrf_token %}{% include 'location/forms/location_form.html' %}
                     <div class="submit">
-                        <input type="submit" value="Update Location">
+                        <input type="submit" class="alert" value="Update Location">
+                        <a title="Cancel the deletion of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
                     </div>
                 </form>
             </div>
