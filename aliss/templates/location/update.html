@@ -17,13 +17,24 @@
         <div class="row">
             <div class="columns">
                 <form method="post"> {% csrf_token %}{% include 'location/forms/location_form.html' %}
-                    <div class="submit">
-                        <input type="submit" class="alert" value="Update Location">
-                        <a title="Cancel the deletion of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
-                    </div>
-                </form>
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> These location changes will also affect the location attached to the organisation and any other services which have this location attached to the organisation.
+                    <br><br>
+                    <input type="submit" onclick="clicked(event)" value="Update Location">
+                    <a title="Cancel the deletion of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a>
             </div>
+            </form>
+        </div>
         </div>
     </section>
 </main>
+
+<script type="text/javascript">
+    function clicked() {
+        if (confirm('Do you want to submit?')) {
+            yourformelement.submit();
+        } else {
+            return false;
+        }
+    }
+</script>
 {% endblock %}
