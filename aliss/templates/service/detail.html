@@ -224,7 +224,30 @@
                 </div>
               </form>
             </div>
-            {% if object.organisation.claimed_by == user or user.is_staff%}
+            {% if object.organisation.claimed_by == user %}or user.is_staff
+            <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+              <span class="icon">
+                <i class="fas fa-pencil-alt"></i>
+              </span>
+              Edit service
+            </a>
+            <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
+              <span class="icon">
+                <i class="fas fa-trash-alt"></i>
+              </span>
+              Delete service
+            </a>
+      
+            {%  elif object.organisation.claimed_by %}
+            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              <span class="icon">
+              <i class="fas fa-comment"></i>
+              </span>
+              Improve this listing
+            </a>
+          <br>
+            <p>This service can be edited only by the person who has claimed the organisation. If you want to suggest any changes, please click on the “Improve this listing” link above to submit your feedback.</p>
+            {% elif not object.claimed_by and user.is_editor %}
             <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
               <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
@@ -435,7 +458,7 @@
           no_geo_features = false;
         }
 
-        var locations = {{location_lat_longs|safe}};
+        var locations = "{{location_lat_longs|safe}}";
         if (!$.isEmptyObject(locations)){
           addLocations(mymap, locations, no_geo_features);
         }
