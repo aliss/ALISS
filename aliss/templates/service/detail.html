@@ -301,10 +301,21 @@
       
       <div class="columns contact-info">
         <div class="copy-container">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i> The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied..
+          
+          <h4>Contact information</h4>
+          <p>
+            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
+            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
+            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
+            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
+          </p>
+          {% if object.service_areas.all %}
+                                      <i class="fa fa-info-circle" aria-hidden="true"></i> The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.
 
-          {% if object.locations.all %}
+{% if object.locations.all %}
             <div class="all-locations">
+              <br>
               <h4>Locations</h4>
               {% for location in object.locations.all %}
                 <div class="location">
@@ -361,15 +372,6 @@
               {% endfor %}
             </div>
           {% endif %}
-          <h4>Contact information</h4>
-          <p>
-            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
-            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
-            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
-            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
-          </p>
-          {% if object.service_areas.all %}
             <h5>Delivered across</h5>
             <ul id="service_area" class="service-areas">
               {% for area in object.service_areas.all %}
