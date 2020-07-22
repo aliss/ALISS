@@ -299,8 +299,20 @@
       </div>
       <div class="columns contact-info">
         <div class="copy-container">
+          
+          <h4>Contact information</h4>
+          <p>
+            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
+            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
+            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
+            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
+          </p>
+         <i class="fa fa-info-circle" aria-hidden="true"></i> These location changes will also affect the location attached to the organisation and any other services which have this location attached to the organisation.
+
           {% if object.locations.all %}
             <div class="all-locations">
+            <br>
               <h4>Locations</h4>
               {% for location in object.locations.all %}
                 <div class="location">
@@ -323,7 +335,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button type="submit" class="txt-button alert icon-link remove-location" style="margin-top: 0rem;">
+                        <button type="submit" id="remove-location" class="txt-button alert icon-link" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -344,7 +356,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link remove-location" style="margin-top: 0rem;">
+                        <button title="Click here to remove this location." type="submit" id="remove-location" class="txt-button alert icon-link" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -358,14 +370,6 @@
               {% endfor %}
             </div>
           {% endif %}
-          <h4>Contact information</h4>
-          <p>
-            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
-            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
-            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
-            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
-          </p>
           {% if object.service_areas.all %}
             <h5>Delivered across</h5>
             <ul  id="service_area" class="service-areas">
