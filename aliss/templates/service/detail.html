@@ -176,7 +176,7 @@
               <form method='post' id="" action="{% url 'account_remove_saved_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button title="Click here to remove this lisiting from your saved services." type="submit" class="txt-button alert icon-link btn--remove-service" >
+                <button title="Click here to remove this lisiting from your saved services." type="submit" class="txt-button alert icon-link">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
@@ -187,7 +187,7 @@
               <form method='post' id="save_service" action="{% url 'account_save_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button title="Click here to add this lisiting to your saved services." type="submit" class="txt-button primary icon-link btn--edit-service">
+                <button title="Click here to add this lisiting to your saved services." type="submit" class="txt-button primary icon-link">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
@@ -224,7 +224,7 @@
                 </div>
               </form>
             </div>
-            {% if object.organisation.claimed_by == user %}or user.is_staff
+            {% if object.organisation.claimed_by == user %}
             <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
               <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
@@ -237,7 +237,7 @@
               </span>
               Delete service
             </a>
-             {% elif user.is_staff%}
+            {% elif user.is_staff %}
             <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
               <span class="icon">
                 <i class="fas fa-pencil-alt"></i>
@@ -251,8 +251,7 @@
               Delete service
             </a>
       
-      
-            {%  elif object.organisation.claimed_by %}
+            {% elif object.organisation.claimed_by %}
             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
               <span class="icon">
               <i class="fas fa-comment"></i>
@@ -298,24 +297,10 @@
            
         </div>
       </div>
-      
       <div class="columns contact-info">
         <div class="copy-container">
-          
-          <h4>Contact information</h4>
-          <p>
-            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
-            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
-            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
-            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
-          </p>
-          {% if object.service_areas.all %}
-                                      <i class="fa fa-info-circle" aria-hidden="true"></i> The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.
-
-{% if object.locations.all %}
+          {% if object.locations.all %}
             <div class="all-locations">
-              <br>
               <h4>Locations</h4>
               {% for location in object.locations.all %}
                 <div class="location">
@@ -338,7 +323,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button onclick="myFunction()" id="remove-location"  type="submit" class="txt-button alert icon-link third" style="margin-top: 0rem;">
+                        <button type="submit" class="txt-button alert icon-link remove-location" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -359,7 +344,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button onclick="myFunction()" id="remove-location" title="Click here to remove this location." type="submit" class="txt-button alert icon-link third" style="margin-top: 0rem;">
+                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link remove-location" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -367,13 +352,23 @@
                         </button>
                       </form>
                     </div>
+                    
                   {% endif %}
                 </div>
               {% endfor %}
             </div>
           {% endif %}
+          <h4>Contact information</h4>
+          <p>
+            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
+            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
+            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
+            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
+            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
+          </p>
+          {% if object.service_areas.all %}
             <h5>Delivered across</h5>
-            <ul id="service_area" class="service-areas">
+            <ul  id="service_area" class="service-areas">
               {% for area in object.service_areas.all %}
                 <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
               {% endfor %}
@@ -497,8 +492,6 @@ function search(){
         
       }
     </script>
-
-
 
   {% endif %}
 <script>
