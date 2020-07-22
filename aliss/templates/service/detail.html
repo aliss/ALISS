@@ -176,7 +176,7 @@
               <form method='post' id="" action="{% url 'account_remove_saved_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button title="Click here to remove this lisiting from your saved services." type="submit" class="txt-button alert icon-link">
+                <button title="Click here to remove this lisiting from your saved services." type="submit" class="txt-button alert icon-link btn--remove-service" >
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
@@ -187,7 +187,7 @@
               <form method='post' id="save_service" action="{% url 'account_save_service' pk=object.pk %}">
                 {% csrf_token %}
                 <input type='hidden' name='next' value="{{ request.get_full_path }}" />
-                <button title="Click here to add this lisiting to your saved services." type="submit" class="txt-button primary icon-link">
+                <button title="Click here to add this lisiting to your saved services." type="submit" class="txt-button primary icon-link btn--edit-service">
                   <span class="icon">
                     <i class="fas fa-heart"></i>
                   </span>
@@ -237,6 +237,20 @@
               </span>
               Delete service
             </a>
+             {% elif user.is_staff%}
+            <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
+              <span class="icon">
+                <i class="fas fa-pencil-alt"></i>
+              </span>
+              Edit service
+            </a>
+            <a title="Click here to delete this service." id="delete_service_modal" class="delete icon-link">
+              <span class="icon">
+                <i class="fas fa-trash-alt"></i>
+              </span>
+              Delete service
+            </a>
+      
       
             {%  elif object.organisation.claimed_by %}
             <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
@@ -284,8 +298,11 @@
            
         </div>
       </div>
+      
       <div class="columns contact-info">
         <div class="copy-container">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied..
+
           {% if object.locations.all %}
             <div class="all-locations">
               <h4>Locations</h4>
@@ -310,7 +327,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                        <button id="remove-location"  type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -331,7 +348,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                        <button id="remove-location" title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -354,7 +371,7 @@
           </p>
           {% if object.service_areas.all %}
             <h5>Delivered across</h5>
-            <ul class="service-areas">
+            <ul id="service_area" class="service-areas">
               {% for area in object.service_areas.all %}
                 <li style="margin-right:1rem;" title="{{ area.type_name }}"> · {{area.name}} <span class="area-type-{{area.type}}">({{ area.type_name }})</span></li>
               {% endfor %}
@@ -478,6 +495,14 @@ function search(){
         
       }
     </script>
-  {% endif %}
 
+
+
+  {% endif %}
+<script>
+var x = document.getElementById("remove-location");
+if (document.getElementById("service_area") === null) {
+  x.style.display = "none";
+  }
+</script>
 {% endblock %}
