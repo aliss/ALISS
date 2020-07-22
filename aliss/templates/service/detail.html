@@ -327,7 +327,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button id="remove-location"  type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                        <button onclick="myFunction()" id="remove-location"  type="submit" class="txt-button alert icon-link third" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -348,7 +348,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button id="remove-location" title="Click here to remove this location." type="submit" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                        <button onclick="myFunction()" id="remove-location" title="Click here to remove this location." type="submit" class="txt-button alert icon-link third" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -505,4 +505,5 @@ if (document.getElementById("service_area") === null) {
   x.style.display = "none";
   }
 </script>
+//to be implemented with a warning message when the location is removed
 {% endblock %}
