@@ -30061,5 +30061,9 @@ div.filter.sorting span.has-tip:hover .fa {
     font-size: 22px
 }
 
+.swal-footer {
+    text-align: center;
+}
+
 
 /*# sourceMappingURL=styles.css.map */
