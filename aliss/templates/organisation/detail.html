@@ -254,12 +254,22 @@
 {% endblock %}
 
 {% block before_body_close %}
-  <script type="text/javascript">
+<script type="text/javascript">
   $(document).ready(function(){
+    search();
+
+
+     function search(){
     var searchURL = localStorage.getItem('searchURL');
+     var x = document.getElementById("back_to_seach");
     if (searchURL != null){
-    $('#back_to_seach').attr('href', searchURL).show();
+     
+      $('#back_to_seach').attr('href', searchURL).show();
+    }else{
+       x.style.display = "none";
+      
     }
-  })
+    }
+  });
   </script>
 {% endblock%}
