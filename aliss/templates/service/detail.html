@@ -308,8 +308,9 @@
             {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
             {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
           </p>
+          {% comment %} TO EDIT MESSAGE {% endcomment %}
          <i class="fa fa-info-circle" aria-hidden="true"></i> These location changes will also affect the location attached to the organisation and any other services which have this location attached to the organisation.
-
+          {% comment %} TO EDIT MESSAGE {% endcomment %}
           {% if object.locations.all %}
             <div class="all-locations">
             <br>
@@ -389,7 +390,7 @@
             </a>
           </div>
         </div>
-      </div><!-- columns contact info -->
+      </div>
 
       <div class="columns feedback-form">
         <h5>Was this helpful?</h5>
@@ -408,8 +409,8 @@
         <a title="Click here if you did not find this information useful." class="no alert">
           No
         </a>
-      </div> <!-- feedback -->
-    </div> <!-- row -->
+      </div> 
+    </div> 
   </article>
 </main>
 
