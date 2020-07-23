@@ -6,7 +6,7 @@
 
 <div class="f-row">
   {% include 'partials/forms/field.html' with field=form.name %}
-      <div class="f-error" id="toggle5" style="display:none">Only character are accepted<br></div>
+  <div class="f-error" id="toggle5" style="display:none">No numeric characters are accepted.<br></div>
 </div>
 <div class="f-row">
   {% include 'partials/forms/field.html' with field=form.description %}
@@ -55,7 +55,7 @@
 {% endif %}
 <br/>
 
-<script type="text/javascript">
+{% comment %} <script type="text/javascript">
   /** @format */
   $(document).ready(function() {
       var is_phone_valid = false;
@@ -109,4 +109,4 @@
 
      
   }
-</script>
+</script> {% endcomment %}
