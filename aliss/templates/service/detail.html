@@ -309,7 +309,7 @@
             {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
           </p>
           {% comment %} TO EDIT MESSAGE {% endcomment %}
-         <i class="fa fa-info-circle" aria-hidden="true"></i> These location changes will also affect the location attached to the organisation and any other services which have this location attached to the organisation.
+         {% comment %} <i class="fa fa-info-circle" aria-hidden="true"></i> These location changes will also affect the location attached to the organisation and any other services which have this location attached to the organisation. {% endcomment %}
           {% comment %} TO EDIT MESSAGE {% endcomment %}
           {% if object.locations.all %}
             <div class="all-locations">
