@@ -501,11 +501,16 @@ function search(){
   {% endif %}
 <script>
 function myFunction() {
-var x = document.getElementById("remove-location");
+  
 if (document.getElementById("service_area") === null) {
-  alert("Hello");
+    event.preventDefault(); // prevent form submit
+    swal({
+  title: "Remove Location",
+  text: "The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.",
+  icon: "warning",
+});
   }
 }
 </script> 
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 {% endblock %}
