@@ -336,7 +336,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button type="submit" id="remove-location" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                        <button type="submit" onclick="myFunction()"  id="remove-location" class="txt-button alert icon-link" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -357,7 +357,7 @@
                       <p>{{service_at_location_pk}}</p>
                       <form method='post' action="{% url 'service_at_location_delete' service_at_location_pk=service_at_location_slug%}">
                         {% csrf_token %}
-                        <button title="Click here to remove this location." type="submit" id="remove-location" class="txt-button alert icon-link" style="margin-top: 0rem;">
+                        <button title="Click here to remove this location." type="submit"  onclick="myFunction()" id="remove-location" class="txt-button alert icon-link" style="margin-top: 0rem;">
                           <span class="icon">
                             <i class="fas fa-trash-alt"></i>
                           </span>
@@ -499,11 +499,13 @@ function search(){
     </script>
 
   {% endif %}
-{% comment %} <script>
+<script>
+function myFunction() {
 var x = document.getElementById("remove-location");
 if (document.getElementById("service_area") === null) {
-  x.style.display = "none";
+  alert("Hello");
   }
-</script> {% endcomment %}
+}
+</script> 
 
 {% endblock %}
