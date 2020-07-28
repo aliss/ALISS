@@ -501,6 +501,22 @@ function search(){
   {% endif %}
 <script>
 function myFunction() {
+if (document.getElementById("service_area") === null) {
+    event.preventDefault(); // prevent form submit
+    swal({
+  title: "Remove Location",
+  text: "No location or service area has been selected for this service. Until a location and/or a service area has been added, this service won't be visible on ALISS. \n\n Please click on Edit Service in the Actions panel, to add or select an alternative location or service area to proceed.",
+  icon: "warning",
+};
+  } 
+}
+</script> 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+<script>
+function myFunction() {
   
 if (document.getElementById("service_area") === null) {
     event.preventDefault(); // prevent form submit
@@ -508,9 +524,18 @@ if (document.getElementById("service_area") === null) {
   title: "Remove Location",
   text: "The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.",
   icon: "warning",
+}).then(function() {
+     swal({
+  title: "Help",
+  text: "Please click on Edit Service in the Actions panel, to add or select an alternative location or service area to proceed.",
+  icon: "info",
+  button: true,
+  //timer: 5000,
+});
 });
   }
 }
 </script> 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 {% endblock %}
