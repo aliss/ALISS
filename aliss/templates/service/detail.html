@@ -501,30 +501,34 @@ function search(){
   {% endif %}
 
 <script>
-function myFunction() {
+    function myFunction() {
 
-if  (document.getElementsByClassName("all-locations").length < 1 ) {
- event.run();
-}else if (document.getElementById("service_area") === null) {
-    event.preventDefault(); // prevent form submit
-    swal({
-  title: "Remove Location",
-  text: "The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.",
-  icon: "warning",
-}).then(function() {
-     swal({
-  title: "Help",
-  text: "Please click on Edit Service in the Actions panel, to add or select an alternative location or service area to proceed.",
-  icon: "info",
-  button: true,
-});
-});
+        var all = document.getElementsByClassName("all-locations")[0];
 
-  }
-}
-</script> 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        if (document.getElementById("service_area") === null && all.children.length < 2) {
+            event.preventDefault(); // prevent form submit
+         window.alert("fart < 2");
+            swal({
+                title: "Remove Location",
+                text: "The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.",
+                icon: "warning",
+            }).then(function() {
+                swal({
+                    title: "Help",
+                    text: "Please click on Edit Service in the Actions panel, to add or select an alternative location or service area to proceed.",
+                    icon: "info",
+                    button: true,
+                });
+            });
 
+        }else if (all.children.length > 1 ){
+       window.alert("fart > 1");
+               event.run();
+        }
+   }
+     </script>  
+    <script src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js" > </script>
 {% endblock %}
+
 
 
