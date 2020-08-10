@@ -315,6 +315,7 @@
             <div class="all-locations">
             <br>
               <h4>Locations</h4>
+              <div id="location_wrapper">
               {% for location in object.locations.all %}
                 <div class="location">
                   <a title="Click here to view this location on Google Maps." href="https://maps.google.com?daddr={{ location.formatted_address }}" class="icon-link">
@@ -369,6 +370,7 @@
                   {% endif %}
                 </div>
               {% endfor %}
+            </div>
             </div>
           {% endif %}
           {% if object.service_areas.all %}
@@ -501,13 +503,20 @@ function search(){
   {% endif %}
 
 <script>
-    function myFunction() {
 
-        var all = document.getElementsByClassName("all-locations")[0];
+var debug  = false
 
-        if (document.getElementById("service_area") === null && all.children.length <= 2) {
+      var location_list = document.getElementById("location_wrapper");
+        
+     function myFunction() {
+
+
+        if (document.getElementById("service_area") === null && location_list.children.length === 1) {
             event.preventDefault(); // prevent form submit
-         window.alert("fart < 2");
+            if (debug === true ) {
+              window.alert("location === 1");
+
+            }
             swal({
                 title: "Remove Location",
                 text: "The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.",
@@ -523,12 +532,15 @@ function search(){
     
         }else {
 
-       window.alert("fart > 3");
+       if (debug === true ) {
+              window.alert("location > 1");
+
+            }
        event.run(); 
                
         }
  
-   }
+   } 
      </script>  
     <script src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js" > </script>
 {% endblock %}
