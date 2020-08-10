@@ -503,13 +503,10 @@ function search(){
   {% endif %}
 
 <script>
-
-var debug  = false
-
-      var location_list = document.getElementById("location_wrapper");
+    var debug  = false
+    var location_list = document.getElementById("location_wrapper");
         
      function myFunction() {
-
 
         if (document.getElementById("service_area") === null && location_list.children.length === 1) {
             event.preventDefault(); // prevent form submit
@@ -529,17 +526,13 @@ var debug  = false
                     button: true,
                 });
             });
-    
         }else {
 
        if (debug === true ) {
               window.alert("location > 1");
-
             }
-       event.run(); 
-               
+       event.run();           
         }
- 
    } 
      </script>  
     <script src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js" > </script>
