@@ -505,7 +505,7 @@ function search(){
 
         var all = document.getElementsByClassName("all-locations")[0];
 
-        if (document.getElementById("service_area") === null && all.children.length < 2) {
+        if (document.getElementById("service_area") === null && all.children.length <= 2) {
             event.preventDefault(); // prevent form submit
          window.alert("fart < 2");
             swal({
@@ -520,12 +520,14 @@ function search(){
                     button: true,
                 });
             });
+    
+        }else {
 
-        }else if (all.children.length > 3 ){
        window.alert("fart > 3");
+       event.run(); 
                
         }
-        
+ 
    }
      </script>  
     <script src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js" > </script>
