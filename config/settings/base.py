@@ -53,27 +53,16 @@ MIDDLEWARE = [
 ]
 
 # CORS Config
-CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_WHITELIST = [
-#     "https://testing-aliss.herokuapp.com",
-#     "https://sub.testing-aliss.herokuapp.com",
-#     "http://localhost:8080",
-#     "http://127.0.0.1:9000",
-#     "http://localhost:5000"
-# ]
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+    "https://testing-aliss.herokuapp.com",
+    "https://sub.testing-aliss.herokuapp.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:9000",
+    "http://localhost:5000"
+    "http://alissapp.azurewebsites.net/"
+]
 
-CORS_URLS_REGEX = r'^/api/.*$'
-X_FRAME_OPTIONS = 'DENY'
-SECURE_BROWSER_XSS_FILTER = True 
-CORS_ALLOW_CREDENTIALS = True
-SECURE_FRAME_DENY = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_HTTPONLY = True
-SECURE_HSTS_SECONDS = 2592000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-ROOT_URLCONF = 'config.urls'
 
 CORS_ALLOW_HEADERS = [
     'accept',
@@ -95,6 +84,20 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+
+
+CORS_URLS_REGEX = r'^/api/.*$'
+X_FRAME_OPTIONS = 'DENY'
+SECURE_BROWSER_XSS_FILTER = True 
+CORS_ALLOW_CREDENTIALS = True
+SECURE_FRAME_DENY = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+SECURE_HSTS_SECONDS = 2592000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
