@@ -22,7 +22,7 @@ class Claim(models.Model):
     user = models.ForeignKey('aliss.ALISSUser')
     name = models.CharField(max_length=100, default='', verbose_name="Your name")
     organisation = models.ForeignKey('aliss.Organisation')
-    phone = models.CharField(max_length=30, default="", validators=[RegexValidator(regex='^.{14}$', message='Length has to be 11', code='nomatch')]);
+    phone = models.CharField(max_length=30, default="", validators=[RegexValidator(regex='^.{11}$', message='Length has to be 11', code='nomatch')]);
     comment = models.TextField()
     status = models.IntegerField(choices=STATUS_CHOICES, default=UNREVIEWED)
 
