@@ -59,7 +59,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://sub.testing-aliss.herokuapp.com",
     "http://localhost:8080",
     "http://127.0.0.1:9000",
-    "http://localhost:5000"
+    "http://localhost:5000",
     "http://alissapp.azurewebsites.net/"
 ]
 
