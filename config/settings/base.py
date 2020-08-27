@@ -154,8 +154,8 @@ USE_L10N = False
 USE_TZ = True
 # Change format of the data system
 
-DATETIME_FORMAT = 'Y/m/d'
-DATE_FORMAT = 'Y-m-d'
+DATETIME_FORMAT = 'd/m/Y'
+DATE_FORMAT = 'd-m-Y'
 
 
 
