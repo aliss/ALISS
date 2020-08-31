@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% block title %}ALISS - Community Health & Wellbeing Information | Social Care in Scotland{% endblock %} {% block meta_schema %}
+
 <meta property="og:title" content="ALISS - A Local Information System for Scotland" />
 <meta name="twitter:title" content="ALISS - A Local Information System for Scotland" />
 <meta name="description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.">
@@ -8,7 +9,11 @@
     <a class="skip-content" href="#search">Skip to Search</a>
 </section>
 {% endblock%} {% block container %}
+
 <main class="main" role="main">
+      {# Site alert partial #}
+      {% include 'partials/alerts/site_alert.html' %}
+      {# Site alert partial #}
     <section id="search">
         <div class="bg"></div>
         <div class="row">
