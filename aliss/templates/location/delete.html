@@ -10,13 +10,18 @@
                         <span>Delete location</span>
                     </div>
                     <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
-                    <!-- TODO if statement -->
-                    <p>The following services will no longer have this location:</p>
+
+                    {%if object.services.all %}
+                    <p>The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.</p>
+
+                    <p>The following services have this location:</p>
                     <ul>
                         {% for service in object.services.all %}
                         <li><a href="{% url 'service_detail' pk=service.pk %}">{{ service }}</a></li>
                         {% endfor %}
                     </ul>
+                    <a title="Cancel the deletion of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a> {%else%}
+
                 </div>
             </div>
         </div>
@@ -34,5 +39,6 @@
             </div>
         </div>
     </section>
+    {%endif%}
 </main>
 {% endblock %}
