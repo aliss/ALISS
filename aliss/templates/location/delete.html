@@ -9,7 +9,7 @@
                         <span class="sep"></span>
                         <span>Delete location</span>
                     </div>
-                    <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
+        
 
                     {%if object.services.all %}
                     <p>The location of this service cannot be removed as there must be at least one primary location when there are no service areas applied.</p>
@@ -20,7 +20,8 @@
                         <li><a href="{% url 'service_detail' pk=service.pk %}">{{ service }}</a></li>
                         {% endfor %}
                     </ul>
-                    <a title="Cancel the deletion of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a> {%else%}
+                    <a title="Cancel the deletion of this location." href="{% url 'organisation_detail' pk=object.organisation.pk %}" class="button secondary">Cancel</a> 
+                    {%else%}
 
                 </div>
             </div>
@@ -29,6 +30,7 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
+                <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
                 <form method="post">
                     {% csrf_token %}
                     <div class="submit">
