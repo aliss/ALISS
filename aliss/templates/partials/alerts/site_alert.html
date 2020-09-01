@@ -33,7 +33,7 @@
         flex-direction: row;
         -webkit-box-pack: center;
         -ms-flex-pack: center;
-        justify-content:inherit;
+        justify-content: inherit;
         width: 100%;
         margin: 0 auto;
         max-width: 1140px;
@@ -42,14 +42,6 @@
         box-sizing: border-box;
     }
     
-
-
-
-   
-
-
-
-
     .alert-banner-title {
         font-size: 18px;
     }
@@ -133,7 +125,7 @@
     }
 </style>
 <!-- Header Alert with call to action -->
-<div class="alert-banner">
+<div class="alert-banner" id="alert-banner">
     <div class="alert-banner-content">
 
         <div class="alert-banner-text">
@@ -150,4 +142,17 @@
     jQuery('.alert-banner-close').on('click', function() {
         jQuery(this).parent().remove();
     });
+    jQuery('.alert-banner-close').on('click', function() {
+        jQuery(this).parent().remove();
+    });
+    if (document.querySelector('.alert-banner')) {
+        document.querySelector('.alert-banner-close').addEventListener('click', (event) => {
+            document.cookie = "covid_wanring=true=;"
+        });
+    }
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('covid_wanring='))) {
+        document.getElementById('alert-banner').style.display = 'none';
+    } else {
+        document.getElementById('alert-banner').style.display = 'block';
+    }
 </script>
