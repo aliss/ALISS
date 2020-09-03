@@ -63,7 +63,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://alissapp.azurewebsites.net/"
 ]
 
-SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CORS_URLS_REGEX = r'^/api/.*$'
