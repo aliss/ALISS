@@ -114,6 +114,7 @@
   <article id="content" class="service">
     {% if request.user.is_authenticated %}
       {% can_edit request.user object as user_can_edit %}
+      
     {% endif %}
     <div class="row">
 
@@ -163,6 +164,7 @@
                   <input type="submit" class="secondary" value="Send">
                 </div>
               </form>
+              
             </div>
 
             <a title="Click here to print this lisiting. (This will open a print window)" href="javascript:window.print();" id="print-listing" class="icon-link">
@@ -200,13 +202,19 @@
               <a title="Click here to recommend this service." href="{% url 'login' %}?next={{request.get_full_path}}" class="primary icon-link">
             {% else %}
               <a title="Click here to recommend this service." class="primary icon-link" id="recommend_toggle">
+              
             {% endif %}
               <span class="icon">
                 <i class="fas fa-bullhorn"></i>
               </span>
               Recommend this service
             </a>
-
+  <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
+              <span class="icon">
+              <i class="fas fa-comment"></i>
+              </span>
+              Improve this listing
+            </a>
             <div class="recommend-form toggled" id="recommend">
               <form method="post" action="{% url 'account_my_recommendations_add_service' %}">
                 {% csrf_token %}
@@ -223,6 +231,7 @@
                   <a title="Add to your recommended service list." id="add_list_modal" class="button secondary">Add</a>
                 </div>
               </form>
+          
             </div>
             {% if object.organisation.claimed_by == user %}
             <a title="Click here to edit this services information." href="{% url 'service_edit' pk=object.pk %}" class="icon-link">
@@ -250,14 +259,10 @@
               </span>
               Delete service
             </a>
+           
       
             {% elif object.organisation.claimed_by %}
-            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-              <span class="icon">
-              <i class="fas fa-comment"></i>
-              </span>
-              Improve this listing
-            </a>
+         
           <br>
             <p>This service can be edited only by the person who has claimed the organisation. If you want to suggest any changes, please click on the “Improve this listing” link above to submit your feedback.</p>
             {% elif not object.claimed_by and user.is_editor %}
@@ -273,14 +278,9 @@
               </span>
               Delete service
             </a>
-      
+     
             {%  elif object.organisation.claimed_by %}
-            <a title="Click here to suggest any changes " id="improve-listing_modal" class="icon-link improve">
-              <span class="icon">
-              <i class="fas fa-comment"></i>
-              </span>
-              Improve this listing
-            </a>
+        
           <br>
             <p>This service can be edited only by the person who has claimed the organisation. If you want to suggest any changes, please click on the “Improve this listing” link above to submit your feedback.</p>
        
@@ -293,6 +293,7 @@
               </span>
               Back to last search
             </a>
+            
           </div>
            
         </div>
