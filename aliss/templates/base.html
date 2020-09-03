@@ -79,6 +79,9 @@
   {% endblock %}
 
   {% block footer %}
+    {# Site alert partial #}
+      {% include 'partials/alerts/site_beta.html' %}
+      {# Site alert partial #}
     {% include 'partials/footer.html' %}
   {% endblock %}
 
@@ -116,7 +119,14 @@
       },
       onRevokeChoice: function() {}
       //https://developers.google.com/analytics/devguides/collection/analyticsjs/cookie-usage#analyticsjs
+  
     });
+
+
+
+
+
   </script>
+  
 </body>
 </html>

@@ -1,27 +1,29 @@
 <style>
-    .alert-banner {
+    .beta-banner {
         z-index: 999999;
-        position: relative;
+        position: -webkit-sticky;
+        position: sticky;
+        bottom: 15px;
         top: 0;
         right: 0;
-        left: 0;
-        background: #be221f;
-        width: auto;
+        left: 15px;
+        background: #004785;
+        width: 500px;
         border-bottom: 1px solid #EEEEEE;
         padding: 10px;
         box-sizing: border-box;
         -webkit-transform: translateY(-150%);
         transform: translateY(-150%);
         color: #FFFFFF;
+        border-radius: 25px;
         font-family: "Open Sans", sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        -webkit-animation: alert-banner-slide-in 0.8s ease forwards;
-        animation: alert-banner-slide-in 0.8s ease forwards;
+        -webkit-animation: beta-banner-slide-in 0.8s ease forwards;
+        animation: beta-banner-slide-in 0.8s ease forwards;
     }
     
-    
-    .alert-banner-content {
+    .beta-banner-content {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -37,21 +39,21 @@
         justify-content: inherit;
         width: 100%;
         margin: 0 auto;
-        max-width: 1140px;
+        max-width: 600px;
         padding-left: 0.46875rem;
         padding-right: 0.46875rem;
         box-sizing: border-box;
     }
     
-    .alert-banner-title {
+    .beta-banner-title {
         font-size: 18px;
     }
     
-    .alert-banner-text {
+    .beta-banner-text {
         margin: 0 20px 0 0;
     }
     
-    .alert-banner-button {
+    .beta-banner-button {
         display: inline-block;
         background: #FFFFFF;
         height: 40px;
@@ -67,19 +69,27 @@
         white-space: nowrap;
     }
     
-    .alert-banner-close {
+    .beta-banner-close {
         position: absolute;
-        top: 25%;
-        right: 200px;
+        top: 20%;
+        right: 50px;
         width: 20px;
         height: 60px;
         -webkit-transform: translateY(-50%);
         transform: translateY(-50%);
         cursor: pointer;
     }
+    /* Gradient color1 - color2 - color1 */
     
-    .alert-banner-close:before,
-    .alert-banner-close:after {
+    hr {
+        border: 0;
+        height: 1px;
+        background: #333;
+        background-image: linear-gradient(to right, #ccc, #1e7abd, #ccc);
+    }
+    
+    .beta-banner-close:before,
+    .beta-banner-close:after {
         content: "";
         position: absolute;
         top: 50%;
@@ -93,17 +103,22 @@
         transform-origin: center;
     }
     
-    .alert-banner-close:before {
+    a {
+        color: white;
+        text-decoration: underline;
+    }
+    
+    .beta-banner-close:before {
         -webkit-transform: translate(-50%, -50%) rotate(-45deg);
         transform: translate(-50%, -50%) rotate(-45deg);
     }
     
-    .alert-banner-close:after {
+    .beta-banner-close:after {
         -webkit-transform: translate(-50%, -50%) rotate(45deg);
         transform: translate(-50%, -50%) rotate(45deg);
     }
     
-    @-webkit-keyframes alert-banner-slide-in {
+    @-webkit-keyframes beta-banner-slide-in {
         0% {
             -webkit-transform: translateY(-150%);
             transform: translateY(-150%);
@@ -114,7 +129,7 @@
         }
     }
     
-    @keyframes alert-banner-slide-in {
+    @keyframes beta-banner-slide-in {
         0% {
             -webkit-transform: translateY(-150%);
             transform: translateY(-150%);
@@ -126,42 +141,42 @@
     }
 </style>
 
-<!-- Header Alert with call to action -->
+<!-- Header beta with call to action -->
 
-<div class="alert-banner" id="alert-banner">
-    <div class="alert-banner-content">
 
-        <div class="alert-banner-text">
-            <h3 style="color: white;">Notice</h3>
-            <p style="color: white; text-justify: inter-word;">Due to current public health advice around Coronavirus (COVID-19), some services may be operating in a different way, they may have different opening hours or may be closed temporarily. We recommend that you contact the service directly ahead
-                of attending to ensure it is open and to confirm any changes.</p>
+
+<div class="beta-banner" id="beta-banner">
+    <div class="beta-banner-content">
+
+        <div class="beta-banner-text">
+            <h4 style="color: white;"><i class="fa fa-info-circle" aria-hidden="true"></i> Aliss Beta</h4>
+            <hr>
+            <p style="color: white; text-justify: inter-word;">Based on feedback and research were improving the design and accessibility of this website. <br><a href="http://alissapp.azurewebsites.net/">Click here to try the new version</a> </p>
         </div>
-     
+
 
     </div>
-    <div class="alert-banner-close"></div>
+    <div class="beta-banner-close"></div>
 </div>
 
 
 
 
-
-
 <script>
-    jQuery('.alert-banner-close').on('click', function() {
+    jQuery('.beta-banner-close').on('click', function() {
         jQuery(this).parent().remove();
     });
-    jQuery('.alert-banner-close').on('click', function() {
+    jQuery('.beta-banner-close').on('click', function() {
         jQuery(this).parent().remove();
     });
-    if (document.querySelector('.alert-banner')) {
-        document.querySelector('.alert-banner-close').addEventListener('click', (event) => {
+    if (document.querySelector('.beta-banner')) {
+        document.querySelector('.beta-banner-close').addEventListener('click', (event) => {
             document.cookie = "covid_wanring=true=;"
         });
     }
     if (document.cookie.split(';').some((item) => item.trim().startsWith('covid_wanring='))) {
-        document.getElementById('alert-banner').style.display = 'none';
+        document.getElementById('beta-banner').style.display = 'none';
     } else {
-        document.getElementById('alert-banner').style.display = 'block';
+        document.getElementById('beta-banner').style.display = 'block';
     }
 </script>
