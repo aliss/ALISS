@@ -1,11 +1,11 @@
 <style>
     .beta-banner {
         z-index: 999999;
-        position: -webkit-sticky;
-        position: sticky;
+        position: fixed;
         bottom: 15px;
-        top: 0;
+        top: auto;
         right: 0;
+        height: 190px;
         left: 15px;
         background: #004785;
         width: 500px;
@@ -21,6 +21,13 @@
         -moz-osx-font-smoothing: grayscale;
         -webkit-animation: beta-banner-slide-in 0.8s ease forwards;
         animation: beta-banner-slide-in 0.8s ease forwards;
+    }
+    
+    @media only screen and (max-width: 768px) {
+        .beta-banner {
+            width: 500px;
+            max-width: 100%;
+        }
     }
     
     .beta-banner-content {
@@ -71,7 +78,7 @@
     
     .beta-banner-close {
         position: absolute;
-        top: 20%;
+        top: 14%;
         right: 50px;
         width: 20px;
         height: 60px;
