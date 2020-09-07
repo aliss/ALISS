@@ -20,6 +20,12 @@
         animation: alert-banner-slide-in 0.8s ease forwards;
     }
     
+    @media only screen and (max-width: 768px) {
+        .alert-banner {
+            top: 425px
+        }
+    }
+    
     .alert-banner-content {
         display: flex;
         -webkit-box-align: center;
@@ -67,12 +73,19 @@
     .alert-banner-close {
         position: absolute;
         top: 25%;
-        right: 200px;
+        right: 180px;
         width: 20px;
         height: 60px;
         -webkit-transform: translateY(-50%);
         transform: translateY(-50%);
         cursor: pointer;
+    }
+    
+    @media only screen and (max-width: 768px) {
+        .alert-banner-close {
+            top: 10%;
+            right: 110px;
+        }
     }
     
     .alert-banner-close:before,
