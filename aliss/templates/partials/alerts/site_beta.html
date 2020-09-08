@@ -2,7 +2,7 @@
     .beta-banner {
         z-index: 999999;
         position: fixed;
-        bottom: 15px;
+        bottom: -265px;
         top: auto;
         right: 0;
         height: 200px;
@@ -24,8 +24,8 @@
     
     @media only screen and (max-width: 768px) {
         .beta-banner {
-            width: 500px;
-            max-width: 100%;
+            width: 400px;
+            max-width: 80%;
         }
     }
     
@@ -122,28 +122,6 @@
         -webkit-transform: translate(-50%, -50%) rotate(45deg);
         transform: translate(-50%, -50%) rotate(45deg);
     }
-    
-    @-webkit-keyframes beta-banner-slide-in {
-        0% {
-            -webkit-transform: translateY(-150%);
-            transform: translateY(-150%);
-        }
-        100% {
-            -webkit-transform: translateY(0%);
-            transform: translateY(0%);
-        }
-    }
-    
-    @keyframes beta-banner-slide-in {
-        0% {
-            -webkit-transform: translateY(-150%);
-            transform: translateY(-150%);
-        }
-        100% {
-            -webkit-transform: translateY(0%);
-            transform: translateY(0%);
-        }
-    }
 </style>
 
 <!-- Header beta with call to action -->
@@ -156,7 +134,7 @@
         <div class="beta-banner-text">
             <h4 style="color: white;"><i class="fa fa-info-circle" aria-hidden="true"></i> aliss beta</h4>
             <hr>
-            <p style="color: white; text-justify: inter-word;">Based on feedback and research we are improving the design and accessibility of this website. <br><a href="http://beta.aliss.org" style="color: white;">Click here to try the new version</a> </p>
+            <p style="color: white; text-justify: inter-word;">Based on feedback and research we are improving the design and accessibility of this website. <br><a href="http://beta.aliss.org" style="color: white; font-size: 15px;">Click here to try the new version</a> </p>
         </div>
 
 
