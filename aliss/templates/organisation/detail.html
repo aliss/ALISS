@@ -163,8 +163,32 @@
               </a>
             {% endif %}
               {% if request.user.is_authenticated %}
-         
-              {% if object.claimed_by == user or user.is_staff%}
+              {% if not object.claimed_by and user.is_editor %}
+              <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
+                <span class="icon">
+                  <i class="fas fa-plus"></i>
+                </span>
+                Add service
+              </a>
+              <a title="Add a loction." href="{% url 'location_create' pk=object.pk %}" class="icon-link primary">
+                <span class="icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </span>
+                Add location
+              </a>
+              <a title="Edit an organisation." href="{% url 'organisation_edit' pk=object.pk %}" class="icon-link">
+                <span class="icon">
+                  <i class="fas fa-pencil-alt"></i>
+                </span>
+                Edit organisation
+              </a>
+              <a title="Delete an organisation." id="delete_org_modal" class="delete icon-link">
+                <span class="icon">
+                  <i class="fas fa-trash-alt"></i>
+                </span>
+                Delete organisation
+              </a>
+              {% elif object.claimed_by == user or user.is_staff%}
               <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                 <span class="icon">
                   <i class="fas fa-plus"></i>
