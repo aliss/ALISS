@@ -30,7 +30,7 @@ class ALISSUserAdmin(admin.ModelAdmin, ExportCsvMixin):
           search_fields = ['email']
     list_display = ['email', 'name', 'is_editor', 'is_staff', 'date_joined']
     search_fields = ['email']
-    search_fields = ['name']
+
     ordering = ['-date_joined', ]
     list_filter = ('is_editor'),
     actions = ['export_as_csv']
