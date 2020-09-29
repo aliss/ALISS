@@ -55,7 +55,6 @@ MIDDLEWARE = [
 # CORS Config
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-    "https://testing-aliss.herokuapp.com",
     "https://sub.testing-aliss.herokuapp.com",
     "http://localhost:8080",
     "http://127.0.0.1:9000",
