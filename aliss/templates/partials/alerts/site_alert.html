@@ -1,155 +1,30 @@
 <style>
-    .alert-banner {
-        z-index: 999999;
-        position: relative;
-        top: 220px;
-        right: 0;
-        left: 0;
-        background: #be221f;
-        width: auto;
-        border-bottom: 1px solid #EEEEEE;
-        padding: 0px;
-        box-sizing: border-box;
-        -webkit-transform: translateY(-150%);
-        transform: translateY(-150%);
-        color: #FFFFFF;
-        font-family: "Open Sans", sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-animation: alert-banner-slide-in 0.8s ease forwards;
-        animation: alert-banner-slide-in 0.8s ease forwards;
-    }
-    
-    @media only screen and (max-width: 768px) {
-        .alert-banner {
-            top: 412px
-        }
-    }
-    
-    .alert-banner-content {
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: inherit;
-        width: 100%;
-        margin: 0 auto;
-        max-width: 1140px;
-        padding-left: 0.46875rem;
-        padding-right: 0.46875rem;
-        box-sizing: border-box;
-    }
-    
-    .alert-banner-title {
-        font-size: 18px;
-    }
-    
-    .alert-banner-text {
-        margin: 0 20px 0 0;
-    }
-    
-    .alert-banner-button {
-        display: inline-block;
-        background: #FFFFFF;
-        height: 40px;
-        border: 0;
-        border-radius: 2px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 0 20px;
-        color: #0E9C71;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 40px;
-        text-decoration: none;
-        white-space: nowrap;
-    }
-    
-    .alert-banner-close {
-        position: absolute;
-        top: 25%;
-        right: 180px;
-        width: 20px;
-        height: 60px;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
-        cursor: pointer;
-    }
-    
-    @media only screen and (max-width: 768px) {
-        .alert-banner-close {
-            top: 10%;
-            right: 40px;
-        }
-    }
-    
-    .alert-banner-close:before,
-    .alert-banner-close:after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        display: block;
-        background: #FFFFFF;
-        width: 100%;
-        height: 3px;
-        border-radius: 2px;
-        -webkit-transform-origin: center;
-        transform-origin: center;
-    }
-    
-    .alert-banner-close:before {
-        -webkit-transform: translate(-50%, -50%) rotate(-45deg);
-        transform: translate(-50%, -50%) rotate(-45deg);
-    }
-    
-    .alert-banner-close:after {
-        -webkit-transform: translate(-50%, -50%) rotate(45deg);
-        transform: translate(-50%, -50%) rotate(45deg);
-    }
+.aliss__component-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1140px;
+    padding-left: 0.46875rem;
+    padding-right: 0.46875rem;
+} 
+.aliss__component--site-alert {
+    padding: 25px;
+    background-color: rgba(190, 34, 31, 1);
+} 
+.aliss__component__site-alert h2, .aliss__component__site-alert p  {
+    color: white;
+}
+.aliss__component__site-alert h2  {
+    margin: 0 0 15px;
+}
+.aliss__component__site-alert p  {
+    margin: 0;
+}
 </style>
-
-<!-- Header Alert with call to action -->
-
-<div class="alert-banner" id="alert-banner">
-    <div class="alert-banner-content">
-
-        <div class="alert-banner-text">
-            <h3 style="color: white;">Notice</h3>
-            <p style="color: white; text-justify: inter-word;">Due to current public health advice around Coronavirus (COVID-19), some services may be operating in a different way, they may have different opening hours or may be closed temporarily. We recommend that you contact the service directly ahead
-                of attending to ensure it is open and to confirm any changes.</p>
-        </div>
-
-
+<div class="aliss__component aliss__component--site-alert">
+<div class="aliss__component-wrapper">
+    <div class="aliss__component__site-alert">
+        <h2 class="aliss__component__site-alert__title">Notice</h2>
+        <p class="aliss__component__site-alert__message">Due to current public health advice around Coronavirus (COVID-19), some services may be operating in a different way, they may have different opening hours or may be closed temporarily. We recommend that you contact the service directly ahead of attending to ensure it is open and to confirm any changes.</p>
     </div>
-
 </div>
-
-
-
-
-
-
-<script>
-    jQuery('.alert-banner-close').on('click', function() {
-        jQuery(this).parent().remove();
-    });
-    jQuery('.alert-banner-close').on('click', function() {
-        jQuery(this).parent().remove();
-    });
-    if (document.querySelector('.alert-banner')) {
-        document.querySelector('.alert-banner-close').addEventListener('click', (event) => {
-            document.cookie = "covid_wanring=true=;"
-        });
-    }
-    if (document.cookie.split(';').some((item) => item.trim().startsWith('covid_wanring='))) {
-        document.getElementById('alert-banner').style.display = 'none';
-    } else {
-        document.getElementById('alert-banner').style.display = 'block';
-    }
-</script>
+</div>
