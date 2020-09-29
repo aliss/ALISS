@@ -88,7 +88,7 @@
         }
     }
     
-    .alert-banner-close:before,
+    <!-- .alert-banner-close:before,
     .alert-banner-close:after {
         content: "";
         position: absolute;
@@ -103,7 +103,7 @@
         transform-origin: center;
     }
     
-    .alert-banner-close:before {
+    -->.alert-banner-close:before {
         -webkit-transform: translate(-50%, -50%) rotate(-45deg);
         transform: translate(-50%, -50%) rotate(-45deg);
     }
@@ -127,29 +127,5 @@
 
 
     </div>
-    <div class="alert-banner-close"></div>
+    <!-- <div class="alert-banner-close"></div> -->
 </div>
-
-
-
-
-
-
-<script>
-    jQuery('.alert-banner-close').on('click', function() {
-        jQuery(this).parent().remove();
-    });
-    jQuery('.alert-banner-close').on('click', function() {
-        jQuery(this).parent().remove();
-    });
-    if (document.querySelector('.alert-banner')) {
-        document.querySelector('.alert-banner-close').addEventListener('click', (event) => {
-            document.cookie = "covid_wanring=true=;"
-        });
-    }
-    if (document.cookie.split(';').some((item) => item.trim().startsWith('covid_wanring='))) {
-        document.getElementById('alert-banner').style.display = 'none';
-    } else {
-        document.getElementById('alert-banner').style.display = 'block';
-    }
-</script>
