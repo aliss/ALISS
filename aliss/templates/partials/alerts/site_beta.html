@@ -146,10 +146,7 @@
 
 <script>
     jQuery('.beta-banner-close').on('click', function() {
-        jQuery(this).parent().remove();
-    });
-    jQuery('.beta-banner-close').on('click', function() {
-        jQuery(this).parent().remove();
+        jQuery(this).parent().hide();
     });
     if (document.querySelector('.beta-banner')) {
         document.querySelector('.beta-banner-close').addEventListener('click', (event) => {
