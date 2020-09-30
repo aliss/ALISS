@@ -139,21 +139,21 @@
 
 
     </div>
-    <div class="beta-banner-close"></div>
+    <div id="beta-banner-close" class="beta-banner-close"></div>
 </div>
 
 
 
 <script>
-    if (document.querySelector('.beta-banner')) {
-        document.querySelector('.beta-banner-close').addEventListener('click', (event) => {
-            document.cookie = "beta-banner=true=;"
-        });
-    }
-    if (document.cookie.split(';').some((item) => item.trim().startsWith('beta-banner'))) {
-        document.getElementById('beta-banner').style.display = 'none';
-        document.getElementById('beta-banner').remove();
+    var banner_BETA = document.getElementById("beta-banner");
+    var banner_BETA_close = document.getElementById("beta-banner-close");
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('banner-beta='))) {
+        banner_BETA.style.display = 'none';
     } else {
-        document.getElementById('beta-banner').style.display = 'block';
+        banner_BETA.style.display = 'block';
     }
+    banner_BETA_close.addEventListener('click', (event) => {
+        banner_BETA.style.display = 'none';
+        document.cookie = 'banner-beta=hidden';
+    });
 </script>
