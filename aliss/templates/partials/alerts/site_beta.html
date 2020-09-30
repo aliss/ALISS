@@ -145,15 +145,9 @@
 
 
 <script>
-    var banner_BETA = document.getElementById("beta-banner");
-    var banner_BETA_close = document.getElementById("beta-banner-close");
-    if (document.cookie.split(';').some((item) => item.trim().startsWith('banner-beta='))) {
-        banner_BETA.style.display = 'none';
-    } else {
-        banner_BETA.style.display = 'block';
-    }
-    banner_BETA_close.addEventListener('click', (event) => {
-        banner_BETA.style.display = 'none';
-        document.cookie = 'banner-beta=hidden';
+    var banner_BETA = document.getElementById("beta-banner"),
+        banner_BETA_close = document.getElementById("beta-banner-close");
+    document.cookie.split(";").some(e => e.trim().startsWith("banner-beta=")) ? banner_BETA.style.display = "none" : banner_BETA.style.display = "block", banner_BETA_close.addEventListener("click", e => {
+        banner_BETA.style.display = "none", document.cookie = "banner-beta=hidden"
     });
 </script>
