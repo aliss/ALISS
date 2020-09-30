@@ -134,7 +134,7 @@
         <div class="beta-banner-text">
             <h4 style="color: white;"><i class="fa fa-info-circle" aria-hidden="true"></i> aliss beta</h4>
             <hr>
-            <p style="color: white; text-justify: inter-word;">Based on feedback and research we are improving the design and accessibility of this website<br><a href="http://beta.aliss.org" style="color: white; font-size: 15px;">Click here to try the new version</a> </p>
+            <p style="color: white; text-justify: inter-word;">Based on feedback and research we are improving the design and accessibility of this website. <br><a href="http://beta.aliss.org" style="color: white; font-size: 15px;">Click here to try the new version</a> </p>
         </div>
 
 
@@ -142,12 +142,18 @@
     <div id="beta-banner-close" class="beta-banner-close"></div>
 </div>
 
-
-
 <script>
-    var banner_BETA = document.getElementById("beta-banner"),
-        banner_BETA_close = document.getElementById("beta-banner-close");
-    document.cookie.split(";").some(e => e.trim().startsWith("banner-beta=")) ? banner_BETA.style.display = "none" : banner_BETA.style.display = "block", banner_BETA_close.addEventListener("click", e => {
-        banner_BETA.style.display = "none", document.cookie = "banner-beta=hidden"
+    var banner_BETA = document.getElementById("beta-banner");
+    var banner_BETA_close = document.getElementById("beta-banner-close");
+    if (document.cookie.split(';').some(function(item) {
+            return item.trim().startsWith('banner_beta=');
+        })) {
+        banner_BETA.style.display = 'none';
+    } else {
+        banner_BETA.style.display = 'block';
+    }
+    banner_BETA_close.addEventListener('click', function(event) {
+        banner_BETA.style.display = 'none';
+        document.cookie = 'banner_beta=hidden';
     });
 </script>
