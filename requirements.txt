@@ -8,7 +8,7 @@ elasticsearch==5.2.0
 elasticsearch-dsl==6.1.0
 bootstrap-admin>=0.4.3
 geopy==1.11.0
-djangorestframework>=3.9.1
+djangorestframework>=3.10.0
 certifi==2017.4.17
 django-redis==4.8.0
 django-braces==1.11.0
