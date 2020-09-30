@@ -146,15 +146,19 @@
 
 <script>
     jQuery('.beta-banner-close').on('click', function() {
-        jQuery(this).parent().hide();
+        jQuery(this).parent().remove();
+    });
+    jQuery('.beta-banner-close').on('click', function() {
+        jQuery(this).parent().remove();
     });
     if (document.querySelector('.beta-banner')) {
         document.querySelector('.beta-banner-close').addEventListener('click', (event) => {
-            document.cookie = "covid_wanring=true=;"
+            document.cookie = "beta-banner=true=;"
         });
     }
-    if (document.cookie.split(';').some((item) => item.trim().startsWith('covid_wanring='))) {
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('beta-banner'))) {
         document.getElementById('beta-banner').style.display = 'none';
+        document.getElementById('beta-banner').remove();
     } else {
         document.getElementById('beta-banner').style.display = 'block';
     }
