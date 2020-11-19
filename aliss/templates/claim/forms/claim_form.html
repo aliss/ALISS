@@ -55,7 +55,7 @@
         $('#id_phone').attr('maxlength', 14);
         $('#id_phone').attr('pattern', '.{10,14}');
         validateNumber();
-        validateName();
+        //validateName();
         $('form').submit(function() {
             if (is_phone_valid && is_name_valid) {
                 return true;
@@ -79,7 +79,7 @@
         });
     }
 
-    function validateName() {
+   function validateName() {
         $('#id_name').bind('keypress', function(event) {
             if (event.charCode != 0) {
                 var regex = new RegExp('^[a-zA-Z -]+$');
