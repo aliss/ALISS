@@ -1,12 +1,10 @@
 {% load cloudinary %}
 {% load aliss %}
-{% load static %}
 
 {% include 'partials/forms/errors.html' with field=form.name %}
 
 <div class="f-row">
   {% include 'partials/forms/field.html' with field=form.name %}
-  <div class="f-error" id="toggle5" style="display:none">No numeric characters are accepted.<br></div>
 </div>
 <div class="f-row">
   {% include 'partials/forms/field.html' with field=form.description %}
@@ -14,7 +12,6 @@
 <div class="grid-x">
   <div class="cell large-6 medium-6 small-12">
     {% include 'partials/forms/field.html' with field=form.phone %}
-       <div class="f-error" id="toggle4" style="display:none">Only numerical characters are accepted<br></div>
   </div>
   <div class="cell large-6 medium-6 small-12">
     {% include 'partials/forms/field.html' with field=form.email %}
@@ -54,59 +51,3 @@
 </div>
 {% endif %}
 <br/>
-{% comment %} WORKING VALIDATIO TO BE TESTED {% endcomment %}
-{% comment %} <script type="text/javascript">
-  /** @format */
-  $(document).ready(function() {
-      var is_phone_valid = false;
-      var is_name_valid = false;
-      var is_mail_valid = false;
-      $('#id_phone').attr('maxlength', 14);
-      $('#id_phone').attr('pattern', '.{10,14}');
-      validateNumber();
-      validateName();
-      $('form').submit(function() {
-          if (is_phone_valid && is_name_valid && is_mail_valid) {
-              return true;
-          }
-      });
-  });
-
-  function validateNumber() {
-      $('#id_phone').keypress(function(e) {
-          var charTyped = String.fromCharCode(e.which);
-          var letterRegex = /[^0-9 ]/;
-          var error3 = $('#toggle4');
-          if (charTyped.match(letterRegex)) { 
-              error3.show();
-              is_phone_valid = true;
-              return false;
-          } else if (charTyped) {
-              error3.hide();
-              is_phone_valid = false;
-          }
-      });
-  }
-
- // function validateName() {
-   //   $('#id_name').bind('keypress', function(event) {
-   //       if (event.charCode != 0) {
-   //           var regex = new RegExp('^[a-zA-Z ]+$');
-   //           var error4 = $('#toggle5');
-   //           var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-   //           error4.show();
-    //          if (!regex.test(key)) {
-    //              var error4 = $('#toggle5');
-    //              event.preventDefault();
-    //              is_name_valid = false;
-    //              return false;
-    //          } else {
-    //              error4.hide();
-    //              is_name_valid = true;
-    //          }
-   //       }
-   //   });
-
-     
-  //}
-</script> {% endcomment %}
