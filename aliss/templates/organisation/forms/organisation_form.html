@@ -88,25 +88,25 @@
       });
   }
 
-  function validateName() {
-      $('#id_name').bind('keypress', function(event) {
-          if (event.charCode != 0) {
-              var regex = new RegExp('^[a-zA-Z ]+$');
-              var error4 = $('#toggle5');
-              var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-              error4.show();
-              if (!regex.test(key)) {
-                  var error4 = $('#toggle5');
-                  event.preventDefault();
-                  is_name_valid = false;
-                  return false;
-              } else {
-                  error4.hide();
-                  is_name_valid = true;
-              }
-          }
-      });
+ // function validateName() {
+   //   $('#id_name').bind('keypress', function(event) {
+   //       if (event.charCode != 0) {
+   //           var regex = new RegExp('^[a-zA-Z ]+$');
+   //           var error4 = $('#toggle5');
+   //           var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+   //           error4.show();
+    //          if (!regex.test(key)) {
+    //              var error4 = $('#toggle5');
+    //              event.preventDefault();
+    //              is_name_valid = false;
+    //              return false;
+    //          } else {
+    //              error4.hide();
+    //              is_name_valid = true;
+    //          }
+   //       }
+   //   });
 
      
-  }
+  //}
 </script> {% endcomment %}
