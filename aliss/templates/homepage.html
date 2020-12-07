@@ -18,11 +18,11 @@
                 <br>
                 <label for="postcode" style="font-weight: bold; ">
                     Search for <span style=" color:#004785; ">services</span>, groups and <span style="color:#004785; ">activities</span> in <span style="color:#004785; ">Scotland</span> by <br>  entering a postcode or your <span style="color:#004785; ">nearest town.</span> <br><br>
-                    
+                    <p>Search here by placename or postcode:</p>
+
                 </label>
 
                 <div class="search-box ">
-                    <p style="color: white; ">Search here by placename or postcode</p>
                     <div class="search-holder sbs-inputs ">
                         <form action="{% url 'search' %} ">
                             <input aria-label="Postcode to search " class="postcode " type="text " name="postcode " id="postcode " placeholder="e.g. Glasgow or G2 4AA " {% if request.user.postcode and request.user.prepopulate_postcode %}value="{{ request.user.postcode
