@@ -9,7 +9,7 @@
   {% include 'service/partials/locations.html' with locations=service.locations.all %}
 
   <ul class="contact-info">
-    {% if service.phone %}<li>{{ service.phone }}</li>{% endif %}
+    {% if service.phone %}<li> {{ service.phone }}</li>{% endif %}
     {% if service.url %}<li><a title="Click here to view this services website. (This page will open in a new window)" href="{{ service.url }}">Website</a></li>{% endif %}
     {% if service.facebook %}<a title="Click here to view this services Facebook. (This page will open in a new window)" href="{{ service.facebook }}">Facebook</a>{% endif %}
     {% if service.twitter %}<a title="Click here to view this services Twitter. (This page will open in a new window)" href="{{ service.twitter }}">Twitter</a>{% endif %}
@@ -20,11 +20,11 @@
   {% if service.categories.all %}
 
   <div class="assigned-categories">
-    <p>This service is under the category: 
+    This service is under the category: 
     {% for category in service.categories.all %}
       <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
     {% endfor %}
-  </p>
+
   </div>
 {% endif %}
 
