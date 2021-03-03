@@ -14,17 +14,10 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# EMAIL_HOST_USER = EMAIL_HOST_USER = 'apikey'
-# EMAIL_HOST= 'smtp.sendgrid.net'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
-
-# Twilio SendGrid
-EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = os.environ['apikey']
+EMAIL_HOST= 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_API_KEY']
 
 SECURE_SSL_REDIRECT = True
