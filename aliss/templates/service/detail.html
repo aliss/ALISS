@@ -305,12 +305,12 @@
             {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
           </p>
        
-          <span class="assigned-categories">(
+          <span class="assigned-categories">
             This service is under the category: 
             {% for category in object.categories.all %}
               {{ category.name }} {% if not forloop.last %},{% endif %}
             {% endfor %}
-            )
+            
           </span>
           {% comment %} TO EDIT MESSAGE {% endcomment %}
          {% comment %} <i class="fa fa-info-circle" aria-hidden="true"></i> These location changes will also affect the location attached to the organisation and any other services which have this location attached to the organisation. {% endcomment %}

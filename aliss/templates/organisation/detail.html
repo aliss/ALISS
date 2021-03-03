@@ -118,6 +118,7 @@
 
         <div class="services-list">
           <h3>Services</h3>
+          <br>
           {% if object.services.all %}
             <ul class="search-results{% if user_can_edit %} edit{% endif %}">
               {% for service in object.services.all %}
