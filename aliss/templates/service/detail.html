@@ -303,15 +303,17 @@
             {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
             {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
             {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
-          </p>
-       
-          <span class="assigned-categories">
-          This service is under the category: <br>
+        <br>
+             <span class="assigned-categories">
+        This service is under the category: 
             {% for category in object.categories.all %}
               {{ category.name }} {% if not forloop.last %},{% endif %}
             {% endfor %}
             
           </span>
+          </p>
+       
+      
           {% comment %} TO EDIT MESSAGE {% endcomment %}
          {% comment %} <i class="fa fa-info-circle" aria-hidden="true"></i> These location changes will also affect the location attached to the organisation and any other services which have this location attached to the organisation. {% endcomment %}
           {% comment %} TO EDIT MESSAGE {% endcomment %}
