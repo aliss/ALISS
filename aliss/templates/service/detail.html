@@ -298,19 +298,18 @@
           
           <h4>Contact information</h4>
           <p>
-            {% if object.phone %}<strong>{{ object.phone }}</strong><br />{% endif %}
-            {% if object.email %}<strong>{{ object.email }}</strong><br />{% endif %}
-            {% if object.url %}<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
-            {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
-            {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
-        <br>
-             <span class="assigned-categories">
-        This service is under the category: 
+            {% if object.phone %}&nbsp;<strong>{{ object.phone }}</strong><br />{% endif %}
+            {% if object.email %}&nbsp;<strong>{{ object.email }}</strong><br />{% endif %}
+            {% if object.url %}&nbsp;<a title="Click here to view this contacts website. (This page will open in a new window)" href="{{ object.url }}">Website</a>{% endif %}
+            {% if object.facebook %}&nbsp;<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
+            {% if object.twitter %}&nbsp;<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
+          <br>
+            <span class="assigned-categories">This service is under the category: 
             {% for category in object.categories.all %}
               {{ category.name }} {% if not forloop.last %},{% endif %}
             {% endfor %}
             
-          </span>
+          </span> 
           </p>
        
       
