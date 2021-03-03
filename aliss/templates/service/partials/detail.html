@@ -6,14 +6,6 @@
   </div>
   <p>{{ service.description|linebreaks|truncatechars:150 }}</p>
 
-  {% if service.categories.all %}
-    <div class="assigned-categories">
-      {% for category in service.categories.all %}
-        <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
-      {% endfor %}
-    </div>
-  {% endif %}
-
   {% include 'service/partials/locations.html' with locations=service.locations.all %}
 
   <ul class="contact-info">
@@ -23,6 +15,15 @@
     {% if service.twitter %}<a title="Click here to view this services Twitter. (This page will open in a new window)" href="{{ service.twitter }}">Twitter</a>{% endif %}
     {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
   </ul>
+
+  {% if service.categories.all %}
+  <div class="assigned-categories">
+    {% for category in service.categories.all %}
+      <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+
   {% if service.service_areas.all %}
     <div class="service-areas-list">
       <p>{% for area in service.service_areas.all %}{{ area.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
