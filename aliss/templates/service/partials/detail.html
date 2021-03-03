@@ -15,12 +15,16 @@
     {% if service.twitter %}<a title="Click here to view this services Twitter. (This page will open in a new window)" href="{{ service.twitter }}">Twitter</a>{% endif %}
     {% if service.service_areas.all %}<li class="service-areas"><a>Service Areas</a></li>{% endif %}
   </ul>
+<br>
 
   {% if service.categories.all %}
+
   <div class="assigned-categories">
+    <p>This service is under the category: 
     {% for category in service.categories.all %}
       <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
     {% endfor %}
+  </p>
   </div>
 {% endif %}
 
