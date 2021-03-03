@@ -306,7 +306,7 @@
           </p>
        
           <span class="assigned-categories">
-            This service is under the category: 
+          This service is under the category: <br>
             {% for category in object.categories.all %}
               {{ category.name }} {% if not forloop.last %},{% endif %}
             {% endfor %}
