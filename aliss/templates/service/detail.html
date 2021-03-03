@@ -304,10 +304,11 @@
             {% if object.facebook %}<a title="Click here to view this contacts Facebook account. (This page will open in a new window)" href="{{ object.facebook }}">Facebook</a>{% endif %}
             {% if object.twitter %}<a title="Click here to view this contacts Twitter account. (This page will open in a new window)" href="{{ object.twitter }}">Twitter</a>{% endif %}
           </p>
-          <br>
+       
           <span class="assigned-categories">(
+            This service is under the category: 
             {% for category in object.categories.all %}
-              <span title="This service is under the {{ category.name }} category." class="name">{{ category.name }}</span>{% if not forloop.last %},{% endif %}
+              {{ category.name }} {% if not forloop.last %},{% endif %}
             {% endfor %}
             )
           </span>
