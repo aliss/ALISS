@@ -34,7 +34,7 @@ $(document).ready(() => {
             var $thisCheck = $(this);
             var name = $thisCheck.attr('name');
             // console.log(name);
-            var limit = 5;
+            var limit = 100;
             $(`input[name='${name}']`).on('change', function(evt) {
                 if ($(`input[name='${name}']:checked`).length >= limit) {
                     this.checked = false;
@@ -55,7 +55,7 @@ $(document).ready(() => {
         // console.log(label);
         if ($thisCheck.prop('checked')) {
             // console.log('checked');
-            if ($('.all-categories input:checkbox:checked').length < 15) {
+            if ($('.all-categories input:checkbox:checked').length < 5) {
                 $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
             } else {
                 // console.log("You can't add more categries!");
