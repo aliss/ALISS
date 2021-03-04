@@ -55,7 +55,7 @@ $(document).ready(() => {
         // console.log(label);
         if ($thisCheck.prop('checked')) {
             // console.log('checked');
-            if ($('.all-categories input:checkbox:checked').length < 50) {
+            if ($('.all-categories input:checkbox:checked').length < 24) {
                 $('.selected-categories .cats').append(`<div class="selected-cat" data-cat="${value}"><span class="remove"></span>${label}</div>`);
             } else {
                 // console.log("You can't add more categries!");
