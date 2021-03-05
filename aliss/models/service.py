@@ -169,7 +169,7 @@ class Service(models.Model):
             return None
 
     def save(self, *args, **kwargs):
-        self.generate_slug()
+        
         self.generate_last_edited()
         do_index = True
         if 'skip_index' in kwargs:
