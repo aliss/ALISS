@@ -1,6 +1,6 @@
 from .base import *
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 DEBUG = False
 
 # Elasticsearch
@@ -18,6 +18,6 @@ EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST= 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = os.environ['SENDGRID_API_KEY']
+EMAIL_HOST_PASSWORD = os.environ['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']
 
 SECURE_SSL_REDIRECT = True
