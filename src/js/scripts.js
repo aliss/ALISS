@@ -34,7 +34,7 @@ $(document).ready(() => {
             var $thisCheck = $(this);
             var name = $thisCheck.attr('name');
             // console.log(name);
-            var limit = 5;
+            var limit = 50;
             $(`input[name='${name}']`).on('change', function(evt) {
                 if ($(`input[name='${name}']:checked`).length >= limit) {
                     this.checked = false;
