@@ -208,14 +208,17 @@
                 <span title="This organisation is updated by one of its own representatives." class="claimed"></span>
               {% endif %}
 
-              <span class="assigned-categories">
-              {% for category in result.categories.all %}
-                {% if forloop.first %}({% endif %}<a title="This service is under the {{ category.name }} category." href="{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% else %}){% endif %}
-              {% endfor %}
-              </span>
+            
             </p>
 
             <div class="description">{{ result.description|linebreaks|truncatechars:180 }}</div>
+
+          <br>
+          <span class="assigned-categories">
+            {% for category in result.categories.all %}
+              {% if forloop.first %}({% endif %}<a title="This service is under the {{ category.name }} category." href="{% query_transform request category=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% else %}){% endif %}
+            {% endfor %}
+            </span>
 
             <div class="grid-x detail-grid">
               {% if result.phone %}
