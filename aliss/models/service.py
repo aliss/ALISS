@@ -110,7 +110,7 @@ class Service(models.Model):
         elif user.is_staff:
             return True
         elif self.organisation.claimed_by == None:
-            return (user.is_editor or (self.organisation.created_by == user))
+            return (user.is_editor or user.is_account_owner or (self.organisation.created_by == user))
         else:
             return self.organisation.claimed_by == user
 
