@@ -8,7 +8,7 @@ class ClaimForm(forms.Form):
         required=True,
         widget=forms.Textarea(), label="What is your role in the organisation?")
     
-    name = forms.CharField(
+    name_claimant = forms.CharField(
         required=True,
         help_text="Please enter the name of the person who claim the organisation")
 
