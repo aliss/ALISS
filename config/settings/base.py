@@ -77,7 +77,6 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 ROOT_URLCONF = 'config.urls'
 PROXY_READ_TIMEOUT = 620
 
-
 CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
