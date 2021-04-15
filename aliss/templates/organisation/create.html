@@ -6,8 +6,7 @@
 <div class="modal" id="data_standard_agreement">
   <div class="pad">
     <div class="heading">
-      <a title="Click here to close this modal." id="data_standard_close" role="button" tabindex="0"
-        class="close alert icon-link">
+      <a title="Click here to close this modal." id="data_standard_close" role="button" tabindex="0" class="close alert icon-link">
         <span class="icon">
           <i class="fas fa-times"></i>
         </span>
@@ -15,16 +14,13 @@
       </a>
       <h5>Agree to ALISS Data Standard</h5>
     </div>
-
+    
     <div class="content scroll">
       <div class="copy-container">
         <p>The people who rely on ALISS need the information to be correct and helpful.</p>
-        <p>We know you are here because you care about people and by following these guidelines you will make your time
-          and effort worthwhile. Follow these guidelines when adding information about your organisation and services:
-        </p>
+        <p>We know you are here because you care about people and by following these guidelines you will make your time and effort worthwhile. Follow these guidelines when adding information about your organisation and services:</p>
         <ol>
-          <li>When adding information of your organisation and services ask yourself; how will the text and sentences
-            look to a person who needs the support you offer?</li>
+          <li>When adding information of your organisation and services ask yourself; how will the text and sentences look to a person who needs the support you offer?</li>
           <li>Make your sentences and text concise.</li>
           <li>Don't use jargon, acronyms and long sentences</li>
         </ol>
@@ -37,7 +33,7 @@
     </div>
     <div class="buttons">
       <form>
-        <a id="data_standard_accept" role="button" tabindex="0" class="button secondary alert close">Accept</a>
+        <a id="data_standard_accept" role="button" tabindex="0"  class="button secondary alert close">Accept</a>
         <a id="data_standard_decline" role="button" tabindex="0" class="button secondary cancel">Decline</a>
       </form>
     </div>
@@ -50,38 +46,37 @@
     <div class="grid-x">
       <div class="cell small-12 medium-8 large-8">
         <h1>Add a new organisation</h1>
-        <br />
+        <br/>
       </div>
     </div>
     <div class="grid-x">
       <div class="cell small-12 medium-8 large-8">
         <!-- {% include 'partials/forms/errors.html' with form=form %} -->
         {% include 'partials/forms/errors.html' with form=claim_form %}
-        <form autocomplete="off" method="post" class="organisation-form" enctype="multipart/form-data">
+
+        <form method="post" class="organisation-form" enctype="multipart/form-data">
           {% csrf_token %}
           {% include 'organisation/forms/organisation_form.html' %}
 
           <div class="inline-claim">
-            <input id="data_standard_agreement_modal" type="checkbox" name="claim" {% if show_claim_form%} checked {%
-              endif %}>
+            <input id="data_standard_agreement_modal" type="checkbox" name="claim" {% if show_claim_form%} checked {% endif %}>
             <label for="data_standard_agreement_modal">
               <b>I am a representative of this organisation</b>
-              <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2"
-                title="By checking this box you claim editorial control of the organisation. This ensures only you can make changes without approval of the ALISS team.">
+              <span data-tooltip aria-haspopup="true" class="has-tip right" data-disable-hover="false" tabindex="2" title="By checking this box you claim editorial control of the organisation. This ensures only you can make changes without approval of the ALISS team.">
                 <i class="fa fa-question-circle" aria-hidden="true"></i>
               </span>
             </label>
-            <br /><br />
+            <br/><br/>
             <div class="claim-form">
               {% include 'claim/forms/claim_form.html' with form=claim_form %}
             </div>
           </div>
 
-          <br />
+          <br/>
           <div class="submit">
             <input type="submit" class="secondary" value="Submit">
           </div>
-          <br />
+          <br/>
         </form>
       </div>
 
