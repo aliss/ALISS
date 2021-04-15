@@ -54,7 +54,7 @@
         <!-- {% include 'partials/forms/errors.html' with form=form %} -->
         {% include 'partials/forms/errors.html' with form=claim_form %}
 
-        <form method="post" class="organisation-form" enctype="multipart/form-data">
+        <form method="post" class="organisation-form" enctype="multipart/form-data" autocomplete="chrome-off">
           {% csrf_token %}
           {% include 'organisation/forms/organisation_form.html' %}
 
@@ -132,7 +132,7 @@
     let tagArr = document.getElementsByTagName("input");
     for (let i = 0; i < tagArr.length; i++) {
       console.log(tagArr[i] + ' - FARTS')
-      tagArr[i].autocomplete = 'off';
+      tagArr[i].autocomplete = 'chrome-off';
     }
 
 
