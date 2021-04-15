@@ -94,6 +94,7 @@
 {% block before_body_close %}
 <script type="text/javascript">
   $(document).ready(function(){
+    $("id_name").attr('autocomplete', 'off');
     var searchedOrg = window.localStorage.getItem("searchedOrg")
     if (searchedOrg != "null") {
       var orgNameField = document.getElementById("id_name")
@@ -102,7 +103,7 @@
 
     var handleClaimFormWithModal = function(){
 
-      $("id_name").attr('autocomplete', 'off');
+      
       var showForm = $("input#data_standard_agreement_modal").prop("checked");
       $('div.inline-claim').toggleClass('active', showForm);
       $('div.inline-claim input, div.inline-claim textarea').prop({
