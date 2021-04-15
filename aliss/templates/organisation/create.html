@@ -54,7 +54,7 @@
         <!-- {% include 'partials/forms/errors.html' with form=form %} -->
         {% include 'partials/forms/errors.html' with form=claim_form %}
 
-        <form method="post" class="organisation-form" enctype="multipart/form-data">
+        <form method="post" class="organisation-form" enctype="multipart/form-data autocomplete="off"">
           {% csrf_token %}
           {% include 'organisation/forms/organisation_form.html' %}
 
