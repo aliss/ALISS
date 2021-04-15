@@ -95,6 +95,11 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $("id_name").attr('autocomplete', 'off');
+    createOrg();
+
+  });
+
+  function createOrg(){
     var searchedOrg = window.localStorage.getItem("searchedOrg")
     if (searchedOrg != "null") {
       var orgNameField = document.getElementById("id_name")
@@ -122,8 +127,7 @@
     var handleDataStandardDeclined = function() {
       $('input#id_claim-data_quality').prop("checked", false);
     }
-
-  });
+  }
 </script>
 {% endblock %}
 
