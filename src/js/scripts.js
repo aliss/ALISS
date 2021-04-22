@@ -34,7 +34,7 @@ $(document).ready(() => {
             var $thisCheck = $(this);
             var name = $thisCheck.attr('name');
             // console.log(name);
-            var limit = 4;
+            var limit = 5;
             $(`input[name='${name}']`).on('change', function(evt) {
                 if ($(`input[name='${name}']:checked`).length >= limit) {
                     this.checked = false;
@@ -60,7 +60,7 @@ $(document).ready(() => {
             } else {
                 // console.log("You can't add more categries!");
                 if (!$('.cat-warning').length) {
-                    $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 4 categories</h3>");
+                    $('.all-categories').prepend("<h3 class='cat-warning'>You can only select 4 categories.</h3>");
                 }
             }
         } else {
