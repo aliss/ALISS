@@ -54,7 +54,7 @@
         <!-- {% include 'partials/forms/errors.html' with form=form %} -->
         {% include 'partials/forms/errors.html' with form=claim_form %}
 
-        <form method="post" class="organisation-form" enctype="multipart/form-data">
+        <form method="post" class="organisation-form" enctype="multipart/form-data" autocomplete="chrome-off">
           {% csrf_token %}
           {% include 'organisation/forms/organisation_form.html' %}
 
@@ -94,18 +94,22 @@
 
 {% block before_body_close %}
 <script type="text/javascript">
-  $(document).ready(function(){
+
+  function createOrg() {
     var searchedOrg = window.localStorage.getItem("searchedOrg")
     if (searchedOrg != "null") {
       var orgNameField = document.getElementById("id_name")
       orgNameField.value = searchedOrg
     }
 
-    var handleClaimFormWithModal = function(){
+    var handleClaimFormWithModal = function () {
+
+
       var showForm = $("input#data_standard_agreement_modal").prop("checked");
       $('div.inline-claim').toggleClass('active', showForm);
       $('div.inline-claim input, div.inline-claim textarea').prop({
-        required: showForm })
+        required: showForm
+      })
       $('#data_standard_accept').click(handleDataStandardAccepted);
       $('#data_standard_decline').click(handleDataStandardDeclined);
     };
@@ -113,14 +117,20 @@
     $('input#data_standard_agreement_modal').change(handleClaimFormWithModal);
     handleClaimFormWithModal();
 
-    var handleDataStandardAccepted = function() {
-     $('input#id_claim-data_quality').prop("checked", true);
+    var handleDataStandardAccepted = function () {
+      $('input#id_claim-data_quality').prop("checked", true);
     }
 
-    var handleDataStandardDeclined = function() {
+    var handleDataStandardDeclined = function () {
       $('input#id_claim-data_quality').prop("checked", false);
     }
+  }
 
+  $(document).ready(function () {
+    createOrg();
   });
+
+
 </script>
 {% endblock %}
+
