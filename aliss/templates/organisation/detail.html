@@ -155,7 +155,7 @@
               <h4 id="organisation_actions_toggle" class="toggle-heading">Actions</h4>
             </div>
             <div class="actions toggle-content">
-              {% if not user.is_authenticated %}
+              {% if not user.is_authenticated and not object.claimed_by %}
               <a title="Click here to log in to claim this organisation" href="{% url 'claim_create' pk=object.pk %}" class="primary icon-link">
                 <span class="icon">
                   <i class="fas fa-hand-paper"></i>
