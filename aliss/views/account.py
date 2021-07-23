@@ -46,8 +46,8 @@ def login_view(request, *args, **kwargs):
                 if len(user.services_to_review_ids()) > 0:
                     auth_views.login(request, *args, **kwargs)
                     return HttpResponseRedirect(reverse('homepage'))
-                else:
-                return auth_views.login(request, *args, **kwargs)
+              else:
+                   auth_views.login(request, *args, **kwargs)
         except ALISSUser.DoesNotExist:
             return auth_views.login(request, *args, **kwargs)
     return auth_views.login(request, *args, **kwargs)
