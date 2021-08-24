@@ -17,7 +17,7 @@
                     <div class="account-info">
                        
                         <ul>
-                            <li style="margin-top: 10px;">
+                            <li style="margin-top: 10px !important;">
                                 <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
 
                             </li>
