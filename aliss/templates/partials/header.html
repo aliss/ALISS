@@ -88,9 +88,9 @@
                                 <li{% if request.resolver_match.url_name == 'about' %} class="active"{% endif %}>
                                     <a title="Click here to navigate to the about us page." href="{% url 'about' %}">About</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a title="Visit Medium.com for the latest news and updates on ALISS. (This page will open in a new window)" href="https://medium.com/@ALISSProgramme" target="_blank">News</a>
-                                </li>
+                                </li> -->
                                 <li{% if request.resolver_match.url_name == 'organisation_create' or request.resolver_match.url_name == 'organisation_search' %} class="active"{% endif %}>
                                     <a title="Click here to add an organisation." href="{% url 'potential_create' %}">Add an organisation</a>
                                 </li>
