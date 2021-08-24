@@ -14,18 +14,20 @@
             </a>
             <div class="top-hat">
                 {% if request.user.is_authenticated %}
-                    <div class="account-info">
-                       
-                        <ul>
-                            <li style="margin-top: 10px !important;">
-                                <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
 
-                            </li>
-                            <li>
-                                <a title="Click here to logout." href="{% url 'logout' %}">Logout</a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="account-info">
+                    <ul>
+                        <li>
+                            <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
+
+                        </li>
+                        <li>
+                            <a title="Click here to logout." href="{% url 'logout' %}">Logout</a>
+
+                        </li>
+                    </ul>
+                </div>
+               
                 {% else %}
                     <div class="account-info">
                         <ul>
