@@ -16,7 +16,7 @@
                 {% if request.user.is_authenticated %}
                     <div class="account-info">
                         <div class="account hide-notifications">
-                            <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
+                            <div style="margin-top: -10px;"><a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name"></div>{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
                             {% comment %}
                             <div class="notifications-holder">
                                 <a id="notifications_toggle" class="notifications-count items">1</a>
