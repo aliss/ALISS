@@ -16,9 +16,11 @@
                 {% if request.user.is_authenticated %}
                     <div class="account-info">
                        
-                            <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
-                    
                         <ul>
+                            <li>
+                                <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
+
+                            </li>
                             <li>
                                 <a title="Click here to logout." href="{% url 'logout' %}">Logout</a>
                             </li>
