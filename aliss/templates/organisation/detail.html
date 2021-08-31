@@ -116,6 +116,21 @@
              {% endif %}
         </div>
 
+              {% if claim.status == claim.CONFIRMED and object.claimed_by == user or user.is_staff %}
+              <div class="edit-options">
+                <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="status" value="{{ claim.REVOKED }}" />
+                  <button href="#" class="txt-button alert icon-link">
+                    <span class="icon">
+                      <i class="fas fa-minus-hexagon"></i>
+                    </span>
+                    Revoke representation
+                  </button>
+                </form>
+              </div>
+
+            {% endif %}
         <div class="services-list">
           <h3>Services</h3>
           <br>
@@ -214,7 +229,6 @@
                 </span>
                 Delete organisation
               </a>
-         <p>CIAO</p>
               
               
               {% elif not object.claimed_by %}
@@ -232,7 +246,6 @@
               <p>This organisation has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</a></p>
 
               {% endif %}
-       
         
                 {% endif %}
              
