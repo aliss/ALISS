@@ -64,6 +64,7 @@
     </div>
   </div>
 </div>
+
 <main class="main" role="main">
   <article id="content" class="organisation grid-container">
     {% if request.user.is_authenticated %}
@@ -190,18 +191,7 @@
                 Delete organisation
               </a>
               {% elif object.claimed_by == user or user.is_staff%}
-              <div class="edit-options">
-                <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
-                  {% csrf_token %}
-                  <input type="hidden" name="status" value="{{ claim.REVOKED }}" />
-                  <button href="#" class="txt-button alert icon-link">
-                    <span class="icon">
-                      <i class="fas fa-minus-hexagon"></i>
-                    </span>
-                    Revoke representation
-                  </button>
-                </form>
-              </div>
+             
               <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                 <span class="icon">
                   <i class="fas fa-plus"></i>
