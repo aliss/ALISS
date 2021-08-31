@@ -214,7 +214,7 @@
                 </span>
                 Delete organisation
               </a>
-              {% elif claim.status == claim.CONFIRMED and object.claimed_by == user or user.is_staff %}
+              <!-- {% elif claim.status == claim.CONFIRMED and object.claimed_by == user or user.is_staff %} -->
                 <div class="edit-options">
                   <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
                     {% csrf_token %}
@@ -244,7 +244,7 @@
               <p>This organisation has been claimed. Only the person who has claimed can edit this information. If you want to suggest any changes, please click on the "Improve this listing" link above to submit your feedback.</a></p>
 
               {% endif %}
-              {% endif %}
+       
         
                 {% endif %}
              
