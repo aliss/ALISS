@@ -116,7 +116,6 @@
              {% endif %}
         </div>
 
-             
         <div class="services-list">
           <h3>Services</h3>
           <br>
@@ -190,7 +189,7 @@
                 </span>
                 Delete organisation
               </a>
-              {% if claim.status == claim.CONFIRMED and object.claimed_by == user or user.is_staff %}
+              {% elif object.claimed_by == user or user.is_staff%}
               <div class="edit-options">
                 <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
                   {% csrf_token %}
@@ -203,7 +202,6 @@
                   </button>
                 </form>
               </div>
-              
               <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                 <span class="icon">
                   <i class="fas fa-plus"></i>
