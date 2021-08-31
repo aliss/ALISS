@@ -203,19 +203,7 @@
                   </button>
                 </form>
               </div>
-
-            {% endif %}
-              {% elif object.claimed_by == user or user.is_staff%}
-              <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="status" value="{{ claim.REVOKED }}" />
-                <button href="#" class="txt-button alert icon-link">
-                  <span class="icon">
-                    <i class="fas fa-minus-hexagon"></i>
-                  </span>
-                  Revoke representation
-                </button>
-              </form>
+              
               <a title="Add a service." id="add-service-action" href="{% url 'service_create' pk=object.pk %}" class="icon-link primary">
                 <span class="icon">
                   <i class="fas fa-plus"></i>
