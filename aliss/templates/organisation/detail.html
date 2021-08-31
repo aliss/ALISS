@@ -89,6 +89,16 @@
             <h1>{{ object.name }}</h1>
             {% if object.claimed_by %}
               <p class="org"><span class="claimed">Claimed</span></p>
+              <form method="post" action="{% url 'claim_detail' pk=claim.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="{{ claim.REVOKED }}" />
+                <button href="#" class="txt-button alert icon-link">
+                  <span class="icon">
+                    <i class="fas fa-minus-hexagon"></i>
+                  </span>
+                  Revoke representation
+                </button>
+              </form>
             {% endif %}
             <div class="desc">
               <p>{{ object.description|linebreaks }}</p>
