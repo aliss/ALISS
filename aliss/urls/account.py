@@ -54,7 +54,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="account/signup_success.html"),
           auth_views.password_reset,
         {
-            'template_name': 'account/signup_success.html',
+            'template_name': 'account/welcome.html',
             'html_email_template_name': 'account/emails/welcome.html',
         },
         name='signup_success'
