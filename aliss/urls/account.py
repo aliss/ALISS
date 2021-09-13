@@ -54,14 +54,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="account/signup_success.html"),
         name='signup_success'
     ),
-     url(r'^signup/success/$',
-        auth_views.password_reset,
-        {
-            'template_name': 'account/signup_success.html',
-            'html_email_template_name': 'account/emails/welcome_email.html'
-        },
-        name='signup_success'
-    ),
+  
     url(r'^login/$',
         login_view,
         {'template_name': 'account/login.html'},
@@ -69,7 +62,7 @@ urlpatterns = [
     ),
     url(r'^logout/$',
         auth_views.logout,
-        {'template_name': 'account/logout.html'},
+        {'template_name': 'account/logout.html'},z
         name='logout'
     ),
     url(r'^password/reset/$',
