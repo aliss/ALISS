@@ -1,5 +1,5 @@
 from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, DeleteView, TemplateView, FormView
-from django.contrib.auth import authenticate, login, views as auth_views
+from django.contrib.auth import authenticate, login, views, signup_success as auth_views
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
