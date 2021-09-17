@@ -56,7 +56,7 @@ urlpatterns = [
         ),
 
     url(r'^signup/$',
-        auth_views.signup_welome,
+        AccountSignupView.as_view(),
         {
             'template_name': 'account/signup.html',
             'html_email_template_name': 'account/emails/signup_welcome_email.html'
