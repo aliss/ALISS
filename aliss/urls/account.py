@@ -50,16 +50,15 @@ urlpatterns = [
         DigestDelete.as_view(),
         name='account_my_digest_delete'
         ),
-    # url(r'^signup/success/$',
-    #     TemplateView.as_view(template_name="account/signup_success.html"),
-    #      'html_email_template_name': 'account/emails/signup_welcome_email.html'
-    #     name='signup_success'
-    #     ),
+    url(r'^signup/success/$',
+        TemplateView.as_view(template_name="account/signup_success.html"),
+        name='signup_success'
+        ),
 
-   url(r'^signup/success/$',
-        auth_views_signup,
+    url(r'^signup/welcome/$',
+        auth_views.password_reset,
         {
-            TemplateView.as_view(template_name="account/signup_success.html"),
+            'template_name': 'account/signup_welcome.html',
             'html_email_template_name': 'account/emails/signup_welcome_email.html'
         },
         name='signup_welome'
