@@ -227,3 +227,54 @@
     }
 </script>
 {% endblock%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% extends "base.html" %}
+{% extends "base.html" %}
+
+{% block container %}
+<main class="main" role="main">
+    <section id="content">
+        <div class="row">
+            <div class="columns content">
+                <div class="copy-container">
+                    <h1>Reset your password</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="large-form">
+        <div class="row">
+            <div class="columns">
+                <form method="post" action="{% url 'password_reset' %}">
+                  <p class="small">
+                      <i class="fa fa-info-circle" aria-hidden="true"></i>
+                      Please ensure your email address is the correct combination of upper and lowercase characters. 
+                  </p>
+                    <div class="f-row two">
+                        <div>
+                            {% csrf_token %}
+                            {{ form }}
+                        </div>
+                    </div>
+                    <div class="submit">
+                        <input type="submit" value="Reset">
+                        <input type="hidden" name="next" value="{{ next }}" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
