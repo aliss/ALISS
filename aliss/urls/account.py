@@ -56,7 +56,7 @@ urlpatterns = [
         ),
 
     url(r'^signup/$',
-    auth_views.signup,
+    auth_views.password_reset,
         AccountSignupView.as_view(),
         {
             'template_name': 'account/signup.html',
