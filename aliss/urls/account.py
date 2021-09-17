@@ -55,10 +55,10 @@ urlpatterns = [
         name='signup_success'
         ),
 
-    url(r'^signup/welcome/$',
-        auth_views.password_reset,
+    url(r'^signup/$',
+        auth_views.signup_welome,
         {
-            'template_name': 'account/signup_welcome.html',
+            'template_name': 'account/signup.html',
             'html_email_template_name': 'account/emails/signup_welcome_email.html'
         },
         name='signup_welome'
