@@ -61,7 +61,7 @@ urlpatterns = [
             'template_name': 'account/signup.html',
             'html_email_template_name': 'account/emails/signup_welcome_email.html'
         },
-        name='signup_welome'
+        name='signup'
         ),
 
     url(r'^login/$',
