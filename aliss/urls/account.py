@@ -34,10 +34,10 @@ from aliss.views import (
 
 
 urlpatterns = [
-    url(r'^signup/$',
-        AccountSignupView.as_view(),
-        name='signup'
-        ),
+    # url(r'^signup/$',
+    #     AccountSignupView.as_view(),
+    #     name='signup'
+    #     ),
     url(r'^notifications/$',
         DigestMyView.as_view(),
         name='account_my_digest'
@@ -73,13 +73,14 @@ urlpatterns = [
         },
         name='password_reset'
         ),
-    url(r'^signup/welcome/$',
-        auth_views.signup_welome,
+    url(r'^signup/$',
+    AccountSignupView.as_view(),
+        auth_views.signup,
         {
-            'template_name': 'account/signup_welome.html',
-            'html_email_template_name': 'account/emails/signup_welome_email.html'
+            'template_name': 'account/signup.html',
+            'html_email_template_name': 'account/emails/welcome_email.html'
         },
-        name='signup_welome'
+        name='signup'
         ),
   
     url(r'^password/reset/done/$',
