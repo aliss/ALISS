@@ -55,7 +55,7 @@ urlpatterns = [
         name='signup_success'
         ),
 
-    url(r'^signup/$',
+    url(r'^signup/welcome/$',
         AccountSignupView.as_view(),
         {
             'template_name': 'account/signup.html',
