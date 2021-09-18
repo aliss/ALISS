@@ -51,7 +51,9 @@ urlpatterns = [
         name='account_my_digest_delete'
     ),
     url(r'^signup/success/$',
+      
         TemplateView.as_view(template_name="account/signup_success.html"),
+        {'html_email_template_name': 'account/emails/password_reset_email.html'},
         name='signup_success'
     ),
   
