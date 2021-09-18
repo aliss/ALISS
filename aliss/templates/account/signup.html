@@ -30,7 +30,7 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                <form method="post" name="registration">
+                <form method="post" name="registration" action="{% url 'password_reset'>
                     {% csrf_token %}
 
                     </p>
