@@ -56,8 +56,8 @@ urlpatterns = [
     ),
 
     url(r'^signup/welcome/$',
-        auth_views.welcome_email,        {
-            'template_name': 'account/signup.html',
+        auth_views.welcome_email.as_view(template_name = 'account/signup.html'),        {
+            
             'html_email_template_name': 'account/emails/welcome_email.html'
         },
         name='welcome_email'
