@@ -62,7 +62,7 @@ urlpatterns = [
     ),
     url(r'^logout/$',
         auth_views.logout,
-        {'template_name': 'account/logout.html'},z
+        {'template_name': 'account/logout.html'},
         name='logout'
     ),
     url(r'^password/reset/$',
