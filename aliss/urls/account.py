@@ -50,17 +50,8 @@ urlpatterns = [
         DigestDelete.as_view(),
         name='account_my_digest_delete'
         ),
-    # url(r'^signup/success/$',
-    #     TemplateView.as_view(template_name="account/signup_success.html"),
-    #     name='signup_success'
-    #     ),
-
-        url(r'^signup/success/$',
-        auth_views.password_reset,
-        {
-           'template_name': 'account/signup_success.html',
-           'html_email_template_name': 'account/emails/welcome_email.html'
-        },
+    url(r'^signup/success/$',
+        TemplateView.as_view(template_name="account/signup_success.html"),
         name='signup_success'
         ),
 
@@ -78,18 +69,18 @@ urlpatterns = [
         auth_views.password_reset,
         {
             'template_name': 'account/password_reset.html',
-            'html_email_template_name': 'account/emails/welcome_email.html'
+            'html_email_template_name': 'account/emails/password_reset_email.html'
         },
         name='password_reset'
         ),
-    # url(r'^signup/welcome/$',
-    #     auth_views.signup_welome,
-    #     {
-    #         'template_name': 'account/signup_welome.html',
-    #         'html_email_template_name': 'account/emails/signup_welome_email.html'
-    #     },
-    #     name='signup_welome'
-    #     ),
+    url(r'^signup/welcome/$',
+        auth_views.signup_welcome,
+        {
+            'template_name': 'account/signup.html',
+            'html_email_template_name': 'account/emails/signup_welome_email.html'
+        },
+        name='signup_welcome'
+        ),
   
     url(r'^password/reset/done/$',
         auth_views.password_reset_done,
