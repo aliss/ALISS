@@ -74,14 +74,14 @@ urlpatterns = [
         name='password_reset'
         ),
     
-    # url(r'^signup/welcome/$',
-    #     auth_views.signup_welcome,
-    #     {
-    #         'template_name': 'account/signup.html',
-    #         'html_email_template_name': 'account/emails/signup_welome_email.html'
-    #     },
-    #     name='signup_welcome'
-    #     ),
+    url(r'^signup/welcome/$',
+        auth_views.signup_welcome,
+        {
+            'template_name': 'account/signup.html',
+            'html_email_template_name': 'account/emails/signup_welome_email.html'
+        },
+        name='signup_welcome'
+        ),
   
     url(r'^password/reset/done/$',
         auth_views.password_reset_done,
