@@ -56,8 +56,9 @@ urlpatterns = [
     #     ),
 
         url(r'^signup/success/$',
-        auth_views.as_view(template_name="account/signup_success.html"),
+        auth_views,
         {
+           'template_name': 'account/signup_success.html',
            'html_email_template_name': 'account/emails/welcome_email.html'
         },
         name='signup_success'
