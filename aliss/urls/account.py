@@ -74,17 +74,14 @@ urlpatterns = [
         name='password_reset'
         ),
     
-        path('admin/', admin.site.urls),
-        path('', views.register, name="register"),
-        path('success', views.success, name="success")
 
-        # auth_views.signup_welcome,
-        # {
-        #     'template_name': 'account/signup.html',
-        #     'html_email_template_name': 'account/emails/signup_welome_email.html'
-        # },
-        # name='signup_welcome'
-        # ),
+        auth_views.signup_welcome,
+        {
+            'template_name': 'account/signup.html',
+            'html_email_template_name': 'account/emails/signup_welome_email.html'
+        },
+        name='signup_welcome'
+        ),
   
     url(r'^password/reset/done/$',
         auth_views.password_reset_done,

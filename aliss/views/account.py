@@ -78,16 +78,7 @@ class AccountSignupView(CreateView):
             request=self.request,
             username=form.cleaned_data['email'],
             password=form.cleaned_data['password1']
-
-            html_template = 'welcome_email.html'
-            html_message = render_to_string(html_template, context=mydict)
-            subject = 'Welcome to Service-Verse'
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [email]
-            message = EmailMessage(subject, html_message,
-                                   email_from, recipient_list)
-            message.content_subtype = 'html'
-            message.send()
+            
         )
         login(self.request, user)
 
