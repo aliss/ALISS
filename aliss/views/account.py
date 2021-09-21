@@ -12,6 +12,12 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
 from django.template import loader
 from django.db.models import Q
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.contrib.auth.models import auth, User
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 from django_filters.views import FilterView
 from braces.views import LoginRequiredMixin, StaffuserRequiredMixin
@@ -66,16 +72,31 @@ class AccountSignupView(CreateView):
             postcode=form.cleaned_data['postcode'],
             prepopulate_postcode=form.cleaned_data['prepopulate_postcode']
         )
-
-        # Authenticate the newly created user
+    
+          # Authenticate the newly created user
         user = authenticate(
             request=self.request,
             username=form.cleaned_data['email'],
             password=form.cleaned_data['password1']
+
+            html_template = 'welcome_email.html'
+            html_message = render_to_string(html_template, context=mydict)
+            subject = 'Welcome to Service-Verse'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email]
+            message = EmailMessage(subject, html_message,
+                                   email_from, recipient_list)
+            message.content_subtype = 'html'
+            message.send()
         )
         login(self.request, user)
 
         return HttpResponseRedirect(self.get_success_url())
+
+
+
+
+
 
 
 class AccountUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
