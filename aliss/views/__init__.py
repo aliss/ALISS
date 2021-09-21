@@ -2,6 +2,7 @@ from .mixins import OrganisationMixin, ProgressMixin
 from .account import (
     login_view,
     AccountSignupView,
+    AccountWelcomeView,
     AccountUpdateView,
     AccountSavedServicesView,
     AccountMyRecommendationsView,
