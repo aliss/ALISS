@@ -8,478 +8,350 @@
 {% endblock %}
 
 {% block container %}
-<style>
-    @charset "UTF-8";
-
-h1 {
-  margin: 0;
-  line-height: 2;
-  text-align: center;
-}
-
-h2 {
-  margin: 0 0 0.5em;
-  font-weight: normal;
-}
-
-input {
-  position: absolute;
-  opacity: 0;
-  z-index: -1;
-}
-
-.row {
-  display: flex;
-}
-.row .col {
-  flex: 1;
-}
-.row .col:last-child {
-  margin-left: 1em;
-}
-
-/* Accordion styles */
-.tabs {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.5);
-}
-
-.tab {
-  width: 100%;
-  color: white;
-  overflow: hidden;
-}
-.tab-label {
-  display: flex;
-  justify-content: space-between;
-  padding: 1em;
-  background: blue;
-  font-weight: bold;
-  cursor: pointer;
-  /* Icon */
-}
-.tab-label:hover {
-  background: #1a252f;
-}
-.tab-label::after {
-  content: "❯";
-  width: 1em;
-  height: 1em;
-  text-align: center;
-  transition: all 0.35s;
-}
-.tab-content {
-  max-height: 0;
-  padding: 0 1em;
-  color:white;
-  background: white;
-  transition: all 0.35s;
-}
-.tab-close {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1em;
-  font-size: 0.75em;
-  background: #2c3e50;
-  cursor: pointer;
-}
-.tab-close:hover {
-  background: #1a252f;
-}
-
-input:checked + .tab-label {
-  background: #1a252f;
-}
-input:checked + .tab-label::after {
-  transform: rotate(90deg);
-}
-input:checked ~ .tab-content {
-  max-height: 100vh;
-  padding: 1em;
-}
-</style>
 <main class="main" role="main">
     <article id="content">
         <div class="row">
             <div class="columns content">
-               
-<div class="row">
- 
-    <div class="col">
-      <h2>How we use your personal Information </h2>
-      <div class="tabs">
-         <p class="privacyText">We, the Health and Social Care Alliance Scotland (the ALLIANCE), are the
-              controller of the personal information that we hold about you as part of “A Local
-              Information System for Scotland” (ALISS). This means we are legally responsible for how we
-              hold and use personal information about you. It also means we are required to comply with
-              data protection laws when holding and using your personal information.<br><br>This includes
-              providing you with the details contained within this notice of how we hold and use your
-              personal information, who we may share it with and your rights in relation to your personal
-              information. We have appointed a Data Protection Officer (DPO), who ensures we comply with
-              data protection law. If you have any questions about this notice or how we hold or use your
-              personal information, please contact the DPO by e-mail at <a href="mailto:dpo@alliance-scotland.org.uk">dpo@alliance-scotland.org.uk</a> or writing
-              to Data Protection, <a
-                  href="https://www.google.co.uk/maps/place/Health+and+Social+Care+Alliance+Scotland/@55.8651975,-4.271921,17z/data=!3m1!4b1!4m5!3m4!1s0x48884428fa640e85:0x86ed942ff78b766e!8m2!3d55.8652501!4d-4.2697116">The
-                  Health and Social Care Alliance Scotland</a>, Venlaw Building, 349 Bath Street, Glasgow,
-              G2 4AA</p>
-    
-  
-      <div class="notice">
-          <p>Your attention is particularly drawn to section 3 of this notice, which explains the position
-              regarding any personal information and special category personal information being held and
-              used by us as described in section 2 of this notice.</p>
-      </div>
-       
-          <div class="tab">
-            <input type="radio" id="rd1" name="rd">
-            <label class="tab-label" for="rd1">1. What personal information do we hold and use about you?</label>
-            <div class="tab-content">
-              <p class="privacyText">The personal information we hold and use about
-                  you depends on whether you are a basic user, a claimer, an <span class=GramE>editor
-                      or organisation contact.We will handle and use your name and your contact information in all
-                      of
-                      these cases, and the following additional information in specific cases:</p>
-  
-              <ul>
-                  <li><span style='font-size:12.0pt;font-family:"Arial",sans-serif'>Basic:
-                          any personal information that you provide when you register for an ALISS
-                          account, for example, your telephone number. Any personal information you may
-                          add about an organisation and service when adding an organisation and service
-                          to ALISS.<span style='mso-spacerun:yes'>  </span>This could include an e-mail
-                          address related to that organisation and service.<o:p></o:p></span></p>
-                  </li>
-                  <li><span style='font-size:12.0pt;font-family:"Arial",sans-serif'>Claimers:
-                          any personal information that is required and / or you choose to provide to
-                          allow us to verify your claim to an organisation and service.<span
-                              style='mso-spacerun:yes'>  </span>This could include an e-mail address related
-                          to that organisation and service.<o:p></o:p></span></p>
-                  </li>
-                  <li>
-                      <span style='font-size:12.0pt;font-family:"Arial",sans-serif'>Editors:
-                          any personal information you provide when you register for an editor account,
-                          including any personal information you may add about an organisation and
-                          service to ALISS.<span style='mso-spacerun:yes'>  </span>This could include an
-                          e-mail address related to that organisation and service.<o:p></o:p></span></p>
-                  </li>
-                  <li>
-                      <span class="privacyText">Organisation
-                          contacts: any personal information included in your organisation’s ALISS entry.<span
-                              style='mso-spacerun:yes'>  </span>This may include personal information
-                          contained on your website about identifiable individuals within your
-                          organisation.<o:p></o:p></span></p>
-                  </li>
-              </ul>
-  
-  
-              <p class=MsoNoSpacing style='text-align:justify'><span style='font-size:12.0pt;
-  font-family:"Arial",sans-serif'>Any personal information included within your
-                      ALISS entry is publicly available.<o:p></o:p></span></p>
-            </div>
-          </div>
-  
-          <div class="tab">
-            <input type="radio" id="rd2" name="rd">
-            <label class="tab-label" for="rd2">2. Why do we hold and use this personal information about you?</label>
-  
-              <div class="tab-content">
-                  <p class="privacyText">We use such personal information to:</p>
-  
-  
-                  <ul>
-                      <li>
-                          <p class="privacyText">provide,manage and deliver
-                          <p class=GramE>ALISS;</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">maintain the integrity and stability of <pan class=GramE>ALISS;</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">verify your status to allow you to claim an ALISS </p>
-                      </li>
-                      <li>
-                          <p class="privacyText">grant you editor access to allow you to edit ALISS</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">allow you to exercise editorial control over your organisation’s
-                              ALISS entry and the
-                              services and locations linked to your organisation.We may do this in response to your
-                              request or
-                              by contacting</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">help us to better understand health and social care needs in</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">administer your account;</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">improve the services we provide to you and keep you informed of such
-                              improvements;</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">manage feedback you may choose to share with us, including comments
-                              and complaints;</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">provide you with information about the work of the ALLIANCE, the
-                              benefits of membership
-                              and details of any events you may wish to attend or be involved in.</p>
-                      </li>
-  
-                  </ul>
-              </div>
-            </div>
-  
-            <div class="tab">
-              <input type="radio" id="rd4" name="rd">
-              <label class="tab-label" for="rd4">3. What is our legal basis for holding and using your personal information?</label>
-              <div class="tab-content">
-                  <p class="privacyText">Data protection laws require us to have a legal reason for holding and using
-                      your personal information.</p>
-  
-  
-  
-                  <p class="privacyText">Our main legal reason is that we consider we
-                      have a legitimate interest in the operation and management of ALISS as an
-                      invaluable information and signposting platform in the health and social care
-                      context in Scotland. In determining our legitimate interests, we have considered your legitimate
-                      interests in the
-                      protection of your personal information, and have
-                      balanced these against our own legitimate interests in handling and using your
-                      personal information for the purposes described in section 2 of this notice.</p>
-  
-  
-                  <p class="notice">In very exceptional
-                      circumstances, we may rely on the fact that your special category personal
-                      information has been ‘manifestly made public’ by you as the legal reason.In the case that you
-                      provide us with your
-                      personal information and special category personal information (including information
-                      about your physical and / or mental health), you should be aware that it will
-                      be used by us as described in section 2 of this notice.<br><br>You have the right to remove your
-                      personal information and special category personal
-                      information, or request that we remove it by contacting us. Once you have done so, we will no
-                      longer use
-                      your personal information and special category personal information for the purpose(s) set out
-                      in section 2 of this notice, which you originally agreed to,
-                      unless we have another legal reason for doing so.</p>
-  
-  
-  
-                  <p class="privacyText">If you include within an ALISS entry the
-                      personal information of a third party that is not publicly available, such as
-                      contact information that has been provided to you during your engagement with
-                      an organisation, you must obtain the consent of that third party to their
-                      personal information being published within the entry and provide them with, or
-                      direct them to, this notice. We may ask you to provide us with proof of third party consent at
-                      any time.</p>
-  
-              </div>
-            </div>
-  
-            <div class="tab">
-              <input type="radio" id="rd5" name="rd">
-              <label class="tab-label" for="rd5">4. Who do we share your personal information with?</label>
-              <div class="tab-content">
-                  <ul>
-                      <li>
-                          <p class="privacyText">We may share your personal information with other organisations
-                              for the purposes described in section 2 of this notice, including
-                              the following:</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">our IT service providers, who help us maintain, manage and
-                              operate ALISS;</p>
-                      </li>
-                      <li>
-                          <p class="privacyText"> organisations who make use of the ALISS public API. This
-                              includes NHS 24, who display some or all of the information contained on ALISS,
-                              including personal information, within the
-                              NHS Inform directory; and </p>
-                      </li>
-                      <li>
-                          <p class="privacyText">any other organisation that you authorise us to disclose your
-                              personal information
-                              to from time-to-time.</p>
-                      </li>
-                  </ul>
-              </div>
-            </div>
-  
-            <div class="tab">
-              <input type="radio" id="rd6" name="rd">
-              <label class="tab-label" for="rd6">5. Will my personal information be sent outside the United Kingdom?</label>
-              <div class="tab-content">
-                  <p class="privacyText">Some of the organisations we share your personal information with (listed
-                      in section 4 of
-                      this notice) may be based or may make use of data storage facilities that are located
-                      outside the United Kingdom. Their handling and use of your personal information will involve
-                      us and/or them transferring it outside the United Kingdom. When we and / or they do this, we
-                      will ensure similar protection is afforded to it by:</p>
-  
-                  <ul>
-                      <li>
-                          <p class="privacyText">only transferring it or permitting its transfer to
-                              countries that have been deemed to provide an adequate level of protection for
-                              personal information under data protection laws;</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">using specific contracts with such organisations,
-                              which are approved for use in the United Kingdom, and which give your personal
-                              information the same protection it has in the United Kingdom after it is
-                              transferred.</p>
-                      </li>
-                  </ul>
-                  <p class="privacyText">Please contact our
-                      DPO for further information on the specific mechanism used by us when
-                      transferring your personal information outside the United Kingdom.</p>
-  
-                  <p class=MsoNoSpacing style='text-align:justify'><span style='font-size:12.0pt;
-  font-family:"Arial",sans-serif;mso-bidi-font-weight:bold'>
-                          <o:p>&nbsp;</o:p>
-                      </span></p>
-  
-  
-              </div>
-            </div>
-  
-            <div class="tab">
-              <input type="radio" id="rd7" name="rd">
-              <label class="tab-label" for="rd7">6. How long do we keep your personal information?</label>
-              <div class="tab-content">
-                  <p class="privacyText">using specific contracts with such organisations,
-                      which are approved for use in the United Kingdom, and which give your personal
-                      information the same protection it has in the United Kingdom after it is
-                      transferred. Your ALISS account and any of your personal information contained
-                      in an ALISS entry will remain active until you request their deletion.
-                      You can request deletion at any time.Please note that once the
-                      request for deletion of your ALISS account and/or any of your personal
-                      information contained in an ALISS entry is received, all information is deleted
-                      at the next available working day, and no back-up copy is made.
-                      If you wish your entry on ALISS to be deleted, please note that this does not #
-                      prevent an entry for your organisation being created again in the future.</p>
-  
-              </div>
-            </div>
-  
-            <div class="tab">
-              <input type="radio" id="rd8" name="rd">
-              <label class="tab-label" for="rd8">7. What rights do you have in relation to your personal information that we hold and
-                  use?</label>
-              <div class="tab-content">
-                  <p class="privacyText">It is important that the personal information
-                      that we hold about you is accurate and current. Please keep us informed of any changes.
-                      Under certain circumstances, the law gives you the right to request:</p>
-  
-  
-                  <ul>
-                      <li>
-                          <p class="privacyText">A copy of your personal information and to check we are
-                              holding and using it in
-                              accordance with legal requirements.</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">Correction of any incomplete or inaccurate personal
-                              information we hold about you.</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">Deletion of your personal information where there is no good
-                              reason for us continuing to
-                              hold and use it. You also have the right to ask us to do this where you object
-                              to us holding and using your personal
-                              information (details below).</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">Temporarily suspend the use of your personal information, for
-                              example, if you want us to check
-                              it is correct or the reason for processing it or to stop us from using your
-                              personal information altogether if we have breached data protection laws.</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">The transfer of your personal information to another
-                              organisation.</p>
-                      </li>
-                      <li>
-                          <p class="privacyText">That you are not subject to a decision solely
-                              taken by computer which produces legal consequences for or otherwise
-                              significantly affects you. </p>
-                      </li>
-                      <li>
-                          <p class="privacyText">You can also object to us holding and using
-                              your personal information where our legal reason is a legitimate interest
-                              (either our legitimate interests or those of a third party). </p>
-                      </li>
-  
-                  </ul>
-                  <p class=MsoNoSpacing style='text-align:justify'><span style='font-size:12.0pt;
-  font-family:"Arial",sans-serif'>Please contact our DPO if you wish to make any
-                          of the above requests.<span style='mso-spacerun:yes'>  </span>When you make a
-                          request, we may ask you for specific information to help us confirm your
-                          identity for security reasons.<span style='mso-spacerun:yes'>  </span>You will
-                          not need to pay a fee when you make any of the above requests, but we may
-                          charge a reasonable fee or refuse to comply if your request for access is
-                          clearly unfounded or excessive.<o:p></o:p></span></p>
-  
-                  <p class=MsoNoSpacing style='text-align:justify'><span style='font-size:12.0pt;
-  font-family:"Arial",sans-serif'>
-                          <o:p>&nbsp;</o:p>
-                      </span></p>
-              </div>
-            </div>
-  
-            <div class="tab">
-              <input type="radio" id="rd9" name="rd">
-              <label class="tab-label" for="rd9">8. Feedback and complaints</label>
-              <div class="tab-content">
-                  <h4 class="privacySubTitle"></h2>
-  
-                      <p class="privacyText">We welcome your feedback on how we hold and use
-                          your personal information, and this can be sent to our DPO.</p>
-  
-                      <p class="privacyText">You have the right to make a complaint to the
-                          Information Commissioner, the UK regulator for data protection, about how we
-                          hold and use your personal information. The ICO’s contact details are as follows:
-                      </p>
-  
-  
-                      <p class="privacyTextContact">Telephone:<a href="tel:0303-123-1113"> 0303 123 1113</a>
-                          <br><br>
-                          Website:<a href="https://ico.org.uk/concerns/"> https://ico.org.uk/concerns/</a>
-                      </p>
-  
-                      <p class="privacyText">If you would like to receive this notice in
-                          alternative format, for example, audio, large print or braille, please contact us.
-                      </p>
-  
-              </div>
-            </div>
-            <div class="tab">
-              <input type="radio" id="rd10" name="rd">
-              <label class="tab-label" for="rd10">9. Updates to this notice</label>
-              <div class="tab-content">
-          
-  
-                      <p class="privacyText">We may update this notice at any time, and we
-                          will provide you with an updated version when required to do so by law.</p>
-              
-  
-              </div>
-            </div>
-  
-          <div class="tab">
-            <input type="radio" id="rd11" name="rd">
-            <label for="rd11" class="tab-close">Close others &times;</label>
-          </div>
+                <div class="copy-container">
+                  
+                    <h3 class="privacyTitle">How we use your personal Information </h2>
+                    <div style="overflow-y: scroll; height:500px; width: 650px;">
+                    <div>
+                        <p class="privacyText">We, the Health and Social Care Alliance Scotland (the ALLIANCE), are the
+                            controller of the personal information that we hold about you as part of “A Local
+                            Information System for Scotland” (ALISS). This means we are legally responsible for how we
+                            hold and use personal information about you. It also means we are required to comply with
+                            data protection laws when holding and using your personal information.<br> This includes
+                            providing you with the details contained within this notice of how we hold and use your
+                            personal information, who we may share it with and your rights in relation to your personal
+                            information. We have appointed a Data Protection Officer (DPO), who ensures we comply with
+                            data protection law. If you have any questions about this notice or how we hold or use your
+                            personal information, please contact the DPO by e-mail at <a
+                                href="mailto:dpo@alliance-scotland.org.uk">dpo@alliance-scotland.org.uk</a> or writing
+                            to Data Protection, <a
+                                href="https://www.google.co.uk/maps/place/Health+and+Social+Care+Alliance+Scotland/@55.8651975,-4.271921,17z/data=!3m1!4b1!4m5!3m4!1s0x48884428fa640e85:0x86ed942ff78b766e!8m2!3d55.8652501!4d-4.2697116">The
+                                Health and Social Care Alliance Scotland</a>, Venlaw Building, 349 Bath Street, Glasgow,
+                            G2 4AA</p>
+                    </div>
 
-          <p class="privacyTextFoot">Last updated: September
-            2021</p>
-            <br>
-        
-             <a title="Click here for download the privacy policy" href="https://cloud-cube-eu.s3.amazonaws.com/qpeu91qp8lm8/public/privacyPolicy" class="button primary" download>Privacy Policy(PDF)</a>
-       
-      </div>
-    </div>
-  </div>
+                    <div class="notice">
+                        <p>Your attention is particularly drawn to section 3 of this notice, which explains the position
+                            regarding any personal information and special category personal information being held and
+                            used by us as described in section 2 of this notice.</p>
+                    </div>
+
+                    <h4 class="privacySubTitle">1. What personal information do we hold and use about you?</h4>
+
+
+                    <p class="privacyText">The personal information we hold and use about
+                        you depends on whether you are a basic user, a claimer, an <span class=GramE>editor
+                            or organisation contact.We will handle and use your name and your contact information in all
+                            of
+                            these cases, and the following additional information in specific cases:</p>
+
+                    <ul>
+                        <li><span style='font-size:12.0pt;font-family:"Arial",sans-serif'>Basic:
+                                any personal information that you provide when you register for an ALISS
+                                account, for example, your telephone number. Any personal information you may
+                                add about an organisation and service when adding an organisation and service
+                                to ALISS.<span style='mso-spacerun:yes'>  </span>This could include an e-mail
+                                address related to that organisation and service.<o:p></o:p></span></p>
+                        </li>
+                        <li><span style='font-size:12.0pt;font-family:"Arial",sans-serif'>Claimers:
+                                any personal information that is required and / or you choose to provide to
+                                allow us to verify your claim to an organisation and service.<span
+                                    style='mso-spacerun:yes'>  </span>This could include an e-mail address related
+                                to that organisation and service.<o:p></o:p></span></p>
+                        </li>
+                        <li>
+                            <span style='font-size:12.0pt;font-family:"Arial",sans-serif'>Editors:
+                                any personal information you provide when you register for an editor account,
+                                including any personal information you may add about an organisation and
+                                service to ALISS.<span style='mso-spacerun:yes'>  </span>This could include an
+                                e-mail address related to that organisation and service.<o:p></o:p></span></p>
+                        </li>
+                        <li>
+                            <span class="privacyText">Organisation
+                                contacts: any personal information included in your organisation’s ALISS entry.<span
+                                    style='mso-spacerun:yes'>  </span>This may include personal information
+                                contained on your website about identifiable individuals within your
+                                organisation.<o:p></o:p></span></p>
+                        </li>
+                    </ul>
+
+
+                    <p class=MsoNoSpacing style='text-align:justify'><span style='font-size:12.0pt;
+font-family:"Arial",sans-serif'>Any personal information included within your
+                            ALISS entry is publicly available.<o:p></o:p></span></p>
+
+
+                    <h4 class="privacySubTitle">2. Why do we hold and use this personal information about you?</h4>
+
+
+
+                    <p class="privacyText">We use such personal information to:</p>
+
+
+                    <ul>
+                        <li>
+                            <p class="privacyText">provide,manage and deliver
+                            <p class=GramE>ALISS;</p>
+                        </li>
+                        <li>
+                            <p class="privacyText">maintain the integrity and stability of <pan class=GramE>ALISS;</p>
+                        </li>
+                        <li>
+                            <p class="privacyText">verify your status to allow you to claim an ALISS </p>
+                        </li>
+                        <li>
+                            <p class="privacyText">grant you editor access to allow you to edit ALISS</p>
+                        </li>
+                        <li>
+                            <p class="privacyText">allow you to exercise editorial control over your organisation’s
+                                ALISS entry and the
+                                services and locations linked to your organisation.We may do this in response to your
+                                request or
+                                by contacting</p>
+                        </li>
+                        <li>
+                            <p class="privacyText">help us to better understand health and social care needs in</p>
+                        </li>
+                        <li>
+                            <p class="privacyText">administer your account;</p>
+                        </li>
+                        <li>
+                            <p class="privacyText">improve the services we provide to you and keep you informed of such
+                                improvements;</p>
+                        </li>
+                        <li>
+                            <p class="privacyText">manage feedback you may choose to share with us, including comments
+                                and complaints;</p>
+                        </li>
+                        <li>
+                            <p class="privacyText">provide you with information about the work of the ALLIANCE, the
+                                benefits of membership
+                                and details of any events you may wish to attend or be involved in.</p>
+                        </li>
+
+                    </ul>
+
+
+                    <h4 class="privacySubTitle">3. What is our legal basis for holding and using your personal information?</h4>
+
+
+                    <p class="privacyText">Data protection laws require us to have a legal reason for holding and using
+                        your personal information.</p>
+
+
+
+                    <p class="privacyText">Our main legal reason is that we consider we
+                        have a legitimate interest in the operation and management of ALISS as an
+                        invaluable information and signposting platform in the health and social care
+                        context in Scotland. In determining our legitimate interests, we have considered your legitimate
+                        interests in the
+                        protection of your personal information, and have
+                        balanced these against our own legitimate interests in handling and using your
+                        personal information for the purposes described in section 2 of this notice.</p>
+
+
+                    <p class="notice">In very exceptional
+                        circumstances, we may rely on the fact that your special category personal
+                        information has been ‘manifestly made public’ by you as the legal reason.In the case that you
+                        provide us with your
+                        personal information and special category personal information (including information
+                        about your physical and / or mental health), you should be aware that it will
+                        be used by us as described in section 2 of this notice.<br><br>You have the right to remove your
+                        personal information and special category personal
+                        information, or request that we remove it by contacting us. Once you have done so, we will no
+                        longer use
+                        your personal information and special category personal information for the purpose(s) set out
+                        in section 2 of this notice, which you originally agreed to,
+                        unless we have another legal reason for doing so.</p>
+
+
+
+                    <p class="privacyText">If you include within an ALISS entry the
+                        personal information of a third party that is not publicly available, such as
+                        contact information that has been provided to you during your engagement with
+                        an organisation, you must obtain the consent of that third party to their
+                        personal information being published within the entry and provide them with, or
+                        direct them to, this notice. We may ask you to provide us with proof of third party consent at
+                        any time.</p>
+
+
+                    <h4 class="privacySubTitle">4. Who do we share your personal information with?</h2>
+
+                        <ul>
+                            <li>
+                                <p class="privacyText">We may share your personal information with other organisations
+                                    for the purposes described in section 2 of this notice, including
+                                    the following:</p>
+                            </li>
+                            <li>
+                                <p class="privacyText">our IT service providers, who help us maintain, manage and
+                                    operate ALISS;</p>
+                            </li>
+                            <li>
+                                <p class="privacyText"> organisations who make use of the ALISS public API. This
+                                    includes NHS 24, who display some or all of the information contained on ALISS,
+                                    including personal information, within the
+                                    NHS Inform directory; and </p>
+                            </li>
+                            <li>
+                                <p class="privacyText">any other organisation that you authorise us to disclose your
+                                    personal information
+                                    to from time-to-time.</p>
+                            </li>
+                        </ul>
+
+
+                        <h4 class="privacySubTitle">5. Will my personal information be sent outside the United Kingdom?</h4>
+
+
+                        <p class="privacyText">Some of the organisations we share your personal information with (listed
+                            in section 4 of
+                            this notice) may be based or may make use of data storage facilities that are located
+                            outside the United Kingdom. Their handling and use of your personal information will involve
+                            us and/or them transferring it outside the United Kingdom. When we and / or they do this, we
+                            will ensure similar protection is afforded to it by:</p>
+
+                        <ul>
+                            <li>
+                                <p class="privacyText">only transferring it or permitting its transfer to
+                                    countries that have been deemed to provide an adequate level of protection for
+                                    personal information under data protection laws;</p>
+                            </li>
+                            <li>
+                                <p class="privacyText">using specific contracts with such organisations,
+                                    which are approved for use in the United Kingdom, and which give your personal
+                                    information the same protection it has in the United Kingdom after it is
+                                    transferred.</p>
+                            </li>
+                        </ul>
+
+
+                        <p class="privacyText">Please contact our
+                            DPO for further information on the specific mechanism used by us when
+                            transferring your personal information outside the United Kingdom.</p>
+
+                        <p class=MsoNoSpacing style='text-align:justify'><span style='font-size:12.0pt;
+font-family:"Arial",sans-serif;mso-bidi-font-weight:bold'>
+                                <o:p>&nbsp;</o:p>
+                            </span></p>
+
+                        <h4 class="privacySubTitle">6. How long do we keep your personal information?</h2>
+
+                            <p class="privacyText">using specific contracts with such organisations,
+                                which are approved for use in the United Kingdom, and which give your personal
+                                information the same protection it has in the United Kingdom after it is
+                                transferred. Your ALISS account and any of your personal information contained
+                                in an ALISS entry will remain active until you request their deletion.
+                                You can request deletion at any time.Please note that once the
+                                request for deletion of your ALISS account and/or any of your personal
+                                information contained in an ALISS entry is received, all information is deleted
+                                at the next available working day, and no back-up copy is made.
+                                If you wish your entry on ALISS to be deleted, please note that this does not #
+                                prevent an entry for your organisation being created again in the future.</p>
+
+                            <h4 class="privacySubTitle">7. What rights do you have in relation to your personal information that we hold and
+                                use?</h4>
+
+
+                            <p class="privacyText">It is important that the personal information
+                                that we hold about you is accurate and current. Please keep us informed of any changes.
+                                Under certain circumstances, the law gives you the right to request:</p>
+
+
+                            <ul>
+                                <li>
+                                    <p class="privacyText">A copy of your personal information and to check we are
+                                        holding and using it in
+                                        accordance with legal requirements.</p>
+                                </li>
+                                <li>
+                                    <p class="privacyText">Correction of any incomplete or inaccurate personal
+                                        information we hold about you.</p>
+                                </li>
+                                <li>
+                                    <p class="privacyText">Deletion of your personal information where there is no good
+                                        reason for us continuing to
+                                        hold and use it. You also have the right to ask us to do this where you object
+                                        to us holding and using your personal
+                                        information (details below).</p>
+                                </li>
+                                <li>
+                                    <p class="privacyText">Temporarily suspend the use of your personal information, for
+                                        example, if you want us to check
+                                        it is correct or the reason for processing it or to stop us from using your
+                                        personal information altogether if we have breached data protection laws.</p>
+                                </li>
+                                <li>
+                                    <p class="privacyText">The transfer of your personal information to another
+                                        organisation.</p>
+                                </li>
+                                <li>
+                                    <p class="privacyText">That you are not subject to a decision solely
+                                        taken by computer which produces legal consequences for or otherwise
+                                        significantly affects you. </p>
+                                </li>
+                                <li>
+                                    <p class="privacyText">You can also object to us holding and using
+                                        your personal information where our legal reason is a legitimate interest
+                                        (either our legitimate interests or those of a third party). </p>
+                                </li>
+
+                            </ul>
+                            <p class=MsoNoSpacing style='text-align:justify'><span style='font-size:12.0pt;
+font-family:"Arial",sans-serif'>Please contact our DPO if you wish to make any
+                                    of the above requests.<span style='mso-spacerun:yes'>  </span>When you make a
+                                    request, we may ask you for specific information to help us confirm your
+                                    identity for security reasons.<span style='mso-spacerun:yes'>  </span>You will
+                                    not need to pay a fee when you make any of the above requests, but we may
+                                    charge a reasonable fee or refuse to comply if your request for access is
+                                    clearly unfounded or excessive.<o:p></o:p></span></p>
+
+                            <p class=MsoNoSpacing style='text-align:justify'><span style='font-size:12.0pt;
+font-family:"Arial",sans-serif'>
+                                    <o:p>&nbsp;</o:p>
+                                </span></p>
+
+                            <h4 class="privacySubTitle">8. Feedback and complaints</h2>
+
+                                <p class="privacyText">We welcome your feedback on how we hold and use
+                                    your personal information, and this can be sent to our DPO.</p>
+
+                                <p class="privacyText">You have the right to make a complaint to the
+                                    Information Commissioner, the UK regulator for data protection, about how we
+                                    hold and use your personal information. The ICO’s contact details are as follows:
+                                </p>
+
+
+                                <p class="privacyTextContact">Telephone:<a href="tel:0303-123-1113"> 0303 123 1113</a>
+                                    <br><br>
+                                    Website:<a href="https://ico.org.uk/concerns/"> https://ico.org.uk/concerns/</a>
+                                </p>
+
+                                <p class="privacyText">If you would like to receive this notice in
+                                    alternative format, for example, audio, large print or braille, please contact us.
+                                </p>
+
+
+
+                                <h4 class="privacySubTitle">9. Updates to this notice</h2>
+
+                                    <p class="privacyText">We may update this notice at any time, and we
+                                        will provide you with an updated version when required to do so by law.></p>
+
+                                    <br><br>
+                                    </div>
+                                    <br>
+                                    <p class="privacyTextFoot">Last updated: September
+                                        2021</p>
+
+
+                                        <a title="Click here for download the privacy policy" href="https://cloud-cube-eu.s3.amazonaws.com/qpeu91qp8lm8/public/privacyPolicy" class="button primary" download>Privacy Policy(PDF)</a>
+
+                </div>
             </div>
         </div>
     </article>
