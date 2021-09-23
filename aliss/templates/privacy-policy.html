@@ -41,10 +41,10 @@
                             used by us as described in section 2 of this notice.</p>
                       
                           <div class="tabs">
-                            <div class="tab">
+                            <div class="tabPolicy">
                               <input type="checkbox" id="chck1">
-                              <label class="tab-label" for="chck1">1. What personal information do we hold and use about you?</label>
-                              <div class="tab-content">
+                              <label class="tabPolicy-label" for="chck1">1. What personal information do we hold and use about you?</label>
+                              <div class="tabPolicy-content">
                                 The personal information we hold and use about
                                   you depends on whether you are a basic user, a claimer, an <span class=GramE>editor
                                     or organisation contact.We will handle and use your name and your contact information in all
@@ -84,10 +84,10 @@
                       
                               </div>
                             </div>
-                            <div class="tab">
+                            <div class="tabPolicy">
                               <input type="checkbox" id="chck2">
-                              <label class="tab-label" for="chck2">2. Why do we hold and use this personal information about you?</label>
-                              <div class="tab-content">
+                              <label class="tabPolicy-label" for="chck2">2. Why do we hold and use this personal information about you?</label>
+                              <div class="tabPolicy-content">
                            We use such personal information to:
                       
                       
@@ -134,10 +134,10 @@
                       
                               </div>
                             </div>
-                            <div class="tab">
+                            <div class="tabPolicy">
                               <input type="checkbox" id="chck3">
-                              <label class="tab-label" for="chck3">3. What is our legal basis for holding and using your personal information?</label>
-                              <div class="tab-content">
+                              <label class="tabPolicy-label" for="chck3">3. What is our legal basis for holding and using your personal information?</label>
+                              <div class="tabPolicy-content">
                                 Data protection laws require us to have a legal reason for holding and using
                                               your personal information.
                       
@@ -174,10 +174,10 @@
                                               any time.</p>
                               </div>
                             </div>
-                            <div class="tab">
+                            <div class="tabPolicy">
                               <input type="checkbox" id="chck4">
-                              <label class="tab-label" for="chck4">4. Who do we share your personal information with?</label>
-                              <div class="tab-content">
+                              <label class="tabPolicy-label" for="chck4">4. Who do we share your personal information with?</label>
+                              <div class="tabPolicy-content">
                                   We may share your personal information with other organisations
                                                   for the purposes described in section 2 of this notice, including
                                                   the following:
@@ -203,10 +203,10 @@
                       
                               </div>
                             </div>
-                            <div class="tab">
+                            <div class="tabPolicy">
                               <input type="checkbox" id="chck5">
-                              <label class="tab-label" for="chck5">5. Will my personal information be sent outside the United Kingdom?</label>
-                              <div class="tab-content">
+                              <label class="tabPolicy-label" for="chck5">5. Will my personal information be sent outside the United Kingdom?</label>
+                              <div class="tabPolicy-content">
                              Some of the organisations we share your personal information with (listed
                                                   in section 4 of
                                                   this notice) may be based or may make use of data storage facilities that are located
@@ -235,10 +235,10 @@
                       
                               </div>
                             </div>
-                            <div class="tab">
+                            <div class="tabPolicy">
                               <input type="checkbox" id="chck6">
-                              <label class="tab-label" for="chck6">6. How long do we keep your personal information?</label>
-                              <div class="tab-content">
+                              <label class="tabPolicy-label" for="chck6">6. How long do we keep your personal information?</label>
+                              <div class="tabPolicy-content">
                            using specific contracts with such organisations,
                                                       which are approved for use in the United Kingdom, and which give your personal
                                                       information the same protection it has in the United Kingdom after it is
@@ -252,11 +252,11 @@
                                                       prevent an entry for your organisation being created again in the future.
                               </div>
                             </div>
-                            <div class="tab">
+                            <div class="tabPolicy">
                               <input type="checkbox" id="chck7">
-                              <label class="tab-label" for="chck7">7. What rights do you have in relation to your personal information that we hold and
+                              <label class="tabPolicy-label" for="chck7">7. What rights do you have in relation to your personal information that we hold and
                                                       use?</label>
-                              <div class="tab-content">
+                              <div class="tabPolicy-content">
                                 It is important that the personal information
                                                       that we hold about you is accurate and current. Please keep us informed of any changes.
                                                       Under certain circumstances, the law gives you the right to request:
@@ -310,10 +310,10 @@
                                                           clearly unfounded or excessive.</p>
                               </div>
                             </div>
-                            <div class="tab">
+                            <div class="tabPolicy">
                               <input type="checkbox" id="chck8">
-                              <label class="tab-label" for="chck8">8. Feedback and complaints</label>
-                              <div class="tab-content">
+                              <label class="tabPolicy-label" for="chck8">8. Feedback and complaints</label>
+                              <div class="tabPolicy-content">
                             We welcome your feedback on how we hold and use
                                                           your personal information, and this can be sent to our DPO.
                       
@@ -336,10 +336,10 @@
                       
                               </div>
                             </div>
-                                <div class="tab">
+                                <div class="tabPolicy">
                               <input type="checkbox" id="chck9">
-                              <label class="tab-label" for="chck9">9. Updates to this notice</label>
-                              <div class="tab-content">
+                              <label class="tabPolicy-label" for="chck9">9. Updates to this notice</label>
+                              <div class="tabPolicy-content">
                              <p class="privacyText">We may update this notice at any time, and we
                                                               will provide you with an updated version when required to do so by law.</p>
                               </div>
@@ -401,12 +401,12 @@ input {
   box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.5);
 }
 
-.tab {
+.tabPolicy {
   width: 100%;
   color: white;
   overflow: hidden;
 }
-.tab-label {
+.tabPolicy-label {
   display: flex;
   justify-content: space-between;
   padding: 1em;
@@ -415,24 +415,24 @@ input {
   cursor: pointer;
   /* Icon */
 }
-.tab-label:hover {
+.tabPolicy-label:hover {
   background: #1a252f;
 }
-.tab-label::after {
+.tabPolicy-label::after {
   content: "❯";
   width: 1em;
   height: 1em;
   text-align: center;
   transition: all 0.35s;
 }
-.tab-content {
+.tabPolicy-content {
   max-height: 0;
   padding: 0 1em;
   color: #2c3e50;
   background: white;
   transition: all 0.35s;
 }
-.tab-close {
+.tabPolicy-close {
   display: flex;
   justify-content: flex-end;
   padding: 1em;
@@ -440,17 +440,17 @@ input {
   background: #2c3e50;
   cursor: pointer;
 }
-.tab-close:hover {
+.tabPolicy-close:hover {
   background: #1a252f;
 }
 
-input:checked + .tab-label {
+input:checked + .tabPolicy-label {
   background: #1a252f;
 }
-input:checked + .tab-label::after {
+input:checked + .tabPolicy-label::after {
   transform: rotate(90deg);
 }
-input:checked ~ .tab-content {
+input:checked ~ .tabPolicy-content {
   max-height: 100vh;
   padding: 1em;
 }
