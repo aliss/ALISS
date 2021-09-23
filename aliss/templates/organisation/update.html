@@ -17,9 +17,8 @@
           {% include 'organisation/forms/organisation_form.html' %}
 
         <br>
-        <div class="f-row">
-          {% include 'partials/forms/field.html' with field=form.description annotation="Please do not include any sensitive personal information (including information about your physical and/or mental health).  If you do include such personal information then it will be publicly accessible via ALISS.  Please note that entries on ALISS are not reviewed and any such personal information will remain on the entry, unless and until you remove it." %}
-        </div>
+        <i class="fa fa-info-circle" aria-hidden="true">"Please do not include any sensitive personal information (including information about your physical and/or mental health).  If you do include such personal information then it will be publicly accessible via ALISS.  Please note that entries on ALISS are not reviewed and any such personal information will remain on the entry, unless and until you remove it."
+        </i>
           <div class="submit">
             <input type="submit" class="secondary" value="Submit">
           </div>
@@ -28,4 +27,5 @@
     </div>
   </section>
 </main>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock %}
