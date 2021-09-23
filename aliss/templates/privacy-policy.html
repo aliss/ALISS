@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-<script src="{% static "aliss\static\css\privacy.css" %}"></script>
+
 {% block title %}Privacy Policy - ALISS{% endblock %}
 {% block meta_schema %}
 <meta property="og:title" content="Privacy Policy - ALISS" />
@@ -356,5 +356,142 @@
     </article>
 </main>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="aliss\static\css\privacy.css">
+<style>
+    @charset "UTF-8";
+h1 {
+  margin: 0;
+  line-height: 2;
+  text-align: center;
+}
+
+h2 {
+  margin: 0 0 0.5em;
+  font-weight: normal;
+}
+
+input.aliss-tabs__tab__toggle {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.aliss-accordion-row {
+  display: flex;
+}
+.aliss-accordion-row .aliss-accordion-col {
+  flex: 1;
+}
+.aliss-accordion-row .aliss-accordion-col:last-child {
+  margin-left: 1em;
+}
+
+/* Accordion styles */
+.aliss-tabs {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1e7abd;
+  box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.5);
+}
+
+.aliss-tabs__tab {
+  width: 100%;
+  color: white;
+  overflow: hidden;
+}
+.aliss-tabs__tab .aliss-tab-label {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  margin: 0 !important;
+  color: #fff;
+  background: #1e7abd;
+  font-weight: bold;
+  cursor: pointer;
+  /* Icon */
+}
+.aliss-tabs__tab .aliss-tab-label:hover {
+  background: #175e91;
+}
+.aliss-tabs__tab .aliss-tab-label::after {
+  content: "❯";
+  width: 1em;
+  height: 1em;
+  text-align: center;
+  transition: all 0.35s;
+}
+.aliss-tabs__tab .aliss-tab-content {
+  max-height: 0;
+  padding: 0 1em;
+  color: #1e7abd;
+  background: white;
+  transition: all 0.35s;
+}
+.aliss-tabs__tab-close {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1em;
+  font-size: 0.75em;
+  background: #1e7abd;
+  cursor: pointer;
+}
+.aliss-tabs__tab-close:hover {
+  background: #3095de;
+}
+
+input.aliss-tabs__tab__toggle:checked + .aliss-tab-label {
+  background: #144f7b;
+}
+input.aliss-tabs__tab__toggle:checked + .aliss-tab-label::after {
+  transform: rotate(90deg);
+}
+input.aliss-tabs__tab__toggle:checked ~ .aliss-tab-content {
+  max-height: 100vh;
+  padding: 1em;
+}
+
+.noticePrivacy {
+  border: 2px solid #212121;
+  padding: 10px;
+  color: red;
+  font-weight: bold;
+  font-family: sans-serif;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.privacyText {
+  text-align: justify;
+  text-justify: inter-word;
+  font-family: sans-serif;
+}
+
+.privacyTextFoot {
+  text-align: right !important;
+  text-justify: inter-word;
+  font-family: sans-serif;
+}
+
+.privacyTextContact {
+  text-align: justify;
+  text-justify: inter-word;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.privacyTitle {
+  text-align: center;
+  color: #6c1f71;
+  font-family: sans-serif;
+}
+
+.privacySubTitle {
+  text-decoration: underline;
+  color: #6c1f71;
+  font-family: sans-serif;
+}
+
+.spanPhone {
+  font-weight: bold;
+}
+</style>
 {% endblock %}
