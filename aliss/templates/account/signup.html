@@ -30,8 +30,8 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                <!-- action="{% url 'welcome_email'%} -->
-                <form method="post" name="registration" ">
+           
+                <form method="post" name="registration" action="{% url 'welcome_email'%} ">
                     {% csrf_token %}
 
                     </p>
