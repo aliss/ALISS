@@ -463,14 +463,8 @@ input.aliss-tabs__tab__toggle:checked + .aliss-tab-label::after {
   transform: rotate(90deg);
 }
 input.aliss-tabs__tab__toggle:checked ~ .aliss-tab-content {
-  max-height: 100vh;
+  max-height: 99999px;
   padding: 1em;
-}
-@media only screen and (max-width: 600px) {
-input.aliss-tabs__tab__toggle:checked ~ .aliss-tab-content {
- max-height: 99999px;
-  padding: 1em;
-}
 }
 
 .noticePrivacy {
