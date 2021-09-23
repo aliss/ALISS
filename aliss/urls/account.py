@@ -78,7 +78,7 @@ urlpatterns = [
         auth_views.signup_welcome,
         {
             'template_name': 'account/signup.html',
-            'html_email_template_name': 'account/emails/signup_welome_email.html'
+            'html_email_template_name': 'account/emails/welcome_email.html'
         },
         name='signup_welcome'
         ),
