@@ -75,7 +75,7 @@ urlpatterns = [
         ),
     
     url(r'^signup/welcome/$',
-        auth_views.AccountSignupView,
+        auth_views.Signup_Welcome,
         {
             'template_name': 'account/signup.html',
             'html_email_template_name': 'account/emails/signup_welcome.html'
