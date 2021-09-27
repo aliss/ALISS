@@ -11,12 +11,12 @@ from django.template.defaultfilters import date
 register = template.Library()
 
 
-@register.assignment_tag #Becomes simple_tag in django 2.0
+@register.simple_tag #Becomes simple_tag in django 2.0
 def can_edit(user, object):
     return object.is_edited_by(user)
 
 
-@register.assignment_tag
+@register.simple_tag
 def can_add_logo(user, object):
     if object.pk is None:
         return False# return user.is_staff or user.is_editor
@@ -24,7 +24,7 @@ def can_add_logo(user, object):
         return object.can_add_logo(user)
 
 
-@register.assignment_tag
+@register.simple_tag
 def get_service_at_location_slug(service, location):
     slug_service_at_location = str(service) + ':' + str(location)
     return slug_service_at_location
