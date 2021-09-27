@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
-from aliss.views import welcome
+
 
 from aliss.views import (
     login_view,
@@ -75,14 +75,14 @@ urlpatterns = [
         name='password_reset'
         ),
     
-    url(r'^signup/welcome/$',
-        welcome.SignupWelcomeView,
-        {
-            'template_name': 'account/signup.html',
-            'html_email_template_name': 'account/emails/signup_welcome.html'
-        },
-        name='signup_welcome'
-        ),
+    # url(r'^signup/welcome/$',
+    #     auth_views.SignupWelcomeView,
+    #     {
+    #         'template_name': 'account/signup.html',
+    #         'html_email_template_name': 'account/emails/signup_welcome.html'
+    #     },
+    #     name='SignupWelcomeView'
+    #     ),
   
     url(r'^password/reset/done/$',
         auth_views.password_reset_done,
