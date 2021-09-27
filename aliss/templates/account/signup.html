@@ -10,7 +10,7 @@
             <div class="columns content">
                 <div class="copy-container">
                     <h1>Sign up</h1>
-                    <p>By joining our community you can:</p>
+                    <p>By joining our community you can :</p>
                     <ul>
                         <li>Add your organisation, and its services to ALISS</li>
                         <li>If your organisation is already on ALISS, you can submit a claim to gain editorial control over its page</li>
@@ -30,7 +30,8 @@
     <section class="large-form">
         <div class="row">
             <div class="columns">
-                <form method="post" name="registration">
+                
+                <form method="post" name="registration" action="{% url 'register'%}">
                     {% csrf_token %}
 
                     </p>
@@ -226,3 +227,13 @@
     }
 </script>
 {% endblock%}
+
+
+
+
+
+
+
+
+
+

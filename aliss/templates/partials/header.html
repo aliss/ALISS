@@ -14,45 +14,20 @@
             </a>
             <div class="top-hat">
                 {% if request.user.is_authenticated %}
-                    <div class="account-info">
-                        <div class="account hide-notifications">
+
+                <div class="account-info">
+                    <ul>
+                        <li>
                             <a title="Click here for this users details." href="{% url 'account_saved_services' %}" class="name">{% if request.user.name %}{{ request.user.name }}{% else %}{{ request.user.email }}{% endif %}</a>
-                            {% comment %}
-                            <div class="notifications-holder">
-                                <a id="notifications_toggle" class="notifications-count items">1</a>
-                                <div class="notifications" id="notifications">
-                                    <div class="holder">
-                                        <ul>
-                                            <li>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, veniam minus corporis culpa. Alias porro molestias tenetur nobis ducimus, deleniti. <a href="#">Update your preferences</a>.</p>
-                                                <div class="details">
-                                                    <ul>
-                                                        <li>1 min ago</li>
-                                                        <li><a title="Dismiss this notification." href="#" class="delete">Dismiss</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <p>Lorem ipsum dolor sit amet. <a href="#">Read More</a>.</p>
-                                                <div class="details">
-                                                    <ul>
-                                                        <li>1 min ago</li>
-                                                        <li><a title="Dismiss this notification." href="#" class="delete">Dismiss</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endcomment %}
-                        </div>
-                        <ul>
-                            <li>
-                                <a title="Click here to logout." href="{% url 'logout' %}">Logout</a>
-                            </li>
-                        </ul>
-                    </div>
+
+                        </li>
+                        <li>
+                            <a title="Click here to logout." href="{% url 'logout' %}">Logout</a>
+
+                        </li>
+                    </ul>
+                </div>
+               
                 {% else %}
                     <div class="account-info">
                         <ul>
@@ -66,7 +41,7 @@
                     </div>
                 {% endif %}
                 <div class="tab-button">
-                    <a title="Click here to give feedback (This will open in a new window)." href="https://docs.google.com/forms/d/e/1FAIpQLSeVnsEquAtwdI_9KEayUt5R7khbNPyquZ6UAy82MwInZ2XSyQ/viewform?vc=0&c=0&w=1" target="_blank" class="button secondary">Give feedback</a>
+                    <a title="Contact Us" href="mailto:hello@aliss.org" target="_blank" class="button secondary">Contact Us</a>
                 </div>
             </div>
             <div class="navigation">
@@ -88,9 +63,9 @@
                                 <li{% if request.resolver_match.url_name == 'about' %} class="active"{% endif %}>
                                     <a title="Click here to navigate to the about us page." href="{% url 'about' %}">About</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a title="Visit Medium.com for the latest news and updates on ALISS. (This page will open in a new window)" href="https://medium.com/@ALISSProgramme" target="_blank">News</a>
-                                </li>
+                                </li> -->
                                 <li{% if request.resolver_match.url_name == 'organisation_create' or request.resolver_match.url_name == 'organisation_search' %} class="active"{% endif %}>
                                     <a title="Click here to add an organisation." href="{% url 'potential_create' %}">Add an organisation</a>
                                 </li>
