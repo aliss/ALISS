@@ -8,53 +8,37 @@
     <table cellpadding="0" cellspacing="0" border="0" align="center" id="mainTable" style="background: #ffffff; width: 700px;">
         <tr style="background: #1E7ABD; color: #ffffff" class="brand-bg head">
             <td valign="top" align="left" style="background: #1E7ABD; color: #ffffff; padding: 25px 35px;" class="brand-bg d-pad">
-                <img src="{{ protocol }}://{{ domain }}{% static 'img/email_logo.png' %}" alt="ALISS" />
+                <img src="https://www.aliss.org/static/img/email_logo.png" alt="ALISS" />
             </td>
             <td valign="bottom" align="right" style="background: #1E7ABD; color: #ffffff; padding: 25px 35px; padding-left: 0 !important" class="brand-bg d-pad">
                 <p style="margin-top: 0; margin-bottom: 5px;" class="date">&nbsp;</p>
-                <h1 class="email-heading" style="color: #ffffff; margin: 0; font-size: 30px; line-height: 34px; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;">Reset your password</h1>
+                <h1 class="email-heading" style="color: #ffffff; margin: 0; font-size: 30px; line-height: 34px; font-family: 'Sofia Pro Soft', Helvetica, Arial, sans-serif !important;">Welcome to ALISS</h1>
             </td>
         </tr>
         <tr><td height="30"></td></tr>
         <tr>
             <td valign="top" align="left" style="background: #ffffff; padding: 0 35px 0 35px;" height="100" colspan="2" class="d-pad-alt">
-                <p style="font-size: 16px; line-height: 22px; color: #4C5C68 !important;">Dear [name]
-
-
-
-
-
-
-                    Thank you for registering as a user on ALISS (A Local Information System for Scotland).  Our vision is that the people of Scotland should be able to access the information they need to help them live well. 
-                    
-                    
-                    
+                <p style="font-size: 16px; line-height: 22px; color: #4C5C68 !important;">Dear {{ name }}<br /><br />
+                    Thank you for registering as a user on ALISS (A Local Information System for Scotland).  Our vision is that the people of Scotland should be able to access the information they need to help them live well. <br /><br />
                     Now your account is active you can add your organisation, service, group, activity and resources. You can save ‘services’ or the results of a search and share them with others. You can also claim your listing, if you haven’t already done so, to have full control of the information on the page.
-                    
-                    
-                    
-                    
+                    <br /><br />
+                    You can log in to your account using the following link:<br />
+                    <a href="https://www.aliss.org/account/login/" target="_blank">https://www.aliss.org/account/login/</a>
+                    <br /><br />
                     Please remember to regularly review any information you add to ALISS, as it is important that people have reliable up to date information they can trust.
-                    
-                     
-                    
+                    <br /><br />
                     Thank you for setting up your ALISS account and we hope you find the platform easy to navigate.
-                    
-                     
-                    
-                    If you have any queries about ALISS, or need some assistance please contact us at hello@aliss.org, we are happy to help.
-                    
-                     
-                    
-                    For more information about we handle and use your personal information, please click here https://www.aliss.org/privacy-policy/ to view our privacy notice.
-                    
-                     
-                    
+                    <br /><br />
+                    If you have any queries about ALISS, or need some assistance please contact us at <a href="mailto:hello@aliss.org">hello@aliss.org</a>, we are happy to help.<br />
+                    <br />
+                    For more information about we handle and use your personal information, please click here <a href="https://www.aliss.org/privacy-policy/" target="_blank">https://www.aliss.org/privacy-policy/</a> to view our privacy notice.
+                    <br /><br />
                     Best wishes
-                    
-                     
-                    
-                    The ALISS team</td>
+                    <br /><br />
+                    The ALISS team
+                    <br /><br />
+                </p>
+            </td>
         </tr>
    
         <tr>
@@ -62,7 +46,7 @@
         </tr>
         <tr style="background: #4C5C68; color: #ffffff" class="brand-bg head">
             <td valign="center" align="center" style="background: #4C5C68; color: #ffffff; padding: 25px 35px; padding-bottom: 30px !important;" colspan="2" class="brand-bg d-pad">
-                <p style="font-size: 16px; line-height: 22px; margin: 0px !important">You're receiving this email because you requested a password reset for your user account on ALISS.</p>
+                <p style="font-size: 16px; line-height: 22px; margin: 0px !important"></p>
             </td>
         </tr>
     </table>
