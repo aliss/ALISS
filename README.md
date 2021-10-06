@@ -1,6 +1,6 @@
 # ALISS [![Build Status](https://travis-ci.org/aliss/ALISS.svg?branch=master)](https://travis-ci.org/aliss/ALISS)
 
-> ALISS - A Local Information System for Scotland Connecting you to your Community
+> ALISS - A Local Information System for Scotland and Connecting you to your Community
 
 ## JS Plugin
 
