@@ -41,7 +41,7 @@
                     </div>
                 {% endif %}
                 <div class="tab-button">
-                    <a title="Contact Us" href="mailto:hello@aliss.org" target="_blank" class="button secondary">Contact Us</a>
+                    <a title="hello@aliss.org" href="mailto:hello@aliss.org" target="_blank" class="button secondary">Contact Us</a>
                 </div>
             </div>
             <div class="navigation">
@@ -84,26 +84,46 @@
   
 </header>
 
-
 <script>
+    $(document).ready(function() {
+	
+	// Add class to mailto link
+	// Needed to separate the disabling of the default action AND copy email to clipboard
+	$('a[href^=mailto]').addClass('mailto-link');
 
-(function($) {
-  $('a[href^=mailto]').each(function() {
-    var href = $(this).attr('href');
-    $(this).click(function() {
-      var t;
-      var self = $(this);
+	var mailto = $('.mailto-link');
+	var messageCopy = 'Click to copy email address';
+	var messageSuccess = 'Email address copied to clipboard';
+	
+	mailto.append('<span class="mailto-message"></span>');
+	$('.mailto-message').append(messageCopy);
+	
+	// Disable opening your email client. yuk.
+	$('a[href^=mailto]').click(function() {
+		return false; 
+	})
+	
+	// On click, get href and remove 'mailto:' from value
+	// Store email address in a variable.
+	mailto.click(function() {
+		var href = $(this).attr('href');
+		var email = href.replace('mailto:', '');
+		copyToClipboard(email);
+		$('.mailto-message').empty().append(messageSuccess);
+		setTimeout(function() {
+			$('.mailto-message').empty().append(messageCopy);}, 2000); 
+	});
+	
+});
 
-      $(window).blur(function() {
-        // The browser apparently responded, so stop the timeout.
-        clearTimeout(t);
-      });
-
-      t = setTimeout(function() {
-        // The browser did not respond after 500ms, so open an alternative URL.
-        document.location.href = '...';
-      }, 500);
-    });
-  });
-})(jQuery);
+// Grabbed this from Stack Overflow.
+// Copies the email variable to clipboard
+function copyToClipboard(text) {
+    var dummy = document.createElement("input");
+    document.body.appendChild(dummy);
+    dummy.setAttribute('value', text);
+    dummy.select();
+    document.execCommand('copy');
+    document.body.removeChild(dummy);
+}
 </script>
