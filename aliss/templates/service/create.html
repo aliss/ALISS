@@ -20,7 +20,11 @@
         <form method="post" class="">
           {% csrf_token %}
           {% include 'service/forms/service_form.html' with organisation=organisation %}
+       
+
+<br>
           <div class="submit">
+
             <input type="submit" value="Add Service">
           </div>
           <br/>
@@ -38,4 +42,5 @@
     </div>
   </section>
 </main>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock %}

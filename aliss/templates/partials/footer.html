@@ -1,27 +1,66 @@
 {% load static %}
 <div class="footer-holder">
-    <footer class="footer" role="contentinfo">
-        <div class="row">
-            <div class="columns">
-                <ul class="footer-links">
-                    <li>
-                        <a title="Click here to navigate to the terms and conditions page." href="{% url 'terms_and_conditions' %}">Terms and Conditions</a>
-                    </li>
-                    <li>
-                        <a title="Click here to navigate to the privacy policy page." href="{% url 'privacy_policy' %}">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a title="Click here to navigate to the API documentation page." href="http://docs.aliss.org">API Documentation</a>
-                    </li>
-                    <li>
-                        <a title="Click here to navigate to the ALISS data standards page." href="{% static 'pdf/ALISS_data-standards.pdf' %}">ALISS Data Standards</a>
-                    </li>
-                </ul>
-                <div class="copy-container">
-                    <address>Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA</address>
-                    <p>© Copyright Health and Social Care Alliance Scotland (the ALLIANCE) 2018. All Rights Reserved.</p>
-                </div>
-            </div>
+  <footer class="footer" role="contentinfo">
+    <div class="row">
+      <div class="columns">
+        <ul class="footer-links">
+          <li>
+            <a title="Click here to navigate to the terms and conditions page." href="{% url 'terms_and_conditions' %}">Terms and Conditions</a>
+          </li>
+          <li>
+            <a title="Click here to navigate to the privacy policy page." href="{% url 'privacy_policy' %}">Privacy Policy</a>
+          </li>
+          <li>
+            <a title="Click here to navigate to the API documentation page." href="http://docs.aliss.org">API Documentation</a>
+          </li>
+          <li>
+            <a title="Click here to navigate to the ALISS data standards page." href="{% static 'pdf/ALISS_data-standards.pdf' %}">ALISS Data Standards</a>
+          </li>
+        </ul>
+
+      </div>
+
+      <br>
+      <div>
+      <div class="row">
+        <div class="column" style="text-align: left;">
+          <address>Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA</address>
+        
         </div>
-    </footer>
+        <div class="vl"></div>
+        <div class="column" style=" text-align: left; margin-top: -60px;">
+          <span  style="font-weight: bold; font-size:20px;" >Contact us:</span> <br>
+          <span  style="font-weight: bold; font-size:16px;" >Telephone </span> 0141 404 0239 <br>
+            <span  style="font-weight: bold; font-size:16px;" >Email: </span>hello@aliss.org
+        </div>
+   
+      </div>
+    
+    </div>
+    <br>
+    <p>© Copyright Health and Social Care Alliance Scotland (the ALLIANCE) 2018. All Rights Reserved.</p>
+    </div>
+ 
+  
+  </footer>
 </div>
+
+<style>
+  .column {
+    float: left;
+    width: 50%;
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .vl {
+    border-left: 3px solid white;
+    height: 60px;
+    margin-left: 530px;
+    margin-bottom: -10px;
+  }
+</style>

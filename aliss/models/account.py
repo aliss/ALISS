@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 from django.core import validators
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from .organisation import Organisation
 
@@ -125,7 +125,7 @@ class ALISSUser(AbstractBaseUser, PermissionsMixin):
 class RecommendedServiceList(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
-    user = models.ForeignKey('aliss.ALISSUser')
+    user = models.ForeignKey('aliss.ALISSUser',on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
 
     services = models.ManyToManyField('aliss.Service', blank=True)

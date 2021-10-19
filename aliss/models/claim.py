@@ -19,9 +19,9 @@ class Claim(models.Model):
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.ForeignKey('aliss.ALISSUser')
+    user = models.ForeignKey('aliss.ALISSUser', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default='', verbose_name="Your name")
-    organisation = models.ForeignKey('aliss.Organisation')
+    organisation = models.ForeignKey('aliss.Organisation', on_delete=models.CASCADE)
     phone = models.CharField(max_length=30, default="", validators=[RegexValidator(regex='^.{11}$', message='Length has to be 11', code='nomatch')]);
     comment = models.TextField()
     status = models.IntegerField(choices=STATUS_CHOICES, default=UNREVIEWED)

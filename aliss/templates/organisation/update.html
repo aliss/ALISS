@@ -15,6 +15,10 @@
         <form method="post" class="organisation-form" enctype="multipart/form-data">
           {% csrf_token %}
           {% include 'organisation/forms/organisation_form.html' %}
+
+    
+
+        <br>
           <div class="submit">
             <input type="submit" class="secondary" value="Submit">
           </div>
@@ -23,4 +27,5 @@
     </div>
   </section>
 </main>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock %}

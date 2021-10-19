@@ -16,9 +16,9 @@
   {% block meta_schema %}
     <meta property="og:title" content="ALISS - A Local Information System for Scotland" />
     <meta name="twitter:title" content="ALISS - A Local Information System for Scotland" />
-    <meta name="description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.">
-    <meta property="og:description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most." />
-    <meta name="twitter:description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most." />
+    <meta name="description" content="Connecting you to your Community">
+    <meta property="og:description" content="Connecting you to your Community" />
+    <meta name="twitter:description" content="Connecting you to your Community" />
   {% endblock %}
   {% block og_image %}
     <meta property="og:image" content="https://www.aliss.org{% static 'img/promo-img.png' %}" />
@@ -29,7 +29,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- CSS -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="aliss\static\css\privacy.css" />
+  
   <script src="https://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <link rel="shortcut icon" href="{% static 'img/icons/favicon.png' %}" type="image/x-icon" />
   <!-- non-retina iPhone pre iOS 7 -->
   <link rel="apple-touch-icon" href="{% static 'img/icons/fav57.png' %}" sizes="57x57">

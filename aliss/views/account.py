@@ -75,6 +75,29 @@ class AccountSignupView(CreateView):
         )
         login(self.request, user)
 
+        # Send welcome email
+        context = {
+            'name': form.cleaned_data['name']
+        }
+        subject = "Welcome to ALISS"
+        body = loader.render_to_string(
+            "account/emails/signup_welcome.txt",
+            context
+        )
+        email_message = EmailMultiAlternatives(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [form.cleaned_data.get('email')],
+            reply_to=["hello@aliss.org"]
+        )
+        html_email = loader.render_to_string(
+            "account/emails/signup_welcome.html",
+            context
+        )
+        email_message.attach_alternative(html_email, 'text/html')
+        email_message.send()
+
         return HttpResponseRedirect(self.get_success_url())
 
 

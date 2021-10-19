@@ -37,8 +37,8 @@ class ServiceProblem(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
-    service = models.ForeignKey('aliss.Service')
-    user = models.ForeignKey('aliss.ALISSUser')
+    service = models.ForeignKey('aliss.Service',on_delete=models.CASCADE)
+    user = models.ForeignKey('aliss.ALISSUser',on_delete=models.CASCADE)
 
     type = models.IntegerField(choices=REPORT_TYPES)
 
@@ -64,7 +64,7 @@ class ServiceProblem(models.Model):
 class Service(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
-    organisation = models.ForeignKey('aliss.Organisation', related_name='services')
+    organisation = models.ForeignKey('aliss.Organisation', related_name='services',on_delete=models.CASCADE)
     slug = models.CharField(max_length=120, null=True, blank=True, default=None)
     name = models.CharField(max_length=100)
     description = models.TextField()
