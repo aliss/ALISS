@@ -60,7 +60,7 @@ class SearchView(MultipleObjectMixin, TemplateView):
             searched_term = search_form.data.get('postcode')
             valid_searched_term = None
             if searched_term:
-                  valid_searched_term = True and searched_term.strip().isalpha()
+                  valid_searched_term = True #and searched_term.strip().isalpha()
             if valid_searched_term:
                 try:
                     processed_search_term = searched_term.capitalize().strip()
