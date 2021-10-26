@@ -60,11 +60,11 @@ class SearchView(MultipleObjectMixin, TemplateView):
             searched_term = search_form.data.get('postcode')
             valid_searched_term = None
             if searched_term:
-                valid_searched_term = searched_term.strip().isalpha()
+                  valid_searched_term = True and searched_term.strip().isalpha()
             if valid_searched_term:
                 try:
                     processed_search_term = searched_term.capitalize().strip()
-                    lower_searched = searched_term.lower().strip()
+                    lower_searched = searched_term.lower().strip().replace(' ', '-')
                     matched_postcode = Postcode.objects.get(slug=lower_searched).postcode
                     processed_postcode = matched_postcode.upper().strip().replace(' ', '+')
                     return HttpResponseRedirect(
