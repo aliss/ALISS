@@ -28,10 +28,10 @@ Embed ALISS search features on your own site with the [aliss.js plugin](https://
 
 ### Install steps
 
-1. Install requirements e.g. Python 3 https://www.python.org/downloads/.
+1. Install requirements e.g. Python 3 https://www.python.org/downloads/, Postgres https://www.postgresql.org/download/ and Elasticsearch https://www.elastic.co/downloads/elasticsearch.
 2. Clone repository https://help.github.com/en/articles/cloning-a-repository.
 3. If not installed download pip3 https://pip.pypa.io/en/stable/installing/.
-4. Use pip3 to install the dependencies in requirements.txt on MacOS this can be achieved with `pip3 install -r requirements.txt`.
+4. Use pip3 to install the neccessary python packages as listed in requirements.txt. On MacOS this can be achieved with `pip3 install -r requirements.txt`.
 5. If not already installed download NPM https://www.npmjs.com/get-npm.
 6. Install the npm packages using command `npm i`.
 7. Run `gulp` to compile assets
