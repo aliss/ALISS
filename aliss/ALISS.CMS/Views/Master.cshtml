@@ -11,7 +11,7 @@
 	string apiBaseUrl = ConfigurationManager.AppSettings["Settings:ApiBaseUrl"];
 	if (string.IsNullOrWhiteSpace(apiBaseUrl))
 	{
-		apiBaseUrl = "http://api.aliss.local/v4/";
+		apiBaseUrl = "http://api.alissgh.local/v5/";
 	}
 
 	if ((HttpContext.Current.Request.Url.Host.Contains(".local") || HttpContext.Current.Request.Url.Host.Contains(".azurewebsites.net")) && !string.IsNullOrWhiteSpace(HttpContext.Current.Request.QueryString["force500"]))

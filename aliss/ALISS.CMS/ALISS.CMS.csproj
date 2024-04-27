@@ -1,8 +1,8 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\uSync.8.11.0\build\uSync.props" Condition="Exists('..\packages\uSync.8.11.0\build\uSync.props')" />
   <Import Project="..\packages\UmbracoCms.8.18.3\build\UmbracoCms.props" Condition="Exists('..\packages\UmbracoCms.8.18.3\build\UmbracoCms.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -122,6 +122,9 @@
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -336,11 +339,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="ALISS.THEME\dist\img\aliss-logo-print.png" />
     <Content Include="ALISS.THEME\dist\img\aliss-logo.png" />
     <Content Include="ALISS.THEME\src\img\aliss-logo.png" />
@@ -425,7 +423,6 @@
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="Views\Master.cshtml" />
-    <Content Include="Views\Organisation\Organisation.cshtml" />
     <Content Include="Views\Partials\BlockList\Default.cshtml" />
     <Content Include="Views\Partials\CookieControl.cshtml" />
     <Content Include="Views\Partials\Footer.cshtml" />
@@ -439,15 +436,13 @@
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
     <Content Include="Views\Partials\Header.cshtml" />
     <Content Include="Views\Partials\InformationalMessage.cshtml" />
-    <Content Include="Views\Organisation\OrganisationActions.cshtml" />
-    <Content Include="Views\Organisation\OrganisationContactInfo.cshtml" />
-    <Content Include="Views\Organisation\OrganisationImproveThis.cshtml" />
+    <Content Include="Views\OrganisationActions.cshtml" />
+    <Content Include="Views\OrganisationContactInfo.cshtml" />
+    <Content Include="Views\OrganisationImproveThis.cshtml" />
     <Content Include="Views\Partials\Search.cshtml" />
-    <Content Include="Views\Service\ServiceActions.cshtml" />
-    <Content Include="Views\Service\ServiceContactInfo.cshtml" />
-    <Content Include="Views\Service\ServiceImproveThis.cshtml" />
-    <Content Include="Views\Service\Service.cshtml" />
-    <Content Include="Views\Shared\ClaimService.cshtml" />
+    <Content Include="Views\ServiceActions.cshtml" />
+    <Content Include="Views\ServiceContactInfo.cshtml" />
+    <Content Include="Views\ServiceImproveThis.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -574,19 +569,11 @@
     <Content Include="App_Plugins\FaIconpicker\package.manifest" />
     <!-- <Content Include="Media\Web.config" /> -->
     <None Include="packages.config" />
-    <Content Include="Views\dtCollections\DtCollections.cshtml" />
-    <Content Include="Views\dtContent\DtContent.cshtml" />
-    <Content Include="Views\dtHomepage\DtHomepage.cshtml" />
-    <Content Include="Views\dtOrganisations\DtOrganisations.cshtml" />
-    <Content Include="Views\dtServices\DtServices.cshtml" />
-    <Content Include="Views\Shared\ImproveThisListing.cshtml" />
-    <Content Include="Views\Shared\ShareThisPage.cshtml" />
-    <Content Include="Views\Shared\ClaimOrganisation.cshtml" />
-    <Content Include="Views\Collection\Collection.cshtml" />
+    <Content Include="Views\ImproveThisListing.cshtml" />
+    <Content Include="Views\ShareThisPage.cshtml" />
+    <Content Include="Views\Collection.cshtml" />
     <Content Include="Views\Partials\ListPanel.cshtml" />
-    <Content Include="Views\Shared\SaveThisService.cshtml" />
-    <Content Include="Views\Shared\ShareThisCollection.cshtml" />
-    <Content Include="Views\dtAddAnOrganisation\DtAddAnOrganisation.cshtml" />
+    <Content Include="Views\ShareThisCollection.cshtml" />
     <Content Include="Views\Partials\SearchOrganisations.cshtml" />
     <Content Include="Views\ServiceListing\Index.cshtml" />
     <Content Include="Views\Sitemap\Index.cshtml" />
@@ -595,11 +582,10 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\tac-allnce-aliss-app-liv-fe-dev - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\tac-allnce-aliss-app-liv-fe-stg - Web Deploy.pubxml" />
-    <Content Include="Views\dtServices\PostcodeError.cshtml" />
     <Content Include="Views\Partials\Monsido.cshtml" />
     <Content Include="Views\Partials\ClaimsDisclaimer.cshtml" />
-    <Content Include="Views\Service\ServiceClaim.cshtml" />
-    <Content Include="Views\Organisation\OrganisationClaim.cshtml" />
+    <Content Include="Views\ServiceClaim.cshtml" />
+    <Content Include="Views\OrganisationClaim.cshtml" />
     <Content Include="Views\Partials\PageNavigation.cshtml" />
     <Content Include="Views\Partials\SearchFilters\SearchCategories.cshtml" />
     <Content Include="Views\Partials\SearchFilters\SearchSort.cshtml" />
@@ -607,7 +593,7 @@
     <Content Include="Views\Partials\SearchFilters\SearchDistance.cshtml" />
     <Content Include="Views\Partials\SearchFilters\SearchQuery.cshtml" />
     <Content Include="Views\Partials\SearchFilters\SearchPostcode.cshtml" />
-    <Content Include="Views\Service\ServiceAccessibility.cshtml" />
+    <Content Include="Views\ServiceAccessibility.cshtml" />
     <Content Include="Views\Partials\SearchFilters\SearchCommunityGroups.cshtml" />
     <Content Include="Views\Partials\SearchFilters\SearchAccessibilityFeatures.cshtml" />
     <Content Include="Views\Partials\SearchWhere.cshtml" />
@@ -615,6 +601,18 @@
     <Content Include="Views\Partials\SearchCategories.cshtml" />
     <Content Include="Views\Partials\SearchWhat.cshtml" />
     <Content Include="Views\OrganisationListing\Index.cshtml" />
+    <Content Include="Views\DtAddAnOrganisation.cshtml" />
+    <Content Include="Views\DtCollections.cshtml" />
+    <Content Include="Views\DtContent.cshtml" />
+    <Content Include="Views\DtHomepage.cshtml" />
+    <Content Include="Views\DtOrganisations.cshtml" />
+    <Content Include="Views\DtServices.cshtml" />
+    <Content Include="Views\PostcodeError.cshtml" />
+    <Content Include="Views\ClaimOrganisation.cshtml" />
+    <Content Include="Views\ClaimService.cshtml" />
+    <Content Include="Views\SaveThisService.cshtml" />
+    <Content Include="Views\Organisation.cshtml" />
+    <Content Include="Views\Service.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -626,11 +624,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\ALISSBase\" />
-    <Folder Include="Views\AlissNestedCategoryPicker\" />
-    <Folder Include="Views\Footer\" />
-    <Folder Include="Views\Logout\" />
     <Folder Include="Views\MacroPartials\" />
+    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ALISS.API\ALISS.API.csproj">
@@ -680,12 +675,12 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.8.18.3\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.8.18.3\build\UmbracoCms.props'))" />
     <Error Condition="!Exists('..\packages\UmbracoCms.8.18.3\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.8.18.3\build\UmbracoCms.targets'))" />
     <Error Condition="!Exists('..\packages\uSync.8.11.0\build\uSync.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\uSync.8.11.0\build\uSync.props'))" />
     <Error Condition="!Exists('..\packages\uSync.8.11.0\build\uSync.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\uSync.8.11.0\build\uSync.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <Target Name="IncludeFolders">
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">

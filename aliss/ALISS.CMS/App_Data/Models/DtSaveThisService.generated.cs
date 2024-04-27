@@ -21,7 +21,7 @@ namespace Umbraco.Web.PublishedModels
 {
 	/// <summary>Save This Service</summary>
 	[PublishedModel("dtSaveThisService")]
-	public partial class DtSaveThisService : PublishedContentModel, ICdtHasContent, ICdtHasFormContent, ICdtHasPageTitle, ICdtHasSearchEngineOptimisation, ICdtHasSentMessage, ICdtHasSiteNavigation
+	public partial class DtSaveThisService : PublishedContentModel, ICdtHasContent, ICdtHasFormContent, ICdtHasNavigation, ICdtHasPageTitle, ICdtHasSearchEngineOptimisation, ICdtHasSentMessage
 	{
 		// helpers
 #pragma warning disable 0109 // new is redundant
@@ -64,6 +64,27 @@ namespace Umbraco.Web.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
 		[ImplementPropertyType("privicyStatement")]
 		public virtual global::System.Web.IHtmlString PrivicyStatement => global::Umbraco.Web.PublishedModels.CdtHasFormContent.GetPrivicyStatement(this);
+
+		///<summary>
+		/// Use Content From: Will load the selected page’s content transparently at this node's location
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
+		[ImplementPropertyType("umbracoInternalRedirectId")]
+		public virtual global::Umbraco.Core.Models.PublishedContent.IPublishedContent UmbracoInternalRedirectId => global::Umbraco.Web.PublishedModels.CdtHasNavigation.GetUmbracoInternalRedirectId(this);
+
+		///<summary>
+		/// Redirect to Content: Will redirect to the selected content
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
+		[ImplementPropertyType("umbracoRedirect")]
+		public virtual global::Umbraco.Core.Models.PublishedContent.IPublishedContent UmbracoRedirect => global::Umbraco.Web.PublishedModels.CdtHasNavigation.GetUmbracoRedirect(this);
+
+		///<summary>
+		/// Aliases: A comma separated list of alternate url's for this content
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
+		[ImplementPropertyType("umbracoUrlAlias")]
+		public virtual string UmbracoUrlAlias => global::Umbraco.Web.PublishedModels.CdtHasNavigation.GetUmbracoUrlAlias(this);
 
 		///<summary>
 		/// Title: The page title, shown at the top of the page.
@@ -141,75 +162,5 @@ namespace Umbraco.Web.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
 		[ImplementPropertyType("sentBodyText")]
 		public virtual global::System.Web.IHtmlString SentBodyText => global::Umbraco.Web.PublishedModels.CdtHasSentMessage.GetSentBodyText(this);
-
-		///<summary>
-		/// About Claimed Page: Select the page that will be linked to from the claims disclaimer
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("aboutClaimedPage")]
-		public virtual global::Umbraco.Core.Models.PublishedContent.IPublishedContent AboutClaimedPage => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetAboutClaimedPage(this);
-
-		///<summary>
-		/// Copyright
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("copyright")]
-		public virtual string Copyright => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetCopyright(this);
-
-		///<summary>
-		/// Data Standards PDF
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("dataStandardsPdf")]
-		public virtual global::Umbraco.Core.Models.MediaWithCrops DataStandardsPdf => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetDataStandardsPdf(this);
-
-		///<summary>
-		/// Feedback URL
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("feedbackUrl")]
-		public virtual global::Umbraco.Web.Models.Link FeedbackUrl => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetFeedbackUrl(this);
-
-		///<summary>
-		/// Footer Navigation Columns
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("footerNavigationColumns")]
-		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.CdtFooterNavigationColumn> FooterNavigationColumns => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetFooterNavigationColumns(this);
-
-		///<summary>
-		/// Header Navigation
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("headerNavigation")]
-		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.Models.Link> HeaderNavigation => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetHeaderNavigation(this);
-
-		///<summary>
-		/// Header Navigation Items
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("headerNavigationItems")]
-		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.HeaderLinkItem> HeaderNavigationItems => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetHeaderNavigationItems(this);
-
-		///<summary>
-		/// Privacy Policy PDF
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("privacyPolicyPdf")]
-		public virtual global::Umbraco.Core.Models.MediaWithCrops PrivacyPolicyPdf => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetPrivacyPolicyPdf(this);
-
-		///<summary>
-		/// Social Links
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("socialLinks")]
-		public virtual global::System.Collections.Generic.IEnumerable<global::Umbraco.Web.PublishedModels.CdtSocialLinkItem> SocialLinks => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetSocialLinks(this);
-
-		///<summary>
-		/// Terms & Conditions PDF
-		///</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "8.18.3")]
-		[ImplementPropertyType("termsConditionsPdf")]
-		public virtual global::Umbraco.Core.Models.MediaWithCrops TermsConditionsPdf => global::Umbraco.Web.PublishedModels.CdtHasSiteNavigation.GetTermsConditionsPdf(this);
 	}
 }
