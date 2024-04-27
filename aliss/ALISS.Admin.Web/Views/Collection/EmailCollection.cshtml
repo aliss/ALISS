@@ -1,0 +1,34 @@
+@model ALISS.Business.ViewModels.Collection.PostEmailCollectionViewModel
+@{
+	ViewBag.Title = $"Email this collection - {ViewBag.CollectionName}";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("EmailCollection", "Collection", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Email this collection</legend>
+		@Html.ALISSTextBox(m => m.RecipientName)
+		@Html.ALISSTextBox(m => m.Email)
+		@Html.HiddenFor(m => m.CollectionId)
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary">Send</button>
+		@if (Request.UrlReferrer.ToString().Contains("ViewCollection"))
+		{
+			@Html.ActionLink("Cancel", "ViewCollection", "Collection", new { id = Model.CollectionId }, new { @class = "btn btn--primary" })
+		}
+		else
+		{
+			@Html.ActionLink("Cancel", "Index", "Collection", new { @class = "btn btn--primary" })
+		}
+
+	</div>
+}

@@ -1,0 +1,73 @@
+{# Global variables #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+{# Global variables #}
+
+<!DOCTYPE HTML>
+<html class="no-js" lang="en">
+  <head>
+    {# Website meta data and links #}
+    {% include  GV.includes ~ "header.njk" %}
+    {# Website meta data and links #}
+    <style>
+      {# General page styles #}
+      body{background:#fff;color:#212121;font-family:sofia-pro,sans-serif;font-weight:400;font-style:normal;line-height:1.4;margin:0;padding:0}img{display:inline-block;height:auto;-ms-interpolation-mode:bicubic;max-width:100%;vertical-align:middle}
+      {# Accessibility skip link style(s) #}
+      .acc-skip-link{left:-9999px;left:-624.9375rem;padding:.5rem;position:absolute}.acc-skip-link:active,.acc-skip-link:focus{left:16px;left:1rem;top:16px;top:1rem;z-index:2}.acc-skip-link:focus{background-color:#ffeb3b;-webkit-box-shadow:0 -.125rem #ffeb3b,0 .25rem #212b32;box-shadow:0 -.125rem #ffeb3b,0 .25rem #212b32;color:#212b32;outline:4px solid transparent;outline:.25rem solid transparent;text-decoration:none}
+    </style>
+  </head>
+
+  {# 
+    Page body ID & class:
+    These values are inherited from their respective child pages, if null, the id and class attributes will be hidden.
+  #}
+  <body {% if page_Body_ID %}id="{{ page_Body_ID }}"{% endif %} {% if page_Body_Class %}class="{{ page_Body_Class }}"{% endif %}>
+
+    {# Website skip link #}
+    <a title="Click here to be taken to the main content of this page." class="acc-skip-link" href="#primarycontent">
+      Skip to main content
+    </a>
+    {# Website skip link #}
+
+    {# Website header #}
+      {% include  GV.organisms ~ "site-header.njk" %}
+    {# Website header #}
+
+    {# Template contents #}
+      <div id="primarycontent">
+        {% block body %}
+        {% endblock %}
+      </div>
+    {# Template contents #}
+
+    {# Website footer #}
+      {% include  GV.organisms ~ "site-footer.njk" %}
+    {# Website footer #}
+
+    {# Website scripts #}
+      {% include  GV.includes ~ "js.njk" %}
+    {# Website scripts #}
+
+    {# 
+      Optimise CSS delivery:
+      The critical styles needed to style the above-the-fold content are inlined and applied to the document immediately. The full site.min.css is loaded after initial painting of the page. Its styles are applied to the page once it finishes loading, without blocking the initial render of the critical content.
+    #}
+    {# <noscript id="deferred-styles">
+      <link rel="stylesheet" type="text/css" href="css/site.min.css"/>
+    </noscript>
+    <script>
+      var loadDeferredStyles = function() {
+        var addStylesNode = document.getElementById("deferred-styles");
+        var replacement = document.createElement("div");
+        replacement.innerHTML = addStylesNode.textContent;
+        document.body.appendChild(replacement)
+        addStylesNode.parentElement.removeChild(addStylesNode);
+      };
+      var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+          window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+      if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+      else window.addEventListener('load', loadDeferredStyles);
+    </script> #}
+    {# Optimise CSS delivery #}
+
+  </body>
+</html>

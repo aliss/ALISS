@@ -1,0 +1,69 @@
+{# Global variables #}
+  {% import "../include/globalVariables.njk" as GV %}
+  {% from GV.atoms + "atoms_a.njk" import a as a %}
+  {% from GV.atoms + "atoms_h1.njk" import h1 as h1 %}
+  {% from GV.atoms + "atoms_p.njk" import p as p %}
+  {% from GV.atoms + "atoms_img.njk" import img as img %}
+{# Global variables #}
+
+<header class="aliss-menu">
+  
+  <a title="Click here to be taken to the main content of this page." class="acc-skip-link" href="#main-content">
+    Skip to main content
+  </a>
+  <div class="aliss-menu-component">
+    
+    <div class="aliss-menu-component__logo">
+      {{ a("", "/", "Click here to navigate to the homepage", "_self", "aliss-menu-component__navigation-link", "", img("", "img/aliss-logo.png", "ALISS.", "", "")) }}
+    </div>    
+    <div class="aliss-menu-component__public">
+        <a href="/" class="aliss-menu-component__navigation-link">
+            Go to ALISS home page
+        </a>
+    </div> 
+    <nav class="aliss-menu-component__navigation">
+        <span class="aliss-menu-component__navigation-title">Management</span>
+        <ul class="aliss-menu-component__navigation-list">
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/Organisations", "Go to oganisations", "_self", "aliss-menu-component__navigation-link", "", "Organisations") }}
+          </li>
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/Claims", "Go to claims", "_self", "aliss-menu-component__navigation-link", "", "Claims") }}
+          </li>
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/Users", "Go to users", "_self", "aliss-menu-component__navigation-link", "", "Users") }}
+          </li>
+        </ul> 
+        <span class="aliss-menu-component__navigation-title">Reports</span>
+        <ul class="aliss-menu-component__navigation-list">
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/ActivityReport", "Go to activity report", "_self", "aliss-menu-component__navigation-link", "", "Activity Report") }}
+          </li>
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/LocationReport", "Go to location report", "_self", "aliss-menu-component__navigation-link", "", "Location Report") }}
+          </li>
+        </ul>
+        <span class="aliss-menu-component__navigation-title">Lookups</span>
+        <ul class="aliss-menu-component__navigation-list">
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/Categories", "Go to categories", "_self", "aliss-menu-component__navigation-link", "", "Categories") }}
+          </li>
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/ServiceAreas", "Go to service areas", "_self", "aliss-menu-component__navigation-link", "", "Service Areas") }}
+          </li>
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/Postcodes", "Go to postcodes", "_self", "aliss-menu-component__navigation-link", "", "Postcodes") }}
+          </li>
+        </ul>
+        <span class="aliss-menu-component__navigation-title">Export</span>
+        <ul class="aliss-menu-component__navigation-list">
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/Export/Claims", "Go to export claims", "_self", "aliss-menu-component__navigation-link", "", "Export claims") }}
+          </li>
+          <li class="aliss-menu-component__navigation-item">
+            {{ a("", "/Export/Users", "Go to export users", "_self", "aliss-menu-component__navigation-link", "", "Service Areas") }}
+          </li>
+        </ul>
+      </nav>
+  </div>
+</header>

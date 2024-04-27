@@ -1,0 +1,80 @@
+﻿@{
+	ViewBag.Title = "Elastic Search Management";
+
+	int totalServices = ViewBag.TotalServices;
+	int totalOrganisations = ViewBag.TotalOrganisations;
+
+	int splitValue = 500;
+	int organisationsSplit = (int)Math.Ceiling((decimal)totalOrganisations / splitValue);
+	int servicesSplit = (int)Math.Ceiling((decimal)totalServices / splitValue);
+}
+
+<h2>Organisations</h2>
+
+<div class="aliss-component-master aliss-component-descriptive-blocks">
+	<div class="aliss-organism aliss-component-master">
+		<div class="aliss-component-master__contents">
+			<h3>
+				@Html.ActionLink("Populate Index", "PopulateOrganisationIndex", "Elastic")
+			</h3>
+			<p>Populate the Organisation ElasticSearch Index</p>
+			<ul>
+				@for (int i = 0; i < organisationsSplit; i++)
+				{
+					int from = i * splitValue + 1;
+					int to = i * splitValue + splitValue;
+					if (to > totalOrganisations)
+					{
+						to = totalOrganisations;
+					}
+					string label = $"Populate {from} - {to}";
+					string url = $"/Elastic/PopulateOrganisationIndex?from={from}&to={to}";
+					<li><a href="@url">@label</a></li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div class="aliss-organism aliss-component-master">
+		<div class="aliss-component-master__contents">
+			<h3>
+				@Html.ActionLink("Delete Index", "DeleteOrganisationIndex", "Elastic")
+			</h3>
+			<p>Delete the Organisation ElasticSearch Index</p>
+		</div>
+	</div>
+</div>
+
+<h2>Services</h2>
+
+<div class="aliss-component-master aliss-component-descriptive-blocks">
+	<div class="aliss-organism aliss-component-master">
+		<div class="aliss-component-master__contents">
+			<h3>
+				@Html.ActionLink("Populate Index", "PopulateServiceIndex", "Elastic")
+			</h3>
+			<p>Populate the Service ElasticSearch Index</p>
+			<ul>
+				@for (int i = 0; i < servicesSplit; i++)
+				{
+					int from = i * splitValue + 1;
+					int to = i * splitValue + splitValue;
+					if (to > totalServices)
+					{
+						to = totalServices;
+					}
+					string label = $"Populate {from} - {to}";
+					string url = $"/Elastic/PopulateServiceIndex?from={from}&to={to}";
+					<li><a href="@url">@label</a></li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div class="aliss-organism aliss-component-master">
+		<div class="aliss-component-master__contents">
+			<h3>
+				@Html.ActionLink("Delete Index", "DeleteServiceIndex", "Elastic")
+			</h3>
+			<p>Delete the Service ElasticSearch Index</p>
+		</div>
+	</div>
+</div>

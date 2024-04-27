@@ -1,0 +1,164 @@
+﻿@model ALISS.Business.ViewModels.DataInput.WhoViewModel
+@using ALISS.Business.Enums;
+@{
+	ViewBag.Title = "Add to ALISS";
+	bool submitted = ViewBag.Submitted ?? false;
+}
+
+@if (!submitted)
+{
+	<div class="step-progress__panel__container">
+		<div class="aliss-grid aliss-grid__data-input">
+			<div class="aliss-content__wrap aliss-content__wrap--data-input">
+				<div class="aliss-content__primary">
+					<div class="data-input-container">
+						@Html.Partial("_DataInputProgress")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "DataInputWho", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form" }))
+			{
+				@Html.AntiForgeryToken()
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<div class="data-input-container--inner">
+							@Html.HiddenFor(h => h.OrganisationId)
+							@Html.HiddenFor(h => h.ServiceId)
+							@Html.HiddenFor(h => h.SummaryType)
+							<fieldset class="aliss-form__fieldset no-padding">
+								<legend class="aliss-form__legend">Who</legend>
+								<div class="aliss-form__step-title-container">
+									<h1 class="mb--0 mt--0">Who</h1>
+									@if (!submitted)
+									{
+										@Html.Partial("_DataInputSkip")
+									}
+								</div>
+
+								<p class="mb--32">If this service is geared towards any particular community to support, please select the relevant groups here. This is to help people searching better find services that suit their needs.</p>
+
+								<div class="aliss-form__group">
+									<span>Please select the communities that this service supports (optional).</span>
+									<input type="text" id="community-group-filter" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter community groups" autocomplete="off">
+									<div class="aliss-datainput-community-groups aliss-datainput-community-groups--filter">
+										@foreach (var commGroup in Model.ServiceCommunityGroups)
+										{
+											<div class="aliss-datainput-community-groups__primary mb--24" data-filter="@commGroup.Name">
+												<div class="aliss-accordion__header">
+													<div class="aliss-form__checkbox">
+														<input id="community-group-@commGroup.CommunityGroupId" data-id="@commGroup.CommunityGroupId" name="community-groups" class="aliss-form__input" type="checkbox" @(commGroup.Selected ? "checked" : "") value="@commGroup.Name" />
+													</div>
+													&nbsp;&nbsp;
+													@*<span class="aliss-datainput-community-groups__icon">
+														<i aria-hidden="true" class="@commGroup.Icon"></i>
+													</span>*@
+
+													<label for="community-group-@commGroup.CommunityGroupId" class="aliss-datainput-community-groups__edit">@commGroup.Name</label>
+													@if (commGroup.NextLevelCommunityGroups.Count() > 0)
+													{
+														<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@commGroup.CommunityGroupId">
+															<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+															<span class="hide">Toggle Accordion @commGroup.Name</span>
+														</button>
+													}
+												</div>
+
+												@if (commGroup.IsMinMax)
+												{
+													string minmaxContainerId = $"commgroup-{commGroup.CommunityGroupId}-minmax-container";
+													string minValueId = $"commgroup-{commGroup.CommunityGroupId}-minvalue";
+													string maxValueId = $"commgroup-{commGroup.CommunityGroupId}-maxvalue";
+													<div id="@minmaxContainerId" class="@(Html.ValidationMessage(minmaxContainerId).ToString().Contains(commGroup.Name) ? "aliss-form__group--error hidden" : "hidden")">
+														<label>Minimum Age:</label>
+														<input id="@minValueId" name="@minValueId" class="aliss-form__summary aliss-form__textarea" data-parent="@commGroup.CommunityGroupId" value="@commGroup.MinValue">
+														<br />
+														<label>Maximum Age:</label>
+														<input id="@maxValueId" name="@maxValueId" class="aliss-form__summary aliss-form__textarea" data-parent="@commGroup.CommunityGroupId" value="@commGroup.MaxValue">
+													</div>
+												}
+												else if (commGroup.NextLevelCommunityGroups.Any())
+												{
+													<div class="aliss-accordion__content" id="accordion-@commGroup.CommunityGroupId">
+														<div class="aliss-accordion__content--helptext">Please select any communities that apply from the second level categories.</div>
+
+														@foreach (var levelTwoCommGroups in commGroup.NextLevelCommunityGroups)
+														{
+															<div class="aliss-datainput-community-groups__sub" data-filter="@levelTwoCommGroups.Name">
+																<div class="aliss-accordion__header">
+																	<div class="aliss-form__checkbox">
+																		<input id="community-group-@levelTwoCommGroups.CommunityGroupId" class="aliss-form__input" name="community-groups" data-id="@levelTwoCommGroups.CommunityGroupId" type="checkbox" @(levelTwoCommGroups.Selected ? "checked" : "") value="@levelTwoCommGroups.Name" />
+																	</div>
+																	<label for="community-group-@levelTwoCommGroups.CommunityGroupId" class="aliss-datainput-community-groups__edit aliss-datainput-community-groups__edit--sub">@levelTwoCommGroups.Name</label>
+																	@if (levelTwoCommGroups.NextLevelCommunityGroups.Count() > 0)
+																	{
+																		<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@levelTwoCommGroups.CommunityGroupId">
+																			<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+																			<span class="hide">Toggle Accordion @levelTwoCommGroups.Name</span>
+																		</button>
+																	}
+																</div>
+																@if (levelTwoCommGroups.NextLevelCommunityGroups.Count() > 0)
+																{
+																	<div class="aliss-accordion__content" id="accordion-@levelTwoCommGroups.CommunityGroupId">
+																		<div class="aliss-accordion__content--helptext">Please select any communities that apply from the third level categories.</div>
+																		@foreach (var levelThreeCommGroup in levelTwoCommGroups.NextLevelCommunityGroups)
+																		{
+																			<div class="aliss-datainput-community-groups__sub aliss-datainput-community-groups__sub--three" data-filter="@levelThreeCommGroup.Name">
+																				<div class="aliss-form__checkbox">
+																					<input id="community-group-@levelThreeCommGroup.CommunityGroupId" class="aliss-form__input" name="community-groups" data-id="@levelThreeCommGroup.CommunityGroupId" type="checkbox" @(levelThreeCommGroup.Selected ? "checked" : "") value="@levelThreeCommGroup.Name" />
+																				</div>
+																				<label for="community-group-@levelThreeCommGroup.CommunityGroupId" class="aliss-datainput-community-groups__edit pr--8">@levelThreeCommGroup.Name</label>
+																			</div>
+																		}
+																	</div>
+																}
+															</div>
+														}
+													</div>
+												}
+
+											</div>
+										}
+										<div class="aliss-datainput-community-groups__noresult">
+											<p>
+												<i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;
+												Sorry could not match anything to your criteria.
+											</p>
+										</div>
+									</div>
+									<div class="aliss-selected" id="community-groups-selected">
+										<div class="aliss-selected__title" id="title-community-groups-selected"><p>You have <span id="count-community-groups-selected"></span> community groups selected</p></div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					@Html.HiddenFor(h => h.SelectedCommunityGroups)
+
+					@if (Model.SummaryType == DataInputSummaryTypeEnum.ServiceReview)
+					{
+						@Html.Partial("_ReviewNavigation")
+					}
+					else
+					{
+						@Html.Partial("_DataInputNavigation")
+					}
+				</div>
+			}
+		</div>
+		@Html.Partial("_Guidance")
+	</div>
+</div>

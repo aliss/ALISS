@@ -1,0 +1,48 @@
+﻿@using ALISS.CMS.Models
+@inherits UmbracoViewPage
+@{
+    Umbraco.Web.PublishedModels.DtHomepage homepage = new Umbraco.Web.PublishedModels.DtHomepage(Model);
+
+    string servicesUrl = homepage.DescendantOrSelfOfType(DtServices.ModelTypeAlias)?.Url();
+    List<SearchSuggestion> searchSuggestions = ViewBag.SearchSuggestions;
+
+    if (searchSuggestions != null && searchSuggestions.Any())
+    {
+        <span id="homepage-search-suggestions-item-count" class="hide-print" hidden>@searchSuggestions.Count()</span>
+        <div class="aliss-homepage-carousel__container">
+            <div id="aliss-homepage-carousel-container" class="aliss-search-suggestions__container">
+                <div id="aliss-homepage-carousel" class="aliss-search-suggestions__carousel">
+                    @foreach (SearchSuggestion searchSuggestion in searchSuggestions)
+                    {
+                        @DisplaySearchSuggestion(searchSuggestion, servicesUrl)
+                    }
+                </div>
+            </div>
+            <div id="aliss-homepage-carousel-controls" class="aliss-search-suggestions__carousel-controls__container hide">
+                <button id="aliss-homepage-carousel-control-left" class="aliss-search-suggestions__carousel-controls aliss-search-suggestions__carousel-controls__left">
+                    <i class="fa-solid fa-circle-chevron-left hide-print" aria-hidden="true"></i>
+                </button>
+                <button id="aliss-homepage-carousel-control-right" class="aliss-search-suggestions__carousel-controls aliss-search-suggestions__carousel-controls__right">
+                    <i class="fa-solid fa-circle-chevron-right hide-print" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+    }
+}
+
+@helper DisplaySearchSuggestion(SearchSuggestion searchSuggestion, string servicesUrl)
+{
+    <div id="aliss-homepage-carousel-image" class="aliss-search-suggestions__carousel-image">
+        <a href="@servicesUrl?categories=@searchSuggestion.CategorySlug">
+            <img src="@searchSuggestion.Image" alt="@searchSuggestion.ImageAltText" />
+            <div class="aliss-search-suggestions__carousel-text-content carousel-text-content">
+                <h5 class="aliss-search-suggestions__carousel-text-content__title mt--16">@searchSuggestion.Title</h5>
+                @if (!string.IsNullOrWhiteSpace(searchSuggestion.Summary))
+                {
+                    <span>@searchSuggestion.Summary</span>
+                }
+            </div>
+        </a>
+    </div>
+}

@@ -1,0 +1,23 @@
+﻿@if (!string.IsNullOrEmpty(ViewBag.Guidance))
+{
+	<div class="aliss-content__secondary">
+		<div class="data-input-container__panel--side data-input-container__panel--side--mobile">
+			<div class="aliss-accordion-container">
+				<div class="aliss-content-accordion__header">
+					<button class="aliss-content-accordion__trigger" type="button" data-accordion-trigger="guidance">
+						Guidance
+						<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+						<span class="hide">Toggle Accordion Content</span>
+					</button>
+				</div>
+				<div class="aliss-content-accordion__content" id="guidance">
+					@Html.Raw(ViewBag.Guidance)
+				</div>
+			</div>
+		</div>
+
+		<div class="data-input-container__panel--side data-input-container__panel--side--web">
+			@Html.Raw(ViewBag.Guidance)
+		</div>
+	</div>
+}

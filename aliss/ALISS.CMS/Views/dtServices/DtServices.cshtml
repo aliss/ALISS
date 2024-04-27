@@ -1,0 +1,243 @@
+@using ALISS.CMS.Extensions
+@using Umbraco.Web.PublishedModels
+@using ALISS.ApiServices.ViewModels.Service
+@using ALISS.ApiServices.ViewModels.Search
+@using System.Configuration
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<DtServices>
+@{
+	Layout = "~/Views/Master.cshtml";
+	SearchViewModel searchResults = ViewBag.SearchViewModel;
+
+	int pageSize = Model.PageSize;
+	double pageCount = Math.Ceiling((double)searchResults.SearchModel.count / pageSize);
+	int serviceResults = searchResults.SearchModel.count;
+
+	string url = "";
+
+	if (!string.IsNullOrWhiteSpace(searchResults.Postcode))
+	{
+		url += "&Postcode=" + searchResults.Postcode;
+	}
+
+	if (!string.IsNullOrWhiteSpace(searchResults.Query))
+	{
+		url += "&Query=" + searchResults.Query;
+	}
+
+	if (!string.IsNullOrWhiteSpace(searchResults.Placename))
+	{
+		url += "&Placename=" + searchResults.Placename;
+	}
+
+	if (!string.IsNullOrWhiteSpace(searchResults.LocationType))
+	{
+		url += "&LocationType=" + searchResults.LocationType;
+	}
+
+	if (!string.IsNullOrWhiteSpace(searchResults.Categories))
+	{
+		url += "&Categories=" + searchResults.Categories;
+	}
+
+	if (!string.IsNullOrWhiteSpace(searchResults.CommunityGroups))
+	{
+		url += "&CommunityGroups=" + searchResults.CommunityGroups;
+	}
+
+	if (!string.IsNullOrWhiteSpace(searchResults.AccessibilityFeatures))
+	{
+		url += "&AccessibilityFeatures=" + searchResults.AccessibilityFeatures;
+	}
+
+	if (searchResults.Radius > 0 && searchResults.Radius != 10000)
+	{
+		url += "&Radius=" + searchResults.Radius;
+	}
+
+	if (searchResults.Radius == 0 && searchResults.CustomRadius > 0)
+	{
+		url += "&CustomRadius=" + searchResults.CustomRadius;
+	}
+
+	if (!string.IsNullOrWhiteSpace(searchResults.Sort))
+	{
+		url += "&Sort=" + searchResults.Sort;
+	}
+
+	if (!string.IsNullOrWhiteSpace(searchResults.View))
+	{
+		url += "&View=" + searchResults.View;
+	}
+
+	string fullUrl = Request.Url.ToString();
+
+	if (searchResults.Radius != 0 &&
+		searchResults.Radius != 1000 &&
+		searchResults.Radius != 10000 &&
+		searchResults.Radius != 30000)
+	{
+		searchResults.CustomRadius = searchResults.Radius;
+	}
+
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+		? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+		: false;
+	bool _enableNewFilters = ConfigurationManager.AppSettings["Settings:EnableNewFilters"] != null
+		? ConfigurationManager.AppSettings["Settings:EnableNewFilters"].ToString().ToLower() == "true"
+		: false;
+}
+
+<main>
+    @if (searchResults.SearchModel.count > 0)
+    {
+	<section>
+		<div class="aliss-grid">
+
+				@Html.Partial("ClaimsDisclaimer")
+
+				<div class="aliss-content__wrap">
+
+					<div class="aliss-content__secondary aliss-content__secondary__search-results hide-print mb--24">
+						<div class="accordion aliss-component-search-filter">
+							<div class="aliss-accordion__header">
+								<button id="search-filters-toggle" class="aliss-accordion__trigger aliss-accordion__trigger--active" data-accordion-trigger="filter-results-accordion">
+									<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+									<span class="sr-only">Click here to toggle the search filters</span>
+								</button>
+								<span class="aliss-form__label">Filter search results</span>
+							</div>
+							<div class="aliss-accordion__content aliss-accordion__content--active" id="filter-results-accordion">
+								<form id="filters-panel" class="aliss-search-form aliss-search-form--home" method="get">
+									@Html.Partial("SearchFilters/SearchSort", searchResults)
+                                    @Html.Partial("SearchFilters/SearchQuery", searchResults)
+									@Html.Partial("SearchFilters/SearchPostcode", searchResults)
+									@Html.Partial("SearchFilters/SearchDistance", searchResults)
+                                    @Html.Partial("SearchFilters/SearchLocalNational", searchResults)
+									@Html.Partial("SearchFilters/SearchCategories", searchResults)
+									@if (_enableNewFilters)
+									{
+                                        @Html.Partial("SearchFilters/SearchAccessibilityFeatures", searchResults)
+										@Html.Partial("SearchFilters/SearchCommunityGroups", searchResults)
+									}
+									@Html.Hidden("View", searchResults.View)
+
+									<button id="search-filters-view-results" class="btn btn--primary m--16 hide">View Results</button>
+
+									<div>
+										@if (enableMonsidoTracking)
+										{
+											<button id="search-filters-submit-form"
+													onclick="window.monsido_functions.trackEvent('Service', 'Service Search', document.getElementById('search-what').innerText, 1);"
+													hidden>
+												Apply filters
+											</button>
+										}
+										else
+										{
+											<button id="search-filters-submit-form" hidden>Apply Filters</button>
+										}
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div class="aliss-content__primary aliss-content__primary__search-results">
+						<div id="aliss-search-results-header-text" class="aliss-content__header">
+							@if (!string.IsNullOrWhiteSpace(searchResults.Postcode))
+							{
+								<h1>Services and Resources for (@searchResults.Postcode)</h1>
+							}
+							else
+							{
+								<h1>Services and Resources</h1>
+							}
+						</div>
+						<div class="aliss-search-results-header-container">
+							<div class="aliss-search-results-header">
+								<h3 id="search-results-total">
+									@serviceResults
+									@if (serviceResults == 1)
+									{
+										@:Result
+									}
+									else
+									{
+										@:Results
+									}
+								</h3>
+							</div>
+
+							<div class="aliss-search-layout-options-container">
+								<button id="list-view" class="aliss-search-layout-options-container__option aliss-search-layout-options-container__option--active mr--8">List <i class="fa fa-list" aria-hidden="true"></i></button>
+								<button id="grid-view" class="aliss-search-layout-options-container__option aliss-search-layout-options-container__option__grid-view">Grid <i class="fa fa-th" aria-hidden="true"></i></button>
+							</div>
+						</div>
+						<div id="search-results-loading" class="loader hide"></div>
+						<div id="aliss-search-results-filtered" data-filtered-results class="aliss-search-results__container aliss-search-results__container--filtered">
+							<!--render results here-->
+						</div>
+
+						@Html.Partial("PageNavigation", searchResults, new ViewDataDictionary { { "url", url } })
+					</div>
+				</div>
+            </div>
+        </section>
+			}
+			else
+			{
+        <section class="aliss-homepage-search__section">
+            <div class="aliss-grid">
+                <div class="aliss-organism-homepage-search">
+                    <div class="aliss-organism-homepage-search__block">
+                        <h1>There doesn't appear to be any services that match your search criteria.</h1>
+                        <div class="mb--24">
+						<p>We're always adding new services to ALISS but it seems like we may not have reached your area yet.</p>
+						<p>Please try searching again with a different city/town, address, postcode or search criteria.</p>
+					</div>
+                        <div class="search-options__field">
+                            <hr>
+                            <h3 class="mt--24">Start a new search</h3>
+							@Html.Partial("Search", Model, new ViewDataDictionary { { "SearchType", "service" } })
+                            <p style="color:transparent;user-select:none;">
+                                Put a postcode, town or city into the search box below to find services, groups and activities for health and wellbeing across Scotland
+                            </p>
+						</div>
+					</div>
+				</div>
+		</div>
+	</section>
+    }
+
+</main>
+
+@section Metadata
+{
+	@Html.Metadata(Model)
+}
+
+@section scripts
+{
+	<script nonce="pageSize">
+		var pageSize = @pageSize;
+	</script>
+	@{
+		if (enableMonsidoTracking)
+		{
+			<script nonce="monsido">
+				window.addEventListener('mon-script-loaded', () => {
+					const urlSearchParams = new URLSearchParams(window.location.search); const params = Object.fromEntries(urlSearchParams.entries());
+					if (params.postcode) {
+						window.monsido_functions.trackSearch(params.postcode);
+					}
+					if (params.Query) {
+						window.monsido_functions.trackSearch(params.Query);
+					}
+					if (params.Category) {
+						window.monsido_functions.trackSearch(params.Category);
+					}
+				});
+			</script>
+		}
+	}
+}

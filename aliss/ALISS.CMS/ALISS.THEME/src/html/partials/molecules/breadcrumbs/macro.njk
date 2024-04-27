@@ -1,0 +1,111 @@
+{% macro breadcrumb(params) %}
+<nav class="nhsuk-breadcrumb{% if params.classes %} {{ params.classes }}{% endif %}" aria-label="Breadcrumb"
+{%- for attribute in params.helper_attributes %} {{attribute.attribute}}="{{attribute.value}}"{% endfor %}>
+  <div class="{{classes}}">
+    <ol class="">
+      {%- for item in params.items %}
+
+      {# 
+
+      SET ATTRIBUTES
+      
+      If any of the breadcrumb items have attributes, then generate and assign them to each item.
+      
+      #}
+
+      {%- if item.attributes %}
+        {% set attributes %}
+          {% for attribute in item.attributes %} 
+            {{attribute.attribute}}={{attribute.value}}
+          {% endfor %}
+        {% endset %}
+      {% endif %}
+
+        {%- if item.text and item.href %}
+          <li class="">
+            {# A tag macro #}
+            {{ a(
+              "", 
+              item.href, 
+              "Click here to navigate to the following page: " ~ item.text,
+              "_self", 
+              "classes",
+              attributes,
+              item.text
+              ) 
+            }}
+
+            {% if not loop.last %}{% endif %}
+          </li>
+        {%- endif -%}
+      {% endfor %}
+      {# 
+      
+      Loops through breadcrumb link items.
+
+      #}
+
+      {# 
+      
+      Renders current page details.
+
+      #}
+      <li class="">
+        <a class="" href="{{ params.current_page_href }}"{% for attribute in item.attributes %} {{attribute.attribute}}="{{attribute.value}}"{% endfor %}>
+          {{ params.current_page_title}}
+        </a>
+      </li>
+      {# 
+      
+      Renders current page details.
+
+      #}
+
+    </ol>
+    {# {%- for item in params.items %}
+      {% set secondls = loop.last%}
+          {% if secondls %}
+            {{secondls}}
+            {{ item.text }}
+            <p class="nhsuk-breadcrumb__back"><a class="nhsuk-breadcrumb__backlink" href="{{ params.current_page_href }}">Back to {{ params.current_page_title }}</a></p>
+          {% endif %}
+      {% endfor %} #}
+  </div>
+</nav>
+{% endmacro %}
+
+  {{ breadcrumb({
+    classes: 'fddfd dfsf',
+    current_page_href: "/level-one/level-two/level-three",
+    current_page_title: "Level three",
+    helper_attributes: [
+      {
+        attribute: 'test-attribute',
+        value: 'test-value'
+      },
+      {
+        attribute: 'test-ff',
+        value: 'test-ff'
+      }
+    ],
+    items: [
+      {
+        href: "/level-one",
+        text: "Level one",
+        attributes: [
+          {
+            attribute: 'test-attribute',
+            value: 'test-value'
+          },
+          {
+            attribute: 'test-ff',
+            value: 'test-ff'
+          }
+        ]
+      },
+      {
+        href: "/level-one/level-two",
+        text: "Level two"
+      }
+    ]
+  }) }}

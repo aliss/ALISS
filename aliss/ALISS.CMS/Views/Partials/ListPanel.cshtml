@@ -1,0 +1,96 @@
+﻿@inherits UmbracoViewPage
+@{
+	CdtHasListPanel content = new CdtHasListPanel(Model);
+	if ((content.ListPanels != null && content.ListPanels.Count() > 0) || content.ShowContactPanel)
+	{
+		<div class="aliss-content__secondary">
+			@if (content.ListPanels != null)
+			{
+				<div class="aliss-organism aliss-component-about-us aliss-content-spacer">
+					@foreach (DtListPanel list in content.ListPanels)
+					{
+						string iconClass = "aliss-icon-list__item--circle-tick";
+
+						if (list.ListType.ToLower() == "red cross")
+						{
+							iconClass = "aliss-icon-list__item--circle-cross";
+						}
+
+						<h2>
+							@list.Title
+						</h2>
+						<ul class="aliss-icon-list">
+							@foreach (DoDontListContentPicker item in list.ListItems)
+							{
+								<li class="aliss-icon-list__item @iconClass">@item.ComponentContents</li>
+							}
+						</ul>
+					}
+				</div>
+			}
+
+			@if (content.ShowContactPanel)
+			{
+				DtConfiguration config = new DtConfiguration(Model.Root().DescendantOrSelfOfType(DtConfiguration.ModelTypeAlias));
+
+				<div class="aliss-organism aliss-content-spacer blue">
+					<div class="aliss-component-master__contents">
+						<h2>
+							Contact information
+						</h2>
+						<p>
+							You can get in touch with us using the following details:
+						</p>
+					</div>
+
+					<div class="aliss-component-master__links">
+						<ul class="aliss-icon-list aliss-icon-list--100">
+							@if (!string.IsNullOrWhiteSpace(config.PhoneNumber))
+							{
+								<li class="aliss-icon-list__item aliss-icon-list__item--telephone">
+									<a id="aliss-contact-telephone" href="tel:@config.PhoneNumber">
+										@config.PhoneNumber
+									</a>
+								</li>
+							}
+							@if (!string.IsNullOrWhiteSpace(config.EmailAddress))
+							{
+								<li class="aliss-icon-list__item aliss-icon-list__item--email">
+									<a id="aliss-contact-email" href="mailto:hello@aliss.org" title="(This will open in a new window, your email client)." target="_blank">
+										hello@aliss.org
+									</a>
+								</li>
+							}
+							@if (!string.IsNullOrWhiteSpace(config.Address))
+							{
+								string googleAddress = "Health and Social Care Alliance Scotland, 349 Bath Street, Glasgow, G2 4AA";
+								<li class="aliss-icon-list__item aliss-icon-list__item--location">
+									<a id="aliss-contact-location" href="https://maps.google.com?daddr='@googleAddress'" title="(This will open in a new window)." target="_blank">
+										@config.Address
+									</a>
+									}
+								</li>
+							}
+							@if (!string.IsNullOrWhiteSpace(config.Twitter))
+							{
+								<li class="aliss-icon-list__item aliss-icon-list__item--twitter">
+									<a id="aliss-contact-twitter" href="https://twitter.com/@config.Twitter" title="(This will open in a new window)." target="_blank">
+										Follow us on X/Twitter
+									</a>
+								</li>
+							}
+							@if (!string.IsNullOrWhiteSpace(config.ContactScotland))
+							{
+								<li class=" aliss-icon-list__item aliss-icon-list__item--website">
+									<a id="aliss-contact-website" href="@config.ContactScotland" title="(This will open in a new window)." target="_blank">
+										Contact Scotland Website
+									</a>
+								</li>
+							}
+						</ul>
+					</div>
+				</div>
+			}
+		</div>
+	}
+}

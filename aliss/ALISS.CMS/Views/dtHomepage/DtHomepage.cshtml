@@ -1,0 +1,99 @@
+﻿@using System.Configuration
+@using ALISS.CMS.Extensions
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.DtHomepage>
+@{
+    Layout = "~/Views/Master.cshtml";
+    string servicesUrl = Model.AncestorOrSelf(DtHomepage.ModelTypeAlias).DescendantOrSelfOfType(DtServices.ModelTypeAlias)?.Url();
+    bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+    ? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+    : false;
+    int searchOptionInstance = 0;
+}
+
+<main>
+    <section class="aliss-homepage-search__section">
+        <div class="aliss-grid">
+            <div class="aliss-organism-homepage-search">
+                <div class="aliss-organism-homepage-search__block">
+                    <h1 class="aliss-organism-homepage-search__title no-margin">Connecting you to your community.</h1>
+                    <p class="mt--8 mb--0">Find services, groups and activities for health and wellbeing across Scotland.</p>
+                    <p class="mt--48"><strong>Search by:</strong></p>
+                    <div class="search-options">
+                        @{
+                            string activeClass = "search-options__option--active";
+                            foreach (CdtSearchOption item in Model.SearchOptions)
+                            {
+                                searchOptionInstance++;
+                                string buttonId = $"searchOption_button_{searchOptionInstance}";
+                                string fieldId = $"searchOption_field_{searchOptionInstance}";
+
+                                <button id="@buttonId" data-field="@fieldId" class="search-options__option @activeClass" role="button">
+                                    <i class="search-options__option__icon @item.Icon" aria-hidden="true"></i>@item.Title
+                                    @if (item.Title == "Where")
+                                    {
+                                        <span class="sr-only">Click here to search by postcode, town or city</span>
+                                    }
+                                    else if (item.Title == "Categories")
+                                    {
+                                        <span class="sr-only">Click here to search by a topic or category of support</span>
+                                    }
+                                    else if (item.Title == "Who")
+                                    {
+                                        <span class="sr-only">Click here to search by a community or demographic</span>
+                                    }
+                                </button>
+                                activeClass = "";
+                            }
+                            searchOptionInstance = 0;
+                        }
+                    </div>
+
+                    <div class="search-options__field">
+                        @foreach (CdtSearchOption item in Model.SearchOptions)
+                        {
+                            searchOptionInstance++;
+                            string fieldId = $"searchOption_field_{searchOptionInstance}";
+
+                            switch (item.SearchType.ToLower())
+                            {
+                                case "location":
+                                    <div id="@fieldId" class="">
+                                        @Html.Partial("SearchWhere", item, new ViewDataDictionary { { "enableMonsidoTracking", enableMonsidoTracking }, { "servicesUrl", servicesUrl } })
+                                    </div>
+                                    break;
+                                case "what":
+                                    <div id="@fieldId" class="hidden">
+                                        @Html.Partial("SearchWhat", item, new ViewDataDictionary { { "enableMonsidoTracking", enableMonsidoTracking }, { "servicesUrl", servicesUrl } })
+                                    </div>
+                                    break;
+                                case "category":
+                                    <div id="@fieldId" class="hidden">
+                                        @Html.Partial("SearchCategories", item, new ViewDataDictionary { { "enableMonsidoTracking", enableMonsidoTracking }, { "servicesUrl", servicesUrl } })
+                                    </div>
+                                    break;
+                                case "who":
+                                    <div id="@fieldId" class="hidden">
+                                        @Html.Partial("SearchWho", item, new ViewDataDictionary { { "enableMonsidoTracking", enableMonsidoTracking }, { "servicesUrl", servicesUrl } })
+                                    </div>
+                                    break;
+                            }
+                        }
+                    </div>
+                    <div id="srch"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="aliss-search-suggestions">
+        <div class="aliss-grid">
+            @Html.Partial("SearchSuggestions")
+        </div>
+    </section>
+</main>
+
+@section Metadata
+{
+    @Html.Metadata(Model as IPublishedContent)
+}

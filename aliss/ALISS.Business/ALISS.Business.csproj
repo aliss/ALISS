@@ -1,0 +1,709 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E86D6DE5-615C-482F-9FA8-5528E0C26CB9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ALISS.Business</RootNamespace>
+    <AssemblyName>ALISS.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Azure.Core, Version=1.25.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Core.1.25.0\lib\net461\Azure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Storage.Blobs, Version=12.13.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Storage.Blobs.12.13.0\lib\netstandard2.0\Azure.Storage.Blobs.dll</HintPath>
+    </Reference>
+    <Reference Include="Azure.Storage.Common, Version=12.12.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Azure.Storage.Common.12.12.0\lib\netstandard2.0\Azure.Storage.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Elasticsearch.Net, Version=7.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.7.16.0\lib\net461\Elasticsearch.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=5.8.3.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.8.3\lib\net45\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Nest, Version=7.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NEST.7.16.0\lib\net461\Nest.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Hashing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Hashing.6.0.0\lib\net461\System.IO.Hashing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.1.0.2\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.7.2\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.4.7.2\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ALISSContext.cs" />
+    <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="ApplicationUser.cs" />
+    <Compile Include="ApplicationUserManager.cs" />
+    <Compile Include="Enums\ClaimStatusEnum.cs" />
+    <Compile Include="Enums\DataInputSummaryTypeEnum.cs" />
+    <Compile Include="Enums\DataInputStepsEnum.cs" />
+    <Compile Include="Enums\DataInputServiceGalleryEnum.cs" />
+    <Compile Include="Enums\ReviewEmailEnum.cs" />
+    <Compile Include="Enums\RolesEnum.cs" />
+    <Compile Include="Enums\ServiceAreaTypeEnum.cs" />
+    <Compile Include="Migrations\202109070911411_InitialCreation.cs" />
+    <Compile Include="Migrations\202109070911411_InitialCreation.Designer.cs">
+      <DependentUpon>202109070911411_InitialCreation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109151249453_claims.cs" />
+    <Compile Include="Migrations\202109151249453_claims.designer.cs">
+      <DependentUpon>202109151249453_claims.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110051101338_audits.cs" />
+    <Compile Include="Migrations\202110051101338_audits.designer.cs">
+      <DependentUpon>202110051101338_audits.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110051154187_remove-duplicate-login-date.cs" />
+    <Compile Include="Migrations\202110051154187_remove-duplicate-login-date.designer.cs">
+      <DependentUpon>202110051154187_remove-duplicate-login-date.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202110071453041_organisation_claimed_date.cs" />
+    <Compile Include="Migrations\202110071453041_organisation_claimed_date.designer.cs">
+      <DependentUpon>202110071453041_organisation_claimed_date.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112011031349_description-max-length.cs" />
+    <Compile Include="Migrations\202112011031349_description-max-length.designer.cs">
+      <DependentUpon>202112011031349_description-max-length.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205111509334_Collections_Improvements.cs" />
+    <Compile Include="Migrations\202205111509334_Collections_Improvements.designer.cs">
+      <DependentUpon>202205111509334_Collections_Improvements.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205121436205_Improvement_Created_Resolved.cs" />
+    <Compile Include="Migrations\202205121436205_Improvement_Created_Resolved.designer.cs">
+      <DependentUpon>202205121436205_Improvement_Created_Resolved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202205181350332_remove_org_description_limits.cs" />
+    <Compile Include="Migrations\202205181350332_remove_org_description_limits.designer.cs">
+      <DependentUpon>202205181350332_remove_org_description_limits.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208301613490_remove_service_description_limit.cs" />
+    <Compile Include="Migrations\202208301613490_remove_service_description_limit.designer.cs">
+      <DependentUpon>202208301613490_remove_service_description_limit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212201021492_ServiceArea-GeoJson.cs" />
+    <Compile Include="Migrations\202212201021492_ServiceArea-GeoJson.designer.cs">
+      <DependentUpon>202212201021492_ServiceArea-GeoJson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301131151122_ServiceReferralUrl.cs" />
+    <Compile Include="Migrations\202301131151122_ServiceReferralUrl.designer.cs">
+      <DependentUpon>202301131151122_ServiceReferralUrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301301418323_ServiceArea-Parent.cs" />
+    <Compile Include="Migrations\202301301418323_ServiceArea-Parent.designer.cs">
+      <DependentUpon>202301301418323_ServiceArea-Parent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301301421222_ServiceArea-ParentNullable.cs" />
+    <Compile Include="Migrations\202301301421222_ServiceArea-ParentNullable.designer.cs">
+      <DependentUpon>202301301421222_ServiceArea-ParentNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302171051049_Sprint9-Cleanup.cs" />
+    <Compile Include="Migrations\202302171051049_Sprint9-Cleanup.designer.cs">
+      <DependentUpon>202302171051049_Sprint9-Cleanup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302231428258_OrganisationClaimUser.cs" />
+    <Compile Include="Migrations\202302231428258_OrganisationClaimUser.designer.cs">
+      <DependentUpon>202302231428258_OrganisationClaimUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302271246561_ClaimLead.cs" />
+    <Compile Include="Migrations\202302271246561_ClaimLead.designer.cs">
+      <DependentUpon>202302271246561_ClaimLead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303011219212_Service_Claimed.cs" />
+    <Compile Include="Migrations\202303011219212_Service_Claimed.designer.cs">
+      <DependentUpon>202303011219212_Service_Claimed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303011609474_ServiceClaim-Table.cs" />
+    <Compile Include="Migrations\202303011609474_ServiceClaim-Table.designer.cs">
+      <DependentUpon>202303011609474_ServiceClaim-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303031343348_ServiceClaimUsers-Table.cs" />
+    <Compile Include="Migrations\202303031343348_ServiceClaimUsers-Table.designer.cs">
+      <DependentUpon>202303031343348_ServiceClaimUsers-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303270924298_ServiceInstagram.cs" />
+    <Compile Include="Migrations\202303270924298_ServiceInstagram.designer.cs">
+      <DependentUpon>202303270924298_ServiceInstagram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303270943024_OrganisationInstagram.cs" />
+    <Compile Include="Migrations\202303270943024_OrganisationInstagram.designer.cs">
+      <DependentUpon>202303270943024_OrganisationInstagram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202304191556266_Service_Published.cs" />
+    <Compile Include="Migrations\202304191556266_Service_Published.designer.cs">
+      <DependentUpon>202304191556266_Service_Published.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305231215451_DataInput1.cs" />
+    <Compile Include="Migrations\202305231215451_DataInput1.designer.cs">
+      <DependentUpon>202305231215451_DataInput1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306051400374_RemoveLogoCaptions.cs" />
+    <Compile Include="Migrations\202306051400374_RemoveLogoCaptions.designer.cs">
+      <DependentUpon>202306051400374_RemoveLogoCaptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307031219489_MediaGallery-Table.cs" />
+    <Compile Include="Migrations\202307031219489_MediaGallery-Table.designer.cs">
+      <DependentUpon>202307031219489_MediaGallery-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307031233014_ServiceAccessibilityFeature_AdditionalInfo.cs" />
+    <Compile Include="Migrations\202307031233014_ServiceAccessibilityFeature_AdditionalInfo.designer.cs">
+      <DependentUpon>202307031233014_ServiceAccessibilityFeature_AdditionalInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307041053470_Improvement-Names.cs" />
+    <Compile Include="Migrations\202307041053470_Improvement-Names.designer.cs">
+      <DependentUpon>202307041053470_Improvement-Names.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307250810468_CommunityGroup-MinMax.cs" />
+    <Compile Include="Migrations\202307250810468_CommunityGroup-MinMax.designer.cs">
+      <DependentUpon>202307250810468_CommunityGroup-MinMax.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307251217575_ServiceCommunityGroup-MinMax.cs" />
+    <Compile Include="Migrations\202307251217575_ServiceCommunityGroup-MinMax.designer.cs">
+      <DependentUpon>202307251217575_ServiceCommunityGroup-MinMax.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308191138351_Where-HowServiceAccessed.cs" />
+    <Compile Include="Migrations\202308191138351_Where-HowServiceAccessed.designer.cs">
+      <DependentUpon>202308191138351_Where-HowServiceAccessed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202309071255157_MediaGalleryReference.cs" />
+    <Compile Include="Migrations\202309071255157_MediaGalleryReference.designer.cs">
+      <DependentUpon>202309071255157_MediaGalleryReference.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202309201515039_AccessibilityFeatures-PhysicalVirtual.cs" />
+    <Compile Include="Migrations\202309201515039_AccessibilityFeatures-PhysicalVirtual.designer.cs">
+      <DependentUpon>202309201515039_AccessibilityFeatures-PhysicalVirtual.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202309211427115_ServiceAccessibilityFeatures-LocationInformation.cs" />
+    <Compile Include="Migrations\202309211427115_ServiceAccessibilityFeatures-LocationInformation.designer.cs">
+      <DependentUpon>202309211427115_ServiceAccessibilityFeatures-LocationInformation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202309291202565_ServiceAccessibilityFeatures-UpdateKey.cs" />
+    <Compile Include="Migrations\202309291202565_ServiceAccessibilityFeatures-UpdateKey.designer.cs">
+      <DependentUpon>202309291202565_ServiceAccessibilityFeatures-UpdateKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310201132429_ExtendLocationDetails.cs" />
+    <Compile Include="Migrations\202310201132429_ExtendLocationDetails.designer.cs">
+      <DependentUpon>202310201132429_ExtendLocationDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202311011129476_Service-Deprioritised.cs" />
+    <Compile Include="Migrations\202311011129476_Service-Deprioritised.designer.cs">
+      <DependentUpon>202311011129476_Service-Deprioritised.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202311131110378_ServiceReview-Table.cs" />
+    <Compile Include="Migrations\202311131110378_ServiceReview-Table.Designer.cs">
+      <DependentUpon>202311131110378_ServiceReview-Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202312071104500_MediaGallery-UploadApproved.cs" />
+    <Compile Include="Migrations\202312071104500_MediaGallery-UploadApproved.designer.cs">
+      <DependentUpon>202312071104500_MediaGallery-UploadApproved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202312111640099_Audits-AddActionsAndDeletionTracking.cs" />
+    <Compile Include="Migrations\202312111640099_Audits-AddActionsAndDeletionTracking.designer.cs">
+      <DependentUpon>202312111640099_Audits-AddActionsAndDeletionTracking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202401041234180_MediaGallery-OptionalDates.cs" />
+    <Compile Include="Migrations\202401041234180_MediaGallery-OptionalDates.designer.cs">
+      <DependentUpon>202401041234180_MediaGallery-OptionalDates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202401151513254_MediaGallery-UserIdsNullable.cs" />
+    <Compile Include="Migrations\202401151513254_MediaGallery-UserIdsNullable.designer.cs">
+      <DependentUpon>202401151513254_MediaGallery-UserIdsNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202401151521330_MediaGallery-UserForiegnKeys.cs" />
+    <Compile Include="Migrations\202401151521330_MediaGallery-UserForiegnKeys.designer.cs">
+      <DependentUpon>202401151521330_MediaGallery-UserForiegnKeys.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202401171244446_Audit-MakeIdsNullable.cs" />
+    <Compile Include="Migrations\202401171244446_Audit-MakeIdsNullable.designer.cs">
+      <DependentUpon>202401171244446_Audit-MakeIdsNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202401251008058_Services-SuggestedFlag.cs" />
+    <Compile Include="Migrations\202401251008058_Services-SuggestedFlag.designer.cs">
+      <DependentUpon>202401251008058_Services-SuggestedFlag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202403190916141_MediaGallery Submitted.cs" />
+    <Compile Include="Migrations\202403190916141_MediaGallery Submitted.designer.cs">
+      <DependentUpon>202403190916141_MediaGallery Submitted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="PresentationTransferObjects\AccessibilityFeature\ServiceLocationAccessibilityFeaturePTO.cs" />
+    <Compile Include="PresentationTransferObjects\Category\ServiceCategoryPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Claimant\ServiceClaimantPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Claimant\OrganisationClaimantPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Claim\ClaimExportPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Claim\ClaimPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Collection\CollectionListPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Collection\CollectionServicePTO.cs" />
+    <Compile Include="PresentationTransferObjects\Collection\EmailCollectionServicePTO.cs" />
+    <Compile Include="PresentationTransferObjects\AccessibilityFeature\AccessibilityFeaturePTO.cs" />
+    <Compile Include="PresentationTransferObjects\AccessibilityFeature\ServiceAccessibilityFeaturePTO.cs" />
+    <Compile Include="PresentationTransferObjects\CommunityGroup\CommunityGroupPTO.cs" />
+    <Compile Include="PresentationTransferObjects\CommunityGroup\ServiceCommunityGroupPTO.cs" />
+    <Compile Include="PresentationTransferObjects\DataInput\ContinueAddingPTO.cs" />
+    <Compile Include="PresentationTransferObjects\DataInput\LocationAccessibilityFeaturePTO.cs" />
+    <Compile Include="PresentationTransferObjects\DataInput\WhereLocationPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Export\ClaimExportPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Improvement\ImprovementListingPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Location\ServiceLocationPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Location\LocationPTO.cs" />
+    <Compile Include="PresentationTransferObjects\ServiceArea\ServiceServiceAreaPTO.cs" />
+    <Compile Include="PresentationTransferObjects\ServiceArea\ServiceAreaPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Category\CategoryPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Organisation\OrganisationPTO.cs" />
+    <Compile Include="PresentationTransferObjects\ServiceClaim\ServiceClaimPTO.cs" />
+    <Compile Include="PresentationTransferObjects\ServiceReviews\DeprioritisedServicePTO.cs" />
+    <Compile Include="PresentationTransferObjects\ServiceReviews\ReviewPTO.cs" />
+    <Compile Include="PresentationTransferObjects\Service\RelatedServicePTO.cs" />
+    <Compile Include="PresentationTransferObjects\Service\ServicePTO.cs" />
+    <Compile Include="PresentationTransferObjects\User\UserExportPTO.cs" />
+    <Compile Include="PresentationTransferObjects\User\UserPTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccessibilityFeatureService.cs" />
+    <Compile Include="Services\BlobStorageService.cs" />
+    <Compile Include="Services\CommunityGroupService.cs" />
+    <Compile Include="Services\DataInput\DataInputAccessabilityService.cs" />
+    <Compile Include="Services\DataInput\DataInputMediaService.cs" />
+    <Compile Include="Services\DataInput\DataInputOrganisationService.cs" />
+    <Compile Include="Services\DataInput\DataInputServiceService.cs" />
+    <Compile Include="Services\DataInput\DataInputSummaryService.cs" />
+    <Compile Include="Services\DataInput\DataInputCategoriesService.cs" />
+    <Compile Include="Services\DataInput\DataInputWhereService.cs" />
+    <Compile Include="Services\DataInputService.cs" />
+    <Compile Include="Services\DataInput\DataInputWhoService.cs" />
+    <Compile Include="Services\ServiceClaimService.cs" />
+    <Compile Include="Services\ClaimService.cs" />
+    <Compile Include="Services\CollectionService.cs" />
+    <Compile Include="Services\ElasticSearchService.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\ExportService.cs" />
+    <Compile Include="Services\ImprovementService.cs" />
+    <Compile Include="Services\OrganisationService.cs" />
+    <Compile Include="Services\ReportingService.cs" />
+    <Compile Include="Services\ServiceService.cs" />
+    <Compile Include="Services\UserProfileService.cs" />
+    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\ServiceAreaService.cs" />
+    <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Validators\ConditionallyRequiredBoolTrueValidator.cs" />
+    <Compile Include="Validators\ConditionallyRequiredStringValidator.cs" />
+    <Compile Include="Validators\EmbededVideoValidator.cs" />
+    <Compile Include="Validators\FileTypeValidator.cs" />
+    <Compile Include="Validators\LocationValidator.cs" />
+    <Compile Include="Validators\MinMaxValidator.cs" />
+    <Compile Include="Validators\PhoneNumberValidator.cs" />
+    <Compile Include="Validators\UrlValidator.cs" />
+    <Compile Include="ViewModels\BulkEmail\CustomEmailViewModel.cs" />
+    <Compile Include="ViewModels\Category\DeleteCategoryViewModel.cs" />
+    <Compile Include="ViewModels\Claim\AddClaimViewModel.cs" />
+    <Compile Include="ViewModels\Claim\EditClaimViewModel.cs" />
+    <Compile Include="ViewModels\Collection\AddCollectionServiceViewModel.cs" />
+    <Compile Include="ViewModels\Collection\CollectionListingViewModel.cs" />
+    <Compile Include="ViewModels\Collection\CollectionViewModel.cs" />
+    <Compile Include="ViewModels\Collection\EditCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Collection\EmailCollectionViewModel.cs" />
+    <Compile Include="ViewModels\Collection\PostEmailCollectionViewModel.cs" />
+    <Compile Include="ViewModels\AccessibilityFeature\AccessibilityFeatureListingViewModel.cs" />
+    <Compile Include="ViewModels\AccessibilityFeature\DeleteAccessibilityFeatureViewModel.cs" />
+    <Compile Include="ViewModels\AccessibilityFeature\EditTopLevelAccessibilityFeatureViewModel.cs" />
+    <Compile Include="ViewModels\CommunityGroup\CommunityGroupListingViewModel.cs" />
+    <Compile Include="ViewModels\CommunityGroup\DeleteCommunityGroupViewModel.cs" />
+    <Compile Include="ViewModels\CommunityGroup\EditLowerLevelCommunityGroupViewModel.cs" />
+    <Compile Include="ViewModels\CommunityGroup\EditTopLevelCommunityGroupViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\AccessabilityViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\CancelApplicationViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\ConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\ContinueAddingViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\MediaViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\OrganisationViewModelNoValidation.cs" />
+    <Compile Include="ViewModels\DataInput\ServiceViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\SummaryViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\CategoriesViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\WhereViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\OrganisationViewModel.cs" />
+    <Compile Include="ViewModels\DataInput\WhoViewModel.cs" />
+    <Compile Include="ViewModels\Improvement\EditImprovementViewModel.cs" />
+    <Compile Include="ViewModels\Improvement\ImprovementListingViewModel.cs" />
+    <Compile Include="ViewModels\Improvement\ViewImprovementViewModel.cs" />
+    <Compile Include="ViewModels\Location\DeleteLocationViewModel.cs" />
+    <Compile Include="ViewModels\Claim\ClaimListingViewModel.cs" />
+    <Compile Include="ViewModels\Organisation\MakeLeadOrganisationClaimantViewModel.cs" />
+    <Compile Include="ViewModels\ServiceReviews\DeprioritisedServicesViewModel.cs" />
+    <Compile Include="ViewModels\ServiceReviews\ServiceReviewListingViewModel.cs" />
+    <Compile Include="ViewModels\Service\MakeLeadServiceClaimantViewModel.cs" />
+    <Compile Include="ViewModels\ServiceClaim\EditServiceClaimViewModel.cs" />
+    <Compile Include="ViewModels\Location\EditLocationViewModel.cs" />
+    <Compile Include="ViewModels\Organisation\OrganisationClaimantListingViewModel.cs" />
+    <Compile Include="ViewModels\Location\LocationListingViewModel.cs" />
+    <Compile Include="ViewModels\Location\PostcodeResponse.cs" />
+    <Compile Include="ViewModels\Organisation\DeleteOrganisationViewModel.cs" />
+    <Compile Include="ViewModels\Report\ActivityReportViewModel.cs" />
+    <Compile Include="ViewModels\ServiceArea\DeleteServiceAreaModel.cs" />
+    <Compile Include="ViewModels\ServiceArea\ServiceAreaListingViewModel.cs" />
+    <Compile Include="ViewModels\ServiceArea\EditServiceAreaViewModel.cs" />
+    <Compile Include="ViewModels\Category\CategoryListingViewModel.cs" />
+    <Compile Include="ViewModels\Category\EditLowerLevelCategoryViewModel.cs" />
+    <Compile Include="ViewModels\Category\EditTopLevelCategoryViewModel.cs" />
+    <Compile Include="ViewModels\Organisation\AddOrganisationViewModel.cs" />
+    <Compile Include="ViewModels\Organisation\EditOrganisationViewModel.cs" />
+    <Compile Include="ViewModels\Organisation\OrganisationListingViewModel.cs" />
+    <Compile Include="ViewModels\ServiceClaim\ClaimListingViewModel.cs" />
+    <Compile Include="ViewModels\Service\DeleteServiceViewModel.cs" />
+    <Compile Include="ViewModels\Service\EditServiceViewModel.cs" />
+    <Compile Include="ViewModels\Service\ServiceClaimantListingViewModel.cs" />
+    <Compile Include="ViewModels\Service\ServiceListingViewModel.cs" />
+    <Compile Include="ViewModels\Service\ClaimDeniedViewModel.cs" />
+    <Compile Include="ViewModels\Service\ShareServiceViewModel.cs" />
+    <Compile Include="ViewModels\User\CurrentUserViewModel.cs" />
+    <Compile Include="ViewModels\User\DeleteUserViewModel.cs" />
+    <Compile Include="ViewModels\User\EditUserViewModel.cs" />
+    <Compile Include="ViewModels\User\UserListingViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ALISS.API\ALISS.API.csproj">
+      <Project>{a1ad4a63-db4f-4aa9-a64f-35d9659ce0fc}</Project>
+      <Name>ALISS.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ALISS.Models\ALISS.Models.csproj">
+      <Project>{a5fef261-88ce-41ee-ab1f-1eeba168d5ce}</Project>
+      <Name>ALISS.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tactuum.Core\Tactuum.Core.csproj">
+      <Project>{1c9131ca-b1ce-4d15-9a44-56b213748f31}</Project>
+      <Name>Tactuum.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202109070911411_InitialCreation.resx">
+      <DependentUpon>202109070911411_InitialCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109151249453_claims.resx">
+      <DependentUpon>202109151249453_claims.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110051101338_audits.resx">
+      <DependentUpon>202110051101338_audits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110051154187_remove-duplicate-login-date.resx">
+      <DependentUpon>202110051154187_remove-duplicate-login-date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110071453041_organisation_claimed_date.resx">
+      <DependentUpon>202110071453041_organisation_claimed_date.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112011031349_description-max-length.resx">
+      <DependentUpon>202112011031349_description-max-length.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205111509334_Collections_Improvements.resx">
+      <DependentUpon>202205111509334_Collections_Improvements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205121436205_Improvement_Created_Resolved.resx">
+      <DependentUpon>202205121436205_Improvement_Created_Resolved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202205181350332_remove_org_description_limits.resx">
+      <DependentUpon>202205181350332_remove_org_description_limits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208301613490_remove_service_description_limit.resx">
+      <DependentUpon>202208301613490_remove_service_description_limit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212201021492_ServiceArea-GeoJson.resx">
+      <DependentUpon>202212201021492_ServiceArea-GeoJson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301131151122_ServiceReferralUrl.resx">
+      <DependentUpon>202301131151122_ServiceReferralUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301301418323_ServiceArea-Parent.resx">
+      <DependentUpon>202301301418323_ServiceArea-Parent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301301421222_ServiceArea-ParentNullable.resx">
+      <DependentUpon>202301301421222_ServiceArea-ParentNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302171051049_Sprint9-Cleanup.resx">
+      <DependentUpon>202302171051049_Sprint9-Cleanup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302231428258_OrganisationClaimUser.resx">
+      <DependentUpon>202302231428258_OrganisationClaimUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302271246561_ClaimLead.resx">
+      <DependentUpon>202302271246561_ClaimLead.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303011219212_Service_Claimed.resx">
+      <DependentUpon>202303011219212_Service_Claimed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303011609474_ServiceClaim-Table.resx">
+      <DependentUpon>202303011609474_ServiceClaim-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303031343348_ServiceClaimUsers-Table.resx">
+      <DependentUpon>202303031343348_ServiceClaimUsers-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303270924298_ServiceInstagram.resx">
+      <DependentUpon>202303270924298_ServiceInstagram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303270943024_OrganisationInstagram.resx">
+      <DependentUpon>202303270943024_OrganisationInstagram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304191556266_Service_Published.resx">
+      <DependentUpon>202304191556266_Service_Published.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305231215451_DataInput1.resx">
+      <DependentUpon>202305231215451_DataInput1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306051400374_RemoveLogoCaptions.resx">
+      <DependentUpon>202306051400374_RemoveLogoCaptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307031219489_MediaGallery-Table.resx">
+      <DependentUpon>202307031219489_MediaGallery-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307031233014_ServiceAccessibilityFeature_AdditionalInfo.resx">
+      <DependentUpon>202307031233014_ServiceAccessibilityFeature_AdditionalInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307041053470_Improvement-Names.resx">
+      <DependentUpon>202307041053470_Improvement-Names.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307250810468_CommunityGroup-MinMax.resx">
+      <DependentUpon>202307250810468_CommunityGroup-MinMax.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307251217575_ServiceCommunityGroup-MinMax.resx">
+      <DependentUpon>202307251217575_ServiceCommunityGroup-MinMax.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308191138351_Where-HowServiceAccessed.resx">
+      <DependentUpon>202308191138351_Where-HowServiceAccessed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309071255157_MediaGalleryReference.resx">
+      <DependentUpon>202309071255157_MediaGalleryReference.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309201515039_AccessibilityFeatures-PhysicalVirtual.resx">
+      <DependentUpon>202309201515039_AccessibilityFeatures-PhysicalVirtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309211427115_ServiceAccessibilityFeatures-LocationInformation.resx">
+      <DependentUpon>202309211427115_ServiceAccessibilityFeatures-LocationInformation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309291202565_ServiceAccessibilityFeatures-UpdateKey.resx">
+      <DependentUpon>202309291202565_ServiceAccessibilityFeatures-UpdateKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310201132429_ExtendLocationDetails.resx">
+      <DependentUpon>202310201132429_ExtendLocationDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311011129476_Service-Deprioritised.resx">
+      <DependentUpon>202311011129476_Service-Deprioritised.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311131110378_ServiceReview-Table.resx">
+      <DependentUpon>202311131110378_ServiceReview-Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312071104500_MediaGallery-UploadApproved.resx">
+      <DependentUpon>202312071104500_MediaGallery-UploadApproved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312111640099_Audits-AddActionsAndDeletionTracking.resx">
+      <DependentUpon>202312111640099_Audits-AddActionsAndDeletionTracking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202401041234180_MediaGallery-OptionalDates.resx">
+      <DependentUpon>202401041234180_MediaGallery-OptionalDates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202401151513254_MediaGallery-UserIdsNullable.resx">
+      <DependentUpon>202401151513254_MediaGallery-UserIdsNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202401151521330_MediaGallery-UserForiegnKeys.resx">
+      <DependentUpon>202401151521330_MediaGallery-UserForiegnKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202401171244446_Audit-MakeIdsNullable.resx">
+      <DependentUpon>202401171244446_Audit-MakeIdsNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202401251008058_Services-SuggestedFlag.resx">
+      <DependentUpon>202401251008058_Services-SuggestedFlag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202403190916141_MediaGallery Submitted.resx">
+      <DependentUpon>202403190916141_MediaGallery Submitted.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

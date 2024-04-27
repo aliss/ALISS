@@ -1,0 +1,144 @@
+/** @format */
+
+//Visibility
+@use "sass:math";
+
+@mixin element-invisible {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	white-space: nowrap;
+	width: 1px;
+}
+
+@mixin element-invisible-off {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	overflow: visible;
+	position: static !important;
+	white-space: normal;
+	width: auto;
+}
+
+//Layout
+@mixin max-width {
+	margin: 0 auto;
+	max-width: rem-calc($global-width);
+	width: 100%;
+}
+
+//Positioning
+@mixin vertical-center {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+@mixin horizontal-center {
+	left: 50%;
+	position: absolute;
+	transform: translateX(-50%);
+}
+
+@mixin absolute-center {
+	left: 50%;
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+//Typograhy
+@mixin form-element {
+	background-clip: padding-box;
+	background-color: $white;
+	border: rem-calc(1) solid $light-gray;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	box-sizing: border-box;
+	color: $black;
+	display: inline-block;
+	font-family: $body-font-family;
+	font-weight: normal;
+	line-height: $global-lineheight;
+	outline: 0;
+	padding: rem-calc(10);
+	vertical-align: middle;
+	width: 100%;
+
+	&:hover,
+	&:active,
+	&:focus {
+		border-color: rgba($black, 0.5);
+		box-shadow: inset 0 0 rem-calc(5) rgba($light-gray, 0.75);
+	}
+}
+
+@mixin button-base {
+	-webkit-appearance: none;
+	background-color: transparent;
+	border: rem-calc(1) solid transparent;
+	-webkit-border-radius: 0;
+	cursor: pointer;
+	display: inline-block;
+	font-family: $body-font-family;
+	line-height: 1;
+	margin-bottom: $global-margin;
+	vertical-align: middle;
+
+	&:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+}
+
+@mixin clearfix {
+	&::before,
+	&::after {
+		content: ' ';
+		display: table;
+		flex-basis: 0;
+		order: 1;
+	}
+
+	&::after {
+		clear: both;
+	}
+}
+
+@mixin maintain-ratio($ratio: 1 1) {
+	@if length($ratio) < 2 or length($ratio) >2 {
+		@warn "$ratio must be a list with two values.";
+	}
+	$width: 100%;
+	$height: percentage(math.div(nth($ratio, 2), nth($ratio, 1)));
+
+	&::before {
+		content: '';
+		display: table;
+		height: 0;
+		padding-bottom: $height;
+		width: $width;
+	}
+}
+
+@mixin aliss-component {
+	background: map-get($brand, aliss-light-gray);
+	padding: rem-calc(15);
+}
+
+@mixin aliss-a-hover {
+	&:not(.btn):not(.link) {
+		color: map-get($brand, aliss-dark-blue);
+		&:hover {
+      text-decoration: none;
+			color: $white;
+			background-color: map-get($brand, aliss-dark-blue);
+			box-shadow: rem-calc(0 0 0 4) map-get($brand, aliss-dark-blue);
+		}
+	}
+}

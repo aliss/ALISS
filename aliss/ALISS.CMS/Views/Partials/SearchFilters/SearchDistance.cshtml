@@ -1,0 +1,80 @@
+﻿@model ALISS.ApiServices.ViewModels.Search.SearchViewModel
+@{
+	string distanceFilterStyle = Model.LocationType == "national" ? "display: none" : "";
+	bool isActive = Model.Radius != 10000;
+}
+<fieldset id="distance-filter" class="aliss-form__group aliss-form__group--radio aliss-form__group--no-margin" style="@distanceFilterStyle" data-form="search-loc-nat">
+    <div class="aliss-accordion-container">
+        <div class="aliss-content-accordion__filter-header">
+            <button id="aliss-accordion-filter-by-distance-btn" class="aliss-content-accordion__trigger aliss-accordion__trigger--active @(isActive ? "" : "")" type="button" data-accordion-trigger="filterByDistance">
+                Distance
+                <i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+                <span class="sr-only">Click here to toggle the visibility of the distance filter section</span>
+            </button>
+        </div>
+        <div class="aliss-content-accordion__content pt--8 aliss-accordion__content--active @(isActive ? "" : "")" id="filterByDistance" aria-hidden="true">
+            <span class="aliss-form__label">
+                Show me services within a:
+            </span>
+            <div class="aliss-form__radio">
+                <label class="aliss-form__radio__label js-label @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__radio__label--disabled" : "")" for="Radius1">15 minute walk (1km/0.6mi)</label>
+                <input class="aliss-form__input service-search-filter-radio @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__input--disabled" : "")"
+                       type="radio"
+                       name="Radius"
+                       id="Radius1"
+                       value="1000"
+                       alt="@(String.IsNullOrEmpty(Model.Postcode) ? "To sort by distance, please search by postcode" : "")"
+                       @(Model.Radius == 1000 ? "checked" : "")
+                       @(String.IsNullOrEmpty(Model.Postcode) ? "disabled" : "")>
+            </div>
+            <div class="aliss-form__radio">
+                <label class="aliss-form__radio__label @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__radio__label--disabled" : "")" for="Radius2">10 minute drive  (10km/6.2mi)</label>
+                <input class="aliss-form__input service-search-filter-radio @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__input--disabled" : "")"
+                       type="radio"
+                       name="Radius"
+                       id="Radius2"
+                       value="10000"
+                       @(Model.Radius == 10000 ? "checked" : "")
+                       @(String.IsNullOrEmpty(Model.Postcode) ? "disabled" : "")>
+            </div>
+            <div class="aliss-form__radio">
+                <label class="aliss-form__radio__label @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__radio__label--disabled" : "")" for="Radius3">30 minute drive  (30km/18.6mi)</label>
+                <input class="aliss-form__input service-search-filter-radio @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__input--disabled" : "")"
+                       type="radio"
+                       name="Radius"
+                       id="Radius3"
+                       value="30000"
+                       @(Model.Radius == 30000 ? "checked" : "")
+                       @(String.IsNullOrEmpty(Model.Postcode) ? "disabled" : "")>
+            </div>
+            <div class="aliss-form__radio mt--24">
+                <label class="aliss-form__radio__label @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__radio__label--disabled" : "")" for="Radius4">Custom Distance (<span id="custom-radius-input-value">@(Model.CustomRadius / 1000)km</span>)</label>
+                <input class="aliss-form__input @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__input--disabled" : "")"
+                       type="radio"
+                       name="Radius"
+                       id="Radius4"
+                       value="0"
+                       @(Model.Radius != 1000 && Model.Radius != 10000 && Model.Radius != 30000 ? "checked" : "")
+                       @(String.IsNullOrEmpty(Model.Postcode) ? "disabled" : "")>
+                <input class="aliss-form__range-input range-slider__range @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__input--disabled" : "")"
+                       id="custom-radius-input"
+                       type="range"
+                       min="1000"
+                       max="100000"
+                       value="@Model.CustomRadius"
+                       step="1000"
+                       aria-valuemin="1000"
+                       aria-valuemax="50000"
+                       aria-valuenow="@Model.CustomRadius"
+                       name="CustomRadius"
+                       @(String.IsNullOrEmpty(Model.Postcode) ? "disabled" : "")>
+                @*<div id="custom-distance-button" @(Model.Radius != 1000 && Model.Radius != 10000 && Model.Radius != 30000 ? "" : "hidden")>
+                        <button class="btn btn--primary btn--submit" type="submit">Apply</button>
+                    </div>*@
+                <button id="custom-distance-button" class="btn btn--primary btn--submit hide">Apply</button>
+            </div>
+            <span class="aliss-form__label--disclaimer">This distance is measured in straight lines</span>
+        </div>
+    </div>
+
+</fieldset>

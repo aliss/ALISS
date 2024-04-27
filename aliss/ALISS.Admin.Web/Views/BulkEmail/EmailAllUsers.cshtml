@@ -1,0 +1,53 @@
+﻿@model ALISS.Business.ViewModels.BulkEmail.CustomEmailViewModel
+@{
+	ViewBag.Title = "Email All Users";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("EmailAllUsers", "BulkEmail", FormMethod.Post, new { @class = "aliss-form", onsubmit = "handleSubmit()", enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	<div id="emailInput">
+		@Html.ALISSTextBox(s => s.Subject)
+		@Html.ALISSRTEditor(b => b.Body, "Please enter the email body", fullToolbar: true)
+		<div id="emailInput-File">
+			<br />
+			<span>Add an file to this email by selecting the choose file button below (optional)</span>
+			<br />
+			<span>Please note - files uploaded must be smalled than 2.5Mb.</span>
+			<br /><br />
+			<div class="aliss-form__file">
+				<button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+				<input class="aliss-form__file-input" type="file" name="EmailAttachment" id="EmailAttachment" hidden />
+				<div class="aliss-form__file-display"></div>
+			</div>
+		</div>
+		<br /><br />
+		@Html.ALISSCheckbox(c => c.CCAlissAdmin)
+	</div>
+
+	<div id="previewEmail" style="display:none">
+		<label>To: All ALISS Users</label>
+		<br />
+		<label id="previewCC" hidden>CC: ALISS Admin<br /></label>
+		<label>Subject:</label>
+		<label id="previewSubject"></label>
+		<br />
+		<label id="previewImage" hidden></label>
+		<br />
+		@Html.Partial("../EmailTemplates/CustomEmail", Model)
+
+		<button type="submit" class="btn btn--primary">Send</button>
+	</div>
+}
+
+<br />
+<div class="aliss-form__checkbox">
+	<input class="aliss-form__input" type="checkbox" id="checkbox-emailPreview" />
+	<label for="checkbox-emailPreview"><strong>Preview?</strong></label>
+</div>

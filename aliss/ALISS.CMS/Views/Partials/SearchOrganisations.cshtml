@@ -1,0 +1,22 @@
+﻿@inherits UmbracoViewPage
+@{
+	string organisationsUrl = Model.AncestorOrSelf(DtHomepage.ModelTypeAlias).DescendantOrSelfOfType(DtOrganisations.ModelTypeAlias)?.Url();
+}
+<div>
+	<h3>Search organisations</h3>
+	<p>Before you try adding your organisation, check if it is already listed on ALISS by searching below.</p>
+	<div class="aliss-search no-margin">
+		<div class="aliss-search__filter">
+			<form id="search-form-organisations" class="aliss-form__group aliss-form__group--search" action="@organisationsUrl" method="get">
+				<label class="aliss-form__label aliss-form__label--search" for="search-organisations">
+					Search Organisations
+				</label>
+				<div class="aliss-form__input-container">
+					<input id="search-organisations" name="searchterm" class="aliss-form__search--clearable" autocomplete="on" type="text" placeholder="E.g. Diabetes UK">
+					<span id="search-clear" class="aliss-form__input-container--clear"><i class="fas fa-times"></i></span>
+				</div>
+				<button class="btn btn--primary" type="submit">Search</button>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model ALISS.Business.ViewModels.Service.MakeLeadOrganisationClaimantViewModel
+
+@{
+	ViewBag.Title = "Change Lead Organisation Claimant";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("MakeLeadOrganisationClaimant", "Organisation", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Change Lead Service Claimant</legend>
+
+		@Html.ALISSTextArea(m => m.Message, "Email body")
+		@Html.ALISSCheckbox(m => m.Confirmation)
+
+		@Html.HiddenFor(m => m.Claimant.OrganisationClaimUserId)
+		@Html.HiddenFor(m => m.Claimant.OrganisationId)
+		@Html.HiddenFor(m => m.Claimant.ClaimantUserId)
+		@Html.HiddenFor(m => m.Claimant.ClaimantName)
+		@Html.HiddenFor(m => m.Claimant.ClaimantEmail)
+		@Html.HiddenFor(m => m.Claimant.ApprovedOn)
+	</fieldset>
+
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary">Submit</button>
+		@Html.ActionLink("Cancel", "ListOrganisationClaimants", "Organisation", new { id = Model.Claimant.OrganisationId }, new { @class = "btn btn--primary" })
+	</div>
+}
+
+@section sidemenu {
+	@Html.Partial("_OrganisationMenu")
+}

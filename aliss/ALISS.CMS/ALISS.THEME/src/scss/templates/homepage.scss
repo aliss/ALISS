@@ -1,0 +1,346 @@
+/** @format */
+
+/* General Styles */
+
+.aliss-homepage-search__section {
+	background-color: #f0f4f9;
+}
+
+.aliss-organism-homepage-search {
+	position: relative;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	text-align: center;
+
+	&__title {
+		font-size: 2.5rem;
+		color: map-get($brand, aliss-dark-blue);
+
+		@media only screen and (max-width: 768px) {
+			font-size: 2rem;
+		}
+	}
+
+	&__input {
+		border: rem-calc(1) solid hsl(0deg 0% 66%);
+	}
+}
+
+// .aliss-organism-homepage-search, .aliss-organism-error-search {
+// 	position: relative;
+// 	height: 100%;
+// 	display: flex;
+// 	flex-direction: row;
+// 	align-items: center;
+// 	text-align: center;
+// 	//justify-content: center;
+// 	//margin-top: rem-calc(-11);
+// 	//background-color: $white;
+// 	//background-position: center;
+// 	//background-repeat: no-repeat;
+// 	//background-size: contain;
+// }
+
+.aliss-organism-homepage-search__block, .aliss-organism-error-search__block {
+	flex: 0 1 auto;
+	width: 100%;
+
+	@media only screen and (max-width: 768px) {
+		width: 100%;
+	}
+
+	.search-options {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		column-gap: 40px;
+		justify-content: center;
+
+		@media only screen and (max-width: 768px) {
+			column-gap: 20px;
+		}
+
+		@media only screen and (max-width: 320px) {
+			column-gap: 10px;
+		}
+
+		&__option {
+			cursor: pointer;
+			align-items: center;
+			height: 96px;
+			width: 160px;
+			padding: 0 20px;
+			margin-bottom: 16px;
+			border: 0.125rem solid #d2dded;
+			background-color: $white;
+			border-radius: rem-calc(12);
+
+			&__icon {
+				color: #004785;
+				font-size: 2rem;
+				padding-right: 10px;
+			}
+
+			&--active {
+				border: 0.25rem solid map-get($brand, aliss-blue);
+				font-weight: 600;
+			}
+
+			@media only screen and (max-width: 768px) {
+				flex-grow: 1;
+			}
+
+			@media only screen and (max-width: 480px) {
+				width: 100%;
+			}
+		}
+
+		&__field {
+			position: relative;
+			display: inline-block;
+			width: rem-calc(650);
+
+			@media only screen and (max-width: 768px) {
+				width: 100%;
+			}
+		}
+	}
+
+	h1, h2 {
+		span {
+			color: map-get($brand, aliss-dark-blue);
+		}
+	}
+
+	> .aliss-organism {
+		margin: 0 auto;
+		display: block;
+		max-width: 100%;
+
+    	@include media('>=tablet' and '<desktop') {
+			max-width: 100%;
+		}
+
+		@include media('>=phone' and '<=mobile') {
+			max-width: 100%;
+			
+		}
+		@include media('<=phone') {
+			max-width: 100%;
+		
+		}
+		// Custom media query for widths between 200px and 500px
+		@include media('>=200px' and '<=500px') {
+			max-width: 100%;
+		}
+
+	}
+
+}
+
+/* Additional Styles */
+.suggestionsHelper {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.ch2-style-dark.ch2-ea .ch2-settings-actions p,
+.ch2-style-dark.ch2-ea .ch2-settings-content .ch2-settings-tab-container>p:last-child {
+	visibility: hidden;
+}
+
+.aliss-grid-box {
+	display: block;
+	margin: 0 auto;
+}
+
+.aliss-homepage-carousel__container {
+	position: relative;
+}
+
+.aliss-search-suggestions {
+	&__items {
+		position: absolute;
+		border: 1px solid map-get($colours, light-gray);
+		border-bottom: none;
+		border-top: none;
+		z-index: 99;
+		top: 100%;
+		left: 0;
+		right: 0;
+	}
+	
+	&__item {
+		padding: 10px;
+		cursor: pointer;
+		background-color: $white; 
+		border-bottom: 1px solid map-get($colours, light-gray); 
+		
+		&:hover {
+			background-color: map-get($brand, aliss-light-gray);
+		}
+
+		&--active {
+			background-color: map-get($brand, aliss-light-gray);
+		}
+	}
+}
+
+.aliss-search-suggestions {
+	height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+	&__items {
+		position: absolute;
+		border: 1px solid map-get($colours, light-gray);
+		border-bottom: none;
+		border-top: none;
+		z-index: 99;
+		top: 100%;
+		left: 0;
+		right: 0;
+	}
+	
+	&__item {
+		text-align: left;
+		padding: 10px;
+		cursor: pointer;
+		background-color: $white; 
+		border-bottom: 1px solid map-get($colours, light-gray); 
+		
+		&:hover {
+			background-color: map-get($brand, aliss-light-gray);
+		}
+
+		&--active {
+			background-color: map-get($brand, aliss-light-gray);
+		}
+	}
+
+	&__container {
+		position: relative;
+		overflow: hidden;
+	}
+
+	&__carousel-image {
+		border: 1px solid map-get($brand, aliss-light-gray);
+		min-width: rem-calc(320);
+		transition: all 0.2s ease-in-out;
+	
+		@media only screen and (max-width: 1280px) {
+			min-width: rem-calc(280);
+		}
+	
+		@media only screen and (max-width: 768px) {
+			min-width: rem-calc(280);
+		}
+	
+		img {
+			display: block;
+			margin: auto;
+			width: rem-calc(320);
+		}
+
+		&:hover {
+			background-color: map-get($brand, aliss-lighter-gray);
+
+			h5 {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&__carousel-text-content {
+		padding: 0px 24px 24px 24px;
+
+		&__title {
+			color: map-get($brand, aliss-dark-blue);
+		}
+	}
+
+	&__carousel-controls {
+		padding: 0;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+		width: 20px;
+		font-size: 40px;
+		display: flex;
+		justify-content: center;
+		border-radius: 50%;
+		color: map-get($brand, aliss-dark-blue);
+		background-color: #ffffff;
+		&__left {
+			left: -40px;
+			@media only screen and (max-width: 768px) {
+				left: 20px;
+			}
+		}
+		&__right {
+			right: -40px;
+			@media only screen and (max-width: 768px) {
+				right: 20px;
+			}
+		}
+
+		@media only screen and (max-width: 768px) {
+			position: relative;
+			top: 0;
+			transform: none;
+		}
+
+		&__container {
+			@media only screen and (max-width: 768px) {
+				display: flex;
+				justify-content: space-evenly;
+				margin-top: rem-calc(16);
+			}
+		}
+	}
+}
+  
+  .aliss-search-suggestions__carousel {
+	display: flex;
+	// width: rem-calc(1240);
+	width: rem-calc(1000);
+	gap: 20px;
+
+	@media only screen and (max-width: 1280px) {
+		// width: rem-calc(738);
+		// width: rem-calc(578);
+		width: rem-calc(882);
+		gap: 16px;
+	}
+
+	@media only screen and (max-width: 1024px) {
+		width: rem-calc(578);
+	}
+
+	// @media only screen and (max-width: 768px) {
+	// 	// width: rem-calc(360);
+	// 	width: rem-calc(584);
+	// }
+
+	@media only screen and (max-width: 620px) {
+		width: rem-calc(280);
+	}
+
+	a {
+		text-decoration: none;
+		color: $black;
+	}
+
+	&--width-auto {
+		width: auto;
+	}
+  }
+  
+  .aliss-search-suggestions__carousel.sliding-transition {
+	transition: transform 0.5s ease-in-out;
+  }

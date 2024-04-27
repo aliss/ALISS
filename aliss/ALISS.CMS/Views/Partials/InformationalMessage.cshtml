@@ -1,0 +1,19 @@
+﻿@inherits UmbracoViewPage<CdtHasInformationalMessage>
+@{
+	if (Model.Enabled)
+	{
+		<div id="banner_covid" class="covid-phase-banner js-banner hide-print" data-date="@Model.UpdateDate.ToString("yyyy-MM-dd HH:mm")" style="display: none;">
+			<div class="covid-phase-banner__content">
+				<strong class="govuk-tagRed govuk-phase-banner__content__tagRed">
+					COVID-19
+				</strong>
+				<span class="govuk-phase-banner__text">
+					@Html.Raw(Model.Message)
+				</span>
+				<span id="banner_covid_close" class="covid-phase-banner__close">
+					<i class="fas fa-times"></i>
+				</span>
+			</div>
+		</div>
+	}
+}

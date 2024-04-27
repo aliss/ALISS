@@ -1,0 +1,86 @@
+.show-print {
+    display: none;
+}
+
+@media print {
+
+    header, article, section, footer, div {
+        display: block !important;
+    }
+    //body {-webkit-print-color-adjust: exact;}
+
+    .ch2 {
+        display: none !important;
+    }
+
+    .hide-print, .hide-print * {
+        display: none !important;
+    }
+    
+    .show-print {
+        display: initial !important;
+    }
+
+    .aliss-accordion__trigger {
+        display: none;
+    }
+
+    .aliss-organism {
+        padding: 15px 0 0;
+        page-break-after: auto;
+        * {
+            page-break-inside: avoid;
+        }
+    }
+
+    .aliss-pagination-component {
+        padding: 24px 0 0;
+        line-height: 1;
+    }
+
+    .aliss-organism.aliss-component-master.aliss-content-spacer,
+    .aliss-organism.aliss-collection__item {
+        border-top: 1px solid #919191;
+    }
+
+    .aliss-component-map {        
+        page-break-before: always;
+    }
+
+    .aliss-content__secondary {
+        margin-top: rem-calc(30);
+    }
+
+    .aliss-accordion__inner {
+        padding: 0;
+    }
+
+    .aliss-organism,
+    .aliss-header {
+        background: #FFFFFF;
+    }
+
+    .aliss-header,
+    .aliss-main,
+    .aliss-main__holder,
+    .aliss-admin {
+        overflow: auto;
+        height: auto;
+    }
+
+    .aliss-header-title {
+        padding: 0;
+    }
+    .aliss-main__content {
+        padding: 0;
+    }
+
+
+    .aliss-menu,
+    .aliss-user,
+    .aliss-sidemenu,
+    #user-popover
+     {
+        display: none !important;
+    }
+}

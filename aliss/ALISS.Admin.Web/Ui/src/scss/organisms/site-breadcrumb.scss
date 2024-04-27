@@ -1,0 +1,37 @@
+/** @format */
+
+.aliss-breadcrumb {
+	border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+	padding: rem-calc(16 30);
+
+	&__list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item {
+		display: inline-block;
+		position: relative;
+		padding-right: rem-calc(40);
+
+		&:before {
+			content: '\f054';
+			display: block;
+			position: absolute;
+			right: rem-calc(15);
+			font-family: "FontAwesome";
+		}
+
+		&:last-child {
+			&:before {
+				content: '';
+				display: none;
+			}
+		}
+	}
+
+	&__link {		
+		@include aliss-a-hover();
+	}
+}

@@ -1,0 +1,100 @@
+@include normalize();
+
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.aliss-grid-box {
+  display: block;
+  margin: 0 auto;
+  flex: 0 1 auto;
+  width: 100%;
+}
+#primarycontent {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+  //justify-content: center;
+  min-height: rem-calc(600);
+  &.SuggestionsBoxIsActive {
+    min-height: rem-calc(400);
+  }
+}
+
+
+body {
+  background: $white;
+  color: map-get($colours, faded-black);
+  @include sofia-pro-regular(normal);
+  line-height: $global-lineheight;
+  margin: 0;
+  padding: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+img {
+  display: inline-block;
+  height: auto;
+  -ms-interpolation-mode: bicubic;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+textarea {
+  height: auto;
+  min-height: rem-calc(150);
+}
+
+select {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  line-height: 1;
+  padding: 0;
+}
+
+pre {
+  overflow: auto;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+}
+
+// CYN chat window - additional padding for cookie control on mobile
+#chat-window {
+  @media only screen and (max-width: 768px) {
+    padding-bottom: rem-cal(96);
+    }
+}
+
+.mon-cb-icon-shape-circle {
+  z-index: 1000;
+}

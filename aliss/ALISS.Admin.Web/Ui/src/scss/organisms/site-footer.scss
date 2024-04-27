@@ -1,0 +1,74 @@
+/** @format */
+
+.aliss-footer {
+	color: $white;
+	background: map-get($brand, aliss-dark-gray);
+	padding: rem-calc(20 0);
+	border-top: rem-calc(10) solid map-get($brand, quris);
+	&-component {
+		&__contents {
+			p {
+				&:not(:last-of-type) {
+					margin: rem-calc(0 0 20);
+				}
+				margin: rem-calc(0);
+			}
+		}
+		&__navigation {
+			ul {
+				margin: rem-calc(0 0 15);
+				padding: 0;
+				@include media('>desktop') {
+					display: flex;
+					flex-direction: row;
+					justify-content: flex-start;
+				}
+				li {
+					@include media('<largedesktop') {
+						&:not(:last-of-type) {
+							margin: rem-calc(0 0 15 0);
+						}
+					}
+					@include media('>desktop') {
+						flex: 0 1 auto;
+						&:not(:last-of-type) {
+							margin: rem-calc(0 20 0 0);
+						}
+					}
+					list-style: none;
+					a {
+						color: map-get($brand, aliss-light-teal);
+						text-decoration: none;
+						position: relative;
+						top: 0;
+						// &:hover {
+						// 	top: rem-calc(-5);
+						// 	color: map-get($brand, quris);
+						// }
+					}
+				}
+			}
+			.navigation-footer-toggle {
+				@include media('>tablet') {
+					display: none;
+				}
+				i {
+					margin-left: rem-calc(15);
+				}
+				&.js-mobile-menu-footer-active {
+					i {
+						transform: rotate(180deg);
+					}
+				}
+			}
+			&__list {
+				@include media('<=tablet') {
+					display: none;
+					&.js-mobile-menu-footer-active {
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}

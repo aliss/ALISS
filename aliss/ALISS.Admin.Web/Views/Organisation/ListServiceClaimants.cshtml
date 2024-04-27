@@ -1,0 +1,143 @@
+﻿@model ALISS.Business.ViewModels.Organisation.ServiceClaimantListingViewModel
+@{
+	ViewBag.Title = $"Claimants of {Model.ServiceName}";
+	bool isAdmin = (bool)ViewBag.IsAdmin;
+	bool isLeadClaimant = (bool)ViewBag.IsLeadClaimant;
+	bool isLeadClaimantOfParentOrganisation = (bool)ViewBag.IsLeadClaimantOfParentOrganisation;
+}
+
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@using (Html.BeginForm("ListServiceClaimants", "Organisation", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+		{
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search
+			</label>
+			<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+			<button class="btn btn--primary" type="submit">Search</button>
+			if (!String.IsNullOrEmpty(Model.SearchTerm))
+			{
+				<div class="aliss-search__clear">
+					@Html.ActionLink("Clear Search", "ListServiceClaimants", "Organisation", null, new { @class = "btn btn--primary" })
+				</div>
+			}
+		}
+	</div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+	@Html.Partial("_SuccessMessage")
+}
+
+@if (Model.OrganisationLeadClaimant != null)
+{
+	<div>
+		<h4>Parent Organisation Lead Claimant</h4>
+		Name: @Model.OrganisationLeadClaimant.ClaimantName<br />Email: <a href="mailto:@Model.OrganisationLeadClaimant.ClaimantEmail">@Model.OrganisationLeadClaimant.ClaimantEmail</a>
+	</div>
+}
+else
+{
+	<div>
+		<h4>Parent Organisation Has No Lead Claimant</h4>
+	</div>
+}
+@{
+	List<ALISS.Business.PresentationTransferObjects.Location.ServiceClaimantPTO> claimants = new List<ALISS.Business.PresentationTransferObjects.Location.ServiceClaimantPTO>();
+}
+
+@if (isAdmin || isLeadClaimant || isLeadClaimantOfParentOrganisation)
+{
+	claimants = Model.Claimants;
+}
+else
+{
+	claimants = Model.Claimants.Where(x => x.IsLeadClaimant == true).ToList();
+}
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Total Results: <span>@claimants.Count</span></p>
+		</div>
+	</div>
+</div>
+
+<div class="aliss-table-container">
+	<table class="aliss-table">
+		<thead class="aliss-table__head">
+			<tr class="aliss-table__row aliss-table__row--head">
+				<th class="aliss-table__header" scope="col">Name</th>
+				<th class="aliss-table__header" scope="col">Email</th>
+				<th class="aliss-table__header" scope="col">Is Lead Claimant</th>
+				<th class="aliss-table__header" scope="col">Approved On</th>
+				@if (isAdmin || isLeadClaimant)
+				{
+					<th class="aliss-table__header" scope="col">Action</th>
+				}
+			</tr>
+		</thead>
+
+		@foreach (var claimant in claimants)
+		{
+			<tbody class="aliss-table__body">
+				<tr class="aliss-table__row aliss-table__row--body">
+					<td class="aliss-table__cell">
+						@claimant.ClaimantName
+					</td>
+					<td class="aliss-table__cell">
+						<a href="mailto:@claimant.ClaimantEmail">@claimant.ClaimantEmail</a>
+					</td>
+					<td class="aliss-table__cell">
+						@claimant.IsLeadClaimant
+					</td>
+					<td class="aliss-table__cell">
+						@($"{claimant.ApprovedOn:dd/MM/yyyy}")
+					</td>
+					@if (isAdmin || isLeadClaimant)
+					{
+						<td class="aliss-table__cell">
+							@if (!claimant.IsLeadClaimant)
+							{
+								@Html.ActionLink("Make Lead Claimant", "MakeLeadServiceClaimant", "Organisation", new { id = claimant.ServiceClaimUserId }, new { @class = "" })
+							}
+						</td>
+					}
+				</tr>
+			</tbody>
+		}
+	</table>
+</div>
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+		</div>
+		@if (Model.TotalPages > 1)
+		{
+			<div class="aliss-pagination-component__wrapper__item">
+				<nav>
+					<ol>
+						@if (Model.Page > 1)
+						{
+							<li>
+								<a href="/Organisation/ListClaimants/@ViewBag.OrganisationId?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)" class="aliss-pagination-previous">Previous</a>
+							</li>
+						}
+						@if (Model.Page < Model.TotalPages)
+						{
+							<li>
+								<a href="/Organisation/ListClaimants/@ViewBag.OrganisationId?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)" class="aliss-pagination-next">Next</a>
+							</li>
+						}
+					</ol>
+				</nav>
+			</div>
+		}
+	</div>
+</div>
+
+@section sidemenu {
+	@Html.Partial("_ClaimantsMenu")
+}

@@ -1,0 +1,70 @@
+.aliss-accordion {
+    &__trigger {
+        cursor: pointer;
+        color: map-get($brand, aliss-dark-blue);
+        z-index: 1;
+        font-size: rem-calc(20);
+        line-height: 1.6;
+        padding: 0;
+
+        .aliss-categories__item & {
+            line-height: 1;
+        }
+
+        &:hover {                    
+            color: $white;
+            background-color:  map-get($brand, aliss-dark-blue);
+            box-shadow: 0 0 0 0.25rem  map-get($brand, aliss-dark-blue);
+        }
+
+        &--disabled {
+            color: map-get($brand, aliss-dark-gray);
+            cursor: default;
+            &:hover {
+                background-color: transparent;
+                color: map-get($brand, aliss-dark-gray);
+                box-shadow: none;
+            }
+        }
+
+        &--toplevel {            
+            color: $white;
+            cursor: default;
+            &:hover {
+                background-color: transparent;     
+                color: $white;
+                box-shadow: none;
+            }
+        }
+
+        i {
+            pointer-events: none;
+        }
+
+        &--active {
+            i {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    &__header {
+        &--selected {
+            .aliss-categories__icon {
+                background-color: map-get($brand, aliss-light-gray);
+                color: map-get($brand, aliss-dark-gray);
+            }
+            .aliss-categories__edit {
+                color: map-get($brand, aliss-dark-gray);
+            }
+        }
+    }
+
+    &__content {
+        display: none;
+
+        &--active {
+            display: block;
+        }
+    }
+}

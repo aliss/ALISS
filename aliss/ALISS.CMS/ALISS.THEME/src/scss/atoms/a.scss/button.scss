@@ -1,0 +1,90 @@
+/** @format */
+
+@mixin aliss-btn-hover($colour) {
+	background: map-get($brand, $colour);
+	color: $white;
+	&:hover {
+		background: darken(map-get($brand, $colour), 15%);
+	}
+}
+
+.btn {
+	display: inline-block;
+	width: auto;
+	padding: rem-calc(10 15);
+	text-align: center;
+	text-decoration: none;
+	-webkit-border-radius: 0;
+	transition: 0.5s all ease;
+	cursor: pointer;
+	&--primary {
+		@include aliss-btn-hover(aliss-dark-blue);
+	}
+	&--no,
+	&--yes {
+		padding: rem-calc(10 30);
+		&::before {
+			color: $white;
+			font-family: 'FontAwesome';
+			font-size: rem-calc(16);
+			position: relative;
+			left: rem-calc(-15);
+		}
+	}
+	&--warning,
+	&--no {
+		@include aliss-btn-hover(aliss-dark-red);
+	}
+	&--confirmation,
+	&--yes {
+		@include aliss-btn-hover(aliss-light-green);
+	}
+	&--no {
+		position: relative;
+		&::before {
+			content: '\f057';
+		}
+	}
+	&--yes {
+		position: relative;
+		&::before {
+			content: '\f058';
+		}
+	}
+	&--secondary {
+		padding: 0;
+		background: transparent;
+		color: $white;
+		text-decoration: underline;
+	}
+}
+
+.aliss-leave {
+	position: fixed;
+    right: 0px;
+    top: 50%;
+    margin-top:0;
+    // transform: rotate(-90deg);
+    z-index: 999;
+    width: auto;
+    background: transparent;
+    z-index: 9999;
+	&__button {
+        background: #d20c0c;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        position: relative;
+        font-size: 1rem;
+        font-weight: bold;
+        display: inline-block;
+        width: auto;
+		cursor: pointer;
+		text-align: left;
+
+		&:focus,
+        &:hover {
+            background: darken(#d20c0c, 10%);
+        }
+	}
+}

@@ -1,0 +1,62 @@
+﻿@model dynamic
+@{
+    int pageSize = Model.PageSize;
+    double pageCount = Math.Ceiling((double)Model.SearchModel.count / pageSize);
+
+    string url = ViewData["url"].ToString();
+    var previous_page = Model.Page - 1;
+    var next_page = Model.Page + 1;
+}
+
+<input id="page-navigation-url" value="@url" hidden />
+<input id="page-navigation-max-pages" value="@pageCount" hidden />
+
+<div id="aliss-search-page-navigation" class="aliss-pagination-component hide">
+    <div class="aliss-pagination-component__wrapper">
+        <div class="aliss-pagination-component__wrapper__item hide-print">
+            <nav>
+                <ol class="aliss-pagination-component__wrapper__item__pagination-controls">
+                    <li id="search-results-page-previous" class="aliss-pagination-component__wrapper__item__pagination-controls__control">
+                        @if (Model.Page != 1)
+                        {
+                            <a href="?page=@previous_page@url" id="search-results-previous-link" class="aliss-pagination-previous">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev<span class="sr-only">ious Page</span>
+                            </a>
+                            <span id="aliss-search-previous-page" hidden>@previous_page</span>
+                        }
+                    </li>
+                    <li id="services-search-results-page-previous" class="aliss-pagination-component__wrapper__item__pagination-controls__control hide">
+                        <a href="" id="services-search-results-previous-link" class="aliss-pagination-previous">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev<span class="sr-only">ious Page</span>
+                        </a>
+                    </li>
+
+                    <li class="aliss-pagination-component__wrapper__item__pagination-controls__control aliss-pagination-component__wrapper__item__pagination-controls__control__page-total">
+                        <span>Page</span>
+                        <span class="tooltip-container">
+                            <span id="page-navigation-input-tooltip" class="tooltip">Please enter a number.</span>
+                            <input id="page-navigation-input" value="" type="number" placeholder="@Model.Page" />
+                        </span>
+                        <span id="search-results-page-count"> of @pageCount</span>
+                        <button id="page-navigation-button" class="btn btn--primary btn--submit ml--8" type="submit">Go</button>
+                    </li>
+
+                    <li id="search-results-page-next" class="aliss-pagination-component__wrapper__item__pagination-controls__control aliss-pagination-component__wrapper__item__pagination-controls__control__next">
+                        @if (Model.Page != pageCount)
+                        {
+                            <a href="?page=@next_page@url" id="search-results-next-link" class="aliss-pagination-next">
+                                Next<span class="sr-only"> Page</span> <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </a>
+                            <span id="aliss-search-next-page" hidden>@next_page</span>
+                        }
+                    </li>
+                    <li id="services-search-results-page-next" class="aliss-pagination-component__wrapper__item__pagination-controls__control aliss-pagination-component__wrapper__item__pagination-controls__control__next hide">
+                        <a href="" id="services-search-results-next-link" class="aliss-pagination-next">
+                            Next<span class="sr-only"> Page</span> <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>

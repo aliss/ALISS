@@ -1,0 +1,22 @@
+<appSettings>
+	<add key="ALISSAdminContact" value="" />
+	<add key="BasePublicSiteUrl" value="http://cms.aliss.local/" />
+	<add key="BaseSiteUrl" value="http://admin.aliss.local/" />
+	<add key="BlobNameSuffix" value="-dev"/>
+	<add key="BlobStorageConnectionString" value="***SECRET***" />
+	<add key="Elasticsearch:EnableDebugMode" value="true" />
+	<add key="ElasticSearch:Host" value="https://tac-allnce-aliss-es-gen3.es.uksouth.azure.elastic-cloud.com:9243/" />
+	<add key="Elasticsearch:IndexPrefix" value="dev-" />
+	<add key="Elasticsearch:Username" value="***SECRET***" />
+	<add key="Elasticsearch:Password" value="***SECRET***" />
+	<add key="SendToALISSAdminContact" value="false" />
+	<add key="Settings:ApiBaseUrl" value="http://api.aliss.local/v5/" />
+	<add key="Settings:EnableMonsidoTracking" value="false" />
+	<add key="Settings:EnableReviewEmailTest" value="true" />
+	<add key="Settings:GoogleApiKey" value="***SECRET***" />
+	<add key="TactuumContact" value="" />
+	<add key="TesterContact" value="" />
+	<add key="UseStandardToAddress" value="true" />
+	<add key="Validation:DescriptionMax" value="1000"/>
+	<add key="Validation:DescriptionMin" value="50"/>
+</appSettings>

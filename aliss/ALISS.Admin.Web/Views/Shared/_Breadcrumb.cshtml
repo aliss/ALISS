@@ -1,0 +1,35 @@
+﻿@{
+	bool showThirdLevel = true;
+	string pageUrl = Request.Url.AbsoluteUri;
+	var urlSegments = pageUrl.Split('/');
+	if (urlSegments.Length == 4)
+	{
+		showThirdLevel = false;
+	}
+}
+@if (ViewBag.Title != "My Dashboard")
+{
+	<nav class="aliss-breadcrumb">
+		<ol class="aliss-breadcrumb__list">
+			<li class="aliss-breadcrumb__item">
+				<a href="/" class="aliss-breadcrumb__link">My Dashboard</a>
+			</li>
+			<li class="aliss-breadcrumb__item">
+				@if (showThirdLevel)
+				{
+					<a href="@($"/{urlSegments[3]}")" class="aliss-breadcrumb__link">@urlSegments[3]</a>
+				}
+				else
+				{
+					<span class="aliss-breadcrumb__current">@urlSegments[3].Split('?')[0]</span>
+				}
+			</li>
+			@if (showThirdLevel)
+			{
+				<li class="aliss-breadcrumb__item">
+					<span class="aliss-breadcrumb__current">@ViewBag.Title</span>
+				</li>
+			}
+		</ol>
+	</nav>
+}

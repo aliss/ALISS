@@ -1,0 +1,200 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@{
+	bool serviceSubmitted = Model.ServiceSubmitted;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted ?? false;
+}
+<fieldset class="aliss-form__fieldset no-padding">
+	<legend class="aliss-form__legend">Service</legend>
+
+	@if (serviceSubmitted || organisationSubmitted)
+	{
+		<h2>1. Service</h2>
+	}
+	else
+	{
+		<h2>2. Service</h2>
+	}
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceName").ToString()) && !Html.ValidationMessage("ServiceName").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<label class="aliss-form__label">Name</label>
+		<span>@Model.ServiceName</span>
+	</div>
+
+	<div class="mb--24">
+		<label class="aliss-form__label">Do you want to claim this service?</label>
+
+		@if (Model.ServiceRepresentative)
+		{
+			<span>Yes</span>
+		}
+		else
+		{
+			<span>No</span>
+		}
+	</div>
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceSummary").ToString()) && !Html.ValidationMessage("ServiceSummary").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<label class="aliss-form__label">Summary</label>
+
+		@if (!string.IsNullOrEmpty(Model.ServiceSummary))
+		{
+			<span>@Model.ServiceSummary</span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceDescription").ToString()) && !Html.ValidationMessage("ServiceDescription").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<label class="aliss-form__label">Description</label>
+		<span class="aliss-form__rte">@Html.Raw(Model.ServiceDescription)</span>
+	</div>
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServicePhoneNumber").ToString()) && !Html.ValidationMessage("ServicePhoneNumber").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fas fa-phone-alt"></i>
+			</span>
+			<label class="aliss-form__label">Phone number</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.ServicePhoneNumber))
+		{
+			<span>@Model.ServicePhoneNumber</span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceEmail").ToString()) && !Html.ValidationMessage("ServiceEmail").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fas fa-envelope"></i>
+			</span>
+			<label class="aliss-form__label">Email address</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.ServiceEmail))
+		{
+			<span>@Model.ServiceEmail</span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceUrl").ToString()) && !Html.ValidationMessage("ServiceUrl").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fas fa-globe-americas"></i>
+			</span>
+			<label class="aliss-form__label">Web address</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.ServiceUrl))
+		{
+			<span><a target='_blank' href="@Model.ServiceUrl">@Model.ServiceUrl <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceFacebook").ToString()) && !Html.ValidationMessage("ServiceFacebook").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fab fa-facebook-square"></i>
+			</span>
+			<label class="aliss-form__label">Facebook</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.ServiceFacebook))
+		{
+			<span><a target='_blank' href="@Model.ServiceFacebook">@Model.ServiceFacebook <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceTwitter").ToString()) && !Html.ValidationMessage("ServiceTwitter").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fab fa-x-twitter"></i>
+			</span>
+			<label class="aliss-form__label">X/Twitter</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.ServiceTwitter))
+		{
+			<span><a target='_blank' href="@Model.ServiceTwitter">@Model.ServiceTwitter <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceInstagram").ToString()) && !Html.ValidationMessage("ServiceInstagram").ToString().Contains("\"></span>")
+                  ? "aliss-form__group--error mb--24"
+                  : "mb--24")">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fab fa-instagram"></i>
+			</span>
+			<label class="aliss-form__label">Instagram</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.ServiceInstagram))
+		{
+			<span><a target='_blank' href="@Model.ServiceInstagram">@Model.ServiceInstagram <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="mb--48">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fas fa-share"></i>
+			</span>
+			<label class="aliss-form__label">Referral web address</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.ServiceReferalUrl))
+		{
+			<span><a target='_blank' href="@Model.ServiceReferalUrl">@Model.ServiceReferalUrl <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	@Html.ActionLink("Edit Information", "Index", "DataInputService", new { id = Model.ServiceId, summaryType = Model.SummaryType }, new { @class = "btn btn--primary" })
+	<hr class="content__divider mt--24" />
+</fieldset>

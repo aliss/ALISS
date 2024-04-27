@@ -1,0 +1,40 @@
+﻿@using ALISS.CMS.Extensions
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.PublishedModels.DtContent>
+@{
+	Layout = "~/Views/Master.cshtml";
+}
+
+<main>
+	@{
+		var getMedia = Model.PageBanner;
+
+		if (getMedia != null)
+		{
+			<div class="aliss-component-hero-banner">
+				<img data-src="@getMedia.Url()" class="lazy loaded" src="@getMedia.Url()" alt="Decorative banner image for ALISS - A Local Information System for Scotland" data-was-processed="true">
+			</div>
+		}
+	}
+	<section>
+		<div class="aliss-grid">
+			<div class="aliss-content__wrap">
+				<div class="aliss-content__header">
+					<h1>@Model.Title</h1>
+				</div>
+
+				<div class="aliss-content__primary aliss-typography">
+					<div class="aliss-rte aliss-typography">
+						@Html.Raw(Model.BodyText)
+					</div>
+				</div>
+
+				@Html.Partial("ListPanel", Model as IPublishedContent)
+			</div>
+		</div>
+	</section>
+</main>
+
+@section Metadata
+{
+	@Html.Metadata(Model as IPublishedContent)
+}

@@ -1,0 +1,42 @@
+{# Global variables #}
+  {% import "../../include/globalVariables.njk" as GV %}
+  {% from "../../atoms/atoms_a.njk" import a as a %}
+{# Global variables #}
+
+<div class="aliss-signup-component">
+  <h2>
+    Sign up
+    {{ a("", "#about", "Click here to provide feedback on ALISS.", "_blank", "", "", "Give fedback") }}
+    </span>
+  </h2>
+  <p>Please ensure your email address is the correct combination of uppercase and lowercase characters when creating an account.</p>
+  <form class="aliss-search-form aliss-search-form--home" action="/search/">
+      <div>
+        <label for="name">Your name: <span>(required)</span></label>
+        <input type="text" name="name" id="signup-name" placeholder="..." value="">
+      </div>
+      <div>
+        <label for="name">Email address: <span>(required)</span></label>
+        <input type="text" name="name" id="signup-name" placeholder="..." value="">
+      </div>
+      <div>
+        <label for="name">Phone number: <span>(required)</span></label>
+        <input type="text" name="name" id="signup-name" placeholder="..." value="">
+      </div>
+      <div>
+        <label for="name">Postcode: <span>(required)</span></label>
+        <input type="text" name="name" id="signup-name" placeholder="..." value="">
+      </div>
+      <div>
+        <label for="name">Password <span>(required)</span></label>
+        <input type="text" name="name" id="signup-name" placeholder="..." value="">
+      </div>
+      <div>
+        <label for="name">Confirm password <span>(required)</span></label>
+        <input type="text" name="name" id="signup-name" placeholder="..." value="">
+      </div>
+      <div>
+        <button class="btn btn--primary" type="submit">Signup</button>
+      </div>
+  </form>
+</div>

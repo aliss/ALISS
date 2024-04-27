@@ -1,0 +1,60 @@
+﻿@using System.Configuration
+@{
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+		? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+		: false;
+
+	if (enableMonsidoTracking)
+	{
+		<script nonce="monsido" type="text/javascript">
+			window._monsido = window._monsido || {
+				token: "rfgMmAzQe-YrvoZaMtTzaw",
+				statistics: {
+					enabled: true,
+					cookieLessTracking: true,
+					documentTracking: {
+						enabled: true,
+						documentCls: "monsido_download",
+						documentIgnoreCls: "monsido_ignore_download",
+						documentExt: [],
+					},
+				},
+				heatmap: {
+					enabled: true,
+				},
+				pageCorrect: {
+					enabled: true,
+				},
+			};
+			window._monsidoConsentManagerConfig = window._monsidoConsentManagerConfig || {
+				token: "rfgMmAzQe-YrvoZaMtTzaw",
+				privacyRegulation: ["gdpr"],
+				settings: {
+					manualStartup: false,
+					hideOnAccepted: false,
+					perCategoryConsent: true,
+					explicitRejectOption: false,
+					hasOverlay: false,
+				},
+				i18n: {
+					languages: ["en_US"],
+					defaultLanguage: "en_US"
+				},
+				theme: {
+					buttonColor: "#1E7ABE",
+					buttonTextColor: "#ffffff",
+					iconPictureUrl: "cookie_bite",
+					iconShape: "circle",
+					position: "bottom-left",
+				},
+				links: {
+					cookiePolicyUrl: "https://www.aliss.org/privacy-policy/",
+					linkToCookieOverview: "https://www.aliss.org/cookies/",
+					optOutUrl: "",
+				},
+			};
+		</script>
+		<script type="text/javascript" async src="https://app-script.monsido.com/v2/monsido-script.js"></script>
+		<script type="text/javascript" src="https://monsido-consent.com/v1/mcm.js"></script>
+	}
+}

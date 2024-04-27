@@ -1,0 +1,104 @@
+/** @format */
+
+.aliss-search-results-header-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.aliss-search-layout-options-container {
+
+	@media screen and (max-width: 1024px) {
+		display: none;
+	}
+
+	&__option {
+		position: relative;
+		padding: 12px;
+		display: inline-block;
+		border-radius: 4px;
+		border: 2px solid #e3e3e3;
+		margin-bottom: rem-calc(16);
+		opacity: 0.5;
+		cursor: pointer;
+		transition: ease-in-out .2s;
+
+		&--active {
+			opacity: 1;
+			background-color: #eee;
+		}
+	}
+}
+
+.aliss-search-results {
+	&__container {
+		display: flex;
+		flex-wrap: wrap;
+		// justify-content: space-between;
+		column-gap: .5%;
+
+		@media screen and (max-width: 1240px) and (min-width: 768px) {
+			column-gap: 2%;
+		}
+
+		&--grid {
+			flex-direction: row;
+			width: 100%;
+		}
+	}
+}
+
+.aliss-organism-search {
+	&__block {
+		background: map-get($brand, aliss-light-gray);
+		padding: rem-calc(20);
+
+		h1 {
+			font-size: rem-calc(28);
+			line-height: rem-calc(35);
+			@include media('>=desktop') {
+				font-size: rem-calc(40);
+				line-height: rem-calc(49);
+			}
+		}
+		h1,
+		p {
+			text-align: center;
+			span {
+				color: map-get($brand, aliss-dark-blue);
+			}
+		}
+		label {
+			font-weight: bold;
+		}
+		form {
+			legend {
+				margin: rem-calc(0 0 15);
+			}
+			label {
+				display: block;
+				margin: rem-calc(-10 0 15);
+			}
+			input {
+				display: block;
+				height: rem-calc(45);
+				padding: rem-calc(5);
+				width: 100%;
+			}
+			fieldset {
+				background: map-get($brand, aliss-light-gray);
+				padding: 0;
+				div {
+					position: relative;
+				}
+			}
+			button {
+				position: absolute;
+				height: 100%;
+				top: 0;
+				right: 0;
+				width: max-content;
+			}
+		}
+	}
+}

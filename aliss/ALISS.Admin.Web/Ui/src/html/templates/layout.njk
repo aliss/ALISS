@@ -1,0 +1,42 @@
+{# Global variables #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+{# Global variables #}
+
+<!DOCTYPE HTML>
+<html class="no-js" lang="en">
+  <head>
+    {# Website meta data and links #}
+    {% include  GV.includes ~ "header.njk" %}
+    {# Website meta data and links #}
+  </head>
+
+  {# 
+    Page body ID & class:
+    These values are inherited from their respective child pages, if null, the id and class attributes will be hidden.
+  #}
+  <body class="aliss-admin">
+
+    {# Website header #}
+    {% include  GV.organisms ~ "site-menu.njk" %}
+    {# Website header #}
+
+    <main class="aliss-main">      
+      {% include  GV.organisms ~ "site-header.njk" %}
+      <div class="aliss-main__holder">
+        <div class="aliss-main__content" id="main-content">
+        {% block body %}{% endblock %}
+        </div>
+
+        {% block side %}
+        {% endblock %}
+      </div>
+
+    </main>
+
+
+    {# Website scripts #}
+      {% include  GV.includes ~ "js.njk" %}
+    {# Website scripts #}
+
+  </body>
+</html>

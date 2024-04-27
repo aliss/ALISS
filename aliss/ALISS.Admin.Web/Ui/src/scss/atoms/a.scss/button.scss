@@ -1,0 +1,72 @@
+/** @format */
+
+@mixin aliss-btn-hover($colour) {
+	background: map-get($brand, $colour);
+	color: $white;
+	&:hover {
+		background: darken(map-get($brand, $colour), 15%);
+	}
+}
+
+.btn {
+	display: inline-block;
+	width: auto;
+	padding: rem-calc(10 15);
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+    line-height: 1.4;
+	border-radius: 0px;
+	-webkit-border-radius: 0px;
+	&--primary {
+		@include aliss-btn-hover(aliss-dark-blue);
+	}
+	// &--secondary {
+
+	// }
+	&--tertiary {
+		display: block;
+		background: none;
+		border: none;
+		color: map-get($brand, aliss-dark-blue);
+		text-decoration: underline;
+		cursor: pointer;
+		&:hover {
+			text-decoration: none;
+			color: #fff;
+			background-color: #004785;
+			box-shadow: 0 0 0 0.25rem #004785;
+		}
+	}
+	&--no,
+	&--yes {
+		padding: rem-calc(10 30);
+		&::before {
+			color: $white;
+			font-family: 'FontAwesome';
+			font-size: rem-calc(16);
+			position: relative;
+			left: rem-calc(-15);
+		}
+	}
+	&--warning,
+	&--no {
+		@include aliss-btn-hover(aliss-dark-red);
+	}
+	&--confirmation,
+	&--yes {
+		@include aliss-btn-hover(aliss-light-green);
+	}
+	&--no {
+		position: relative;
+		&::before {
+			content: '\f057';
+		}
+	}
+	&--yes {
+		position: relative;
+		&::before {
+			content: '\f058';
+		}
+	}
+}

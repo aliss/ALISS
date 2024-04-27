@@ -1,0 +1,178 @@
+/** @format */
+
+//Breakpoints
+//http://include-media.com/
+$breakpoints: (
+	phone: 375px,
+	tablet: 768px,
+	desktop: 1024px,
+	largedesktop: 1280px,
+);
+
+// ALISS brand colours
+$brand: ( 
+	aliss-blue: #1E7ABD,
+	aliss-blue-border: #3c9de2,
+	aliss-dark-blue: #004785,
+	aliss-light-green: #1D7A05,
+	aliss-yellow: #ffee00,
+	aliss-dark-red: #a01b19,
+	aliss-light-red: #BE221F,
+	aliss-light-teal: #2EEEE3,
+	aliss-light-gray: #EDEDED,
+	aliss-dark-gray: #919191,
+	aliss-darker-gray: #4C5C68,
+	aliss-footer-blue: #1556849c,
+);
+
+// Social networking colours
+$social: (
+	facebook: #39588a,
+	twitter: #559cc9,
+	instagram: #559cc9,
+	google: #d05044,
+);
+
+// Default colours
+$black: #000;
+$light-black: lighten(#333, 70%);
+$white: #fff;
+
+// Generic colour pallete
+$colours: (
+	light-gray: #ccc,
+	medium-gray: #999,
+	dark-gray: #666,
+	faded-black: #212121,
+);
+
+// Asset paths
+$body-font-url: '../fonts';
+$aliss-imgs: '../img';
+
+// Global
+$body-background: $white;
+$global-width: rem-calc(1240);
+$global-margin: 1rem;
+$global-padding: 1rem;
+$global-lineheight: 1.4;
+$body-font-color: $black;
+
+// Text align
+.text-align {
+	&--left {
+		text-align: left;
+	}
+}
+
+// No margin
+.no-margin {
+	margin: 0px;
+}
+
+// Border
+.no-border {
+	border: none;
+}
+
+//display
+.d-block {
+	display: block;
+}
+.d-inline-block {
+	display: inline-block;
+}
+
+// Padding
+.no-padding {
+	padding: 0px !important;
+}
+
+.pt {
+	&--8 {
+		padding-top: 8px;
+	}
+	&--16 {
+		padding-top: 16px;
+	}
+}
+
+.pb {
+	&--8 {
+		padding-bottom: 8px;
+	}
+	&--16 {
+		padding-bottom: 16px;
+	}
+}
+
+.pl {
+	&--8 {
+		padding-left: 8px;
+	}
+	&--16 {
+		padding-left: 16px;
+	}
+}
+
+.pr {
+	&--8 {
+		padding-right: 8px;
+	}
+	&--16 {
+		padding-right: 16px;
+	}
+}
+
+// Margins
+.mb {
+	&--0 {
+		margin-bottom: 0px;
+	}
+	&--4 {
+		margin-bottom: 4px;
+	}
+	&--8 {
+		margin-bottom: 8px;
+	}
+	&--16 {
+		margin-bottom: 16px;
+	}
+	&--24 {
+		margin-bottom: 24px;
+	}
+	&--32 {
+		margin-bottom: 32px;
+	}
+	&--48 {
+		margin-bottom: 48px;
+	}
+}
+.mt {
+	&--0 {
+		margin-top: 0px;
+	}
+	&--4 {
+		margin-top: 4px;
+	}
+	&--8 {
+		margin-top: 8px;
+	}
+	&--16 {
+		margin-top: 16px;
+	}
+	&--24 {
+		margin-top: 24px;
+	}
+	&--32 {
+		margin-top: 32px;
+	}
+	&--48 {
+		margin-top: 48px;
+	}
+}
+.c {
+	&--red {
+		color: red;
+	}
+}

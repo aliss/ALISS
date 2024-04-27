@@ -1,0 +1,96 @@
+@model ALISS.Business.ViewModels.Organisation.AddOrganisationViewModel
+@{
+	ViewBag.Title = "Add to ALISS";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("AddOrganisation", "Organisation", FormMethod.Post, new { @class = "aliss-form", enctype = "multipart/form-data", onsubmit = "handleSubmit()" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new organisation</legend>
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSRTEditor(m => m.Description, "Please enter a minimum of 50 characters and a maximum of 1000 characters, including spaces and punctuation.", 1000)
+		<p><i class="fa fa-info-circle" aria-hidden="true"></i> Please do not include any sensitive personal information (including information about your physical and/or mental health).  If you do include such personal information then it will be publicly accessible via ALISS.  Please note that entries on ALISS are not reviewed and any such personal information will remain on the entry, unless and until you remove it.</p>
+
+		<div class="aliss-form__two-column">
+			@Html.ALISSTextBox(m => m.PhoneNumber)
+			@Html.ALISSTextBox(m => m.Email)
+		</div>
+		@Html.ALISSTextBox(m => m.Url)
+		@Html.ALISSTextBox(m => m.Facebook)
+		@Html.ALISSTextBox(m => m.Twitter)
+
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="logo">
+				Logo
+				<i class="fas fa-info-circle" aria-hidden="true" data-tip="Organisation Logo"></i>
+			</label>
+			<span>Please note - logos must be either JPG, JPEG or PNG files no larger that 1024Kb in size with minimum dimensions of 80 pixels by 80 pixels.</span>
+			<br /><br />
+			<div class="aliss-form__file">
+				<button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+				<input class="aliss-form__file-input" type="file" name="Logo" id="logo" hidden />
+				<div class="aliss-form__file-display"></div>
+			</div>
+		</div>
+
+		<input type="hidden" id="SlugDisplay" value="" />
+		@Html.HiddenFor(m => m.Slug)
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Claim ownership of this organisation</legend>
+		@Html.ALISSCheckbox(m => m.OrganisationRepresentative)
+		<div id="organisation-representative-info" aria-hidden="true" class="hide">
+			@Html.ALISSTextBox(m => m.OrganisationRepresentativeRole)
+			@Html.ALISSTextBox(m => m.OrganisationRepresentativeName)
+			@Html.ALISSTextBox(m => m.OrganisationRepresentativePhone)
+
+
+			<p>Organisation claim responsibilities</p>
+			<p>As an account owner (person who has claimed an organisation), I understand and accept the following responsibilities:</p>
+			<p>Claiming an organisation</p>
+			<ul>
+				<li>An organisation can be claimed by someone from the organisation with a central overview.</li>
+				<li>All claims need to be approved by the ALISS team.</li>
+				<li>If someone claims an organisation, they automatically claim all the services attached to that organisation.</li>
+				<li>If you claim an organisation and become the Account Owner, you will be responsible for ensuring that information is kept up-to-date.</li>
+				<li>Please read the ALISS Data Standard before claiming the organisation.</li>
+			</ul>
+
+			<p><b>Before you add the organisation please read our the data standard (required)</b></p>
+
+			<span id='terms' class="btn btn--primary">Data Standard</span><br /><br />
+
+
+			@*Creating a PDF viewer Data Standard.*@
+			@{
+				// Please replace string with webconfig setting PDR url
+				var PDF = ViewBag.DataStandardsUrl;
+				var PDFUrl = "https://docs.google.com/viewer?url=" + @PDF + "&embedded=true";
+			}
+
+			<div id="terms-pdf-box">
+				@Html.Partial("_PDFTemplate", new ViewDataDictionary(this.ViewData) {
+				{ "url", @PDFUrl }})
+			</div>
+
+			@Html.ALISSCheckbox(m => m.OrganisationAcceptDataStandards)
+		</div>
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary" onclick="window.monsido_functions.trackEvent('Organisation', 'Save Button', 'Add Organisation to ALISS', 1);">Save</button>
+		@Html.ActionLink("Cancel", "Index", "Organisation", null, new { @class = "btn btn--primary" })
+	</div>
+}
+
+@section scripts {
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+}

@@ -1,0 +1,107 @@
+﻿@using ALISS.CMS.Extensions;
+@using System.Configuration;
+
+@{
+	Layout = null;
+
+	UmbracoContext umbracoContext = Umbraco.Web.Composing.Current.UmbracoContext;
+	IPublishedContent rootNode = umbracoContext.Content.GetAtRoot().First();
+	DtConfiguration configNode = new DtConfiguration(rootNode.DescendantOrSelfOfType(DtConfiguration.ModelTypeAlias));
+	string googleMapsKey = ConfigurationManager.AppSettings["Settings:GoogleApiKey"];
+	string apiBaseUrl = ConfigurationManager.AppSettings["Settings:ApiBaseUrl"];
+	if (string.IsNullOrWhiteSpace(apiBaseUrl))
+	{
+		apiBaseUrl = "http://api.aliss.local/v4/";
+	}
+
+	if ((HttpContext.Current.Request.Url.Host.Contains(".local") || HttpContext.Current.Request.Url.Host.Contains(".azurewebsites.net")) && !string.IsNullOrWhiteSpace(HttpContext.Current.Request.QueryString["force500"]))
+	{
+		throw new HttpException();
+	}
+	string cookieDomain = Request.Url.Host;
+	cookieDomain = cookieDomain.Substring(cookieDomain.IndexOf('.') + 1);
+	if (!cookieDomain.Contains("."))
+	{
+		cookieDomain = Request.Url.Host;
+	}
+
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+		? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+		: false;
+	bool enableConnectingYouNow = ConfigurationManager.AppSettings["Settings:EnableConnectingYouNow"] != null
+		? ConfigurationManager.AppSettings["Settings:EnableConnectingYouNow"].ToString().ToLower() == "true"
+		: false;
+
+	if (ViewBag.Description == null)
+	{
+		ViewBag.Description = "ALISS (A Local Information System for Scotland) is a system to help you find help and support close to you when you need it most.";
+	}
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	@RenderSection("Metadata", true)
+
+	<link rel="stylesheet" href="/ALISS.THEME/dist/css/site.css?dt=20240417" />
+	<!-- Awesome Font -->
+	@*<script src="https://kit.fontawesome.com/7264da0bdc.js" crossorigin="anonymous"></script>*@
+	<script src="https://kit.fontawesome.com/e813501085.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://use.typekit.net/hwk2ezh.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+	<link rel="shortcut icon" href="/ALISS.THEME/dist/img/favicon.png" type="image/x-icon">
+
+	@if (ViewBag.Index != null && (bool)ViewBag.Index == false)
+	{
+		<meta name="robots" content="noindex, follow" />
+	}
+	@if (ViewBag.Follow != null && (bool)ViewBag.Follow == false)
+	{
+		<meta name="robots" content="nofollow" />
+	}
+</head>
+
+<body id="aliss-x-page" class="aliss-x-page">
+
+	@Html.Partial("Header", configNode)
+	@Html.Partial("InformationalMessage", new CdtHasInformationalMessage(rootNode))
+	@if (enableConnectingYouNow)
+	{
+		<beta-aliss-cyn-widget></beta-aliss-cyn-widget>
+	}
+
+	<div id="primarycontent">
+		@RenderBody()
+	</div>
+
+	<div class="aliss-leave hide-print">
+		<button class="aliss-leave__button">
+			Quick<br> exit <i class="fas fa-sign-out-alt pl--4"></i>
+		</button>
+	</div>
+
+	@Html.Partial("Footer", configNode)
+	<script nonce="googleKey">
+        var googleMapsKey = "@googleMapsKey";
+        var apiBaseUrl = "@apiBaseUrl";
+	</script>
+	<script src="/ALISS.THEME/dist/js/site.js?dt=20240417"></script>
+	@if (enableMonsidoTracking)
+	{
+		@Html.Partial("Monsido")
+	}
+
+	@RenderSection("scripts", required: false)
+
+	<script type="text/javascript"
+			src="https://www.browsealoud.com/plus/scripts/3.1.0/ba.js"
+			crossorigin="anonymous"
+			integrity="sha256-VCrJcQdV3IbbIVjmUyF7DnCqBbWD1BcZ/1sda2KWeFc= sha384-k2OQFn+wNFrKjU9HiaHAcHlEvLbfsVfvOnpmKBGWVBrpmGaIleDNHnnCJO4z2Y2H sha512-gxDfysgvGhVPSHDTieJ/8AlcIEjFbF3MdUgZZL2M5GXXDdIXCcX0CpH7Dh6jsHLOLOjRzTFdXASWZtxO+eMgyQ==">
+	</script>
+
+	@if (enableConnectingYouNow)
+	{
+		<script type="module" src="https://connectingyounow.ai/dist/index.js"></script>
+	}
+</body>
+</html>

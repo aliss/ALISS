@@ -1,0 +1,24 @@
+﻿@model ALISS.Business.ViewModels.Service.DeleteServiceViewModel
+@{
+	ViewBag.Title = "Delete Service: " + Model.ServiceName;
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-warning">
+	<p>Are you sure you want to delete @Model.ServiceName?</p>
+</div>
+
+@using (Html.BeginForm("DeleteServiceConfirm", "Organisation", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("id", Model.ServiceId)
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary">Delete</button>
+		@Html.ActionLink("Cancel", "ListServices", "Organisation", new { id = Model.OrganisationId }, new { @class = "btn btn--primary" })
+	</div>
+}

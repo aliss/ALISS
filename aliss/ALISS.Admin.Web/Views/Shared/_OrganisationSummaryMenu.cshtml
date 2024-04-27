@@ -1,0 +1,63 @@
+﻿@{
+	bool admin = ViewBag.IsAdmin ?? false;
+	bool editor = ViewBag.IsEditor ?? false;
+	bool leadClaimant = ViewBag.IsLeadClaimant ?? false;
+	bool claimant = ViewBag.IsClaimant ?? false;
+	bool published = ViewBag.Published ?? false;
+	Guid serviceId = Request.UrlReferrer != null && Request.UrlReferrer.ToString().Contains("/Summary")
+		? Request.UrlReferrer.ToString().Contains("?")
+			? Guid.Parse(Request.UrlReferrer.ToString().Split('?').First().Split('/').Last())
+			: Guid.Parse(Request.UrlReferrer.ToString().Split('/').Last())
+		: Guid.Empty;
+}
+<div class="aliss-sidemenu">
+	<h2>Actions</h2>
+	<div class="aliss-component-master__links">
+		<ul class="aliss-icon-list">
+			@if (Request.UrlReferrer != null && Request.UrlReferrer.ToString().Contains("/Summary"))
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-arrow-alt-circle-left"></i>
+					@Html.ActionLink("Back to Service", "Index", "DataInputSummary", new { id = serviceId }, null)
+				</li>
+			}
+			<li class="aliss-icon-list__item">
+				<i aria-hidden="true" class="aliss-icon-list__icon fa fa-plus-circle"></i>
+				@Html.ActionLink("Add Service", "Index", "DataInputService", new { id = Guid.Empty }, null)
+			</li>
+			<li class="aliss-icon-list__item">
+				<i aria-hidden="true" class="aliss-icon-list__icon fa fa-plus-circle"></i>
+				@Html.ActionLink("Add Location", "AddLocation", "Organisation", new { id = ViewBag.OrganisationId }, null)
+			</li>
+			<li class="aliss-icon-list__item">
+				<i aria-hidden="true" class="aliss-icon-list__icon fa fa-list"></i>
+				@Html.ActionLink("View Services", "ListServices", "Organisation", new { id = ViewBag.OrganisationId }, null)
+			</li>
+			<li class="aliss-icon-list__item">
+				<i aria-hidden="true" class="aliss-icon-list__icon fa fa-list"></i>
+				@Html.ActionLink("View Locations", "ListLocations", "Organisation", new { id = ViewBag.OrganisationId }, null)
+			</li>
+			@if (admin || leadClaimant || claimant)
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-list"></i>
+					@Html.ActionLink("View Claimants", "ListOrganisationClaimants", "Organisation", new { id = ViewBag.OrganisationId }, null)
+				</li>
+			}
+			@if (admin)
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa @(published ? "fa-times-circle" : "fa-check-circle")"></i>
+					@Html.ActionLink(published ? "Unpublish Organisation" : "Publish Organisation", "PublishOrganisation", "Organisation", new { id = ViewBag.OrganisationId, dataInput = true }, new { id = "publishLink" })
+				</li>
+			}
+			@if (admin || editor)
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-trash"></i>
+					@Html.ActionLink("Delete Organisation", "DeleteOrganisation", "Organisation", new { id = ViewBag.OrganisationId }, null)
+				</li>
+			}
+		</ul>
+	</div>
+</div>

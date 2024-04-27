@@ -1,0 +1,66 @@
+@model ALISS.ApiServices.ViewModels.Search.SearchViewModel
+@{
+	bool isActive = !((!string.IsNullOrEmpty(Model.Postcode) && Model.Sort == "sort-distance") ||
+		(string.IsNullOrEmpty(Model.Postcode) && Model.Sort == "sort-last-reviewed") ||
+		string.IsNullOrEmpty(Model.Sort));
+}
+<fieldset id="services-sort" class="aliss-form__group aliss-form__group--radio aliss-form__group--no-margin" data-form="sort-serv">
+	<div class="aliss-accordion-container">
+		<div class="aliss-content-accordion__filter-header">
+			<button id="aliss-accordion-sort-by-btn" class="aliss-content-accordion__trigger aliss-accordion__trigger--active @(isActive ? "" : "")" type="button" data-accordion-trigger="sortBy">
+				Sort
+				<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+				<span class="sr-only">Click here to toggle the visibility of the sort section</span>
+			</button>
+		</div>
+		<div class="aliss-content-accordion__content pt--8 aliss-accordion__content--active @(isActive ? "" : "")" id="sortBy" aria-hidden="true">
+			<div class="aliss-form__radio">
+				<input class="aliss-form__input service-search-filter-radio @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__input--disabled" : "")"
+					   alt="@(String.IsNullOrEmpty(Model.Postcode) ? "To sort by distance, please search by postcode" : "")"
+					   type="radio"
+					   name="Sort"
+					   id="SortDistance"
+					   value="sort-distance"
+					   @(Model.Sort == "sort-distance" || (String.IsNullOrEmpty(Model.Sort) && !String.IsNullOrEmpty(Model.Postcode)) ? "checked" : "")
+					   @(String.IsNullOrEmpty(Model.Postcode) ? "disabled" : "")>
+				<label id="SortDistance-label" class="aliss-form__radio__label js-label @(String.IsNullOrEmpty(Model.Postcode) ? "aliss-form__radio__label--disabled" : "")" for="SortDistance">Distance (nearest to furthest)@(String.IsNullOrEmpty(Model.Postcode) ? " - location needed" : "")</label>
+			</div>
+			<div class="aliss-form__radio">
+                <input class="aliss-form__input service-search-filter-radio @(String.IsNullOrEmpty(Model.Query) ? "aliss-form__input--disabled" : "")"
+                       alt="@(String.IsNullOrEmpty(Model.Query) ? "To sort by relevance, please search by keyword" : "")"
+                       type="radio"
+                       name="Sort"
+                       id="SortRelevance"
+                       value="sort-relevance"
+                       @(Model.Sort == "sort-relevance" || (String.IsNullOrEmpty(Model.Sort) && !String.IsNullOrEmpty(Model.Query) && String.IsNullOrEmpty(Model.Postcode)) ? "checked" : "")
+                       @(String.IsNullOrEmpty(Model.Query) ? "disabled" : "")>
+                <label id="SortRelevance-label" class="aliss-form__radio__label js-label @(String.IsNullOrEmpty(Model.Query) ? "aliss-form__radio__label--disabled" : "")" for="SortRelevance">Relevance@(String.IsNullOrEmpty(Model.Query) ? " - keyword needed" : "")</label>
+            </div>
+            <div class="aliss-form__radio">
+				<input class="aliss-form__input service-search-filter-radio"
+					   type="radio"
+					   name="Sort"
+					   id="SortLastReviewed"
+					   value="sort-last-reviewed"
+                       @(Model.Sort == "sort-last-reviewed" || (String.IsNullOrEmpty(Model.Sort) && String.IsNullOrEmpty(Model.Postcode) && String.IsNullOrEmpty(Model.Query)) ? "checked" : "")>
+				<label class="aliss-form__radio__label js-label" for="SortLastReviewed">Last Reviewed</label>
+			</div>
+			<div class="aliss-form__radio">
+				<label class="aliss-form__radio__label js-label" for="SortAZ">A-Z</label>
+				<input class="aliss-form__input service-search-filter-radio" type="radio" name="Sort" id="SortAZ" value="sort-a-z" @(Model.Sort == "sort-a-z" ? "checked" : "")>
+			</div>
+			<div class="aliss-form__radio">
+				<input class="aliss-form__input service-search-filter-radio" type="radio" name="Sort" id="SortRecentlyAdded" value="sort-recently-added" @(Model.Sort == "sort-recently-added" ? "checked" : "")>
+				<label class="aliss-form__radio__label js-label" for="SortRecentlyAdded">Recently Added</label>
+			</div>
+
+				<div id="aliss-deprioritised-data-disclaimer" class="aliss-deprioritised-data-disclaimer">
+					<div class="aliss-deprioritised-data-disclaimer__title">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
+						Search results
+					</div>
+					<p class="aliss-deprioritised-data-disclaimer__content">@ViewBag.DataGovernanceDisclaimer</p>
+				</div>
+		</div>
+	</div>
+</fieldset>

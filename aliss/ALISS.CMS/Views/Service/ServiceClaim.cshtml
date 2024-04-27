@@ -1,0 +1,50 @@
+@using ALISS.ApiServices.ViewModels.Service
+@using System.Configuration;
+@model ServiceModel
+@{
+	string aboutClaimedUrl = ViewBag.AboutClaimedUrl ?? "";
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+		? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+		: false;
+}
+
+<div class="aliss-organism aliss-component-master aliss-content-spacer hide-print">
+	<div class="aliss-component-master__contents">
+		<h2>
+			Do you represent this service?
+		</h2>
+		<p>
+			@if (!Model.is_claimed && !Model.organisation.is_claimed)
+			{
+				@:This service has not been claimed yet. By claiming this service, you can manage the information on this page, which helps keep the information on ALISS up to date.
+			}
+			else
+			{
+				@:This service has been claimed but you can help keep this page up to date by requesting to help manage the information.
+			}
+		</p>
+	</div>
+	<div class="aliss-component-master__contents aliss-component-master__contents--claim-service">
+		<div class="aliss-component-master__buttons">
+			@if (aboutClaimedUrl.StartsWith("http"))
+			{
+				if (enableMonsidoTracking)
+				{
+					<a href="@ViewBag.AboutClaimedUrl" class="btn btn btn--primary" onclick="window.monsido_functions.trackEvent('About Claimed', 'Service Listing Learn More', 'Navigate to About Claimed Page', 1);">Learn more</a>
+				}
+				else
+				{
+					<a href="@ViewBag.AboutClaimedUrl" class="btn btn btn--primary">Learn more</a>
+				}
+			}
+			@if (!Model.is_claimed && !Model.organisation.is_claimed)
+			{
+				<a href="@($"{Model.slug}/claim")" class="btn btn btn--primary">Claim this service</a>
+			}
+			else
+			{
+				<a href="@($"{Model.slug}/manage")" class="btn btn btn--primary">Manage this service</a>
+			}
+		</div>
+	</div>
+</div>

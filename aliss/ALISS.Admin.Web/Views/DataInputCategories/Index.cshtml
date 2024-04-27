@@ -1,0 +1,144 @@
+﻿@model ALISS.Business.ViewModels.DataInput.CategoriesViewModel
+@using ALISS.Business.Enums;
+@{
+	ViewBag.Title = "Add to ALISS";
+	bool submitted = ViewBag.Submitted ?? false;
+}
+
+@if (!submitted)
+{
+	<div class="step-progress__panel__container">
+		<div class="aliss-grid aliss-grid__data-input">
+			<div class="aliss-content__wrap aliss-content__wrap--data-input">
+				<div class="aliss-content__primary">
+					<div class="data-input-container">
+						@Html.Partial("_DataInputProgress")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "DataInputCategories", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form" }))
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(h => h.OrganisationId)
+				@Html.HiddenFor(h => h.ServiceId)
+				@Html.HiddenFor(h => h.SummaryType)
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<div class="data-input-container--inner">
+							<fieldset class="aliss-form__fieldset aliss-data-input-form__fieldset no-padding">
+								<legend class="aliss-form__legend">Categories</legend>
+								<h1 class="mb--0 mt--0">Categories</h1>
+                                <p class="mb--32">
+									Please select the categories that are relevant to the service or resource.
+									<br />
+									Please note: We recommend you add up to 8 categories
+								</p>
+
+								<div class="aliss-form__group">
+									<input type="text" id="category-filter" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter categories" autocomplete="off">
+									<div class="aliss-datainput-categories aliss-datainput-categories--filter">
+										@foreach (var category in Model.ServiceCategories)
+										{
+											<div class="aliss-datainput-categories__primary mb--24" data-filter="@category.Name">
+												<div class="aliss-accordion__header">
+
+													<div class="aliss-form__checkbox">
+														<input id="category-@category.CategoryId" data-id="@category.CategoryId" name="categories" class="aliss-form__input" type="checkbox" @(category.Selected ? "checked" : "") value="@category.Name" />
+													</div>
+													<span class="aliss-datainput-categories__icon">
+														<i aria-hidden="true" class="@category.Icon"></i>
+													</span>
+													<label for="category-@category.CategoryId" class="aliss-datainput-categories__edit pr--8">@category.Name</label>
+													@if (category.NextLevelCategories.Count() > 0)
+													{
+														<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@category.CategoryId">
+															<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+															<span class="hide">Toggle Accordion @category.Name</span>
+														</button>
+													}
+												</div>
+												<div class="aliss-accordion__content" id="accordion-@category.CategoryId">
+													@if (category.NextLevelCategories.Any())
+													{
+														<div class="aliss-accordion__content--helptext">Please select any Second level categories that further apply to your service or resource</div>
+													}
+													@foreach (var levelTwoCategory in category.NextLevelCategories)
+													{
+														<div class="aliss-datainput-categories__sub" data-filter="@levelTwoCategory.Name">
+															<div class="aliss-accordion__header">
+																<div class="aliss-form__checkbox">
+																	<input id="category-@levelTwoCategory.CategoryId" class="aliss-form__input" name="categories" data-id="@levelTwoCategory.CategoryId" type="checkbox" @(levelTwoCategory.Selected ? "checked" : "") value="@levelTwoCategory.Name" />
+																</div>
+																<label for="category-@levelTwoCategory.CategoryId" class="aliss-datainput-categories__edit aliss-datainput-categories__edit--sub pr--8">@levelTwoCategory.Name</label>
+
+																@if (levelTwoCategory.NextLevelCategories.Count() > 0)
+																{
+																	<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@levelTwoCategory.CategoryId">
+																		<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+																		<span class="hide">Toggle Accordion @levelTwoCategory.Name</span>
+																	</button>
+																}
+															</div>
+															@if (levelTwoCategory.NextLevelCategories.Count() > 0)
+															{
+																<div class="aliss-accordion__content" id="accordion-@levelTwoCategory.CategoryId">
+																	<div class="aliss-accordion__content--helptext">Please select any Third level categories that further apply to your service or resource</div>
+																	@foreach (var levelThreeCategory in levelTwoCategory.NextLevelCategories)
+																	{
+																		<div class="aliss-datainput-categories__sub aliss-datainput-categories__sub--three" data-filter="@levelThreeCategory.Name">
+																			<div class="aliss-form__checkbox">
+																				<input id="category-@levelThreeCategory.CategoryId" class="aliss-form__input" name="categories" data-id="@levelThreeCategory.CategoryId" type="checkbox" @(levelThreeCategory.Selected ? "checked" : "") value="@levelThreeCategory.Name" />
+																			</div>
+																			<label for="category-@levelThreeCategory.CategoryId" class="aliss-datainput-categories__edit pr--8">@levelThreeCategory.Name</label>
+																		</div>
+																	}
+																</div>
+															}
+														</div>
+													}
+												</div>
+											</div>
+										}
+										<div class="aliss-categories__noresult">
+											<p>
+												<i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;
+												Sorry could not match anything to your criteria.
+											</p>
+										</div>
+									</div>
+									<div class="aliss-selected" id="categories-selected">
+										<div class="aliss-selected__title" id="title-categories-selected"><p>You have <span id="count-categories-selected"></span> categories selected</p></div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					@Html.HiddenFor(h => h.SelectedCategories)
+
+					@if (Model.SummaryType == DataInputSummaryTypeEnum.ServiceReview)
+					{
+						@Html.Partial("_ReviewNavigation")
+					}
+					else
+					{
+						@Html.Partial("_DataInputNavigation")
+					}
+				</div>
+			}
+		</div>
+		@Html.Partial("_Guidance")
+	</div>
+</div>

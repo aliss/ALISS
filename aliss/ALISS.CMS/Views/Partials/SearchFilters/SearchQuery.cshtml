@@ -1,0 +1,46 @@
+﻿@model ALISS.ApiServices.ViewModels.Search.SearchViewModel
+@{
+	bool isActive = !string.IsNullOrEmpty(Model.Query);
+	string whatLabelText = ViewBag.WhatLabelText;
+	string whatPlaceholderText = ViewBag.WhatPlaceholderText;
+}
+<fieldset id="what-filter" class="aliss-form__group aliss-form__group--no-margin" data-form="search-what">
+	@Html.Hidden("Query", Model.Query)
+
+	<div class="aliss-accordion-container">
+		<div class="aliss-content-accordion__filter-header">
+			<button id="aliss-accordion-filter-by-what-btn" class="aliss-content-accordion__trigger aliss-accordion__trigger--active @(isActive ? "" : "")" type="button" data-accordion-trigger="filterByWhat">
+				What
+				<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+				<span class="sr-only">Click here to toggle the visibility of the what filter section</span>
+			</button>
+		</div>
+		<div class="aliss-form aliss-form--no-margin">
+			<div id="aliss-selected-what-container" class="aliss-form__selected-value-tag-container">
+				@if (!String.IsNullOrEmpty(Model.Query))
+				{
+					<div class="aliss-form__selected-value-tag">
+						<label id="selected-what" class="aliss-selected__remove">
+							<i class="fa fa-times-circle" aria-hidden="true"></i>
+							<span class="sr-only">Click here to remove the what</span>
+						</label>
+						<span id="selected-what-value" class="aliss-selected__value">@Model.Query</span>
+					</div>
+				}
+			</div>
+		</div>
+		<div class="aliss-content-accordion__content pt--8 aliss-accordion__content--active @(isActive ? "" : "")" id="filterByWhat" aria-hidden="true">
+			<span class="aliss-form__label" for="search-postcode">@whatLabelText</span>
+			<div class="aliss-form__input-container">
+				<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+					Filter by what
+				</label>
+				<div class="aliss-form__input-container mb--24">
+					<input class="aliss-form__input--clearable" type="text" id="filter-what-entry" placeholder="@whatPlaceholderText">
+					<span id="search-clear" class="aliss-form__input-container--clear"><i class="fas fa-times"></i></span>
+				</div>
+				<button id="filter-what-submit" class="btn btn--primary btn--submit">Search</button>
+			</div>
+		</div>
+	</div>
+</fieldset>

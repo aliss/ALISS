@@ -1,0 +1,253 @@
+﻿@using ALISS.CMS.Extensions
+@using Umbraco.Web.PublishedModels
+@using ALISS.ApiServices.ViewModels.Service
+@using ALISS.CMS.Models.User
+@using ALISS.CMS.Helpers
+@using ALISS.CMS.Models.Collection
+@using System.Configuration
+@using ContentModels = Umbraco.Web.PublishedModels;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.DtCollections>
+@{
+	Layout = "~/Views/Master.cshtml";
+
+	string collectionId = ViewBag.CollectionId;
+
+	CurrentUserViewModel currentUser = GenericHelpers.GetLoggedInUser();
+	CollectionViewModel collection = ViewBag.Collection;
+
+	int page = int.Parse(Request.Params["page"] ?? "1");
+	int pageSize = Model.PageSize;
+	double pageCount = Math.Ceiling((double)collection.TotalCount / pageSize);
+}
+
+<main>
+	<section>
+		<div class="aliss-grid">
+			<div class="aliss-content__wrap">
+				<div class="aliss-content__header">
+					<h1 class="no-margin">Hello, @currentUser.Name</h1>
+					<h2>@collection.Name</h2>
+				</div>
+
+				<div class="aliss-content__primary">
+					@foreach (CollectionServicePTO service in collection.Services)
+					{
+						<div class="aliss-organism aliss-collection__item">
+							<div class="aliss-typography">
+								<h3><a href="/services/@service.ServiceId">@service.Name</a></h3>
+								<p>
+									Delivered by: <a href="/organisations/@service.OrganisationId">@service.OrganisationName</a>
+									@if (service.OrganisationIsClaimed)
+									{
+										<span class="aliss-claimed-status aliss-claimed-status--claimed">claimed</span>
+									}
+								</p>
+								<p>Last Updated: @service.LastUpdated.ToString("dd/MM/yyyy")</p>
+							</div>
+
+							@if (service.Locations.Count() > 0)
+							{
+								<ul class="aliss-icon-list">
+									<li class="aliss-icon-list__item aliss-icon-list__item--location">
+										<a href="https://maps.google.com?daddr=@service.Locations.First()" title="(This will open in a new window)." target="_blank">
+											@service.Locations.First()<span class="sr-only"> (This opens in a new window)</span>
+										</a>
+									</li>
+								</ul>
+							}
+
+							@if (service.Locations.Count() > 1 || service.ServiceAreas.Count() > 0)
+							{
+								<div class="aliss-locations">
+									@if (service.Locations.Count() > 1)
+									{
+										<div class="aliss-accordion__header">
+											<button class="aliss-accordion__trigger" data-accordion-trigger="service-locations">
+												<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion for @service.Name locations</span>
+											</button>
+											<span class="aliss-accordion__label">More locations</span>
+										</div>
+										<div class="aliss-accordion__content" id="service-locations">
+											<div class="aliss-accordion__inner">
+												<ul class="aliss-icon-list margin-bottom-2">
+													@foreach (string location in service.Locations)
+													{
+														if (location != service.Locations.First())
+														{
+															<li class="aliss-icon-list__item aliss-icon-list__item--location">
+																<a href="https://maps.google.com?daddr=@location" title="(This will open in a new window)." target="_blank">
+																	@location<span class="sr-only"> (This opens in a new window)</span>
+																</a>
+															</li>
+														}
+													}
+												</ul>
+											</div>
+										</div>
+									}
+									@if (service.ServiceAreas.Count() > 1)
+									{
+										<div class="aliss-accordion__header">
+											<button class="aliss-accordion__trigger" data-accordion-trigger="service-areas">
+												<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion for @service.Name areas</span>
+											</button>
+											<span class="aliss-accordion__label">Service Areas</span>
+										</div>
+										<div class="aliss-accordion__content" id="service-areas">
+											<div class="aliss-accordion__inner">
+												<ul class="aliss-icon-list">
+													@foreach (string item in service.ServiceAreas)
+													{
+														<li class="aliss-icon-list__item aliss-icon-list__item--map">
+															@item
+														</li>
+													}
+												</ul>
+											</div>
+										</div>
+									}
+								</div>
+							}
+
+							<ul class="aliss-icon-list aliss-icon-list--thirds">
+								@if (!string.IsNullOrWhiteSpace(service.Url))
+								{
+									<li class="aliss-icon-list__item aliss-icon-list__item--website">
+										<a href="@service.Url" target="_blank" title="This will open in a new window">
+											<span class="hide">Go to @service.Name </span>Website
+										</a>
+									</li>
+								}
+								@if (!string.IsNullOrWhiteSpace(service.Phone))
+								{
+									<li class="aliss-icon-list__item aliss-icon-list__item--telephone">
+										<a href="tel:@service.Phone" title="Click here to call this organisation">
+											<span class="hide">Phone </span>@service.Phone
+										</a>
+									</li>
+								}
+								<li class="aliss-icon-list__item aliss-icon-list__item--trash red hide-print">
+									<form id="form-@service.ServiceId" action="" method="post">
+										@Html.AntiForgeryToken()
+										<input type="hidden" id="action" name="action" value="delete" />
+										<input type="hidden" id="serviceId" name="serviceId" value="@service.ServiceId" />
+										<a href="#" onclick="javascript: removeService(event, 'form-@service.ServiceId'); return false;">
+											Remove service
+										</a>
+									</form>
+								</li>
+							</ul>
+						</div>
+					}
+
+					@if (pageCount > 1)
+					{
+						var previous_page = page - 1;
+						var next_page = page + 1;
+
+						<div class="aliss-pagination-component">
+							<div class="aliss-pagination-component__wrapper">
+								<div class="aliss-pagination-component__wrapper__item">
+									<p>Showing page <strong>@page</strong> of <strong>@pageCount</strong></p>
+								</div>
+								<div class="aliss-pagination-component__wrapper__item hide-print">
+									<nav>
+										<ol>
+											@if (page != 1)
+											{
+												<li>
+													<a href="?page=@previous_page" class="aliss-pagination-previous">
+														Prev<span class="sr-only">ious Page</span>
+													</a>
+												</li>
+											}
+											@for (int i = 1; i <= pageCount; i++)
+											{
+												if (page == i - 1)
+												{
+													<li>
+														<a href="?page=@i" class="js-pagination-previous-page">
+															<span class="sr-only">Page </span>@i
+														</a>
+													</li>
+												}
+												else if (page == i)
+												{
+													<li>
+														<a href="?page=@i" class="js-pagination-active-page">
+															<span class="sr-only">Page </span>@i
+														</a>
+													</li>
+												}
+												else if (page == i + 1)
+												{
+													<li>
+														<a href="?page=@i" class="js-pagination-next-page">
+															<span class="sr-only">Page </span>@i
+														</a>
+													</li>
+												}
+												else
+												{
+													<li class="js-pagination-hidden">
+														<a href="?page=@i">
+															<span class="sr-only">Page </span>@i
+														</a>
+													</li>
+												}
+											}
+											@if (page != pageCount)
+											{
+												<li>
+													<a href="?page=@next_page" class="aliss-pagination-next">
+														Next<span class="sr-only"> Page</span>
+													</a>
+												</li>
+											}
+										</ol>
+									</nav>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+
+				<div class="aliss-content__secondary hide-print">
+					<div class="aliss-organism">
+						<h4>Actions</h4>
+						<ul class="aliss-icon-list">
+							<li class="aliss-icon-list__item aliss-icon-list__item--email">
+								<a href="@collection.CollectionId/email">
+									Email this collection
+								</a>
+							</li>
+							<li class="aliss-icon-list__item aliss-icon-list__item--print">
+								<a href="javascript:window.print();" class="aliss-action__print">
+									Print this collection
+								</a>
+							</li>
+							<li class="aliss-icon-list__item aliss-icon-list__item--back-arrow">
+								<a href="/collections">
+									Return to collections
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+<script nonce="collection">
+	function removeService(e, formId) {
+		e.preventDefault();
+		document.getElementById(formId).submit();
+	}
+</script>
+
+@section Metadata
+{
+	@Html.Metadata(Model as IPublishedContent)
+}

@@ -1,0 +1,37 @@
+﻿@inherits UmbracoViewPage
+@{
+ 
+    string organisationsUrl = Model.AncestorOrSelf(DtHomepage.ModelTypeAlias).DescendantOrSelfOfType(DtAddAnOrganisation.ModelTypeAlias)?.Url();
+    string searchType = ViewData["SearchType"] != null ? ViewData["SearchType"].ToString() : "service";
+    string serviceChecked = searchType.ToLower() == "service" ? "checked" : "";
+    string organisationChecked = searchType.ToLower() == "organisation" ? "checked" : "";
+    string serviceHide = searchType.ToLower() == "service" ? "" : "hide";
+    string organisationHide = searchType.ToLower() == "organisation" ? "" : "hide";
+}
+<div class="aliss-organism hide-print">
+    <form name="searchtype" class="aliss-form__group" id="search-type-selector">
+        <fieldset class="aliss-form__group aliss-form__group--radio">
+            <legend class="aliss-form__label">
+                Search By:
+            </legend>
+            <div class="aliss-form__radio">
+                <label for="searchType2">Organisations</label>
+                <input class="aliss-form__input" type="radio" name="type" id="searchType2" value="Organisation" @organisationChecked>
+            </div>
+        </fieldset>
+    </form>
+    <div class="aliss-search no-margin">
+        <div class="aliss-search__filter">
+                    <form id="search-form-organisations" class="aliss-form__group aliss-form__group--search @organisationHide" action="@organisationsUrl" method="get">
+                <label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+                    Search
+                </label>
+                <input id="search-organisations" name="searchterm" class="aliss-form__search" type="text" placeholder="E.g. Diabetes UK">
+                <button class="btn btn--primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <div id="srch"></div>
+</div>
+
+

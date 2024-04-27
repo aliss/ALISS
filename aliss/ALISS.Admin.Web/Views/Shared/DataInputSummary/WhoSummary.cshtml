@@ -1,0 +1,43 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@{
+	bool serviceSubmitted = Model.ServiceSubmitted;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted ?? false;
+}
+
+<fieldset class="aliss-form__fieldset no-padding">
+	<legend class="aliss-form__legend">Who</legend>
+
+	@if (serviceSubmitted || organisationSubmitted)
+	{
+		<h2>4. Who</h2>
+	}
+	else
+	{
+		<h2>5. Who</h2>
+	}
+
+	<div class="mb--48">
+		@if (Model.SelectedCommunityGroups.Count != 0)
+		{
+			<ul>
+				@foreach (string commGroup in Model.SelectedCommunityGroups)
+				{
+					if (commGroup.Split('|').Length == 3)
+					{
+						<li class="mb--16">@commGroup.Split('|')[0] - @commGroup.Split('|')[1] to @commGroup.Split('|')[2]</li>
+					}
+					else
+					{
+						<li class="mb--16">@commGroup</li>
+					}
+				}
+			</ul>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+	@Html.ActionLink("Edit Information", "Index", "DataInputWho", new { id = Model.ServiceId, summaryType = Model.SummaryType }, new { @class = "btn btn--primary" })
+	<hr class="content__divider mt--24" />
+</fieldset>

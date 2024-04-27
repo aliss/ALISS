@@ -1,0 +1,124 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@using ALISS.Business.PresentationTransferObjects.DataInput;
+@{
+	bool serviceSubmitted = Model.ServiceSubmitted;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted ?? false;
+	int marker_count = 0;
+	int geo_count = 0;
+	string locationClass = !String.IsNullOrEmpty(Html.ValidationMessage("ServiceLocation").ToString()) && !Html.ValidationMessage("ServiceLocation").ToString().Contains("\"></span>")
+		? "aliss-form__group--error mb--24"
+		: "mb--24";
+	string regionClass = !String.IsNullOrEmpty(Html.ValidationMessage("ServiceRegion").ToString()) && !Html.ValidationMessage("ServiceRegion").ToString().Contains("\"></span>")
+		? "aliss-form__group--error mb--24"
+		: "mb--24";
+}
+
+<fieldset class="aliss-form__fieldset no-padding">
+	<legend class="aliss-form__legend">Where</legend>
+
+	@if (serviceSubmitted || organisationSubmitted)
+	{
+		<h2>2. Where</h2>
+	}
+	else
+	{
+		<h2>3. Where</h2>
+	}
+
+	<div class="mb--24">
+		<div class="aliss-details__header">
+			<a class="aliss-details__trigger" data-accordion-trigger="details-map">
+				<i class="fas fa-caret-right"></i>
+				Show on map
+			</a>
+		</div>
+		<div class="aliss-form__group aliss-details__content" id="details-map">
+			<div id="aliss-component-map" class="aliss-component-map" data-id="@Model.ServiceId"
+				 @if (Model.ServiceServiceAreas.Any()) { @: data-map-areas='{
+												 string areaIds = "";
+												 @:"areas" : [
+													foreach (var service_area in Model.ServiceServiceAreas)
+													{
+														geo_count++;
+														var areas = geo_count == Model.ServiceServiceAreas.Count() ? "}" : "},";
+														var ids = geo_count == Model.ServiceServiceAreas.Count() ? "" : ",";
+														@:{
+															@:"type": "@service_area.Type",
+															@:"code": "@service_area.Code",
+															@:"area": "@service_area.Name"
+														@areas
+														areaIds += service_area.ServiceAreaId + ids;
+													}
+												@:]}'
+				  @: data-map-areas-ids='@areaIds'
+				 }
+				 @if (Model.ServiceLocations.Any()) { @: data-map-markers='{
+												@:"markers" : [
+													foreach (var marker in Model.ServiceLocations)
+													{
+														string formattedAddress = $"{marker.Address}, {marker.City}, {marker.Postcode}";
+														if (!String.IsNullOrEmpty(marker.Name))
+														{
+															formattedAddress = $"{marker.Name}, {formattedAddress}";
+														}
+														marker_count++;
+														var markers = marker_count == Model.ServiceLocations.Count() ? "}" : "},";
+														@:{
+															@:"name": "@marker.Name",
+															@:"address": "@formattedAddress",
+															@:"longitude": @marker.Longitude,
+															@:"latitude": @marker.Latitude
+														@markers
+													}
+												@:]}'
+				 }>
+			</div>
+		</div>
+	</div>
+	<div class="@locationClass">
+		@if (!Model.HowServiceAccessed.Equals("remote", StringComparison.OrdinalIgnoreCase))
+		{
+			<h5>Addresses</h5>
+			if (Model.SelectedLocations.Count != 0)
+			{
+				<ul>
+					@foreach (WhereLocationPTO location in Model.SelectedLocations)
+					{
+						string formatted = !string.IsNullOrWhiteSpace(location.title)
+							? $"{location.title}, {location.address}"
+							: location.address;
+						<li class="mb--16">
+							<a target='_blank' href='https://maps.google.com?daddr=@location.address'>
+								@formatted <i class="fa fa-external-link" aria-hidden="true"></i>
+							</a>
+						</li>
+					}
+				</ul>
+			}
+			else
+			{
+				<span>No information provided</span>
+			}
+		}
+	</div>
+
+	<div class="@regionClass">
+		<h5>Regions</h5>
+		@if (Model.SelectedServiceAreas.Count != 0)
+		{
+			<ul>
+				@foreach (string serviceArea in Model.SelectedServiceAreas)
+				{
+					<li class="mb--16">@serviceArea</li>
+				}
+			</ul>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	@Html.ActionLink("Edit Information", "Index", "DataInputWhere", new { id = Model.ServiceId, summaryType = Model.SummaryType }, new { @class = "btn btn--primary" })
+	<hr class="content__divider mt--24" />
+</fieldset>

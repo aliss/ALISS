@@ -1,0 +1,129 @@
+﻿@model ALISS.Business.ViewModels.ServiceClaim.ServiceClaimListingViewModel
+@{
+	bool isAdmin = (bool)ViewBag.IsAdmin;
+	ViewBag.Title = "My Service Claims";
+	string publicSiteBaseUrl = System.Configuration.ConfigurationManager.AppSettings["BasePublicSiteUrl"];
+}
+
+@Html.Partial("_ClaimsDisclaimer")
+
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@using (Html.BeginForm("MyClaims", "ServiceClaim", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+		{
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search
+			</label>
+			<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+			<button class="btn btn--primary" type="submit">Search</button>
+			if (!String.IsNullOrEmpty(Model.SearchTerm))
+			{
+				<div class="aliss-search__clear">
+					@Html.ActionLink("Clear Search", "MyClaims", "ServiceClaim", null, new { @class = "btn btn--primary" })
+				</div>
+			}
+		}
+	</div>
+
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+	@Html.Partial("_SuccessMessage")
+}
+
+<div class="aliss-pagination-tabs-component">
+	<div class="aliss-pagination-tabs-component__wrapper">
+		<div class="aliss-pagination-tabs-component__wrapper__item">
+			<nav>
+				<ol>
+					<li>
+						@Html.ActionLink("Organisations", "MyClaims", "Claim", null, new { @class = "aliss-pagination-previous" })
+					</li>
+					<li>
+						@Html.ActionLink("Services", "MyCLaims", "ServiceClaim", null, new { @class = "btn btn--primary" })
+					</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+</div>
+<div class="aliss-pagination-results-component">
+	<div class="aliss-pagination-results-component__wrapper">
+		<div class="aliss-pagination-results-component__wrapper__item">
+			<p>Total Results: <span>@Model.TotalResults</span></p>
+		</div>
+	</div>
+</div>
+
+<div class="aliss-table-container">
+	<table class="aliss-table">
+		<thead class="aliss-table__head">
+			<tr class="aliss-table__row aliss-table__row--head">
+				<th class="aliss-table__header" scope="col">Claim Status</th>
+				<th class="aliss-table__header" scope="col">Claimant Name</th>
+				<th class="aliss-table__header" scope="col">Service Name</th>
+				<th class="aliss-table__header" scope="col">Claimed On</th>
+			</tr>
+		</thead>
+		@foreach (var claim in Model.Claims)
+		{
+			<tbody class="aliss-table__body">
+				<tr class="aliss-table__row aliss-table__row--body">
+					<td class="aliss-table__cell">
+						@claim.Status
+					</td>
+					<td class="aliss-table__cell">
+						@claim.ClaimedUserName
+					</td>
+					<td class="aliss-table__cell">
+						@if (claim.ServicePublished)
+						{
+							<a href="@($"{publicSiteBaseUrl}services/{claim.ServiceId}")">@claim.ServiceName</a>
+						}
+						else
+						{
+							@claim.ServiceName
+						}
+						@if (claim.Status.ToLower() == "approved")
+						{
+							<span class="d-block mt--16">
+								<i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputSummary", new { id = claim.ServiceId }, new { @class = "" })
+							</span>
+						}
+					</td>
+					<td class="aliss-table__cell">@($"{claim.CreatedOn:dd/MM/yyyy}")</td>
+				</tr>
+			</tbody>
+		}
+	</table>
+</div>
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+		</div>
+		@if (Model.TotalPages > 1)
+		{
+			<div class="aliss-pagination-component__wrapper__item">
+				<nav>
+					<ol>
+						@if (Model.Page > 1)
+						{
+							<li>
+								<a href="?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)" class="aliss-pagination-previous">Previous</a>
+							</li>
+						}
+						@if (Model.Page < Model.TotalPages)
+						{
+							<li>
+								<a href="?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)" class="aliss-pagination-next">Next</a>
+							</li>
+						}
+					</ol>
+				</nav>
+			</div>
+		}
+	</div>
+</div>

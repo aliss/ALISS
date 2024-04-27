@@ -1,0 +1,26 @@
+{{ master_component({
+  classes: '',
+  item_type: "",
+  item_title: "Do you represent this organisation?",
+  item_text: "This organisation has not been claimed by one of it's representatives. If you represent this organisation and wish to make changes to this listing, please use the button below to start the process.",
+  item_descriptive_icon: [
+    {
+      icon: 'fa-question-circle',
+      text: 'This organisation has not been claimed by a representative.'
+    }
+  ],
+  item_buttons: [
+    {
+      href: "/",
+      classes: "btn btn--primary",
+      text: "Claim this organisation",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    }
+  ]
+}) }}

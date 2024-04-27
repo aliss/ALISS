@@ -1,0 +1,33 @@
+@using System.Configuration
+@inherits UmbracoViewPage<CdtSearchOption>
+@{
+	string servicesUrl = ViewData["servicesUrl"]?.ToString();
+	bool enableMonsidoTracking = Convert.ToBoolean(ViewData["enableMonsidoTracking"] ?? 0);
+}
+
+<p class="mt--0">@Model.Prompt</p>
+<div class="aliss-search no-margin">
+	<div class="aliss-search__filter">
+		<form id="search-form-what" class="aliss-form__group aliss-form__group--search no-margin" action="@servicesUrl" method="get" autocomplete="off">
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search by what
+			</label>
+			<div class="aliss-form__input-container">
+				<input id="query" name="query" class="aliss-organism-homepage-search__input aliss-form__search--clearable" type="text" autocomplete="on" placeholder="@Model.Tooltip">
+				<span id="search-clear" class="aliss-form__input-container--clear"><i class="fas fa-times"></i></span>
+			</div>
+			@if (enableMonsidoTracking)
+			{
+				<button class="btn btn--primary"
+						id="search-what-button"
+						onclick="window.monsido_functions.trackEvent('Homepage', 'Homepage Search Button - What', document.getElementById('what').innerText, 1);">
+					Search
+				</button>
+			}
+			else
+			{
+				<button class="btn btn--primary" id="search-what-button">Search</button>
+			}
+		</form>
+	</div>
+</div>

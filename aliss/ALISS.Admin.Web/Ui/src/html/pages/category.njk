@@ -1,0 +1,191 @@
+{% extends "layout.njk" %}
+
+{# Global variables #}
+  {# 
+    Access to atom, molecule and organism paths.
+  #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+{# Global variables #}
+
+{# Page variables #}
+  {# 
+    Page meta data:
+    If specified, this will populate meta tags for page SEO.
+  #}
+    {% set page_Meta_Title = 'Dashboard' %}
+    {% set page_Meta_Description = '' %}
+    {% set page_Meta_Keywords = '' %}
+  {# 
+    Page styles:
+    Utilise Atoms, Molecules and Organisms to create templates.
+  #}
+  {% set page_Styles = false %}
+  {# 
+    Page body ID & class:
+    If specified, this id and or class will be applied to the body tag.
+  #}
+    {% set page_Body_ID = 'aliss-admin' %}
+    {% set page_Body_Class = 'aliss-admin' %}
+  {# 
+    Page ID & class:
+    If specified, this class will be applied to top level parent tag of this page, containing all of the componets within the page contents.
+  #}
+  {% set page_ID = '' %}
+  {% set page_Class = '' %}
+{# Page variables #}
+
+{% block body %}
+
+    <form class="aliss-form">
+
+        <fieldset class="aliss-form__fieldset">
+            <legend class="aliss-form__legend">Legend Title (Available only screen readers)</legend>
+
+            <div class="aliss-form__group">
+                <label class="aliss-form__label" for="example-text">
+                    Categories
+                    <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+                </label>
+                <span>Please note - parent categories are added automatically.  For best search results, please use up to four sub-categories.</span>
+                <input type="text" id="category-filter" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter categories" autocomplete="off"/>
+                
+
+                <div class="aliss-categories aliss-categories--filter">
+
+                    <div class="aliss-categories__primary" data-filter="abcd">
+                        <div class="aliss-accordion__header">
+                            <button class="aliss-accordion__trigger" data-accordion-trigger="primary1">
+                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                <span class="hide">Toggle Accordion abcd</span>
+                            </button>
+                            <span class="aliss-categories__icon">
+                                <i aria-hidden="true" class="fa fa-home"></i>
+                            </span>
+                            <label for="category-1" class="aliss-categories__edit">abcd</label>
+                            <div class="aliss-categories__spacer"></div>
+                            <div class="aliss-form__checkbox">
+                                <input id="category-1" type="checkbox" name="categories" class="aliss-form__input" data-id="1" value="abcd" checked/>
+                            </div>
+                        </div>                            
+                        <div class="aliss-accordion__content" id="primary1">
+                            <div class="aliss-categories__sub" data-filter="efgh">                                
+                                <div class="aliss-accordion__header">
+                                    <button class="aliss-accordion__trigger" data-accordion-trigger="sub1">
+                                        <i class="fa fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                        <span class="hide">Toggle Accordion efgh</span>
+                                    </button>
+                                    <label for="category-2" class="aliss-categories__edit aliss-categories__edit--sub">efgh</label>
+                                    <div class="aliss-categories__spacer"></div>
+                                    <div class="aliss-form__checkbox">
+                                        <input id="category-2" type="checkbox" name="categories" class="aliss-form__input" data-id="2" value="efgh"/>
+                                    </div>
+                                </div>   
+                                <div class="aliss-accordion__content" id="sub1">
+                                
+                                    <div class="aliss-categories__sub aliss-categories__sub--three" data-filter="ijkl">                                        
+                                        <label for="category-3" class="aliss-categories__edit">ijkl</label>
+                                        <div class="aliss-categories__spacer"></div>
+                                        <div class="aliss-form__checkbox">
+                                            <input id="category-3" type="checkbox" name="categories" class="aliss-form__input" data-id="3" value="ijkl"/>
+                                        </div>
+                                    </div>  
+
+                                    <div class="aliss-categories__sub aliss-categories__sub--three" data-filter="mnop">                                                                         
+                                        <label for="category-4" class="aliss-categories__edit">mnop</label>
+                                        <div class="aliss-categories__spacer"></div>
+                                        <div class="aliss-form__checkbox">
+                                            <input id="category-4" type="checkbox" name="categories" class="aliss-form__input" data-id="4" value="mnop" checked/>
+                                        </div>
+                                    </div>   
+                                </div>    
+                    
+                            </div> 
+                        </div>
+                    </div> 
+                    
+                    <div class="aliss-categories__primary" data-filter="pqrs">
+                        <div class="aliss-accordion__header">
+                            <button class="aliss-accordion__trigger" data-accordion-trigger="primary2">
+                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                <span class="hide">Toggle Accordion pqrs</span>
+                            </button>
+                            <span class="aliss-categories__icon">
+                                <i aria-hidden="true" class="fa fa-home"></i>
+                            </span>
+                            <label for="category-5" class="aliss-categories__edit">pqrs</label>
+                            <div class="aliss-categories__spacer"></div>
+                            <div class="aliss-form__checkbox">
+                                <input id="category-5" type="checkbox" name="categories" class="aliss-form__input" data-id="5" value="pqrs"/>
+                            </div>
+                        </div>                            
+                        <div class="aliss-accordion__content" id="primary2">
+                            <div class="aliss-categories__sub" data-filter="tuvw">                                
+                                <div class="aliss-accordion__header">
+                                    <button class="aliss-accordion__trigger" data-accordion-trigger="sub2">
+                                        <i class="fa fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                        <span class="hide">Toggle Accordion tuvw</span>
+                                    </button>
+                                    <label id="category-6" class="aliss-categories__edit aliss-categories__edit--sub">tuvw</label>
+                                    <div class="aliss-categories__spacer"></div>
+                                    <div class="aliss-form__checkbox">
+                                        <input id="category-6" type="checkbox" name="categories" class="aliss-form__input" data-id="6" value="tuvw"/>
+                                    </div>
+                                </div>   
+                                <div class="aliss-accordion__content" id="sub2">
+                                
+                                    <div class="aliss-categories__sub aliss-categories__sub--three" data-filter="xyz">                                        
+                                        <label for="category-7" class="aliss-categories__edit">xyz</label>
+                                        <div class="aliss-categories__spacer"></div>
+                                        <div class="aliss-form__checkbox">
+                                            <input id="category-7" type="checkbox" name="categories" class="aliss-form__input" data-id="7" value="xyz"/>
+                                        </div>
+                                    </div>  
+
+                                    <div class="aliss-categories__sub aliss-categories__sub--three" data-filter="1234">                                                                         
+                                        <label for="category-8" class="aliss-categories__edit">1234</label>
+                                        <div class="aliss-categories__spacer"></div>
+                                        <div class="aliss-form__checkbox">
+                                            <input id="category-8" type="checkbox" name="categories" class="aliss-form__input" data-id="8" value="1234"/>
+                                        </div>
+                                    </div> 
+                                    
+
+                                    <div class="aliss-categories__sub aliss-categories__sub--three" data-filter="5678">                                                                         
+                                        <label for="category-9" class="aliss-categories__edit">5678</label>
+                                        <div class="aliss-categories__spacer"></div>
+                                        <div class="aliss-form__checkbox">
+                                            <input id="category-9" type="checkbox" name="categories" class="aliss-form__input" data-id="9" value="5678"/>
+                                        </div>
+                                    </div> 
+                                    
+
+                                    <div class="aliss-categories__sub aliss-categories__sub--three" data-filter="91012">                                                                         
+                                        <label for="category-10" class="aliss-categories__edit">91012</label>
+                                        <div class="aliss-categories__spacer"></div>
+                                        <div class="aliss-form__checkbox">
+                                            <input id="category-10" type="checkbox" name="categories" class="aliss-form__input" data-id="10" value="91012"/>
+                                        </div>
+                                    </div>   
+
+                                </div>    
+                    
+                            </div> 
+                        </div>
+                    </div> 
+
+                </div>
+                
+                <div class="aliss-selected">
+                    <div class="aliss-selected__title"><p>You have <span id="selected-count">0</span> categories selected</p></div>
+                    <div class="aliss-selected__items">
+                        <!-- Items Generated Here -->
+                    </div>
+                </div>
+
+            </div>
+
+
+        </fieldset>
+    </form>
+
+{% endblock %}

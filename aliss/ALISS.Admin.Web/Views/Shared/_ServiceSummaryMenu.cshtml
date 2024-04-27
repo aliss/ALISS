@@ -1,0 +1,53 @@
+﻿@{
+	bool admin = ViewBag.IsAdmin ?? false;
+	bool editor = ViewBag.IsEditor ?? false;
+	bool leadClaimant = ViewBag.IsLeadClaimant ?? false;
+	bool claimant = ViewBag.IsClaimant ?? false;
+	bool leadClaimantOfParentOrganisation = ViewBag.IsLeadClaimantOfParentOrganisation ?? false;
+	bool published = ViewBag.Published ?? false;
+	bool organisationPublished = ViewBag.OrganisationPublished ?? false;
+}
+<div class="aliss-sidemenu">
+	<h2>Actions</h2>
+	<div class="aliss-component-master__links">
+		<ul class="aliss-icon-list">
+			<li class="aliss-icon-list__item">
+				<i aria-hidden="true" class="aliss-icon-list__icon fa fa-arrow-alt-circle-left"></i>
+				@Html.ActionLink("Back to Organisation", "Index", "DataInputOrganisationSummary", new { id = ViewBag.OrganisationId }, null)
+			</li>
+			<li class="aliss-icon-list__item">
+				<i aria-hidden="true" class="aliss-icon-list__icon fa fa-plus-circle"></i>
+				@Html.ActionLink("Add Service", "Index", "DataInputService", new { id = Guid.Empty }, null)
+			</li>
+			<li class="aliss-icon-list__item">
+				<i aria-hidden="true" class="aliss-icon-list__icon fa fa-list"></i>
+				@Html.ActionLink("View Services", "ListServices", "Organisation", new { id = ViewBag.OrganisationId }, null)
+			</li>
+			<li class="aliss-icon-list__item">
+				<i aria-hidden="true" class="aliss-icon-list__icon fa fa-list"></i>
+				@Html.ActionLink("View Locations", "ListLocations", "Organisation", new { id = ViewBag.OrganisationId }, null)
+			</li>
+			@if (admin || leadClaimant || claimant || leadClaimantOfParentOrganisation)
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-list"></i>
+					@Html.ActionLink("View Claimants", "ListServiceClaimants", "Organisation", new { id = ViewBag.ServiceId }, null)
+				</li>
+			}
+			@if (admin && organisationPublished)
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa @(published ? "fa-times-circle" : "fa-check-circle")"></i>
+					@Html.ActionLink(published ? "Unpublish Service" : "Publish Service", "PublishService", "Organisation", new { id = ViewBag.ServiceId, dataInput = true }, new { id = "publishLink" })
+				</li>
+			}
+			@if (admin || editor)
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-trash"></i>
+					@Html.ActionLink("Delete Service", "DeleteService", "Organisation", new { id = ViewBag.ServiceId }, null)
+				</li>
+			}
+		</ul>
+	</div>
+</div>

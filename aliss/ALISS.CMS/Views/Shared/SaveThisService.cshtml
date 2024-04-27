@@ -1,0 +1,97 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.DtSaveThisService>
+@using ALISS.CMS.Extensions
+@using ContentModels = Umbraco.Web.PublishedModels;
+@using ALISS.CMS.Models.Collection
+@using ALISS.ApiServices.ViewModels.Service
+@using System.Configuration
+@{
+	Layout = "~/Views/Master.cshtml";
+	bool sent = ViewBag.Sent ?? false;
+	string error = ViewBag.Error;
+	string errorClass = !string.IsNullOrWhiteSpace(error) ? "aliss-form__group--error" : "";
+
+	ServiceModel service = ViewBag.Service;
+	CollectionListingViewModel collections = ViewBag.CollectionListing;
+	string dashboardUrl = ConfigurationManager.AppSettings["Settings:AdminBaseUrl"];
+}
+
+<main>
+	<section>
+		<div class="aliss-grid">
+			<div class="aliss-content__wrap">
+				<div class="aliss-content__header">
+					<h1>@Model.Title - @service.name</h1>
+				</div>
+
+				<div class="aliss-content__primary aliss-typography">
+					@if (sent)
+					{
+						<div class="aliss-rte aliss-typography">
+							@Html.Raw(Model.SentBodyText)
+							<p>Click <a href="@dashboardUrl/Collection/ViewCollection/@ViewBag.CollectionId">here</a> to go to the collection.</p>
+							<p>Click <a href="@($"{ViewBag.PublicURL}/services/")@service.slug">here</a> to go back to the service.</p>
+						</div>
+					}
+					else
+					{
+						if (!string.IsNullOrWhiteSpace(error))
+						{
+							<p class="error">@error</p>
+						}
+						<div class="aliss-rte aliss-typography">
+							@Html.Raw(Model.BodyText)
+						</div>
+						<form method="post" action="" class="aliss-form">
+							@Html.AntiForgeryToken()
+							<fieldset class="aliss-form__fieldset">
+								<legend class="aliss-form__legend">Save this service</legend>
+								<div class="aliss-form__group @errorClass">
+									<label class="aliss-form__label" for="collection">Save to list:</label>
+									<select id="collection" name="collection">
+										@foreach (var item in collections.Collections)
+										{
+											<option value="@item.CollectionId">@item.Name</option>
+										}
+										<option value="new">Create new</option>
+									</select>
+								</div>
+								<div id="newCollection" class="aliss-form__group @errorClass hide">
+									<label class="aliss-form__label" for="newcollectionname">New collection name:</label>
+									<input type="text" id="newcollectionname" name="newcollectionname" />
+								</div>
+								<div class="aliss-form__group notesfield">
+									<label class="aliss-form__label" for="notes">Notes:</label>
+									<textarea class="aliss-form__input" id="notes" name="notes"></textarea>
+								</div>
+							</fieldset>
+							<div class="aliss-form__actions">
+								<button type="submit" class="btn btn--primary">Save</button>
+							</div>
+						</form>
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<script nonce="newcollection">
+	document.getElementById("collection").onchange = function toggleNewCollection() {
+		var collection = document.getElementById("collection").value;
+		if (collection === "new") {
+			document.getElementById("newCollection").classList.remove("hide");
+		}
+		else {
+			document.getElementById("newCollection").classList.add("hide");
+		}
+	}
+	function goBack(e) {
+		e.preventDefault();
+		history.go(-2);
+	}
+</script>
+
+@section Metadata
+{
+	@Html.Metadata(Model as IPublishedContent)
+}

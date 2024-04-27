@@ -1,0 +1,29 @@
+/** @format */
+
+.aliss-component-search-filter {
+	.aliss-search-form-categories {
+		margin: rem-calc(0 0 30);
+	}
+	@include media('<=tablet') {
+		margin: rem-calc(0 0 30);
+	}
+	p {
+		font-weight: bold;
+	}
+	.btn--submit {
+		position: relative;
+	}
+	#previous-search-value {
+		@include sofia-pro-regular(italic);
+		color: map-get($brand, aliss-dark-gray);
+		padding: rem-calc(10);
+		background: $white;
+		cursor: not-allowed;
+	}
+	#reset-categories {
+		font-weight: 400;
+		color: map-get($brand, aliss-dark-blue);
+		cursor: pointer;
+	}
+}
+

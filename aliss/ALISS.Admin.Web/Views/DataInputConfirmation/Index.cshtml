@@ -1,0 +1,89 @@
+@model ALISS.Business.ViewModels.DataInput.ConfirmationViewModel
+@{
+	ViewBag.Title = "Add to ALISS";
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			<div class="data-input-container__panel">
+				<div class="data-input-container__panel--main">
+                    <div class="data-input-container--inner">
+                        <div class="outcome__panel outcome__panel--confirmation">
+                            <h1 class="outcome-panel__title">
+                                Submission Complete
+                            </h1>
+                            <div class="outcome__panel__body">
+                                <h3>Thank you for adding to ALISS</h3>
+                            </div>
+                        </div>
+
+                        @if (Model != null)
+                        {
+                            <div class="aliss-table-container">
+                                <table class="aliss-table">
+                                    <thead class="aliss-table__head">
+                                        <tr class="aliss-table__row aliss-table__row--head">
+                                            <th class="aliss-table__header">Service Name</th>
+                                            <th class="aliss-table__header">Organisation Name</th>
+                                            <th class="aliss-table__header">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="aliss-table__body">
+                                        <tr class="aliss-table__row aliss-table__row--head">
+                                            <td class="aliss-table__cell">
+                                                @if (Model.Status.ToLower() == "published")
+                                                {
+                                                    <a href="@($"{ViewBag.PublicURL}services/{Model.ServiceId}")" target="_blank">@Model.ServiceName</a>
+                                                }
+                                                else
+                                                {
+                                                    @Model.ServiceName
+                                                }
+                                            </td>
+                                            <td class="aliss-table__cell">
+                                                @if (Model.Status.ToLower() == "published")
+                                                {
+                                                    <a href="@($"{ViewBag.PublicURL}organisations/{Model.OrganisationId}")" target="_blank">@Model.OrganisationName</a>
+                                                }
+                                                else
+                                                {
+                                                    @Model.OrganisationName
+                                                }
+                                            </td>
+                                            <td class="aliss-table__cell">@Model.Status</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                        @if (!Model.Suggested)
+                        {
+                            <p>Do you want to add another service to this organisation?</p>
+                            @Html.ActionLink("Add another service", "NextForm", "DataInputConfirmation", new { next = "sameOrg" }, new { @class = "btn btn--primary" })
+                        }
+
+                        @if (Model.Status.ToLower() != "published")
+                        {
+                            if (Model.OrganisationClaimed && Model.Suggested)
+                            {
+                                <br /><br />
+                                <h2>What happens next?</h2>
+                                <p>The information will be reviewed by the Lead Claimed user of the organisation or the ALISS team, and you will receive an email notification when it is live on the site.</p>
+                                <p>We aim to review the information within 5 working days.</p>
+                            }
+                            else
+                            {
+                                <br /><br />
+                                <h2>What happens next?</h2>
+                                <p>The information will be reviewed by the ALISS team, and you will receive an email notification when it is live on the site.</p>
+                                <p>We aim to review the information within 5 working days.</p>
+                            }
+                        }
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

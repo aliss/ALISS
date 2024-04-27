@@ -1,0 +1,163 @@
+{% extends "layout.njk" %}
+
+{# Global variables #}
+  {# 
+    Access to atom, molecule and organism paths.
+  #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+{# Global variables #}
+
+{# Page variables #}
+  {# 
+    Page meta data:
+    If specified, this will populate meta tags for page SEO.
+  #}
+    {% set page_Meta_Title = 'Dashboard' %}
+    {% set page_Meta_Description = '' %}
+    {% set page_Meta_Keywords = '' %}
+  {# 
+    Page styles:
+    Utilise Atoms, Molecules and Organisms to create templates.
+  #}
+  {% set page_Styles = false %}
+  {# 
+    Page body ID & class:
+    If specified, this id and or class will be applied to the body tag.
+  #}
+    {% set page_Body_ID = 'aliss-admin' %}
+    {% set page_Body_Class = 'aliss-admin' %}
+  {# 
+    Page ID & class:
+    If specified, this class will be applied to top level parent tag of this page, containing all of the componets within the page contents.
+  #}
+  {% set page_ID = '' %}
+  {% set page_Class = '' %}
+{# Page variables #}
+
+{% block body %}
+  
+  <form class="aliss-form">
+    <fieldset class="aliss-form__fieldset">
+        <legend class="aliss-form__legend">Legend Title (Available only screen readers)</legend>
+
+        <div class="aliss-form__group">
+            <label class="aliss-form__label" for="example-text">
+                Text Input 
+                <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+            </label>
+            <input id="example-text" class="aliss-form__input" type="text"/>
+        </div>
+
+        <div class="aliss-form__two-column">
+
+             <div class="aliss-form__group">
+                <label class="aliss-form__label" for="example-text">
+                    Left Input 
+                    <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+                </label>
+                <input id="example-text" class="aliss-form__input" type="text"/>
+            </div>
+            
+            <div class="aliss-form__group">
+                <label class="aliss-form__label" for="example-text">
+                    Text Input 
+                    <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+                </label>
+                <input id="example-text" class="aliss-form__input" type="text"/>
+            </div>
+        </div>
+ 
+        <div class="aliss-form__group">
+            <label class="aliss-form__label" for="example-upload">
+                File Upload Input 
+                <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+            </label>
+            <div class="aliss-form__file">
+                <button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+                <input class="aliss-form__file-input" type="file" id="example-upload" hidden/>
+                <div class="aliss-form__file-display"></div>
+            </div>
+        </div>       
+
+        <div class="aliss-form__group">
+            <label class="aliss-form__label" for="example-disabled">
+                Disabled Input (Slug)
+                <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip disabled"></i>
+            </label>
+            <input id="example-disabled" class="aliss-form__input" disabled type="text"/>
+        </div>
+                
+        <div class="aliss-form__group">
+            <label class="aliss-form__label" for="example-textarea">
+                Multiline Input 
+                <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+            </label>
+            <textarea id="example-textarea" class="aliss-form__textarea"></textarea>
+        </div>
+        
+        <fieldset class="aliss-form__group aliss-form__group--radio">
+            <legend class="aliss-form__label">
+                Radiolist Input 
+                <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+            </legend>
+            <div class="aliss-form__radio">
+                <input id="example-radio-1" name="example-radio" class="aliss-form__input" type="radio"/>
+                <label for="example-radio-1">Radio Item 1</label>
+            </div>
+            <div class="aliss-form__radio">
+                <input id="example-radio-2" name="example-radio" class="aliss-form__input" type="radio"/>
+                <label for="example-radio-2">Radio Item 2</label>
+            </div>
+        </fieldset>
+        
+        <div class="aliss-form__group aliss-form__group--checkbox">
+            <div class="aliss-form__checkbox">
+                <input id="example-checkbox" class="aliss-form__input" type="checkbox"/>
+                <label for="example-checkbox">Singular Checkbox Item</label>
+            </div>
+        </div>
+        
+        <fieldset class="aliss-form__group aliss-form__group--checkbox">
+            <legend class="aliss-form__label">
+                Checkboxlist Input 
+                <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+            </legend>
+            <div class="aliss-form__checkbox">
+                <input id="example-checkbox-1" name="example-checkbox" class="aliss-form__input" type="checkbox"/>
+                <label for="example-checkbox-1">Checkbox Item 1</label>
+            </div>
+            <div class="aliss-form__checkbox">
+                <input id="example-checkbox-2" name="example-checkbox" class="aliss-form__input" type="checkbox"/>
+                <label for="example-checkbox-2">Checkbox Item 2</label>
+            </div>
+        </fieldset>
+        
+        <div class="aliss-form__group">
+            <label class="aliss-form__label" for="example-select">
+                Select Input 
+                <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+            </label>
+            <select id="example-select" class="aliss-form__select">
+                <option value="1">Default Option</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select>
+        </div>
+
+        <div class="aliss-form__group">
+            <label class="aliss-form__label" for="example-icon">
+                Select Icon 
+                <i class="fas fa-info-circle" aria-hidden="true" data-tip="Example Tooltip Text"></i>
+            </label>
+            <select id="example-icon" class="aliss-form__icon" data-icon-selected="fa fa-users"></select>
+        </div>
+    
+    </fieldset>
+
+    <div class="aliss-form__actions">
+        <button type="submit" class="btn btn--primary">Save</button>
+        <button type="reset" class="btn btn--primary">Reset</button>
+    </div>
+
+  </form>
+{% endblock %}

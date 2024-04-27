@@ -1,0 +1,27 @@
+﻿@model ALISS.Business.ViewModels.User.DeleteUserViewModel
+
+@{
+	ViewBag.Title = "Delete User: " + Model.Name;
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-warning">
+	<p>Are you sure you want to delete @Model.Name? All organisation and services they added will now be attributed to a default account and all organisations they have claimed will return to an unclaimed status.</p>
+</div>
+
+@using (Html.BeginForm("DeleteUserConfirm", "User", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("id", Model.UserProfileId)<div class="aliss-form__actions">
+		@if (Model.IsDeleteValid)
+		{
+			<button type="submit" class="btn btn--primary">Delete</button>
+		}
+		@Html.ActionLink("Cancel", "EditUser", "User", new { id = Model.UserProfileId }, new { @class = "btn btn--primary" })
+	</div>
+}

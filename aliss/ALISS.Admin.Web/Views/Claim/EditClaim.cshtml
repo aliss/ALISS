@@ -1,0 +1,83 @@
+﻿@model ALISS.Business.ViewModels.Claim.EditClaimViewModel
+@{
+	ViewBag.Title = $"Edit Organisation Claim - {Model.OrganisationName}";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("EditClaim", "Claim", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Edit Claim</legend>
+		@Html.ALISSDisabledTextBox(m => m.OrganisationName)
+		@Html.ALISSDisabledTextBox(m => m.UserName)
+		@Html.ALISSDisabledTextBox(m => m.Email)
+		@Html.ALISSDisabledTextBox(m => m.RepresentativeName)
+		@Html.ALISSDisabledTextBox(m => m.RepresentativePhone)
+		@Html.ALISSDisabledTextBox(m => m.RepresentativeRole)
+		@Html.ALISSDisabledTextBox(m => m.RequestLeadClaimant)
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		@Html.ActionLink("Cancel", "Index", "Claim", new { id = Model.ClaimedUserId }, new { @class = "btn btn--primary" })
+	</div>
+}
+
+@section sidemenu {
+	<div class="aliss-sidemenu">
+		<h2>Actions</h2>
+		<div class="aliss-component-master__links">
+			<ul class="aliss-icon-list">
+				@if (Model.Status == ALISS.Business.Enums.ClaimStatusEnum.Unreviewed)
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-check"></i>
+						@Html.ActionLink("Approve Claim", "Approve", "Claim", new { id = Model.ClaimId }, null)
+					</li>
+					if (Model.RequestLeadClaimant && ViewBag.IsClaimed)
+					{
+						<li class="aliss-icon-list__item">
+							<i aria-hidden="true" class="aliss-icon-list__icon fa fa-check"></i>
+							@Html.ActionLink("Approve Claim as Lead", "ApproveWithLead", "Claim", new { id = Model.ClaimId }, null)
+						</li>
+					}
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-close"></i>
+						@Html.ActionLink("Deny Claim", "Deny", "Claim", new { id = Model.ClaimId }, null)
+					</li>
+				}
+				else if (Model.Status == ALISS.Business.Enums.ClaimStatusEnum.Approved && !ViewBag.IsLeadClaimant)
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-ban"></i>
+						@Html.ActionLink("Revoke Claim", "Revoke", "Claim", new { id = Model.ClaimId }, null)
+					</li>
+				}
+				else if (Model.Status == ALISS.Business.Enums.ClaimStatusEnum.Revoked)
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-hand-paper"></i>
+						@Html.ActionLink("Reconsider Claim", "Unreviewed", "Claim", new { id = Model.ClaimId }, null)
+					</li>
+				}
+				else if (Model.Status == ALISS.Business.Enums.ClaimStatusEnum.Denied)
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-hand-paper"></i>
+						@Html.ActionLink("Reconsider Claim", "Unreviewed", "Claim", new { id = Model.ClaimId }, null)
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+}
+
+@Html.HiddenFor(m => m.ClaimId)
+@Html.HiddenFor(m => m.OrganisationId)
+@Html.HiddenFor(m => m.ReviewedByUserId)
+@Html.HiddenFor(m => m.ReviewedOn)

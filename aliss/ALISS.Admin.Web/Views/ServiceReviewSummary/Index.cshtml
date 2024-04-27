@@ -1,0 +1,45 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@{
+	ViewBag.Title = Model.ServiceName + " Review";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<h5>Some of these errors may have arisen due to changes in our validation since your last review. These errors must be resolved before the review can be completed</h5>
+	<br />
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "ServiceReviewSummary", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form" }))
+			{
+				@Html.AntiForgeryToken()
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<div class="data-input-container--inner">
+							@Html.HiddenFor(h => h.OrganisationId)
+							@Html.HiddenFor(h => h.ServiceId)
+							@Html.HiddenFor(h => h.ServiceSubmitted)
+							@Html.HiddenFor(h => h.ServiceName)
+							<fieldset class="aliss-form__fieldset no-padding">
+								<legend class="aliss-form__legend">Summary</legend>
+								<h1 class="mb--0 mt--0">Summary</h1>
+								<p>Please review the information you have provided us with and edit any sections as needed. Once you have finished, please select the Review Complete button to save and update your last reviewed date on ALISS</p>
+
+								@Html.Partial("DataInputSummary/ServiceSummary", Model)
+								@Html.Partial("DataInputSummary/WhereSummary", Model)
+								@Html.Partial("DataInputSummary/CategoriesSummary", Model)
+								@Html.Partial("DataInputSummary/WhoSummary", Model)
+								@Html.Partial("DataInputSummary/AccessibilitySummary", Model)
+								@Html.Partial("DataInputSummary/MediaSummary", Model)
+							</fieldset>
+						</div>
+					</div>
+					@Html.Partial("_ReviewNavigation")
+				</div>
+			}
+		</div>
+	</div>
+</div>

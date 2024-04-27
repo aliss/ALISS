@@ -1,0 +1,45 @@
+﻿@model ALISS.Business.ViewModels.CommunityGroup.DeleteCommunityGroupViewModel
+@using System.Configuration
+@{
+	ViewBag.Title = "Delete Who";
+}
+
+@if (Model.CanDelete == false)
+{
+	@Html.Partial("_WarningMessage")
+
+	<a class="btn btn--primary" href="#" onclick="history.back();">Back</a>
+}
+else
+{
+	<div class="aliss-warning">
+		<p>
+			Are you sure you want to delete the who category @Model.CommunityGroupName?
+			@if (Model.RelatedServices.Count > 0)
+			{
+				@:This will remove this who category from any services that currently have it as an associated who category.
+			}
+		</p>
+	</div>
+
+	if (Model.RelatedServices.Count > 0)
+	{
+		<p>By removing this who category, the following services will no longer have this who category:</p>
+		<ul>
+			@foreach (var service in Model.RelatedServices)
+			{
+				<li>@Html.ActionLink(service.ServiceName, "Index", "DataInputSummary", new { id = service.ServiceId }, null)</li>
+			}
+		</ul>
+	}
+
+	using (Html.BeginForm("DeleteCommunityGroupConfirm", "CommunityGroup", FormMethod.Post))
+	{
+		@Html.AntiForgeryToken()
+		@Html.Hidden("id", Model.CommunityGroupId)
+		<div class="aliss-form__actions">
+			<button type="submit" class="btn btn--primary">Delete</button>
+			<a class="btn btn--primary" href="#" onclick="history.back();">Cancel</a>
+		</div>
+	}
+}

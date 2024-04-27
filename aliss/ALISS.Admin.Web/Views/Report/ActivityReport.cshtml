@@ -1,0 +1,144 @@
+﻿@model ALISS.Business.ViewModels.Report.ActivityReportViewModel
+@{
+        ViewBag.Title = "Activity Report";
+
+        var labelRed = "aliss-label--red";
+        var labelGreen = "aliss-label--green";
+
+        var numberOfServicesAdded = Model.NumberOfServicesAdded > 0 ? labelGreen : labelRed;
+        var numberOfServicesEdited = Model.NumberOfServicesEdited > 0 ? labelGreen : labelRed;
+        var numberOfOrganisationsAdded = Model.NumberOfOrganisationsAdded > 0 ? labelGreen : labelRed;
+        var numberOfOrganisationsEdited = Model.NumberOfOrganisationsEdited > 0 ? labelGreen : labelRed;
+        var numberOfNewUsers = Model.NumberOfNewUsers > 0 ? labelGreen : labelRed;
+        var numberOfUsersLoggedIn = Model.NumberOfUsersLoggedIn > 0 ? labelGreen : labelRed;
+        var totalOrganisationClaimsMade = Model.TotalNumberOfOrganisationClaimsMade > 0 ? labelGreen : labelRed;
+        var approvedOrganisationClaims = Model.NumberOfApprovedOrganisationClaims > 0 ? labelGreen : labelRed;
+        var totalServiceClaimsMade = Model.TotalNumberOfServiceClaimsMade > 0 ? labelGreen : labelRed;
+        var approvedServiceClaims = Model.NumberOfApprovedServiceClaims > 0 ? labelGreen : labelRed;
+        var numberOfSuggestedImprovements = Model.NumberOfSuggestedImprovements > 0 ? labelGreen : labelRed;
+}
+
+@using (Html.BeginForm("ActivityReport", "Report", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+    <fieldset class="aliss-form__fieldset">
+        <legend class="aliss-form__legend">Activity Report</legend>
+
+        <div class="aliss-form__three-column">
+            <div>
+                <span class="aliss-form__date-label"><strong>Date From</strong></span>
+                <div class="aliss-form__three-column">
+                    <div class="aliss-form__group">
+                        <label for="DayFrom">Day <span class="sr-only">From</span></label>
+                        @Html.TextBoxFor(m => m.DayFrom)
+                    </div>
+                    <div class="aliss-form__group">
+                        <label for="MonthFrom">Month <span class="sr-only">From</span></label>
+                        @Html.TextBoxFor(m => m.MonthFrom)
+                    </div>
+                    <div class="aliss-form__group">
+                        <label for="YearFrom">Year <span class="sr-only">From</span></label>
+                        @Html.TextBoxFor(m => m.YearFrom)
+                    </div>
+                </div>
+            </div>
+            <div class="aliss-form__spacer"></div>
+            <div>
+                <span class="aliss-form__date-label"><strong>Date To</strong></span>
+                <div class="aliss-form__three-column">
+                    <div class="aliss-form__group">
+                        <label for="DayTo">Day <span class="sr-only">To</span></label>
+                        @Html.TextBoxFor(m => m.DayTo)
+                    </div>
+                    <div class="aliss-form__group">
+                        <label for="MonthTo">Month <span class="sr-only">To</span></label>
+                        @Html.TextBoxFor(m => m.MonthTo)
+                    </div>
+                    <div class="aliss-form__group">
+                        <label for="YearTo">Year <span class="sr-only">To</span></label>
+                        @Html.TextBoxFor(m => m.YearTo)
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="aliss-form__two_column">
+                <div class="aliss-form__group">
+                    <label for="IncludeUnpublished">Include unpublished organisations?</label>
+                    @Html.CheckBoxFor(m => m.IncludeUnpublished)
+                </div>
+            </div>
+        </fieldset>
+        <div class="aliss-form__actions">
+            <button type="submit" class="btn btn--primary">Generate Report</button>
+        </div>
+}
+<br />
+<div class="aliss-component-master aliss-component-descriptive-blocks">
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of Services Added</span>
+                <span class="aliss-label @numberOfServicesAdded">@Model.NumberOfServicesAdded</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of Services Edited</span>
+                <span class="aliss-label @numberOfServicesEdited">@Model.NumberOfServicesEdited</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of Organisations Added</span>
+                <span class="aliss-label @numberOfOrganisationsAdded">@Model.NumberOfOrganisationsAdded</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of Organisations Edited</span>
+                <span class="aliss-label @numberOfOrganisationsEdited">@Model.NumberOfOrganisationsEdited</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of New Users</span>
+                <span class="aliss-label @numberOfNewUsers">@Model.NumberOfNewUsers</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of Users Logged In</span>
+                <span class="aliss-label @numberOfUsersLoggedIn">@Model.NumberOfUsersLoggedIn</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Total Number of Organisation Claims Made</span>
+                <span class="aliss-label @totalOrganisationClaimsMade">@Model.TotalNumberOfOrganisationClaimsMade</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of Approved Organisation Claims Made</span>
+                <span class="aliss-label @approvedOrganisationClaims">@Model.NumberOfApprovedOrganisationClaims</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Total Number of Service Claims Made</span>
+                <span class="aliss-label @totalServiceClaimsMade">@Model.TotalNumberOfServiceClaimsMade</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of Approved ServiceClaims Made</span>
+                <span class="aliss-label @approvedServiceClaims">@Model.NumberOfApprovedServiceClaims</span>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <span class="aliss-component-master__title">Number of Suggested Improvements</span>
+                <span class="aliss-label @numberOfSuggestedImprovements">@Model.NumberOfSuggestedImprovements</span>
+            </div>
+        </div>
+</div>
+

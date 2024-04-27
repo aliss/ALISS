@@ -1,0 +1,10 @@
+﻿@media print {
+    * {
+        overflow: visible !important;
+    }
+
+    .aliss-claimed-status {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}

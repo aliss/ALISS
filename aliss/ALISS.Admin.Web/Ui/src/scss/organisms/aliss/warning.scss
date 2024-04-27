@@ -1,0 +1,21 @@
+.aliss-warning {
+
+    padding: 0 0 0 rem-calc(45);
+    position: relative;
+    color: $black;
+    display: block;
+    overflow: hidden;
+    margin-bottom: rem-calc(15);
+
+    &:before {
+        font-family: 'FontAwesome';
+        content: '\f06a';
+        font-size: rem-calc(32);
+        line-height: 1;
+        position: absolute;
+        left: 0;
+        top: rem-calc(15);
+    }
+    
+
+}

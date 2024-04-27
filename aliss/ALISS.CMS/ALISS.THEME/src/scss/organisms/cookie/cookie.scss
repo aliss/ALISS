@@ -1,0 +1,95 @@
+/** @format */
+
+.aliss-cookie {
+	box-sizing: border-box;
+	background-color: #252e39;
+	color: #FFFFFF;
+	padding: rem-calc(16);
+	display: none;
+	
+	.btn {
+		margin-right: rem-calc(8);
+		&:first-child {
+			margin-bottom: rem-calc(16);
+		}
+	}
+
+	a {
+		color: #ffffff;
+	}
+
+	&__settings {
+		position: fixed;
+		background: map-get($brand, aliss-blue);
+		bottom: rem-calc(16);
+		left: rem-calc(16);
+		display: block;
+		width: rem-calc(60);
+		height: rem-calc(60);
+		padding: rem-calc(8);
+		z-index: 3;
+		cursor: pointer;
+		svg {
+			fill: #ffffff;
+		}
+
+		&--active {
+			display: none;
+		}
+	}
+
+	
+	&__editor {
+		position: fixed;
+		margin: rem-calc(16);
+		bottom: 0;
+		left: 0;
+		display: none;
+		z-index: 3;
+		padding: rem-calc(16) 0 0;
+		background-color: #252e39;
+		color: #FFFFFF;
+
+		&--active {
+			display: block;
+		}
+		
+		a {
+			color: #ffffff;
+		}
+
+		.btn {
+			margin: 0 rem-calc(16) rem-calc(16) 0;
+		}
+
+		.aliss-grid {
+			position: relative;
+		}
+	}
+
+	&__close {
+		position: absolute;
+		top: 0;
+		right: rem-calc(16);
+		color: #ffffff;
+		background-color: #252e39;
+		cursor: pointer;
+	}
+
+	&__heading {
+		font-size: rem-calc(24);
+		font-weight: bold;
+		display: block;
+		padding-right: rem-calc(24);
+	}
+}
+ 
+.btn--accept {
+	background-color: green;
+	
+  }
+
+#cookie-eu-show-edit {
+	border-radius: 11px !important; 
+	
+}
