@@ -1,0 +1,73 @@
+{# Global variables #}
+  {% import "../../include/globalVariables.njk" as GV %}
+  {% from "../" + GV.atoms + "atoms_a.njk" import a as a %}
+  {% from "../../" + GV.molecules + "descriptive-icon/macro.njk" import descriptive_icon as descriptive_icon %}
+{# Global variables #}
+<div id="aliss-component-map" class="aliss-component-map"
+
+data-map-options='{
+    "type": "Feature",
+    "properties": {"party": "Democrat"},
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [-109.05, 41.00],
+            [-102.06, 40.99],
+            [-102.03, 36.99],
+            [-109.04, 36.99],
+            [-109.05, 41.00]
+        ]]
+    }
+}'
+
+data-map-area='{
+    "type": "Feature",
+    "properties": {"party": "Democrat"},
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [-109.05, 41.00],
+            [-102.06, 40.99],
+            [-102.03, 36.99],
+            [-109.04, 36.99],
+            [-109.05, 41.00]
+        ]]
+    }
+}'
+
+data-map-markers='{
+    "type": "Feature",
+    "properties": {"party": "Democrat"},
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+            [-109.05, 41.00],
+            [-102.06, 40.99],
+            [-102.03, 36.99],
+            [-109.04, 36.99],
+            [-109.05, 41.00]
+        ]]
+    }
+}'
+></div>
+<div class="aliss-component-location aliss-content-spacer">
+  <div class="accordion">
+    <div class="accordion__toggle">
+      <p><strong>Locations:</strong> View all (00)</p>
+    </div>
+    <div class="accordion__list">
+      <ul class="aliss-icon-list">
+        <li class="aliss-icon-list__item aliss-icon-list__item--location">
+          {{ a("", "/", "Click here for more information about X.", "_self", "", "", "Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA.") }}
+          {{ a("", "/", "Click here for more information about X.", "_self", "link link--icon link--icon--edit", "", "Edit service") }}
+          {{ a("", "/", "Click here for more information about X.", "_self", "link link--icon link--icon--remove", "", "Remove service") }}
+        </li>
+        <li class="aliss-icon-list__item aliss-icon-list__item--location">
+          {{ a("", "/", "Click here for more information about X.", "_self", "", "", "Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA.") }}
+          {{ a("", "/", "Click here for more information about X.", "_self", "link link--icon link--icon--edit", "", "Edit service") }}
+          {{ a("", "/", "Click here for more information about X.", "_self", "link link--icon link--icon--remove", "", "Remove service") }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

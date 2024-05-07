@@ -1,0 +1,29 @@
+/** @format */
+
+.aliss-component-about-us {
+	@include aliss-component();
+	h2 {
+		&:not(:last-of-type) {
+			span {
+				color: map-get($brand, aliss-light-green);
+			}
+		}
+		span {
+			color: map-get($brand, aliss-light-red);
+		}
+  }
+	ul {
+		&:not(:last-of-type) {
+			li {
+				&::before {
+					color: map-get($brand, aliss-light-green);
+				}
+			}
+		}
+		li {
+			&::before {
+				color: map-get($brand, aliss-light-red);
+			}
+		}
+	}
+}

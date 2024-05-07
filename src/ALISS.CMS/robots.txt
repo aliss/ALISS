@@ -1,0 +1,18 @@
+User-agent: *
+
+Disallow: /bin/
+Disallow: /config/
+Disallow: /install/
+Disallow: /media/
+Disallow: /umbraco/
+Disallow: /umbraco_client/
+
+User-agent: Googlebot
+Allow: /
+User-agent: Twitterbot
+Allow: /media
+Disallow:
+
+Sitemap: https://www.aliss.org/sitemap.xml
+
+Crawl-delay: 1

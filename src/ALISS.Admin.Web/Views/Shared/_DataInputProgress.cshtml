@@ -1,0 +1,28 @@
+﻿@{
+	bool beenToSummary = ViewBag.BeenToSummary ?? false;
+	int currentStepPecentage = beenToSummary ? (int)ALISS.Business.Enums.DataInputStepsEnum.SummaryTestStep : (int)ViewBag.CurrentStep;
+	int currentStep = (int)ViewBag.CurrentStep;
+	int totalSteps = (int)ViewBag.TotalSteps;
+	bool addService = ViewBag.AddService ?? false;
+
+	if (addService)
+	{
+		--currentStep;
+		--currentStepPecentage;
+		--totalSteps;
+	}
+
+	double stepPercentage = Math.Ceiling((double)currentStepPecentage / (double)totalSteps * 100);
+}
+
+<div class="step-progress__panel">
+	<div class="data-input-container__panel--main">
+		<label>Your progress</label>
+		<h2>Step @currentStep of @totalSteps</h2>
+		<div class="step-progress__panel__progress-bar">
+			<div class="step-progress__panel__progress-bar--inner" style="width:@stepPercentage%">
+				<div class="step-progress__panel__progress"></div>
+			</div>
+		</div>
+	</div>
+</div>

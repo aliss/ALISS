@@ -1,0 +1,20 @@
+<appSettings>
+	<add key="BaseSiteUrl" value="https://tac-allnce-aliss-app-liv-fe-dev.azurewebsites.net" />
+	<add key="Elasticsearch:EnableDebugMode" value="true" />
+	<add key="ElasticSearch:Host" value="https://tac-allnce-aliss-es-gen3.es.uksouth.azure.elastic-cloud.com:9243/" />
+	<add key="Elasticsearch:IndexPrefix" value="dev-" />
+	<add key="Elasticsearch:Username" value="***SECRET***" />
+	<add key="Elasticsearch:Password" value="***SECRET***" />
+	<add key="ElasticSearch:Boost:Fuzzy:Name" value="2"/>
+	<add key="ElasticSearch:Boost:Fuzzy:Description" value="1.5"/>
+	<add key="ElasticSearch:Boost:Fuzzy:Summary" value="1"/>
+	<add key="ElasticSearch:Boost:Fuzzy:Categories" value="1.5"/>
+	<add key="ElasticSearch:Boost:Fuzzy:AccessibilityFeatures" value="1.5"/>
+	<add key="ElasticSearch:Boost:Fuzzy:CommunityGroups" value="1.5"/>
+	<add key="ElasticSearch:Boost:Exact:Name" value="4"/>
+	<add key="ElasticSearch:Boost:Exact:Description" value="3"/>
+	<add key="ElasticSearch:Boost:Exact:Summary" value="2"/>
+	<add key="ElasticSearch:Boost:Exact:Categories" value="3"/>
+	<add key="ElasticSearch:Boost:Exact:AccessibilityFeatures" value="3"/>
+	<add key="ElasticSearch:Boost:Exact:CommunityGroups" value="3"/>
+</appSettings>

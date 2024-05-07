@@ -1,0 +1,248 @@
+/** @format */
+
+.accordion {
+	margin: rem-calc(0 0 5);
+	&.js-accordion-toggle-active {
+		.accordion__toggle {
+			display: block;
+			p {
+				&::after {
+					content: '\f077';
+				}
+			}
+		}
+		.accordion__list {
+			display: block;
+		}
+	}
+	&__toggle {
+		p {
+			cursor: pointer;
+			position: relative;
+			max-width: max-content;
+			strong {
+				cursor: default;
+			}
+			&::after {
+				content: '\f078';
+				color: map-get($brand, aliss-dark-blue);
+				font-family: 'FontAwesome';
+				font-size: rem-calc(16);
+				position: absolute;
+				top: 0;
+				right: rem-calc(-20);
+			}
+		}
+	}
+	&__list {
+		display: none;
+		margin: rem-calc(15 0);
+	}
+}
+.aliss-accordion {
+    &__inner {
+        padding-left: rem-calc(32);
+    }
+
+    &__trigger {
+        cursor: pointer;
+        color: map-get($brand, aliss-dark-blue);
+        z-index: 1;
+        font-size: rem-calc(20);
+        line-height: 1.6;
+        padding: 0;
+		margin-right: rem-calc(6);
+
+        .aliss-accordion__header--spaced & {
+            font-size: rem-calc(16);
+        }
+
+        .aliss-categories__item & {
+            line-height: 1;
+        }
+
+        &:hover {                    
+            color: $white;
+            background-color:  map-get($brand, aliss-dark-blue);
+            box-shadow: 0 0 0 0.25rem  map-get($brand, aliss-dark-blue);
+        }
+
+        &--disabled {
+            color: map-get($brand, aliss-dark-gray);
+            cursor: default;
+            &:hover {
+                background-color: transparent;
+                color: map-get($brand, aliss-dark-gray);
+                box-shadow: none;
+            }
+        }
+
+        &--toplevel {            
+            color: $white;
+            cursor: default;
+            &:hover {
+                background-color: transparent;     
+                color: $white;
+                box-shadow: none;
+            }
+        }
+
+        i {
+            pointer-events: none;
+        }
+
+        &--active {
+            i {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    &__header {
+        position: relative;
+
+        &--selected {
+            .aliss-categories__icon {
+                background-color: map-get($brand, aliss-light-gray);
+                color: map-get($brand, aliss-dark-gray);
+            }
+            .aliss-categories__edit {
+                color: map-get($brand, aliss-dark-gray);
+            }
+        }
+
+        &--spaced {
+            margin-top: rem-calc(30);
+        }
+    }
+
+    &__content {
+        display: none;
+		margin-top: rem-calc(16);
+        
+		&--active {
+            display: block;
+        }
+        &--helptext {
+            padding: .9375rem 0 0 1.75rem;
+        }
+    }
+
+    &__label {
+        font-weight:bold;
+    }
+}
+
+.aliss-accordion-container {
+    padding: 16px 0px;
+    border-bottom: 2px solid #e6e6e6;
+
+    .aliss-accordion__trigger--active i {
+        top: 16%;
+    }
+}
+.aliss-content-accordion {
+    &__inner {
+        padding-left: rem-calc(32);
+    }
+
+    &__trigger {
+        position: relative;
+        display: block;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        color: map-get($brand, aliss-dark-blue);
+        z-index: 1;
+        font-size: rem-calc(28);
+        line-height: 1.6;
+        font-weight: 700;
+        padding: 0;
+        padding-right: 60px;
+		margin-right: rem-calc(6);
+
+        .aliss-accordion__header--spaced & {
+            font-size: rem-calc(16);
+        }
+
+        .aliss-categories__item & {
+            line-height: 1;
+        }
+
+        &:hover {                    
+            // color: $white;
+            // background-color:  map-get($brand, aliss-dark-blue);
+            // box-shadow: 0 0 0 0.25rem  map-get($brand, aliss-dark-blue);
+            color: #0b0c0c;
+            background: #f3f2f1;
+            box-shadow: 0 -2px #f3f2f1, 0 4px #f3f2f1;
+            text-decoration: underline;
+        }
+
+        &--disabled {
+            color: map-get($brand, aliss-dark-gray);
+            cursor: default;
+            &:hover {
+                background-color: transparent;
+                color: map-get($brand, aliss-dark-gray);
+                box-shadow: none;
+            }
+        }
+
+        &--toplevel {            
+            color: $white;
+            cursor: default;
+            &:hover {
+                background-color: transparent;     
+                color: $white;
+                box-shadow: none;
+            }
+        }
+
+        i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 16px;
+            pointer-events: none;
+        }
+
+        &--active {
+            i {
+                transform: rotate(180deg);
+                top: 16%;
+            }
+        }
+    }
+
+    &__header {
+        position: relative;
+
+        &--selected {
+            .aliss-categories__icon {
+                background-color: map-get($brand, aliss-light-gray);
+                color: map-get($brand, aliss-dark-gray);
+            }
+            .aliss-categories__edit {
+                color: map-get($brand, aliss-dark-gray);
+            }
+        }
+
+        &--spaced {
+            margin-top: rem-calc(30);
+        }
+    }
+
+    &__content {
+        display: none;
+		margin-top: rem-calc(16);
+        
+		&--active {
+            display: block;
+        }
+    }
+
+    &__label {
+        font-weight:bold;
+    }
+}

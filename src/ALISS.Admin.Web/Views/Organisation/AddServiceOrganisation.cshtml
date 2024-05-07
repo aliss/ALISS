@@ -1,0 +1,367 @@
+@model ALISS.Business.ViewModels.Service.EditServiceViewModel
+@{
+	ViewBag.Title = "Add Service";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("AddService", "Organisation", FormMethod.Post, new { @class = "aliss-form", onsubmit = "handleSubmit()" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new organisation</legend>
+		<p>
+			<i class="fa fa-info-circle" aria-hidden="true"></i> ALISS is a service-focused site, people searching ALISS will initially find your services rather than your organisation.
+			<br />
+			Please add the name of your organisation in the Organisation Name field.
+			<br />
+			You will need to set the organisation description once this page has been saved.
+		</p>
+		@Html.ALISSTextBox(m => m.NewOrganisationName)
+
+		@if (!Model.IsClaimed)
+		{
+			@Html.ALISSCheckbox(m => m.OrganisationRepresentative)
+			<div id="organisation-representative-info" aria-hidden="true" class="hide">
+				@Html.ALISSTextBox(m => m.OrganisationRepresentativeRole)
+				@Html.ALISSTextBox(m => m.OrganisationRepresentativeName)
+				@Html.ALISSTextBox(m => m.OrganisationRepresentativePhone)
+
+				<p>Organisation claim responsibilities</p>
+				<p>As an account owner (person who has claimed an organisation), I understand and accept the following responsibilities:</p>
+				<p>Claiming an organisation</p>
+				<ul>
+					<li>An organisation can be claimed by someone from the organisation with a central overview.</li>
+					<li>All claims need to be approved by the ALISS team.</li>
+					<li>If someone claims an organisation, they automatically claim all the services attached to that organisation.</li>
+					<li>If you claim an organisation and become the Account Owner, you will be responsible for ensuring that information is kept up-to-date.</li>
+					<li>Please read the ALISS Data Standard before claiming the organisation.</li>
+				</ul>
+
+				<p><b>Before you add the organisation please read our the data standard (required)</b></p>
+
+				<span id='terms' class="btn btn--primary">Data Standard</span><br /><br />
+
+
+				@*Creating a PDF viewer Data Standard.*@
+				@{
+					// Please replace string with webconfig setting PDR url
+					var PDF = ViewBag.DataStandardsUrl;
+					var PDFUrl = "https://docs.google.com/viewer?url=" + @PDF + "&embedded=true";
+				}
+
+				<div id="terms-pdf-box">
+					@Html.Partial("_PDFTemplate", new ViewDataDictionary(this.ViewData) {
+					{ "url", @PDFUrl }})
+				</div>
+
+				@Html.ALISSCheckbox(m => m.OrganisationAcceptDataStandards)
+			</div>
+		}
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new service</legend>
+		<p>
+			Please add the name of a service your organisation offers. You can add further services and more organisation detail once this form has been saved.
+		</p>
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSRTEditor(m => m.Description, "Please enter a minimum of 50 characters and a maximum of 1000 characters, including spaces and punctuation.", 1000)
+		<p><i class="fa fa-info-circle" aria-hidden="true"></i> Please do not include any sensitive personal information (including information about your physical and/or mental health).  If you do include such personal information then it will be publicly accessible via ALISS.  Please note that entries on ALISS are not reviewed and any such personal information will remain on the entry, unless and until you remove it.</p>
+
+		<div class="aliss-form__two-column">
+			@Html.ALISSTextBox(m => m.PhoneNumber)
+			@Html.ALISSTextBox(m => m.Email)
+		</div>
+		@Html.ALISSTextBox(m => m.Url)
+		@Html.ALISSTextBox(m => m.ReferralUrl)
+		@Html.ALISSTextBox(m => m.Facebook)
+		@Html.ALISSTextBox(m => m.Twitter)
+		@Html.ALISSTextBox(m => m.Instagram)
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new organisation</legend>
+
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="category-filter">
+				Categories
+			</label>
+			<span>Please note - top level categories are added automatically.  For best search results, please use up to eight categories.</span>
+			<input type="text" id="category-filter" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter categories" autocomplete="off">
+			<div class="aliss-categories aliss-categories--filter">
+				@foreach (var category in Model.ServiceCategories)
+				{
+					<div class="aliss-categories__primary" data-filter="@category.Name">
+						<div class="aliss-accordion__header">
+							@if (category.NextLevelCategories.Count() > 0)
+							{
+								<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@category.CategoryId">
+									<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+									<span class="hide">Toggle Accordion @category.Name</span>
+								</button>
+							}
+							else
+							{
+								<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+									<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+									<span class="hide">View @category.Name</span>
+								</div>
+							}
+							<span class="aliss-categories__icon">
+								<i aria-hidden="true" class="@category.Icon"></i>
+							</span>
+							<label for="category-@category.CategoryId" class="aliss-categories__edit">@category.Name</label>
+							<div class="aliss-categories__spacer"></div>
+							<div class="aliss-form__checkbox">
+								<input id="category-@category.CategoryId" data-id="@category.CategoryId" name="categories" class="aliss-form__input" type="checkbox" @(category.Selected ? "checked" : "") value="@category.Name" />
+							</div>
+						</div>
+						<div class="aliss-accordion__content" id="accordion-@category.CategoryId">
+							@foreach (var levelTwoCategory in category.NextLevelCategories)
+							{
+								<div class="aliss-categories__sub" data-filter="@levelTwoCategory.Name">
+									<div class="aliss-accordion__header">
+
+										@if (levelTwoCategory.NextLevelCategories.Count() > 0)
+										{
+											<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@levelTwoCategory.CategoryId">
+												<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion @levelTwoCategory.Name</span>
+											</button>
+										}
+										else
+										{
+											<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+												<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+												<span class="hide">@levelTwoCategory.Name</span>
+											</div>
+										}
+										<label for="category-@levelTwoCategory.CategoryId" class="aliss-categories__edit aliss-categories__edit--sub">@levelTwoCategory.Name</label>
+										<div class="aliss-categories__spacer"></div>
+										<div class="aliss-form__checkbox">
+											<input id="category-@levelTwoCategory.CategoryId" class="aliss-form__input" name="categories" data-id="@levelTwoCategory.CategoryId" type="checkbox" @(levelTwoCategory.Selected ? "checked" : "") value="@levelTwoCategory.Name" />
+										</div>
+									</div>
+									@if (levelTwoCategory.NextLevelCategories.Count() > 0)
+									{
+										<div class="aliss-accordion__content" id="accordion-@levelTwoCategory.CategoryId">
+											@foreach (var levelThreeCategory in levelTwoCategory.NextLevelCategories)
+											{
+												<div class="aliss-categories__sub aliss-categories__sub--three" data-filter="@levelThreeCategory.Name">
+													<label for="category-@levelThreeCategory.CategoryId" class="aliss-categories__edit">@levelThreeCategory.Name</label>
+													<div class="aliss-categories__spacer"></div>
+													<div class="aliss-form__checkbox">
+														<input id="category-@levelThreeCategory.CategoryId" class="aliss-form__input" name="categories" data-id="@levelThreeCategory.CategoryId" type="checkbox" @(levelThreeCategory.Selected ? "checked" : "") value="@levelThreeCategory.Name" />
+													</div>
+												</div>
+											}
+										</div>
+									}
+								</div>
+							}
+						</div>
+					</div>
+				}
+				<div class="aliss-categories__noresult">
+					<p>
+						<i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;
+						Sorry could not match anything to your criteria.
+					</p>
+				</div>
+			</div>
+			<div class="aliss-selected" id="categories-selected">
+				<div class="aliss-selected__title" id="title-categories-selected"><p>You have <span id="count-categories-selected"></span> categories selected</p></div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add your locations</legend>
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="locations">
+				Locations
+			</label>
+			<span>Only add a location if people would come to this location to access the service.</span>
+			<br /><br />
+			<select class="aliss-form__select" id="locations" name="Locations" data-name="SelectedLocations" data-selection="selected-locations">
+				<option value="">Select an existing location</option>
+				@foreach (var location in Model.Locations)
+				{
+					<option value="@location.Value" @(location.Selected ? "disabled" : "")>@location.Text</option>
+				}
+			</select>
+			<p><a href="#new-location" id="add-new-location">Add New Location</a></p>
+			<div id="new-location" class="hide">
+				@Html.ALISSTextBox(m => m.NewLocationName)
+				@Html.ALISSTextBox(m => m.NewLocationAddress)
+				@Html.ALISSTextBox(m => m.NewLocationCity)
+				@Html.ALISSTextBox(m => m.NewLocationPostcode)
+				@Html.HiddenFor(m => m.NewLocationLatitude)
+				@Html.HiddenFor(m => m.NewLocationLongitude)
+
+				<button id="submit-location" class="btn btn--primary">Add Location</button>
+			</div>
+			<div class="aliss-selected" id="selected-locations">
+				<div class="aliss-selected__title" id="title-selected-locations"><p>You have <span id="count-selected-locations"></span> location(s) selected</p></div>
+			</div>
+		</div>
+		@Html.HiddenFor(m => m.SelectedLocations)
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add your service areas</legend>
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="serviceareas">
+				Delivered across
+			</label>
+			<span>
+				The "Delivered across" field allows you to specify an area or areas where the service is available (delivered) in Scotland.
+				<br />
+				Use a "Delivered across" area if the service doesn?t have a location (e.g., a phone helpline), the service is online or the service visits a person's home (e.g., outreach services).
+				<br />
+				If the service is solely available to residents of a local authority or health board area, add both a location and a "Delivered across" area to the service (e.g., a drug treatment service run from a community centre solely for Glasgow City Council residents).
+			</span>
+			<input type="text" id="servicearea-filter" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter service areas" autocomplete="off">
+			<div class="aliss-serviceareas aliss-serviceareas--filter">
+				@foreach (var serviceArea in Model.ServiceServiceAreas)
+				{
+					string levelOneSelectedClass = serviceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+					<div class="aliss-serviceareas__primary" data-filter="@serviceArea.Name">
+						<div class="aliss-accordion__header @levelOneSelectedClass">
+							@if (serviceArea.NextLevelServiceAreas.Count() > 0)
+							{
+								<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@serviceArea.ServiceAreaId">
+									<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+									<span class="hide">Toggle Accordion @serviceArea.Name</span>
+								</button>
+							}
+							else
+							{
+								<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+									<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+									<span class="hide">@serviceArea.Name</span>
+								</div>
+							}
+							<label for="servicearea-@serviceArea.ServiceAreaId" class="aliss-serviceareas__edit">@serviceArea.Name</label>
+							<div class="aliss-serviceareas__spacer"></div>
+							<div class="aliss-form__checkbox">
+								<input id="servicearea-@serviceArea.ServiceAreaId" data-id="@serviceArea.ServiceAreaId" name="serviceareas" class="aliss-form__input" type="checkbox" @(serviceArea.Selected ? "checked" : "") value="@serviceArea.Name" />
+							</div>
+						</div>
+						<div class="aliss-accordion__content" id="accordion-@serviceArea.ServiceAreaId">
+							@foreach (var levelTwoServiceArea in serviceArea.NextLevelServiceAreas)
+							{
+								string levelTwoSelectedClass = levelTwoServiceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+								<div class="aliss-serviceareas__sub" data-filter="@levelTwoServiceArea.Name">
+									<div class="aliss-accordion__header @levelTwoSelectedClass">
+
+										@if (levelTwoServiceArea.NextLevelServiceAreas.Count() > 0)
+										{
+											<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@levelTwoServiceArea.ServiceAreaId">
+												<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion @levelTwoServiceArea.Name</span>
+											</button>
+										}
+										else
+										{
+											<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+												<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+												<span class="hide">@levelTwoServiceArea.Name</span>
+											</div>
+										}
+										<label for="servicearea-@levelTwoServiceArea.ServiceAreaId" class="aliss-serviceareas__edit aliss-serviceareas__edit--sub">@levelTwoServiceArea.Name</label>
+										<div class="aliss-serviceareas__spacer"></div>
+										<div class="aliss-form__checkbox">
+											<input id="servicearea-@levelTwoServiceArea.ServiceAreaId" class="aliss-form__input" name="serviceareas" data-id="@levelTwoServiceArea.ServiceAreaId" type="checkbox" @(levelTwoServiceArea.Selected ? "checked" : "") value="@levelTwoServiceArea.Name" />
+										</div>
+									</div>
+									@if (levelTwoServiceArea.NextLevelServiceAreas.Count() > 0)
+									{
+										<div class="aliss-accordion__content" id="accordion-@levelTwoServiceArea.ServiceAreaId">
+											@foreach (var levelThreeServiceArea in levelTwoServiceArea.NextLevelServiceAreas)
+											{
+												string levelThreeSelectedClass = levelThreeServiceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+												<div class="aliss-serviceareas__sub aliss-serviceareas__sub--three" data-filter="@levelThreeServiceArea.Name">
+													<label for="servicearea-@levelThreeServiceArea.ServiceAreaId" class="aliss-serviceareas__edit">@levelThreeServiceArea.Name</label>
+													<div class="aliss-serviceareas__spacer"></div>
+													<div class="aliss-form__checkbox">
+														<input id="servicearea-@levelThreeServiceArea.ServiceAreaId" class="aliss-form__input" name="serviceareas" data-id="@levelThreeServiceArea.ServiceAreaId" type="checkbox" @(levelThreeServiceArea.Selected ? "checked" : "") value="@levelThreeServiceArea.Name" />
+													</div>
+												</div>
+											}
+										</div>
+									}
+								</div>
+							}
+						</div>
+					</div>
+				}
+			</div>
+			<div class="aliss-selected" id="serviceareas-selected">
+				<div class="aliss-selected__title" id="title-serviceareas-selected"><p>You have <span id="count-serviceareas-selected"></span> service area(s) selected</p></div>
+			</div>
+		</div>
+		@Html.HiddenFor(m => m.SelectedServiceAreas)
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Claim this service</legend>
+		@if (!Model.IsClaimed)
+		{
+			@Html.ALISSCheckbox(m => m.ServiceRepresentative)
+			<div id="service-representative-info" aria-hidden="true" class="hide">
+				@Html.ALISSTextBox(m => m.ServiceRepresentativeRole)
+				@Html.ALISSTextBox(m => m.ServiceRepresentativeName)
+				@Html.ALISSTextBox(m => m.ServiceRepresentativePhone)
+
+				<p>Service claim responsibilities</p>
+				<p>As an account owner (person who has claimed a service), I understand and accept the following responsibilities:</p>
+				<p>Claiming a service</p>
+				<ul>
+					<li>A service can be claimed by someone from the organisation with a central overview of the service.</li>
+					<li>All claims need to be approved by the ALISS team.</li>
+					<li>If someone claims a service, they only claim that service and not the parent organisation or any other services provided by that organisation.</li>
+					<li>If you claim a service and become the Account Owner, you will be responsible for ensuring that information is kept up-to-date.</li>
+					<li>Please read the ALISS Data Standard before claiming the service.</li>
+				</ul>
+
+				<p><b>Before you add the service please read our the data standard (required)</b></p>
+
+				<span id='serviceterms' class="btn btn--primary">Data Standard</span><br /><br />
+
+				@*Creating a PDF viewer Data Standard.*@
+				@{
+					// Please replace string with webconfig setting PDR url
+					var PDF = ViewBag.DataStandardsUrl;
+					var PDFUrl = "https://docs.google.com/viewer?url=" + @PDF + "&embedded=true";
+				}
+
+				<div id="service-terms-pdf-box">
+					@Html.Partial("_PDFTemplate", new ViewDataDictionary(this.ViewData) {
+					{ "url", @PDFUrl }})
+				</div>
+
+				@Html.ALISSCheckbox(m => m.ServiceAcceptDataStandards)
+			</div>
+		}
+	</fieldset>
+
+	@Html.HiddenFor(m => m.SelectedCategories)
+	@Html.HiddenFor(m => m.OrganisationId)
+	@Html.HiddenFor(m => m.NewOrganisation)
+	@Html.HiddenFor(m => m.Slug)
+	<input type="hidden" id="SlugDisplay" value="" />
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary" onclick="window.monsido_functions.trackEvent('Service', 'Save Button', 'Add Service to ALISS', 1); window.monsido_functions.trackEvent('Organisation', 'Save Button', 'Add Organisation to ALISS', 1);">Save</button>
+		@Html.ActionLink("Cancel", "index", null, new { @class = "btn btn--primary" })
+	</div>
+}

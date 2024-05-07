@@ -1,0 +1,110 @@
+{% extends "layout.njk" %}
+
+{# Global variables #}
+  {# 
+    Access to atom, molecule and organism paths.
+  #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+  {% from "../partials/" + GV.organisms + "components/master.njk" import master_component as master_component %}
+{# Global variables #}
+
+{# Page variables #}
+  {# 
+    Page meta data:
+    If specified, this will populate meta tags for page SEO.
+  #}
+    {% set page_Meta_Title = '' %}
+    {% set page_Meta_Description = '' %}
+    {% set page_Meta_Keywords = '' %}
+  {# 
+    Page styles:
+    Utilise Atoms, Molecules and Organisms to create templates.
+  #}
+  {% set page_Styles = false %}
+  {# 
+    Page body ID & class:
+    If specified, this id and or class will be applied to the body tag.
+  #}
+    {% set page_Body_ID = 'aliss-signup-page' %}
+    {% set page_Body_Class = 'aliss-signup-page' %}
+  {# 
+    Page ID & class:
+    If specified, this class will be applied to top level parent tag of this page, containing all of the componets within the page contents.
+  #}
+  {% set page_ID = '' %}
+  {% set page_Class = '' %}
+  {# 
+    Page title:
+    The page title to populate the H1 tag for this page.
+  #}
+  {% set page_Title = 'About ALISS' %}
+  {# 
+    Page hero:
+    Set to true if you wish for this page to use a hero image
+  #}
+  {% set page_Hero = true %}
+{# Page variables #}
+
+{# 
+  Component calls:
+  Utilise Atoms, Molecules and Organisms to populate templates.
+#}
+
+{% set primarycontents = [
+  GV.content + 'about-us'
+] %}
+
+{% set secondarycontents = [
+  GV.organisms + 'aliss/can-cant-component',
+  GV.organisms + 'contact/contact-component'
+] %}
+
+{% block body %}
+  {% if page_Styles == true %}
+    <style>
+      /* page specific styles */
+    </style>
+  {% endif %}
+  <main {% if page_ID %}id="{{ page_ID }}"{% endif %} {% if page_Class %}class="{{ page_Class }}"{% endif %}>
+    {% if page_Hero == true %}
+      <div class="aliss-component-hero-banner">
+        <img data-src="./img/dummy-banner.png" class="lazy" />
+      </div>
+    {% endif %}
+    <section>
+      <div class="aliss-grid">
+        <div class="aliss-content__wrap">
+
+          {% if primarycontents %}
+            {# Primary title #}
+              <div class="aliss-content__header">
+                <h1>{{ page_Title }}</h1>
+              </div>
+            {# Primary title #}
+          {% endif %}
+
+          {% if primarycontents %}
+            {# Primary content #}
+              <div class="aliss-content__primary aliss-typography">
+                {% for primarycontents in primarycontents %}
+                  {% include primarycontents + '.njk' %}
+                {% endfor %}
+              </div>
+            {# Primary content #}
+          {% endif %}
+
+          {% if secondarycontents %}
+            {# Secondary content #}
+              <div class="aliss-content__secondary">
+                {% for secondarycontents in secondarycontents %}
+                  {% include secondarycontents + '.njk' %}
+                {% endfor %}
+              </div>
+            {# Secondary content #}
+          {% endif %}
+
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

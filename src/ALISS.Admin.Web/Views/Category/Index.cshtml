@@ -1,0 +1,129 @@
+﻿@model ALISS.Business.ViewModels.Category.CategoryListingViewModel
+@{
+	ViewBag.Title = "Categories";
+}
+
+
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@using (Html.BeginForm("Index", "Category", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+		{
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search
+			</label>
+			<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+			<button class="btn btn--primary" type="submit" title="Search the categories">Search</button>
+			if (!String.IsNullOrEmpty(Model.SearchTerm))
+			{
+				<div class="aliss-search__clear">
+					@Html.ActionLink("Clear Search", "Index", "Category", null, new { @class = "btn btn--primary", title = "Clear the search and show all categories" })
+				</div>
+			}
+		}
+	</div>
+	<div class="aliss-search__actions">
+		@Html.ActionLink("Add level one category", "AddCategory", "Category", null, new { @class = "btn btn--primary", title = "Add level one category" })
+	</div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+	@Html.Partial("_SuccessMessage")
+}
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Total Results: <span>@Model.TotalResults</span></p>
+		</div>
+	</div>
+</div>
+
+<div class="aliss-categories">
+	<div class="aliss-categories__titles">
+		<div class="aliss-categories__title aliss-categories__title--name">
+			<strong>Name</strong>
+		</div>
+		<div class="aliss-categories__title aliss-categories__title--count">
+			<strong>Service Count</strong>
+		</div>
+	</div>
+
+	@foreach (var category in Model.Categories)
+	{
+		var primaryId = category.Name.Replace(" ", "-").ToLower();
+		<div class="aliss-categories__item">
+			<div class="aliss-categories__primary">
+
+				<div class="aliss-accordion__header">
+					@if (category.NextLevelCategories.Count() > 0)
+					{
+						<button class="aliss-accordion__trigger" data-accordion-trigger="@primaryId">
+							<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+							<span class="hide">Toggle Accordion @category.Name</span>
+						</button>
+					}
+					else
+					{
+						<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+							<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+							<span class="hide">View @category.Name</span>
+						</div>
+					}
+					@Html.ActionLink(category.Name, "EditCategory", "Category", new { id = category.CategoryId, topLevelCategory = true }, new { @class = "aliss-categories__edit" })
+					<div class="aliss-categories__spacer"></div>
+					<span class="aliss-categories__count">@category.ServiceCount</span>
+					<a href="@Url.Action("AddCategory", "Category", new { parentCategoryId = category.CategoryId }, null)" class="aliss-categories__add">
+						<i class="fa fa fa-plus-circle" aria-hidden="true" title="Add level two category"></i>
+						<span class="hide">Add sub-category to @category.Name</span>
+					</a>
+				</div>
+
+				<div class="aliss-accordion__content" id="@primaryId">
+					@foreach (var levelTwo in category.NextLevelCategories)
+					{
+
+						var levelTwoId = levelTwo.Name.Replace(" ", "-").ToLower();
+						<div class="aliss-categories__sub">
+							<div class="aliss-accordion__header">
+								@if (levelTwo.NextLevelCategories.Count() > 0)
+								{
+									<button class="aliss-accordion__trigger" data-accordion-trigger="@levelTwoId">
+										<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+										<span class="hide">Toggle Accordion @category.Name</span>
+									</button>
+								}
+								else
+								{
+									<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+										<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+										<span class="hide">View @category.Name</span>
+									</div>
+								}
+								@Html.ActionLink(levelTwo.Name, "EditCategory", "Category", new { id = levelTwo.CategoryId, topLevelCategory = false }, new { @class = "aliss-categories__edit" })
+								<div class="aliss-categories__spacer"></div>
+								<span class="aliss-categories__count">@levelTwo.ServiceCount</span>
+								<a href="@Url.Action("AddCategory", "Category", new { parentCategoryId = levelTwo.CategoryId }, null)" class="aliss-categories__add">
+									<i class="fa fa fa-plus-circle" aria-hidden="true" title="Add level three category"></i>
+									<span class="hide">Add sub-category to @category.Name</span>
+								</a>
+							</div>
+							<div class="aliss-accordion__content" id="@levelTwoId">
+								@foreach (var levelThree in levelTwo.NextLevelCategories)
+								{
+
+									<div class="aliss-categories__sub aliss-categories__sub--three">
+										@Html.ActionLink(levelThree.Name, "EditCategory", "Category", new { id = levelThree.CategoryId, topLevelCategory = false }, null)
+										<div class="aliss-categories__spacer"></div>
+										<span class="aliss-categories__count">@levelThree.ServiceCount</span>
+										<div class="aliss-categories__block"></div>
+									</div>
+								}
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	}
+</div>

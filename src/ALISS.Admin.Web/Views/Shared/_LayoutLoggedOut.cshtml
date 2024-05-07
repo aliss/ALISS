@@ -1,0 +1,86 @@
+﻿@using System.Configuration;
+@{
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+		? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+		: false;
+	string googleMapsKey = ConfigurationManager.AppSettings["Settings:GoogleApiKey"];
+	string apiBaseUrl = ConfigurationManager.AppSettings["Settings:ApiBaseUrl"];
+}
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ALISS Admin - @ViewBag.Title</title>
+
+	<!-- Meta: SEO -->
+	<meta name="description" content="ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.">
+	<meta name="author" content="Tactuum">
+	<!-- Meta: Device Optimization -->
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+
+	<link rel="stylesheet" type="text/css" href="/Ui/dist/css/site.min.css?dt=20240417" />
+	<link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+
+	<!-- Awesome Font -->
+	<script src="https://kit.fontawesome.com/7264da0bdc.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://use.typekit.net/hwk2ezh.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+</head>
+<body class="aliss-admin aliss-login">
+
+
+	@{
+		var baseUrldash = @System.Configuration.ConfigurationManager.AppSettings["BasePublicSiteUrl"];
+	}
+
+	<div class="aliss-login-header">
+		<div class="aliss-grid">
+			<div class="aliss-login-header__header-component">
+				<div class="aliss-login-header__header-component__logo">
+					<a href="@baseUrldash" title="Click here to navigate to the homepage.">
+						<img src="/Ui/dist/img/aliss-logo.png" alt="A Local Information System for Scotland (ALISS) logo" />
+						<div class="aliss-login-header__header-component__logo__text">A Local Information System for Scotland</div>
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<main class="aliss-main aliss-main__login">
+		<div class="aliss-header__accessibility-tools-container">
+			<i class="fas fa-universal-access pr--8" aria-hidden="true"></i>
+			<div class="reachdeck-btn" id="__ba_panel">
+				Accessibility Tools
+			</div>
+		</div>
+		<div class="aliss-main__content aliss-main__content--login">
+			@RenderBody()
+		</div>
+	</main>
+
+	<script nonce="googleKey">
+        var googleMapsKey = "@googleMapsKey";
+        var apiBaseUrl = "@apiBaseUrl";
+	</script>
+	<script src="/Ui/dist/js/site.js?dt=20240417"></script>
+
+	@if (enableMonsidoTracking)
+	{
+		@Html.Partial("_Monsido")
+	}
+
+	@RenderSection("scripts", required: false)
+	<script type="text/javascript"
+			src="https://www.browsealoud.com/plus/scripts/3.1.0/ba.js"
+			crossorigin="anonymous"
+			integrity="sha256-VCrJcQdV3IbbIVjmUyF7DnCqBbWD1BcZ/1sda2KWeFc= sha384-k2OQFn+wNFrKjU9HiaHAcHlEvLbfsVfvOnpmKBGWVBrpmGaIleDNHnnCJO4z2Y2H sha512-gxDfysgvGhVPSHDTieJ/8AlcIEjFbF3MdUgZZL2M5GXXDdIXCcX0CpH7Dh6jsHLOLOjRzTFdXASWZtxO+eMgyQ==">
+	</script>
+</body>
+</html>

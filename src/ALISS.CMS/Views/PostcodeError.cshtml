@@ -1,0 +1,39 @@
+@using ALISS.CMS.Extensions
+@using Umbraco.Web.PublishedModels
+@using ALISS.ApiServices.ViewModels.Service
+@using ALISS.ApiServices.ViewModels.Search
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<DtServices>
+@{
+	Layout = "~/Views/Master.cshtml";
+	SearchViewModel searchResults = ViewBag.SearchViewModel;
+	string servicesUrl = Model.AncestorOrSelf(DtHomepage.ModelTypeAlias).DescendantOrSelfOfType(DtServices.ModelTypeAlias)?.Url();
+}
+
+<main>
+	<section class="aliss-homepage-search__section">
+		<div class="aliss-grid"> 
+			<div class="aliss-organism-homepage-search">
+				<div class="aliss-organism-homepage-search__block">
+					<h1>Error searching for postcode (@searchResults.Postcode)</h1>
+					<div class="mb--24">
+						<h3>The postcode you have entered appears to be invalid.</h3>
+						<p>Please try searching again with a different city/town, address, postcode or search criteria.</p>
+					</div>
+					<div class="search-options__field">
+						<hr>
+						<h3 class="mt--24">Start a new search</h3>
+						@Html.Partial("Search", Model, new ViewDataDictionary { { "SearchType", "service" } })
+						<p style="color:transparent;user-select:none;">
+							Put a postcode, town or city into the search box below to find services, groups and activities for health and wellbeing across Scotland
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+@section Metadata
+{
+	@Html.Metadata(Model)
+}

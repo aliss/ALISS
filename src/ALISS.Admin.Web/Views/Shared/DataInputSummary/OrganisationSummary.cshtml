@@ -1,0 +1,143 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@{
+	bool serviceSubmitted = Model.ServiceSubmitted;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted ?? false;
+}
+
+<fieldset class="aliss-form__fieldset no-padding">
+	<legend class="aliss-form__legend">Organisation</legend>
+	<h2>1. Organisation</h2>
+	<div class="mb--24">
+		<label class="aliss-form__label">Name</label>
+		<span>@Model.OrganisationName</span>
+	</div>
+
+	<div class="mb--24">
+		<label class="aliss-form__label">Do you want to claim this organisation?</label>
+
+		@if (Model.OrganisationRepresentative)
+		{
+			<span>Yes</span>
+		}
+		else
+		{
+			<span>No</span>
+		}
+	</div>
+
+	<div class="mb--24">
+		<label class="aliss-form__label">Description</label>
+		<span class="aliss-form__rte">@Html.Raw(Model.OrganisationDescription)</span>
+	</div>
+
+	<div class="mb--24">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fas fa-phone-alt"></i>
+			</span>
+			<label class="aliss-form__label">Phone number</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.OrganisationPhoneNumber))
+		{
+			<span>@Model.OrganisationPhoneNumber</span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="mb--24">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fas fa-envelope"></i>
+			</span>
+			<label class="aliss-form__label">Email address</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.OrganisationEmail))
+		{
+			<span>@Model.OrganisationEmail</span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="mb--24">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fas fa-globe-americas"></i>
+			</span>
+			<label class="aliss-form__label">Web address</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.OrganisationUrl))
+		{
+			<span><a target='_blank' href="@Model.OrganisationUrl">@Model.OrganisationUrl <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="mb--24">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fab fa-facebook-square"></i>
+			</span>
+			<label class="aliss-form__label">Facebook</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.OrganisationFacebook))
+		{
+			<span><a target='_blank' href="@Model.OrganisationFacebook">@Model.OrganisationFacebook <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="mb--24">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fab fa-x-twitter"></i>
+			</span>
+			<label class="aliss-form__label">X/Twitter</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.OrganisationTwitter))
+		{
+			<span><a target='_blank' href="@Model.OrganisationTwitter">@Model.OrganisationTwitter <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	<div class="mb--48">
+		<div class="aliss-data-input-form__label-container">
+			<span class="aliss-data-input-form__label-container--icon">
+				<i aria-hidden="true" class="fab fa-instagram"></i>
+			</span>
+			<label class="aliss-form__label">Instagram</label>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.OrganisationInstagram))
+		{
+			<span><a target='_blank' href="@Model.OrganisationInstagram">@Model.OrganisationInstagram <i class="fas fa-external-link-alt"></i></a></span>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	@Html.ActionLink("Edit Information", "Index", "DataInputOrganisation", new { id = Model.OrganisationId }, new { @class = "btn btn--primary" })
+	<hr class="content__divider mt--24" />
+</fieldset>

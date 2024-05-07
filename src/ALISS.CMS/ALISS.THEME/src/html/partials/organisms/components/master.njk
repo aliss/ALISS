@@ -1,0 +1,445 @@
+{# Global variables #}
+  {% import "../../include/globalVariables.njk" as GV %}
+  {% from "../" + GV.atoms + "atoms_a.njk" import a as a %}
+  {% from "../../" + GV.molecules + "descriptive-icon/macro.njk" import descriptive_icon as descriptive_icon %}
+{# Global variables #}
+
+{% set organisation_claim_title = 'Claiming an organisation' %}
+{% set organisation_claim_text = 'This organisation has not yet been claimed. If you are a member of an organisation you can claim representation and gain edit rights over its entry on ALISS by clicking the button below.' %}
+
+{% macro master_component(params) %}
+<div class="aliss-organism aliss-component-master aliss-content-spacer{% if params.classes %} {{ params.classes }}{% endif %}" {%- for attribute in params.item_helper_attributes %} {{attribute.attribute}}="{{attribute.value}}"{% endfor %}>
+  
+  {# If an organisation, show helper icon(s) w/tooltip #}
+    {%- if params.item_descriptive_icon %}     
+      {%- for item_descriptive_icon in params.item_descriptive_icon %}
+        {{ descriptive_icon(item_descriptive_icon.icon, item_descriptive_icon.text) }}
+        {% include  GV.molecules ~ "descriptive-icon/macro.njk" %}
+      {% endfor %}
+    {%- endif -%}
+  {# If an organisation, show helper icon(s) w/tooltip #}
+  
+  {# If an organisation, show helper icon(s) w/tooltip OLD ICON CODE #} 
+     {# {%- if params.item_type === 'organisation' and params.item_status === 'Claimed' or params.item_status === 'Unclaimed' %}
+      {%- if params.item_status === 'Claimed' %}
+        {% set organisation_claim_status_icon = 'fa-check-circle' %}
+        {% set organisation_claim_status_text = 'This organisation has been claimed by a representative.' %}
+      {%- elseif params.item_status === 'Unclaimed' %}
+        {% set organisation_claim_status_icon = 'fa-question-circle' %}
+        {% set organisation_claim_status_text = 'This organisation has not been claimed by a representative.' %}
+      {%- endif -%}
+      {{ descriptive_icon(organisation_claim_status_icon, organisation_claim_status_text) }}
+      {% include  GV.molecules ~ "descriptive-icon/macro.njk" %}
+    {%- endif -%} #}
+  {# If an organisation, show helper icon(s) w/tooltip #}
+
+  <div class="aliss-component-master__contents">
+
+    {%- if params.item_title %}
+      <h2>
+        {{ params.item_title | safe }}
+      </h2>
+    {%- endif -%}
+
+    {# If a service, Show the organisation that owns/represents it #}
+    {%- if params.item_type === 'Service' and params.item_owner %}
+      <p>
+        <strong>By:</strong> <span>{{ params.item_owner }}</span>.
+      </p>
+    {%- endif -%}
+    {# If a service, Show the organisation that owns/represents it #}
+
+    {# If an organisation, Show organisation claim status #}
+    {%- if params.item_type === 'organisation' and params.item_status === 'Claimed' or params.item_status === 'Unclaimed' %}
+      <p>
+        <strong>Claim status:</strong> <span>{{ params.item_status }}</span>.
+      </p>
+    {%- endif -%}
+    {# If an organisation, Show organisation claim status #}
+
+    {# If defined, Show organisation/service categories #}
+    {%- if params.item_categories %}
+      <p><strong>Category:</strong>
+      {%- for item_categories in params.item_categories %}
+          <span>
+            {{ item_categories.category }}{% if not loop.last %},{% else %}.{% endif %}
+          </span>
+      {% endfor %}
+      </p>
+    {%- endif -%}
+    {# If defined, Show organisation/service categories #}
+
+    {# If a service, on an organisation page, Show service locations #}
+    {%- if params.item_service_areas %}
+    <div class="accordion aliss-component-master__locations">
+      <div class="accordion__toggle">
+        <p><strong>Service area(s):</strong> View all</p>
+      </div>
+      <div class="accordion__list">
+        <ul class="aliss-icon-list">
+          {%- for item_service_areas in params.item_service_areas %}
+            {%- if item_service_areas.area %}
+              <li class="aliss-icon-list__item aliss-icon-list__item--map">
+                {{ item_service_areas.area }}.
+              </li>
+            {%- endif -%}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {%- endif -%}
+    {# If a service, on an organisation page, Show service locations #}
+
+    {# If a service, on an organisation page, Show service locations #}
+    {%- if params.item_locations %}
+    <div class="accordion aliss-component-master__locations">
+      <div class="accordion__toggle">
+        <p><strong>Location(s):</strong> View all</p>
+      </div>
+      <div class="accordion__list">
+        <ul class="aliss-icon-list">
+          {%- for item_locations in params.item_locations %}
+            {%- if item_locations.attributes %}
+            {% set attributes %}
+              {% for attribute in item.attributes %} 
+                {{attribute.attribute}}={{attribute.value}}
+              {% endfor %}
+            {% endset %}
+          {% endif %}
+            {%- if item_locations.location %}
+              <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                {{ a(
+                  "", 
+                  item_locations.href, 
+                  "Click here to view this location on Google Maps",
+                  "_blank", 
+                  "classes",
+                  attributes,
+                  item_locations.location
+                  ) 
+                }}
+              </li>
+            {%- endif -%}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {%- endif -%}
+    {# If a service, on an organisation page, Show service locations #}
+
+    {# If defined, Show organisation/service description #}
+      <p>
+        {{ params.item_text | safe  }}
+      </p>
+    {# If defined, Show organisation/service description #}
+
+    {# Primary link to organisation/service page #}
+    {%- if params.item_page_url %}
+      {{ a("", "/", "Click here for more information about X.", "_self", "aliss-component-master__contents__primary-link", "", "Learn more about Mindful Art Session (Adults)") }}
+    {%- endif -%}
+    {# Primary link to organisation/service page #}
+
+  </div>
+ 
+  {# If this item has links (is a service), then show all the defined link items #}
+  {%- if params.item_links or params.item_links_double %}
+    {%- if params.item_links %}
+      {% set linkDetails = params.item_links %}
+      {% set linkClasses = "aliss-icon-list--100" %}
+    {% elseif params.item_links_double %}
+      {% set linkDetails = params.item_links_double %}
+      {% set linkClasses = "aliss-icon-list--50-50" %}
+    {% endif %}
+    <div class="aliss-component-master__links">
+      <ul class="aliss-icon-list {{linkClasses}}">
+        {%- for linkDetails in linkDetails %}
+          {%- if linkDetails.attributes %}
+          {% set attributes %}
+            {% for attribute in item.attributes %} 
+              {{attribute.attribute}}={{attribute.value}}
+            {% endfor %}
+          {% endset %}
+         {% endif %}
+          {%- if linkDetails.text and linkDetails.href %}
+            <li class="aliss-icon-list__item aliss-icon-list__item--{{ linkDetails.icon_class }}">
+              {{ a(
+                "", 
+                linkDetails.href, 
+                linkDetails.title,
+                "_self", 
+                "classes",
+                attributes,
+                linkDetails.text
+                ) 
+              }}
+            </li>
+          {%- endif -%}
+        {% endfor %}
+      </ul>
+    </div>
+  {%- endif -%}
+  {# If this item has links (is a service), then show all the defined link items #}
+
+  {# If item type is an organisation and it has not been claimed, show the message and link #}
+  {%- if params.item_type === 'organisation' and params.item_status === 'Unclaimed' %}
+    <div class="aliss-component-master__contents aliss-component-master__contents--claim-organisation">
+      <h3>
+        {{ organisation_claim_title }} 
+      </h3>
+      <p>
+        {{ organisation_claim_text }} 
+      </p>
+      <div class="aliss-component-master__buttons">
+        {{ a("", "/", "Click here to begin the process of claiming this organisation.", "_self", "btn btn--primary", "", "Claim this organisation") }}
+      </div>
+    </div>
+  {% endif %}
+  {# If item type is an organisation and it has not been claimed, show the message and link #}
+  
+  {# If item type is a service and a user has the correct access rights, show editor controls #}
+  {%- if params.item_buttons %}
+    <div class="aliss-component-master__contents aliss-component-master__contents--claim-organisation">
+      <div class="aliss-component-master__buttons">
+        {%- for item_buttons in params.item_buttons %}
+        {%- if item_buttons.attributes %}
+            {% set attributes %}
+              {% for attribute in item_buttons.attributes %} 
+                {{attribute.attribute}}={{attribute.value}}
+              {% endfor %}
+            {% endset %}
+          {% endif %}
+          {{ a("", item_buttons.href, item_buttons.title, "_self", "btn " ~ item_buttons.classes, attributes, item_buttons.text) }}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  {# If item type is a service and a user has the correct access rights, show editor controls #}
+</div>
+{% endmacro %}
+
+{# MASTER MACRO EXAMPLE, COPY AND PASTE [DO NOT EDIT] #}
+
+{# {{ master_result_item({
+  classes: '',
+  item_type: "organisation",
+  item_owner: "Organisation name",
+  item_status: "Claimed",
+  item_title: "Dundee Roadrunners",
+  item_text: "Dundee Roadrunners is a friendly, inclusive running club catering for adults of all ages and abilities.",
+  item_page_url: "/",
+  item_descriptive_icon: [
+    {
+      icon: '',
+      text: ''
+    }
+  ],
+  item_classes: [
+    {
+      contents: ''
+    },
+    {
+      service_areas: ''
+    },
+    {
+      locations: ''
+    },
+    {
+      links: ''
+    },
+    {
+      buttons: ''
+    }
+  ],
+  item_categories: [
+    {
+      category: 'Museums and galleries'
+    },
+    {
+      category: 'Activity'
+    },
+    {
+      category: 'Creativty and culture'
+    }
+  ],
+  item_service_areas: [
+    {
+      area: 'Dundee'
+    },
+    {
+      area: 'Edinburgh'
+    },
+    {
+      area: 'Glasgow'
+    }
+  ],
+  item_locations: [
+    {
+      href: '/',
+      location: 'Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA.',
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      href: '/',
+      location: 'Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA.',
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      href: '/',
+      location: 'Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA.',
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    }
+  ],
+  item_helper_attributes: [
+    {
+      attribute: 'test-attribute',
+      value: 'test-value'
+    },
+    {
+      attribute: 'test-ff',
+      value: 'test-ff'
+    }
+  ],
+  item_links: [
+    {
+      icon_class: "website",
+      href: "/",
+      text: "Visit the website",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      icon_class: "telephone",
+      href: "/",
+      text: "0141 4040239",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      icon_class: "email",
+      href: "/",
+      text: "GoMAbookings@glasgowlife.org.uk",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      icon_class: "location",
+      href: "/",
+      text: "Nearest location - 0.41KM",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    }
+  ],
+  item_links_double: [
+    {
+      icon_class: "website",
+      href: "/",
+      text: "Visit the website",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      icon_class: "telephone",
+      href: "/",
+      text: "0141 4040239",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      icon_class: "email",
+      href: "/",
+      text: "GoMAbookings@glasgowlife.org.uk",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      icon_class: "location",
+      href: "/",
+      text: "Nearest location - 0.41KM",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    }
+  ],
+  item_buttons: [
+    {
+      href: "/",
+      classes: "btn btn--primary",
+      text: "Edit Service",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    },
+    {
+      href: "/",
+      classes: "btn btn--warning",
+      text: "Delete Service",
+      title: "Click here to...",
+      attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    }
+  ]
+}) }} #}
+
+{# MASTER MACRO EXAMPLE, COPY AND PASTE [DO NOT EDIT] #}

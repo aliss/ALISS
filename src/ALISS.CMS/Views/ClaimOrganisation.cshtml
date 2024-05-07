@@ -1,0 +1,160 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.DtClaimOrganisation>
+@using ALISS.CMS.Extensions
+@using ALISS.ApiServices.ViewModels.Organisation
+@using ContentModels = Umbraco.Web.PublishedModels;
+@using System.Configuration
+@{
+	Layout = "~/Views/Master.cshtml";
+	OrganisationModel organisation = ViewBag.Organisation;
+	bool sent = ViewBag.Sent ?? false;
+	bool invalidPhone = ViewBag.IsPhoneInvalid ?? false;
+	int userProfileId = (int)ViewBag.UserId;
+	string error = ViewBag.Error;
+	string errorClass = !string.IsNullOrWhiteSpace(error) ? "aliss-form__group--error" : "";
+	string role = Request.Form["role"];
+	string name = Request.Form["name"];
+	string phone = Request.Form["phone"];
+	bool requestLead = Request.Form["requestlead"] == "1";
+	string understand = Request.Form["understant"];
+	string roleError = string.IsNullOrWhiteSpace(role) ? errorClass : "";
+	string nameError = string.IsNullOrWhiteSpace(name) ? errorClass : "";
+	string phoneError = string.IsNullOrWhiteSpace(phone) || invalidPhone ? errorClass : "";
+	string understandError = string.IsNullOrWhiteSpace(understand) ? errorClass : "";
+	//string dataStandards = Model.DataStandards.Url();
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+		? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+		: false;
+}
+
+<main>
+	<section>
+		<div class="aliss-grid">
+			<div class="aliss-content__wrap">
+				<div class="aliss-content__header">
+					<h1>@Model.Title</h1>
+				</div>
+
+				<div class="aliss-content__primary aliss-typography">
+					@if (sent)
+					{
+						<div class="aliss-rte aliss-typography">
+							@Html.Raw(Model.SentBodyText)
+							<p>Click <a href="/organisations/@organisation.slug">here</a> to go back to the organisation.</p>
+						</div>
+					}
+					else
+					{
+						if (!string.IsNullOrWhiteSpace(error))
+						{
+							<div class="@errorClass">
+								<p class="error">@error</p>
+							</div>
+						}
+						<div class="aliss-rte aliss-typography">
+							@Html.Raw(Model.BodyText)
+						</div>
+						<form method="post" action="" class="aliss-form">
+							@Html.AntiForgeryToken()
+							<fieldset class="aliss-form__fieldset">
+								<legend class="aliss-form__legend">Claim This Organisation</legend>
+								<div class="aliss-form__group @roleError">
+									<label class="aliss-form__label" for="role">My role in the organisation: (required)</label>
+									<input class="aliss-form__input" type="text" name="role" id="role" value="@role" />
+								</div>
+								<div class="aliss-form__group @nameError">
+									<label class="aliss-form__label" for="name">My name: (required)</label>
+									<input class="aliss-form__input" type="text" name="name" id="name" value="@name" />
+								</div>
+								<div class="aliss-form__group @phoneError">
+									<label class="aliss-form__label" for="phone">My phone number: (required)</label>
+									<input class="aliss-form__input" type="text" name="phone" id="phone" value="@phone" />
+								</div>
+								<div class="aliss-form__group notesfield">
+									<label class="aliss-form__label" for="notes">Notes:</label>
+									<textarea class="aliss-form__input" id="notes" name="notes"></textarea>
+								</div>
+
+								<input type="hidden" name="userId" id="userId" value="@userProfileId" />
+
+								@Html.Raw(Model.FormBodyText)
+
+								<div class="aliss-form__group aliss-form__group--checkbox @understandError">
+									<div class="aliss-form__checkbox">
+										<input name="understand" id="understand" class="aliss-form__input" type="checkbox" value="1" />
+										<label for="understand">I understand and accept the terms above, acknowledge the importance of data quality.</label>
+									</div>
+								</div>
+
+								@if (organisation.is_claimed)
+								{
+									<div class="aliss-form__group aliss-form__group--checkbox">
+										<div class="aliss-form__checkbox">
+											@if (requestLead)
+											{
+												<input name="requestlead" id="reaquestlead" class="aliss-form__input" type="checkbox" checked="" value="1" />
+											}
+											else
+											{
+												<input name="requestlead" id="reaquestlead" class="aliss-form__input" type="checkbox" value="1" />
+											}
+											<label for="reaquestlead">Request to be made the Claimed User and lead contact of this organisation</label>
+										</div>
+									</div>
+								}
+							</fieldset>
+							<div class="aliss-form__actions">
+								@if (Model.Title.Contains("Manage"))
+								{
+									if (enableMonsidoTracking)
+									{
+										<button type="submit" class="btn btn--primary"
+												onclick="window.monsido_functions.trackEvent('Organisation', 'Manage Button', 'Organisation Manage Request Submitted', 1);">
+											Help to Manage
+										</button>
+									}
+									else
+									{
+										<button type="submit" class="btn btn--primary">Help to Manage</button>
+									}
+								}
+								else
+								{
+									if (enableMonsidoTracking)
+									{
+										<button type="submit" class="btn btn--primary"
+												onclick="window.monsido_functions.trackEvent('Organisation', 'Claim Button', 'Organisation Claim Request Submitted', 1);">
+											Claim this organisation
+										</button>
+									}
+									else
+									{
+										<button type="submit" class="btn btn--primary">Claim this organisation</button>
+									}
+								}
+							</div>
+						</form>
+						if (!string.IsNullOrWhiteSpace(Model.PrivicyStatement.ToString()))
+						{
+							<hr />
+							<div class="aliss-rte aliss-typography">
+								@Html.Raw(Model.PrivicyStatement)
+							</div>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<script nonce="claimOrganisation">
+	function goBack(e) {
+		e.preventDefault();
+		history.go(-2);
+	}
+</script>
+
+@section Metadata
+{
+	@Html.Metadata(Model as IPublishedContent)
+}

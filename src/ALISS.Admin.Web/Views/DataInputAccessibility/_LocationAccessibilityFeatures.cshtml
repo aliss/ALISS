@@ -1,0 +1,71 @@
+﻿@model ALISS.Business.PresentationTransferObjects.AccessibilityFeature.ServiceLocationAccessibilityFeaturePTO
+@{
+	string locationId = Model.LocationId.HasValue ? Model.LocationId.ToString() : "virtual";
+}
+
+<div class="aliss-form__group">
+	<input class="service-locations" id="LocationId" name="LocationId" type="hidden" value="@locationId">
+	<input type="text" id="accessibility-filter-@locationId" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter accessibility features" autocomplete="off">
+	<div class="aliss-datainput-accessibility-features aliss-datainput-accessibility-features--filter">
+		@foreach (var accessibility in Model.AccessibilityFeatures)
+		{
+			string checkboxId = $"accessibility-{accessibility.AccessibilityFeatureId}-{locationId}";
+			string moreinfoContainerId = $"accessibility-{accessibility.AccessibilityFeatureId}-moreinfo-container-{locationId}";
+			string moreInfoId = $"accessibility-{accessibility.AccessibilityFeatureId}-{locationId}-moreinfo";
+			string countId = $"accessibility-{accessibility.AccessibilityFeatureId}-moreinfo_count-{locationId}";
+			int maxLength = 500;
+			<div class="aliss-datainput-accessibility-features__primary mb--24 data-filter-@locationId" data-filter="@(accessibility.Name)">
+				<div class="aliss-accordion__header">
+					<div class="aliss-form__checkbox">
+						<input id="@checkboxId" data-id="@accessibility.AccessibilityFeatureId" name="accessibility-features-@locationId" class="aliss-form__input" type="checkbox" @(accessibility.Selected ? "checked" : "") value="@accessibility.Name" />
+					</div>
+					<span class="aliss-datainput-accessibility-features__icon">
+						<i aria-hidden="true" class="@accessibility.Icon"></i>
+					</span>
+					<label for="@checkboxId" class="aliss-datainput-accessibility-features__edit">@accessibility.Name</label>
+					<div id="@moreinfoContainerId" class="@(Html.ValidationMessage(moreinfoContainerId).ToString().Contains(accessibility.Name) ? "aliss-datainput-accessibility-features__more_info aliss-form__group--error hidden" : "aliss-datainput-accessibility-features__more_info hidden")">
+						@if (!string.IsNullOrWhiteSpace(accessibility.PromptQuestions))
+						{
+							<div class="details-container mb--4 mt--8">
+								<div class="aliss-details__header">
+									<a class="aliss-details__trigger" data-accordion-trigger="prompt-@accessibility.AccessibilityFeatureId">
+										<i class="fas fa-caret-right"></i>
+										Important points to consider
+									</a>
+								</div>
+								<div class="aliss-details__content" id="prompt-@accessibility.AccessibilityFeatureId">
+									<div class="aliss-details__inner">
+										<p>@Html.Raw(accessibility.PromptQuestions?.Replace(Environment.NewLine, ""))</p>
+									</div>
+								</div>
+							</div>
+						}
+						<label for="@moreInfoId" class="aliss-datainput-accessibility-features__addditional-info">
+							Please provide details to help people find services that suit their needs
+						</label>
+						<textarea rows="2" id="@moreInfoId" name="@moreInfoId" class="moreinfo-@locationId aliss-form__summary aliss-form__textarea" data-parent="@accessibility.AccessibilityFeatureId">@accessibility.AdditionalInfo</textarea>
+						<span id="@countId">@(maxLength - (accessibility.AdditionalInfo != null ? accessibility.AdditionalInfo.Length : 0)) character(s) remaining</span>
+						<script>
+							document.getElementById("@moreInfoId").onkeyup = function () {{
+								var maxLength = @maxLength;
+								var fieldLength = document.getElementById("@moreInfoId").value.length;
+								document.getElementById("@countId").innerText = (maxLength - fieldLength) + " character(s) remaining";
+							}};
+						</script>
+					</div>
+				</div>
+			</div>
+		}
+		<div id="no-result-@locationId" class="aliss-datainput-accessibility-features__noresult">
+			<p>
+				<i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;
+				Sorry could not match anything to your criteria.
+			</p>
+		</div>
+	</div>
+	<div class="aliss-selected" id="accessibility-features-selected-@locationId">
+		<div class="aliss-selected__title" id="title-accessibility-features-selected-@locationId">
+			<p>You have <span id="count-accessibility-features-selected-@locationId"></span> accessibility features selected</p>
+		</div>
+	</div>
+</div>

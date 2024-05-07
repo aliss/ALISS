@@ -1,0 +1,191 @@
+/** @format */
+
+.aliss-component-master {
+	position: relative;
+	a {
+		text-decoration: none;
+	}
+	&__contents {
+		p {
+			&:not(:last-of-type) {
+				margin: rem-calc(0 0 5);
+			}
+			margin: rem-calc(0);
+		}
+		&__primary-link {
+			display: inline-block;
+			margin: rem-calc(20 0 0);
+			@include aliss-a-hover();
+		}
+		&--claim-organisation {
+			margin: rem-calc(20 0 0);
+			h3,
+			p {
+				margin: rem-calc(0 0 20);
+			}
+		}
+		&--claim-service {
+			margin: rem-calc(20 0 0);
+			h3,
+			p {
+				margin: rem-calc(0 0 20);
+			}
+		}
+	}
+	&__links {
+		margin: rem-calc(20 0 0);
+	}
+	&__buttons {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		@include media('>=tablet') {
+			flex-direction: row;
+		}
+		a {
+			flex: 0 1 100%;
+			@include media('>=tablet') {
+				flex: 0 1 auto;
+			}
+			&:not(:last-of-type) {
+				margin: rem-calc(0 0 15);
+				@include media('>=tablet') {
+					margin: rem-calc(0 15 0 0);
+				}
+			}
+		}
+	}
+
+
+	&__title {
+		display: block;
+		font-weight: bold;
+		margin-bottom: rem-calc(15);
+	}
+
+	.aliss-icon-list {
+		&--50-50 {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			@include media('>=tablet') {
+				flex-direction: row;
+			}
+			li {
+				flex: 0 1 auto;
+				@include media('<=tablet') {
+					width: 100%;
+				}
+				@include media('>tablet') {
+					width: 49%;
+				}
+				a {
+					word-break: break-all;
+				}
+			}
+		}
+	}
+
+	&--red {
+		color: $white;
+		background-color: map-get($brand, aliss-light-red);
+		a {
+			&:not(.btn) {
+				color: $white;
+			}
+		}
+		h2 {
+			margin: 0;
+		}
+	}
+	&--green {
+		color: $white;
+		background-color: map-get($brand, aliss-light-green);
+		margin-bottom:rem-calc(30);
+		a {
+			&:not(.btn) {
+				color: $white;
+			}
+		}
+		h2 {
+			margin: 0;
+		}
+	}
+	
+	&--yellow {
+		color: $black;
+		background-color: map-get($brand, aliss-yellow);
+		margin-bottom:rem-calc(30);
+		a {
+			&:not(.btn) {
+				color: $white;
+			}
+		}
+		h2 {
+			margin: 0;
+		}
+	}
+
+
+	&__close {
+		cursor: pointer;
+		position: absolute;
+		top: rem-calc(5);
+		right: rem-calc(15);
+		font-size: rem-calc(24);
+		&:hover {
+			transform: rotate(90deg);
+		}
+	}
+}
+
+.js-component-error {
+	display: none;
+	&-active {
+		display: block;
+	}
+}
+
+.aliss-locations {
+	margin: rem-calc(-20) 0 rem-calc(20);
+}
+
+.aliss-service-areas {
+	margin: 0 0 rem-calc(20);
+}
+
+
+.aliss-claimed-status {
+	display: inline-block;
+	color: $white;
+	// text-transform: uppercase;
+	padding: rem-calc(2) rem-calc(8);
+	line-height: 1.4;
+	font-size: rem-calc(12);
+	border-radius: 20px;
+	// font-weight: bold;
+
+	&::before {
+		content: "\f0a3";
+		font-family: "FontAwesome";
+		display:inline-block;
+		margin-right: rem-calc(5);
+	}
+
+	&--claimed {
+		background: map-get($brand, aliss-blue);
+	}
+	&--unclaimed {
+		background: map-get($brand, aliss-dark-gray);
+	}
+}
+
+.google-suggestions-container {
+	position: relative;
+}
+.google-suggestions-container .pac-container {
+	top: 78px !important;
+	left: 0 !important;
+}

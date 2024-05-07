@@ -1,0 +1,60 @@
+﻿@using Umbraco.Web.Models
+@using ALISS.ApiServices.ViewModels.Organisation
+@model OrganisationModel
+@{
+	DtConfiguration configNode = Umbraco.Web.Composing.Current.UmbracoContext.Content.GetAtRoot().First().DescendantOrSelfOfType(DtConfiguration.ModelTypeAlias) as DtConfiguration;
+
+	string title = !string.IsNullOrWhiteSpace(configNode.OrganisationActionsTitle)
+		? configNode.OrganisationActionsTitle
+		: "Actions";
+	string shareUrl = $"{Model.slug}/share";
+	string lastSearchUrl = "";
+	if (Request.UrlReferrer != null && Request.UrlReferrer.AbsolutePath.StartsWith("/services"))
+	{
+		lastSearchUrl = Request.Cookies["serviceSearchUrl"] != null ? Request.Cookies["serviceSearchUrl"].Value : "";
+	}
+	else
+	{
+		lastSearchUrl = Request.Cookies["orgSearchUrl"] != null ? Request.Cookies["orgSearchUrl"].Value : "";
+	}
+	bool editOrganisation = ViewBag.EditOrganisation != null
+		? (bool)ViewBag.EditOrganisation
+		: false;
+}
+
+<div class="aliss-organism aliss-component-master aliss-content-spacer hide-print">
+	<div class="aliss-component-master__contents">
+		<h2>@title</h2>
+		@configNode.OrganisationActionsCopy
+	</div>
+	<div class="aliss-component-master__links">
+        <ul class="aliss-icon-list aliss-icon-list--100">
+            @if (editOrganisation)
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--edit">
+                    <a title="Click here to edit this organisation" href="@ViewBag.ReturnUrl.ToString()">
+                        Edit Organisation
+                    </a>
+                </li>
+            }
+            <li class="aliss-icon-list__item aliss-icon-list__item--print">
+                <a title="Click here to print this organisation" href="javascript:window.print();">
+                    Print this organisation
+                </a>
+            </li>
+            <li class="aliss-icon-list__item aliss-icon-list__item--edit">
+                <a title="Click here to suggest a service" href="@ViewBag.SuggestUrl.ToString()">
+                    Suggest a Service
+                </a>
+            </li>
+            @if (!string.IsNullOrWhiteSpace(lastSearchUrl))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--back-arrow">
+                    <a href="@lastSearchUrl">
+                        Return to latest search results
+                    </a>
+                </li>
+            }
+        </ul>
+	</div>
+</div>

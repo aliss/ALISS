@@ -1,0 +1,30 @@
+﻿<div ng-controller="alissNestedCategoryPicker.editorController">
+	<div class="span4">
+		<select ng-model="model.primaryCategory" ng-change="selectPrimaryCategory(model.primaryCategory)">
+			<option value="">Select a Category</option>
+			<option ng-repeat="category in model.primaryCategories" value="{{category}}">{{category.name}}</option>
+		</select>
+	</div>
+	<div class="span4">
+		<select ng-model="model.secondaryCategory" ng-change="selectSecondaryCategory(model.secondaryCategory)">
+			<option value="">Select a Category</option>
+			<option ng-repeat="category in model.selectedPrimaryCategory.sub_categories" value="{{category}}">{{category.name}}</option>
+		</select>
+	</div>
+	<div class="span4">
+		<select ng-model="model.tertiaryCategory" ng-change="selectTertiaryCategory(model.tertiaryCategory)">
+			<option value="">Select a Category</option>
+			<option ng-repeat="category in model.selectedSecondaryCategory.sub_categories" value="{{category}}">{{category.name}}</option>
+		</select>
+	</div>
+	<div class="span12">
+		<div ng-repeat="result in model.value">
+			<div class="span1">
+				<span class="btn" ng-click="remove($index)">X</span>
+			</div>
+			<div class="span11" style="padding-left:5px;">
+				<span>{{result.name}}</span>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,42 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@{
+	ViewBag.Title = "Add to ALISS";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "DataInputOrganisationSummary", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form" }))
+			{
+				@Html.AntiForgeryToken()
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<div class="data-input-container--inner">
+							@Html.HiddenFor(h => h.OrganisationId)
+							<fieldset class="aliss-form__fieldset no-padding">
+								<legend class="aliss-form__legend">Summary</legend>
+								<h1 class="mb--0 mt--0">Summary</h1>
+								<p>Please review the information you have provided us with and edit any sections as needed prior to submitting for approval</p>
+
+								@Html.Partial("DataInputSummary/OrganisationSummary", Model)
+								@Html.Partial("DataInputSummary/MediaSummary", Model)
+							</fieldset>
+						</div>
+					</div>
+				</div>
+
+				@Html.Partial("_DataInputNavigation")
+			}
+		</div>
+	</div>
+</div>
+
+@section sidemenu {
+	@Html.Partial("_OrganisationSummaryMenu")
+}

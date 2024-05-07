@@ -1,0 +1,149 @@
+@model ALISS.ApiServices.ViewModels.Search.SearchViewModel
+@using ALISS.API.Models.Elasticsearch;
+@{
+    List<CommunityGroupElasticSearchModel> CommunityGroupsList = ViewBag.CommunityGroupsList;
+    bool communityGroupsSearched = !string.IsNullOrEmpty(Model.CommunityGroups);
+    List<string> SelectedCommunityGroups = string.IsNullOrEmpty(Model.CommunityGroups) ? new List<string>() : Model.CommunityGroups.Split(';').ToList();
+    List<CommunityGroupElasticSearchModel> InitialCommunityGroupsList;
+}
+
+@if (CommunityGroupsList.Count > 0)
+{
+    <fieldset id="search-community-groups" class="search-community-groups-primary aliss-form__group aliss-form__group--no-margin" data-form="search-community-groups">
+        <div class="aliss-accordion-container">
+            <div class="aliss-content-accordion__filter-header">
+                <button id="aliss-accordion-filter-by-community-groups-btn" class="aliss-content-accordion__trigger aliss-accordion__trigger--active @(communityGroupsSearched ? "" : "")" type="button" data-accordion-trigger="filterByCommunityGroups">
+                    Who
+                    <i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+                    <span class="sr-only">Click here to toggle the visibility of the community filter section</span>
+                </button>
+            </div>
+            <div id="display-selected-community-groups" class="aliss-form aliss-form--no-margin">
+                <button id="selected-community-groups-clear" class="aliss-form__clear-selected hide">Clear Who search</button>
+                <div class="aliss-form__selected-value-tag-container">
+                    @if (communityGroupsSearched)
+                    {
+                        foreach (var communityGroupLoop in SelectedCommunityGroups)
+                        {
+                            string communityGroup = communityGroupLoop.ToLower();
+                            <span id="selected-comm-groups" class="selected-comm-groups" hidden>@communityGroup</span>
+                        }
+
+                    }
+                </div>
+            </div>
+            <div class="aliss-content-accordion__content pt--8 aliss-accordion__content--active @(communityGroupsSearched ? "" : "")" id="filterByCommunityGroups" aria-hidden="true">
+                @if (CommunityGroupsList.Count > 6)
+                {
+                    InitialCommunityGroupsList = CommunityGroupsList.GetRange(0, 6);
+                    CommunityGroupsList.RemoveRange(0, 6);
+                }
+                else
+                {
+                    InitialCommunityGroupsList = CommunityGroupsList.GetRange(0, CommunityGroupsList.Count);
+                    CommunityGroupsList.Clear();
+                }
+                <div id="community-groups-display">
+                    @foreach (var communityGroup in InitialCommunityGroupsList)
+                    {
+                        <div class="aliss-form__checkbox aliss-form__checkbox--initial" id="communityGroup-@communityGroup.slug">
+                            <input id="checkbox-@communityGroup.slug" type="checkbox" data-name="communityGroup" value="@communityGroup.slug" class="aliss-form__input communityGroup-checkbox @(communityGroup.isrange ? "communityGroup-checkbox-range" : "")" />
+                            <label for="checkbox-@communityGroup.slug">@communityGroup.name (@communityGroup.count)</label>
+                            @if (communityGroup.sub_communitygroups.Count() > 0)
+                            {
+                                <fieldset id="@communityGroup.slug-communityGroups" class="aliss-form__select search-community-group-secondary hide">
+                                    @foreach (var communityGroups in communityGroup.sub_communitygroups)
+                                    {
+                                        <div class="aliss-form__checkbox" id="communityGroup-@communityGroups.slug">
+                                            <input id="checkbox-@communityGroups.slug" type="checkbox" data-name="communityGroups" value="@communityGroups.slug" class="aliss-form__input communityGroup-checkbox" />
+                                            <label for="checkbox-@communityGroups.slug">@communityGroups.name (@communityGroups.count)</label>
+                                            <br />
+                                            @if (communityGroups.sub_communitygroups.Count() > 0)
+                                            {
+                                                <fieldset id="@communityGroups.slug-communityGroupt" class="aliss-form__select search-community-group-tenary aliss-search-form-community-groups hide">
+                                                    @foreach (var communityGroupt in communityGroups.sub_communitygroups)
+                                                    {
+                                                        <div class="aliss-form__checkbox" id="communityGroup-@communityGroupt.slug">
+                                                            <input id="checkbox-@communityGroupt.slug" type="checkbox" data-name="communityGroupt" value="@communityGroupt.slug" class="aliss-form__input communityGroup-checkbox" />
+                                                            <label for="checkbox-@communityGroupt.slug">@communityGroupt.name (@communityGroupt.count)</label>
+                                                            <br />
+                                                        </div>
+
+                                                    }
+                                                </fieldset>
+                                            }
+                                        </div>
+
+                                    }
+                                </fieldset>
+                            }
+                            else if (communityGroup.isrange)
+                            {
+                                <div class="aliss-form__input-container mb--24" id="range-button-@communityGroup.slug" hidden>
+                                    <label>Input Age:</label>
+                                    <input id="range-@communityGroup.slug" type="number" class="aliss-form__input-numerical mb--16" />
+                                    <button id="button-@communityGroup.slug" class="btn btn--primary btn--submit" type="submit">Apply</button>
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <div id="full-primary-community-group-list" class="aliss-accordion__content">
+                        @foreach (var communityGroup in CommunityGroupsList)
+                        {
+                            <div class="aliss-form__checkbox aliss-form__checkbox--initial" id="communityGroup-@communityGroup.slug">
+                                <input id="checkbox-@communityGroup.slug" type="checkbox" data-name="communityGroup" value="@communityGroup.slug" class="aliss-form__input communityGroup-checkbox@(communityGroup.isrange ? "-range" : "")" />
+                                <label for="checkbox-@communityGroup.slug">@communityGroup.name (@communityGroup.count)</label>
+                                @if (communityGroup.sub_communitygroups.Count() > 0)
+                                {
+                                    <fieldset id="@communityGroup.slug-communityGroups" class="aliss-form__select search-community-group-secondary hide">
+                                        @foreach (var communityGroups in communityGroup.sub_communitygroups)
+                                        {
+                                            <div class="aliss-form__checkbox" id="communityGroup-@communityGroups.slug">
+                                                <input id="checkbox-@communityGroups.slug" type="checkbox" data-name="communityGroups" value="@communityGroups.slug" class="aliss-form__input communityGroup-checkbox" />
+                                                <label for="checkbox-@communityGroups.slug">@communityGroups.name (@communityGroups.count)</label>
+                                                <br />
+                                                @if (communityGroups.sub_communitygroups.Count() > 0)
+                                                {
+                                                    <fieldset id="@communityGroups.slug-communityGroupt" class="aliss-form__select search-community-group-tenary aliss-search-form-community-groups hide">
+                                                        @foreach (var communityGroupt in communityGroups.sub_communitygroups)
+                                                        {
+                                                            <div class="aliss-form__checkbox" id="communityGroup-@communityGroupt.slug">
+                                                                <input id="checkbox-@communityGroupt.slug" type="checkbox" data-name="communityGroupt" value="@communityGroupt.slug" class="aliss-form__input communityGroup-checkbox" />
+                                                                <label for="checkbox-@communityGroupt.slug">@communityGroupt.name (@communityGroupt.count)</label>
+                                                                <br />
+                                                            </div>
+                                                        }
+                                                    </fieldset>
+                                                }
+                                            </div>
+                                        }
+                                    </fieldset>
+                                }
+                                else if (communityGroup.isrange)
+                                {
+                                    <div id="range-button-@communityGroup.slug" hidden>
+                                        <label>Input Age:</label>
+                                        <input id="range-@communityGroup.slug" />
+                                        <button id="button-@communityGroup.slug" class="btn btn--primary btn--submit" type="submit">Apply</button>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    @if (CommunityGroupsList.Count > 0)
+                    {
+                        <div id="aliss-search-filter-list-toggle-Who" class="aliss-search-filter-list__toggle">
+                            <button class="aliss-accordion__trigger" data-accordion-trigger="full-primary-community-group-list">
+                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                <span class="sr-only">Click here to show more or less community filters</span>
+                            </button>
+                        </div>
+                    }
+                </div>
+                @Html.Hidden("CommunityGroups", Model.CommunityGroups)
+            </div>
+        </div>
+    </fieldset>
+}

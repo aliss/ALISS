@@ -1,0 +1,83 @@
+@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@using ALISS.Business.Enums;
+@{
+	ViewBag.Title = "Add to ALISS";
+	bool serviceSubmitted = Model.ServiceSubmitted;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted;
+	bool suggestion = ViewBag.SuggestedService;
+	bool isAdmin = ViewBag.IsAdmin;
+}
+
+@if (!serviceSubmitted)
+{
+	<div class="step-progress__panel__container">
+		<div class="aliss-grid aliss-grid__data-input">
+			<div class="aliss-content__wrap aliss-content__wrap--data-input">
+				<div class="aliss-content__primary">
+					<div class="data-input-container">
+						@Html.Partial("_DataInputProgress")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "DataInputSummary", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form" }))
+			{
+				@Html.AntiForgeryToken()
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<div class="data-input-container--inner">
+							@Html.HiddenFor(h => h.OrganisationId)
+							@Html.HiddenFor(h => h.ServiceId)
+							@Html.HiddenFor(h => h.ServiceSubmitted)
+							<fieldset class="aliss-form__fieldset no-padding">
+								<legend class="aliss-form__legend">Summary</legend>
+								<h1 class="mb--0 mt--0">Summary</h1>
+								<p>Please review the information you have provided us with and edit any sections as needed prior to submitting for approval</p>
+
+								@if (!serviceSubmitted && !organisationSubmitted)
+								{
+									@Html.Partial("DataInputSummary/OrganisationSummary", Model)
+								}
+
+								@Html.Partial("DataInputSummary/ServiceSummary", Model)
+								@Html.Partial("DataInputSummary/WhereSummary", Model)
+								@Html.Partial("DataInputSummary/CategoriesSummary", Model)
+								@Html.Partial("DataInputSummary/WhoSummary", Model)
+								@Html.Partial("DataInputSummary/AccessibilitySummary", Model)
+								@Html.Partial("DataInputSummary/MediaSummary", Model)
+							</fieldset>
+						</div>
+					</div>
+					@if(suggestion && serviceSubmitted && !isAdmin)
+					{
+                        <p>Please note: Any media images and video will not be published until the ALISS Team has approved them.</p>
+					}
+					@Html.Partial("_DataInputNavigation")
+				</div>
+			}
+		</div>
+		@if (!serviceSubmitted)
+		{
+			@Html.Partial("_Guidance")
+		}
+	</div>
+</div>
+
+@if (serviceSubmitted && !suggestion)
+{
+	@section sidemenu {
+		@Html.Partial("_ServiceSummaryMenu")
+	}
+}

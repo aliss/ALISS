@@ -1,0 +1,129 @@
+/** @format */
+
+.progress__panel {
+    position: relative;
+    // flex-grow: 1;
+    padding: 16px;
+    padding-bottom: 58px;
+    border: 1px solid $light-black;
+
+    @media (min-width: 768px) {
+        width: calc(33.33333% - 20px);
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
+
+    @media only screen and (max-width: 992px) {
+        width: 100%;
+    }
+
+    &__container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: flex-start;
+        -moz-column-gap: 30px;
+        column-gap: 30px;
+        margin: 1.875rem 0;
+    }
+
+    &__status {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 16px;
+        border: 2px solid;
+        border-radius: 50%;
+        padding: 24px;
+    }
+
+    i {
+        color: map-get($brand, aliss-dark-blue);
+    }
+
+    .btn {
+        position: absolute;
+        bottom: 16px;
+    }
+}
+
+.step-progress__panel__container {
+    // margin: 0px -20px 24px -20px;
+    // padding: 0px 20px 24px 20px;
+    margin: 0px 0px 24px 0px;
+    padding: 0px 0px 24px 0px;
+    border-bottom: 1px solid $light-black;  
+}
+.step-progress__panel {
+    position: relative;
+    flex-grow: 1;
+    // margin: -1.25rem;
+    // margin-bottom: 24px;
+    // padding: 16px 30px;
+    // border-bottom: 1px solid $light-black;
+    &__progress-bar {
+        position: relative;
+        display: block;
+        height: 16px;
+        background-color: #b5d3e9;
+        border-radius: 16px;
+        width: 75%;
+        @media (max-width: 768px) {
+			width: 100%;
+		}
+        &--inner {
+            display: block;
+            height: 16px;
+            border-radius: 16px;
+        }
+    }
+    &__progress {
+        display: block;
+        height: 16px;
+        width: 0%;
+        background-color: map-get($brand, aliss-blue);
+        border-radius: 16px;
+        animation: slide 0.5s forwards;
+        animation-delay: 1s;
+    }
+}
+
+.outcome__panel {
+    font-weight: 400;
+    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.25;
+    box-sizing: border-box;
+    margin-bottom: rem-calc(48);
+    padding: 35px;
+    border: 5px solid rgba(0,0,0,0);
+    text-align: center;
+
+    &--confirmation {
+        color: #fff;
+        background: #00703c;
+
+        &__title {
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 32px;
+            font-size: 2rem;
+            line-height: 1.09375;
+        }
+
+        &__body {
+            font-weight: 400;
+            font-size: 24px;
+            font-size: 1.5rem;
+            line-height: 1.0416666667;
+        }
+    }
+}
+
+@keyframes slide {
+    100% { width: 100%; }
+}

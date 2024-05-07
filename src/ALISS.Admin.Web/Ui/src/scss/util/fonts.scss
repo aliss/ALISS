@@ -1,0 +1,362 @@
+/** @format */
+
+// Sofia Pro (x11)
+@mixin sofia-pro-black() {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 900;
+	font-style: normal;
+}
+@mixin sofia-pro-bold() {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 700;
+	font-style: normal;
+}
+@mixin sofia-pro-extra-light($style) {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 200;
+	font-style: $style;
+}
+@mixin sofia-pro-light($style) {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 300;
+	font-style: $style;
+}
+@mixin sofia-pro-medium() {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 500;
+	font-style: normal;
+}
+@mixin sofia-pro-regular($style) {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 400;
+	font-style: $style;
+}
+@mixin sofia-pro-ultra-light($style) {
+	font-family: sofia-pro, sans-serif;
+	font-weight: 100;
+	font-style: $style;
+}
+
+// Sofia Pro Soft (x4)
+@mixin sofia-pro--soft-bold() {
+	font-family: sofia-pro-soft, sans-serif;
+	font-weight: 700;
+	font-style: normal;
+}
+@mixin sofia-pro--soft-light() {
+	font-family: sofia-pro-soft, sans-serif;
+	font-weight: 300;
+	font-style: normal;
+}
+@mixin sofia-pro--soft-medium() {
+	font-family: sofia-pro-soft, sans-serif;
+	font-weight: 500;
+	font-style: normal;
+}
+@mixin sofia-pro--soft-regular() {
+	font-family: sofia-pro-soft, sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+//  Typography
+
+// p Tags
+
+p,
+legend,
+label {
+	font-size: rem-calc(16);
+	line-height: rem-calc(30);
+	@include sofia-pro-regular(normal);
+}
+
+
+.txt {
+	&--center {
+		text-align: center;
+	}
+	&--left {
+		text-align: left;
+	}
+	&--right {
+		text-align: right;
+	}
+	&--italic {
+		@include sofia-pro-regular(italic);
+	}
+}
+
+// ul/ol Tags
+
+ul,
+ol {
+	li {
+		font-size: rem-calc(16);
+		@include sofia-pro-regular(normal);
+	}
+}
+
+// H Tags
+
+@for $i from 1 through 6 {
+	h#{$i} {
+		margin: rem-calc(0 0 15);
+		@include sofia-pro-bold();
+	}
+}
+
+.red {
+	color: map-get($brand, aliss-light-red);
+	a, &::before {
+		color: map-get($brand, aliss-light-red);
+	}
+	a {
+		&:not(.btn):not(.link) {
+			color: map-get($brand, aliss-light-red);
+			&:hover {
+				color: $white;
+			}
+		}
+	}
+}
+
+.aliss-icon-list {
+	&:not(:last-of-type) {
+		margin: rem-calc(0 0 30);
+	}
+
+	margin: 0;
+	padding: 0;
+
+	a {
+		@include aliss-a-hover();
+	}
+
+	&--inline {
+		display: inline-block;
+
+		li {
+			display: inline;
+
+			&:last-child {
+				margin-left: 20px;
+			}
+		}
+	}
+
+	&--thirds {
+		li:not(.show-print) {
+			display: inline;
+			margin-right: 32px;
+		}
+	}
+
+	&__item {
+		list-style-type: none;
+		padding-left: rem-calc(30);
+		position: relative;
+
+		a {
+			max-width: max-content;
+		}
+
+		&:not(:last-of-type) {
+			margin: rem-calc(0 0 15);
+		}
+
+		&::before {
+			content: '';
+			color: map-get($brand, aliss-dark-blue);
+			font-family: 'FontAwesome';
+			font-size: rem-calc(16);
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		&.red {
+			color: map-get($brand, aliss-light-red);
+
+			a, &::before {
+				color: map-get($brand, aliss-light-red);
+			}
+
+			a {
+				&:not(.btn):not(.link) {
+					color: map-get($brand, aliss-light-red);
+
+					&:hover {
+						color: $white;
+					}
+				}
+			}
+		}
+		// ICONS
+		&--circle-tick {
+			&::before {
+				content: '\f058';
+			}
+		}
+
+		&--circle-cross {
+			&::before {
+				content: '\f057';
+			}
+		}
+
+		&--website {
+			&::before {
+				content: '\f108';
+			}
+		}
+
+		&--telephone {
+			&::before {
+				content: '\f3cd';
+			}
+		}
+
+		&--email {
+			&::before {
+				content: '\f0e0';
+			}
+		}
+
+		&--trash {
+			&::before {
+				content: '\f1f8';
+			}
+		}
+
+		&--location {
+			&::before {
+				content: '\f3c5';
+			}
+		}
+
+		&--map {
+			&::before {
+				content: '\f5a0';
+			}
+		}
+
+		&--instagram {
+			&::before {
+				content: '\f16d';
+			}
+		}
+		&--facebook {
+			&::before {
+				content: '\f09a';
+			}
+		}
+
+		&--twitter {
+			&::before {
+				// content: '\f099';
+				content: '\e61b';
+			}
+		}
+
+		&--print {
+			&::before {
+				content: '\f02f';
+			}
+		}
+
+		&--save {
+			&::before {
+				content: '\f0c7';
+			}
+		}
+
+		&--share {
+			&::before {
+				content: '\f1e0';
+			}
+		}
+
+		&--back-arrow {
+			&::before {
+				content: '\f060';
+			}
+		}
+
+		&--search {
+			&::before {
+				content: '\f002';
+			}
+		}
+
+		&--edit {
+			&::before {
+				content: '\f303';
+			}
+		}
+
+		&--users {
+			&::before {
+				content: '\f0c0';
+			}
+		}
+
+		&--time {
+			&::before {
+				content: '\f254';
+			}
+		}
+
+		&--redirect {
+			&::before {
+				content: '\f5eb';
+			}
+		}
+
+		&--logout {
+			&::before {
+				content: '\f2f5';
+			}
+		}
+	}
+
+	&__icon {
+		position: absolute;
+		color: map-get($brand, aliss-dark-blue);
+		top: rem-calc(5);
+		left: 0;
+	}
+}
+
+.aliss-typography {
+	a {
+		@include aliss-a-hover();
+		&:not(.link):not(.btn) {
+			@include media('<=desktop') {
+				word-break: break-all;
+			}
+		}
+	}
+	ul {
+		margin: rem-calc(0 0 30 0);
+		padding: rem-calc(0);
+		li {
+			list-style-type: none;
+			padding-left: rem-calc(30);
+			position: relative;
+			&:not(:last-of-type) {
+				margin: rem-calc(0 0 15 0);
+			}
+			&::before {
+				content: '•';
+				color: map-get($brand, aliss-dark-blue);
+				// font-family: 'FontAwesome';
+				font-size: rem-calc(16);
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			margin: rem-calc(0);
+		}
+	}
+}

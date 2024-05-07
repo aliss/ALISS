@@ -1,0 +1,49 @@
+﻿@using ALISS.CMS.Extensions
+@using Umbraco.Web.PublishedModels
+@using ALISS.ApiServices.ViewModels.Organisation
+@using ALISS.ApiServices.ViewModels.Search
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<DtOrganisations>
+@{
+	Layout = "~/Views/Master.cshtml";
+	OrganisationSearchViewModel searchResults = ViewBag.SearchViewModel;
+
+	int pageSize = 10;
+	double pageCount = Math.Ceiling((double)searchResults.SearchModel.count / pageSize);
+}
+
+<main>
+
+	<section>
+		<div class="aliss-grid">
+			@if (searchResults.SearchModel.count > 0)
+			{
+				foreach (OrganisationModel organisation in searchResults.SearchModel.data)
+				{
+					<ul>
+						<li>
+							<a id="aliss-search-reults-organisation-link-@organisation.id" href="/organisations/@organisation.slug" class="aliss-component-master__contents__primary-link hide-print">
+								@organisation.name
+							</a>
+						</li>
+					</ul>
+				}
+
+				if (pageCount > 1)
+				{
+					var next_page = searchResults.Page + 1;
+
+					if (searchResults.Page != pageCount)
+					{
+						<a href="?page=@next_page" class="aliss-pagination-next">
+							Next<span class="sr-only"> Page</span>
+						</a>
+					}
+				}
+			}
+		</div>
+	</section>
+</main>
+
+@section Metadata
+{
+}

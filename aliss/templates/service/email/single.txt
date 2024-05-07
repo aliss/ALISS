@@ -1,5 +1,0 @@
-aliss.org
-
-Someone has shared an ALISS service with you: {{ service.name }} by {{ service.organisation.name }}
-
-{{ protocol }}://{{ domain }}{% url 'service_detail' pk=service.pk %}

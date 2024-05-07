@@ -1,0 +1,45 @@
+
+
+{% macro search_component(params) %}
+<div class="aliss-organism-search {{ params.component_classes }}">
+  <h2>{{ params.component_title | safe }}</h2>
+  <p>{{ params.component_text | safe }}</p>
+
+  <div class="aliss-organism-search__block">
+    {%- for form_params in params.form_params %}
+      <form class="aliss-search-form {{ form_params.form_classes }}" action="{{ form_params.form_action }}">
+        <fieldset>
+          <label for="aliss-search-{{ form_params.form_name }}">{{ form_params.form_label_text }}:</label>
+          <div class="aliss-organism-homepage-search__block__inner">
+            <input type="text" name="aliss-search-{{ form_params.form_name }}" id="aliss-search-{{ form_params.form_name }}" placeholder="{{ form_params.form_input_placeholder_text }}" value="">
+            <button {%- for attribute in form_params.form_submit_attributes %} {{attribute.attribute}}="{{attribute.value}}"{% endfor %} class="btn btn--primary" type="submit">Search</button>
+          </div>
+        </fieldset>
+      </form>
+    {% endfor %}
+  </div>
+</div>
+{% endmacro %}
+
+
+{# {{ search_component({
+  component_classes: '',
+  component_title: "How to add your organisation",
+  component_text: "Before you try adding your organisation, check if it is already listed on ALISS by searching below.",
+  form_params: [
+    {
+      form_name: "search-page",
+      form_action: "/",
+      form_classes: "",
+      form_label_text: "Search by organisation",
+      form_input_placeholder_text: "E.G. The Alliance",
+      form_submit_btn_text: "Search",
+      form_submit_attributes: [
+        {
+          attribute: 'test-attribute',
+          value: 'test-value'
+        }
+      ]
+    }
+  ]
+}) }} #}

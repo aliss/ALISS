@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <appSettings>
+    <add key="AzureBlobFileSystem.ContainerName:media" xdt:Locator="Match(key)" xdt:Transform="Remove" />
+    <add key="AzureBlobFileSystem.RootUrl:media" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureBlobFileSystem.ConnectionString:media" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureBlobFileSystem.MaxDays:media" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureBlobFileSystem.UseDefaultRoute:media" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+    <add key="AzureBlobFileSystem.UsePrivateContainer:media" xdt:Locator="Match(key)" xdt:Transform="Remove"/>
+  </appSettings>
+
+  <location path="media" xdt:Locator="Match(path)">
+    <system.webServer>
+      <handlers>
+        <remove name="StaticFileHandler" xdt:Locator="Match(name)" xdt:Transform="Remove" />
+        <add name="StaticFileHandler" path="*" verb="*" preCondition="integratedMode" type="System.Web.StaticFileHandler" xdt:Locator="Match(name)" xdt:Transform="Remove" />
+      </handlers>
+    </system.webServer>
+  </location>
+</configuration>

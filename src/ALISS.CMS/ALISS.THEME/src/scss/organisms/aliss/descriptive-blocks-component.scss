@@ -1,0 +1,28 @@
+/** @format */
+
+.aliss-component-descriptive-blocks {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin: rem-calc(0 0 20);
+	@include media('>=tablet') {
+		flex-direction: row;
+	}
+	> div {
+		flex: 0 1 100%;
+		@include media('>=tablet') {
+			flex: 0 1 48%;
+			margin: 0;
+		}
+		@include media('>=tablet') {
+			flex: 0 1 48%;
+			margin: 0;
+		}
+		&.aliss-content-spacer {
+			@include media('>=tablet') {
+				margin: 0;
+			}
+		}
+	}
+}

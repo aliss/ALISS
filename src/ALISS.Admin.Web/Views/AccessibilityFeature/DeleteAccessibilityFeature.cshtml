@@ -1,0 +1,45 @@
+﻿@model ALISS.Business.ViewModels.AccessibilityFeature.DeleteAccessibilityFeatureViewModel
+@using System.Configuration
+@{
+	ViewBag.Title = "Delete Accessibility Feature";
+}
+
+@if (Model.CanDelete == false)
+{
+	@Html.Partial("_WarningMessage")
+
+	<a class="btn btn--primary" href="#" onclick="history.back();">Back</a>
+}
+else
+{
+	<div class="aliss-warning">
+		<p>
+			Are you sure you want to delete the accessibility feature @Model.AccessibilityFeatureName?
+			@if (Model.RelatedServices.Count > 0)
+			{
+				@:This will remove this accessibility feature from any services that currently have it as an associated accessibility feature.
+			}
+		</p>
+	</div>
+
+	if (Model.RelatedServices.Count > 0)
+	{
+		<p>By removing this accessibility feature, the following services will no longer have this accessibility feature:</p>
+		<ul>
+			@foreach (var service in Model.RelatedServices)
+			{
+				<li>@Html.ActionLink(service.ServiceName, "Index", "DataInputSummary", new { id = service.ServiceId }, null)</li>
+			}
+		</ul>
+	}
+
+	using (Html.BeginForm("DeleteAccessibilityFeatureConfirm", "AccessibilityFeature", FormMethod.Post))
+	{
+		@Html.AntiForgeryToken()
+		@Html.Hidden("id", Model.AccessibilityFeatureId)
+		<div class="aliss-form__actions">
+			<button type="submit" class="btn btn--primary">Delete</button>
+			<a class="btn btn--primary" href="#" onclick="history.back();">Cancel</a>
+		</div>
+	}
+}

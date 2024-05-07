@@ -1,0 +1,152 @@
+.aliss-footer {
+	color: $white;
+	background: map-get($brand, aliss-dark-gray);
+	padding: rem-calc(20 0);
+	border-top: rem-calc(10) solid map-get($brand, quris);
+
+	&-component {
+		&__contents {
+			p {
+				&:not(:last-of-type) {
+					margin: rem-calc(0 0 20);
+				}
+
+				margin: rem-calc(0);
+			}
+		}
+
+		&__navigation {
+			ul {
+				margin: rem-calc(0 15 15 0);
+				padding: 0;
+				flex: 0 1 auto;
+
+				@include media('>desktop') {
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-start;
+				}
+
+				li {
+					@include media('<desktop') {
+						&:not(:last-of-type) {
+							margin: rem-calc(0 0 15 0);
+						}
+					}
+
+					list-style: none;
+
+					a {
+						color: map-get($brand, aliss-light-teal);
+						text-decoration: none;
+						transition: 0.5s all ease;
+						position: relative;
+						top: 0;
+					}
+				}
+
+				&.socials {
+					@include media('>desktop') {
+						display: flex;
+						flex-direction: row;
+						justify-content: flex-start;
+						margin-top: 15px;
+					}
+					@include media('<desktop') {
+						display: flex;
+						flex-direction: row;
+						justify-content: flex-start;
+						margin-top: 15px;
+					}
+				}
+			}
+
+			.navigation-footer-toggle {
+				@include media('>tablet') {
+					display: none;
+				}
+
+				i {
+					margin-left: rem-calc(15);
+				}
+
+				&.js-mobile-menu-footer-active {
+					i {
+						transform: rotate(180deg);
+					}
+				}
+			}
+
+			&__columns {
+				display: flex;
+				width: 100%;
+				@include media('<tablet') {
+					display: flex;
+					flex-wrap: wrap;
+					align-content: space-between;
+					width: 90%;
+				}
+				
+				
+			}
+
+			&__column {
+				.title {
+					font-size: 1rem;
+					font-weight: 400;
+				}
+
+				width: 25%;
+
+				@include media('<tablet') {
+					width: 50%;
+				}
+				@media (max-width: 767px) {
+					width: 100%;
+				  }
+				  
+			}
+
+			&__list {
+				display: flex;
+				flex-wrap: wrap;
+				margin-top: rem-calc(15);
+
+				@include media('<=tablet') {
+					display: none;
+
+					&.js-mobile-menu-footer-active {
+						display: block;
+					}
+				}
+
+				&__item {
+					list-style: none;
+					
+					flex: 0 1 auto;
+					display: inline-block !important;
+					margin-right: rem-calc(5);
+
+					:last-child {
+						margin-right: 0;
+						display: inline;
+						display: flex;
+						flex-direction: row;
+					}
+				}
+
+				& img {
+					display: inline;
+					max-height: 65px;
+			
+				}
+				@media (max-width: 768px) {
+					img {
+					  max-height: 40px;
+					}
+				  }
+				  
+			}
+		}
+	}
+}

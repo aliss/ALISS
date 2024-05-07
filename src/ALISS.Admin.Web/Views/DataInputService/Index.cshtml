@@ -1,0 +1,198 @@
+@model ALISS.Business.ViewModels.DataInput.ServiceViewModel
+@using ALISS.Business.Enums;
+@{
+	ViewBag.Title = "Add to ALISS";
+	bool submitted = ViewBag.Submitted ?? false;
+	bool serviceExists = ViewBag.ServiceExists ?? false;
+	bool suggested = Model.SummaryType == DataInputSummaryTypeEnum.SuggestedService;
+}
+
+@if (!submitted)
+{
+	<div class="step-progress__panel__container">
+		<div class="aliss-grid aliss-grid__data-input">
+			<div class="aliss-content__wrap aliss-content__wrap--data-input">
+				<div class="aliss-content__primary">
+					<div class="data-input-container">
+						@Html.Partial("_DataInputProgress")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "DataInputService", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form", onsubmit = "handleSubmit()" }))
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(h => h.OrganisationId)
+				@Html.HiddenFor(h => h.ServiceId)
+				@Html.HiddenFor(h => h.SummaryType)
+
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<fieldset class="aliss-form__fieldset no-padding">
+							<legend class="aliss-form__legend">Service</legend>
+							<h1 class="mb--0 mt--0">Service</h1>
+							<p class="mb--32">Please provide details about the service.</p>
+
+							<div class="mb--32">
+								@Html.ALISSTextBox(m => m.ServiceName, checkbox: Html.ALISSInnerCheckbox(m => m.UseOrganisationName))
+								@Html.HiddenFor(h => h.organisationModel.OrganisationName)
+							</div>
+
+							@if (!serviceExists && !suggested)
+							{
+								<fieldset class="aliss-form__group aliss-form__group--radio">
+									<legend class="aliss-form__label">Do you want to claim this service?</legend>
+									<span>You don't need to claim this service if you have claimed the organisation.</span>
+									<div class="details-container mb--16">
+										<div class="aliss-details__header">
+											<a class="aliss-details__trigger" data-accordion-trigger="details0">
+												<i class="fas fa-caret-right"></i>
+												Why should I claim?
+											</a>
+										</div>
+										<div class="aliss-details__content" id="details0">
+											<div class="aliss-details__inner">
+												<p>
+													If you claim information on ALISS this means that you have taken responsibility for
+													managing that information by keeping it up to date and accurate. You also have the
+													chance to appoint Managers and share the workload of maintaining information on ALISS.
+													Only you and your approved Managers will have access to editing this information unless
+													a member of the ALISS team is required.
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="aliss-form__radio">
+										@Html.RadioButtonFor(m => m.ServiceRepresentative, true, new { id = "ServiceRepresentative-Yes" })
+										@Html.Label("ServiceRepresentative-Yes", "Yes")
+									</div>
+									<div class="aliss-form__radio">
+										@Html.RadioButtonFor(m => m.ServiceRepresentative, false, new { id = "ServiceRepresentative-No" })
+										@Html.Label("ServiceRepresentative-No", "No")
+									</div>
+								</fieldset>
+							}
+
+							<div id="service-representative-info" aria-hidden="true" class="hide">
+								@Html.ALISSTextBox(m => m.ServiceRepresentativeRole)
+								@Html.ALISSTextBox(m => m.ServiceRepresentativeName)
+								@Html.ALISSTextBox(m => m.ServiceRepresentativePhone)
+
+								<p>By requesting to claim this service, I agree that:</p>
+								<ul>
+									<li>
+										I have the authority and knowledge to keep the information up to date on ALISS.
+									</li>
+									<li>
+										I am the ALISS Claimed user and lead contact for this information listed on ALISS.
+									</li>
+									<li>
+										I am responsible for keeping all current and any further information added to this listing up to date.
+									</li>
+									<li>
+										I am responsible for approving or declining any further requests by ALISS users to help manage this information, they will become Managers and help keep the information up to date.
+									</li>
+									<li>
+										The ALISS Team decision is final.
+									</li>
+								</ul>
+
+								@*<p><b>Before you add the service please read our the data standard (required)</b></p>
+
+									<span id='serviceterms' class="btn btn--primary">Data Standard</span><br /><br />
+
+									@{
+										// Please replace string with webconfig setting PDR url
+										var PDF = ViewBag.DataStandardsUrl;
+										var PDFUrl = "https://docs.google.com/viewer?url=" + @PDF + "&embedded=true";
+									}
+
+									<div id="service-terms-pdf-box">
+										@Html.Partial("_PDFTemplate", new ViewDataDictionary(this.ViewData) {
+										{ "url", @PDFUrl }})
+									</div>*@
+
+								@Html.ALISSCheckbox(m => m.ServiceAcceptDataStandards)
+								<hr class="content__divider" />
+								<br />
+							</div>
+
+							@Html.ALISSTextArea(m => m.ServiceSummary, "Please enter a minimum of 50 and a maximum of 200 characters.", "aliss-form__summary", 2, true, true)
+
+							<div id="ServiceDescriptionWrapper">
+								@Html.ALISSRTEditor(m => m.ServiceDescription, "Please enter a minimum of 50 characters and a maximum of 1000 characters, including spaces and punctuation.", 1000, true, true, checkbox: Html.ALISSInnerCheckbox(m => m.UseOrganisationDescription))
+							</div>
+
+							@Html.HiddenFor(h => h.organisationModel.OrganisationDescription)
+
+							<hr class="content__divider" />
+
+							<fieldset class="aliss-form__fieldset no-padding">
+								<legend class="aliss-form__legend">Contact Details</legend>
+								<h2 class="mt--48">Contact Details</h2>
+								<p>Please add any contact details for the organisation that provides your service. You must provide at least one way of contacting your organisation.</p>
+								@Html.ALISSInnerCheckbox(m => m.UseAllOrganisationContactDetails, false)
+								<br />
+
+								<div class="mb--32">
+									@Html.ALISSTextBox(m => m.PhoneNumber, checkbox: Html.ALISSInnerCheckbox(m => m.UseOrganisationPhoneNumber))
+									@Html.HiddenFor(h => h.organisationModel.PhoneNumber, new { @id = "OrganisationPhoneNumber" })
+								</div>
+
+								<div class="mb--32">
+									@Html.ALISSTextBox(m => m.Email, checkbox: Html.ALISSInnerCheckbox(m => m.UseOrganisationEmail))
+									@Html.HiddenFor(h => h.organisationModel.Email, new { @id = "OrganisationEmail" })
+								</div>
+
+								<div class="mb--32">
+									@Html.ALISSTextBox(m => m.Url, checkbox: Html.ALISSInnerCheckbox(m => m.UseOrganisationUrl))
+									@Html.HiddenFor(h => h.organisationModel.Url, new { @id = "OrganisationUrl" })
+								</div>
+								<div class="mb--32">
+									@Html.ALISSTextBox(m => m.Facebook, checkbox: Html.ALISSInnerCheckbox(m => m.UseOrganisationFacebook))
+									@Html.HiddenFor(h => h.organisationModel.Facebook, new { @id = "OrganisationFacebook" })
+								</div>
+								<div class="mb--32">
+									@Html.ALISSTextBox(m => m.Twitter, checkbox: Html.ALISSInnerCheckbox(m => m.UseOrganisationTwitter))
+									@Html.HiddenFor(h => h.organisationModel.Twitter, new { @id = "OrganisationTwitter" })
+								</div>
+								<div class="mb--32">
+									@Html.ALISSTextBox(m => m.Instagram, checkbox: Html.ALISSInnerCheckbox(m => m.UseOrganisationInstagram))
+									@Html.HiddenFor(h => h.organisationModel.Instagram, new { @id = "OrganisationInstagram" })
+								</div>
+								<div class="mb--32">
+									@Html.ALISSTextBox(m => m.ReferralUrl)
+								</div>
+							</fieldset>
+						</fieldset>
+					</div>
+
+					@Html.HiddenFor(m => m.Slug)
+					<input type="hidden" id="SlugDisplay" value="" />
+
+					@if (Model.SummaryType == DataInputSummaryTypeEnum.ServiceReview)
+					{
+						@Html.Partial("_ReviewNavigation")
+					}
+					else
+					{
+						@Html.Partial("_DataInputNavigation")
+					}
+				</div>
+			}
+		</div>
+		@Html.Partial("_Guidance")
+	</div>
+</div>

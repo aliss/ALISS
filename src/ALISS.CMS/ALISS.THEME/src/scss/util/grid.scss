@@ -1,0 +1,278 @@
+/** @format */
+
+html {
+	background: map-get($brand, aliss-dark-gray);
+}
+
+main {
+	> section {
+		padding: rem-calc(30 0);
+		@include media('>=tablet') {
+			padding: rem-calc(50 0);
+		}
+	}
+}
+
+h1 {
+	font-size: rem-calc(32);
+}
+
+h2 {
+	font-size: rem-calc(28);
+}
+
+h3 {
+	font-size: rem-calc(24);
+}
+
+h4 {
+	font-size: rem-calc(20);
+}
+
+h5 {
+	font-size: rem-calc(18);
+}
+
+h6 {
+	font-size: rem-calc(16);
+}
+
+// Standard grid
+.aliss-grid {
+	display: block;
+	margin: 0 auto;
+	max-width: $global-width;
+	padding: rem-calc(0 15); 
+}
+
+// Standard component spacer
+.aliss-content-spacer {
+	&:not(:last-of-type) {
+		margin: rem-calc(0 0 30);
+	}
+}
+
+// Standard flex alignment
+.aliss-content {
+	&__wrap {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		@include media('>=tablet') {
+			flex-direction: row;
+		}
+	}
+	&__header,
+	&__primary,
+	&__secondary,
+	&__secondary-top-level,
+	&__half {
+		flex: 0 1 auto;
+
+		// @media only screen and (max-width: 992px) {
+		// 	width: 100%;
+		// }
+		@include media('<=tablet') {
+			width: 100%;
+		}
+	}
+	@include media('>tablet') {
+		&__header {
+			width: 100%;
+		}
+		&__primary {
+			width: 69%;
+
+			&__search-results {
+				width: 75%;
+				padding-left: rem-calc(10);
+
+				@media only screen and (max-width: 1216px) {
+					width: 72%;
+				}
+
+				@media only screen and (max-width: 1090px) {
+					width: 70%;
+				}
+
+				@media only screen and (max-width: 1090px) {
+					width: 69%;
+				}
+
+
+				@media only screen and (max-width: 992px) {
+					width: 100%;
+				}
+			}
+
+			&__full-width {
+				width: 100%;
+			}
+		}
+		&__secondary {
+			width: 29%;
+
+			&__search-results {
+				width: 24%;
+				min-width: rem-calc(296);
+
+				@media only screen and (max-width: 992px) {
+					width: 100%;
+				}
+			}
+		}
+		&__secondary-top-level {
+			display: flex;
+			column-gap: rem-calc(16);
+			width: 100%;
+			margin-bottom: rem-calc(48);
+
+			.aliss-organism {
+				width: 50%;
+			}
+		}
+		&__half {
+			width: 49%;
+		}
+		&__third {
+			width: 33.3%;
+		}
+	}
+	@include media('<tablet') {
+		&__secondary-top-level {
+			margin-bottom: rem-calc(32);
+			.aliss-organism {
+				margin-bottom: rem-calc(16);
+			}
+		}
+	}
+	&__header {
+		@for $i from 1 through 6 {
+			h#{$i} {
+				margin: rem-calc(0 0 30);
+			}
+		}
+		a {
+			color: map-get($brand, aliss-dark-blue);
+			&:hover, &:focus {
+				color: $white !important;
+				background-color: map-get($brand, aliss-dark-blue);
+			}
+		}
+	}
+
+	&__header__container {
+		width: 100%;
+	}
+
+	&__primary {
+		&--push {
+			order: 2;
+		}
+	}
+	&__secondary {
+		&--pull {
+			order: 1;
+		}
+		> div {
+			&:not(:last-of-type) {
+				margin: rem-calc(0 0 30);
+			}
+		}
+	}
+}
+
+.hidden {
+	&--mobile {
+		@include media('<tablet') {
+			display: none;
+		}
+		display: block;
+	}
+	&--tablet {
+		@include media('>=tablet', '<=desktop') {
+			display: none;
+		}
+		display: block;
+	}
+	&--desktop {
+		@include media('>=desktop', '<=largedesktop') {
+			display: none;
+		}
+		display: block;
+	}
+	&--largedesktop {
+		@include media('>=largedesktop') {
+			display: none;
+		}
+		display: block;
+	}
+}
+
+.aliss-descriptive-icon {
+	position: absolute;
+	top: rem-calc(20);
+	right: rem-calc(20);
+	i {
+		color: map-get($brand, aliss-dark-blue);
+		font-size: rem-calc(30);
+	}
+}
+
+.aliss-content__header {
+	h1 {
+		span {
+			color: map-get($brand, aliss-dark-blue);
+		}
+	}
+	&__subtitle {
+		margin-top: 0;
+	}
+	.aliss-icon-list {
+		margin-bottom: rem-calc(30);
+	}
+}
+
+#srch {
+	.error {
+		padding: rem-calc(10);
+		margin: rem-calc(20 0 0);
+		background: map-get($brand, aliss-dark-red);
+		color: $white;
+		p {
+			text-align: left;
+		}
+	}
+}
+
+
+.no-margin {
+	margin-top: 0 !important;
+	margin-right: 0 !important;
+	margin-bottom: 0 !important;
+	margin-left: 0 !important;
+	margin: 0 !important;
+}
+
+.margin-bottom-1 {	
+	margin-bottom: rem-calc(5);
+}
+.margin-bottom-2 {	
+	margin-bottom: rem-calc(10);
+}
+.margin-bottom-3 {	
+	margin-bottom: rem-calc(20);
+}
+
+.no-padding {
+	padding-top: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+	padding: 0;
+}
+
+.hide {
+    display: none !important;
+}

@@ -1,0 +1,85 @@
+﻿@model ALISS.Business.ViewModels.DataInput.ContinueAddingViewModel
+@using ALISS.Business.Enums;
+@using System.Configuration;
+@{
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+			? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+			: false;
+}
+
+@foreach (var service in Model.UnsubmittedServices)
+{
+	double progressPercentage = @Math.Ceiling((double)service.CurrentStep / (double)ALISS.Business.Enums.DataInputStepsEnum.TotalSteps * 100);
+
+	<div class="progress__panel mb--24">
+		<h5>@service.ServiceName</h5>
+		<span><strong>Step @service.CurrentStep of @((int)DataInputStepsEnum.TotalSteps)</strong></span>
+		<div class="step-progress__panel__progress-bar mt--8 mb--16">
+			<div class="step-progress__panel__progress-bar--inner" style="width:@progressPercentage%">
+				<div class="step-progress__panel__progress"></div>
+			</div>
+		</div>
+		<p class="mb--0 mt--0">Provided by: @service.OrganisationName</p>
+		<p class="mb--16 mt--0">Last updated:  @service.LastUpdated.Date.ToString("dd/MM/yyyy")</p>
+		@if (enableMonsidoTracking)
+		{
+			switch (service.CurrentStep)
+			{
+			case (int)DataInputStepsEnum.OrganisationTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputOrganisation", new { id = service.OrganisationId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.ServiceTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputService", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.WhereTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputWhere", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.CategoriesTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputCategories", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.WhoTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputWho", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.AccessibilityTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputAccessibility", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.MediaTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputMedia", new { id = service.ServiceId, summaryType = DataInputSummaryTypeEnum.NotSubmitted }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.SummaryTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputSummary", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" })
+				break;
+			}
+		}
+		else
+		{
+			switch (service.CurrentStep)
+			{
+			case (int)DataInputStepsEnum.OrganisationTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputOrganisation", new { id = service.OrganisationId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.ServiceTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputService", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.WhereTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputWhere", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.CategoriesTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputCategories", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.WhoTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputWho", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.AccessibilityTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputAccessibility", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.MediaTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputMedia", new { id = service.ServiceId, summaryType = DataInputSummaryTypeEnum.NotSubmitted }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" });
+				break;
+			case (int)DataInputStepsEnum.SummaryTestStep:
+				@Html.ActionLink("Complete the form", "Index", "DataInputSummary", new { id = service.ServiceId }, new { @class = "btn btn--primary", @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Complete the form button', 'Navigate to incomplete data input form', 1);" })
+				break;
+			}
+		}
+	</div>
+}

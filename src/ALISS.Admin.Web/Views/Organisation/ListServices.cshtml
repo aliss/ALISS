@@ -1,0 +1,101 @@
+﻿@model ALISS.Business.ViewModels.Service.ServiceListingViewModel
+@using System.Configuration
+@{
+	ViewBag.Title = $"Services for {Model.OrganisationName}";
+}
+
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@*@using (Html.BeginForm("ListLocations", "Organisation", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+			{
+				<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+					Search
+				</label>
+				<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchLocation" />
+				<button class="btn btn--primary" type="submit">Search</button>
+			}*@
+	</div>
+	<div class="aliss-search__actions">
+		@Html.ActionLink("Add Service", "Index", "DataInputService", new { id = Guid.Empty }, new { @class = "btn btn--primary" })
+	</div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+	@Html.Partial("_SuccessMessage")
+}
+
+<div class="aliss-table-container">
+	<table class="aliss-table">
+		<thead class="aliss-table__head">
+			<tr class="aliss-table__row aliss-table__row--head">
+				<th class="aliss-table__header" scope="col">Name</th>
+				<th class="aliss-table__header" scope="col">Created By</th>
+				<th class="aliss-table__header" scope="col">Updated By</th>
+				<th class="aliss-table__header" scope="col">Linked Areas</th>
+				<th class="aliss-table__header" scope="col">Linked Locations</th>
+				<th class="aliss-table__header" scope="col">Published?</th>
+			</tr>
+		</thead>
+		@foreach (var service in Model.Services)
+		{
+			<tbody class="aliss-table__body">
+				<tr class="aliss-table__row aliss-table__row--body">
+					<td class="aliss-table__cell">
+						@if (service.OrganisationPublished && service.Published)
+						{
+							<a href="@(ViewBag.publicURL)services/@service.ServiceId">@service.Name</a>
+							<span class="d-block mt--16">
+								<i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputSummary", new { id = service.ServiceId }, new { @class = "" })
+							</span>
+						}
+						else
+						{
+							@service.Name
+							<span class="d-block mt--16">
+								<i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputSummary", new { id = service.ServiceId }, new { @class = "" })
+							</span>
+						}
+					</td>
+					<td class="aliss-table__cell">@($"{service.CreatedUserName} on {service.CreatedOn:dd/MM/yyyy}")</td>
+					<td class="aliss-table__cell">@(service.LastUpdatedUserId.HasValue ? $"{service.LastUpdatedUserName} on {service.LastUpdated:dd/MM/yyyy}" : "N/A")</td>
+					<td class="aliss-table__cell">@service.LinkedAreas</td>
+					<td class="aliss-table__cell">@service.LinkedLocations</td>
+					<td class="aliss-table__cell">@(service.Published ? "Yes" : "No")</td>
+				</tr>
+			</tbody>
+		}
+	</table>
+</div>
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+		</div>
+		@if (Model.TotalPages > 1)
+		{
+			<div class="aliss-pagination-component__wrapper__item">
+				<nav>
+					<ol>
+						@if (Model.Page > 1)
+						{
+							<li>
+								<a href="/Organisation/ListServices/@ViewBag.OrganisationId?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)" class="aliss-pagination-previous">Previous</a>
+							</li>
+						}
+						@if (Model.Page < Model.TotalPages)
+						{
+							<li>
+								<a href="/Organisation/ListServices/@ViewBag.OrganisationId?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)" class="aliss-pagination-next">Next</a>
+							</li>
+						}
+					</ol>
+				</nav>
+			</div>
+		}
+	</div>
+</div>
+
+@section sidemenu {
+	@Html.Partial("_OrganisationMenu")
+}

@@ -1,0 +1,368 @@
+/** @format */
+
+.aliss-menu {
+	background: map-get($brand, aliss-blue);
+	// width: rem-calc(230);
+	// min-width: rem-calc(230);
+	// max-width: rem-calc(230);
+
+	width: 300px;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    background-color: #1e7abd;
+    color: #333;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+	transition: all ease-in .3s;
+
+	@media only screen and (max-width: 1024px) {
+		visibility: hidden;
+		position: absolute;
+		z-index: 99;
+		left: -999px;
+	}
+
+	&--active {
+		visibility: visible;
+		left: 0;
+		width: 100%;
+
+		@media only screen and (max-width: 1024px) {
+			width: 33%;
+		}
+
+		@media only screen and (max-width: 768px) {
+			width: 50%;
+		}
+
+		@media only screen and (max-width: 480px) {
+			width: 100%;
+		}
+	}
+}
+
+.aliss-navigation-footer {
+
+	background: map-get($brand, aliss-footer-blue);
+	margin: rem-calc(-10);
+	padding: rem-calc(10);
+    // margin-left: -19%;
+    // margin-right: -10%;
+	// margin-bottom: -19%;
+	// padding-top: 5%;
+	// padding-left: 20%;
+
+	 
+}
+
+.aliss-menu-component {
+
+	&__logo {
+		width: 100%;
+		display: block;
+		padding: 10px 0px;
+		// padding: rem-calc(2);
+		// padding-right: rem-calc(16);
+		text-align: center;
+		border-bottom: 1px solid map-get($brand, aliss-blue-border);
+	}
+
+	&__title-text {
+		width: 196px;
+		text-align: left;
+	}
+
+	&__public {
+		// width: 90%;
+		display: block;
+		padding: rem-calc(15) rem-calc(20) rem-calc(15) rem-calc(20);
+		// text-align: center;
+		border-bottom: 1px solid map-get($brand, aliss-blue-border);
+
+		@media only screen and (max-width: 1024px) {
+            padding: 10px;
+        }
+	}
+
+	&__navigation {
+		padding: rem-calc(10);
+		// overflow: auto;
+		// display: inline-block;
+		// width: auto;
+		// height: calc(100vh - 108px);
+	}
+
+	&__navigation-title {
+		color: $white;
+		// text-transform: uppercase;
+		padding-bottom: rem-calc(4);
+		// margin-bottom: rem-calc(15);
+		margin-bottom: rem-calc(24);
+		display: block;
+		position: relative;
+		font-size: rem-calc(18);
+		// font-size: smaller;
+
+		&:before {
+			content: '';
+			display: block;
+			width: rem-calc(30);
+			// height: rem-calc(1);
+			height: rem-calc(3);
+			background-color: map-get($brand, aliss-blue-border );
+			position: absolute;
+			// bottom: 0;
+			bottom: -3px;
+			left: 0;
+			border-radius: rem-calc(18);
+		}
+	}
+
+	&__navigation-footer-list {
+		list-style-type: none;
+		margin: rem-calc(0 0 20 0);
+		padding: 0;
+		
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	.aliss-menu-component__navigation-item {
+		display: flex;
+		margin-top: 1px;
+	  }
+	  
+	.aliss-menu-component__navigation-footer-list {
+		text-align: left;
+		columns: 1; /* change this number to adjust the number of columns */
+		column-gap: 5px; /* change this value to adjust the gap between columns */
+	  }
+
+	.aliss-menu-component__navigation-link {
+		position: relative;
+	    display: grid;
+		width: 100%;
+	    text-decoration: none;
+
+		.fa, .fa-chevron-right {
+			font-size: rem-calc(12);
+			position: absolute;
+			right: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			display: inline-block;
+		}
+  
+	  img {
+		// max-height: 9em; /* change this value to match the height of the button */
+		max-height: 4em;
+		margin: 0;
+		grid-column: 1;
+	  }
+  
+	  h1 {
+		grid-column: 2;
+		font-size: 1rem;
+	  }
+	}
+
+	.aliss-menu-component__navigation-link__logo-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__navigation-list {
+		list-style-type: none;
+		margin: rem-calc(0 0 30 0);
+		padding: 0;
+	}
+
+
+	&__navigation-item {
+		list-style-type: none;
+		margin: rem-calc(10 0 20 0);
+		padding: 0;
+	}
+
+	&__navigation-link {
+		color: $white;
+		text-decoration: none;
+	}
+	
+}
+.aliss-admin {
+	.aliss-menu-component__navigation{
+		width: 100% !important;
+	}
+}
+
+.aliss-header {
+	border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+	display: flex;
+    // flex-direction: content;	
+	justify-content: space-between;
+
+    padding: 0px 48px;
+    background-color: #f7f7f9;
+    border-bottom: 2px solid #ededed;
+	align-items: center;
+
+	&__logo {
+		display: none;
+
+		img {
+			width: auto;
+			height: 5.4375rem;
+			margin: 0.3125rem 0;
+		}
+
+		a {
+			display: flex;
+			max-width: max-content;
+			text-decoration: none;
+			align-items: center;
+			color: map-get($brand, aliss-dark-blue);
+		}
+
+		@media only screen and (max-width: 1024px) {
+			display: block;
+		}
+	}
+
+	&__content {
+		// display: flex;
+		display: block;
+		justify-content: space-between;
+		flex-grow: 1;
+		align-items: center;
+	}
+
+	&__title-text {
+		display: inline-block;
+		font-size: 1.5rem;
+		font-weight: 500;
+		width: 250px;
+		
+	}
+
+	&__item-container {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&__accessibility-tools-container {
+		display: inline-flex;
+		text-align: justify;
+		padding: rem-calc(12);
+		color: $white;
+		background-color: #4C5C68;
+		border-radius: rem-calc(18);
+
+		.reachdeck-btn {
+			text-align: center !important;
+		}
+		button {
+			text-align: justify;
+			color: $white;
+			cursor: pointer;
+		}
+
+		i {
+			display: block;
+			margin: auto;
+			text-align: center;
+			font-size: rem-calc(24);
+		}
+	}
+
+	@media only screen and (max-width: 1240px) {
+		padding: 0px 24px;
+	}
+
+	@media only screen and (max-width: 1024px) {
+		display: block;
+		align-items: baseline;
+	}
+
+	@media only screen and (max-width: 480px) {
+		padding: 0px 16px 16px 16px;
+	}
+}
+
+.navigation-toggle {
+	display: none;
+	margin: 16px 0px;
+	@media only screen and (max-width: 1024px) {
+		display: block;
+	}
+
+	&__close {
+		padding: 15px 10px;
+		color: $white;
+		background: map-get($brand, aliss-footer-blue);
+		margin: 0;
+
+		button {
+			color: $white;
+		}
+	}
+}
+
+.lazy_loaded{
+	width: 100% ;
+}
+
+// .aliss-header-title {
+// 	padding: rem-calc(0 30);
+// }
+
+.img-icon {
+	display: inline;
+	max-height: 35px;
+
+}
+
+.aliss-user {
+	padding: rem-calc(20 15);
+	position: relative;
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+	cursor: pointer;
+
+	@media only screen and (max-width: 1024px) {
+		padding: 0px;
+	}
+
+	&:focus,
+	&:hover {
+		background-color: map-get($brand, aliss-dark-gray);
+	}
+
+	&__avatar {
+		width: rem-calc(40);
+		height: rem-calc(40);
+		background: map-get($brand, aliss-blue);
+		border-radius: 50%;
+		margin-right: rem-calc(15);
+		pointer-events: none;
+		color: $white;
+		line-height: 2.4;
+		text-align: center;
+
+		@media only screen and (max-width: 480px) {
+			margin: 0;
+		}
+	}
+
+	&__display {		
+		pointer-events: none;
+
+		@media only screen and (max-width: 480px) {
+			display: none;
+		}
+	}
+}

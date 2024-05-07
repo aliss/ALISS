@@ -1,0 +1,18 @@
+.acc-skip-link {
+	left: rem-calc(-9999);
+	padding: rem-calc(8);
+	position: absolute;
+	&:active,
+	&:focus {
+		left: rem-calc(16);
+		top: rem-calc(16);
+		z-index: 2;
+	}
+	&:focus {
+		background-color: #ffeb3b;
+		box-shadow: rem-calc(0 -2) #ffeb3b, rem-calc(0 4) #212b32;
+		color: #212b32;
+		outline: rem-calc(4) solid transparent;
+		text-decoration: none;
+	}
+}

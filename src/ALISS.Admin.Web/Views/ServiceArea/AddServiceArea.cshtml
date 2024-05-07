@@ -1,0 +1,31 @@
+﻿@model ALISS.Business.ViewModels.ServiceArea.EditServiceAreaViewModel
+@{
+	ViewBag.Title = "Add Service Area";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("AddServiceArea", "ServiceArea", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new service area</legend>
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSDisabledTextBox(m => m.Slug)
+		<div class="aliss-form__two-column">
+			@Html.ALISSTextBox(m => m.Code)
+			@Html.ALISSDropDown(m => m.Type, Model.ServiceAreaType)
+		</div>
+
+		@Html.HiddenFor(m => m.Slug)
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary">Save</button>
+		@Html.ActionLink("Cancel", "Index", "ServiceArea", null, new { @class = "btn btn--primary" })
+	</div>
+}

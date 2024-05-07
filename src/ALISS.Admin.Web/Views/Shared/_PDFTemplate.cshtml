@@ -1,0 +1,8 @@
+﻿@{
+	var title = (string)ViewData["title"];
+	var url = (string)ViewData["url"];
+}
+
+<div id="iframeContainer">
+	<iframe id="myIframe" src="@url" style="width:100%; height:500px;" frameborder="0"></iframe>
+</div>

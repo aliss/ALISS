@@ -1,0 +1,25 @@
+﻿@using Umbraco.Web.Models
+@using ALISS.ApiServices.ViewModels.Organisation
+@model OrganisationModel
+@{
+	DtConfiguration configNode = Umbraco.Web.Composing.Current.UmbracoContext.Content.GetAtRoot().First().DescendantOrSelfOfType(DtConfiguration.ModelTypeAlias) as DtConfiguration;
+
+	string title = !string.IsNullOrWhiteSpace(configNode.OrganisationImproveListingTitle)
+		? configNode.OrganisationImproveListingTitle
+		: "Can you help improve this listing?";
+	string improveUrl = $"{Model.id}/improve";
+
+	<div class="aliss-organism aliss-component-master aliss-content-spacer hide-print">
+		<div class="aliss-component-master__contents">
+			<h2>@title</h2>
+			@configNode.OrganisationImproveListingCopy
+		</div>
+		<div class="aliss-component-master__contents aliss-component-master__contents--claim-organisation">
+			<div class="aliss-component-master__buttons">
+				<a title="This will open in a new window" href="@improveUrl" target="_blank" class="btn btn btn--primary">
+					Let us know
+				</a>
+			</div>
+		</div>
+	</div>
+}

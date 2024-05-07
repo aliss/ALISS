@@ -1,0 +1,22 @@
+.aliss-label {
+
+    padding: rem-calc(5 15);
+    font-size: rem-calc(22);
+    font-weight: bold;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+
+    &--red {
+		color: $white;
+		background-color: map-get($brand, aliss-light-red);
+	}
+	&--green {
+		color: $white;
+		background-color: map-get($brand, aliss-light-green);
+	}	
+	&--yellow {
+		color: $black;
+		background-color: map-get($brand, aliss-yellow);
+	}
+}

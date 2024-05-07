@@ -1,0 +1,24 @@
+﻿@model ALISS.Business.ViewModels.Organisation.DeleteOrganisationViewModel
+@{
+	ViewBag.Title = "Delete Organisation: " + Model.OrganisationName;
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-warning">
+	<p>Are you sure you want to delete @Model.OrganisationName? All services and locations associated with this organisation will be deleted as well.</p>
+</div>
+
+@using (Html.BeginForm("DeleteOrganisationConfirm", "Organisation", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("id", Model.OrganisationId)
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary">Delete</button>
+		@Html.ActionLink("Cancel", "Index", "Organisation", null, new { @class = "btn btn--primary" })
+	</div>
+}

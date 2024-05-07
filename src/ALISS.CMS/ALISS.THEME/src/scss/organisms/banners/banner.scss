@@ -1,0 +1,59 @@
+/** @format */
+
+.govuk-phase-banner {
+	background: map-get($brand, aliss-dark-blue);
+}
+
+.covid-phase-banner {
+	background: $white;
+	border-bottom: 1px solid map-get($brand, aliss-light-gray);
+}
+
+.govuk-phase-banner,
+.covid-phase-banner {
+	color: $black;
+	&__content {
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+		padding: rem-calc(16 40 16 16);
+		@include media('>=tablet') {
+			padding: rem-calc(16 40 16 16);
+		}
+		position: relative;
+	}
+	a {
+		color: $white;
+	}
+	&__close {
+		cursor: pointer;
+		position: absolute;
+		top: rem-calc(10);
+		right: rem-calc(10);
+		font-size: rem-calc(25);
+		transition: 0.5s all ease;
+		&:hover {
+			transform: rotate(90deg);
+		}
+	}
+}
+
+.covid-phase-banner__content {
+	position: relative;
+	padding: rem-calc(16 40 16 108);
+	@include media('>=tablet') {
+		padding: rem-calc(16 40 16 108);
+	}
+	.govuk-tagRed {
+		position: absolute;
+		left: rem-calc(16);
+		top: rem-calc(16);
+		padding: rem-calc(3);
+		color: $white;
+		background: map-get($brand, aliss-dark-red);
+	}
+
+	p {
+		margin: 0;
+	}
+}

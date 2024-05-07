@@ -1,0 +1,36 @@
+﻿@model ALISS.Business.ViewModels.Location.EditLocationViewModel
+
+@{
+	ViewBag.Title = "Add Location";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("AddLocation", "Organisation", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new Location</legend>
+
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSTextBox(m => m.Address)
+		@Html.ALISSTextBox(m => m.City)
+		@Html.ALISSTextBox(m => m.Postcode)
+
+		@Html.HiddenFor(m => m.OrganisationId)
+	</fieldset>
+
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary">Save</button>
+		@Html.ActionLink("Cancel", "ListLocations", "Organisation", new { id = Model.OrganisationId }, new { @class = "btn btn--primary" })
+	</div>
+}
+
+@section sidemenu {
+	@Html.Partial("_OrganisationMenu")
+}

@@ -1,0 +1,39 @@
+.popover {
+    border: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+    position: absolute;
+    max-width: rem-calc(320);
+    min-width: rem-calc(200);
+    z-index: 3;
+}
+
+.aliss-popover {
+    position: relative;
+    background-color: $white;
+    padding: rem-calc(15);
+
+    &:before {
+        content: '';
+        width: rem-calc(9);
+        height: rem-calc(9);
+        border-left: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        border-top: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        background-color: $white;
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: rotate(45deg);
+    }
+
+    &__list {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    &__link {
+        display: block;
+        padding: rem-calc(15);
+        color: map-get($brand, aliss-dark-blue);
+
+    }
+}

@@ -1,0 +1,97 @@
+﻿@model ALISS.Business.ViewModels.Improvement.ImprovementListingViewModel
+@{
+	ViewBag.Title = "Suggested Improvements";
+}
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Total Results: <span>@Model.TotalCount</span></p>
+		</div>
+	</div>
+</div>
+
+<div class="aliss-table-container">
+	<table class="aliss-table">
+		<thead class="aliss-table__head">
+			<tr class="aliss-table__row aliss-table__row--head">
+				<th class="aliss-table__header" scope="col">Date Submitted</th>
+				<th class="aliss-table__header" scope="col">Organisation Name</th>
+				<th class="aliss-table__header" scope="col">Service Name</th>
+				<th class="aliss-table__header" scope="col">Resolved?</th>
+
+			</tr>
+		</thead>
+		@foreach (var improvement in Model.Improvements)
+		{
+			<tbody class="aliss-table__body">
+				<tr class="aliss-table__row aliss-table__row--body">
+					<td class="aliss-table__cell">@Html.ActionLink(improvement.CreatedOn.ToString("dd/MM/yyyy"), "ViewImprovement", "Improvement", new { id = improvement.ImprovementId }, null)</td>
+					<td class="aliss-table__cell">
+						@if (improvement.OrganisationId != null)
+						{
+							<a href="@(ViewBag.publicURL)organisations/@improvement.OrganisationId">@improvement.OrganisationName</a>
+							if (improvement.CanEditOrganisation)
+							{
+								<span class="d-block mt--16">
+									<i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputOrganisationSummary", new { id = improvement.OrganisationId }, new { @class = "" })
+								</span>
+							}
+						}
+						else
+						{
+							@improvement.OrganisationName
+						}
+					</td>
+
+					<td class="aliss-table__cell">
+						@if (improvement.ServiceId != null)
+						{
+							<a href="@(ViewBag.publicURL)services/@improvement.ServiceId">@improvement.ServiceName</a>
+							if (improvement.CanEditService)
+							{
+								<span class="d-block mt--16">
+									<i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputSummary", new { id = improvement.ServiceId }, new { @class = "" })
+								</span>
+							}
+						}
+						else
+						{
+							@improvement.ServiceName
+						}
+					</td>
+					<td class="aliss-table__cell">@(improvement.Resolved ? "Yes" : "No")</td>
+				</tr>
+			</tbody>
+		}
+	</table>
+</div>
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+		</div>
+		@if (Model.TotalPages > 1)
+		{
+			<div class="aliss-pagination-component__wrapper__item">
+				<nav>
+					<ol>
+						@if (Model.Page > 1)
+						{
+							<li>
+								<a href="/Improvement/Index?page=@(Model.Page - 1)" class="aliss-pagination-previous">Previous</a>
+							</li>
+						}
+						@if (Model.Page < Model.TotalPages)
+						{
+							<li>
+								<a href="/Improvement/Index?page=@(Model.Page + 1)" class="aliss-pagination-next">Next</a>
+							</li>
+						}
+					</ol>
+				</nav>
+			</div>
+		}
+	</div>
+</div>

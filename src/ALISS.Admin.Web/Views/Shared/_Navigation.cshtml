@@ -1,0 +1,324 @@
+@using ALISS.Admin.Web.Models
+@using System.Configuration
+<div id="aliss-admin-menu" class="aliss-menu">
+	<a title="Click here to skip to main content of this page" class="acc-skip-link" href="#main-content">
+		Skip to main content
+	</a>
+	@{
+		var baseUrldash = System.Configuration.ConfigurationManager.AppSettings["BasePublicSiteUrl"];
+		var addToAlissUrl = $"{baseUrldash.TrimEnd('/')}/add-to-aliss";
+		bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+			? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+			: false;
+	}
+
+	<div class="aliss-menu-component">
+		<div id="menu-toggle-close" class="navigation-toggle navigation-toggle__close">
+			<button role="button" title="Close navigation menu">
+				<i class="fas fa-times"></i>
+				<span class="sr-only">Click here to</span>Close<span class="sr-only">navigation menu</span>
+			</button>
+		</div>
+		<div class="aliss-menu-component__logo">
+			<a href="@baseUrldash" title="Click here to navigate to aliss.org" target="_self" class="aliss-menu-component__navigation-link aliss-menu-component__navigation-link__logo-link">
+				<img src="/Ui/dist/img/aliss-logo.png" alt="A Local Information System for Scotland (ALISS) logo" />
+				<div class="aliss-menu-component__title-text">A Local Information System for Scotland</div>
+			</a>
+		</div>
+		@{
+			var baseUrl = @System.Configuration.ConfigurationManager.AppSettings["BaseSiteUrl"];
+		}
+		<div class="aliss-menu-component__public">
+			<a href="@baseUrl" class="aliss-menu-component__navigation-link">
+				<span>
+					<i class="fas fa-tachometer-alt pr--8"></i>
+					My Dashboard
+				</span>
+				<i class="fas fa-chevron-right"></i>
+			</a>
+		</div>
+
+		<div class="aliss-menu-component__public">
+			<a href="@addToAlissUrl" class="aliss-menu-component__navigation-link">
+				<span>
+					<i class="fas fa-plus-circle pr--8" aria-hidden="true"></i>
+					Add to ALISS
+				</span>
+				<i class="fas fa-chevron-right"></i>
+			</a>
+		</div>
+
+		<nav class="aliss-menu-component__navigation mt--24">
+			<span class="aliss-menu-component__navigation-title"><strong>Management</strong></span>
+			<ul class="aliss-menu-component__navigation-list">
+				@if ((bool)ViewBag.IsAdmin == false)
+				{
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Organisation/AllOrganisations" title="Go to organisations" target="_self" class="aliss-menu-component__navigation-link">
+							All Organisations <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Organisation" title="Go to organisations" target="_self" class="aliss-menu-component__navigation-link">
+							My Organisations <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Service/AllServices" title="Go to service" target="_self" class="aliss-menu-component__navigation-link">
+							All Services <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Service" title="Go to My service" target="_self" class="aliss-menu-component__navigation-link">
+							My Services <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/ServiceReviews" title="Review my services" target="_self" class="aliss-menu-component__navigation-link">
+							Service Reviews <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+
+					if (enableMonsidoTracking)
+					{
+						<li class="aliss-menu-component__navigation-item">
+							<a id=""
+							   href="/AddToAliss?w=f"
+							   title="Go to unpublished forms"
+							   target="_self"
+							   class="aliss-menu-component__navigation-link"
+							   onclick="window.monsido_functions.trackEvent('Unpublished Forms', 'Unpublished Forms from Navigation', 'Navigate to Pick up where you left off', 1);">
+								Unpublished Forms <i class="fas fa-chevron-right"></i>
+							</a>
+						</li>
+					}
+					else
+					{
+						<li class="aliss-menu-component__navigation-item">
+							<a id="" href="/AddToAliss?w=f" title="Go to unpublished forms" target="_self" class="aliss-menu-component__navigation-link">
+								Unpublished Forms <i class="fas fa-chevron-right"></i>
+							</a>
+						</li>
+					}
+
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Claim/MyClaims" title="Go to My Claims" target="_self" class="aliss-menu-component__navigation-link">
+							My Claims <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Claim" title="Go to claims" target="_self" class="aliss-menu-component__navigation-link">
+							Claims <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Collection" title="Go to My Collections" target="_self" class="aliss-menu-component__navigation-link">
+							My Collections <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+                    <li class="aliss-menu-component__navigation-item">
+                        <a id="" href="/ServiceSuggestions" title="Go to Service Suggestions" target="_self" class="aliss-menu-component__navigation-link">
+                            Service Suggestions <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+				}
+
+				@if ((bool)ViewBag.IsAdmin)
+				{
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Organisation" title="Go to organisations" target="_self" class="aliss-menu-component__navigation-link">
+							Organisations <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Service" title="Go to service" target="_self" class="aliss-menu-component__navigation-link">
+							Services <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+
+					if (enableMonsidoTracking)
+					{
+						<li class="aliss-menu-component__navigation-item">
+							<a id=""
+							   href="/AddToAliss?w=f"
+							   title="Go to unpublished forms"
+							   target="_self"
+							   class="aliss-menu-component__navigation-link"
+							   onclick="window.monsido_functions.trackEvent('Unpublished Forms', 'Unpublished Forms from Navigation', 'Navigate to Pick up where you left off', 1);">
+								Unpublished Forms <i class="fas fa-chevron-right"></i>
+							</a>
+						</li>
+					}
+					else
+					{
+						<li class="aliss-menu-component__navigation-item">
+							<a id="" href="/AddToAliss?w=f" title="Go to unpublished forms" target="_self" class="aliss-menu-component__navigation-link">
+								Unpublished Forms <i class="fas fa-chevron-right"></i>
+							</a>
+						</li>
+					}
+
+					<li class="aliss-menu-component__navigation-item">
+                        <a id="" href="/ServiceReviews" title="Review my services" target="_self" class="aliss-menu-component__navigation-link">
+                            Service Reviews <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+
+                    <li class="aliss-menu-component__navigation-item">
+						<a id="" href="/ServiceReviews/Deprioritised" title="Go to deprioritised services" target="_self" class="aliss-menu-component__navigation-link">
+							Deprioritised Services <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Claim" title="Go to claims" target="_self" class="aliss-menu-component__navigation-link">
+							Claims <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/User" title="Go to users" target="_self" class="aliss-menu-component__navigation-link">
+							Users <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Improvement" title="Go to suggested improvements" target="_self" class="aliss-menu-component__navigation-link">
+							Suggested Improvements <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Collection" title="Go to My Collections" target="_self" class="aliss-menu-component__navigation-link">
+							My Collections <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+                    <li class="aliss-menu-component__navigation-item">
+                        <a id="" href="/ServiceSuggestions" title="Go to Service Suggestions" target="_self" class="aliss-menu-component__navigation-link">
+                            Service Suggestions <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+				}
+			</ul>
+
+			@if ((bool)ViewBag.IsAdmin)
+			{
+				<span class="aliss-menu-component__navigation-title"><strong>Reports</strong></span>
+				<ul class="aliss-menu-component__navigation-list">
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Report/ActivityReport" title="Go to activity report" target="_self" class="aliss-menu-component__navigation-link">
+							Activity Report <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Report/GetLocationReport" title="Go to location report" target="_self" class="aliss-menu-component__navigation-link">
+							Location Report <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+				</ul>
+				<span class="aliss-menu-component__navigation-title"><strong>Lookups</strong></span>
+				<ul class="aliss-menu-component__navigation-list">
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/AccessibilityFeature" title="Go to accessibility features" target="_self" class="aliss-menu-component__navigation-link">
+							Accessibility Features <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Category" title="Go to categories" target="_self" class="aliss-menu-component__navigation-link">
+							Categories <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/CommunityGroup" title="Go to who categories" target="_self" class="aliss-menu-component__navigation-link">
+							Who <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/ServiceArea" title="Go to service areas" target="_self" class="aliss-menu-component__navigation-link">
+							Service Areas <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a id="" href="/Elastic" title="Go to elastic management" target="_self" class="aliss-menu-component__navigation-link">
+							ElasticSearch Management <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+				</ul>
+				<span class="aliss-menu-component__navigation-title"><strong>Email</strong></span>
+				<ul class="aliss-menu-component__navigation-list">
+					<li class="aliss-menu-component__navigation-item">
+						<a href="/BulkEmail/EmailAllUsers" title="Email all users" target="_self" class="aliss-menu-component__navigation-link">
+							Email All Users <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+
+					<li class="aliss-menu-component__navigation-item">
+						<a href="/BulkEmail/EmailAllEditors" title="Email all editor users" target="_self" class="aliss-menu-component__navigation-link">
+							Email All Editor Users <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+
+					<li class="aliss-menu-component__navigation-item">
+						<a href="/BulkEmail/EmailAllClaimants" title="Email all claimed users" target="_self" class="aliss-menu-component__navigation-link">
+							Email All Claimed Users <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+				</ul>
+				<span class="aliss-menu-component__navigation-title"><strong>Export</strong></span>
+				<ul class="aliss-menu-component__navigation-list">
+					<li class="aliss-menu-component__navigation-item">
+						<a href="/Export/ExportAllUsers" title="Go to all users" target="_self" class="aliss-menu-component__navigation-link">
+							All Users <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+
+					<li class="aliss-menu-component__navigation-item">
+						<a href="/Export/ExportClaimedUsers" title="Go to claimed users" target="_self" class="aliss-menu-component__navigation-link">
+							Claimed Users <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+					<li class="aliss-menu-component__navigation-item">
+						<a href="/Export/ExportEditorUsers" title="Go to editor users" target="_self" class="aliss-menu-component__navigation-link">
+							Editor Users <i class="fas fa-chevron-right"></i>
+						</a>
+					</li>
+				</ul>
+			}
+
+			@{
+				FooterModel footer = (FooterModel)ViewBag.Footer;
+				if (footer != null && footer.Columns.Count() > 0)
+				{
+					<div class="aliss-navigation-footer">
+						@foreach (FooterColumn column in footer.Columns)
+						{
+							if (!string.IsNullOrWhiteSpace(column.Title))
+							{
+								<span class="aliss-menu-component__navigation-title"><strong>@column.Title</strong></span>
+							}
+							<ul class="aliss-menu-component__navigation-footer-list">
+								@foreach (FooterLink link in column.Links)
+								{
+									<li class="aliss-menu-component__navigation-item">
+										@if (link.Type == "link")
+										{
+											<a href="@link.Url" title="This will open in a new winodw" target="_blank" class="aliss-menu-component__navigation-link">
+												@link.Title
+											</a>
+										}
+										else
+										{
+											string linkTitle = $"{link.Title} (This will open in a new window)";
+											string linkClass = $"aliss-menu-component__navigation-link aliss-menu-component__navigation-link-{link.Type.ToLower().Replace(" ", "")}";
+
+											<a href="@link.Url" target="_blank" title="@linkTitle" class="@linkClass">
+												<img src="~/Ui/src/img/icon/@(link.Type.ToLower().Replace(" ", "")).svg" class="img-icon" alt="@link.Type" />
+											</a>
+										}
+									</li>
+								}
+							</ul>
+						}
+					</div>
+				}
+			}
+		</nav>
+	</div>
+</div>

@@ -1,0 +1,66 @@
+/** @format */
+
+@mixin aliss-link-hover($colour) {
+	&:not(.btn) {
+		&:hover {
+			color: $white;
+			background-color: map-get($brand, $colour);
+			box-shadow: rem-calc(0 0 0 4) map-get($brand, $colour);
+			text-decoration: none;
+			&::before {
+				color: $white;
+			}
+		}
+	}
+}
+
+.link {
+	display: inline-block;
+	width: auto;
+	padding: rem-calc(10 15);
+	text-align: left;
+	text-decoration: none;
+	transition: 0.5s all ease;
+	cursor: pointer;
+	&--icon {
+		color: map-get($brand, aliss-dark-blue);
+		padding: rem-calc(10 30);
+		position: relative;
+
+		&::before {
+			color: map-get($brand, aliss-dark-blue);
+			font-family: 'FontAwesome';
+			font-size: rem-calc(16);
+			position: relative;
+			left: rem-calc(-15);
+		}
+
+		&--edit {
+			position: relative;
+			&::before {
+				content: '\f303';
+			}
+			@include aliss-link-hover(aliss-dark-blue);
+		}
+
+		&--remove {
+			color: map-get($brand, aliss-dark-red);
+			&::before {
+				color: map-get($brand, aliss-dark-red);
+				content: '\f2ed';
+			}
+			@include aliss-link-hover(aliss-dark-red);
+		}
+	}
+}
+
+.aliss-service-by-link {
+	display: inline-block;
+	width: auto;
+	text-align: left;
+	text-decoration: none;
+	transition: 0.5s all ease;
+	color: map-get($brand, aliss-dark-blue);
+	cursor: pointer;
+	@include aliss-link-hover(aliss-dark-blue);
+}

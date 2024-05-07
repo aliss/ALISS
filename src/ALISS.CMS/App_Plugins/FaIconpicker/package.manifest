@@ -1,0 +1,19 @@
+{
+    propertyEditors: [{
+        alias: "faIcon",
+        name: "Font awesome Picker",
+		group: "Pickers",
+		icon: "icon-paper-plane",
+        editor: {
+            view: "~/App_Plugins/FaIconpicker/views/faIconPicker.html"
+        }
+    }],
+    javascript: [
+        "~/App_Plugins/FaIconpicker/controllers/faIconPicker.controller.js",
+		"~/App_Plugins/FaIconpicker/resources/faIconResources.js",
+        "~/App_Plugins/FaIconpicker/controllers/faIconPicker.dialog.controller.js"
+    ],
+	css: [
+		"~/App_Plugins/FaIconpicker/css/main.css"
+	]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "ALISS",
+  "test-content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi vel odio veniam velit hic nihil beatae, libero eveniet eum consectetur totam debitis ducimus deserunt distinctio impedit molestiae iure aliquam, quas!",
+  "palettes": [
+    {
+      "type": "Primary",
+      "colors": [
+        {
+          "color": "primary"
+        },
+        {
+          "color": "secondary"
+        }
+      ]
+    },
+    {
+      "type": "Additional",
+      "colors": [
+        {
+          "color": "success"
+        },
+        {
+          "color": "alert"
+        },
+        {
+          "color": "warning"
+        }
+      ]
+    },
+    {
+      "type": "Greyscale",
+      "colors": [
+        {
+          "color": "white"
+        },
+        {
+          "color": "light-gray"
+        },
+        {
+          "color": "medium-gray"
+        },
+        {
+          "color": "dark-gray"
+        },
+        {
+          "color": "black"
+        }
+      ]
+    }
+  ]
+}

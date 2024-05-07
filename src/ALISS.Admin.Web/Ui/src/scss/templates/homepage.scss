@@ -1,0 +1,81 @@
+/** @format */
+
+.aliss-organism-homepage-search {
+	@include media('<=desktop') {
+		margin: 0 auto;
+		max-width: $global-width;
+		padding: rem-calc(0 15);
+	}
+
+	position: relative;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin-top: 14px;
+	&__block {
+		flex: 0 1 auto;
+		padding: rem-calc(15);
+		width: 100%;
+		@include media('>=largedesktop') {
+			padding: rem-calc(30);
+			width: 30%;
+		}
+	}
+}
+
+.aliss-organism-homepage-search {
+	min-height: 60vh;
+	background-color: $white;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	&__block {
+		background: $white;
+		h1 {
+			font-size: rem-calc(28);
+			line-height: rem-calc(35);
+			@include media('>=desktop') {
+				font-size: rem-calc(40);
+				line-height: rem-calc(49);
+			}
+		}
+		h1,
+		p {
+			text-align: center;
+			span {
+				color: map-get($brand, aliss-dark-blue);
+			}
+		}
+		form {
+			legend {
+				margin: rem-calc(0 0 15);
+			}
+			label {
+				display: block;
+				margin: rem-calc(0 0 15);
+			}
+			input {
+				display: block;
+				height: rem-calc(45);
+				padding: rem-calc(5);
+				width: 100%;
+			}
+			fieldset {
+				background: map-get($brand, aliss-dark-gray);
+				padding: rem-calc(20);
+				div {
+					position: relative;
+				}
+			}
+			button {
+				position: absolute;
+				height: 100%;
+				top: 0;
+				right: 0;
+				width: max-content;
+			}
+		}
+	}
+}

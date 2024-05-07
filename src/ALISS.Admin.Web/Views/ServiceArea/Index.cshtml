@@ -1,0 +1,44 @@
+﻿@model ALISS.Business.ViewModels.ServiceArea.ServiceAreaListingViewModel
+@{
+	ViewBag.Title = "Service Area";
+}
+
+<div class="aliss-search">
+	<div class="aliss-search__filter"></div>
+	<div class="aliss-search__actions">
+		@Html.ActionLink("Add Service Area", "AddServiceArea", "ServiceArea", null, new { @class = "btn btn--primary" })
+	</div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+	@Html.Partial("_SuccessMessage")
+}
+
+<div class="aliss-table-container">
+	<table class="aliss-table">
+		<thead class="aliss-table__head">
+			<tr class="aliss-table__row aliss-table__row--head">
+				<th class="aliss-table__header" scope="col">Name</th>
+				<th class="aliss-table__header" scope="col">Type</th>
+				<th class="aliss-table__header" scope="col">Service Count</th>
+			</tr>
+		</thead>
+		@foreach (var serviceAreaType in Model.ServiceAreas)
+		{
+			<tbody class="aliss-table__body">
+				<tr class="aliss-table__row aliss-table__row--body">
+					<td class="aliss-table__cell">
+						@Html.ActionLink(serviceAreaType.Name, "EditServiceArea", "ServiceArea", new { id = serviceAreaType.ServiceAreaId }, null)
+					</td>
+					<td class="aliss-table__cell">
+						@serviceAreaType.Type
+					</td>
+					<td class="aliss-table__cell">
+						@serviceAreaType.ServiceAreaCount
+					</td>
+				</tr>
+			</tbody>
+		}
+	</table>
+</div>

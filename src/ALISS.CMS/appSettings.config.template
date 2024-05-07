@@ -1,0 +1,21 @@
+<appSettings>
+	<add key="AzureBlobFileSystem.ConnectionString:media" value="***SECRET***" />
+	<add key="AzureBlobFileSystem.ContainerName:media" value="media-dev" />
+	<add key="AzureBlobFileSystem.MaxDays:media" value="365" />
+	<add key="AzureBlobFileSystem.RootUrl:media" value="https://tacallncealisssaliv.blob.core.windows.net/" />
+	<add key="AzureBlobFileSystem.UseDefaultRoute:media" value="true" />
+	<add key="AzureBlobFileSystem.UsePrivateContainer:media" value="false" />
+	<add key="Elasticsearch:EnableDebugMode" value="true" />
+	<add key="Elasticsearch:Host" value="https://tac-allnce-aliss-es-gen3.es.uksouth.azure.elastic-cloud.com:9243/" />
+	<add key="Elasticsearch:IndexPrefix" value="dev-" />
+	<add key="Elasticsearch:Username" value="***SECRET***" />
+	<add key="Elasticsearch:Password" value="***SECRET***" />
+	<add key="Settings:AddOrganisationUrl" value="/AddToALISS" />
+	<add key="Settings:AdminApiBaseUrl" value="http://admin.aliss.local/api/" />
+	<add key="Settings:AdminBaseUrl" value="http://admin.aliss.local" />
+	<add key="Settings:AdminLoginUrl" value="/Account/Login?returnUrl=" />
+	<add key="Settings:ApiBaseUrl" value="http://api.aliss.local/v5/" />
+	<add key="Settings:EnableMonsidoTracking" value="false" />
+	<add key="Settings:EnableNewFilters" value="true" />
+	<add key="Settings:GoogleApiKey" value="***SECRET***" />
+</appSettings>

@@ -1,0 +1,31 @@
+{# Global variables #}
+  {% import "../include/globalVariables.njk" as GV %}
+  {% from GV.atoms + "atoms_a.njk" import a as a %}
+  {% from GV.atoms + "atoms_h1.njk" import h1 as h1 %}
+  {% from GV.atoms + "atoms_p.njk" import p as p %}
+  {% from GV.atoms + "atoms_img.njk" import img as img %}
+{# Global variables #}
+
+<header class="aliss-header">
+    <div class="aliss-header-title">
+        <h1>Title Page</h1>
+    </div>
+    <button class="aliss-user" data-popover="user-popover">
+        <span class="aliss-user__avatar">
+            <span class="fas fa-user" aria-hidden="true"></span>
+        </span>
+        <span class="aliss-user__display">username@email.com</span>
+    </button>
+
+    <div class="hide" id="user-popover">
+        <div class="aliss-popover">
+            <ul class="aliss-icon-list aliss-icon-list--100">
+                <li class="aliss-icon-list__item aliss-icon-list__item--logout">
+                    <a id="aliss-logout" href="tel:+441414040239" title="Click here to log out">
+                        Log Out
+                    </a>
+                </li>
+            </ul>
+        </div>        
+    </div>
+</header>

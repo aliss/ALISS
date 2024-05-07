@@ -1,0 +1,49 @@
+/** @format */
+
+.aliss-nested-accordion {
+
+    &__trigger {
+        display: inline-block;
+        position: relative;
+        margin-bottom: 5px;
+        font-size: rem-calc(20);
+        color: #1d70b8;
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {                    
+            text-decoration: underline;
+        }
+
+        i {
+            pointer-events: none;
+        }
+
+        &--active {
+            i {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    &__header {
+        position: relative;
+    }
+
+    &__content {
+        display: none;
+		margin-top: rem-calc(16);
+        
+		&--active {
+            display: block;
+        }
+    }
+
+    &__label {
+        font-weight:bold;
+    }
+}
+
+.aliss-nested-accordion__header .aliss-accordion__trigger--active > i {
+    transform: rotate(90deg);
+}

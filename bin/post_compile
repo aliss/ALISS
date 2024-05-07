@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -eo pipefail
-
-# The post_compile hook is run by heroku-buildpack-python
-# Work around for Heroku not keeping extracted data
-echo "-----> Running post-compile hook"
-python manage.py extract_geodata
-echo "-----> Post-compile done"

@@ -1,0 +1,25 @@
+/** @format */
+
+.aliss-component-signup {
+
+	label {
+		display: block;
+		margin: rem-calc(0 0 15);
+	}
+	form {
+		display: flex;
+		flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+		div {
+			flex: 0 1 auto;
+			width: 100%;
+			&:not(:last-of-type) {
+				margin: rem-calc(0 0 15 0);
+				@include media('>=tablet') {
+					width: 49%;
+				}
+			}
+		}
+	}
+}

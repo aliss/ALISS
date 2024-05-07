@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<security xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <services>
+    <service prefix="media/" name="CloudImageService" type="ImageProcessor.Web.Services.CloudImageService, ImageProcessor.Web" xdt:Locator="Match(prefix, name, type)" xdt:Transform="Remove" />
+    <service prefix="media/" name="CloudImageService" type="ImageProcessor.Web.Services.CloudImageService, ImageProcessor.Web" xdt:Locator="Match(prefix, name, type)" xdt:Transform="InsertIfMissing">
+      <settings xdt:Transform="InsertIfMissing">
+        <setting key="Container" value="media-dev" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+        <setting key="MaxBytes" value="8194304" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+        <setting key="Timeout" value="30000" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+        <setting key="Host" value="https://tacallncealisssaliv.blob.core.windows.net/" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+      </settings>
+    </service>
+  </services>
+</security>

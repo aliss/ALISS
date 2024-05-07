@@ -1,0 +1,27 @@
+﻿@model dynamic
+@using ALISS.Business.Enums;
+@{
+	int currentStep = (int)ViewBag.CurrentStep;
+	Guid serviceId = ViewBag.ServiceId == null ? Guid.Empty : Guid.Parse(ViewBag.ServiceId);
+}
+
+<div class="aliss-form__step-title-container__skip-btn">
+	@if (currentStep != (int)DataInputStepsEnum.OrganisationTestStep)
+	{
+		switch (currentStep)
+		{
+		case (int)DataInputStepsEnum.WhoTestStep:
+			@Html.ActionLink("Skip this step", "Index", "DataInputAccessibility", new { id = serviceId }, new { @class = "skip-btn" });
+			<i aria-hidden="true" class="fas fa-arrow-right"></i>
+			break;
+		case (int)DataInputStepsEnum.AccessibilityTestStep:
+			@Html.ActionLink("Skip this step", "Index", "DataInputMedia", new { id = serviceId, summaryType = DataInputSummaryTypeEnum.NotSubmitted }, new { @class = "skip-btn" });
+			<i aria-hidden="true" class="fas fa-arrow-right"></i>
+			break;
+		case (int)DataInputStepsEnum.MediaTestStep:
+			@Html.ActionLink("Skip this step", "Index", "DataInputSummary", new { id = serviceId }, new { @class = "skip-btn" });
+			<i aria-hidden="true" class="fas fa-arrow-right"></i>
+			break;
+		}
+	}
+</div>

@@ -1,0 +1,98 @@
+@model ALISS.Business.ViewModels.DataInput.AccessibilityViewModel
+@using ALISS.Business.Enums;
+@{
+	ViewBag.Title = "Add to ALISS";
+	bool submitted = ViewBag.Submitted ?? false;
+}
+
+@if (!submitted)
+{
+	<div class="step-progress__panel__container">
+		<div class="aliss-grid aliss-grid__data-input">
+			<div class="aliss-content__wrap aliss-content__wrap--data-input">
+				<div class="aliss-content__primary">
+					<div class="data-input-container">
+						@Html.Partial("_DataInputProgress")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "DataInputAccessibility", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form" }))
+			{
+				@Html.AntiForgeryToken()
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<div class="data-input-container--inner">
+							@Html.HiddenFor(h => h.OrganisationId)
+							@Html.HiddenFor(h => h.ServiceId)
+							@Html.HiddenFor(h => h.SummaryType)
+
+							<fieldset class="aliss-form__fieldset no-padding">
+								<legend class="aliss-form__legend">Accessibility</legend>
+								<div class="aliss-form__step-title-container">
+									<h1 class="mb--0 mt--0">Accessibility</h1>
+									@if (!submitted)
+									{
+										@Html.Partial("_DataInputSkip")
+									}
+								</div>
+								<p class="mb--32">If this service has any particular features that support people while accessing your service please select them below and provide some details about them.</p>
+								<p>Please select the access features that this service provides (optional)</p>
+								<div data-accordion-single-select="accessibility-locations">
+									@foreach (var location in Model.ServiceLocations)
+									{
+										if (Model.ServiceLocations.Count > 1)
+										{
+											string locationId = location.LocationId.HasValue ? location.LocationId.ToString() : "virtual";
+											<div class="aliss-accordion-container mb--24">
+												<div class="aliss-content-accordion__header">
+													<button class="aliss-content-accordion__trigger aliss-content-accordion__single-trigger" type="button" data-accordion-trigger="@locationId">
+														@location.Title
+														<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+														<span class="hide">Toggle Accordion Content</span>
+													</button>
+												</div>
+												<div class="aliss-content-accordion__content aliss-content-accordion__single-content" id="@locationId">
+													@Html.Partial("../DataInputAccessibility/_LocationAccessibilityFeatures", location)
+												</div>
+											</div>
+										}
+										else
+										{
+											<h2>@location.Title</h2>
+											@Html.Partial("../DataInputAccessibility/_LocationAccessibilityFeatures", location)
+										}
+									}
+								</div>
+
+								@Html.HiddenFor(h => h.SelectedAccessibilityFeatures)
+							</fieldset>
+						</div>
+					</div>
+
+					@if (Model.SummaryType == DataInputSummaryTypeEnum.ServiceReview)
+					{
+						@Html.Partial("_ReviewNavigation")
+					}
+					else
+					{
+						@Html.Partial("_DataInputNavigation")
+					}
+				</div>
+			}
+		</div>
+		@Html.Partial("_Guidance")
+	</div>
+</div>

@@ -1,4 +1,4 @@
-# ALISS [![Build Status](https://travis-ci.org/aliss/ALISS.svg?branch=master)](https://travis-ci.org/aliss/ALISS)
+# ALISS
 
 > ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.
 
@@ -10,6 +10,7 @@ Embed ALISS search features on your own site with the [aliss.js plugin](https://
 
 - Production site: https://www.aliss.org
 - Search API endpoint (v4): https://www.aliss.org/api/v4/services/search/
+- Search API endpoint (v5): https://www.aliss.org/api/v5/services/search/
 - API docs: http://docs.aliss.org
 - API docs repo: https://github.com/aliss/Docs
 
@@ -17,43 +18,51 @@ Embed ALISS search features on your own site with the [aliss.js plugin](https://
 
 ### Requirements
 
-- Python 3
-- pip3
-- NPM (Node package manager)
-- See `requirements.txt` for pip packages
+- Visual Studio 2019+ or Visual Studio Code
+- .NET Framework 4.7.2
+- SQL Server
+- Node >=16.20.2
+- NPM >=8.19.4
 - See `package.json` for node packages
-- Elasticsearch >=6.1.3
-- Postgres >= 9.0
-- [Heroku toolbelt](https://devcenter.heroku.com/articles/heroku-cli) (only if deploying to Heroku)
+- Elasticsearch >=7.17.1
 
 ### Install steps
 
-1. Install requirements e.g. Python 3 https://www.python.org/downloads/.
-2. Clone repository https://help.github.com/en/articles/cloning-a-repository.
-3. If not installed download pip3 https://pip.pypa.io/en/stable/installing/.
-4. Use pip3 to install the dependencies in requirements.txt on MacOS this can be achieved with `pip3 install -r requirements.txt`.
-5. If not already installed download NPM https://www.npmjs.com/get-npm.
-6. Install the npm packages using command `npm i`.
-7. Run `gulp` to compile assets
-8. Run migrations e.g. `python3 manage.py migrate`
-9. Configure environment variables & seed data (see 'Configuring ALISS')
+These steps assume that you have the above packages installed.
 
-## Configuring ALISS
-To run the ALISS project it is necessary to setup the environment on your machine and import data. NB if you are using heroku / heroku toolbelt you may need to preface these commands with `heroku local:run` e.g. `heroku local:run python3 manage.py shell`.
+1. Clone repository https://help.github.com/en/articles/cloning-a-repository.
+2. Deploy both database to your SQL Server instance
+3. Install the npm packages using command `npm i` in `\ALISS\ALISS.Admin.Web\Ui`
+4. Run `gulp` to compile assets
+5. Install the npm packages using command `npm i` in `\ALISS\ALISS.CMS\ALISS.THEME`
+6. Run `gulp` to compile assets
+7. Copy `ALISS.Admin.Web\appSettings.config.template` to `ALISS.Admin.Web\appSettings.config`
+8. Update this file with your own configuration
+9. Copy `ALISS.API\appSettings.config.template` to `ALISS.API\appSettings.config`
+10. Update this file with your own configuration
+11. Copy `ALISS.CMS\appSettings.config.template` to `ALISS.CMS\appSettings.config`
+12. Update this file with your own configuration
+13. Copy `ALISS.CMS\connection.config.template` to `ALISS.CMS\connection.config`
+14. Update this file with your own configuration
+15. Update `ALISS.CMS\config\umbracoSettings.config` and set a valid email address for email notifications
+9. Set the startup project to `ALISS.Admin.Web`
+10. Open Package Manager Console and set the Default project to ALISS.Business
+11. run `Update-Databases` to make sure the admin database is up to date
+12. Add `admin.aliss.local` to IIS and to your hosts file, pointing to the `ALISS.Admin.Web` folder *
+13. Add `api.aliss.local` to IIS and to your hosts file, pointing to the `ALISS.API` folder *
+14. Add `cms.aliss.local` to IIS and to your hosts file, pointing to the `ALISS.CMS` folder *
+15. Build the entire solution
+16. Open the Umbraco backoffice by browsing to `http://cms.aliss.local/umbraco` Username: `admin@admin.com` Password: `1234567890` (please change this)
+17. Customise the content and configuration as you desire
+18. Browse to the admin site at `http://admin.aliss.local` Username: `admin` Password: `Changem3` (please change this)
+19. Go to the `Accessibility Features`, `What`, `Who`, and `Service Areas` pages under `Lookups` in the navigation
+20. In each of these pages, edit and save (no need to make a change) one item from each page, which will build the corresponding index (you can add and change these as you see fit)
+21. Go to the `ElasticSearch Management` page and rebuild the Organisation and Services indexes (this will generate empty indexes)
+22. Test the API is working by browsing to `http://api.aliss.local/swagger`
+23. Go to the public site at `http://cms.aliss.local`
 
-1. Create a hidden file `.env` this will store necessary environment variables.
-2. With the use of `.env.example` copy the contents and customise with the relevant information for your environment.
-3. Ensure elasticsearch server is running `systemctl start elasticsearch.service`
-4. Import the place name/postcode data with management command `python3 manage.py loaddata aliss/data/postcodes/postcodes.json.zip`.
-5. Import geo-boundary data with management command `python3 manage.py extract_geodata`.
-6. Create a super_user account for local admin privileges using command `python3 manage.py createsuperuser` inputting an email address and password as per the prompts.
+\* The site URLs can be anything you want, but the domain part (aliss.local) needs to be the same on all three sites to enable login between the admin and public sites.  You will also need to change the related appSettings values in the appSettings.config files.
 
-## Common Commands
-|Command|Description|Further Information|
-|-------|-----------|-------------------|
-|`heroku local -i Procfile.dev`|Start the local server for running the app at localhost:5000 in your browser.|https://docs.djangoproject.com/en/1.11/ref/django-admin/#runserver|
-|`heroku local:run python3 manage.py test`|Run the automated tests|https://docs.djangoproject.com/en/1.11/topics/testing/|
-|`heroku local:run python3 manage.py shell`|Run the Django shell|https://docs.djangoproject.com/en/1.11/ref/django-admin/#shell|
 
 ## Notes on data
 

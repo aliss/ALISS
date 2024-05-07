@@ -1,0 +1,226 @@
+@model ALISS.Business.ViewModels.Organisation.OrganisationListingViewModel
+@using System.Configuration
+@{
+	ViewBag.Title = (bool)ViewBag.IsAdmin ? "Organisations" : "My Organisations";
+	string sortIcon = (int)ViewBag.Descending == 1 ? "fa fa-sort-desc" : "fa fa-sort-asc";
+	string unpublished = Model.Unpublished ? "true" : "false";
+}
+
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@using (Html.BeginForm("Index", "Organisation", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+		{
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search
+			</label>
+			<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+			@Html.HiddenFor(m => m.Unpublished)
+			<button class="btn btn--primary" type="submit">Search</button>
+			if (!String.IsNullOrEmpty(Model.SearchTerm))
+			{
+				<div class="aliss-search__clear">
+					@Html.ActionLink("Clear Search", "Index", "Organisation", null, new { @class = "btn btn--primary" })
+				</div>
+			}
+		}
+	</div>
+	<div class="aliss-search__actions">
+		@if ((bool)ViewBag.IsAdmin && !Model.Unpublished)
+		{
+			<a class="btn btn--primary" href="/Organisation/Index?unpublished=true">View Unpublished Organisations</a>
+		}
+		else if ((bool)ViewBag.IsAdmin && Model.Unpublished)
+		{
+			<a class="btn btn--primary" href="/Organisation/Index">View All Organisations</a>
+		}
+	</div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+	@Html.Partial("_SuccessMessage")
+}
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>
+				Total Results: <span>@Model.TotalResults</span>
+			</p>
+		</div>
+	</div>
+</div>
+<div class="aliss-table-container">
+	<table class="aliss-table">
+		<thead class="aliss-table__head">
+			<tr class="aliss-table__row aliss-table__row--head">
+				<th class="aliss-table__header" scope="col">
+					@if (ViewBag.OrderBy.ToLower() == "organisationname")
+					{
+						<a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=organisationname&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Name</a>
+						<span class="@sortIcon"></span>
+					}
+					else
+					{
+						<a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=organisationname&descending=0")">Name</a>
+					}
+				</th>
+				@if ((bool)ViewBag.IsAdmin)
+				{
+					<th class="aliss-table__header" scope="col">Created By</th>
+				}
+				<th class="aliss-table__header" scope="col">
+					@if (ViewBag.OrderBy.ToLower() == "createdon")
+					{
+						<a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=createdon&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Created On</a>
+						<span class="@sortIcon"></span>
+					}
+					else
+					{
+						<a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=createdon&descending=1")">Created On</a>
+					}
+				</th>
+				@if ((bool)ViewBag.IsAdmin)
+				{
+					<th class="aliss-table__header" scope="col">Updated By</th>
+				}
+				<th class="aliss-table__header" scope="col">
+					@if (ViewBag.OrderBy.ToLower() == "updatedon")
+					{
+						<a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=updatedon&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Updated On</a>
+						<span class="@sortIcon"></span>
+					}
+					else
+					{
+						<a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=updatedon&descending=1")">Updated On</a>
+					}
+				</th>
+				@if ((bool)ViewBag.IsAdmin)
+				{
+					<th class="aliss-table__header" scope="col">Claimed By</th>
+				}
+				<th class="aliss-table__header" scope="col">
+					@if (ViewBag.OrderBy.ToLower() == "claimedon")
+					{
+						<a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=claimedon&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Claimed On</a>
+						<span class="@sortIcon"></span>
+					}
+					else
+					{
+						<a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=claimedon&descending=1")">Claimed On</a>
+					}
+				</th>
+				<th class="aliss-table__header" scope="col">Published?</th>
+			</tr>
+		</thead>
+		<tbody class="aliss-table__body">
+			@foreach (var organisation in Model.Organisations)
+			{
+				<tr class="aliss-table__row aliss-table__row--body">
+					<td class="aliss-table__cell">
+						@if (!organisation.Published)
+						{
+							@organisation.Name
+							<span class="d-block mt--16">
+								<i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputOrganisationSummary", new { id = organisation.OrganisationId }, new { @class = "" })
+							</span>
+						}
+						else
+						{
+							<a href="@(ViewBag.publicURL)organisations/@organisation.OrganisationId">@organisation.Name</a>
+							<span class="d-block mt--16">
+								<i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputOrganisationSummary", new { id = organisation.OrganisationId }, new { @class = "" })
+							</span>
+						}
+					</td>
+
+					@if ((bool)ViewBag.IsAdmin)
+					{
+						<td class="aliss-table__cell">
+							@Html.ActionLink(organisation.CreatedUserName, "EditUser", "User", new { id = organisation.CreatedUserId }, null)
+						</td>
+					}
+					<td class="aliss-table__cell">
+						@($"{organisation.CreatedOn:dd/MM/yyyy}")
+					</td>
+					@if ((bool)ViewBag.IsAdmin)
+					{
+						<td class="aliss-table__cell">
+							@if (organisation.UpdatedUserId.HasValue)
+							{
+								@Html.ActionLink(organisation.UpdatedUserName, "EditUser", "User", new { id = organisation.UpdatedUserId.Value }, null);
+							}
+							else
+							{
+								<text>N/A</text>
+							}
+						</td>
+					}
+					<td class="aliss-table__cell">
+						@(organisation.UpdatedUserId.HasValue ? $"{organisation.UpdatedOn:dd/MM/yyyy}" : "N/A")
+					</td>
+					@if ((bool)ViewBag.IsAdmin)
+					{
+						<td class="aliss-table__cell">
+							@if (organisation.ClaimedUserId.HasValue)
+							{
+								@Html.ActionLink(organisation.ClaimedUserName, "EditUser", "User", new { id = organisation.ClaimedUserId.Value }, null);
+							}
+							else
+							{
+								<text>N/A</text>
+							}
+						</td>
+					}
+					<td class="aliss-table__cell">
+						@(organisation.ClaimedUserId.HasValue ? $"{organisation.ClaimedOn:dd/MM/yyyy}" : "N/A")
+					</td>
+					<td class="aliss-table__cell">@(organisation.Published ? "Yes" : "No")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+		</div>
+		@if (Model.TotalPages > 1)
+		{
+			<div class="aliss-pagination-component__wrapper__item">
+				<nav>
+					<ol>
+						@if (Model.Page > 1)
+						{
+							<li>
+								@if (Model.Unpublished)
+								{
+									<a href="/Organisation/Index?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)&unpublished=true&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-previous">Previous</a>
+								}
+								else
+								{
+									<a href="/Organisation/Index?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-previous">Previous</a>
+								}
+							</li>
+						}
+						@if (Model.Page < Model.TotalPages)
+						{
+							<li>
+								@if (Model.Unpublished)
+								{
+									<a href="/Organisation/Index?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)&unpublished=true&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-next">Next</a>
+								}
+								else
+								{
+									<a href="/Organisation/Index?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-next">Next</a>
+								}
+							</li>
+						}
+					</ol>
+				</nav>
+			</div>
+		}
+	</div>
+</div>

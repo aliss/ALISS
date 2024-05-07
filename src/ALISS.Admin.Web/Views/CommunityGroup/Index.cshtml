@@ -1,0 +1,132 @@
+﻿@model ALISS.Business.ViewModels.CommunityGroup.CommunityGroupListingViewModel
+@using System.Text.RegularExpressions;
+@{
+	ViewBag.Title = "Who";
+}
+
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@using (Html.BeginForm("Index", "CommunityGroup", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+		{
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search
+			</label>
+			<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+			<button class="btn btn--primary" type="submit" title="Search the Who categories">Search</button>
+			if (!String.IsNullOrEmpty(Model.SearchTerm))
+			{
+				<div class="aliss-search__clear">
+					@Html.ActionLink("Clear Search", "Index", "CommunityGroup", null, new { @class = "btn btn--primary", title = "Clear the search and show all Who categories" })
+				</div>
+			}
+		}
+	</div>
+	<div class="aliss-search__actions">
+		@Html.ActionLink("Add level one Who category", "AddCommunityGroup", "CommunityGroup", null, new { @class = "btn btn--primary", title = "Add level one Who category" })
+	</div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+	@Html.Partial("_SuccessMessage")
+}
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Total Results: <span>@Model.TotalResults</span></p>
+		</div>
+	</div>
+</div>
+
+<div class="aliss-categories">
+	<div class="aliss-categories__titles">
+		<div class="aliss-categories__title aliss-categories__title--name">
+			<strong>Name</strong>
+		</div>
+		<div class="aliss-categories__title aliss-categories__title--count">
+			<strong>Service Count</strong>
+		</div>
+	</div>
+
+	@foreach (var communityGroup in Model.CommunityGroups.OrderBy(x => x.DisplayOrder).ThenBy(x => Regex.Replace(x.Name.ToLower(), "[$&+,:;=?@#.\"|'\\-<>.^*()%!]", string.Empty)))
+	{
+		var primaryId = communityGroup.Name.Replace(" ", "-").ToLower();
+		<div class="aliss-categories__item">
+			<div class="aliss-categories__primary">
+
+				<div class="aliss-accordion__header">
+					@if (communityGroup.NextLevelCommunityGroups.Count() > 0)
+					{
+						<button class="aliss-accordion__trigger" data-accordion-trigger="@primaryId">
+							<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+							<span class="hide">Toggle Accordion @communityGroup.Name</span>
+						</button>
+					}
+					else
+					{
+						<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+							<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+							<span class="hide">View @communityGroup.Name</span>
+						</div>
+					}
+					@Html.ActionLink(communityGroup.Name, "EditCommunityGroup", "CommunityGroup", new { id = communityGroup.CommunityGroupId, topLevelCommunityGroup = true }, new { @class = "aliss-categories__edit" })
+					<div class="aliss-categories__spacer"></div>
+					<span class="aliss-categories__count">@communityGroup.ServiceCount</span>
+					@if (!communityGroup.IsMinMax)
+					{
+						<a href="@Url.Action("AddCommunityGroup", "CommunityGroup", new { parentCommunityGroupId = communityGroup.CommunityGroupId }, null)" class="aliss-categories__add">
+							<i class="fa fa fa-plus-circle" aria-hidden="true" title="Add level two Who category"></i>
+							<span class="hide">Add Who category to @communityGroup.Name</span>
+						</a>
+					}
+				</div>
+
+				<div class="aliss-accordion__content" id="@primaryId">
+					@foreach (var levelTwo in communityGroup.NextLevelCommunityGroups.OrderBy(x => x.DisplayOrder).ThenBy(x => Regex.Replace(x.Name.ToLower(), "[$&+,:;=?@#.\"|'\\-<>.^*()%!]", string.Empty)))
+					{
+
+						var levelTwoId = levelTwo.Name.Replace(" ", "-").ToLower();
+						<div class="aliss-categories__sub">
+							<div class="aliss-accordion__header">
+								@if (levelTwo.NextLevelCommunityGroups.Count() > 0)
+								{
+									<button class="aliss-accordion__trigger" data-accordion-trigger="@levelTwoId">
+										<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+										<span class="hide">Toggle Accordion @communityGroup.Name</span>
+									</button>
+								}
+								else
+								{
+									<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+										<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+										<span class="hide">View @communityGroup.Name</span>
+									</div>
+								}
+								@Html.ActionLink(levelTwo.Name, "EditCommunityGroup", "CommunityGroup", new { id = levelTwo.CommunityGroupId, topLevelCommunityGroup = false }, new { @class = "aliss-categories__edit" })
+								<div class="aliss-categories__spacer"></div>
+								<span class="aliss-categories__count">@levelTwo.ServiceCount</span>
+								<a href="@Url.Action("AddCommunityGroup", "CommunityGroup", new { parentCommunityGroupId = levelTwo.CommunityGroupId }, null)" class="aliss-categories__add">
+									<i class="fa fa fa-plus-circle" aria-hidden="true" title="Add level three Who category"></i>
+									<span class="hide">Add Who category to @communityGroup.Name</span>
+								</a>
+							</div>
+							<div class="aliss-accordion__content" id="@levelTwoId">
+								@foreach (var levelThree in levelTwo.NextLevelCommunityGroups.OrderBy(x => x.DisplayOrder).ThenBy(x => Regex.Replace(x.Name.ToLower(), "[$&+,:;=?@#.\"|'\\-<>.^*()%!]", string.Empty)))
+								{
+
+									<div class="aliss-categories__sub aliss-categories__sub--three">
+										@Html.ActionLink(levelThree.Name, "EditCommunityGroup", "CommunityGroup", new { id = levelThree.CommunityGroupId, topLevelCommunityGroup = false }, null)
+										<div class="aliss-categories__spacer"></div>
+										<span class="aliss-categories__count">@levelThree.ServiceCount</span>
+										<div class="aliss-categories__block"></div>
+									</div>
+								}
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	}
+</div>

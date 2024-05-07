@@ -1,0 +1,117 @@
+.show-print {
+    display: none;
+}
+
+.hide-all-print {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+@media print {
+
+    #cookies-eu-banner,
+    #cookies-eu-edit {
+        display: none !important;
+        opacity: 0 !important;
+    }
+
+
+
+    .aliss-header-component__logo,
+    .aliss-content__secondary,
+    .aliss-content__primary {
+        width: 100%;
+    }
+
+    #aliss-component-map {
+        width: 50% !important;
+        height: rem-calc(250) !important;
+    }
+
+    .aliss-header-component__logo>a>img.show-print {
+        width: rem-calc(150) !important;
+        height: auto;
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+    .aliss-header-component__logo>a>h1 {
+        color: #2c79af;
+        max-width: rem-calc(300);
+    }
+    .aliss-header-component__logo__text {
+        color: #333;
+        font-size: 2rem;
+        font-weight: 600;
+        width: 300px;
+    }
+
+    header,
+    article,
+    section,
+    footer,
+    div {
+        display: block !important;
+    }
+
+    //body {-webkit-print-color-adjust: exact;}
+
+    .ch2 {
+        display: none !important;
+    }
+
+    .hide-print,
+    .hide-print * {
+        display: none !important;
+    }
+
+    .show-print {
+        display: initial !important;
+
+    }
+
+    .aliss-accordion__trigger {
+        display: none;
+    }
+
+    .aliss-organism {
+        padding: 15px 0 0;
+        page-break-after: auto;
+
+        * {
+            page-break-inside: avoid;
+        }
+    }
+
+    .aliss-pagination-component {
+        padding: 24px 0 0;
+        line-height: 1;
+    }
+
+    .aliss-organism.aliss-component-master.aliss-content-spacer,
+    .aliss-organism.aliss-collection__item {
+        border-top: 1px solid black;
+    }
+
+    .aliss-component-map {
+        page-break-before: always;
+    }
+
+    .aliss-content__secondary {
+        margin-top: rem-calc(30);
+    }
+
+    .aliss-accordion__inner {
+        padding: 0;
+    }
+
+    .aliss-organism,
+    .aliss-header {
+        background: #FFFFFF;
+    }
+
+    .aliss-claimed-status {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}

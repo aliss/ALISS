@@ -1,0 +1,38 @@
+{# Global variables #}
+  {% import "../include/globalVariables.njk" as GV %}
+  {% from GV.atoms + "atoms_a.njk" import a as a %}
+  {% from GV.atoms + "atoms_h1.njk" import h1 as h1 %}
+  {% from GV.atoms + "atoms_p.njk" import p as p %}
+  {% from GV.atoms + "atoms_img.njk" import img as img %}
+{# Global variables #}
+<div class="aliss-footer">
+  <div class="aliss-grid">
+    <div class="aliss-footer-component">
+      <div class="aliss-footer-component__navigation">
+        <div id="menu-footer" class="navigation-footer-toggle">
+          <p>Footer navigation <i class="fas fa-chevron-down"></i></p>
+        </div>
+        <nav id="menu-footer-toggle" class="aliss-footer-component__navigation__list">
+          <ul>
+            <li class="aliss-footer-component__navigation__list__item">
+              {{ a("", "/#about", "Click here for more information about us", "_self", "", "", "Terms and conditions") }}
+            </li>
+            <li class="aliss-header-component__navigation__list__item">
+              {{ a("", "/#supported-by", "Click here for more information about who supports us", "_self", "", "", "Privacy policy") }}
+            </li>
+            <li class="aliss-header-component__navigation__list__item">
+              {{ a("", "/#how-it-works", "Click here for more information about how it works", "_self", "", "", "API documentation") }}
+            </li>
+            <li class="aliss-header-component__navigation__list__item">
+              {{ a("", "/#projects", "Click here for more information about some of our projects", "_self", "", "", "ALISS data standards") }}
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="aliss-footer-component__contents">
+        <p>Health and Social Care Alliance Scotland (the ALLIANCE) Venlaw Building, 349 Bath Street, Glasgow, G2 4AA</p>
+        <p><i class="fas fa-copyright"></i> Copyright Health and Social Care Alliance Scotland (the ALLIANCE) 2020. All Rights Reserved</p>
+      </div>
+    </div>
+  </div>
+</div>

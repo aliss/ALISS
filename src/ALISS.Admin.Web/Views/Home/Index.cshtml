@@ -1,0 +1,344 @@
+@using System.Configuration
+@{
+	ViewBag.Title = "My Dashboard";
+
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+			? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+			: false;
+}
+
+@Html.Partial("_ClaimsDisclaimer")
+
+<h2>Management</h2>
+
+<div class="aliss-component-master aliss-component-descriptive-blocks">
+    @if ((bool)ViewBag.IsAdmin == false)
+    {
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("All Organisations", "AllOrganisations", "Organisation")
+                </h3>
+                <p>View all organisations registered in ALISS</p>
+            </div>
+        </div>
+
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("All Services", "AllServices", "Service")
+                </h3>
+                <p>View all services registered in ALISS</p>
+            </div>
+        </div>
+
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("My Claims", "MyClaims", "Claim")
+                </h3>
+                <p>View and manage your claims submitted for organisations</p>
+            </div>
+        </div>
+
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("My Organisations", "Index", "Organisation")
+                </h3>
+                <p>Use this section to browse any organisations that you have the ability to edit.</p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("My Services", "Index", "Service")
+                </h3>
+                <p>Use this section to browse any services that you have the ability to edit.</p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Service Reviews", "Index", "ServiceReviews")
+                </h3>
+                <p>Use this section to review any services that you are responsible for.</p>
+            </div>
+        </div>
+
+        <div class="aliss-organism aliss-component-master">
+            @if (enableMonsidoTracking)
+            {
+                <div class="aliss-component-master__contents">
+                    <h3>
+                        @Html.ActionLink("Unpublished Forms", "Index", "AddToALISS", new { w = "f" }, new { @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Unpublished Forms from Dashboard', 'Navigate to Pick up where you left off', 1);" })
+                    </h3>
+                    <p>Pick up where you left off.</p>
+                </div>
+            }
+            else
+            {
+                <div class="aliss-component-master__contents">
+                    <h3>
+                        @Html.ActionLink("Unpublished Forms", "Index", "AddToALISS", new { w = "f" }, null)
+                    </h3>
+                    <p>Pick up where you left off.</p>
+                </div>
+            }
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Claims", "Index", "Claim")
+                </h3>
+                <p>View and manage all claims submitted for organisations within the ALISS system.</p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("My Collections", "Index", "Collection")
+                </h3>
+                <p>View and manage your collections of services</p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Service Suggestions", "Index", "ServiceSuggestions")
+                </h3>
+                <p>View and manage your suggested services </p>
+            </div>
+        </div>
+    }
+
+    @if ((bool)ViewBag.IsAdmin)
+    {
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Organisations", "Index", "Organisation")
+                </h3>
+                <p>Use this section to browse any organisations that you have visibility of within the ALISS system.</p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Services", "Index", "Service")
+                </h3>
+                <p>Use this section to browse all services within the ALISS system. </p>
+            </div>
+        </div>
+
+        <div class="aliss-organism aliss-component-master">
+            @if (enableMonsidoTracking)
+            {
+                <div class="aliss-component-master__contents">
+                    <h3>
+                        @Html.ActionLink("Unpublished Forms", "Index", "AddToALISS", new { w = "f" }, new { @onclick = "window.monsido_functions.trackEvent('Unpublished Forms', 'Unpublished Forms from Dashboard', 'Navigate to Pick up where you left off', 1);" })
+                    </h3>
+                    <p>Pick up where you left off.</p>
+                </div>
+            }
+            else
+            {
+                <div class="aliss-component-master__contents">
+                    <h3>
+                        @Html.ActionLink("Unpublished Forms", "Index", "AddToALISS", new { w = "f" }, null)
+                    </h3>
+                    <p>Pick up where you left off.</p>
+                </div>
+            }
+        </div>
+
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Service Reviews", "Index", "ServiceReviews")
+                </h3>
+                <p>Use this section to review any services that you are responsible for.</p>
+            </div>
+        </div>
+
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Deprioritised Services", "Deprioritised", "ServiceReviews")
+                </h3>
+                <p>Use this section to browse all deprioritised services within the ALISS system. </p>
+            </div>
+        </div>
+
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Claims", "Index", "Claim")
+                </h3>
+                <p>View and manage all claims submitted for organisations within the ALISS system.</p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Users", "Index", "User")
+                </h3>
+                <p>View and manage all users that exist within the ALISS system.</p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Suggested Improvements", "Index", "Improvement")
+                </h3>
+                <p>View and action all suggested improvements submitted for the ALISS system.</p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("My Collections", "Index", "Collection")
+                </h3>
+                <p>View and manage your collections of services </p>
+            </div>
+        </div>
+        <div class="aliss-organism aliss-component-master">
+            <div class="aliss-component-master__contents">
+                <h3>
+                    @Html.ActionLink("Service Suggestions", "Index", "ServiceSuggestions")
+                </h3>
+                <p>View and manage your suggested services </p>
+            </div>
+        </div>
+    }
+</div>
+
+@if ((bool)ViewBag.IsAdmin)
+{
+	<h2>Reports</h2>
+
+	<div class="aliss-component-master aliss-component-descriptive-blocks">
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Activity Report", "ActivityReport", "Report")
+				</h3>
+				<p> </p>
+			</div>
+		</div>
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Location Report", "GetLocationReport", "Report")
+				</h3>
+				<p> </p>
+			</div>
+		</div>
+	</div>
+
+	<h2>Lookups</h2>
+
+	<div class="aliss-component-master aliss-component-descriptive-blocks">
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Accessibility Features", "Index", "AccessibilityFeature")
+				</h3>
+				<p>Manage all accessibility features</p>
+			</div>
+		</div>
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Categories", "Index", "Category")
+				</h3>
+				<p>Manage Categories</p>
+			</div>
+		</div>
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Who", "Index", "CommunityGroup")
+				</h3>
+				<p>Manage Who Categories</p>
+			</div>
+		</div>
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Service Areas", "Index", "ServiceArea")
+				</h3>
+				<p>Manage all service areas</p>
+			</div>
+		</div>
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("ElasticSearch Management", "Index", "Elastic")
+				</h3>
+				<p>Manage the contents of ElasticSearch.</p>
+			</div>
+		</div>
+
+	</div>
+
+	<h2>Email</h2>
+
+	<div class="aliss-component-master aliss-component-descriptive-blocks">
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Email All Users", "EmailAllUsers", "BulkEmail")
+				</h3>
+				<p>Email all ALISS users</p>
+			</div>
+		</div>
+
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Email All Editor Users", "EmailAllEditors", "BulkEmail")
+				</h3>
+				<p>Email all ALISS editor users</p>
+			</div>
+		</div>
+
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Email All Claimed Users", "EmailAllClaimants", "BulkEmail")
+				</h3>
+				<p>Email all ALISS organisation & service claimed users</p>
+			</div>
+		</div>
+	</div>
+
+	<h2>Export</h2>
+
+	<div class="aliss-component-master aliss-component-descriptive-blocks">
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Export All Users", "ExportAllUsers", "Export")
+				</h3>
+				<p> </p>
+			</div>
+		</div>
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Export Claimed User", "ExportClaimedUsers", "Export")
+				</h3>
+				<p> </p>
+			</div>
+		</div>
+		<div class="aliss-organism aliss-component-master">
+			<div class="aliss-component-master__contents">
+				<h3>
+					@Html.ActionLink("Export Editor User", "ExportEditorUsers", "Export")
+				</h3>
+				<p> </p>
+			</div>
+		</div>
+	</div>
+}

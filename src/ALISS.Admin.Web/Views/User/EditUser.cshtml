@@ -1,0 +1,186 @@
+﻿@model ALISS.Business.ViewModels.User.EditUserViewModel
+@using System.Linq
+@using System.Configuration
+@{
+	ViewBag.Title = $"Edit User - {Model.Name}";
+	var referrerUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : string.Empty;
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new organisation</legend>
+		@Html.ALISSTextBox(m => m.Username)
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSTextBox(m => m.Email)
+		@Html.ALISSTextBox(m => m.PhoneNumber)
+		@if ((bool)ViewBag.IsAdmin == true)
+		{
+			@Html.ALISSCheckbox(m => m.IsEditor)
+			@Html.ALISSCheckbox(m => m.IsAdmin)
+		}
+		else
+		{
+			@Html.HiddenFor(m => m.IsEditor)
+			@Html.HiddenFor(m => m.IsAdmin)
+		}
+		@Html.HiddenFor(m => m.UserProfileId)
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary">Save</button>
+		<a class="btn btn--primary" href="@referrerUrl">Cancel</a>
+	</div>
+}
+<br />
+<h1>
+	Services and organisations
+</h1>
+
+@if (Model.UserOrganisations.Organisations.Count() > 0)
+{
+	<p>Below is a list of @Model.UserOrganisations.TotalResults organisations and @Model.UserServices.TotalResults services that are linked to this user's (@Model.Name) account.</p>
+
+	<div class="aliss-form__two-column">
+		<div class="aliss-form__group">
+			<table class="aliss-table">
+				<thead class="aliss-table__head">
+					<tr class="aliss-table__row aliss-table__row--head">
+						<th class="aliss-table__header" scope="col">Organisations</th>
+						<th class="aliss-table__header" scope="col"></th>
+					</tr>
+				</thead>
+				<tbody class="aliss-table__body">
+					@foreach (var organisation in Model.UserOrganisations.Organisations)
+					{
+						<tr class="aliss-table__row aliss-table__row--body">
+							@if (organisation.Published)
+							{
+								<td class="aliss-table__cell"><a href="@(ViewBag.publicURL)organisations/@organisation.OrganisationId">@organisation.Name</a></td>
+							}
+							else
+							{
+								<td class="aliss-table__cell">@Html.ActionLink(organisation.Name, "Index", "DataInputOrganisationSummary", new { id = organisation.OrganisationId }, null)</td>
+							}
+							<td class="aliss-table__cell"></td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+			<div class="aliss-pagination-component">
+				<div class="aliss-pagination-component__wrapper">
+					<div class="aliss-pagination-component__wrapper__item">
+						<p>Showing page <span>@Model.UserOrganisations.Page</span> of <span>@Model.UserOrganisations.TotalPages</span></p>
+					</div>
+					@if (Model.UserOrganisations.TotalPages > 1)
+					{
+						<div class="aliss-pagination-component__wrapper__item">
+							<nav>
+								<ol>
+									@if (Model.UserOrganisations.Page > 1)
+									{
+										<li>
+											<a href="/User/EditUser/@Model.UserProfileId?page=@Model.UserOrganisations.SearchTerm&organisationPage=@(Model.UserOrganisations.Page - 1)&servicePage=@Model.UserServices.Page" class="aliss-pagination-previous">Previous</a>
+										</li>
+									}
+									@if (Model.UserOrganisations.Page < Model.UserOrganisations.TotalPages)
+									{
+										<li>
+											<a href="/User/EditUser/@Model.UserProfileId?page=@Model.UserServices.SearchTerm&organisationPage=@(Model.UserOrganisations.Page + 1)&servicePage=@Model.UserServices.Page" class="aliss-pagination-next">Next</a>
+										</li>
+									}
+								</ol>
+							</nav>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+
+		<div class="aliss-form__group">
+			<table class="aliss-table">
+				<thead class="aliss-table__head">
+					<tr class="aliss-table__row aliss-table__row--head">
+						<th class="aliss-table__header" scope="col">Services</th>
+						<th class="aliss-table__header" scope="col"></th>
+
+					</tr>
+				</thead>
+				<tbody class="aliss-table__body">
+					@foreach (var service in Model.UserServices.Services)
+					{
+						<tr class="aliss-table__row aliss-table__row--body">
+							@if (service.Published)
+							{
+								<td class="aliss-table__cell"><a href="@(ViewBag.publicURL)services/@service.ServiceId">@service.Name</a></td>
+							}
+							else
+							{
+								<td class="aliss-table__cell">  @Html.ActionLink(service.Name, "Index", "DataInputSummary", new { id = service.ServiceId }, null)</td>
+							}
+							<td class="aliss-table__cell"></td>
+						</tr>
+					}
+				</tbody>
+			</table>
+			<div class="aliss-pagination-component">
+				<div class="aliss-pagination-component__wrapper">
+					<div class="aliss-pagination-component__wrapper__item">
+						<p>Showing page <span>@Model.UserServices.Page</span> of <span>@Model.UserServices.TotalPages</span></p>
+					</div>
+					@if (Model.UserServices.TotalPages > 1)
+					{
+						<div class="aliss-pagination-component__wrapper__item">
+							<nav>
+								<ol>
+									@if (Model.UserServices.Page > 1)
+									{
+										<li>
+											<a href="/User/EditUser/@Model.UserProfileId?page=@Model.UserServices.SearchTerm&servicePage=@(Model.UserServices.Page - 1)&organisationPage=@Model.UserOrganisations.Page" class="aliss-pagination-previous">Previous</a>
+										</li>
+									}
+									@if (Model.UserServices.Page < Model.UserServices.TotalPages)
+									{
+										<li>
+											<a href="/User/EditUser/@Model.UserProfileId?page=@Model.UserServices.SearchTerm&servicePage=@(Model.UserServices.Page + 1)&organisationPage=@Model.UserOrganisations.Page" class="aliss-pagination-next">Next</a>
+										</li>
+									}
+								</ol>
+							</nav>
+						</div>
+					}
+				</div>
+			</div>
+
+		</div>
+	</div>
+}
+else
+{
+	<br />
+	<td class="aliss-table__cell">There are no Organisations or Services linked to this user's (@Model.Name) account. </td>
+}
+
+@Html.HiddenFor(m => m.UserProfileId)
+
+@section sidemenu {
+	<div class="aliss-sidemenu">
+		<h2>Actions</h2>
+		<div class="aliss-component-master__links">
+			<ul class="aliss-icon-list">
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-trash"></i>
+					@Html.ActionLink("Delete User", "DeleteUser", "User", new { id = Model.UserProfileId }, null)
+				</li>
+			</ul>
+		</div>
+	</div>
+}

@@ -1,0 +1,29 @@
+﻿@using System.Configuration
+<div class="aliss-sidemenu">
+	<h2>Actions</h2>
+	<div class="aliss-component-master__links">
+		<ul class="aliss-icon-list">
+			@if (Request.UrlReferrer.AbsoluteUri.Contains("Deprioritised"))
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-arrow-alt-circle-left"></i>
+					@Html.ActionLink("Back to Deprioritised Services", "Deprioritised", "ServiceReviews", new { id = ViewBag.ServiceId }, null)
+				</li>
+			}
+			else
+			{
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-arrow-alt-circle-left"></i>
+					@Html.ActionLink("Back to Organisation", "Index", "DataInputOrganisationSummary", new { id = ViewBag.OrganisationId }, null)
+				</li>
+				if (Request.Url.ToString().Contains("ListServiceClaimants"))
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-arrow-alt-circle-left"></i>
+						@Html.ActionLink("Back to Service", "Index", "DataInputSummary", new { id = ViewBag.ServiceId }, null)
+					</li>
+				}
+			}
+		</ul>
+	</div>
+</div>

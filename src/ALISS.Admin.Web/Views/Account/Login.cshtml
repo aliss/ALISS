@@ -1,0 +1,40 @@
+﻿@using ALISS.Admin.Web.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Welcome to ALISS";
+    Layout = "~/Views/Shared/_LayoutLoggedOut.cshtml";
+}
+
+<h1>@ViewBag.Title</h1>
+<p>If you already have an ALISS account you will need to re-register your account in the new system. To do this, please click the @Html.ActionLink("Forgotten Password/Username?", "ForgotPassword") link below, enter your email address and click the Email link. You will receive an email with your username and instructions to change your password.</p>
+<div id="loginForm">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <fieldset class="aliss-form__fieldset">
+            <legend class="aliss-form__legend">Login Details</legend>
+            @Html.ALISSTextBox(m => m.Username)
+            @Html.ALISSTextBox(m => m.Password, "password")
+            @Html.ALISSCheckbox(m => m.RememberMe)
+        </fieldset>
+        <div class="aliss-form__actions">
+            <button type="submit" class="btn btn--primary" onclick="window.monsido_functions.trackEvent('Account', 'Login Button', 'Existing User Login', , 1);">Login</button>
+            <br /><br />
+            @Html.ActionLink("Register as a new user", "Register")
+            <br />
+            @Html.ActionLink("Forgotten Password/Username?", "ForgotPassword")
+        </div>
+    }
+</div>
+@*<div class="col-md-4">
+    <div class="aliss-organism aliss-component-master" id="socialLoginForm">
+        <div class="aliss-component-master__contents">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </div>
+    </div>
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

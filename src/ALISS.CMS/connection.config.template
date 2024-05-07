@@ -1,0 +1,4 @@
+<connectionStrings>
+	<remove name="umbracoDbDSN" />
+	<add name="umbracoDbDSN" connectionString="Server=localhost;Initial Catalog=****DBNAME***;Persist Security Info=False;User ID=***USER***;Password=***PASSWORD***;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" providerName="System.Data.SqlClient" />
+</connectionStrings>

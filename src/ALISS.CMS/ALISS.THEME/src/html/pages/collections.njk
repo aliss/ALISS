@@ -1,0 +1,255 @@
+{% extends "layout.njk" %}
+
+{# Global variables #}
+  {# 
+    Access to atom, molecule and organism paths.
+  #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+  {% from "../partials/" + GV.organisms + "components/master.njk" import master_component as master_component %}
+{# Global variables #}
+
+{# Page variables #}
+  {# 
+    Page meta data:
+    If specified, this will populate meta tags for page SEO.
+  #}
+    {% set page_Meta_Title = '' %}
+    {% set page_Meta_Description = '' %}
+    {% set page_Meta_Keywords = '' %}
+  {# 
+    Page styles:
+    Utilise Atoms, Molecules and Organisms to create templates.
+  #}
+  {% set page_Styles = false %}
+  {# 
+    Page body ID & class:
+    If specified, this id and or class will be applied to the body tag.
+  #}
+    {% set page_Body_ID = 'aliss-signup-page' %}
+    {% set page_Body_Class = 'aliss-signup-page' %}
+  {# 
+    Page ID & class:
+    If specified, this class will be applied to top level parent tag of this page, containing all of the componets within the page contents.
+  #}
+  {% set page_ID = '' %}
+  {% set page_Class = '' %}
+  {# 
+    Page title:
+    The page title to populate the H1 tag for this page.
+  #}
+  {% set page_Title = 'About ALISS' %}
+  {# 
+    Page hero:
+    Set to true if you wish for this page to use a hero image
+  #}
+  {% set page_Hero = true %}
+{# Page variables #}
+
+{# 
+  Component calls:
+  Utilise Atoms, Molecules and Organisms to populate templates.
+#}
+
+{% set primarycontents = [
+  GV.content + 'about-us'
+] %}
+
+{% set secondarycontents = [
+  GV.organisms + 'aliss/can-cant-component',
+  GV.organisms + 'contact/contact-component'
+] %}
+
+{% block body %}
+  {% if page_Styles == true %}
+    <style>
+      /* page specific styles */
+    </style>
+  {% endif %}
+  <main {% if page_ID %}id="{{ page_ID }}"{% endif %} {% if page_Class %}class="{{ page_Class }}"{% endif %}>
+    <section>
+      <div class="aliss-grid">
+        <div class="aliss-content__wrap">
+
+              <div class="aliss-content__header">
+                <h1 class="no-margin">{{ page_Title }}</h1>
+                <p class="aliss-content__header__subtitle">Your last search: <a href="#" class="link no-padding">G78 2RJ</a>
+                <ul class="aliss-icon-list hide-print">
+                  <li class="aliss-icon-list__item aliss-icon-list__item--edit">
+                    <a href="/">
+                      Edit Account Details
+                    </a>
+                  </li>
+                </ul>
+                <h2>##TitleOfSavedCollection##</h2>
+              </div>
+
+              <div class="aliss-content__primary">
+           
+                {% for i in range(0, 10) -%}
+                <div class="aliss-organism aliss-collection__item">
+                    <div class="aliss-typography">
+                      <h3>##ServiceName##</h3>
+                      <p>
+                        by: <a href="#">##ServiceProvider##</a>
+                        <span class="aliss-claimed">claimed</span>
+                      </p>
+                      <p>Exercise &amp; Get Fit , Social Group , Physical Activity , Social Activity , Activity</p>
+                      <p>Last Updated: 01/01/2021</p>
+                    </div>
+                    <!-- First Location Not Part Of Accoridon -->
+                    <ul class="aliss-icon-list">
+                        <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                            <a href="#">
+                                Location, Address, City, Postcode
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- For Rest of Locations -->
+                    <div class="aliss-locations">                        
+                        <div class="aliss-accordion__header">
+                            <button class="aliss-accordion__trigger" data-accordion-trigger="service{{i}}">
+                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                <span class="hide">Toggle Accordion for ##ServiceName## locations</span>
+                            </button>                           
+                            <span class="aliss-accordion__label">More locations</span>
+                        </div>                            
+                        <div class="aliss-accordion__content" id="service{{i}}">
+                            <div class="aliss-accordion__inner">
+                                <ul class="aliss-icon-list margin-bottom-2">
+                                    <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                                        <a href="#">
+                                            Location, Address, City, Postcode
+                                        </a>
+                                    </li>
+                                    <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                                        <a href="#">
+                                            Location, Address, City, Postcode
+                                        </a>
+                                    </li>
+                                    <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                                        <a href="#">
+                                            Location, Address, City, Postcode
+                                        </a>
+                                    </li>
+                                    <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                                        <a href="#">
+                                            Location, Address, City, Postcode
+                                        </a>
+                                    </li>
+                                </ul>                       
+                            </div>
+                        </div>
+                         <div class="aliss-accordion__header">
+                            <button class="aliss-accordion__trigger" data-accordion-trigger="service-area{{i}}">
+                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                <span class="hide">Toggle Accordion for ##ServiceName## areas</span>
+                            </button>                           
+                            <span class="aliss-accordion__label">Service Areas</span>
+                        </div>                            
+                        <div class="aliss-accordion__content" id="service-area{{i}}">
+                            <div class="aliss-accordion__inner">
+                                <p>
+                                    Glasgow City<br>
+                                    East Renfrewshire<br>
+                                    East Ayrshire
+                                </p>                
+                            </div>
+                        </div>
+                    </div>
+                     <ul class="aliss-icon-list aliss-icon-list--thirds">
+                        <li class="aliss-icon-list__item aliss-icon-list__item--website hide-print">
+                            <a href="http://tactuum.com">
+                                <span class="hide">Go to ##ServiceName## </span>Website
+                            </a>
+                        </li>
+                        <li class="aliss-icon-list__item aliss-icon-list__item--website show-print">
+                            <span>http://www.website.com</span>
+                        </li>
+                        <li class="aliss-icon-list__item aliss-icon-list__item--telephone">
+                            <a href="mailto:test@tactuum.com">
+                                <span class="hide">Phone </span>0141 555 6677
+                            </a>
+                        </li>
+                        <li class="aliss-icon-list__item aliss-icon-list__item--trash red hide-print">
+                            <a href="#">
+                                Remove service
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                {%- endfor %}
+
+                <div class="aliss-pagination-component">
+								<div class="aliss-pagination-component__wrapper">
+									<div class="aliss-pagination-component__wrapper__item">
+										<p>Showing page <span>x</span> of <span>xx</span></p>
+									</div>
+									<div class="aliss-pagination-component__wrapper__item hide-print">
+										<nav>
+											<ol>
+													<li>
+														<a id="" href="/search/index?page=@previous_page&postcode=@Model.Postcode@url" title="Click here to view the previous page of your search results." target="_self" class="aliss-pagination-previous">
+															Prev
+														</a>
+													</li>
+														<li>
+															<a id="aliss-pagination-active-page" href="/search/index?page=@i&postcode=@Model.Postcode@url" title="Click here to view page @i of your search results." target="_self" class="js-pagination-previous-page">
+																1
+															</a>
+														</li>
+                            <li>
+															<a id="aliss-pagination-active-page" href="/search/index?page=@i&postcode=@Model.Postcode@url" title="Click here to view page @i of your search results." target="_self" class="js-pagination-active-page">
+																2
+															</a>
+														</li>
+														<li>
+															<a id="aliss-pagination-active-page" href="/search/index?page=@i&postcode=@Model.Postcode@url" title="Click here to view page @i of your search results." target="_self" class="js-pagination-next-page">
+																3
+															</a>
+														</li>
+                          <li>
+														<a id="" href="/search/index?page=@next_page&postcode=@Model.Postcode@url" title="Click here to view the previous page of your search results." target="_self" class="aliss-pagination-next">
+															Next
+														</a>
+													</li>
+											</ol>
+										</nav>
+									</div>
+								</div>
+							</div>
+
+              </div>
+
+            <div class="aliss-content__secondary hide-print">
+                <div class="aliss-organism">
+                    <h4>Actions</h4>
+                        <ul class="aliss-icon-list">
+                        <li class="aliss-icon-list__item aliss-icon-list__item--email">
+                            <a href="mailto:test@tactuum.com">
+                            Email this collection
+                            </a>
+                        </li>
+                        <li class="aliss-icon-list__item aliss-icon-list__item--print">
+                            <a href="#print" class="aliss-action__print">
+                            Print this collection
+                            </a>
+                        </li>
+                        <li class="aliss-icon-list__item aliss-icon-list__item--trash red">
+                            <a href="#">
+                            Remove this collection
+                            </a>
+                        </li>
+                        <li class="aliss-icon-list__item aliss-icon-list__item--back-arrow">
+                            <a href="#print">
+                            Return to dashboard
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

@@ -1,0 +1,193 @@
+/** @format */
+
+
+html {
+    height: 100%;
+}
+
+
+.aliss-login-header {
+    position: relative;
+    background: map-get($brand, aliss-blue);
+    width: 100%;
+    padding: rem-calc(15 0);
+
+    &__header-component {
+        display: flex;
+
+        &__logo {
+            position: relative;
+			flex: 0 1 auto;
+			width: 50%;
+			@include media('>desktop') {
+				flex: 0 1 auto;
+				width: 50%;
+			}
+			@media only screen and (max-width: 480px) {
+				width: 100%;
+			}
+			a {
+				display: grid;
+				max-width: max-content;
+                color: $white;
+			}
+			img {
+					grid-column: 1;
+					width: auto;
+					height: rem-calc(55);
+					margin: rem-calc(5) 0;
+					@include media('>=desktop') {
+						height: rem-calc(105);
+						margin: rem-calc(5) 0;
+					}
+					@include media('<desktop') {			
+						width: auto;
+						height: 5.4375rem;
+						margin: 0.3125rem 0;				
+					}
+			}
+			h1 {
+				grid-column: 2;
+			}
+			&__text {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				left: 20%;
+				font-size: 1.5rem;
+				font-weight: 600;
+				width: 250px;
+
+				@media only screen and (max-width: 1024px) {
+					left: 20%;
+				}
+				@media only screen and (max-width: 768px) {
+					left: 25%;
+				}
+				@media only screen and (max-width: 650px) {
+					left: 33%;
+				}
+				@media only screen and (max-width: 480px) {
+					left: 25%;
+					width: 230px;
+				}
+				@media only screen and (max-width: 320px) {
+					width: 180px;
+					font-size: 1.2rem;
+					left: 33%;
+				}
+			}
+        }
+    }
+}
+
+.aliss-overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    opacity: .5;
+    z-index: 9;
+
+    &--active {
+        display: block;
+    }
+}
+
+.aliss-main {
+    background: $white;
+    width: 100%;
+    // height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+    margin-left: 300px;
+
+    @media only screen and (max-width: 1024px) {
+		width: 100%;
+        margin: auto;
+	}
+
+    &__content {
+        flex-grow: 4;
+        // padding: rem-calc(20);
+        overflow: auto;
+
+        a {
+            @include aliss-a-hover();
+        }
+
+        &--login {
+            width: 90%;
+            height: auto;
+            overflow: inherit;
+            padding: 0 0 rem-calc(30);
+            margin: 0 auto;
+
+            @include media('>=tablet') {
+                width: 70%;
+            }
+
+            @include media('>=desktop') {
+                width: 50%;
+            }
+        }
+    }
+
+    &__holder {
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+        // height: 100vh;
+        column-gap: rem-calc(16);
+
+        padding: 0px 48px;
+        margin-bottom: rem-calc(48);
+
+        @media only screen and (max-width: 1240px) {
+            flex-wrap: wrap;
+            padding: 0px 24px;
+        }
+
+        @media only screen and (max-width: 480px) {
+            padding: 0px 16px;
+        }
+    }
+
+    &__login {
+        padding: rem-calc(30);
+        display: block;
+        margin-left: 0px;
+    }
+
+    &--hidden {
+        height: 100vh;
+        overflow: hidden;
+    }
+}
+
+.aliss-admin {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    // height: 100%;
+    // overflow: hidden;
+}
+
+
+
+.aliss-login {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: auto;
+}
+
+.aliss-back-public {
+    margin-left: 8px;
+    display: inline-block;
+    color: $white;
+}

@@ -1,0 +1,109 @@
+/** @format */
+
+.tool {
+	cursor: help;
+	position: relative;
+}
+
+/*== common styles for both parts of tool tip ==*/
+.tool::before,
+.tool::after {
+	@media (max-width: 760px) {
+		left: auto;
+		right: rem-calc(-20);
+	}
+	left: 50%;
+	opacity: 0;
+	position: absolute;
+	z-index: -100;
+}
+
+.tool:hover::before,
+.tool:focus::before,
+.tool:hover::after,
+.tool:focus::after {
+	opacity: 1;
+	transform: scale(1) translateY(0);
+	z-index: 999;
+}
+
+/*== pointer tip ==*/
+// .tool::before {
+//     border-style: solid;
+//     border-width: 1em 0.75em 0 0.75em;
+//     border-color: #3E474F transparent transparent transparent;
+//     bottom: 100%;
+//     content: "";
+//     margin-left: -0.5em;
+//     transition: all .65s cubic-bezier(.84,-0.18,.31,1.26), opacity .65s .5s;
+//     transform:  scale(.6) translateY(-90%);
+// }
+
+.tool:hover::before,
+.tool:focus::before {
+	transition: all 0.65s cubic-bezier(0.84, -0.18, 0.31, 1.26) 0.2s;
+}
+
+/*== speech bubble ==*/
+.tool::after {
+	background: #3e474f;
+	border-radius: 0.25em;
+	text-align: center;
+	bottom: 180%;
+	color: #edeff0;
+	content: attr(data-tip);
+	margin-left: -8.75em;
+	padding: 1em;
+	transition: all 0.65s cubic-bezier(0.84, -0.18, 0.31, 1.26) 0.2s;
+	transform: scale(0.6) translateY(50%);
+	width: 17.5em;
+}
+
+.tool:hover::after,
+.tool:focus::after {
+	transition: all 0.65s cubic-bezier(0.84, -0.18, 0.31, 1.26);
+}
+
+@media (max-width: 760px) {
+	.tool::after {
+		font-size: 0.75em;
+		margin-left: -5em;
+		width: 10em;
+	}
+}
+
+.tooltip-container {
+	position: relative;
+}
+.tooltip {
+    position: absolute;
+	visibility: hidden;
+    width: 120px;
+	top: 100%;
+    left: 50%;
+    margin-left: -60px;
+    background-color: #3e474f;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    z-index: 1;
+	opacity: 0;
+    transition: ease-in-out 0.3s;
+
+	&--active {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		margin-left: -5px;
+		border-width: 5px;
+		border-style: solid;
+		border-color: transparent transparent #3e474f transparent;
+	}
+}

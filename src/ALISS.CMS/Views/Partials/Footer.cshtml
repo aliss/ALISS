@@ -1,0 +1,125 @@
+﻿@using Umbraco.Web.Models
+@using System.Configuration
+@inherits UmbracoViewPage<DtConfiguration>
+@{
+	DtConfiguration config = new DtConfiguration(Model.Root().DescendantOrSelfOfType(DtConfiguration.ModelTypeAlias));
+}
+<div class="aliss-footer">
+	<div class="aliss-grid">
+		<div class="aliss-footer-component">
+			<div class="aliss-footer-component__navigation hide-print">
+				<div id="menu-footer" class="navigation-footer-toggle">
+					<p>Footer navigation <i class="fas fa-chevron-down"></i></p>
+				</div>
+				<div id="menu-footer-toggle" class="aliss-footer-component__navigation__list">
+					@if (config.FooterNavigationColumns.Any() || config.SocialLinks.Any())
+					{
+						<div class="aliss-footer-component__navigation__columns">
+							@foreach (var column in config.FooterNavigationColumns)
+							{
+								var linksToShow = column.NavigationLinks
+								  .Where(item => string.IsNullOrWhiteSpace(item.LinkVisibility)
+									|| item.LinkVisibility.ToLower().Contains("public")
+									|| item.LinkVisibility.ToLower().Contains("both"))
+								  .Select(item => item.Link)
+								  .ToList();
+
+								if (linksToShow.Any())
+								{
+									var title = string.IsNullOrWhiteSpace(column.Title) ? "&nbsp;" : column.Title;
+									<div class="aliss-footer-component__navigation__column">
+										@if (config.FooterNavigationColumns.Any(c => !string.IsNullOrWhiteSpace(c.Title)))
+										{
+											<span class="aliss-footer-component__navigation__column title">@Html.Raw(title)</span>
+										}
+										<nav>
+											<ul>
+												@foreach (var item in linksToShow)
+												{
+													@DisplayLink(item)
+												}
+											</ul>
+										</nav>
+									</div>
+								}
+							}
+							@if (config.SocialLinks.Any())
+							{
+								var linksToShow = config.SocialLinks
+									.Where(item => string.IsNullOrWhiteSpace(item.LinkVisibility)
+										|| item.LinkVisibility.ToLower().Contains("public")
+										|| item.LinkVisibility.ToLower().Contains("both"))
+									.ToList();
+
+								if (linksToShow.Any())
+								{
+									<div class="aliss-footer-component__navigation__column">
+										<span class="aliss-footer-component__navigation__column title">Find ALISS on social media</span>
+										<nav>
+											<ul class="socials">
+												@foreach (var socialLink in linksToShow)
+												{
+													@DisplaySocialLink(socialLink)
+												}
+											</ul>
+										</nav>
+									</div>
+								}
+							}
+						</div>
+					}
+				</div>
+			</div>
+
+			@if (!string.IsNullOrWhiteSpace(config.Copyright))
+			{
+				<div class="aliss-footer-component__contents hide-print">
+					<p><i class="fas fa-copyright"></i> @config.Copyright</p>
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+@helper DisplayLink(Link item)
+{
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+			? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+			: false;
+	if (item != null && !string.IsNullOrWhiteSpace(item.Url))
+	{
+		string target = item.Target ?? "";
+		string title = target == "_blank" ? "This will open in a new window" : "";
+		<li class="aliss-footer-component__navigation__list__item">
+			@if (enableMonsidoTracking && (item.Name.Equals("My Scottish Community (via Alexa)") || item.Name.Equals("About My Scottish Community")))
+			{
+				<a href="@item.Url" target="@target" title="@title"
+				   onclick="window.monsido_functions.trackEvent('Footer', 'Footer Links', @item.Name + ' Footer Link Clicked', 1);">
+					@item.Name
+				</a>
+			}
+			else
+			{
+				<a href="@item.Url" target="@target" title="@title">
+					@item.Name
+				</a>
+			}
+
+		</li>
+	}
+}
+
+@helper DisplaySocialLink(CdtSocialLinkItem item)
+{
+	if (item != null && !string.IsNullOrWhiteSpace(item.LinkUrl))
+	{
+		string linktitle = $"{item.LinkTitle} (This will open in a new window)";
+		string linkClass = $"aliss-footer-component__navigation__list__item--{item.LinkType.ToLower().Replace(" ", "")}";
+
+		<li class="aliss-footer-component__navigation__list__item">
+			<a href="@item.LinkUrl" target="_blank" title="@linktitle" class="@linkClass">
+				<img src="~/ALISS.THEME/src/img/icon/@(item.LinkType.ToLower()).svg" alt="@linktitle" />
+			</a>
+		</li>
+	}
+}

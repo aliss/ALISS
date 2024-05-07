@@ -1,0 +1,42 @@
+/** @format */
+
+#aliss-component-map {
+	width: 100%;
+	height: rem-calc(500);
+}
+.aliss-component-location {
+	ul {
+		display: block;
+		margin: rem-calc(20 0 0);
+		li {
+			border-bottom: rem-calc(3) dotted map-get($brand, aliss-light-gray);
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			@include media('>=tablet') {
+				flex-direction: row;
+			}
+			span {
+				margin: rem-calc(0 0 20);
+			}
+			a {
+				flex: 0 1 100%;
+				&:first-of-type {
+					margin: rem-calc(0 0 20);
+				}
+				&:not(:first-of-type) {
+					@include media('>=tablet') {
+						flex: 0 1 auto;
+					}
+				}
+				&:not(:first-of-type):not(:last-of-type) {
+					margin: rem-calc(0 0 15);
+					@include media('>=tablet') {
+						margin: rem-calc(0 15 0 0);
+					}
+				}
+			}
+		}
+	}
+}

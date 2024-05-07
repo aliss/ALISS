@@ -1,0 +1,54 @@
+/** @format */
+
+.aliss-details {
+    &__inner {
+        padding-left: rem-calc(20);
+        border-left: 5px solid #e6e6e6;
+    }
+
+    &__trigger {
+        display: inline-block;
+        position: relative;
+        margin-bottom: 5px;
+        color: #1d70b8;
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {                    
+            text-decoration: underline;
+        }
+
+        i {
+            pointer-events: none;
+            // font-size: 24px;
+            // padding-right: 8px;
+        }
+
+        &--active {
+            i {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    &__header {
+        position: relative;
+    }
+
+    &__content {
+        display: none;
+		margin-top: rem-calc(16);
+        
+		&--active {
+            display: block;
+        }
+    }
+
+    &__label {
+        font-weight:bold;
+    }
+}
+
+.aliss-details__header .aliss-accordion__trigger--active > i {
+    transform: rotate(90deg);
+}

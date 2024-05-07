@@ -1,0 +1,74 @@
+/** @format */
+
+.aliss-banner {
+    position: relative;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        row-gap: 16px;
+        align-items: center;
+    padding: 18px 16px;
+    margin-bottom: 24px;
+
+    &__title {
+        font-weight: 500;
+        font-size: rem-calc(18);
+    }
+
+    &__content {
+        position: relative;
+
+        &__text {
+            position: relative;
+            display: inline-block;
+        }
+    }
+
+    &__disclaimer {
+        background-color: #cce5ff;
+        color: #004785;
+        border-left: 3px solid #1e7abd;
+    }
+
+    &__success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 3px solid #589f68;
+    }
+
+    i {
+        font-size: rem-calc(18px);
+    }
+}
+
+.aliss-claims-disclaimer {
+    &__banner {
+        padding: 18px 16px;
+        margin-bottom: 24px;
+
+        &__content {
+            position: relative;
+
+        &__text {
+                position: relative;
+                display: inline-block;
+            }
+        }
+    }
+
+    &__disclaimer {
+        background-color: #cce5ff;
+        color: #004785;
+        border-left: 3px solid #1e7abd;
+    }
+
+    &__success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 3px solid #589f68;
+    }
+
+    i {
+        font-size: rem-calc(18px);
+    }
+}

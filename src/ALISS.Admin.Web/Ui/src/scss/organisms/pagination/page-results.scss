@@ -1,0 +1,43 @@
+/** @format */
+
+.aliss-pagination-results-component {
+	border-top: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+	border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+	padding: rem-calc(15 0);
+
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		@include media('>=tablet') {
+			flex-direction: row;
+		}
+		&__item {
+			flex: 0 1 auto;
+			@include media('<=desktop') {
+				width: 100%;
+				&:first-of-type {
+					margin-bottom: rem-calc(30);
+				}
+			}
+			@include media('>desktop') {
+				width: 49%;
+			}
+		}
+	}
+
+	p {
+		margin: 0;
+		padding: 0;
+		@include media('<=desktop') {
+			margin: 0;
+			text-align: center;
+		}
+
+		span {
+			font-weight: bold;
+			color: map-get($brand, aliss-dark-blue);
+		}
+	}
+}
