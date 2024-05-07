@@ -1,0 +1,82 @@
+/** @format */
+
+.aliss-banner {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 16px;
+    align-items: center;
+    padding: 18px 16px;
+    margin-bottom: 24px;
+
+    &__title {
+        font-weight: 500;
+        font-size: rem-calc(18);
+    }
+
+    &__content {
+        position: relative;
+
+        &__text {
+            position: relative;
+            display: inline-block;
+        }
+    }
+
+    &__disclaimer {
+        background-color: #cce5ff;
+        color: #004785;
+        border-left: 3px solid #1e7abd;
+    }
+
+    &__success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 3px solid #589f68;
+    }
+
+    i {
+        font-size: rem-calc(18px);
+    }
+}
+
+.aliss-deprioritised-data-disclaimer {
+    position: relative;
+    margin-top: rem-calc(24);
+    padding: 0px 16px;
+    color: map-get($brand, aliss-dark-blue);
+    display: none;
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: rem-calc(3);
+        height: 100%;
+        background-color: map-get($brand, aliss-blue);
+        border-radius: rem-calc(18);
+    }
+
+    &__title {
+        font-weight: 500;
+        font-size: rem-calc(18);
+    }
+
+    &__content {
+        margin-top: 0;
+        color: initial;
+    }
+
+    &__dismiss {
+        display: inline-block;
+        text-decoration: underline;
+        font-weight: 500;
+        cursor: pointer;
+        @include aliss-a-hover();
+    }
+
+    &--active {
+        display: block;
+    }
+}

@@ -1,0 +1,46 @@
+.aliss-table-container {
+    display: flex;
+    overflow: auto;
+}
+
+.aliss-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    &__cell {        
+        border-top: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        padding: rem-calc(10);
+        display: table-cell;
+
+        &:first-child {
+            border-left: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+            @-moz-document url-prefix() {
+                border-left: solid map-get($brand, aliss-dark-gray);
+            }
+        }
+        &:last-child {
+            border-right: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+            text-align: right;
+        }
+
+        .aliss-list {
+            margin-left: auto;
+            width: auto;
+        }
+    }
+
+    &__header {
+        padding: rem-calc(11);
+        text-align: left;
+
+        &:last-child {
+            text-align: right;
+        }
+    }
+
+    &__row {
+        margin-bottom: 30px;
+    }
+}

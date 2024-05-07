@@ -1,0 +1,118 @@
+﻿@model  ALISS.ApiServices.ViewModels.Service.ServiceModel
+@using ALISS.ApiServices.ViewModels.Service;
+@{
+	List<AlissServiceAccessibilityFeature> virtualAccessibilityFeatures = Model.accessibility_features.Where(v => v.location_id == null).ToList();
+	int countLocationAccessibilityFeatures = Model.accessibility_features.Where(l => l.location_id != null).Count();
+}
+
+<div class="aliss-accordion-container mb--24">
+	<div class="aliss-content-accordion__header">
+		<button id="aliss-accordion-accessibility-btn" class="aliss-content-accordion__trigger" type="button" data-accordion-trigger="accessibility">
+			Accessibility
+			<i class="fas fa-chevron-circle-down hide-print" aria-hidden="true"></i>
+			<span class="sr-only">Click here to toggle the Accessibility section</span>
+		</button>
+	</div>
+	<div class="aliss-content-accordion__content" id="accessibility">
+		@foreach (var location in Model.locations)
+		{
+			List<AlissServiceAccessibilityFeature> locationAccessibilityFeatures = Model.accessibility_features.Where(l => l.location_id == location.id).ToList();
+			if (locationAccessibilityFeatures.Count > 0)
+			{
+				if (Model.accessibility_features.Where(l => l.location_id != location.id).Count() == 0 && virtualAccessibilityFeatures.Count == 0)
+				{
+					<h2>@location.formatted_address</h2>
+					<div class="service-listing__container">
+						@foreach (AlissServiceAccessibilityFeature accessibilityFeature in locationAccessibilityFeatures)
+						{
+							<div class="service-listing__accessibility-panel mb--24">
+								<span class="service-listing__accessibility-panel__icon">
+									<i aria-hidden="true" class="@accessibilityFeature.icon"></i>
+								</span>
+								<div class="pl--8">
+									<label class="service-listing__accessibility-panel__title">@accessibilityFeature.name</label>
+									<div class="mt--8">@accessibilityFeature.additional_info</div>
+								</div>
+							</div>
+						}
+					</div>
+				}
+				else
+				{
+					<div class="aliss-nested-accordion__header">
+						<a id="aliss-accordion-accessibility-btn" class="aliss-nested-accordion__trigger" data-accordion-trigger="accessibility-@location.id">
+							<i class="fas fa-caret-right" aria-hidden="true"></i>
+							@location.formatted_address
+							<span class="sr-only">Click here to toggle the Accessibility section</span>
+						</a>
+					</div>
+					<div class="aliss-nested-accordion__content" id="accessibility-@location.id">
+						<div class="service-listing__container">
+							@foreach (AlissServiceAccessibilityFeature accessibilityFeature in locationAccessibilityFeatures)
+							{
+								<div class="service-listing__accessibility-panel mb--24">
+									<span class="service-listing__accessibility-panel__icon">
+										<i aria-hidden="true" class="@accessibilityFeature.icon"></i>
+									</span>
+									<div class="pl--8">
+										<label class="service-listing__accessibility-panel__title">@accessibilityFeature.name</label>
+										<div class="mt--8">@accessibilityFeature.additional_info</div>
+									</div>
+								</div>
+							}
+						</div>
+					</div>
+				}
+			}
+		}
+
+		@if (virtualAccessibilityFeatures.Count > 0)
+		{
+			if (countLocationAccessibilityFeatures > 0)
+			{
+				<div class="aliss-nested-accordion__header">
+					<a id="aliss-accordion-accessibility-btn" class="aliss-nested-accordion__trigger" data-accordion-trigger="accessibility-virtual">
+						<i class="fas fa-caret-right" aria-hidden="true"></i>
+						Virtual
+						<span class="sr-only">Click here to toggle the Accessibility section</span>
+					</a>
+				</div>
+
+				<div class="aliss-nested-accordion__content" id="accessibility-virtual">
+					<div class="service-listing__container">
+						@foreach (AlissServiceAccessibilityFeature accessibilityFeature in virtualAccessibilityFeatures)
+						{
+							<div class="service-listing__accessibility-panel mb--24">
+								<span class="service-listing__accessibility-panel__icon">
+									<i aria-hidden="true" class="@accessibilityFeature.icon"></i>
+								</span>
+								<div class="pl--8">
+									<label class="service-listing__accessibility-panel__title">@accessibilityFeature.name</label>
+									<div class="mt--8">@accessibilityFeature.additional_info</div>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+			}
+			else
+			{
+				<h2>Virtual</h2>
+				<div class="service-listing__container">
+					@foreach (AlissServiceAccessibilityFeature accessibilityFeature in virtualAccessibilityFeatures)
+					{
+						<div class="service-listing__accessibility-panel mb--24">
+							<span class="service-listing__accessibility-panel__icon">
+								<i aria-hidden="true" class="@accessibilityFeature.icon"></i>
+							</span>
+							<div class="pl--8">
+								<label class="service-listing__accessibility-panel__title">@accessibilityFeature.name</label>
+								<div class="mt--8">@accessibilityFeature.additional_info</div>
+							</div>
+						</div>
+					}
+				</div>
+			}
+		}
+	</div>
+</div>

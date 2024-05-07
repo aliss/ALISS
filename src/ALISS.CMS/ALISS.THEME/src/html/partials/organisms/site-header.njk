@@ -1,0 +1,54 @@
+{# Global variables #}
+  {% import "../include/globalVariables.njk" as GV %}
+  {% from GV.atoms + "atoms_a.njk" import a as a %}
+  {% from GV.atoms + "atoms_h1.njk" import h1 as h1 %}
+  {% from GV.atoms + "atoms_p.njk" import p as p %}
+  {% from GV.atoms + "atoms_img.njk" import img as img %}
+{# Global variables #}
+
+<div class="aliss-header">
+  <div class="aliss-grid">
+    <div class="aliss-header-component">
+      {{ a("", "#about", "Click here to provide feedback on ALISS.", "_self", "a-feedback a-feedback--mobile btn btn--primary hidden--desktop hidden--largedesktop", "", "Give fedback") }}
+      <div class="aliss-header-component-tertiary-menu hide-print">
+        {{ a("", "#about", "Click here to login or signup.", "_self", "a-login-mobile hidden--desktop hidden--largedesktop", "", "Login / Signup") }}
+        <div id="menu" class="navigation-toggle">
+          <p><i class="fas fa-bars"></i>
+          Navigation</p>
+        </div>
+      </div>
+      <div class="aliss-header-component__logo">
+        {{ a("", "/", "Click here to navigate to the homepage", "_self", "", "", img("", "img/aliss-logo.png", "ALISS.", "", "")) }}
+      </div>     
+      <div class="aliss-menu-component__public">
+          <a href="/" class="aliss-menu-component__navigation-link">
+              Go to ALISS home page
+          </a>
+      </div>
+      <div id="menu-toggle" class="aliss-header-component__navigation hide-print">
+        <nav class="aliss-header-component__navigation__secondary">
+          <ul>
+            <li>{{ a("", "#about", "Click here to login or signup.", "_self", "", "", "Login / Signup") }}</li>
+            <li>{{ a("", "#about", "Click here to provide feedback on ALISS.", "_blank", "a-feedback btn btn--primary", "", "Give fedback") }}</li>
+          </ul>
+        </nav>
+        <nav class="aliss-header-component__navigation__primary">
+          <ul>
+            <li class="aliss-header-component__navigation__primary__item aliss-header-component__navigation__primary__item--active-page hide-print">
+              {{ a("", "/#about", "Click here for more information about us", "_self", "", "", "Search") }}
+            </li>
+            <li class="aliss-header-component__navigation__primary__item">
+              {{ a("", "/#supported-by", "Click here for more information about who supports us", "_self", "", "", "About") }}
+            </li>
+            <li class="aliss-header-component__navigation__primary__item">
+              {{ a("", "/#how-it-works", "Click here for more information about how it works", "_self", "", "", "News") }}
+            </li>
+            <li class="aliss-header-component__navigation__primary__item">
+              {{ a("", "/#projects", "Click here for more information about some of our projects", "_self", "", "", "Add an organisation") }}
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <appSettings>
+    <add key="AzureBlobFileSystem.ContainerName:media" xdt:Locator="Match(key)" xdt:Transform="Remove" />
+    <add key="AzureBlobFileSystem.ContainerName:media" value="media-dev" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+    <add key="AzureBlobFileSystem.RootUrl:media" xdt:Locator="Match(key)" xdt:Transform="Remove" />
+    <add key="AzureBlobFileSystem.RootUrl:media" value="https://tacallncealisssaliv.blob.core.windows.net/" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+    <add key="AzureBlobFileSystem.ConnectionString:media" xdt:Locator="Match(key)" xdt:Transform="Remove" />
+    <add key="AzureBlobFileSystem.ConnectionString:media" value="***REMOVED***" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+    <add key="AzureBlobFileSystem.MaxDays:media" xdt:Locator="Match(key)" xdt:Transform="Remove" />
+    <add key="AzureBlobFileSystem.MaxDays:media" value="365" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+    <add key="AzureBlobFileSystem.UseDefaultRoute:media" xdt:Locator="Match(key)" xdt:Transform="Remove" />
+    <add key="AzureBlobFileSystem.UseDefaultRoute:media" value="true" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+    <add key="AzureBlobFileSystem.UsePrivateContainer:media" xdt:Locator="Match(key)" xdt:Transform="Remove" />
+    <add key="AzureBlobFileSystem.UsePrivateContainer:media" value="false" xdt:Locator="Match(key)" xdt:Transform="InsertIfMissing" />
+  </appSettings>
+  <location path="media" xdt:Locator="Match(path)" xdt:Transform="InsertIfMissing">
+    <system.webServer xdt:Transform="InsertIfMissing">
+      <handlers xdt:Transform="InsertIfMissing">
+        <remove name="StaticFileHandler" xdt:Locator="Match(name)" xdt:Transform="InsertIfMissing" />
+        <add name="StaticFileHandler" path="*" verb="*" preCondition="integratedMode" type="System.Web.StaticFileHandler" xdt:Locator="Match(name)" xdt:Transform="InsertIfMissing" />
+      </handlers>
+    </system.webServer>
+  </location>
+</configuration>

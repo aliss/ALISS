@@ -1,0 +1,10 @@
+<div ng-controller="muyaFaIconPicker.Controller">    
+    <div title="{{model.value}}" class="iconBox" ng-click="openDialog()">
+        <span class="selectText" ng-show="model.value===''">select</span>
+        <span class="faIcon" ng-show="model.value" prevent-default>
+            <i class="{{model.value}}"></i>
+        </span>
+    </div>
+    <small ng-if="modelIsValid" class="removeLink"><a href="#" ng-click="remove()" prevent-default>Remove</a></small>
+    <umb-overlay ng-if="overlay.show" model="overlay" view="overlay.view" position="right"> </umb-overlay>
+</div>

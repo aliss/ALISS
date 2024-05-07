@@ -1,0 +1,15 @@
+.tooltip {
+	animation-duration: 0.3s;
+	animation-iteration-count: 1;
+	animation-name: opacity;
+	background: map-get($brand, aliss-dark-blue);
+	color: $white;
+	display: inline-block;
+	max-height: rem-calc(200);
+	max-width: rem-calc(300);
+	padding: rem-calc(8);
+	border-radius: rem-calc(5);
+	line-height: 1.2;
+	position: absolute;
+	z-index: 3;
+}

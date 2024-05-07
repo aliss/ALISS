@@ -1,0 +1,53 @@
+<div name="IconPickerForm" ng-controller="muyaFaIconPicker.Dialog.Controller">
+    <umb-editor-view>
+        <umb-editor-header name="model.title"
+                           name-locked="true"
+                           hide-alias="true"
+                           hide-icon="true"
+                           hide-description="true">
+        </umb-editor-header>
+        <umb-editor-container>
+            <umb-box>
+                <umb-box-content>
+                    <div class="umb-control-group">
+                        <div class="form-search">
+                            <i class="icon-search"></i>
+                            <input type="text"
+                                   style="width: 100%"
+                                   ng-model="searchTerm"
+                                   class="umb-search-field search-query input-block-level"
+                                   localize="placeholder"
+                                   placeholder="@placeholders_filter"
+                                   umb-auto-focus
+                                   no-dirty-check>
+                        </div>
+                    </div>
+                    <umb-load-indicator ng-if="loading"></umb-load-indicator>
+                    <div class="umb-control-group" ng-show="!model.loading && filtered.length > 0 ">
+                        <ul class="umb-iconpicker">
+                            <li class="umb-iconpicker-item" ng-class="{'-selected': icon == model.currentIcon}" ng-repeat="icon in filtered = (model.icons | filter: searchTerm) track by $index">
+                                <button type="button" title="{{icon}}" ng-click="model.pickIcon(icon)" prevent-default>
+                                    <i class="{{icon}}" aria-hidden="true"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <umb-empty-state ng-if="filtered.length === 0 && loading == false"
+                                     position="center">
+                        <localize key="defaultdialogs_noIconsFound">No icons were found.</localize>
+                    </umb-empty-state>
+                </umb-box-content>
+            </umb-box>
+        </umb-editor-container>
+        <umb-editor-footer>
+            <umb-editor-footer-content-right>
+                <umb-button type="button"
+                            button-style="link"
+                            label-key="general_close"
+                            shortcut="esc"
+                            action="model.close()">
+                </umb-button>
+            </umb-editor-footer-content-right>
+        </umb-editor-footer>
+    </umb-editor-view>
+</div>

@@ -1,0 +1,181 @@
+﻿@model ALISS.Business.ViewModels.Service.ServiceListingViewModel
+@{
+    ViewBag.Title = "All Services";
+    string sortIcon = (int)ViewBag.Descending == 1 ? "fa fa-sort-desc" : "fa fa-sort-asc";
+    bool isEditor = (bool)ViewBag.IsEditor;
+    bool deprioritisedDisplayed = false;
+}
+
+<div class="aliss-search">
+    <div class="aliss-search__filter">
+        @using (Html.BeginForm("AllServices", "Service", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+        {
+            <label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+                Search
+            </label>
+            <input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+            <button class="btn btn--primary" type="submit">Search</button>
+            if (!String.IsNullOrEmpty(Model.SearchTerm))
+            {
+                <div class="aliss-search__clear">
+                    @Html.ActionLink("Clear Search", "AllServices", "Service", null, new { @class = "btn btn--primary" })
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="aliss-pagination-component">
+    <div class="aliss-pagination-component__wrapper">
+        <div class="aliss-pagination-component__wrapper__item">
+            <p>Total Results: <span>@Model.TotalResults</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="aliss-table-container">
+    <table class="aliss-table">
+        <thead class="aliss-table__head">
+            <tr class="aliss-table__row aliss-table__row--head">
+                @if (isEditor)
+                {
+                    <th class="aliss-table__header" scope="col">
+                        @if (ViewBag.OrderBy.ToLower() == "servicename")
+                        {
+                            <a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=servicename&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Service Name</a>
+                            <span class="@sortIcon"></span>
+                        }
+                        else
+                        {
+                            <a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=servicename&descending=0")">Service Name</a>
+                        }
+                    </th>
+                    <th class="aliss-table__header" scope="col">
+                        @if (ViewBag.OrderBy.ToLower() == "organisationname")
+                        {
+                            <a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=organisationname&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Organisation Name</a>
+                            <span class="@sortIcon"></span>
+                        }
+                        else
+                        {
+                            <a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=organisationname&descending=0")">Organisation Name</a>
+                        }
+                    </th>
+                    <th class="aliss-table__header" scope="col">
+                        @if (ViewBag.OrderBy.ToLower() == "createdon")
+                        {
+                            <a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=createdon&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Created On</a>
+                            <span class="@sortIcon"></span>
+                        }
+                        else
+                        {
+                            <a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=createdon&descending=1")">Created On</a>
+                        }
+                    </th>
+                    <th class="aliss-table__header" scope="col">
+                        @if (ViewBag.OrderBy.ToLower() == "updatedon")
+                        {
+                            <a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=updatedon&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Updated On</a>
+                            <span class="@sortIcon"></span>
+                        }
+                        else
+                        {
+                            <a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=updatedon&descending=1")">Updated On</a>
+                        }
+                    </th>
+                    <th class="aliss-table__header" scope="col">Linked Areas</th>
+                    <th class="aliss-table__header" scope="col">Linked Locations</th>
+                }
+                else
+                {
+                    <th class="aliss-table__header" scope="col">Service Name</th>
+                    <th class="aliss-table__header" scope="col"></th>
+                }
+            </tr>
+        </thead>
+
+        <tbody class="aliss-table__body">
+            @foreach (var service in Model.Services)
+            {
+                if (service.Deprioritised && !deprioritisedDisplayed)
+                {
+                    <tr class="aliss-table__row aliss-table__row--body">
+                        <th class="pt--16 pb--16 text-align--left" colspan="10">
+                            <h4 class="mb--0">These services have not been reviewed in the last 12 months, they will show at the end of search results until they are reviewed</h4>
+                        </th>
+                    </tr>
+
+                    deprioritisedDisplayed = true;
+                }
+                <tr class="aliss-table__row aliss-table__row--body">
+                    <td class="aliss-table__cell">
+                        <a href="@($"{ViewBag.PublicURL}services/{service.ServiceId}")">@service.Name</a>
+                        @if (isEditor && service.CanEdit)
+                        {
+                            <span class="d-block mt--16">
+                                <i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputSummary", new { id = service.ServiceId }, new { @class = "" })
+                            </span>
+                        }
+                    </td>
+                    @if (isEditor)
+                    {
+                        <td class="aliss-table__cell">
+                            <a href="@($"{ViewBag.PublicURL}organisations/{service.OrganisationId}")">@service.OrganisationName</a>
+                            @if (service.CanEditOrganisation)
+                            {
+                                <span class="d-block mt--16">
+                                    <i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputOrganisationSummary", new { id = service.OrganisationId }, new { @class = "" })
+                                </span>
+                            }
+                        </td>
+                        <td class="aliss-table__cell">
+                            @($"{service.CreatedOn:dd/MM/yyyy}")
+                        </td>
+                        <td class="aliss-table__cell">
+                            @(service.LastUpdatedUserId.HasValue ? $"{service.LastUpdated:dd/MM/yyyy}" : "N/A")
+                        </td>
+                        <td class="aliss-table__cell">
+                            @service.LinkedAreas
+                        </td>
+                        <td class="aliss-table__cell">
+                            @service.LinkedLocations
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="aliss-table__cell"></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="aliss-pagination-component">
+    <div class="aliss-pagination-component__wrapper">
+        <div class="aliss-pagination-component__wrapper__item">
+            <p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+        </div>
+        @if (Model.TotalPages > 1)
+        {
+            <div class="aliss-pagination-component__wrapper__item">
+                <nav>
+                    <ol>
+                        @if (Model.Page > 1)
+                        {
+                            <li>
+                                <a href="/Service/AllServices?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-previous">Previous</a>
+                            </li>
+                        }
+                        @if (Model.Page < Model.TotalPages)
+                        {
+                            <li>
+                                <a href="/Service/AllServices?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-next">Next</a>
+                            </li>
+                        }
+                    </ol>
+                </nav>
+            </div>
+        }
+    </div>
+</div>
+

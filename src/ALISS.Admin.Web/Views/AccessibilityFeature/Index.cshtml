@@ -1,0 +1,68 @@
+﻿@model ALISS.Business.ViewModels.AccessibilityFeature.AccessibilityFeatureListingViewModel
+@using System.Text.RegularExpressions;
+@{
+    ViewBag.Title = "Accessibility Features";
+}
+
+<div class="aliss-search">
+    <div class="aliss-search__filter">
+        @using (Html.BeginForm("Index", "AccessibilityFeature", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+        {
+            <label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+                Search
+            </label>
+            <input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+            <button class="btn btn--primary" type="submit" title="Search the accessibility features">Search</button>
+            if (!String.IsNullOrEmpty(Model.SearchTerm))
+            {
+                <div class="aliss-search__clear">
+                    @Html.ActionLink("Clear Search", "Index", "AccessibilityFeature", null, new { @class = "btn btn--primary", title = "Clear the search and show all accessibility features" })
+                </div>
+            }
+        }
+    </div>
+    <div class="aliss-search__actions">
+        @Html.ActionLink("Add Accessibility Feature", "AddAccessibilityFeature", "AccessibilityFeature", null, new { @class = "btn btn--primary", title = "Add accessibility feature" })
+    </div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+    @Html.Partial("_SuccessMessage")
+}
+
+<div class="aliss-pagination-component">
+    <div class="aliss-pagination-component__wrapper">
+        <div class="aliss-pagination-component__wrapper__item">
+            <p>Total Results: <span>@Model.TotalResults</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="aliss-categories">
+    <div class="aliss-categories__titles">
+        <div class="aliss-categories__title aliss-categories__title--name">
+            <strong>Name</strong>
+        </div>
+        <div class="aliss-categories__title aliss-categories__title--count">
+            <strong>Service Count</strong>
+        </div>
+    </div>
+
+    @foreach (var accessibilityFeature in Model.AccessibilityFeatures.OrderBy(x => x.DisplayOrder).ThenBy(x => Regex.Replace(x.Name.ToLower(), "[$&+,:;=?@#.\"|'\\-<>.^*()%!]", string.Empty)))
+    {
+        var primaryId = accessibilityFeature.Name.Replace(" ", "-").ToLower();
+        <div class="aliss-categories__item">
+            <div class="aliss-categories__primary">
+
+                <div class="aliss-accordion__header">
+                    @Html.ActionLink(accessibilityFeature.Name, "EditAccessibilityFeature", "AccessibilityFeature", new { id = accessibilityFeature.AccessibilityFeatureId }, new { @class = "aliss-categories__edit" })
+                    
+                    <div class="aliss-categories__spacer"></div>
+                    
+                    <span class="aliss-categories__count">@accessibilityFeature.ServiceCount</span>
+                </div>
+            </div>
+        </div>
+    }
+</div>

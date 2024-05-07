@@ -1,0 +1,96 @@
+/** @format */
+
+.aliss-pagination-component {
+	border-top: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+	border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+	padding: rem-calc(15 0);
+	margin-top: rem-calc(30);
+
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		@include media('>=tablet') {
+			flex-direction: row;
+		}
+		&__item {
+			flex: 0 1 auto;
+			@include media('<=desktop') {
+				width: 100%;
+				&:first-of-type {
+					margin-bottom: rem-calc(30);
+				}
+			}
+			@include media('>desktop') {
+				width: 49%;
+			}
+		}
+	}
+
+	p {
+		margin: rem-calc(10 0 0 0);
+		padding: 0;
+		@include media('<=desktop') {
+			margin: 0;
+			text-align: center;
+		}
+
+		span {
+			font-weight: bold;
+			color: map-get($brand, aliss-dark-blue);
+		}
+	}
+
+	ol {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		@include media('<=desktop') {
+			margin: rem-calc(5) auto 0;
+			justify-content: center;
+		}
+		justify-content: flex-end;
+		margin: rem-calc(5 0 0 0);
+		padding: 0;
+		li {
+			flex: 0 1 auto;
+			list-style-type: none;
+			@include media('<=tablet') {
+				margin: rem-calc(0 0 0 15);
+			}
+			margin: rem-calc(0 0 0 15);
+			&.js-pagination-hidden {
+				display: none;
+			}
+			a {
+				padding: rem-calc(10);
+				&:not(.aliss-pagination-previous):not(.aliss-pagination-next):not(.js-pagination-active-page) {
+					color: $white;
+					background: map-get($brand, aliss-dark-blue);
+					padding: rem-calc(10);
+					min-width: 35px;
+					&:hover {
+						background: map-get($brand, aliss-dark-gray);
+					}
+				}
+				&.aliss-pagination-previous,
+				&.aliss-pagination-next {
+					color: map-get($brand, aliss-dark-blue);
+				}
+				&.js-pagination-active-page {
+					color: $white;
+					background: map-get($brand, aliss-dark-gray);
+					padding: rem-calc(10);
+					&:hover {
+						background: map-get($brand, aliss-dark-blue);
+					}
+					min-width: 35px;
+				}
+				display: inline-block;
+				text-align: center;
+				text-decoration: none;
+			}
+		}
+	}
+}

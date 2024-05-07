@@ -1,0 +1,12 @@
+{% macro a(id, path, title, target, class, attributes, text) %}
+  {# Component compilation #}
+  {% if target === "_self" %}
+    {% set title_helper = '.' %}
+  {% elseif target === "_blank" %}
+    {% set title_helper = ' - (This will open in a new window).' %}
+  {% endif %}
+  {# Component compilation #}
+  <a id="{{id}}" href="{{path}}" title="{{title}}{{title_helper}}" {{attributes}} target="{{target}}" class="{{class}}">
+    {{text | safe }}
+  </a>
+{% endmacro %}

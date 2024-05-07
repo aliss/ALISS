@@ -1,0 +1,6 @@
+{% macro h1(id, class, text) %}
+  {# Component compilation #}
+  <h1 {% if id %}id="{{id}}"{% endif %} {% if class %}class="{{class}}"{% endif %}>
+    {{text | safe}}
+  </h1>
+{% endmacro %}

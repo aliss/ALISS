@@ -1,0 +1,63 @@
+﻿@{
+    var baseUrldash = System.Configuration.ConfigurationManager.AppSettings["BasePublicSiteUrl"];
+}
+
+<header class="aliss-header mb--48">
+    <div class="aliss-header__logo">
+        <a href="@baseUrldash" title="Click here to navigate to aliss.org" target="_self">
+            <img src="/Ui/dist/img/aliss-logo-print.png" alt="A Local Information System for Scotland (ALISS) logo" />
+            <div class="aliss-header__title-text">A Local Information System for Scotland</div>
+        </a>
+    </div>
+    <div class="aliss-header__content">
+
+        <div class="aliss-header-title">
+            <div class="aliss-header__item-container pt--8">
+                <div id="menu-toggle-open" class="navigation-toggle">
+                    <button role="button" title="Open navigation menu">
+                        <i class="fas fa-bars"></i>
+                        <span class="sr-only">Click here to open the</span>Navigation<span class="sr-only">options menu</span>
+                    </button>
+                </div>
+
+                <div class="aliss-header__accessibility-tools-container">
+                    <i class="fas fa-universal-access pr--8" aria-hidden="true"></i>
+                    <div class="reachdeck-btn" id="__ba_panel">
+                        Accessibility Tools
+                    </div>
+                </div>
+            </div>
+            @*<div id="__ba_launchpad" style="display:inline;margin-left:30px;vertical-align:bottom;">Accessibility</div>*@
+            <div class="aliss-header__item-container">
+                <h1 style="display:inline;">@ViewBag.Title</h1>
+                @if (ViewBag.DisplayName != null)
+                {
+                    <button class="aliss-user" data-popover="user-popover">
+                        <span class="aliss-user__avatar">
+                            <span class="fas fa-user" aria-hidden="true"></span>
+                        </span>
+                        <span class="aliss-user__display">@ViewBag.DisplayName</span>
+                    </button>
+
+                    <div class="hide" id="user-popover">
+                        <div class="aliss-popover">
+                            <ul class="aliss-icon-list aliss-icon-list--100">
+                                @*<li class="aliss-icon-list__item aliss-icon-list__item--edit">
+                                        <a id="aliss-edit-user" href="~/User/EditUser/@ViewBag.ProfileId" title="Click here to log out">
+                                            Edit Profile
+                                        </a>
+                                    </li>*@
+                                <li class="aliss-icon-list__item aliss-icon-list__item--logout">
+                                    <a id="aliss-logout" href="~/Account/LogOff" title="Click here to log out">
+                                        Log Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</header>

@@ -1,0 +1,12 @@
+/** @format */
+
+.aliss-component-contact-details {
+  @include aliss-component();
+  a {
+    color: map-get($brand, aliss-dark-blue);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

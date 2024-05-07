@@ -1,0 +1,48 @@
+﻿@model ALISS.Business.ViewModels.ServiceArea.EditServiceAreaViewModel
+@{
+	ViewBag.Title = "Edit Service Area";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("AddServiceArea", "ServiceArea", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Edit a Service Area</legend>
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSDisabledTextBox(m => m.Slug)
+		<div class="aliss-form__two-column">
+			@Html.ALISSTextBox(m => m.Code)
+			@Html.ALISSDropDown(m => m.Type, Model.ServiceAreaType)
+		</div>
+		@Html.HiddenFor(m => m.GeoJson)
+
+		@Html.HiddenFor(m => m.Slug)
+		@Html.HiddenFor(m => m.ServiceAreaId)
+
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary">Save</button>
+		@Html.ActionLink("Cancel", "Index", "ServiceArea", null, new { @class = "btn btn--primary" })
+	</div>
+}
+
+@section sidemenu {
+	<div class="aliss-sidemenu">
+		<h2>Actions</h2>
+		<div class="aliss-component-master__links">
+			<ul class="aliss-icon-list">
+				<li class="aliss-icon-list__item">
+					<i aria-hidden="true" class="aliss-icon-list__icon fa fa-trash"></i>
+					@Html.ActionLink("Delete Service Area", "DeleteServiceArea", "ServiceArea", new { id = Model.ServiceAreaId }, null)
+				</li>
+			</ul>
+		</div>
+	</div>
+}

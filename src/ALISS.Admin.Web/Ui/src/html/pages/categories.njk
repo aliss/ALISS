@@ -1,0 +1,201 @@
+{% extends "layout.njk" %}
+
+{# Global variables #}
+  {# 
+    Access to atom, molecule and organism paths.
+  #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+{# Global variables #}
+
+{# Page variables #}
+  {# 
+    Page meta data:
+    If specified, this will populate meta tags for page SEO.
+  #}
+    {% set page_Meta_Title = 'Dashboard' %}
+    {% set page_Meta_Description = '' %}
+    {% set page_Meta_Keywords = '' %}
+  {# 
+    Page styles:
+    Utilise Atoms, Molecules and Organisms to create templates.
+  #}
+  {% set page_Styles = false %}
+  {# 
+    Page body ID & class:
+    If specified, this id and or class will be applied to the body tag.
+  #}
+    {% set page_Body_ID = 'aliss-admin' %}
+    {% set page_Body_Class = 'aliss-admin' %}
+  {# 
+    Page ID & class:
+    If specified, this class will be applied to top level parent tag of this page, containing all of the componets within the page contents.
+  #}
+  {% set page_ID = '' %}
+  {% set page_Class = '' %}
+{# Page variables #}
+
+{% block body %}
+
+  <div class="aliss-search">
+      <div class="aliss-search__filter">
+
+          <form class="aliss-form__group aliss-form__group--search">
+            <label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+              Search
+            </label> 
+            <input id="SearchBox" name="searchTerm"  class="aliss-form__search" type="text"/>
+            <button class="btn btn--primary" type="submit">Search</button> 
+          </form>
+
+      </div>
+
+      <div class="aliss-search__actions">
+          <a href="#" class="btn btn--primary">Add Action Name</a>
+      </div>
+  </div>
+  
+  <div class="aliss-categories">
+
+    <div class="aliss-categories__item">
+
+        <div class="aliss-categories__primary">
+          <div class="aliss-accordion__header">
+            <button class="aliss-accordion__trigger" data-accordion-trigger="primary1">
+                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                <span class="hide">Toggle Accordion Parent Name</span>
+            </button>
+            <a href="#" class="aliss-categories__edit">Parent Categorie Name</a>
+            <div class="aliss-categories__spacer"></div>
+            <span class="aliss-categories__count">100</span>
+            <a href="#" class="aliss-categories__add">
+                <i class="fa fa fa-plus-circle" aria-hidden="true"></i>
+                <span class="hide">Add Categorie to Parent Name</span>
+            </a>
+          </div>
+            
+          <div class="aliss-accordion__content" id="primary1">
+                
+                <div class="aliss-categories__sub">
+                  <div class="aliss-accordion__header">
+                    <button class="aliss-accordion__trigger" data-accordion-trigger="sub1">
+                        <i class="fa fa fa-chevron-circle-down" aria-hidden="true"></i>
+                        <span class="hide">Toggle Accordion Sub Cat Name</span>
+                    </button>
+                    <a href="#" class="aliss-categories__edit">Sub Cat Categorie Name</a>
+                    <div class="aliss-categories__spacer"></div>
+                    <span class="aliss-categories__count">100</span>
+                    <a href="#" class="aliss-categories__add">
+                        <i class="fa fa fa-plus-circle" aria-hidden="true"></i>
+                        <span class="hide">Add Categorie to Sub Cat Name</span>
+                    </a>
+                  </div>                
+                  <div class="aliss-accordion__content" id="sub1">
+                  
+                    <div class="aliss-categories__sub aliss-categories__sub--three">
+                      <a href="#" class="aliss-categories__edit">Sub Level 2 Cat Categorie Name</a>
+                      <div class="aliss-categories__spacer"></div>
+                      <span class="aliss-categories__count">100</span>
+                      <a href="#" class="aliss-categories__add">
+                          <i class="fa fa fa-plus-circle" aria-hidden="true"></i>
+                          <span class="hide">Add Categorie to Sub Level 2 Cat Name</span>
+                      </a>  
+                    </div>  
+
+                    <div class="aliss-categories__sub aliss-categories__sub--three">
+                      <a href="#" class="aliss-categories__edit">Sub Level 2 Cat Categorie Name</a>
+                      <div class="aliss-categories__spacer"></div>
+                      <span class="aliss-categories__count">100</span>
+                      <a href="#" class="aliss-categories__add">
+                          <i class="fa fa fa-plus-circle" aria-hidden="true"></i>
+                          <span class="hide">Add Categorie to Sub Level 2 Cat Name</span>
+                      </a>
+                    </div>   
+                  </div>    
+                  
+                </div> 
+              </div>
+
+              <div class="aliss-categories__sub">
+                  <div class="aliss-accordion__header">
+                    <button class="aliss-accordion__trigger" data-accordion-trigger="sub2">
+                        <i class="fa fa fa-chevron-circle-down" aria-hidden="true"></i>
+                        <span class="hide">Toggle Accordion Sub Cat Name</span>
+                    </button>
+                    <a href="#" class="aliss-categories__edit">Sub Cat Categorie Name</a>
+                    <div class="aliss-categories__spacer"></div>
+                    <span class="aliss-categories__count">100</span>
+                    <a href="#" class="aliss-categories__add">
+                        <i class="fa fa fa-plus-circle" aria-hidden="true"></i>
+                        <span class="hide">Add Categorie to Sub Cat Name</span>
+                    </a>
+                  </div>                
+                  <div class="aliss-accordion__content" id="sub2">
+                  
+                    <div class="aliss-categories__sub aliss-categories__sub--three">
+                      <a href="#" class="aliss-categories__edit">Sub Level 2 Cat Categorie Name</a>
+                      <div class="aliss-categories__spacer"></div>
+                      <span class="aliss-categories__count">100</span>
+                      <a href="#" class="aliss-categories__add">
+                          <i class="fa fa fa-plus-circle" aria-hidden="true"></i>
+                          <span class="hide">Add Categorie to Sub Level 2 Cat Name</span>
+                      </a>  
+                    </div>  
+
+                    <div class="aliss-categories__sub aliss-categories__sub--three">
+                      <a href="#" class="aliss-categories__edit">Sub Level 2 Cat Categorie Name</a>
+                      <div class="aliss-categories__spacer"></div>
+                      <span class="aliss-categories__count">100</span>
+                      <a href="#" class="aliss-categories__add">
+                          <i class="fa fa fa-plus-circle" aria-hidden="true"></i>
+                          <span class="hide">Add Categorie to Sub Level 2 Cat Name</span>
+                      </a>
+                    </div>   
+                  </div>    
+                  
+                </div> 
+              </div>
+          </div>
+          
+
+        </div>
+    </div>
+
+    
+
+  <div class="aliss-pagination-component">
+    <div class="aliss-pagination-component__wrapper">
+      <div class="aliss-pagination-component__wrapper__item">
+        <p>Showing page <span>1</span> of <span>10</span></p>
+      </div>
+      <div class="aliss-pagination-component__wrapper__item">
+        <nav>
+          <ol>
+            <li>
+              <a href="" class="aliss-pagination-previous">Previous</a>
+            </li>
+            <li>
+              <a href=""  class="js-pagination-previous-page">2</a>
+            </li>
+            <li>
+              <a href=""  class="js-pagination-previous-page">3</a>
+            </li>
+            <li>
+              <a href=""  class="js-pagination-previous-page">4</a>
+            </li>
+            <li class="js-pagination-hidden">
+                <a href="/search/index?page=@i&postcode=@Model.Postcode@url">
+                    @i
+                </a>
+            </li>
+            <li>
+                <a href="" class="aliss-pagination-next">
+                    Next
+                </a>
+            </li>
+          </ol>
+        </nav>
+    </div>
+  </div>
+  </div>
+
+{% endblock %}

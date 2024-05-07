@@ -1,0 +1,7 @@
+{% macro descriptive_icon(icon_code, tooltip_text) %}
+<div class="aliss-descriptive-icon">
+  <span class="tool" data-tip="{{ tooltip_text }}">
+    <i class="far {{ icon_code }}"></i>
+  </span>
+</div>
+{% endmacro %}

@@ -1,0 +1,33 @@
+@using System.Configuration
+@inherits UmbracoViewPage<CdtSearchOption>
+@{
+	string servicesUrl = ViewData["servicesUrl"]?.ToString();
+	bool enableMonsidoTracking = Convert.ToBoolean(ViewData["enableMonsidoTracking"] ?? 0);
+}
+
+<p class="mt--0">@Model.Prompt</p>
+<div class="aliss-search no-margin">
+	<div class="aliss-search__filter">
+		<form id="search-form-postcode" class="js-location aliss-form__group aliss-form__group--search no-margin" action="@servicesUrl" method="get">
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search by postcode
+			</label>
+			<div class="aliss-form__input-container">
+				<input id="search-postcode" name="Postcode" class="aliss-organism-homepage-search__input aliss-form__search--clearable" onFocus="initialize()" type="text" autocomplete="on" placeholder="E.g. Glasgow or G2 4AA">
+				<span id="search-clear" class="aliss-form__input-container--clear"><i class="fas fa-times"></i></span>
+			</div>
+			@if (enableMonsidoTracking)
+			{
+				<button class="btn btn--primary"
+						id="search-button-postcode"
+						onclick="window.monsido_functions.trackEvent('Homepage', 'Homepage Search Button - Where', document.getElementById('search-postcode').innerText, 1);">
+					Search
+				</button>
+			}
+			else
+			{
+				<button class="btn btn--primary" id="search-button-postcode">Search</button>
+			}
+		</form>
+	</div>
+</div>

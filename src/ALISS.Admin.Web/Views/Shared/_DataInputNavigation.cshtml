@@ -1,0 +1,120 @@
+@model dynamic
+@using System.Configuration
+@using ALISS.Business.Enums;
+@{
+    int currentStep = (int)(ViewBag.CurrentStep ?? 0);
+    int totalSteps = (int)ALISS.Business.Enums.DataInputStepsEnum.TotalSteps;
+    bool submitted = ViewBag.Submitted ?? ViewBag.OrganisationSubmitted ?? false;
+    bool orgSubmitted = ViewBag.OrganisationSubmitted ?? false;
+    bool beenToSummary = ViewBag.BeenToSummary ?? false;
+    bool suggestedService = ViewBag.SuggestedService ?? false;
+    Guid serviceId = ViewBag.ServiceId == null ? Guid.Empty : Guid.Parse(ViewBag.ServiceId);
+    Guid organisationId = ViewBag.OrganisationId == null ? Guid.Empty : ViewBag.OrganisationId;
+    DataInputSummaryTypeEnum summaryType = ViewBag.SummaryType ?? DataInputSummaryTypeEnum.NotSubmitted;
+    bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+            ? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+            : false;
+    bool isBasicUser = !ViewBag.IsAdmin && !ViewBag.IsEditor;
+}
+
+<div class="mb--48 mt--24">
+    @if (currentStep != (int)DataInputStepsEnum.OrganisationTestStep)
+    {
+        switch (currentStep)
+        {
+            case (int)DataInputStepsEnum.ServiceTestStep:
+                if (!submitted && !orgSubmitted)
+                {
+                    TempData["currentService"] = ViewBag.CurrentService;
+                    TempData["serviceId"] = serviceId;
+                    @Html.ActionLink("Previous", "Index", "DataInputOrganisation", new { id = organisationId }, new { @class = "btn btn--primary mb--32" });
+                }
+                break;
+            case (int)DataInputStepsEnum.WhereTestStep:
+                @Html.ActionLink("Previous", "Index", "DataInputService", new { id = serviceId }, new { @class = "btn btn--primary mb--32" });
+                break;
+            case (int)DataInputStepsEnum.CategoriesTestStep:
+                @Html.ActionLink("Previous", "Index", "DataInputWhere", new { id = serviceId }, new { @class = "btn btn--primary mb--32" });
+                break;
+            case (int)DataInputStepsEnum.WhoTestStep:
+                @Html.ActionLink("Previous", "Index", "DataInputCategories", new { id = serviceId }, new { @class = "btn btn--primary mb--32" });
+                break;
+            case (int)DataInputStepsEnum.AccessibilityTestStep:
+                @Html.ActionLink("Previous", "Index", "DataInputWho", new { id = serviceId }, new { @class = "btn btn--primary mb--32" });
+                break;
+            case (int)DataInputStepsEnum.MediaTestStep:
+                if (summaryType == DataInputSummaryTypeEnum.Organisation)
+                {
+                    @Html.ActionLink("Previous", "Index", "DataInputOrganisation", new { id = organisationId }, new { @class = "btn btn--primary mb--32" });
+                }
+                else
+                {
+                    if (ViewBag.ShowAccessibility != null && !ViewBag.ShowAccessibility)
+                    {
+                        @Html.ActionLink("Previous", "Index", "DataInputWho", new { id = serviceId }, new { @class = "btn btn--primary mb--32" });
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Previous", "Index", "DataInputAccessibility", new { id = serviceId }, new { @class = "btn btn--primary mb--32" });
+                    }
+                }
+                break;
+            case (int)DataInputStepsEnum.SummaryTestStep:
+                if (!submitted)
+                {
+                    @Html.ActionLink("Previous", "Index", "DataInputMedia", new { id = serviceId, summaryType = DataInputSummaryTypeEnum.NotSubmitted }, new { @class = "btn btn--primary mb--32" });
+                }
+                break;
+        }
+    }
+
+    @if (submitted && suggestedService)
+    {
+        <input name="submit" type="submit" class="btn btn--primary no-border" value="Approve & Publish" />
+    }
+    else if ((submitted || (orgSubmitted && !suggestedService)) && currentStep == totalSteps)
+    {
+        <input name="submit" type="submit" class="btn btn--primary no-border" value="Save" />
+    }
+    else if (currentStep == totalSteps)
+    {
+        if (!isBasicUser && !suggestedService)
+        {
+            <input name="submit" type="submit" class="btn btn--primary no-border" value="Submit" />
+        }
+        else
+        {
+            <input name="submit" type="submit" class="btn btn--primary no-border" value="Submit For Review" />
+        }
+    }
+    else
+    {
+        <input name="submit" type="submit" class="btn btn--primary mb--32 no-border" value="Next" />
+    }
+
+    @if ((beenToSummary || submitted) && currentStep != (int)DataInputStepsEnum.SummaryTestStep)
+    {
+        <input name="submit" type="submit" class="btn btn--primary mb--32 no-border" value="Return To Summary" />
+    }
+
+    @if (submitted && currentStep == (int)DataInputStepsEnum.SummaryTestStep)
+    {
+    }
+    else if (currentStep > (int)DataInputStepsEnum.OrganisationTestStep)
+    {
+        if (enableMonsidoTracking)
+        {
+            <input name="submit" type="submit" class="btn--tertiary mb--16" value="Save and Exit" onclick="window.monsido_functions.trackEvent('DataInput', 'Save & Exit', 'Save and Exit from ' + @((DataInputStepsEnum)currentStep), 1);" />
+
+        }
+        else
+        {
+            <input name="submit" type="submit" class="btn--tertiary mb--16" value="Save and Exit" />
+        }
+    }
+
+    @if (!submitted)
+    {
+        <input name="submit" type="submit" class="btn--tertiary" value="Cancel the Form" />
+    }
+</div>

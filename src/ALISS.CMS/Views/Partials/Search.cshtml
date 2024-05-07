@@ -1,0 +1,36 @@
+@using System.Configuration
+@inherits UmbracoViewPage
+@{
+	string servicesUrl = Model.AncestorOrSelf(DtHomepage.ModelTypeAlias).DescendantOrSelfOfType(DtServices.ModelTypeAlias)?.Url();
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+			? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+			: false;
+}
+<div class="aliss-organism hide-print">
+	<div class="aliss-search no-margin">
+		<div class="aliss-search__filter">
+			<form id="search-form-postcode" class="js-location aliss-form__group aliss-form__group--search no-margin" action="@servicesUrl" method="get">
+				<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+					Search by postcode
+				</label>
+				<div class="aliss-form__input-container">
+					<input id="search-postcode" name="Postcode" class="aliss-form__search--clearable" type="text" autocomplete="on" placeholder="E.g. Glasgow or G2 4AA">
+					<span id="search-clear" class="aliss-form__input-container--clear"><i class="fas fa-times"></i></span>
+				</div>
+				@if (enableMonsidoTracking)
+				{
+					<button class="btn btn--primary"
+							id="search-button-postcode"
+							onclick="window.monsido_functions.trackEvent('Homepage', 'Homepage Search Button', document.getElementById('search-postcode').innerText, 1);">
+						Search
+					</button>
+				}
+				else
+				{
+					<button id="search-button-postcode" class="btn btn--primary">Search</button>
+				}
+			</form>
+		</div>
+	</div>
+</div>
+<div id="srch"></div>

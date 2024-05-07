@@ -1,0 +1,176 @@
+﻿@using ALISS.CMS.Extensions
+@using Umbraco.Web.PublishedModels
+@using ALISS.ApiServices.ViewModels.Service
+@using ALISS.CMS.Models.Collection
+@using ALISS.CMS.Models.User
+@using ALISS.CMS.Helpers
+@using System.Configuration
+@using ContentModels = Umbraco.Web.PublishedModels;
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.DtCollections>
+@{
+	Layout = "~/Views/Master.cshtml";
+
+	CollectionListingViewModel collectionsListing = ViewBag.CollectionListing;
+
+	int pageSize = Model.PageSize;
+	double pageCount = Math.Ceiling((double)collectionsListing.TotalCount / pageSize);
+
+	CurrentUserViewModel currentUser = GenericHelpers.GetLoggedInUser();
+
+	string status = ViewBag.Status ?? "";
+	string baseUrl = ViewBag.AdminUrl;
+}
+
+<main>
+	<section>
+		<div class="aliss-grid">
+			<div class="aliss-content__wrap">
+				<div class="aliss-content__header">
+					<h1 class="no-margin">Hello, @currentUser.Name</h1>
+					<br />
+					<button class="btn btn--primary" onclick="window.location.href = '@baseUrl'">Organisations and services dashboard</button>
+					<br /><br />
+					<h2>@Model.Title</h2>
+				</div>
+
+				<div class="aliss-content__primary">
+					@foreach (CollectionListPTO item in collectionsListing.Collections)
+					{
+						<div class="aliss-organism aliss-collection__item">
+							<div class="aliss-typography">
+								<h3><a href="/collections/@item.CollectionId">@item.Name</a></h3>
+								<p>@item.ServiceCount</p>
+							</div>
+							<ul class="aliss-icon-list hide-print">
+								<li class="aliss-icon-list__item aliss-icon-list__item--email">
+									<a href="/collections/@item.CollectionId/email">
+										Email collection
+									</a>
+								</li>
+								@if (item.CanDelete)
+								{
+									<li class="aliss-icon-list__item aliss-icon-list__item--trash red">
+										<form id="form-@item.CollectionId" action="" method="post">
+											@Html.AntiForgeryToken()
+											<input type="hidden" id="action" name="action" value="delete" />
+											<input type="hidden" id="id" name="id" value="@item.CollectionId" />
+											<a href="#" onclick="javascript: removeCollection(event, 'form-@item.CollectionId'); return false;">
+												Remove collection
+											</a>
+										</form>
+									</li>
+								}
+							</ul>
+						</div>
+					}
+
+					@if (pageCount > 1)
+					{
+						var previous_page = collectionsListing.Page - 1;
+						var next_page = collectionsListing.Page + 1;
+
+						<div class="aliss-pagination-component">
+							<div class="aliss-pagination-component__wrapper">
+								<div class="aliss-pagination-component__wrapper__item">
+									<p>Showing page <strong>@collectionsListing.Page</strong> of <strong>@pageCount</strong></p>
+								</div>
+								<div class="aliss-pagination-component__wrapper__item hide-print">
+									<nav>
+										<ol>
+											@if (collectionsListing.Page != 1)
+											{
+												<li>
+													<a id="" href="?page=@previous_page" title="Click here to view the previous page of your collections." class="aliss-pagination-previous">
+														Prev
+													</a>
+												</li>
+											}
+											@for (int i = 1; i <= pageCount; i++)
+											{
+												if (collectionsListing.Page == i - 1)
+												{
+													<li>
+														<a href="?page=@i" title="Click here to view page @i of your collections." class="js-pagination-previous-page">
+															@i
+														</a>
+													</li>
+												}
+												else if (collectionsListing.Page == i)
+												{
+													<li>
+														<a href="?page=@i" title="Click here to view page @i of your collections." class="js-pagination-active-page">
+															@i
+														</a>
+													</li>
+												}
+												else if (collectionsListing.Page == i + 1)
+												{
+													<li>
+														<a href="?page=@i" title="Click here to view page @i of your collections." class="js-pagination-next-page">
+															@i
+														</a>
+													</li>
+												}
+												else
+												{
+													<li class="js-pagination-hidden">
+														<a href="?page=@i" title="Click here to view page @i of your collections.">
+															@i
+														</a>
+													</li>
+												}
+											}
+											@if (collectionsListing.Page != pageCount)
+											{
+												<li>
+													<a id="" href="?page=@next_page" title="Click here to view the previous page of your collections." class="aliss-pagination-next">
+														Next
+													</a>
+												</li>
+											}
+										</ol>
+									</nav>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+
+				<div class="aliss-content__secondary hide-print">
+					<div class="aliss-organism">
+						<h4 class="no-margin">Create a new collection</h4>
+						<form class="aliss-search-form" action="" method="post">
+							@Html.AntiForgeryToken()
+							<input type="hidden" id="action" name="action" value="create" />
+							<p>What is the name and purpose of your new collection?</p>
+							@if (!string.IsNullOrWhiteSpace(status))
+							{
+								<p>@status</p>
+							}
+							<div class="aliss-form__group" data-form="add-collection">
+								<label class="aliss-form__label" for="name">Name of collection </label>
+								<input class="aliss-form__input" type="text" id="name" name="name">
+							</div>
+							<div class="aliss-form__group notesfield">
+								<label class="aliss-form__label" for="notes">Notes:</label>
+								<textarea class="aliss-form__input" id="notes" name="notes"></textarea>
+							</div>
+							<button class="btn btn--primary" type="submit">Add collection</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+<script nonce="dtCollection">
+	function removeCollection(e, formId) {
+		e.preventDefault();
+		document.getElementById(formId).submit();
+	}
+</script>
+
+@section Metadata
+{
+	@Html.Metadata(Model as IPublishedContent)
+}

@@ -1,0 +1,77 @@
+﻿@using Umbraco.Web.Models
+@using ALISS.ApiServices.ViewModels.Organisation
+@model OrganisationModel
+@{
+	DtConfiguration configNode = Umbraco.Web.Composing.Current.UmbracoContext.Content.GetAtRoot().First().DescendantOrSelfOfType(DtConfiguration.ModelTypeAlias) as DtConfiguration;
+
+	string title = !string.IsNullOrWhiteSpace(configNode.OrganisationContactInfoTitle)
+		? configNode.OrganisationContactInfoTitle
+		: "Contact information";
+}
+
+<div class="aliss-organism aliss-component-master aliss-content-spacer">
+	<div class="aliss-component-master__contents">
+		<h2>@title</h2>
+		@configNode.OrganisationContactInfoCopy
+	</div>
+	<div class="aliss-component-master__links">
+
+		<p> You can use the information below to get in touch with @Model.name </p>
+		<ul class="aliss-icon-list aliss-icon-list--100">
+			@if (Model.url != null)
+			{
+				<li class="aliss-icon-list__item aliss-icon-list__item--website hide-print">
+					<a id="aliss-org-website-@Model.id" title="This will open in a new window" href="@Model.url" target="_blank">
+						Visit the website<span class="sr-only"> (This will open in a new window)</span>
+					</a>
+				</li>
+
+				<li class="aliss-icon-list__item aliss-icon-list__item--website show-print">
+					<span>@Model.url</span>
+					<br />
+				</li>
+			}
+			@if (!string.IsNullOrWhiteSpace(Model.phone))
+			{
+				<li class="aliss-icon-list__item aliss-icon-list__item--telephone">
+					<a id="aliss-org-phone-@Model.id" href="tel:@Model.phone" title="Click here to call this organisation" target="_blank">
+						@Model.phone<span class="sr-only"> (This will open in a new window)</span>
+					</a>
+				</li>
+			}
+			@if (!string.IsNullOrWhiteSpace(Model.email))
+			{
+				<li class="aliss-icon-list__item aliss-icon-list__item--email">
+					<a id="aliss-org-email-@Model.id" href="mailto:@Model.email" title="This will open your default email client" target="_blank">
+						@Model.email<span class="sr-only"> (This will open in a new window)</span>
+					</a>
+				</li>
+			}
+			@if (Model.facebook != null)
+			{
+				<li class="aliss-icon-list__item aliss-icon-list__item--facebook">
+					<a id="aliss-org-facebook-@Model.id" href="@Model.facebook" title="This will open in a new window" target="_blank">
+						Find us on Facebook
+					</a>
+				</li>
+			}
+			@if (Model.twitter != null)
+			{
+				<li class="aliss-icon-list__item aliss-icon-list__item--twitter">
+					<a id="aliss-org-twitter-@Model.id" href="@Model.twitter" title="This will open in a new window" target="_blank">
+						Find us on X/Twitter
+					</a>
+				</li>
+			}
+			@if (Model.instagram != null)
+			{
+				<li class="aliss-icon-list__item aliss-icon-list__item--instagram">
+					<a id="aliss-org-instagram-@Model.id" href="@Model.instagram" title="This will open in a new window" target="_blank">
+						Find us on Instagram
+					</a>
+				</li>
+			}
+
+		</ul>
+	</div>
+</div>

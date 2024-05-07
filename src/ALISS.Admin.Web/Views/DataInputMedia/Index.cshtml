@@ -1,0 +1,367 @@
+﻿@model ALISS.Business.ViewModels.DataInput.MediaViewModel
+@using ALISS.Business.Enums;
+@{
+	ViewBag.Title = "Add to ALISS";
+	int serviceGalleryCount = ViewBag.GalleryCount ?? 0;
+	bool submitted = ViewBag.Submitted ?? false;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted ?? false;
+}
+
+@if (!submitted)
+{
+	<div class="step-progress__panel__container">
+		<div class="aliss-grid aliss-grid__data-input">
+			<div class="aliss-content__wrap aliss-content__wrap--data-input">
+				<div class="aliss-content__primary">
+					<div class="data-input-container">
+						@Html.Partial("_DataInputProgress")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+<div id="media-errors" @(ViewBag.Error != null && (bool)ViewBag.Error == true ? "" : "hidden")>
+    @Html.Partial("_ErrorMessage")
+    <br />
+</div>
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "DataInputMedia", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form", enctype = "multipart/form-data" }))
+			{
+				@Html.AntiForgeryToken()
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<div class="data-input-container--inner">
+							<fieldset class="aliss-form__fieldset no-padding">
+								<legend class="aliss-form__legend">Media</legend>
+								<div class="aliss-form__step-title-container">
+									<h1 class="mb--0 mt--0">Media</h1>
+									@if (Model.SummaryType == DataInputSummaryTypeEnum.NotSubmitted)
+									{
+										@Html.Partial("_DataInputSkip")
+									}
+								</div>
+								@if (Model.SummaryType == DataInputSummaryTypeEnum.Organisation)
+								{
+									<p class="mb--32">In this section you can upload an organisation logo (optional).</p>
+								}
+								else if (Model.SummaryType == DataInputSummaryTypeEnum.Service || Model.SummaryType == DataInputSummaryTypeEnum.ServiceReview || organisationSubmitted)
+								{
+									<p>In this section you can: (optional)</p>
+									<ul>
+										<li>Upload a Service logo</li>
+										<li>Add up to 3 images</li>
+										<li>Add one embedded video link</li>
+									</ul>
+									<p class="mb--32">All gallery images and videos will have to be approved by ALISS admins before they are made public.</p> }
+								else
+								{
+									<p>In this section you can: (optional)</p>
+									<ul>
+										<li>Upload an Organisation logo</li>
+										<li>Upload a Service logo</li>
+										<li>Add up to 3 images</li>
+										<li>Add one embedded video link</li>
+									</ul>
+									<p class="mb--32">All gallery images and videos will have to be approved by ALISS admins before they are made public.</p>
+								}
+								@Html.HiddenFor(h => h.OrganisationId)
+								@Html.HiddenFor(h => h.ServiceId)
+								@Html.HiddenFor(h => h.ServiceGalleryImageId1)
+								@Html.HiddenFor(h => h.ServiceGalleryImageId2)
+								@Html.HiddenFor(h => h.ServiceGalleryImageId3)
+								@Html.HiddenFor(h => h.ServiceVideoId)
+								@Html.HiddenFor(h => h.SummaryType)
+								<input id="UserId" type="hidden" value="@ViewBag.UserId" />
+								<input id="IsAdmin" type="hidden" value="@ViewBag.IsAdmin.ToString()" />
+
+								@if (Model.SummaryType == DataInputSummaryTypeEnum.Organisation || (Model.SummaryType == DataInputSummaryTypeEnum.NotSubmitted && !organisationSubmitted))
+								{
+									<div class="aliss-accordion-container mb--24">
+										<div class="aliss-content-accordion__header">
+											<button class="aliss-content-accordion__trigger aliss-accordion__trigger--active" type="button" data-accordion-trigger="organisationLogo">
+												Organisation Logo
+												<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion Content</span>
+											</button>
+											@if (!string.IsNullOrEmpty(Model.OrganisationLogo))
+											{
+												<h4 class="mb--0" id="OrganisationLogoUploaded">1 of 1 uploaded</h4>
+											}
+											else
+											{
+												<h4 class="mb--0" id="OrganisationLogoUploaded">0 of 1 uploaded</h4>
+											}
+										</div>
+										<div class="aliss-content-accordion__content aliss-accordion__content--active mb--16" id="organisationLogo">
+											<div>
+												@if (!string.IsNullOrEmpty(Model.OrganisationLogo))
+												{
+													<div id="OrganisationLogoDisplay" class="aliss-form__group">
+														<label class="aliss-form__label" for="ExistingLogo">
+															Existing Logo
+														</label>
+														<img class="aliss-img__downloaded" src="@Model.OrganisationLogo" />
+														<button id="OrganisationLogoRemove" class="aliss-form__file-remove btn btn--no">Remove</button>
+													</div>
+												}
+												else
+												{
+													<div id="OrganisationLogoDisplay" class="aliss-form__group" hidden>
+														<label class="aliss-form__label" for="ExistingLogo">
+															Existing Logo
+														</label>
+														<img class="aliss-img__downloaded" src="" />
+														<button id="OrganisationLogoRemove" class="aliss-form__file-remove btn btn--no">Remove</button>
+													</div>
+												}
+
+												<br />
+												@Html.HiddenFor(h => h.OrganisationLogo)
+												<div class="aliss-form__group">
+													<span>Please add your organisation logo by selecting the choose file button below (optional)</span>
+													<br />
+													<span>Please note - logos must be either JPG, JPEG or PNG files no larger than 1024Kb in size with minimum dimensions of 80 pixels by 80 pixels.</span>
+													<br /><br />
+													<div class="aliss-form__file">
+														<button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+														<input class="aliss-form__file-input" type="file" name="OrganisationLogo" id="OrganisationLogo" hidden />
+														<div class="aliss-form__file-display"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								}
+
+								@if (Model.SummaryType == DataInputSummaryTypeEnum.Service || Model.SummaryType == DataInputSummaryTypeEnum.ServiceReview || Model.SummaryType == DataInputSummaryTypeEnum.NotSubmitted)
+								{
+									<div class="aliss-accordion-container mb--24">
+										<div class="aliss-content-accordion__header">
+											<button class="aliss-content-accordion__trigger aliss-accordion__trigger--active" type="button" data-accordion-trigger="serviceLogo">
+												Service Logo
+												<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion Content</span>
+											</button>
+											@if (!string.IsNullOrEmpty(Model.ServiceLogo))
+											{
+												<h4 class="mb--0" id="ServiceLogoUploaded">1 of 1 uploaded</h4>
+											}
+											else
+											{
+												<h4 class="mb--0" id="ServiceLogoUploaded">0 of 1 uploaded</h4>
+											}
+										</div>
+										<div class="aliss-content-accordion__content aliss-accordion__content--active mb--16" id="serviceLogo">
+											<div>
+												@if (!string.IsNullOrEmpty(Model.ServiceLogo))
+												{
+													<div id="ServiceLogoDisplay" class="aliss-form__group">
+														<label class="aliss-form__label" for="ExistingLogo">
+															Existing Logo
+														</label>
+														<img class="aliss-img__downloaded" src="@Model.ServiceLogo" />
+														<button id="ServiceLogoRemove" class="aliss-form__file-remove btn btn--no">Remove</button>
+													</div>
+												}
+												else
+												{
+													<div id="ServiceLogoDisplay" class="aliss-form__group" hidden>
+														<label class="aliss-form__label" for="ExistingLogo">
+															Existing Logo
+														</label>
+														<img class="aliss-img__downloaded" src="" />
+														<button id="ServiceLogoRemove" class="aliss-form__file-remove btn btn--no">Remove</button>
+													</div>
+												}
+
+												<br />
+												@Html.HiddenFor(h => h.ServiceLogo)
+												<div class="aliss-form__group">
+													<span>Please add your service logo by selecting the choose file button below (optional)</span>
+													<br />
+													<span>Please note - logos must be either JPG, JPEG or PNG files no larger than 1024Kb in size with minimum dimensions of 80 pixels by 80 pixels.</span>
+													<br /><br />
+													<div class="aliss-form__file">
+														<button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+														<input class="aliss-form__file-input" type="file" name="ServiceLogo" id="ServiceLogo" hidden />
+														<div class="aliss-form__file-display"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="aliss-accordion-container mb--24">
+										<div class="aliss-content-accordion__header">
+											<button class="aliss-content-accordion__trigger aliss-accordion__trigger--active" type="button" data-accordion-trigger="serviceGallery">
+												Service Gallery
+												<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion Content</span>
+											</button>
+
+											<h4 id="GalleryUploaded" class="mb--0">@serviceGalleryCount of 3 uploaded</h4>
+										</div>
+										<div class="aliss-content-accordion__content aliss-accordion__content--active mb--16" id="serviceGallery">
+											<div>
+												<div class="aliss-form__group">
+													<span>Please add up to 3 images and 1 embedded video link of your service by selecting the choose files button below.</span>
+													<br />
+													<span>Please note - images must be either JPG, JPEG or PNG files no larger than 2.5MB in size with minimum dimensions of 80 pixels by 80 pixels.</span>
+													<br /><br />
+												</div>
+
+												<div>
+													<label class="aliss-form__label">Gallery Image 1</label>
+													<div class="aliss-form__file">
+														<button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+														<input class="aliss-form__file-input" type="file" name="Gallery1" id="Gallery1" hidden />
+														<div class="aliss-form__file-display"></div>
+													</div>
+
+													@if (!string.IsNullOrEmpty(Model.ServiceGalleryImage1))
+													{
+														<div id="Media1Display" class="aliss-form__group">
+															<label class="aliss-form__label" for="ExistingGallery1">
+																Existing Image
+															</label>
+															<img class="aliss-img__downloaded" src="@Model.ServiceGalleryImage1" />
+															<button id="Gallery1Remove" class="aliss-form__file-remove btn btn--no">Remove</button>
+														</div>
+													}
+													else
+													{
+														<div id="Media1Display" class="aliss-form__group" hidden>
+															<label class="aliss-form__label" for="ExistingGallery1">
+																Existing Image
+															</label>
+															<img class="aliss-img__downloaded" src="" />
+															<button id="Gallery1Remove" class="aliss-form__file-remove btn btn--no">Remove</button>
+														</div>
+													}
+
+													<br />
+													@Html.HiddenFor(h => h.ServiceGalleryImage1)
+													@Html.HiddenFor(h => h.ServiceGalleryImageId1)
+													@Html.ALISSTextBox(a => a.ServiceGallery1AltText, includeWordCount: true, descriptionAsText: true)
+													@Html.ALISSTextBox(a => a.ServiceGallery1Caption, includeWordCount: true)
+
+												</div>
+
+												<br /><hr /><br />
+												<div>
+													<label class="aliss-form__label">Gallery Image 2</label>
+													<div class="aliss-form__file">
+														<button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+														<input class="aliss-form__file-input" type="file" name="Gallery2" id="Gallery2" hidden />
+														<div class="aliss-form__file-display"></div>
+													</div>
+
+													@if (!string.IsNullOrEmpty(Model.ServiceGalleryImage2))
+													{
+														<div id="Media2Display" class="aliss-form__group">
+															<label class="aliss-form__label" for="ExistingGallery2">
+																Existing Image
+															</label>
+															<img class="aliss-img__downloaded" src="@Model.ServiceGalleryImage2" />
+															<button id="Gallery2Remove" class="aliss-form__file-remove btn btn--no">Remove</button>
+														</div>
+													}
+													else
+													{
+														<div id="Media2Display" class="aliss-form__group" hidden>
+															<label class="aliss-form__label" for="ExistingGallery2">
+																Existing Image
+															</label>
+															<img class="aliss-img__downloaded" src="" />
+															<button id="Gallery2Remove" class="aliss-form__file-remove btn btn--no">Remove</button>
+														</div>
+													}
+
+													<br />
+													@Html.HiddenFor(h => h.ServiceGalleryImage2)
+													@Html.HiddenFor(h => h.ServiceGalleryImageId2)
+													@Html.ALISSTextBox(a => a.ServiceGallery2AltText, includeWordCount: true, descriptionAsText: true)
+													@Html.ALISSTextBox(a => a.ServiceGallery2Caption, includeWordCount: true)
+
+												</div>
+												<br /><hr /><br />
+
+												<div>
+													<label class="aliss-form__label">Gallery Image 3</label>
+													<div class="aliss-form__file">
+														<button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+														<input class="aliss-form__file-input" type="file" name="Gallery3" id="Gallery3" hidden />
+														<div class="aliss-form__file-display"></div>
+													</div>
+
+													@if (!string.IsNullOrEmpty(Model.ServiceGalleryImage3))
+													{
+														<div id="Media3Display" class="aliss-form__group">
+															<label class="aliss-form__label" for="ExistingGallery3">
+																Existing Image
+															</label>
+															<img class="aliss-img__downloaded" src="@Model.ServiceGalleryImage3" />
+															<button id="Gallery3Remove" class="aliss-form__file-remove btn btn--no">Remove</button>
+														</div>
+													}
+													else
+													{
+														<div id="Media3Display" class="aliss-form__group" hidden>
+															<label class="aliss-form__label" for="ExistingGallery3">
+																Existing Image
+															</label>
+															<img class="aliss-img__downloaded" src="" />
+															<button id="Gallery3Remove" class="aliss-form__file-remove btn btn--no">Remove</button>
+														</div>
+													}
+
+													<br />
+													@Html.HiddenFor(h => h.ServiceGalleryImage3)
+													@Html.HiddenFor(h => h.ServiceGalleryImageId3)
+													@Html.ALISSTextBox(a => a.ServiceGallery3AltText, includeWordCount: true, descriptionAsText: true)
+													@Html.ALISSTextBox(a => a.ServiceGallery3Caption, includeWordCount: true)
+												</div>
+												<br /><hr /><br />
+
+												@Html.HiddenFor(h => h.ServiceVideoId)
+												@Html.ALISSTextBox(v => v.ServiceVideo, descriptionAsText: true)
+
+											</div>
+										</div>
+									</div>
+								}
+							</fieldset>
+						</div>
+					</div>
+					@if (Model.SummaryType == DataInputSummaryTypeEnum.ServiceReview)
+					{
+						@Html.Partial("_ReviewNavigation")
+					}
+					else
+					{
+						@Html.Partial("_DataInputNavigation")
+					}
+				</div>
+			}
+		</div>
+		@Html.Partial("_Guidance")
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	window.addEventListener('keydown', function (e) {
+		if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+			if (e.target.nodeName == 'INPUT' && e.target.type == 'text') {
+				e.preventDefault();
+
+				return false;
+			}
+		}
+	}, true);
+</script>

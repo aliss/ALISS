@@ -1,0 +1,118 @@
+﻿@model ALISS.Business.ViewModels.User.UserListingViewModel
+@{
+	ViewBag.Title = "Users";
+}
+
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@using (Html.BeginForm("Index", "User", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+		{
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search
+			</label>
+			<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+			<button class="btn btn--primary" type="submit">Search</button>
+			if (!String.IsNullOrEmpty(Model.SearchTerm))
+			{
+				<div class="aliss-search__clear">
+					@Html.ActionLink("Clear Search", "Index", "User", null, new { @class = "btn btn--primary" })
+				</div>
+			}
+		}
+	</div>
+</div>
+
+@if (!String.IsNullOrEmpty(ViewBag.ResponseMessage))
+{
+	@Html.Partial("_SuccessMessage")
+}
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Total Results: <span>@Model.TotalResults</span></p>
+		</div>
+	</div>
+</div>
+
+<div class="aliss-table-container">
+	<table class="aliss-table">
+		<thead class="aliss-table__head">
+			<tr class="aliss-table__row aliss-table__row--head">
+				<th class="aliss-table__header" scope="col">Email</th>
+				<th class="aliss-table__header" scope="col">Name</th>
+				<th class="aliss-table__header" scope="col">User Role</th>
+				<th class="aliss-table__header" scope="col">Date Joined</th>
+				<th class="aliss-table__header" scope="col">N. of Edited Organisations</th>
+				<th class="aliss-table__header" scope="col">N. of Edited Services </th>
+				<th class="aliss-table__header" scope="col">N. of Claimed Organisations</th>
+			</tr>
+		</thead>
+		@foreach (var userProfile in Model.Users)
+		{
+			<tbody class="aliss-table__body">
+				<tr class="aliss-table__row aliss-table__row--body">
+					<td class="aliss-table__cell">
+						@Html.ActionLink(userProfile.Email, "EditUser", "User", new { id = userProfile.UserProfileId }, null)
+					</td>
+					<td class="aliss-table__cell">
+						@userProfile.Name
+					</td>
+					<td class="aliss-table__cell">
+						@userProfile.Role
+						@if (userProfile.IsEditor)
+						{
+							<text>Editor</text>
+						}
+
+						@if (userProfile.IsAdmin)
+						{
+							<text>ALISS Admin</text>
+						}
+					</td>
+					<td class="aliss-table__cell">
+						@($"{userProfile.DateJoined:dd/MM/yyyy}")
+					</td>
+					<td class="aliss-table__cell">
+						@userProfile.OrganisationCount
+					</td>
+					<td class="aliss-table__cell">
+						@userProfile.ServiceCount
+					</td>
+					<td class="aliss-table__cell">
+						@userProfile.ClaimCount
+					</td>
+				</tr>
+			</tbody>
+		}
+	</table>
+</div>
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+		</div>
+		@if (Model.TotalPages > 1)
+		{
+			<div class="aliss-pagination-component__wrapper__item">
+				<nav>
+					<ol>
+						@if (Model.Page > 1)
+						{
+							<li>
+								<a href="/User/Index?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)" class="aliss-pagination-previous">Previous</a>
+							</li>
+						}
+						@if (Model.Page < Model.TotalPages)
+						{
+							<li>
+								<a href="/User/Index?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)" class="aliss-pagination-next">Next</a>
+							</li>
+						}
+					</ol>
+				</nav>
+			</div>
+		}
+	</div>
+</div>

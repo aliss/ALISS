@@ -1,0 +1,197 @@
+﻿@model ALISS.Business.ViewModels.ServiceReviews.ServiceReviewListingViewModel
+@{
+	ViewBag.Title = "Service Reviews";
+	string sortIcon = (int)ViewBag.Descending == 1 ? "fa fa-sort-desc" : "fa fa-sort-asc";
+	string reviewedService = ViewBag.ReviewedService;
+}
+
+@if (!string.IsNullOrEmpty(reviewedService))
+{
+	<div id="banner-reviewed-service" class="aliss-banner aliss-banner__success">
+		<div class="aliss-banner__content">
+			<div class="aliss-banner__content__text mt--0 mb--0">
+				<div class="aliss-banner__title mb--8"><i class="fas fa-check-circle" aria-hidden="true"></i> Review status</div>
+				<p class="no-margin">@reviewedService has been successfully reviewed</p>
+			</div>
+		</div>
+		<button id="banner-reviewed-service-button" title="Use this button to dismiss review status banner" class="btn btn--primary">Dismiss</button>
+	</div>
+}
+
+<p>To ensure that the information we provide is accurate, we ask our ALISS contributors to review their information every 12 months. Any information that isn't checked in this time period will be deprioritised from search results until it is reviewed.</p>
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@using (Html.BeginForm("Index", "ServiceReviews", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+		{
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search
+			</label>
+			<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+			<button class="btn btn--primary" type="submit">Search</button>
+			if (!String.IsNullOrEmpty(Model.SearchTerm))
+			{
+				<div class="aliss-search__clear">
+					@Html.ActionLink("Clear Search", "Index", "ServiceReviews", null, new { @class = "btn btn--primary" })
+				</div>
+			}
+		}
+	</div>
+</div>
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Total Results: <span>@Model.TotalResults</span></p>
+		</div>
+	</div>
+</div>
+
+<table class="aliss-table">
+	<thead class="aliss-table__head">
+		<tr class="aliss-table__row aliss-table__row--head">
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "servicename")
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=servicename&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Service Name</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=servicename&descending=0")">Service Name</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "organisationname")
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=organisationname&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Organisation Name</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=organisationname&descending=0")">Organisation Name</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "createdon")
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=createdon&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Created On</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=createdon&descending=1")">Created On</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "lastreviewed")
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=lastreviewed&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Last Reviewed</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=lastreviewed&descending=1")">Last Reviewed</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "status")
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=status&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Status</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?searchTerm={ViewBag.SearchTerm}&orderBy=status&descending=1")">Status</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">Review Information</th>
+		</tr>
+	</thead>
+
+	@foreach (var review in Model.Reviews)
+	{
+		var service = review.Service;
+		<tbody class="aliss-table__body">
+			<tr class="aliss-table__row aliss-table__row--body">
+				<td class="aliss-table__cell">
+					@if (service.Published)
+					{
+						<a href="@($"{ViewBag.PublicURL}services/{service.ServiceId}")">@service.Name</a>
+					}
+					else
+					{
+						@Html.ActionLink(service.Name, "Index", "DataInputSummary", new { id = service.ServiceId }, null)
+					}
+				</td>
+				<td class="aliss-table__cell">
+					@if (service.OrganisationPublished)
+					{
+						<a href="@($"{ViewBag.PublicURL}organisations/{service.OrganisationId}")">@service.OrganisationName</a>
+
+					}
+					else
+					{
+						@Html.ActionLink(service.OrganisationName, "Index", "DataInputOrganisationSummary", new { id = service.OrganisationId }, null)
+					}
+				</td>
+				<td class="aliss-table__cell">
+					@($"{service.CreatedOn:dd/MM/yyyy}")
+				</td>
+				<td class="aliss-table__cell">
+					@if (service.Deprioritised)
+					{
+						<span class="c--red">@($"{review.LastReviewedDate:dd/MM/yyyy}")</span>
+					}
+					else
+					{
+						@($"{review.LastReviewedDate:dd/MM/yyyy}")
+					}
+				</td>
+				<td class="aliss-table__cell">
+					@if (service.Deprioritised)
+					{
+						<span class="c--red">Deprioritised</span>
+					}
+					else if (review.LastReviewedDate == DateTime.MinValue || review.ReviewStatus != 0)
+					{
+						<span>To be Reviewed</span>
+					}
+					else
+					{
+						<span>Reviewed</span>
+					}
+				</td>
+				<td class="aliss-table__cell">@Html.ActionLink("Review", "Index", "ServiceReviewSummary", new { id = service.ServiceId }, new { @class = "btn btn--primary" })</td>
+			</tr>
+		</tbody>
+	}
+</table>
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+		</div>
+		@if (Model.TotalPages > 1)
+		{
+			<div class="aliss-pagination-component__wrapper__item">
+				<nav>
+					<ol>
+						@if (Model.Page > 1)
+						{
+							<li>
+								<a href="/ServiceReviews?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-previous">Previous</a>
+							</li>
+						}
+						@if (Model.Page < Model.TotalPages)
+						{
+							<li>
+								<a href="/ServiceReviews?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-next">Next</a>
+							</li>
+						}
+					</ol>
+				</nav>
+			</div>
+		}
+	</div>
+</div>

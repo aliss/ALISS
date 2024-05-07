@@ -1,0 +1,87 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.DtShareThisPage>
+@using ALISS.CMS.Extensions
+@using ContentModels = Umbraco.Web.PublishedModels
+@using ALISS.ApiServices.ViewModels.Organisation
+@using ALISS.ApiServices.ViewModels.Service
+@{
+	Layout = "~/Views/Master.cshtml";
+	bool sent = ViewBag.Sent ?? false;
+	string error = ViewBag.Error;
+	string errorClass = !string.IsNullOrWhiteSpace(error) ? "aliss-form__group--error" : "";
+
+	OrganisationModel organisation = ViewBag.Organisation;
+	ServiceModel service = ViewBag.Service;
+	string title = organisation != null ? organisation.name : service.name;
+}
+
+<main>
+	<section>
+		<div class="aliss-grid">
+			<div class="aliss-content__wrap">
+				<div class="aliss-content__header">
+					<h1>@Model.Title - @title</h1>
+				</div>
+
+				<div class="aliss-content__primary aliss-typography">
+					@if (sent)
+					{
+						<div class="aliss-rte aliss-typography">
+							@Html.Raw(Model.SentBodyText)
+							<p>Click <a href="" onclick="goBack(event)">here</a> to go back to the @title.</p>
+						</div>
+					}
+					else
+					{
+						if (!string.IsNullOrWhiteSpace(error))
+						{
+							<p class="error">@error</p>
+						}
+						<div class="aliss-rte aliss-typography">
+							@Html.Raw(Model.BodyText)
+						</div>
+						<form method="post" action="" class="aliss-form">
+							@Html.AntiForgeryToken()
+							<fieldset class="aliss-form__fieldset">
+								<legend class="aliss-form__legend">Share this collection</legend>
+								<div class="aliss-form__group @errorClass">
+									<label class="aliss-form__label" for="to">Send to email address:</label>
+									<input class="aliss-form__input" type="text" name="to" id="to" />
+								</div>
+								<div class="aliss-form__group @errorClass">
+									<label class="aliss-form__label" for="message">Message:</label>
+									<textarea class="aliss-form__textarea" name="message" id="message"></textarea>
+								</div>
+								<div class="aliss-form__group notesfield">
+									<label class="aliss-form__label" for="notes">Notes:</label>
+									<textarea class="aliss-form__input" id="notes" name="notes"></textarea>
+								</div>
+							</fieldset>
+							<div class="aliss-form__actions">
+								<button type="submit" class="btn btn--primary">Send</button>
+							</div>
+						</form>
+						if (!string.IsNullOrWhiteSpace(Model.PrivicyStatement.ToString()))
+						{
+							<hr />
+							<div class="aliss-rte aliss-typography">
+								@Html.Raw(Model.PrivicyStatement)
+							</div>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<script nonce="shareThisPage">
+	function goBack(e) {
+		e.preventDefault();
+		history.go(-2);
+	}
+</script>
+
+@section Metadata
+{
+	@Html.Metadata(Model as IPublishedContent)
+}

@@ -1,0 +1,6 @@
+{% macro p(id, class, text) %}
+  {# Component compilation #}
+  <p {% if id %}id="{{id}}"{% endif %} {% if class %}class="{{class}}"{% endif %}>
+    {{text | safe}}
+  </p>
+{% endmacro %}

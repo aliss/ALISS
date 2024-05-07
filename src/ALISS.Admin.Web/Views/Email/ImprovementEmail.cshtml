@@ -1,0 +1,40 @@
+﻿@model ALISS.Business.ViewModels.BulkEmail.CustomEmailViewModel
+@{
+	string improvementName = ViewBag.ImprovementName;
+	string improvementEmail = ViewBag.ImprovementEmail;
+	ViewBag.Title = "Reply to Improvement for " + improvementName;
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("ImprovementEmail", "Email", FormMethod.Post, new { @class = "aliss-form", onsubmit = "handleSubmit()" }))
+{
+	@Html.AntiForgeryToken()
+	<div id="emailInput">
+		@Html.HiddenFor(h => h.Id)
+		@Html.HiddenFor(h => h.Subject)
+		@Html.ALISSRTEditor(b => b.Body, "Please enter the email body", fullToolbar: true)
+		<br /><br />
+		@Html.ALISSCheckbox(c => c.CCAlissAdmin)
+	</div>
+
+	<div id="previewEmail" style="display:none">
+		<label>To: @improvementEmail</label>
+		<br />
+		<label id="previewCC" hidden>CC: ALISS Admin<br /></label>
+		<label>Subject: @Model.Subject</label>
+		<br />
+		@Html.Partial("../EmailTemplates/CustomEmail", Model)
+		<button class="btn btn--primary">Send</button>
+	</div>
+}
+
+<br />
+<div class="aliss-form__checkbox">
+	<input class="aliss-form__input" type="checkbox" id="checkbox-emailPreview" />
+	<label for="checkbox-emailPreview"><strong>Preview?</strong></label>
+</div>

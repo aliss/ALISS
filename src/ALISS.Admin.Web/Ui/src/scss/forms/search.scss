@@ -1,0 +1,23 @@
+.aliss-search {
+    margin-bottom: rem-calc(30);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    column-gap: rem-calc(30);
+
+    &__filter {
+        display: flex;
+        flex: 0 1 50%;
+
+        @include media('<desktop') {
+            flex: 0 1 100%;
+            margin-bottom: 16px;
+        }
+    }
+
+    &__clear {
+        margin-left: rem-calc(20);
+        min-width: rem-calc(140);
+    }
+}

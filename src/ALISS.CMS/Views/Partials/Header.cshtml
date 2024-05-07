@@ -1,0 +1,149 @@
+﻿@using Umbraco.Web.Models
+@using System.Configuration
+@using ALISS.CMS.Models.User
+@using ALISS.CMS.Helpers
+@inherits UmbracoViewPage<DtConfiguration>
+@{
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+			? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+			: false;
+
+	DtConfiguration config = new DtConfiguration(Model.Root().DescendantOrSelfOfType(DtConfiguration.ModelTypeAlias));
+	string loginUrl = $"{ConfigurationManager.AppSettings["Settings:AdminBaseUrl"]}{ConfigurationManager.AppSettings["Settings:AdminLoginUrl"]}{Request.Url.ToString()}";
+	string dashboardUrl = ConfigurationManager.AppSettings["Settings:AdminBaseUrl"];
+	string feedbackUrl = "";
+	string feedbackText = "";
+	string feedbackTarget = "";
+	string feedbackTitle = "Click here to provide feedback on ALISS";
+
+	if (config.FeedbackUrl != null && !string.IsNullOrWhiteSpace(config.FeedbackUrl.Url))
+	{
+		feedbackUrl = config.FeedbackUrl.Url;
+		feedbackText = config.FeedbackUrl.Name ?? "Give feedback";
+		feedbackTarget = config.FeedbackUrl.Target ?? "";
+		feedbackTitle = feedbackTarget == "_blank" ? feedbackTitle + " (This will open in a new window)" : feedbackTitle;
+	}
+
+	CurrentUserViewModel currentUser = GenericHelpers.GetLoggedInUser();
+
+	bool isLoggedIn = currentUser.UserProfileId > 0;
+	string loginClass = currentUser.UserProfileId > 0 ? "hide" : "";
+	string logoutClass = currentUser.UserProfileId > 0 ? "" : "hide";
+}
+
+<a class="acc-skip-link" href="#primarycontent">
+	Skip to main content
+</a>
+
+<div class="aliss-header">
+	<div class="aliss-grid">
+		<div class="aliss-header-component">
+			<div class="aliss-header-component__logo">
+				<a href="/" title="Click here to navigate to the homepage.">
+					<img src="/ALISS.THEME/dist/img/aliss-logo.png" class="hide-print d-inline-block" alt="A Local Information System for Scotland (ALISS) logo" />
+					<img src="/ALISS.THEME/dist/img/aliss-logo-print.png" class="show-print" alt="Image of Print Version of ALISS Logo" />
+					<div class="aliss-header-component__logo__text">A Local Information System for Scotland</div>
+				</a>
+			</div>
+			<div id="menu-container" class="aliss-header-component-tertiary-menu hide-print">
+				<div id="menu" class="navigation-toggle">
+					<p>
+						<i id="menu-closed" class="fas fa-bars"></i>
+						<i id="menu-open" class="fa fa-times" aria-hidden="true"></i>
+						Navigation
+					</p>
+				</div>
+				<div class="aliss-header-component-tertiary-menu--accessibility-tools">
+					<button id="mobile-accessibility-tools-btn">
+						<i class="fas fa-universal-access"></i>Accessibility<br />Tools
+					</button>
+				</div>
+			</div>
+			<div id="menu-toggle" class="aliss-header-component__navigation hide-print">
+				@if (config.HeaderNavigationItems.Any())
+				{
+					<nav class="aliss-header-component__navigation__primary">
+						<ul>
+							<li class="aliss-header-component__navigation__primary__item aliss-header-component__navigation__primary__item--accessibility-tools">
+								@if (enableMonsidoTracking)
+								{
+									<div class="aliss-header-component__accessibility-tools-container">
+										<i class="fas fa-universal-access"></i>
+										<div class="reachdeck-btn" id="__ba_panel" onclick="window.monsido_functions.trackEvent('ReachDeck', 'Accessibility Button', 'Toggle Accessibility Tooolbar', 1);">
+											Accessibility Tools
+										</div>
+									</div>
+								}
+								else
+								{
+									<div class="aliss-header-component__accessibility-tools-container">
+										<i class="fas fa-universal-access"></i>
+										<div class="reachdeck-btn" id="__ba_panel">
+											Accessibility Tools
+										</div>
+									</div>
+
+								}
+							</li>
+
+							@foreach (var item in config.HeaderNavigationItems)
+							{
+								string id = "";
+								string linkUrl = item.Link.Url;
+								string linkTitle = item.Link.Name;
+								string className = "";
+								string userProfile = "";
+								if (item.ShowWhenLoggedIn && !item.ShowWhenLoggedOut)
+								{
+									className = logoutClass;
+								}
+								else if (item.ShowWhenLoggedOut && !item.ShowWhenLoggedIn)
+								{
+									className = loginClass;
+								}
+								if (item.Link.Name.ToLower().Contains("login"))
+								{
+									id = "desktopLogin";
+									linkUrl = loginUrl;
+								}
+								else if (item.Link.Name.ToLower().Contains("logout"))
+								{
+									id = "desktopLogout";
+									linkUrl = "/logout";
+								}
+								else if (item.Link.Name.ToLower().Contains("dashboard"))
+								{
+									linkUrl = dashboardUrl;
+									linkTitle = $"My Dashboard<br/>({currentUser.Username})";
+									userProfile = "aliss-header-component__navigation__primary__item--username";
+								}
+								<li id="@id" class="aliss-header-component__navigation__primary__item @className">
+									@if (enableMonsidoTracking)
+									{
+										<a class="@userProfile" href="@linkUrl"
+										   target="@item.Link.Target"
+										   onclick="window.monsido_functions.trackEvent('Navigation', 'Navigation Links', @item.Link.Name + ' Navigation Link Clicked', 1);">
+											<span>
+												<i class="@item.Icon"></i>
+												@Html.Raw(linkTitle)
+											</span>
+										</a>
+									}
+									else
+									{
+										<a class="@userProfile" href="@linkUrl" target="@item.Link.Target">
+											<span>
+												<i class="@item.Icon"></i>
+												@Html.Raw(linkTitle)
+											</span>
+										</a>
+									}
+								</li>
+							}
+						</ul>
+					</nav>
+				}
+			</div>
+		</div>
+	</div>
+</div>

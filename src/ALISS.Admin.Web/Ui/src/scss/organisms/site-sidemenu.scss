@@ -1,0 +1,23 @@
+/** @format */
+
+
+html {
+    height: 100%;
+}
+
+.aliss-sidemenu {
+	// height: 100vh;
+    border-left: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+    flex: 0 0 rem-calc(320);
+    padding: rem-calc(30);
+    background-color: $white;
+
+    @include media('<desktop') {
+        flex-grow: 1;
+        height: 100%;
+        border-left: none;
+        border-top: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        padding: rem-calc(30) 0;
+        margin-top: 24px;
+    }
+}

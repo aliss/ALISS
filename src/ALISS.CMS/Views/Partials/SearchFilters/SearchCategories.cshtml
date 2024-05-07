@@ -1,0 +1,132 @@
+﻿@model ALISS.ApiServices.ViewModels.Search.SearchViewModel
+@using ALISS.API.Models.Elasticsearch;
+@{
+	List<CategoryElasticSearchModel> CategoryList = ViewBag.CategoryList;
+	bool categorySearched = !string.IsNullOrEmpty(Model.Categories);
+	List<string> SelectedCategories = string.IsNullOrEmpty(Model.Categories) ? new List<string>() : Model.Categories.Split(';').ToList();
+	List<CategoryElasticSearchModel> InitialCategoryList;
+}
+
+@if (CategoryList.Count > 0)
+{
+	<fieldset id="search-categories" class="search-category-primary aliss-form__group aliss-form__group--no-margin" data-form="search-categories">
+		<div class="aliss-accordion-container">
+			<div class="aliss-content-accordion__filter-header">
+				<button id="aliss-accordion-filter-by-category-btn" class="aliss-content-accordion__trigger aliss-accordion__trigger--active @(categorySearched ? "" : "")" type="button" data-accordion-trigger="filterByCategory">
+					Categories
+					<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+					<span class="sr-only">Click here to toggle the visibility of the category filter section</span>
+				</button>
+			</div>
+			<div id="display-selected-categories" class="aliss-form aliss-form--no-margin">
+				<button id="selected-categories-clear" class="aliss-form__clear-selected hide">Clear category search</button>
+				<div class="aliss-form__selected-value-tag-container">
+					@if (categorySearched)
+					{
+						foreach (var categoryLoop in SelectedCategories)
+						{
+							string category = categoryLoop.ToLower();
+							<span id="selectedCats" class="selected-cats" hidden>@category</span>
+						}
+					}
+				</div>
+			</div>
+			<div class="aliss-content-accordion__content pt--8 aliss-accordion__content--active @(categorySearched ? "" : "")" id="filterByCategory" aria-hidden="true">
+				@if (CategoryList.Count > 6)
+				{
+					InitialCategoryList = CategoryList.ToList().GetRange(0, 6);
+					CategoryList.RemoveRange(0, 6);
+				}
+				else
+				{
+					InitialCategoryList = CategoryList.GetRange(0, CategoryList.Count);
+					CategoryList.Clear();
+				}
+				<div id="categories-display">
+					@foreach (var category in InitialCategoryList)
+					{
+						<div class="aliss-form__checkbox aliss-form__checkbox--initial" id="category-@category.slug">
+							<input id="checkbox-@category.slug" type="checkbox" data-name="category" value="@category.slug" class="aliss-form__input category-checkbox" />
+							<i aria-hidden="true" class="@category.icon"></i>
+							<label for="checkbox-@category.slug">@category.name (@category.count)</label>
+							@if (category.sub_categories.Count() > 0)
+							{
+								<fieldset id="@category.slug-categorys" class="aliss-form__select search-category-secondary hide">
+									@foreach (var categorys in category.sub_categories)
+									{
+										<div class="aliss-form__checkbox" id="category-@categorys.slug">
+											<input id="checkbox-@categorys.slug" type="checkbox" data-name="categorys" value="@categorys.slug" class="aliss-form__input category-checkbox" />
+											<label for="checkbox-@categorys.slug">@categorys.name (@categorys.count)</label>
+											<br />
+											@if (categorys.sub_categories.Count() > 0)
+											{
+												<fieldset id="@categorys.slug-categoryt" class="aliss-form__select search-category-tenary aliss-search-form-categories hide">
+													@foreach (var categoryt in categorys.sub_categories)
+													{
+														<div class="aliss-form__checkbox tst" id="category-@categoryt.slug">
+															<input id="checkbox-@categoryt.slug" type="checkbox" data-name="categoryt" value="@categoryt.slug" class="aliss-form__input category-checkbox" />
+															<label for="checkbox-@categoryt.slug">@categoryt.name (@categoryt.count)</label>
+															<br />
+														</div>
+													}
+												</fieldset>
+											}
+										</div>
+									}
+								</fieldset>
+							}
+						</div>
+					}
+
+					<div id="full-primary-category-list" class="aliss-accordion__content">
+						@foreach (var category in CategoryList)
+						{
+							<div class="aliss-form__checkbox aliss-form__checkbox--initial" id="category-@category.slug">
+								<input id="checkbox-@category.slug" type="checkbox" data-name="category" value="@category.slug" class="aliss-form__input category-checkbox" />
+								<i aria-hidden="true" class="@category.icon"></i>
+								<label for="checkbox-@category.slug">@category.name (@category.count)</label>
+								@if (category.sub_categories.Count() > 0)
+								{
+									<fieldset id="@category.slug-categorys" class="aliss-form__select search-category-secondary hide">
+										@foreach (var categorys in category.sub_categories)
+										{
+											<div class="aliss-form__checkbox" id="category-@categorys.slug">
+												<input id="checkbox-@categorys.slug" type="checkbox" data-name="categorys" value="@categorys.slug" class="aliss-form__input category-checkbox" />
+												<label for="checkbox-@categorys.slug">@categorys.name (@categorys.count)</label>
+												<br />
+												@if (categorys.sub_categories.Count() > 0)
+												{
+													<fieldset id="@categorys.slug-categoryt" class="aliss-form__select search-category-tenary aliss-search-form-categories hide">
+														@foreach (var categoryt in categorys.sub_categories)
+														{
+															<div class="aliss-form__checkbox" id="category-@categoryt.slug">
+																<input id="checkbox-@categoryt.slug" type="checkbox" data-name="categoryt" value="@categoryt.slug" class="aliss-form__input category-checkbox" />
+																<label for="checkbox-@categoryt.slug">@categoryt.name (@categoryt.count)</label>
+																<br />
+															</div>
+														}
+													</fieldset>
+												}
+											</div>
+										}
+									</fieldset>
+								}
+							</div>
+						}
+					</div>
+
+					@if (CategoryList.Count > 0)
+					{
+						<div id="aliss-search-filter-list-toggle-category" class="aliss-search-filter-list__toggle">
+							<button class="aliss-accordion__trigger" data-accordion-trigger="full-primary-category-list">
+								<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+								<span class="sr-only">Click here to show more or less category filters</span>
+							</button>
+						</div>
+					}
+				</div>
+				@Html.Hidden("Categories", Model.Categories)
+			</div>
+		</div>
+	</fieldset>
+}

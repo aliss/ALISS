@@ -1,0 +1,17 @@
+﻿@using System.Configuration
+@{
+
+	bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+			? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+			: false;
+
+	if (enableMonsidoTracking)
+	{
+		<script nonce="monsido" type="text/javascript">
+			window._monsido = window._monsido || {
+				token: "yXZ8GlO5d6BASlrkqYDKlw",
+			};
+		</script>
+		<script type="text/javascript" async src="https://app-script.monsido.com/v2/monsido-script.js"></script>
+	}
+}

@@ -1,0 +1,100 @@
+﻿@model ALISS.ApiServices.ViewModels.Search.SearchViewModel
+@using ALISS.API.Models.Elasticsearch;
+@{
+    List<AccessibilityFeatureElasticSearchModel> AccessibilityFeaturesList = ViewBag.AccessibilityFeaturesList;
+    bool accessibilityFeaturesSearched = !string.IsNullOrEmpty(Model.AccessibilityFeatures);
+    List<string> SelectedAccessibilityFeatures = string.IsNullOrEmpty(Model.AccessibilityFeatures) ? new List<string>() : Model.AccessibilityFeatures.Split(';').ToList();
+    List<AccessibilityFeatureElasticSearchModel> InitialAccessibilityFeaturesList;
+}
+
+@if (AccessibilityFeaturesList.Count > 0)
+{
+    <fieldset id="search-accessibility-features" class="search-accessibility-features-primary aliss-form__group aliss-form__group--no-margin" data-form="search-accessibility-features">
+        <div class="aliss-accordion-container">
+            <div class="aliss-content-accordion__filter-header">
+                <button id="aliss-accordion-filter-by-accessibility-features-btn" class="aliss-content-accordion__trigger aliss-accordion__trigger--active @(accessibilityFeaturesSearched ? "" : "")" type="button" data-accordion-trigger="filterByAccessibilityFeatures">
+                    Accessibility
+                    <i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+                    <span class="sr-only">Click here to toggle the visibility of the accessibility filter section</span>
+                </button>
+            </div>
+            <div id="display-selected-accessibility-features" class="aliss-form aliss-form--no-margin">
+                <button id="selected-accessibility-features-clear" class="aliss-form__clear-selected hide">Clear Accessibility search</button>
+                <div class="aliss-form__selected-value-tag-container">
+                    @if (accessibilityFeaturesSearched)
+                    {
+                        foreach (var accessibilityFeature in SelectedAccessibilityFeatures)
+                        {
+                            string _accessibilityFeature = accessibilityFeature.ToLower();
+                            @*<span id="selected-acc-features" class="selected-acc-features" hidden>@(AccessibilityFeaturesList?.FirstOrDefault(c => c.slug == accessibilityFeature).name)</span>*@
+                            <span id="selected-acc-features" class="selected-acc-features" hidden>@_accessibilityFeature</span>
+
+                        }
+                    }
+                </div>
+                @*@if (accessibilityFeaturesSearched)
+                {
+                    <button id="selected-accessibility-features-clear" class="aliss-form__clear-selected">Clear Accessibility search</button>
+                    <div class="aliss-form__selected-value-tag-container">
+                        @foreach (var accessibilityFeature in SelectedAccessibilityFeatures)
+                        {
+                            <div class="aliss-form__selected-value-tag">
+                                <label id="selected-accessibility-feature--@accessibilityFeature" class="aliss-selected__remove aliss-selected-accessibility-feature">
+                                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                                    <span class="sr-only">Click here to remove @(AccessibilityFeaturesList?.FirstOrDefault(c => c.slug == accessibilityFeature).name)</span>
+                                </label>
+
+                                <span class="aliss-selected__value">@(AccessibilityFeaturesList?.FirstOrDefault(c => c.slug == accessibilityFeature).name)</span>
+                            </div>
+                        }
+                    </div>
+                }*@
+            </div>
+            <div class="aliss-content-accordion__content pt--8 aliss-accordion__content--active @(accessibilityFeaturesSearched ? "" : "")" id="filterByAccessibilityFeatures" aria-hidden="true">
+                @if (AccessibilityFeaturesList.Count > 6)
+                {
+                    InitialAccessibilityFeaturesList = AccessibilityFeaturesList.GetRange(0, 6);
+                    AccessibilityFeaturesList.RemoveRange(0, 6);
+                }
+                else
+                {
+                    InitialAccessibilityFeaturesList = AccessibilityFeaturesList.GetRange(0, AccessibilityFeaturesList.Count);
+                    AccessibilityFeaturesList.Clear();
+                }
+                <div id="accessibility-features-display">
+                    @foreach (var accessibilityFeature in InitialAccessibilityFeaturesList)
+                    {
+                        <div class="aliss-form__checkbox aliss-form__checkbox--initial" id="accessibilityFeature-@accessibilityFeature.slug">
+                            <i aria-hidden="true" class="@accessibilityFeature.icon"></i>
+                            <input id="checkbox-@accessibilityFeature.slug" type="checkbox" data-name="accessibilityFeature" value="@accessibilityFeature.slug" class="aliss-form__input accessibilityFeature-checkbox" />
+                            <label for="checkbox-@accessibilityFeature.slug">@accessibilityFeature.name (@accessibilityFeature.count)</label>
+                        </div>
+                    }
+
+                    <div id="full-primary-accessibility-feature-list" class="aliss-accordion__content">
+                        @foreach (var accessibilityFeature in AccessibilityFeaturesList)
+                        {
+                            <div class="aliss-form__checkbox aliss-form__checkbox--initial" id="accessibilityFeature-@accessibilityFeature.slug">
+                                <i aria-hidden="true" class="@accessibilityFeature.icon"></i>
+                                <input id="checkbox-@accessibilityFeature.slug" type="checkbox" data-name="accessibilityFeature" value="@accessibilityFeature.slug" class="aliss-form__input accessibilityFeature-checkbox" />
+                                <label for="checkbox-@accessibilityFeature.slug">@accessibilityFeature.name (@accessibilityFeature.count)</label>
+                            </div>
+                        }
+                    </div>
+
+                    @if (AccessibilityFeaturesList.Count > 0)
+                    {
+                        <div id="aliss-search-filter-list-toggle-accessibility" class="aliss-search-filter-list__toggle">
+                            <button class="aliss-accordion__trigger" data-accordion-trigger="full-primary-accessibility-feature-list">
+                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                <span class="sr-only">Click here to show more or less accessibility filters</span>
+                            </button>
+                        </div>
+                    }
+                </div>
+
+                @Html.Hidden("AccessibilityFeatures", Model.AccessibilityFeatures)
+            </div>
+        </div>
+    </fieldset>
+}

@@ -1,0 +1,62 @@
+﻿@using Umbraco.Web.Models
+@using ALISS.ApiServices.ViewModels.Service
+@model ServiceModel
+@{
+	DtConfiguration configNode = Umbraco.Web.Composing.Current.UmbracoContext.Content.GetAtRoot().First().DescendantOrSelfOfType(DtConfiguration.ModelTypeAlias) as DtConfiguration;
+
+	string title = !string.IsNullOrWhiteSpace(configNode.ServiceActionsTitle)
+		? configNode.ServiceActionsTitle
+		: "Actions";
+	string shareUrl = $"{Model.slug}/share";
+	string saveUrl = $"{Model.slug}/save";
+	string lastSearchUrl = Request.UrlReferrer != null && Request.UrlReferrer.AbsoluteUri.Contains("/organisations/") && Request.Cookies["orgSearchUrl"] != null
+		? Request.Cookies["orgSearchUrl"].Value
+		: Request.Cookies["serviceSearchUrl"] != null
+			? Request.Cookies["serviceSearchUrl"].Value
+			: "";
+	bool editService = ViewBag.EditService != null
+		? (bool)ViewBag.EditService
+		: false;
+}
+
+<div class="aliss-organism aliss-component-master aliss-content-spacer hide-print">
+	<div class="aliss-component-master__contents">
+		<h2>@title</h2>
+		@configNode.ServiceActionsCopy
+	</div>
+	<div class="aliss-component-master__links">
+		<ul class="aliss-icon-list aliss-icon-list--100">
+			@if (editService)
+			{
+				<li class="aliss-icon-list__item aliss-icon-list__item--edit">
+					<a title="Click here to edit this service" href="@ViewBag.ReturnUrl.ToString()">
+						Edit Service
+					</a>
+				</li>
+			}
+			<li class="aliss-icon-list__item aliss-icon-list__item--email">
+				<a title="Click here to share this service via email" href="@shareUrl">
+					Share this page via email
+				</a>
+			</li>
+			<li class="aliss-icon-list__item aliss-icon-list__item--print">
+				<a title="Click here to print this service" href="javascript:window.print();">
+					Print this listing
+				</a>
+			</li>
+			<li class="aliss-icon-list__item aliss-icon-list__item--save">
+				<a title="This will open in a new window" href="@saveUrl" target="_blank">
+					Add to collection
+				</a>
+			</li>
+			@if (!string.IsNullOrWhiteSpace(lastSearchUrl))
+			{
+				<li class="aliss-icon-list__item aliss-icon-list__item--back-arrow">
+					<a href="@lastSearchUrl">
+						Return to latest search results
+					</a>
+				</li>
+			}
+		</ul>
+	</div>
+</div>

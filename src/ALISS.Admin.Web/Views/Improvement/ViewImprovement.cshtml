@@ -1,0 +1,104 @@
+﻿@model ALISS.Business.ViewModels.Improvement.ViewImprovementViewModel
+@using System.Configuration
+@{
+	ViewBag.Title = "View Suggested Improvement";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<form class="aliss-form">
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">View Suggested Improvement</legend>
+		@if (Model.ServiceId.HasValue || Model.ServiceName != null)
+		{
+			<label class="aliss-form__label">Service Name</label>
+			if (Model.ServiceId.HasValue)
+			{
+				<a href="@(ViewBag.publicURL)services/@Model.ServiceId">@Model.ServiceName</a>
+			}
+			else
+			{
+				@Model.ServiceName
+			}
+		}
+		else if (Model.OrganisationId.HasValue || Model.OrganisationName != null)
+		{
+			<label class="aliss-form__label">Organisation Name</label>
+			if (Model.OrganisationId.HasValue)
+			{
+				<a href="@(ViewBag.publicURL)organisations/@Model.OrganisationId">@Model.OrganisationName</a>
+			}
+			else
+			{
+				@Model.OrganisationName
+			}
+		}
+
+		@Html.ALISSDisplay(m => m.SuggestedImprovement)
+
+		@if (!String.IsNullOrEmpty(Model.Name))
+		{
+			@Html.ALISSDisplay(m => m.Name)
+		}
+
+		@if (!String.IsNullOrEmpty(Model.Email))
+		{
+			@Html.ALISSDisplay(m => m.Email)
+		}
+
+		@Html.ALISSDisplay(m => m.Resolved)
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		@Html.ActionLink("Return To List", "Index", "Improvement", null, new { @class = "btn btn--primary" })
+	</div>
+</form>
+
+@section sidemenu {
+	<div class="aliss-sidemenu">
+		<h2>Actions</h2>
+		<div class="aliss-component-master__links">
+			<ul class="aliss-icon-list">
+				@if (Model.ServiceId.HasValue)
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-edit"></i>
+						@Html.ActionLink("Edit Service", "Index", "DataInputSummary", new { id = Model.ServiceId.Value }, null)
+					</li>
+				}
+				else if (Model.OrganisationId.HasValue)
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-edit"></i>
+						@Html.ActionLink("Edit Organisation", "Index", "DataInputSummary", new { id = Model.OrganisationId.Value }, null)
+					</li>
+				}
+				@if (Model.Resolved == "No")
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-check"></i>
+						@Html.ActionLink("Mark as Resolved", "ResolveImprovement", "Improvement", new { id = Model.ImprovementId }, null)
+					</li>
+				}
+				else
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-times"></i>
+						@Html.ActionLink("Mark as Unresolved", "ResolveImprovement", "Improvement", new { id = Model.ImprovementId }, null)
+					</li>
+				}
+				@if (Model.Email != string.Empty)
+				{
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-envelope"></i>
+						@Html.ActionLink("Reply to Suggestion", "ImprovementEmail", "Email", new { id = Model.ImprovementId }, null)
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+}

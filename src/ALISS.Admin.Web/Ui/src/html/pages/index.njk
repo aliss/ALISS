@@ -1,0 +1,144 @@
+{% extends "layout.njk" %}
+
+{# Global variables #}
+  {# 
+    Access to atom, molecule and organism paths.
+  #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+{# Global variables #}
+
+{# Page variables #}
+  {# 
+    Page meta data:
+    If specified, this will populate meta tags for page SEO.
+  #}
+    {% set page_Meta_Title = 'Dashboard' %}
+    {% set page_Meta_Description = '' %}
+    {% set page_Meta_Keywords = '' %}
+  {# 
+    Page styles:
+    Utilise Atoms, Molecules and Organisms to create templates.
+  #}
+  {% set page_Styles = false %}
+  {# 
+    Page body ID & class:
+    If specified, this id and or class will be applied to the body tag.
+  #}
+    {% set page_Body_ID = 'aliss-admin' %}
+    {% set page_Body_Class = 'aliss-admin' %}
+  {# 
+    Page ID & class:
+    If specified, this class will be applied to top level parent tag of this page, containing all of the componets within the page contents.
+  #}
+  {% set page_ID = '' %}
+  {% set page_Class = '' %}
+{# Page variables #}
+
+{% block body %}
+
+  <div class="aliss-search">
+      <div class="aliss-search__filter">
+
+          <form class="aliss-form__group aliss-form__group--search">
+            <label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+              Search
+            </label> 
+            <input id="SearchBox" name="searchTerm"  class="aliss-form__search" type="text"/>
+            <button class="btn btn--primary" type="submit">Search</button> 
+            <div class="aliss-search__clear">
+              <button class="btn btn--primary" type="reset">Clear Search</button> 
+            </div>
+          </form>
+
+      </div>
+
+      <div class="aliss-search__actions">
+          <a href="#" class="btn btn--primary">Add Action Name</a>
+      </div>
+  </div>
+  
+  <table class="aliss-table">
+    <thead class="aliss-table__head">
+      <tr class="aliss-table__row aliss-table__row--head">
+        <th class="aliss-table__header" scope="col">Column Title</th>
+        <th class="aliss-table__header" scope="col">Column Title</th>
+        <th class="aliss-table__header" scope="col">Column Title</th>
+        <th class="aliss-table__header" scope="col">Column Title</th>
+        <th class="aliss-table__header" scope="col">Column Title</th>
+      </tr>
+    </thead>
+    <tbody class="aliss-table__body">
+      <tr class="aliss-table__row aliss-table__row--body">
+        <td class="aliss-table__cell"><a href="#">Column Data</a></td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+      </tr>
+      <tr class="aliss-table__row aliss-table__row--body">
+        <td class="aliss-table__cell"><a href="#">Column Data</a></td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+      </tr>
+      <tr class="aliss-table__row aliss-table__row--body">
+        <td class="aliss-table__cell"><a href="#">Column Data</a></td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+      </tr>
+      <tr class="aliss-table__row aliss-table__row--body">
+        <td class="aliss-table__cell"><a href="#">Column Data</a></td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+      </tr>
+      <tr class="aliss-table__row aliss-table__row--body">
+        <td class="aliss-table__cell"><a href="#">Column Data</a></td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+        <td class="aliss-table__cell">Column Data</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="aliss-pagination-component">
+    <div class="aliss-pagination-component__wrapper">
+      <div class="aliss-pagination-component__wrapper__item">
+        <p>Showing page <span>1</span> of <span>10</span></p>
+      </div>
+      <div class="aliss-pagination-component__wrapper__item">
+        <nav>
+          <ol>
+            <li>
+              <a href="" class="aliss-pagination-previous">Previous</a>
+            </li>
+            <li>
+              <a href=""  class="js-pagination-previous-page">2</a>
+            </li>
+            <li>
+              <a href=""  class="js-pagination-previous-page">3</a>
+            </li>
+            <li>
+              <a href=""  class="js-pagination-previous-page">4</a>
+            </li>
+            <li class="js-pagination-hidden">
+                <a href="/search/index?page=@i&postcode=@Model.Postcode@url">
+                    @i
+                </a>
+            </li>
+            <li>
+                <a href="" class="aliss-pagination-next">
+                    Next
+                </a>
+            </li>
+          </ol>
+        </nav>
+    </div>
+  </div>
+
+{% endblock %}

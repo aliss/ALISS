@@ -1,0 +1,289 @@
+@model ALISS.Business.ViewModels.Service.EditServiceViewModel
+@{
+	ViewBag.Title = "Edit Service";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("EditService", "Organisation", FormMethod.Post, new { @class = "aliss-form", onsubmit = "handleSubmit()" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new organisation</legend>
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSRTEditor(m => m.Description, "Please enter a minimum of 50 characters and a maximum of 1000 characters, including spaces and punctuation.", 1000)
+		<p><i class="fa fa-info-circle" aria-hidden="true"></i> Please do not include any sensitive personal information (including information about your physical and/or mental health).  If you do include such personal information then it will be publicly accessible via ALISS.  Please note that entries on ALISS are not reviewed and any such personal information will remain on the entry, unless and until you remove it.</p>
+
+		<div class="aliss-form__two-column">
+			@Html.ALISSTextBox(m => m.PhoneNumber)
+			@Html.ALISSTextBox(m => m.Email)
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.Url)
+			@if (!string.IsNullOrWhiteSpace(Model.Url) && Uri.IsWellFormedUriString(Model.Url, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.Url">Test Web Address <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.ReferralUrl)
+			@if (!string.IsNullOrWhiteSpace(Model.ReferralUrl) && Uri.IsWellFormedUriString(Model.ReferralUrl, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.ReferralUrl">Test Referral Information <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.Facebook)
+			@if (!string.IsNullOrWhiteSpace(Model.Facebook) && Uri.IsWellFormedUriString(Model.Facebook, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.Facebook">Test Facebook <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.Twitter)
+			@if (!string.IsNullOrWhiteSpace(Model.Twitter) && Uri.IsWellFormedUriString(Model.Twitter, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.Twitter">Test Twitter <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.Instagram)
+			@if (!string.IsNullOrWhiteSpace(Model.Instagram) && Uri.IsWellFormedUriString(Model.Instagram, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.Instagram">Test Instagram <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="category-filter">
+				Categories
+			</label>
+			<span>Please note - top level categories are added automatically.  For best search results, please use up to eight categories.</span>
+			<input type="text" id="category-filter" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter categories" autocomplete="off">
+			<div class="aliss-categories aliss-categories--filter">
+				@foreach (var category in Model.ServiceCategories)
+				{
+					<div class="aliss-categories__primary" data-filter="@category.Name">
+						<div class="aliss-accordion__header">
+							<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@category.CategoryId">
+								<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+								<span class="hide">Toggle Accordion @category.Name</span>
+							</button>
+							<span class="aliss-categories__icon">
+								<i aria-hidden="true" class="@category.Icon"></i>
+							</span>
+							<label for="category-@category.CategoryId" class="aliss-categories__edit">@category.Name</label>
+							<div class="aliss-categories__spacer"></div>
+							<div class="aliss-form__checkbox">
+								<input id="category-@category.CategoryId" data-id="@category.CategoryId" name="categories" class="aliss-form__input" type="checkbox" @(category.Selected ? "checked" : "") value="@category.Name" />
+							</div>
+						</div>
+						<div class="aliss-accordion__content" id="accordion-@category.CategoryId">
+							@foreach (var levelTwoCategory in category.NextLevelCategories)
+							{
+								<div class="aliss-categories__sub" data-filter="@levelTwoCategory.Name">
+									<div class="aliss-accordion__header">
+										@if (levelTwoCategory.NextLevelCategories.Count() > 0)
+										{
+											<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@levelTwoCategory.CategoryId">
+												<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion @levelTwoCategory.Name</span>
+											</button>
+										}
+										else
+										{
+											<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+												<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+												<span class="hide">@levelTwoCategory.Name</span>
+											</div>
+										}
+										<label for="category-@levelTwoCategory.CategoryId" class="aliss-categories__edit aliss-categories__edit--sub">@levelTwoCategory.Name</label>
+										<div class="aliss-categories__spacer"></div>
+										<div class="aliss-form__checkbox">
+											<input id="category-@levelTwoCategory.CategoryId" class="aliss-form__input" name="categories" data-id="@levelTwoCategory.CategoryId" type="checkbox" @(levelTwoCategory.Selected ? "checked" : "") value="@levelTwoCategory.Name" />
+										</div>
+									</div>
+									@if (levelTwoCategory.NextLevelCategories.Count() > 0)
+									{
+										<div class="aliss-accordion__content" id="accordion-@levelTwoCategory.CategoryId">
+											@foreach (var levelThreeCategory in levelTwoCategory.NextLevelCategories)
+											{
+												<div class="aliss-categories__sub aliss-categories__sub--three" data-filter="@levelThreeCategory.Name">
+													<label for="category-@levelThreeCategory.CategoryId" class="aliss-categories__edit">@levelThreeCategory.Name</label>
+													<div class="aliss-categories__spacer"></div>
+													<div class="aliss-form__checkbox">
+														<input id="category-@levelThreeCategory.CategoryId" class="aliss-form__input" name="categories" data-id="@levelThreeCategory.CategoryId" type="checkbox" @(levelThreeCategory.Selected ? "checked" : "") value="@levelThreeCategory.Name" />
+													</div>
+												</div>
+											}
+										</div>
+									}
+								</div>
+							}
+						</div>
+					</div>
+				}
+				<div class="aliss-categories__noresult">
+					<p>
+						<i aria-hidden="true" class="fa fa-exclamation-triangle"></i>&nbsp;
+						Sorry could not match anything to your criteria.
+					</p>
+				</div>
+			</div>
+			<div class="aliss-selected" id="categories-selected">
+				<div class="aliss-selected__title" id="title-categories-selected"><p>You have <span id="count-categories-selected"></span> categories selected</p></div>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add your locations</legend>
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="locations">
+				Locations
+			</label>
+			<span>Only add a location if people would come to this location to access the service.</span>
+			<br /><br />
+			<select class="aliss-form__select" id="locations" name="Locations" data-name="SelectedLocations" data-selection="selected-locations">
+				<option value="">Select an existing location</option>
+				@foreach (var location in Model.Locations)
+				{
+					<option value="@location.Value" @(location.Selected ? "disabled" : "")>@location.Text</option>
+				}
+			</select>
+			<div class="aliss-selected" id="selected-locations">
+				<div class="aliss-selected__title" id="title-selected-locations"><p>You have <span id="count-selected-locations"></span> location(s) selected</p></div>
+			</div>
+		</div>
+		@Html.HiddenFor(m => m.SelectedLocations)
+	</fieldset>
+
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add your service areas</legend>
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="serviceareas">
+				Delivered across
+			</label>
+			<span>
+				The "Delivered across" field allows you to specify an area or areas where the service is available (delivered) in Scotland.
+				<br />
+				Use a "Delivered across" area if the service doesn?t have a location (e.g., a phone helpline), the service is online or the service visits a person's home (e.g., outreach services).
+				<br />
+				If the service is solely available to residents of a local authority or health board area, add both a location and a "Delivered across" area to the service (e.g., a drug treatment service run from a community centre solely for Glasgow City Council residents).
+			</span>
+			<input type="text" id="servicearea-filter" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter service areas" autocomplete="off">
+			<div class="aliss-serviceareas aliss-serviceareas--filter">
+				@foreach (var serviceArea in Model.ServiceServiceAreas)
+				{
+					string levelOneSelectedClass = serviceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+					<div class="aliss-serviceareas__primary" data-filter="@serviceArea.Name">
+						<div class="aliss-accordion__header @levelOneSelectedClass">
+							@if (serviceArea.NextLevelServiceAreas.Count() > 0)
+							{
+								<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@serviceArea.ServiceAreaId">
+									<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+									<span class="hide">Toggle Accordion @serviceArea.Name</span>
+								</button>
+							}
+							else
+							{
+								<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+									<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+									<span class="hide">@serviceArea.Name</span>
+								</div>
+							}
+							<label for="servicearea-@serviceArea.ServiceAreaId" class="aliss-serviceareas__edit">@serviceArea.Name</label>
+							<div class="aliss-serviceareas__spacer"></div>
+							<div class="aliss-form__checkbox">
+								<input id="servicearea-@serviceArea.ServiceAreaId" data-id="@serviceArea.ServiceAreaId" name="serviceareas" class="aliss-form__input" type="checkbox" @(serviceArea.Selected ? "checked" : "") value="@serviceArea.Name" />
+							</div>
+						</div>
+						<div class="aliss-accordion__content" id="accordion-@serviceArea.ServiceAreaId">
+							@foreach (var levelTwoServiceArea in serviceArea.NextLevelServiceAreas)
+							{
+								string levelTwoSelectedClass = levelTwoServiceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+								<div class="aliss-serviceareas__sub" data-filter="@levelTwoServiceArea.Name">
+									<div class="aliss-accordion__header @levelTwoSelectedClass">
+										@if (levelTwoServiceArea.NextLevelServiceAreas.Count() > 0)
+										{
+											<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@levelTwoServiceArea.ServiceAreaId">
+												<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+												<span class="hide">Toggle Accordion @levelTwoServiceArea.Name</span>
+											</button>
+										}
+										else
+										{
+											<div class="aliss-accordion__trigger aliss-accordion__trigger--disabled">
+												<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+												<span class="hide">@levelTwoServiceArea.Name</span>
+											</div>
+										}
+										<label for="servicearea-@levelTwoServiceArea.ServiceAreaId" class="aliss-serviceareas__edit aliss-serviceareas__edit--sub">@levelTwoServiceArea.Name</label>
+										<div class="aliss-serviceareas__spacer"></div>
+										<div class="aliss-form__checkbox">
+											<input id="servicearea-@levelTwoServiceArea.ServiceAreaId" class="aliss-form__input" name="serviceareas" data-id="@levelTwoServiceArea.ServiceAreaId" type="checkbox" @(levelTwoServiceArea.Selected ? "checked" : "") value="@levelTwoServiceArea.Name" />
+										</div>
+									</div>
+									@if (levelTwoServiceArea.NextLevelServiceAreas.Count() > 0)
+									{
+										<div class="aliss-accordion__content" id="accordion-@levelTwoServiceArea.ServiceAreaId">
+											@foreach (var levelThreeServiceArea in levelTwoServiceArea.NextLevelServiceAreas)
+											{
+												string levelThreeSelectedClass = levelThreeServiceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+												<div class="aliss-serviceareas__sub aliss-serviceareas__sub--three" data-filter="@levelThreeServiceArea.Name">
+													<label for="servicearea-@levelThreeServiceArea.ServiceAreaId" class="aliss-serviceareas__edit">@levelThreeServiceArea.Name</label>
+													<div class="aliss-serviceareas__spacer"></div>
+													<div class="aliss-form__checkbox">
+														<input id="servicearea-@levelThreeServiceArea.ServiceAreaId" class="aliss-form__input" name="serviceareas" data-id="@levelThreeServiceArea.ServiceAreaId" type="checkbox" @(levelThreeServiceArea.Selected ? "checked" : "") value="@levelThreeServiceArea.Name" />
+													</div>
+												</div>
+											}
+										</div>
+									}
+								</div>
+							}
+						</div>
+					</div>
+				}
+			</div>
+			<div class="aliss-selected" id="serviceareas-selected">
+				<div class="aliss-selected__title" id="title-serviceareas-selected"><p>You have <span id="count-serviceareas-selected"></span> service area(s) selected</p></div>
+			</div>
+		</div>
+	</fieldset>
+
+	@Html.HiddenFor(m => m.SelectedServiceAreas)
+	@Html.HiddenFor(m => m.SelectedCategories)
+	@Html.HiddenFor(m => m.ServiceId)
+	@Html.HiddenFor(m => m.OrganisationId)
+	@Html.HiddenFor(m => m.Slug)
+	@Html.HiddenFor(m => m.ReturnUrl)
+	@Html.HiddenFor(m => m.Published)
+	@Html.HiddenFor(m => m.NewOrganisationName)
+	<input type="hidden" id="SlugDisplay" value="" />
+	@Html.HiddenFor(m => m.SelectedServiceAreas)
+	@Html.HiddenFor(m => m.SelectedCategories)
+	@Html.HiddenFor(m => m.ServiceId)
+	@Html.HiddenFor(m => m.OrganisationId)
+	@Html.HiddenFor(m => m.Slug)
+	@Html.HiddenFor(m => m.ReturnUrl)
+	<input type="hidden" id="SlugDisplay" value="" />
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary" onclick="window.monsido_functions.trackEvent('Service', 'Save Button', 'Edit Service on ALISS', 1);">Save</button>
+		@Html.ActionLink("Cancel", "ListServices", "Organisation", new { id = Model.OrganisationId }, new { @class = "btn btn--primary" })
+	</div>
+}
+
+@section sidemenu {
+	@Html.Partial("_OrganisationMenu")
+}

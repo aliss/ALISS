@@ -1,0 +1,30 @@
+#terms {
+    cursor: pointer;
+}
+
+#terms-pdf-box {
+    display: none;
+}
+
+    #terms-pdf-box.active {
+        display: block;
+    }
+
+#service-terms-pdf-box {
+    display: none;
+}
+
+#service-terms-pdf-box.active {
+    display: block;
+}
+#privacy {
+    cursor: pointer;
+}
+
+#privacy-pdf-box {
+    display: none;
+}
+
+    #privacy-pdf-box.active {
+        display: block;
+    }

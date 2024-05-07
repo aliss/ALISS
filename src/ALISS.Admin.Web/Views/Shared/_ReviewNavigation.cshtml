@@ -1,0 +1,22 @@
+﻿@{
+	bool reviewSummary = ViewBag.ReviewSummary ?? false;
+	bool error = ViewBag.Error ?? false;
+}
+<div class="mb--48 mt--24" id="serviceReviewNavigation">
+	@if (reviewSummary)
+	{
+		if (error)
+		{
+			<p>Please resolve any errors before completing your review</p>
+			<input name="submit" type="submit" class="btn btn--primary no-border" value="Review Complete" disabled />
+		}
+		else
+		{
+			<input name="submit" type="submit" class="btn btn--primary no-border" value="Review Complete" />
+		}
+	}
+	else
+	{
+		<input name="submit" type="submit" class="btn btn--primary mb--32 no-border" value="Return To Review" />
+	}
+</div>

@@ -1,0 +1,303 @@
+ALISS Release Notes
+====== 
+
+Release Date: 18 November 2023
+Release Name: 3.0.1
+Description: Hotfix release
+Planned Release: No
+Approved By: 
+
+Release Content
+------
+Ticket 4461 - Reachdeck toolbar not on error page
+Ticket 4625 - Hide unsubmitted services from listing page
+Ticket 4630 - Allow duplicate service name
+Ticket 4647 - Media being saved without alt text
+Ticket 4656 - Printed service/org includes disclaimers and buttons
+Ticket 4742 - Manually added address not showing on the Where page map
+Ticket 4641 - Adding a new address resets the data selected in the Virtual Accessibility Features
+
+---------------------------------------------
+
+Release Date: 01 November 2023
+Release Name: 3.0.0
+Description: DACS Sprnt 6
+Planned Release: Yes
+Approved By: Lorna Prentice
+
+Release Content
+------
+Story 30357 - Multiple homepage search options
+Story 30362 - Remove dropdown style from all categories
+Story 30367 - Interactive filtering
+Story 30372 - Displayed and removable selected categories
+Story 30377 - Number of results
+Story 30481 - Data Input - Who Min and Max age are mandatory
+Story 30387 - Who category filters
+Story 30392 - Accessibility categgory filters
+Story 30393 - Where filter
+Story 30402 - Sort results by ordering
+Story 30417 - Where page data input map
+Story 30335 - Regions - alphabetical order
+Story 30487 - Accessibility lookup - Add Location/virtual flag
+Story 30470 - Accessibility Data Input - Multiple Locations
+Story 30475 - Service Listing Accessibility - Multiple Locations
+Enable all new data input functionality
+
+---------------------------------------------
+
+Release Date: 16 October 2023
+Release Name: 2.1.1
+Description: Version 2.1.1 for hotfixes
+Planned Release: No
+Approved By: Lorna Prentice
+
+Release Content
+------
+Ticket 3603 - Error page searching for organisation
+Ticket 3639 - Issue with changing case on organisation
+Ticket 4071 - Error when adding organisation with claim
+Ticket 3541 - Replace out of date Tc & Cs and Privacy Policy (added to Umbraco with an API)
+
+---------------------------------------------
+
+Release Date: 13 August 2023
+Release Name: 2.1.0
+Description: Version 2.1.0 Claims
+Planned Release: Yes
+Approved By: Chris Mackie, Lorna Prentice
+
+Release Content
+------
+Ticket 3549/3575 - Issue adding a location to a new service
+Ticket 3531 - Service name on my collections not linking to service listing
+Ticket 3594 - Blue box not showing on claimed organisations
+Ticket 3033 - Approve Lead Claim showing on new claim requests
+
+29611 - Finish 'Where' Page in Data Input
+28456 - Admin claims differentiation
+29521 - Service Summary - Metadata
+29591 - Populate search result 'tiles' with Service summary
+29592 - Rephrase search results heading
+29593 - Update distance filter
+29622 - Redesign Add to ALISS page
+29627 - Move tiles on Organisations page
+29550 - Update Claims language
+29555 - Create About Claimed page
+29556 - Create a claims 'disclaimer' as per attached document
+29565 - Update 'Claimed' icon
+29570 - Create an 'Unclaimed' Icon
+29571 - Mark all services and organisations as claimed or unclaimed
+29580 - Move Claims tile to right hand sidebar on listings
+
+The following stories are deployed but disabled through configuration:
+28604 - Link services from within 'my organisations' to data input summary page
+28594 - Link 'my organisations' navigation to condensed data input summary
+28599 - Link 'my services' navigation to data input summary page
+29510 - Direct route to 'pick up where you left off' section
+30067 - Direct route to 'pick up where you left off' section - change
+29520 - Images need to be uploaded, previewed, and removed on media page
+29515 - Adjust age range to min/max
+29530 - Service Listing: Create accessibility section
+29535 - Service Listing: Create 'What' category section
+29540 - Service Listing: Create a 'Who' Category section
+29541 - Service Listing: Create a Media Section
+
+---------------------------------------------
+
+Release Date: 02 August 2023
+Release Name: 2.0.7
+Description: Version 2.0.7 hotfix release
+Planned Release: No
+Approved By: Chris Mackie
+
+Release Content
+------
+https://support.tactuum.com/hc/requests/2638 - Map pins showing in wrong place
+https://support.tactuum.com/hc/requests/2589 - Not possible to tab away from description
+https://support.tactuum.com/hc/requests/3281 - Unable to delete users with claims
+Added Monsido tracking to the admin site and added event tracking to admin and public sites
+
+---------------------------------------------
+
+Release Date: 02 August 2023
+Release Name: 2.0.5
+Description: Version 2.0.6 release for ALISS Sprint 11
+Planned Release: Yes
+Approved By: Lorna Prentice / Chris Mackie
+
+Release Content
+------
+28149 - Unpublished organisation links to be clickable
+23721 - Need ability to clear search boxes easily
+23842 - Locations should only show on the Organisation page if they are attached to a Service
+24091 - Reply to suggested improvements directly from ALISS Admin
+24143 - Keep unresolved suggested improvements at the top of the list
+24567 - Suggested Improvement info not to be deleted
+25202 - Need an error message when people add wrong postcodes and locations into search box
+26116 - Quick Exit button
+26809 - Search results location order needs refinement
+27314 - Logo is too big on ALISS for accessibility
+28154 - Service listing in the Organisation edit page needs a Published Yes/No column
+21606 - Display in alphabetical order on an organisation listing page
+29230 - Add Monsido code to www.aliss.org
+28967 - Support ticket 2473
+29480 - Support ticket 2701
+
+---------------------------------------------
+
+Release Date: 20 July 2023
+Release Name: 2.0.4
+Description: Version 2.0.4 release for DACS sprint 4
+Planned Release: Yes
+Approved By: Lorna Prentice / Chris Mackie
+
+Release Content
+------
+28163 - Admin bulk email capability
+27785 - Move the filters to the left/top of the page
+Ticket 2728 - Unpublished services pagination error
+
+The following stories were deployed but remain inactive through web.config values
+27811 - Return to Summary Review Page Button
+27688 - Cancel application button
+27680 - Save and Exit button
+27700 - Start another form button
+28751 - Change to UI on Submission confirmation page
+27704 - Add another service to the same organisation button
+27819 - Text field: character count
+27841 - Media Gallery Page
+28105 - Content Review
+28422 - Skip Button
+28427 - Page Layout & Guidance
+28434 - Link editing a service through to the data input summary page
+28388 - Display "same as previous" information in real time
+28439 - Link editing an organisation to a condensed data input summary page
+28397 - Remove % from progress bar
+28419 - Need ability to remove an uploaded image
+
+---------------------------------------------
+
+Release Date: 21 June 2023
+Release Name: 2.0.3
+Description: Version 2.0.3 release for DACS sprint 3
+Planned Release: Yes
+Approved By: Lorna Prentice / Chris Mackie
+
+Release Content
+------
+25607 - Integrate Google Maps and APIs
+27724 - Phone Number Input Function
+
+The following stories were deployed but remain inactive through web.config values
+27708 - Data Input Landing Page
+27712 - Organisation Details Page
+27716 - Service Details Page
+27728 - What Page
+27732 - Who Page
+27736 - Accessibility Page
+27740 - Media Page
+27741 - Summary Page
+27748 - Submission Confirmation Page
+27692 - Navigation buttons
+27696 - Progress Tracker
+27815 - Perform validation on mandatory fields on every page
+27684 - Continue adding section
+27720 - Where Page
+28413 - Remove certain groups
+28417 - Alt Text Info
+
+---------------------------------------------
+
+Release Date: 23 May 2023
+Release Name: Sprint 10 release
+Planned Release: Yes
+Approved By: Lorna Prentice / Chris Mackie
+
+Release Content
+------
+23740 - Allow users to add formatting to description
+24927 - Ability to unpublish service
+24732 - When printing collections the full details of the service and organisation need to be on the page
+25720 - Add a link to the published organisation on republish email
+23680 - Picture on About page to be changed
+23877 - Admin review: preview published listings on aliss.org
+24018 - Change name of 'Save' button name to 'Send' on Email this collection page
+25354 - alt text missing from the marker on the map
+24886 - Need to add at least one contact detail to save a service or organisation
+28037 - Remove bold from Contact information blurb
+Bug 26102 - After logging out, click back button user is still logged in
+Bug 26926 - Add organisation button to indicate it opens in a new tab
+Bug 27596 - Misleading tooltip
+
+---------------------------------------------
+
+Release Date: 24 Apr 2023
+Release Name: DACS sprint 2 release
+Planned Release: Yes
+Approved By: Lorna Prentice / Chris Mackie
+
+Release Content
+------
+25916 - Claim service: View list of claims (Admin)
+26831 - Make Add to ALISS more distinguishable
+27251 - Investigate issue with Google Analytics
+27255 - Migrate Google Analytics
+25606 - Introduce 'sort by' order options for search results
+25618 - Homepage search suggestions
+25631 - Instagram section - Services
+27151 - Instagram section - Organisations
+25638 - Get in touch with 'service name' in contact info
+25639 - Improve homepage search box dynamic sizing
+26894 - Disable ability to revoke a user if they are the lead claimant
+25920 - Claim Service: Add claimed services list
+25900 - Claim Service: Show claimed users
+25904 - Claim Service: Showparent organisation lead claimant
+25896 - Claim Service: Re-assign lead claimant role
+25864 - Claim Organisation: Re-assign lead claimant role
+26793 - Ticket 2029 - Add an organisation bug when saving
+
+---------------------------------------------
+
+Release Date: 21 Mar 2023
+Release Name: DACS sprint 1 release
+Planned Release: Yes
+Approved By: Lorna Prentice
+
+Release Content
+------
+22201 - Old favicon is still on the Admin site, needs changed to the same as front-facing site
+24086 - Pages should contain metadata description
+25562 - Change 'last updated' to 'last reviewed' in data input and listings
+25566 - Accurate distance conversions
+25712 - Include 'Add to ALISS' link under management section in dashboard side bar
+25567 - Adjust footer layout
+25578 - Increase ALISS logo size
+25579 - Change 'add an organisation/service' to "Add to ALISS"
+26014 - Change wording to "Can't find what you're looking for?"
+25594 - Include username in welcome to ALISS email
+25586 - Link ALISS socials in the footer
+25587 - Remove blue text on homepage
+25598 - Remove homepage block pattern
+25860 - Claim Organisation: Claim an already claimed organisation (Front/Admin)
+25856 - Claim Organisation: Set lead claimant (Admin)
+25876 - Claim Organisation: Show claimed users (Admin)
+25880 - Claim Organisation: View list of claims (Admin)
+25852 - Claim Organisation: Update responsibilities text (Front)
+26619 - Ticket 1993 - Remove limit from delivered across
+25574 - Waiting for approval email
+
+Updated Umbraco to use blob storage for media
+
+---------------------------------------------
+
+Release Date: 17 Feb 2023
+Release Name: Sprint 9 release
+Planned Release: Yes
+Approved By: Chris Mackie
+
+Release Content
+------
+Sprint 9 stories and bug fixes
+
+---------------------------------------------

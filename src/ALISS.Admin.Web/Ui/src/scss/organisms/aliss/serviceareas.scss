@@ -1,0 +1,446 @@
+.aliss-serviceareas {
+    border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+    height: 300px;
+    overflow: auto;
+    padding-right: 20px;
+    
+    .aliss-accordion__header {
+        display: flex;         
+        flex-direction: row;
+    }
+
+    &--filter {
+        margin-top: rem-calc(15);
+        border-bottom: none;
+
+        .aliss-form__checkbox {
+            line-height: 1; 
+            .aliss-form__input {
+                top: rem-calc(6);
+                left: auto;
+                right: 0;
+            }
+        }
+    }
+
+    &__item {
+        border: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        border-bottom: 0;
+        padding: rem-calc(15);
+    }
+
+    &__trigger {
+        flex: 0 0;
+    }
+
+    &__noresult {
+        display: none;
+    }
+
+    &__icon {
+        border: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        background: $white;
+        position: relative;
+        margin-left: rem-calc(10);
+        display: block;
+
+        .fa {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__edit {
+        margin-left: rem-calc(15);
+        display: block;
+        width: auto;
+        max-width: auto;
+
+        &--sub {
+            margin-left: rem-calc(25);
+        }
+    }
+
+    &__add {
+        font-size: rem-calc(20);
+        line-height: 1;
+    }
+
+    &__count {
+        padding: rem-calc(4 10);
+        color: $white;
+        line-height: 0.8;
+        display: inline-block;
+        background-color: map-get($brand, aliss-light-green);
+        margin-right: rem-calc(15);
+    }
+
+    &__block {
+        width: rem-calc(20);
+        display: block;
+    }
+
+    &__spacer {
+        width: 100%;
+        height: rem-calc(1);
+        flex: 1 0 50%;
+        margin:rem-calc(10 15);
+        background-color: map-get($brand, aliss-dark-gray);
+
+        .aliss-serviceareas--filter & {
+            margin:rem-calc(15) 0 rem-calc(15) rem-calc(15);
+            flex: 1 0 25%;
+        }
+    }
+
+
+
+    &__primary {
+        position: relative;
+
+        .aliss-serviceareas--filter & {
+            margin-top: rem-calc(5);
+        }
+
+        &:before {
+            content: "";
+            width: rem-calc(25);
+            height: calc(100% - 25px);
+            border-left: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+            position: absolute;
+            left: rem-calc(10);
+            top: 5px;
+            z-index: -1;
+
+            
+            .aliss-serviceareas--filter & {
+                top: 11px;
+            }
+        }
+        
+    }
+
+    &__sub {    
+
+        display: block;
+        padding: rem-calc(15 0 0 30);
+        position: relative;
+
+        
+        .aliss-serviceareas--filter & {
+            padding: rem-calc(5 0 0 31);
+        }
+
+        &:before {
+            content: "";
+            width: rem-calc(20);
+            height: rem-calc(38);
+            z-index: 0;
+            border-left: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+            border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+            position: absolute;
+            left: rem-calc(10);
+            top: -10px;
+            
+            .aliss-serviceareas--filter & {
+                top: -14px;
+            }
+            
+        }
+
+        &:after {
+            content: "";
+            width: rem-calc(20);
+            height: 100%;
+            z-index: 0;
+            border-left: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+            position: absolute;
+            left: rem-calc(10);
+            top: -10px;
+        }
+
+        &:last-child {
+            &:after {                
+                display: none;
+            }
+            .aliss-serviceareas__sub--three {
+                &:after {
+                    display: none;
+                    // content: '';
+                    // position: absolute;
+                    // background-color: $white;
+                    // width: rem-calc(5);
+                    // height: rem-calc(30);
+                    // left: rem-calc(-22);
+                    // top: rem-calc(-9);
+                    
+                    // .aliss-serviceareas--filter & {
+                    //     display: none;
+                    // }
+                }
+            }
+        }
+        
+        &--three {
+            padding: rem-calc(15 0 0 35);
+            display: flex;         
+            flex-direction: row;
+        }
+    }
+
+    &__titles {
+        display: flex;
+        flex-direction: row;
+        padding: rem-calc(15);
+        text-transform: uppercase;
+        justify-content: space-between;
+    }
+
+    &__title {
+        &--count {
+            margin-right: rem-calc(35);
+        }
+    }
+}
+
+.aliss-datainput-serviceareas {
+    border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+    height: 300px;
+    overflow: auto;
+    padding-right: 20px;
+    
+    .aliss-accordion__header {
+        display: block;         
+    }
+
+    &--filter {
+        margin-top: rem-calc(15);
+        border-bottom: none;
+
+        .aliss-form__checkbox {
+            line-height: 1; 
+            .aliss-form__input {
+                top: rem-calc(6);
+                left: 0;
+                right: 0;
+            }
+        }
+    }
+
+    &__item {
+        border: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        border-bottom: 0;
+        padding: rem-calc(15);
+    }
+
+    &__trigger {
+        flex: 0 0;
+    }
+
+    &__noresult {
+        display: none;
+    }
+
+    &__icon {
+        border: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        background: $white;
+        position: relative;
+        margin-left: rem-calc(10);
+        display: block;
+
+        .fa {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__edit {
+        margin-left: rem-calc(32);
+        display: block;
+        width: auto;
+        max-width: auto;
+
+        // &--sub {
+        //     margin-left: rem-calc(25);
+        // }
+    }
+
+    &__add {
+        font-size: rem-calc(20);
+        line-height: 1;
+    }
+
+    &__count {
+        padding: rem-calc(4 10);
+        color: $white;
+        line-height: 0.8;
+        display: inline-block;
+        background-color: map-get($brand, aliss-light-green);
+        margin-right: rem-calc(15);
+    }
+
+    &__block {
+        width: rem-calc(20);
+        display: block;
+    }
+
+    &__spacer {
+        width: 100%;
+        height: rem-calc(1);
+        flex: 1 0 50%;
+        margin:rem-calc(10 15);
+        background-color: map-get($brand, aliss-dark-gray);
+
+        .aliss-serviceareas--filter & {
+            margin:rem-calc(15) 0 rem-calc(15) rem-calc(15);
+            flex: 1 0 25%;
+        }
+    }
+
+
+
+    &__primary {
+        position: relative;
+        .aliss-accordion__trigger {
+            display: block;
+            font-size: 1rem;
+            margin-top: 8px;
+            i {
+                &:before {
+                    content: 'Show wards';
+                    font-family: sofia-pro,sans-serif;
+                    font-weight: 500;
+                    text-decoration: underline;
+                }
+            }
+            &--active {
+                i {
+                    transform: none;
+                    &:before {
+                        content: "Hide wards";
+                        font-family: sofia-pro,sans-serif;
+                        font-weight: 500;
+                        text-decoration: underline;
+                    }
+                }
+            } 
+        }
+        .aliss-serviceareas--filter & {
+            margin-top: rem-calc(5);
+        }
+
+        &:before {
+            content: "";
+            width: rem-calc(25);
+            height: calc(100% - 25px);
+            border-left: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+            position: absolute;
+            left: rem-calc(10);
+            top: 5px;
+            z-index: -1;
+
+            
+            .aliss-serviceareas--filter & {
+                top: 11px;
+            }
+        }
+        
+    }
+
+    &__sub {    
+
+        display: block;
+        padding: rem-calc(15 0 0 30);
+        position: relative;
+        
+        &:first-of-type {
+            padding-top: 0px;
+        }
+        
+        .aliss-serviceareas--filter & {
+            padding: rem-calc(5 0 0 31);
+        }
+
+        &:before {
+            content: "";
+            width: rem-calc(20);
+            height: rem-calc(40);
+            z-index: 0;
+            border-left: rem-calc(3) solid #e6e6e6;
+            // border-bottom: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+            position: absolute;
+            left: rem-calc(0);
+            top: 0px;
+            
+            .aliss-serviceareas--filter & {
+                top: -14px;
+            }
+            
+        }
+
+        &:after {
+            content: "";
+            width: rem-calc(20);
+            height: 100%;
+            z-index: 0;
+            border-left: rem-calc(3) solid #e6e6e6;
+            position: absolute;
+            left: rem-calc(0);
+            top: 0px;
+        }
+
+        &:last-child {
+            &:after {                
+                display: none;
+            }
+            .aliss-serviceareas__sub--three {
+                &:after {
+                    display: none;
+                    // content: '';
+                    // position: absolute;
+                    // background-color: $white;
+                    // width: rem-calc(5);
+                    // height: rem-calc(30);
+                    // left: rem-calc(-22);
+                    // top: rem-calc(-9);
+                    
+                    // .aliss-serviceareas--filter & {
+                    //     display: none;
+                    // }
+                }
+            }
+        }
+        
+        &--three {
+            padding: rem-calc(15 0 0 35);
+            display: flex;         
+            flex-direction: row;
+        }
+    }
+
+    &__titles {
+        display: flex;
+        flex-direction: row;
+        padding: rem-calc(15);
+        text-transform: uppercase;
+        justify-content: space-between;
+    }
+
+    &__title {
+        &--count {
+            margin-right: rem-calc(35);
+        }
+    }
+}

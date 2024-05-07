@@ -1,0 +1,190 @@
+﻿@model ALISS.Business.ViewModels.ServiceReviews.DeprioritisedServicesViewModel
+@{
+	ViewBag.Title = "Deprioritised Services";
+	string sortIcon = (int)ViewBag.Descending == 1 ? "fa fa-sort-desc" : "fa fa-sort-asc";
+	string reviewedService = ViewBag.ReviewedService;
+}
+
+@if (!string.IsNullOrEmpty(reviewedService))
+{
+	<div id="banner-reviewed-service" class="aliss-banner aliss-banner__success">
+		<div class="aliss-banner__content">
+			<div class="aliss-banner__content__text mt--0 mb--0">
+				<div class="aliss-banner__title mb--8"><i class="fas fa-check-circle" aria-hidden="true"></i> Review status</div>
+				<p class="no-margin">@reviewedService has been successfully reviewed</p>
+			</div>
+		</div>
+		<button id="banner-reviewed-service-button" title="Use this button to dismiss review status banner" class="btn btn--primary">Dismiss</button>
+	</div>
+}
+
+<div class="aliss-search">
+	<div class="aliss-search__filter">
+		@using (Html.BeginForm("Deprioritised", "ServiceReviews", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+		{
+			<label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+				Search
+			</label>
+			<input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+			<button class="btn btn--primary" type="submit">Search</button>
+			if (!String.IsNullOrEmpty(Model.SearchTerm))
+			{
+				<div class="aliss-search__clear">
+					@Html.ActionLink("Clear Search", "Deprioritised", "ServiceReviews", null, new { @class = "btn btn--primary" })
+				</div>
+			}
+		}
+	</div>
+</div>
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Total Results: <span>@Model.TotalResults</span></p>
+		</div>
+	</div>
+</div>
+
+<table class="aliss-table">
+	<thead class="aliss-table__head">
+		<tr class="aliss-table__row aliss-table__row--head">
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "servicename")
+				{
+					<a href="@($"?orderBy=servicename&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Service Name</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?orderBy=servicename&descending=0")">Service Name</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "organisationname")
+				{
+					<a href="@($"?orderBy=organisationname&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Organisation Name</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?orderBy=organisationname&descending=0")">Organisation Name</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "deprioritisedon")
+				{
+					<a href="@($"?orderBy=deprioritisedon&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Date of Deprioritisation</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?orderBy=deprioritisedon&descending=1")">Date of Deprioritisation</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "createduser")
+				{
+					<a href="@($"?orderBy=createduser&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Created By</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?orderBy=createduser&descending=1")">Created By</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">
+				@if (ViewBag.OrderBy.ToLower() == "claimeduser")
+				{
+					<a href="@($"?orderBy=claimeduser&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Claimed User</a>
+					<span class="@sortIcon"></span>
+				}
+				else
+				{
+					<a href="@($"?orderBy=claimeduser&descending=1")">Claimed User</a>
+				}
+			</th>
+			<th class="aliss-table__header" scope="col">Managers</th>
+			<th class="aliss-table__header" scope="col">Review Information</th>
+		</tr>
+	</thead>
+
+	@foreach (var service in Model.Services)
+	{
+		<tbody class="aliss-table__body">
+			<tr class="aliss-table__row aliss-table__row--body">
+				<td class="aliss-table__cell">
+					@if (service.ServicePublished)
+					{
+						<a href="@($"{ViewBag.PublicURL}services/{service.ServiceId}")">@service.ServiceName</a>
+					}
+					else
+					{
+						@Html.ActionLink(service.ServiceName, "Index", "DataInputSummary", new { id = service.ServiceId }, null)
+					}
+				</td>
+				<td class="aliss-table__cell">
+					@if (service.OrganisationPublished)
+					{
+						<a href="@($"{ViewBag.PublicURL}organisations/{service.OrganisationId}")">@service.OrganisationName</a>
+
+					}
+					else
+					{
+						@Html.ActionLink(service.OrganisationName, "Index", "DataInputOrganisationSummary", new { id = service.OrganisationId }, null)
+					}
+				</td>
+				<td class="aliss-table__cell">
+					@($"{service.DeprioritisedDate:dd/MM/yyyy}")
+				</td>
+				<td class="aliss-table__cell">
+					@Html.ActionLink(service.CreatedUserName, "EditUser", "User", new { id = service.CreatedUserId }, null)
+				</td>
+				<td class="aliss-table__cell">
+					@if (service.ClaimedUserName.Equals(""))
+					{
+						@service.ClaimedUserName
+					}
+					else
+					{
+						@Html.ActionLink(service.ClaimedUserName, "EditUser", "User", new { id = service.ClaimedUserId }, null)
+					}
+				</td>
+				<td class="aliss-table__cell">
+					@Html.ActionLink(service.Managers.ToString(), "ListServiceClaimants", "Organisation", new { id = service.ServiceId }, null)
+				</td>
+				<td class="aliss-table__cell">
+					@Html.ActionLink("Review", "Index", "ServiceReviewSummary", new { id = service.ServiceId }, new { @class = "btn btn--primary" })
+				</td>
+			</tr>
+		</tbody>
+	}
+</table>
+
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+		</div>
+		@if (Model.TotalPages > 1)
+		{
+			<div class="aliss-pagination-component__wrapper__item">
+				<nav>
+					<ol>
+						@if (Model.Page > 1)
+						{
+							<li>
+								<a href="/ServiceReviews/Deprioritised?page=@(Model.Page - 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-previous">Previous</a>
+							</li>
+						}
+						@if (Model.Page < Model.TotalPages)
+						{
+							<li>
+								<a href="/ServiceReviews/Deprioritised?page=@(Model.Page + 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-next">Next</a>
+							</li>
+						}
+					</ol>
+				</nav>
+			</div>
+		}
+	</div>
+</div>

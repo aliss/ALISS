@@ -1,0 +1,38 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@{
+	bool serviceSubmitted = Model.ServiceSubmitted;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted ?? false;
+}
+<fieldset class="aliss-form__fieldset no-padding">
+	<legend class="aliss-form__legend">Categories</legend>
+
+	@if (serviceSubmitted || organisationSubmitted)
+	{
+		<h2>3. Categories</h2>
+	}
+	else
+	{
+		<h2>4. Categories</h2>
+	}
+
+	<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("SelectedCategories").ToString()) && !Html.ValidationMessage("SelectedCategories").ToString().Contains("\"></span>")
+                    ? "aliss-form__group--error mb--24"
+                    : "mb--24")">
+		@if (Model.SelectedCategories.Count != 0)
+		{
+			<ul>
+				@foreach (string category in Model.SelectedCategories)
+				{
+					<li class="mb--16">@category</li>
+				}
+			</ul>
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	@Html.ActionLink("Edit Information", "Index", "DataInputCategories", new { id = Model.ServiceId, summaryType = Model.SummaryType }, new { @class = "btn btn--primary" })
+	<hr class="content__divider mt--24" />
+</fieldset>

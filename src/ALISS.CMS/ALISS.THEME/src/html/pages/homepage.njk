@@ -1,0 +1,56 @@
+{% extends "layout.njk" %}
+
+{# Global variables #}
+  {# 
+    Access to atom, molecule and organism paths.
+  #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+{# Global variables #}
+
+{# Page variables #}
+  {# 
+    Page meta data:
+    If specified, this will populate meta tags for page SEO.
+  #}
+    {% set page_Meta_Title = '' %}
+    {% set page_Meta_Description = '' %}
+    {% set page_Meta_Keywords = '' %}
+  {# 
+    Page styles:
+    Utilise Atoms, Molecules and Organisms to create templates.
+  #}
+  {% set page_Styles = false %}
+  {# 
+    Page body ID & class:
+    If specified, this id and or class will be applied to the body tag.
+  #}
+    {% set page_Body_ID = 'aliss-x-page' %}
+    {% set page_Body_Class = 'aliss-x-page' %}
+  {# 
+    Page ID & class:
+    If specified, this class will be applied to top level parent tag of this page, containing all of the componets within the page contents.
+  #}
+  {% set page_ID = '' %}
+  {% set page_Class = '' %}
+{# Page variables #}
+
+{% block body %}
+  
+  {% if page_Styles == true %}
+    <style>
+      /* page specific styles */
+    </style>
+  {% endif %}
+  <div {% if page_ID %}id="{{ page_ID }}"{% endif %} {% if page_Class %}class="{{ page_Class }}"{% endif %}>
+    {# 
+      Template creation:
+      Utilise Atoms, Molecules and Organisms to create templates.
+    #}
+    {% set components = [
+      GV.molecules + 'search-components/search-components--homepage/search-block--homepage'
+    ] %}
+    {% for components in components %}
+      {% include components + '.njk' %}
+    {% endfor %}
+  </div>
+{% endblock %}

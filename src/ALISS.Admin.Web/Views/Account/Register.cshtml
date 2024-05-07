@@ -1,0 +1,77 @@
+﻿@model ALISS.Admin.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutLoggedOut.cshtml";
+}
+
+<h1>
+    @ViewBag.Title
+</h1>
+<p>Create a new ALISS account.</p>
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+    @Html.Partial("_ErrorMessage")
+    <br />
+}
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <fieldset class="aliss-form__fieldset">
+        <legend class="aliss-form__legend">Create a new ALISS Account</legend>
+        @Html.ALISSTextBox(m => m.Name)
+        @Html.ALISSTextBox(m => m.Username)
+        @Html.ALISSTextBox(m => m.Email, "email")
+        @Html.ALISSTextBox(m => m.ConfirmEmail, "email")
+        @Html.ALISSTextBox(m => m.PhoneNumber, "tel")
+        @Html.ALISSTextBox(m => m.Postcode)
+        @Html.ALISSTextBox(m => m.Password, "password")
+        <p>Passwords must be a minimum of eight characters and must have at least one capital letter (A-Z), one lower case letter (a-z), one number (0-9).</p>
+        @Html.ALISSTextBox(m => m.ConfirmPassword, "password")
+
+        <p><b>Before you register please read the terms and condition and the privacy policy (required)</b></p>
+
+        <span tabindex="1" id='terms' class="btn btn--primary">Terms and conditions</span> &nbsp; <span tabindex="1" id='privacy' class="btn btn--primary">Privacy policy</span><br /><br />
+
+
+        @*Creating a PDF viewer Terms and condition.*@
+        @{
+            // Please replace string with webconfig setting PDR url
+            var PDF = ViewBag.TermsAndConditionsUrl;
+            var PDFUrl = "https://docs.google.com/viewer?url=" + @PDF + "&embedded=true";
+        }
+        @*Creating a PDF viewer Privacy.*@
+        @{
+            // Please replace string with webconfig setting PDR url
+            var PDFp = ViewBag.PrivacyPolicyUrl;
+            var PDFUrlp = "https://docs.google.com/viewer?url=" + @PDFp + "&embedded=true";
+        }
+        <div id="terms-pdf-box">
+            @Html.Partial("_PDFTemplate", new ViewDataDictionary(this.ViewData) {
+            { "url", @PDFUrl }})
+        </div>
+
+        <div id="privacy-pdf-box">
+            @Html.Partial("_PDFTemplate_two", new ViewDataDictionary(this.ViewData) {
+            { "url", @PDFUrlp }})
+        </div>
+
+        @Html.ALISSCheckbox(m => m.TermsAndConditions)
+
+
+    </fieldset>
+
+    <div class="aliss-form__actions">
+        <button type="submit" class="btn btn--primary" onclick="window.monsido_functions.trackEvent('Account', 'Register Button', 'Register New User', 1);">Register</button>
+        <br /><br />
+        @Html.ActionLink("Login with existing account", "Login")
+    </div>
+}
+
+@section scripts {
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+}
+
+

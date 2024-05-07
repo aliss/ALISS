@@ -1,0 +1,426 @@
+﻿@using ALISS.CMS.Extensions
+@using ALISS.ApiServices.ViewModels.Service
+@model ServiceModel
+@{
+	Layout = "~/Views/Master.cshtml";
+
+	int marker_count = 0;
+	int geo_count = 0;
+}
+
+@if (Model == null)
+{
+	<main>
+		<section>
+			<div class="aliss-grid">
+				<div class="aliss-content__wrap">
+					<div class="aliss-content__header">
+						<h1>Page Not Found</h1>
+					</div>
+					<div class="aliss-content__primary">
+						<div class="aliss-rte aliss-typography">
+							<p>The service you requested was not found, please try again.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+}
+else
+{
+	<main id="aliss-service-@Model.id" class="aliss-service-page aliss-service-page--@Model.id">
+		<section>
+			<div class="aliss-grid">
+				@Html.Partial("ClaimsDisclaimer")
+				<div class="aliss-content__wrap">
+					<div class="aliss-content__header__container mb--30">
+						<div class="aliss-content__header__service mb--16">
+							@if (ViewBag.Logo != null && ViewBag.Logo.ToString() != "0")
+							{
+								<img alt="@Model.name Logo" class="aliss-img__downloaded aliss-img__downloaded__service" src="@ViewBag.Logo" />
+							}
+							<h1 class="mt--0 mb--0 mr--8 d-inline-block">@Model.name</h1>
+							@if (Model.is_claimed || Model.organisation.is_claimed)
+							{
+								<span title="This is a claimed service" class="aliss-claimed-status aliss-claimed-status--claimed"><span class="sr-only">This is a </span>Claimed<span class="sr-only"> service</span></span>
+							}
+						</div>
+						<div class="aliss-content__header__service-by mb--8">
+							<span>
+								<strong>Delivered by:</strong>
+								@if (!string.IsNullOrWhiteSpace(Model.organisation.name) && (Model.organisation.aliss_url != null))
+								{
+									<a id="aliss-service-organisation-id-@Model.organisation.id" href="/organisations/@Model.organisation.slug" title="Click here for more information on the organisation that represents this service." target="_self" class="aliss-service-by-link mr--8">
+										@Model.organisation.name
+									</a>
+								}
+								else if (!string.IsNullOrWhiteSpace(Model.organisation.name))
+								{
+									@Model.organisation.name
+								}
+								else
+								{
+									@:Unavilable
+								}
+								@if (!string.IsNullOrWhiteSpace(Model.organisation.name) && Model.organisation.is_claimed)
+								{
+									<span title="This is a claimed service." class="aliss-claimed-status aliss-claimed-status--claimed"><span class="sr-only">This is a </span>Claimed<span class="sr-only"> organisation</span></span>
+								}
+							</span>
+						</div>
+						<div class="aliss-content__header__last-reviewed">
+							<span>
+								<i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+								<strong>Last reviewed:</strong>
+								@Model.last_reviewed.ToString("dd/MM/yyyy")
+							</span>
+						</div>
+					</div>
+
+					<div class="aliss-content__primary">
+						@if (!string.IsNullOrWhiteSpace(Model.description_formatted))
+						{
+							<div class="aliss-rte aliss-typography">
+								<p>
+									@Html.Raw(Model.description_formatted)
+								</p>
+							</div>
+						}
+
+						@if (Model.locations.Count() > 0)
+						{
+							<div class="aliss-component-location aliss-content-spacer">
+								<div class="accordion">
+									<div class="aliss-accordion__header aliss-accordion__header--spaced">
+										<strong>Addresses:</strong>
+										<button class="aliss-accordion__trigger" data-accordion-trigger="more-locations">View all (@Model.locations.Count())</button>
+									</div>
+
+									<div class="aliss-accordion__content" id="more-locations">
+                                        <p>Navigate to each location using the following links below</p>
+										<ul class="aliss-icon-list">
+											@foreach (var item in Model.locations)
+											{
+												<li class="aliss-icon-list__item aliss-icon-list__item--location">
+													<a id="aliss-service-location-@item.id" href="https://maps.google.com?daddr=@item.formatted_address" title="This will open in a new window" target="_blank" class="">
+														@item.formatted_address<span class="sr-only">This will open in a new window</span>
+													</a>
+												</li>
+											}
+										</ul>
+									</div>
+								</div>
+							</div>
+						}
+
+						@if (Model.service_areas.Count() > 0)
+						{
+							<div class="aliss-component-service-areas aliss-content-spacer">
+								<div class="accordion">
+									<div class="aliss-accordion__header aliss-accordion__header--spaced">
+										<strong>Regions:</strong>
+										<button class="aliss-accordion__trigger" data-accordion-trigger="more-services">View all (@Model.service_areas.Count())</button>
+									</div>
+
+									<div class="aliss-accordion__content" id="more-services">
+										<ul class="aliss-icon-list">
+											@foreach (var item in Model.service_areas)
+											{
+												<li class="aliss-icon-list__item aliss-icon-list__item--map">
+													@item.name
+												</li>
+											}
+										</ul>
+									</div>
+								</div>
+							</div>
+						}
+
+						@if (Model.locations.Count() > 0 || Model.service_areas.Count() > 0)
+						{
+							<div id="aliss-component-map" class="aliss-component-map" data-id="@Model.id"
+								 @if (Model.service_areas.Count() > 0) { @: data-map-areas='{
+                                @:"areas" : [
+                                    foreach (var service_area in Model.service_areas)
+                                    {
+                                        geo_count++;
+                                        var areas = geo_count == Model.service_areas.Count() ? "}" : "},";
+                                        @:{
+                                            @:"type": "@service_area.type",
+                                            @:"code": "@service_area.code",
+                                            @:"area": "@service_area.name"
+                                        @areas
+
+                                    }
+                                @:]}'
+								 }
+								 @if (Model.locations.Count() > 0) { @: data-map-markers='{
+                                @:"markers" : [
+                                    foreach (var marker in Model.locations)
+                                    {
+                                        marker_count++;
+                                        var markers = marker_count == Model.locations.Count() ? "}" : "},";
+                                        @:{
+                                            @:"name": "@marker.name",
+                                            @:"address": "@marker.formatted_address",
+                                            @:"longitude": @marker.longitude,
+                                            @:"latitude": @marker.latitude
+                                        @markers
+                                    }
+                                @:]}'
+								 }>
+							</div>
+						}
+						else if (Model.locations.Count() < 1 || Model.service_areas.Count() < 1)
+						{
+							<div class="aliss-organism aliss-component-master aliss-content-spacer aliss-component-master--red">
+								<div class="aliss-component-master__contents">
+									<h2>
+										Notice: This service has no addresses or regions currently applied.
+									</h2>
+								</div>
+								<div class="aliss-component-master__contents aliss-component-master__contents--claim-organisation">
+									<div class="aliss-component-master__buttons">
+										<a href="@ViewBag.ReturnUrl" class="btn btn btn--warning hide-print">
+											Add an Address
+										</a>
+									</div>
+								</div>
+							</div>
+						}
+
+						<div id="aliss-component-map-error" class="aliss-organism aliss-component-master aliss-content-spacer aliss-component-master--red js-component-error hide-print">
+							<div class="aliss-component-master__contents">
+								<h2>
+									Notice: This has been an error loading the map.
+								</h2>
+								<p id="aliss-component-map-error-contents"></p>
+							</div>
+						</div>
+
+						<br /><br />
+
+						@*Accessibility section*@
+						@if (Model.accessibility_features.Count() > 0)
+						{
+							@Html.Partial("ServiceAccessibility", Model)
+						}
+
+						@*Categories section*@
+						@if (Model.categories.Count() > 0)
+						{
+							var categories = Model.categories.Where(c => c.selected).Select(c => c.name).Distinct();
+							<div class="aliss-accordion-container mb--24">
+								<div class="aliss-content-accordion__header">
+									<button id="aliss-accordion-category-btn" class="aliss-content-accordion__trigger" type="button" data-accordion-trigger="categories">
+										Categories
+										<i class="fas fa-chevron-circle-down hide-print" aria-hidden="true"></i>
+										<span class="sr-only">Click here to toggle the Category section</span>
+									</button>
+								</div>
+								<div class="aliss-content-accordion__content" id="categories">
+									<div class="service-listing__container">
+										@foreach (var category in categories)
+										{
+											<div class="service-listing__category-panel mb--24">
+												<div class="service-listing__category-panel__item">
+													<span class="service-listing__category-panel__item__title">@category</span>
+												</div>
+											</div>
+										}
+									</div>
+								</div>
+							</div>
+						}
+
+						@*Who section*@
+						@if (Model.community_groups.Count() > 0)
+						{
+							<div class="aliss-accordion-container mb--24">
+								<div class="aliss-content-accordion__header">
+									<button id="aliss-accordion-who-btn" class="aliss-content-accordion__trigger" type="button" data-accordion-trigger="whoCategories">
+										Who
+										<i class="fas fa-chevron-circle-down hide-print" aria-hidden="true"></i>
+										<span class="sr-only">Click here to toggle the Who section</span>
+									</button>
+								</div>
+
+								<div class="aliss-content-accordion__content" id="whoCategories">
+									<div class="service-listing__container">
+										@foreach (var communityGroup in Model.community_groups)
+										{
+											if (communityGroup.selected)
+											{
+												<div class="service-listing__category-panel mb--24">
+													<div class="service-listing__category-panel__item">
+														@if (communityGroup.is_range && communityGroup.min != 0 && communityGroup.max != 0)
+														{
+															<span class="service-listing__category-panel__item__title">@communityGroup.name - @communityGroup.min to @communityGroup.max</span>
+														}
+														else
+														{
+															<span class="service-listing__category-panel__item__title">@communityGroup.name</span>
+														}
+													</div>
+												</div>
+											}
+										}
+									</div>
+								</div>
+							</div>
+						}
+
+						@*Media section*@
+						@if (Model.media_gallery.Count() > 0)
+						{
+							<div class="aliss-accordion-container mb--24">
+								<div class="aliss-content-accordion__header">
+									<button id="aliss-accordion-media-btn" class="aliss-content-accordion__trigger" type="button" data-accordion-trigger="media">
+										Media
+										<i class="fas fa-chevron-circle-down hide-print" aria-hidden="true"></i>
+										<span class="sr-only">Click here to toggle the Media section</span>
+									</button>
+								</div>
+								<div class="aliss-content-accordion__content" id="media">
+									<div class="aliss-media-section">
+										<div class="aliss-media-section__container">
+											<div class="aliss-media-section__slide">
+												<div class="aliss-media-section__slide__image">
+													@foreach (AlissServiceMedia media in Model.media_gallery.Where(m => m.type.ToLower() == "image"))
+													{
+														<div class="aliss-media-section__slide__item">
+															<img alt="@media.alt_text" src="@media.url" />
+														</div>
+													}
+													@foreach (AlissServiceMedia media in Model.media_gallery.Where(m => m.type.ToLower() == "video"))
+													{
+														string embedUrl = media.url.Contains("vimeo")
+															? "https://player.vimeo.com/video/" + media.url.Split('/').Last()
+															: media.url.Contains("youtu.be")
+																? "https://www.youtube.com/embed/" + media.url.Split('/').Last() + "?playlist=" + media.url.Split('/').Last() + "&rel=0"
+																: "https://www.youtube.com/embed/" + media.url.Split('=')[1] + "?playlist=" + media.url.Split('=')[1] + "&rel=0";
+														<div class="aliss-media-section__slide__item">
+															<iframe id="video-player" type="text/html" src="@embedUrl" frameborder="0" allowfullscreen></iframe>
+														</div>
+													}
+													<div class="aliss-media-section__slide__caption">
+														<p id="image-caption"></p>
+													</div>
+													<div class="hide-print">
+														@if (Model.media_gallery.Count() > 1)
+														{
+															<a id="slide-nav-left" class="aliss-media-section__slide__navigation aliss-media-section__slide__navigation--left"><i class="fas fa-arrow-left"></i></a>
+															<a id="slide-nav-right" class="aliss-media-section__slide__navigation aliss-media-section__slide__navigation--right"><i class="fas fa-arrow-right"></i></a>
+														}
+													</div>
+												</div>
+												<div class="aliss-media-section__slide__count mt--24 hide-print">
+													<h4 id="slide-count">1/4</h4>
+												</div>
+											</div>
+
+											@foreach (AlissServiceMedia media in Model.media_gallery.Where(m => m.type.ToLower() == "image"))
+											{
+												<div class="aliss-media-section__thumbnail-item hide-print">
+													<img class="aliss-media-section__thumbnail-image" src="@media.url" alt="@media.caption" />
+												</div>
+											}
+
+											@foreach (AlissServiceMedia media in Model.media_gallery.Where(m => m.type.ToLower() == "video"))
+											{
+												<div class="aliss-media-section__thumbnail-item hide-print">
+													<img class="aliss-media-section__thumbnail-image" src="@media.thumbnail" alt="Embedded Video" />
+												</div>
+											}
+										</div>
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+
+					<div class="aliss-content__secondary">
+						@Html.Partial("ServiceContactInfo")
+
+						@Html.Partial("ServiceActions")
+
+						@Html.Partial("ServiceClaim")
+
+						@Html.Partial("ServiceImproveThis")
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+}
+
+@section Metadata
+{
+	@if (Model != null)
+	{
+		@Html.Metadata(Model)
+	}
+}
+
+<script nonce="service">
+	"use strict";
+
+	var accordionBtnAccessibility = document.getElementById("aliss-accordion-accessibility-btn");
+	var accordionContentAccessibility = document.getElementById("accessibility");
+
+	var accordionBtnCategories = document.getElementById("aliss-accordion-category-btn");
+	var accordionContentCategories = document.getElementById("categories");
+
+	var accordionBtnWho = document.getElementById("aliss-accordion-who-btn");
+	var accordionContentWho = document.getElementById("whoCategories");
+
+	var accordionBtnMedia = document.getElementById("aliss-accordion-media-btn");
+	var accordionContentMedia = document.getElementById("media");
+
+	function updateAccordions() {
+		if (window.innerWidth <= 768) {
+			if (accordionBtnAccessibility && accordionContentAccessibility != null) {
+				accordionBtnAccessibility.classList.remove("aliss-accordion__trigger--active");
+				accordionContentAccessibility.classList.remove("aliss-accordion__content--active");
+			}
+			if (accordionBtnCategories && accordionContentCategories != null) {
+				accordionBtnCategories.classList.remove("aliss-accordion__trigger--active");
+				accordionContentCategories.classList.remove("aliss-accordion__content--active");
+			}
+			if (accordionBtnWho && accordionContentWho != null) {
+				accordionBtnWho.classList.remove("aliss-accordion__trigger--active");
+				accordionContentWho.classList.remove("aliss-accordion__content--active");
+			}
+			if (accordionBtnMedia && accordionContentMedia != null) {
+				accordionBtnMedia.classList.remove("aliss-accordion__trigger--active");
+				accordionContentMedia.classList.remove("aliss-accordion__content--active");
+			}
+		} else {
+			if (accordionBtnAccessibility && accordionContentAccessibility != null) {
+				accordionBtnAccessibility.classList.add("aliss-accordion__trigger--active");
+				accordionContentAccessibility.classList.add("aliss-accordion__content--active");
+			}
+			if (accordionBtnCategories && accordionContentCategories != null) {
+				accordionBtnCategories.classList.add("aliss-accordion__trigger--active");
+				accordionContentCategories.classList.add("aliss-accordion__content--active");
+			}
+			if (accordionBtnWho && accordionContentWho != null) {
+				accordionBtnWho.classList.add("aliss-accordion__trigger--active");
+				accordionContentWho.classList.add("aliss-accordion__content--active");
+			}
+			if (accordionBtnMedia && accordionContentMedia != null) {
+				accordionBtnMedia.classList.add("aliss-accordion__trigger--active");
+				accordionContentMedia.classList.add("aliss-accordion__content--active");
+			}
+		}
+	}
+
+	window.addEventListener('load', function (event) {
+		updateAccordions();
+	}, true);
+
+	window.addEventListener('resize', function (event) {
+		updateAccordions();
+	}, true);
+</script>

@@ -1,0 +1,443 @@
+@using System.Configuration;
+@using ALISS.Business.Enums;
+@model ALISS.Business.ViewModels.DataInput.WhereViewModel
+@{
+	ViewBag.Title = "Add to ALISS";
+	bool submitted = ViewBag.Submitted ?? false;
+
+	int marker_count = 0;
+	int geo_count = 0;
+}
+
+@if (!submitted)
+{
+	<div class="step-progress__panel__container">
+		<div class="aliss-grid aliss-grid__data-input">
+			<div class="aliss-content__wrap aliss-content__wrap--data-input">
+				<div class="aliss-content__primary">
+					<div class="data-input-container">
+						@Html.Partial("_DataInputProgress")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-grid aliss-grid__data-input">
+	<div class="aliss-content__wrap aliss-content__wrap--data-input">
+		<div class="aliss-content__primary">
+			@using (Html.BeginForm("Index", "DataInputWhere", FormMethod.Post, new { @class = "aliss-form aliss-data-input-form" }))
+			{
+				@Html.AntiForgeryToken()
+				string inPersonSelected = Model.HowServiceAccessed?.ToLower() == "inperson" ? "checked" : "";
+				string remoteSelected = Model.HowServiceAccessed?.ToLower() == "remote" ? "checked" : "";
+				string hybridSelected = Model.HowServiceAccessed?.ToLower() == "hybrid" ? "checked" : "";
+
+				@Html.HiddenFor(h => h.OrganisationId)
+				@Html.HiddenFor(h => h.ServiceId)
+				@Html.HiddenFor(h => h.SummaryType)
+				<div class="data-input-container__panel">
+					<div class="data-input-container__panel--main">
+						<div class="data-input-container--inner">
+							<fieldset class="aliss-form__fieldset aliss-data-input-form__fieldset no-padding mb--48">
+								<legend class="aliss-form__legend">Where</legend>
+								<h1 class="mb--0 mt--0">Where</h1>
+								<p class="mb--32">This section covers where in Scotland your service is available, whether that is at any specific address(es), any specific region(s), or anywhere in Scotland.</p>
+
+								<fieldset id="HowServiceAccessedFieldset" class="aliss-form__fieldset no-padding">
+									<div class="aliss-form__group">
+										<label class="aliss-form__label" for="HowServiceAccessed?">How is your service accessed? <i aria-hidden="true" class="fas fa-info-circle" data-tip="ALISS is a service based search so we only need details about your service location and availability, not about the organisation that provides it."></i></label>
+
+										<div class="aliss-form__radio">
+											<input @inPersonSelected class="aliss-form__input aliss-form__input__service-access in-person" type="radio" id="select-in-person" name="HowServiceAccessed" value="inPerson" />
+											<label class="" for="select-in-person">In person</label>
+										</div>
+										<div class="aliss-form__radio">
+											<input @remoteSelected class="aliss-form__input aliss-form__input__service-access select-remote" type="radio" id="select-remote" name="HowServiceAccessed" value="remote" />
+											<label class="" for="select-remote">Virtual (online, telephone, app)</label>
+										</div>
+										<div class="aliss-form__radio">
+											<input @hybridSelected class="aliss-form__input aliss-form__input__service-access hybrid" type="radio" id="select-hybrid" name="HowServiceAccessed" value="hybrid" />
+											<label class="" for="select-hybrid">Both (in person and virtual)</label>
+										</div>
+									</div>
+								</fieldset>
+
+								<div id="serviceLocationsAndRegions" class="hide">
+									<div id="whereIsYourServiceLocated" class="aliss-form__group">
+										<label class="aliss-form__label">Where is your service available?</label>
+										<p id="inperson-where-is-your-service-text" class="mt--0 hide">You can add both addresses and regions where your in person service is available using the tabs below.</p>
+										<p id="hybrid-where-is-your-service-text" class="mt--0 hide">You can add both addresses and regions where your service is available either in person or virtually using the tabs below. As you have selected both, you must add at least one region.</p>
+										<div class="details-container mb--4">
+											<div class="aliss-details__header">
+												<a class="aliss-details__trigger" data-accordion-trigger="details-addresses">
+													<i class="fas fa-caret-right"></i>
+													How should addresses be used?
+												</a>
+											</div>
+											<div class="aliss-details__content" id="details-addresses">
+												<div class="aliss-details__inner">
+													<p id="inperson-address-details-text" class="hide">Addresses should be used if there is one or more specific locations that a person should go to in order to access this service (ex: community hub, office space).</p>
+													<p id="hybrid-address-details-text" class="hide">Addresses should be used if there is one or more specific locations that a person should go to in order to access this service (ex: community hub, office space).</p>
+												</div>
+											</div>
+										</div>
+										<div class="details-container mb--16">
+											<div class="aliss-details__header">
+												<a class="aliss-details__trigger" data-accordion-trigger="details-regions">
+													<i class="fas fa-caret-right"></i>
+													How should regions be used?
+												</a>
+											</div>
+											<div class="aliss-details__content" id="details-regions">
+												<div class="aliss-details__inner">
+													<p id="inperson-region-details-text" class="hide">Regions should be used if the service is delivered in person at various locations in one or more health boards, localities, wards, or Scotland wide (ex: outdoor hikes, home visits).</p>
+													<p id="hybrid-region-details-text" class="hide">Regions should be used if the service is available either in person or virtually at various locations in one or more health boards, localities, wards, or Scotland wide (ex: phone services, online workshop)</p>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<hr class="content__divider" />
+
+									<fieldset id="serviceSelectionsFieldset" class="aliss-form__fieldset no-padding">
+										<legend class="aliss-form__legend">Selected Availability</legend>
+
+										<div id="serviceSelectedLocations" class="aliss-form__selections aliss-form__selection--addresses mb--4">
+											<h4 class="mb--0">Selected addresses</h4>
+											<span class="aliss-selected__title" id="title-selected-locations"></span><span id="count-selected-locations"></span><span> selection(s): <a id="view-selected-addresses" href=""></a></span>
+											<div class="aliss-selected hide" id="selected-locations">
+											</div>
+										</div>
+
+										<div id="serviceSelectedRegions" class="aliss-form__selections aliss-form__selection--regions">
+											<h4 class="mb--0">Selected regions</h4>
+											<span class="aliss-selected__title" id="title-serviceareas-selected"></span><span id="count-serviceareas-selected"></span><span> selection(s): <a id="view-selected-regions" href=""></a></span>
+											<div class="aliss-selected hide" id="serviceareas-selected">
+											</div>
+										</div>
+									</fieldset>
+
+									<div class="aliss-form__group mt--16">
+										<div id="serviceLocationsAndRegionsTabs" class="aliss-tabs">
+											<div>
+												<input class="aliss-form__input add-locations" type="radio" id="add-locations" name="locationOrRegion" value="location" checked />
+												<label class="" for="add-locations">Addresses</label>
+											</div>
+											<div>
+												<input class="aliss-form__input add-regions" type="radio" id="add-regions" name="locationOrRegion" value="region" />
+												<label class="" for="add-regions">Regions</label>
+											</div>
+										</div>
+
+										<fieldset id="locationsFieldset" class="aliss-form__fieldset aliss-data-input-form__fieldset no-padding mb--48 mt--16">
+											<legend class="aliss-form__legend">Add your addresses</legend>
+											<div class="aliss-form__group">
+												<label class="aliss-form__label">Please add or select an address</label>
+												<span>Only add an address if people would come to this address to access the service.</span>
+												<br /><br />
+												<div id="checkedSelection" data-name="SelectedLocations" data-checked-selection="selected-locations">
+													@foreach (var location in Model.Locations)
+													{
+														<div class="aliss-form__checkbox">
+															<input id="location_@location.Value"
+																   data-name="@location.Name"
+																   data-formatted="@location.FormattedAddress"
+																   data-label="@location.Text"
+																   data-lat="@location.Latitude"
+																   data-lon="@location.Longitude"
+																   name="availableLocations"
+																   class="aliss-form__input"
+																   type="checkbox"
+																   @(location.Selected ? "checked" : "")
+																   value="@location.Value" />
+															<label id="location_label_@location.Value" for="location_@location.Value">@location.Text</label>
+															<a href="#edit-location" id="edit_location_@location.Value"
+															   class="fa fa-pencil-square-o"
+															   data-id="@location.LocationId"
+															   data-name="@location.Name"
+															   data-address="@location.Address"
+															   data-city="@location.City"
+															   data-postcode="@location.Postcode"
+															   data-lat="@location.Latitude"
+															   data-lon="@location.Longitude">
+															</a>
+														</div>
+													}
+												</div>
+												<br />
+												<a href="#new-location" id="add-new-location" class="btn btn--primary">Add new location</a>
+
+												<div id="edit-location" class="hide">
+													<div class="aliss-form__group google-suggestions-container">
+														<label class="aliss-form__label" for="search-address-edit">
+															Please type and select an address
+														</label>
+														<input type="text" id="search-address-edit" name="search-address-edit" class="aliss-form__input" onFocus="initEdit()" autocomplete="on" />
+													</div>
+													<div id="editAddressContainer">
+														@Html.ALISSTextBox(m => m.EditLocationName)
+														@Html.ALISSTextBox(m => m.EditLocationAddress)
+														@Html.ALISSTextBox(m => m.EditLocationCity)
+														@Html.ALISSTextBox(m => m.EditLocationPostcode)
+														@Html.HiddenFor(m => m.EditLocationLatitude)
+														@Html.HiddenFor(m => m.EditLocationLongitude)
+														@Html.HiddenFor(m => m.EditLocationId)
+													</div>
+													<a href="" id="cancel-edit-location" class="btn btn--primary">Cancel</a>
+													<button id="submit-updated-location" class="btn btn--primary">Save address</button>
+												</div>
+												<div id="new-location" class="hide">
+													<div class="aliss-form__group google-suggestions-container">
+														<label class="aliss-form__label" for="search-address">
+															Please type and select an address
+														</label>
+														<input type="text" id="search-address" name="search-address" class="aliss-form__input" onFocus="init()" autocomplete="on" />
+													</div>
+													<div class="aliss-form__checkbox">
+														<input class="aliss-form__input" id="manual-address" name="manual-address" type="checkbox" value="true" />
+														<label for="manual-address"><p>Tick here if you wish to enter the address manually.</p></label>
+													</div>
+													<div id="manualAddressContainer" class="hide">
+														@Html.ALISSTextBox(m => m.NewLocationName)
+														@Html.ALISSTextBox(m => m.NewLocationAddress)
+														@Html.ALISSTextBox(m => m.NewLocationCity)
+														@Html.ALISSTextBox(m => m.NewLocationPostcode)
+														@Html.HiddenFor(m => m.NewLocationLatitude)
+														@Html.HiddenFor(m => m.NewLocationLongitude)
+													</div>
+													<a href="" id="cancel-new-location" class="btn btn--primary">Cancel</a>
+													<button id="submit-location" class="btn btn--primary">Add address</button>
+												</div>
+											</div>
+										</fieldset>
+
+										<fieldset id="regionsFieldset" class="aliss-form__fieldset no-padding mt--16 hide">
+											<h4>Select regions from the list below</h4>
+											<legend class="aliss-form__legend">Add your service areas</legend>
+											<div class="aliss-form__group">
+												<label class="aliss-form__label">Please select a region or ward</label>
+												<span>Filter regions</span>
+												<input type="text" id="servicearea-filter" class="aliss-form__input aliss-form__input--filter" placeholder="Type to filter service areas" autocomplete="off">
+												<div class="aliss-datainput-serviceareas aliss-datainput-serviceareas--filter">
+													@foreach (var serviceArea in Model.ServiceServiceAreas)
+													{
+														string levelOneSelectedClass = serviceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+														<div class="aliss-datainput-serviceareas__primary mb--24" data-filter="@serviceArea.Name">
+															<div class="aliss-accordion__header @levelOneSelectedClass">
+																<div class="aliss-form__checkbox">
+																	<input id="servicearea-@serviceArea.ServiceAreaId" data-id="@serviceArea.ServiceAreaId" name="serviceareas" class="aliss-form__input" type="checkbox" @(serviceArea.Selected ? "checked" : "") value="@serviceArea.Name" />
+																</div>
+																<label for="servicearea-@serviceArea.ServiceAreaId" class="aliss-datainput-serviceareas__edit pr--8">@serviceArea.Name</label>
+																@if (serviceArea.NextLevelServiceAreas.Count() > 0)
+																{
+																	<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@serviceArea.ServiceAreaId">
+																		<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+																		<span class="hide">Toggle Accordion @serviceArea.Name</span>
+																	</button>
+																}
+															</div>
+															<div class="aliss-accordion__content" id="accordion-@serviceArea.ServiceAreaId">
+																@foreach (var levelTwoServiceArea in serviceArea.NextLevelServiceAreas)
+																{
+																	string levelTwoSelectedClass = levelTwoServiceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+																	<div class="aliss-datainput-serviceareas__sub" data-filter="@levelTwoServiceArea.Name">
+																		<div class="aliss-accordion__header @levelTwoSelectedClass">
+																			<div class="aliss-form__checkbox">
+																				<input id="servicearea-@levelTwoServiceArea.ServiceAreaId" class="aliss-form__input" name="serviceareas" data-id="@levelTwoServiceArea.ServiceAreaId" type="checkbox" @(levelTwoServiceArea.Selected ? "checked" : "") value="@levelTwoServiceArea.Name" />
+																			</div>
+																			<label for="servicearea-@levelTwoServiceArea.ServiceAreaId" class="aliss-datainput-serviceareas__edit aliss-datainput-serviceareas__edit--sub pr--8">@levelTwoServiceArea.Name</label>
+
+																			@if (levelTwoServiceArea.NextLevelServiceAreas.Count() > 0)
+																			{
+																				<button class="aliss-accordion__trigger" data-accordion-trigger="accordion-@levelTwoServiceArea.ServiceAreaId">
+																					<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+																					<span class="hide">Toggle Accordion @levelTwoServiceArea.Name</span>
+																				</button>
+																			}
+																		</div>
+																		@if (levelTwoServiceArea.NextLevelServiceAreas.Count() > 0)
+																		{
+																			<div class="aliss-accordion__content" id="accordion-@levelTwoServiceArea.ServiceAreaId">
+																				@foreach (var levelThreeServiceArea in levelTwoServiceArea.NextLevelServiceAreas)
+																				{
+																					string levelThreeSelectedClass = levelThreeServiceArea.Selected ? "aliss-accordion__header--selected" : "";
+
+																					<div class="aliss-datainput-serviceareas__sub aliss-datainput-serviceareas__sub--three" data-filter="@levelThreeServiceArea.Name">
+																						<label for="servicearea-@levelThreeServiceArea.ServiceAreaId" class="aliss-datainput-serviceareas__edit">@levelThreeServiceArea.Name</label>
+																						<div class="aliss-form__checkbox">
+																							<input id="servicearea-@levelThreeServiceArea.ServiceAreaId" class="aliss-form__input" name="serviceareas" data-id="@levelThreeServiceArea.ServiceAreaId" type="checkbox" @(levelThreeServiceArea.Selected ? "checked" : "") value="@levelThreeServiceArea.Name" />
+																						</div>
+																					</div>
+																				}
+																			</div>
+																		}
+																	</div>
+																}
+															</div>
+														</div>
+													}
+												</div>
+											</div>
+										</fieldset>
+									</div>
+
+									<div class="aliss-details__header">
+										<a class="aliss-details__trigger" data-accordion-trigger="details-map">
+											<i class="fas fa-caret-right"></i>
+											Show on map
+										</a>
+									</div>
+									<div class="aliss-form__group aliss-details__content" id="details-map">
+										<div id="aliss-component-map" class="aliss-component-map" data-id="@Model.ServiceId"
+											 @if (!string.IsNullOrWhiteSpace(Model.SelectedServiceAreas)) { @: data-map-areas='{
+													 string areaIds = "";
+													 @:"areas" : [
+													 foreach (var service_area in Model.ServiceServiceAreas.Where(x => Model.SelectedServiceAreas.Split(',').Contains(x.ServiceAreaId.ToString())))
+													 {
+														geo_count++;
+														var areas = geo_count == Model.SelectedServiceAreas.Split(',').Count() ? "}" : "},";
+														var ids = geo_count == Model.SelectedServiceAreas.Split(',').Count() ? "" : ",";
+														@:{
+															@:"type": "@service_area.Type",
+															@:"code": "@service_area.Code",
+															@:"area": "@service_area.Name"
+														@areas
+														areaIds += service_area.ServiceAreaId + ids;
+													}
+													@:]}'
+											  @: data-map-areas-ids='@areaIds'
+											 }
+											 @if (!string.IsNullOrWhiteSpace(Model.SelectedLocations)) { @: data-map-markers='{
+												@:"markers" : [
+													foreach (var marker in Model.Locations.Where(x => Model.SelectedLocations.Split(',').Contains(x.LocationId.ToString())))
+													{
+														marker_count++;
+														var markers = marker_count == Model.SelectedLocations.Split(',').Count() ? "}" : "},";
+														@:{
+															@:"name": "@marker.Name",
+															@:"address": "@marker.FormattedAddress",
+															@:"longitude": @marker.Longitude,
+															@:"latitude": @marker.Latitude
+														@markers
+													}
+												@:]}'
+											 }>
+										</div>
+									</div>
+
+									<div id="aliss-component-map-error" class="aliss-organism aliss-component-master aliss-content-spacer aliss-component-master--red js-component-error hide-print">
+										<div class="aliss-component-master__contents">
+											<h2>
+												Notice: There has been an error loading the map.
+											</h2>
+											<p id="aliss-component-map-error-contents"></p>
+										</div>
+									</div>
+
+									<hr class="content__divider" />
+								</div>
+							</fieldset>
+						</div>
+					</div>
+
+					@Html.HiddenFor(m => m.OrganisationId)
+					@Html.HiddenFor(m => m.ServiceId)
+					@Html.HiddenFor(m => m.SelectedLocations)
+					@Html.HiddenFor(m => m.SelectedServiceAreas)
+
+					@if (Model.SummaryType == DataInputSummaryTypeEnum.ServiceReview)
+					{
+						@Html.Partial("_ReviewNavigation")
+					}
+					else
+					{
+						@Html.Partial("_DataInputNavigation")
+					}
+				</div>
+			}
+		</div>
+		@Html.Partial("_Guidance")
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		function initEdit() {
+			var input = document.getElementById("search-address-edit");
+			var options = {
+				componentRestrictions: {
+					country: "gb"
+				}
+			};
+			var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+			autocomplete.addListener("place_changed", () => {
+				const place = autocomplete.getPlace();
+				getAddressFromAutocomplete(place, "Edit");
+			});
+		}
+
+		function init() {
+			var input = document.getElementById("search-address");
+			var options = {
+				componentRestrictions: {
+					country: "gb"
+				}
+			};
+			var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+			autocomplete.addListener("place_changed", () => {
+				const place = autocomplete.getPlace();
+				getAddressFromAutocomplete(place, "New");
+			});
+		}
+
+		const getAddressFromAutocomplete = (place, fieldsPrefix) => {
+			var locationNameInput = document.getElementById(fieldsPrefix + "LocationName")
+			var addressInput = document.getElementById(fieldsPrefix + "LocationAddress");
+			var cityInput = document.getElementById(fieldsPrefix + "LocationCity");
+			var postcodeInput = document.getElementById(fieldsPrefix + "LocationPostcode");
+			var latInput = document.getElementById(fieldsPrefix + "LocationLatitude")
+			var lonInput = document.getElementById(fieldsPrefix + "LocationLongitude")
+
+			locationNameInput.value = "";
+			addressInput.value = "";
+			cityInput.value = ""
+			postcodeInput.value = "";
+			latInput.value = "";
+			lonInput.value = "";
+
+			var address = "";
+
+			for (var ac = 0; ac < place.address_components.length; ac++) {
+				switch (place.address_components[ac].types[0]) {
+					case "street_number":
+						address = place.address_components[ac].long_name + " ";
+						break;
+					case "route":
+						address = address + place.address_components[ac].long_name;
+						break;
+					case "postal_town":
+						cityInput.value = place.address_components[ac].long_name;
+						break;
+					case "postal_code":
+						postcodeInput.value = place.address_components[ac].long_name;
+						break;
+				}
+			}
+			addressInput.value = address;
+			latInput.value = place.geometry.location.lat();
+			lonInput.value = place.geometry.location.lng();
+		};
+	</script>
+}

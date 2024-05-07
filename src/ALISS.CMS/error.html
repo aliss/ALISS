@@ -1,0 +1,719 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ALISS</title>
+    <meta name="description" content="ALISS">
+    <link rel="stylesheet" href="/ALISS.THEME/dist/css/site.css">
+    <link rel="stylesheet" href="https://use.typekit.net/hwk2ezh.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+    <link rel="shortcut icon" href="/ALISS.THEME/dist/img/favicon.png">
+    <style>
+        label, legend, p {
+            font-size: 16px;
+            font-size: 1rem;
+            line-height: 30px;
+            line-height: 1.875rem;
+            font-family: sofia-pro,sans-serif;
+            font-weight: 400;
+            font-style: normal
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0 0 .9375rem;
+            font-family: sofia-pro,sans-serif;
+            font-weight: 700;
+            font-style: normal
+        }
+
+        .aliss-typography a:not(.btn):not(.link):hover {
+            text-decoration: none;
+            color: #fff;
+            background-color: #004785;
+            box-shadow: 0 0 0 .25rem #004785
+        }
+
+        @media (max-width:1024px) {
+            .aliss-typography a:not(.link):not(.btn) {
+                word-break: break-all
+            }
+        }
+
+        a {
+            background-color: transparent;
+            -webkit-text-decoration-skip: objects
+        }
+
+        html {
+            box-sizing: border-box;
+            font-size: 100%
+        }
+
+        *, :after, :before {
+            box-sizing: inherit
+        }
+
+        body {
+            background: #fff;
+            color: #212121;
+            font-family: sofia-pro,sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0
+        }
+
+        form label span {
+            font-weight: 700;
+            color: #004785
+        }
+
+        .aliss-header {
+            background: #1E7ABD;
+            padding: 0.9375rem 0;
+        }
+
+            .aliss-header a,
+            .aliss-header p,
+            .aliss-header li {
+                color: #fff;
+            }
+
+            .aliss-header .customText {
+                color: #fff;
+            }
+
+            .aliss-header a {
+                text-decoration: none;
+            }
+
+        .aliss-header-component {
+            display: flex;
+        }
+
+        @media (max-width: 1023px) {
+            .aliss-header-component {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .aliss-header-component {
+                display: block;
+            }
+        }
+
+        .aliss-header-component__logo {
+            position: relative;
+            flex: 0 1 auto;
+            width: 50%;
+        }
+
+        @media (min-width: 1025px) {
+            .aliss-header-component__logo {
+                flex: 0 1 auto;
+                width: 50%;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .aliss-header-component__logo {
+                width: 100%;
+            }
+        }
+
+        .aliss-header-component__logo a {
+            display: grid;
+            max-width: -webkit-max-content;
+            max-width: -moz-max-content;
+            max-width: max-content;
+        }
+
+        .aliss-header-component__logo img {
+            grid-column: 1;
+            width: auto;
+            height: 3.4375rem;
+            margin: 0.3125rem 0;
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header-component__logo img {
+                height: 6.5625rem;
+                margin: 0.3125rem 0;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .aliss-header-component__logo img {
+                width: auto;
+                height: 5.4375rem;
+                margin: 0.3125rem 0;
+            }
+        }
+
+        .aliss-header-component__logo h1 {
+            grid-column: 2;
+        }
+
+        .aliss-header-component__logo__text {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 25%;
+            font-size: 1.5rem;
+            font-weight: 600;
+            width: 250px;
+        }
+
+        @media only screen and (max-width: 1024px) {
+            .aliss-header-component__logo__text {
+                left: 20%;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .aliss-header-component__logo__text {
+                left: 25%;
+            }
+        }
+
+        @media only screen and (max-width: 650px) {
+            .aliss-header-component__logo__text {
+                left: 33%;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .aliss-header-component__logo__text {
+                left: 25%;
+                width: 230px;
+            }
+        }
+
+        @media only screen and (max-width: 320px) {
+            .aliss-header-component__logo__text {
+                width: 180px;
+                font-size: 1.2rem;
+                left: 33%;
+            }
+        }
+
+        .aliss-header-component__navigation {
+            position: relative;
+            flex: 0 1 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 1023px) {
+            .aliss-header-component__navigation {
+                display: none;
+            }
+        }
+
+        .aliss-header-component__navigation.js-mobile-menu-active {
+            display: block;
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header-component__navigation {
+                flex: 0 1 auto;
+                width: 70%;
+            }
+        }
+
+        .aliss-header-component__navigation ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header-component__navigation ul {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+        }
+
+        .aliss-header-component__navigation ul li {
+            list-style: none;
+            margin: 0.9375rem 0 0;
+        }
+
+        @media (max-width: 1023px) {
+            .aliss-header-component__navigation ul li {
+                padding: 0;
+            }
+
+                .aliss-header-component__navigation ul li:not(:last-of-type) {
+                    margin: 0 0 0.9375rem 0;
+                }
+        }
+
+        @media (min-width: 1025px) {
+            .aliss-header-component__navigation ul li {
+                flex: 0 1 auto;
+            }
+        }
+
+        .aliss-header-component__navigation ul li a {
+            padding: 0.9375rem 0;
+            transition: 0.5s all ease;
+        }
+
+        @media (min-width: 1025px) {
+            .aliss-header-component__navigation ul li a {
+                padding: 0.9375rem;
+            }
+        }
+
+        .aliss-header-component__navigation__primary {
+            position: relative;
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header-component__navigation__primary {
+                top: 3.75rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .aliss-header-component__navigation__primary ul {
+                margin: 1.875rem 0 0.9375rem;
+            }
+        }
+
+        .aliss-header-component__navigation__primary__item a {
+            position: relative;
+            top: 0;
+        }
+
+        .aliss-header-component__navigation__secondary {
+            position: absolute;
+            top: -0.9375rem;
+            right: 0;
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header-component__navigation__secondary {
+                display: block;
+            }
+        }
+
+        .aliss-header-component-tertiary-menu {
+            flex: 0 1 auto;
+            width: 50%;
+            text-align: right;
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header-component-tertiary-menu {
+                width: 10%;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .aliss-header-component-tertiary-menu {
+                width: 100%;
+            }
+        }
+
+        .aliss-header-component-tertiary-menu .a-login-mobile {
+            text-align: right;
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header-component-tertiary-menu .a-login-mobile {
+                display: none;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .aliss-header-component-tertiary-menu .a-login-mobile {
+                text-align: left;
+            }
+        }
+
+        .aliss-header-component-tertiary-menu .navigation-toggle {
+            text-align: right;
+            margin-bottom: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header-component-tertiary-menu .navigation-toggle {
+                display: none;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .aliss-header-component-tertiary-menu .navigation-toggle {
+                text-align: left;
+            }
+        }
+
+        .aliss-header-component-tertiary-menu .navigation-toggle p {
+            margin-bottom: 0;
+        }
+
+        @media (min-width: 768px) {
+            .aliss-header .a-feedback {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .aliss-header .a-feedback {
+                position: relative;
+                top: -15px;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .aliss-header .a-feedback--mobile {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+            }
+        }
+
+        .aliss-grid {
+            display: block;
+            margin: 0 auto;
+            max-width: 77.5rem;
+            padding: 0 0.9375rem;
+        }
+
+        .aliss-footer {
+            color: #fff;
+            background: #4C5C68;
+            padding: 1.25rem 0;
+            border-top: 0.625rem solid;
+        }
+
+        .aliss-footer-component__contents p {
+            margin: 0;
+        }
+
+            .aliss-footer-component__contents p:not(:last-of-type) {
+                margin: 0 0 1.25rem;
+            }
+
+        .aliss-footer-component__navigation ul {
+            margin: 0 0.9375rem 0.9375rem 0;
+            padding: 0;
+            flex: 0 1 auto;
+        }
+
+        @media (min-width: 1025px) {
+            .aliss-footer-component__navigation ul {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+        }
+
+        .aliss-footer-component__navigation ul li {
+            list-style: none;
+        }
+
+        @media (max-width: 1023px) {
+            .aliss-footer-component__navigation ul li:not(:last-of-type) {
+                margin: 0 0 0.9375rem 0;
+            }
+        }
+
+        .aliss-footer-component__navigation ul li a {
+            color: #2EEEE3;
+            text-decoration: none;
+            transition: 0.5s all ease;
+            position: relative;
+            top: 0;
+        }
+
+        @media (min-width: 1025px) {
+            .aliss-footer-component__navigation ul.socials {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                margin-top: 15px;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .aliss-footer-component__navigation ul.socials {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                margin-top: 15px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .aliss-footer-component__navigation .navigation-footer-toggle {
+                display: none;
+            }
+        }
+
+        .aliss-footer-component__navigation .navigation-footer-toggle i {
+            margin-left: 0.9375rem;
+        }
+
+        .aliss-footer-component__navigation .navigation-footer-toggle.js-mobile-menu-footer-active i {
+            transform: rotate(180deg);
+        }
+
+        .aliss-footer-component__navigation__columns {
+            display: flex;
+            width: 100%;
+        }
+
+        @media (max-width: 767px) {
+            .aliss-footer-component__navigation__columns {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: space-between;
+                width: 90%;
+            }
+        }
+
+        .aliss-footer-component__navigation__column {
+            width: 25%;
+        }
+
+            .aliss-footer-component__navigation__column .title {
+                font-size: 1rem;
+                font-weight: 400;
+            }
+
+        @media (max-width: 767px) {
+            .aliss-footer-component__navigation__column {
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .aliss-footer-component__navigation__column {
+                width: 100%;
+            }
+        }
+
+        .aliss-footer-component__navigation__list {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 0.9375rem;
+        }
+
+        @media (max-width: 768px) {
+            .aliss-footer-component__navigation__list {
+                display: none;
+            }
+
+                .aliss-footer-component__navigation__list.js-mobile-menu-footer-active {
+                    display: block;
+                }
+        }
+
+        .aliss-footer-component__navigation__list__item {
+            list-style: none;
+            flex: 0 1 auto;
+            display: inline-block !important;
+            margin-right: 0.3125rem;
+        }
+
+            .aliss-footer-component__navigation__list__item :last-child {
+                margin-right: 0;
+                display: inline;
+                display: flex;
+                flex-direction: row;
+            }
+
+        .aliss-footer-component__navigation__list img {
+            display: inline;
+            max-height: 65px;
+        }
+
+        @media (max-width: 768px) {
+            .aliss-footer-component__navigation__list img {
+                max-height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="aliss-header">
+        <div class="aliss-grid">
+            <div class="aliss-header-component">
+                <div class="aliss-header-component__logo">
+                    <a href="/" title="Click here to navigate to the homepage.">
+                        <img src="/ALISS.THEME/dist/img/aliss-logo.png" class="hide-print" alt="A Local Information System for Scotland (ALISS) logo">
+                        <img src="/ALISS.THEME/dist/img/aliss-logo-print.png" class="show-print" alt="Image of Print Version of ALISS Logo">
+                        <div class="aliss-header-component__logo__text">A Local Information System for Scotland</div>
+                    </a>
+                </div>
+                <div class="aliss-header-component-tertiary-menu hide-print" style="visibility: hidden;">
+                    <div id="mobileLogin" class="hide">
+                        <a href="" title="Click here to login / sign up" class="a-login-mobile hidden--desktop hidden--largedesktop">
+                            Login / Signup
+                        </a>
+                    </div>
+                    <div id="mobileLogout" class="">
+                        <a href="" title="Click here to your account (This will open in a new window)" class="a-login-mobile hidden--desktop hidden--largedesktop aliss-logout">
+                            My Dashboard
+                        </a>
+                        <a href="" title="Click here to log out" class="a-login-mobile hidden--desktop hidden--largedesktop aliss-logout">
+                            Log out
+                        </a>
+                    </div>
+                    <div id="menu" class="navigation-toggle">
+                        <p>
+                            <i class="fas fa-bars" aria-hidden="true"></i>
+                            Navigation
+                        </p>
+                    </div>
+                </div>
+                <div id="menu-toggle" class="aliss-header-component__navigation hide-print" style="visibility: hidden;">
+                    <nav id="desktopLogin" class="aliss-header-component__navigation__secondary hide">
+                        <ul>
+                            <li>
+                                <a href="">
+                                    Login / Signup
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <nav id="desktopLogout" class="aliss-header-component__navigation__secondary ">
+                        <ul>
+                            <li>
+                                <a href="">
+                                    <span class="sr-only">Go To </span>My Dashboard (mmurray)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" title="Click here to log out" class="aliss-logout">
+                                    Log out
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <nav class="aliss-header-component__navigation__primary">
+                        <ul>
+                            <li class="aliss-header-component__navigation__primary__item aliss-header-component__navigation__primary__item--active-page">
+                                <a href="/about-aliss/" target="">
+                                    About
+                                </a>
+                            </li>
+                            <li class="aliss-header-component__navigation__primary__item aliss-header-component__navigation__primary__item--active-page">
+                                <a href="/add-to-aliss/" target="">
+                                    Add to ALISS
+                                </a>
+                            </li>
+                            <li class="aliss-header-component__navigation__primary__item aliss-header-component__navigation__primary__item--active-page">
+                                <a href="/" target="">
+                                    Search/Home
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="__ba_launchpad" onclick="window.monsido_functions.trackEvent('ReachDeck', 'Accessibility Button', 'Toggle Accessibility Tooolbar', 1);"></div>
+    <div id="primarycontent">
+        <main>
+            <section>
+                <div class="aliss-grid">
+                    <div class="aliss-content__wrap">
+                        <div class="aliss-content__header">
+                            <h1>Sorry, there was an error</h1>
+                        </div>
+
+                        <div class="aliss-content__primary aliss-typography">
+                            <p class="">
+                                Please return to the <a href="/">home page</a>. <br> We are sorry for any inconvenience caused.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="aliss-footer">
+        <div class="aliss-grid">
+            <div class="aliss-footer-component">
+                <div class="aliss-footer-component__navigation hide-print">
+                    <div id="menu-footer" class="navigation-footer-toggle">
+                        <p>Footer navigation <i class="fas fa-chevron-down" aria-hidden="true"></i></p>
+                    </div>
+                </div>
+                <div class="aliss-footer-component__contents hide-print">
+                    <p><i class="fas fa-copyright" aria-hidden="true"></i> Copyright Health and Social Care Alliance Scotland (the ALLIANCE) 2022. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script nonce="monsido" type="text/javascript">
+        window._monsido = window._monsido || {
+            token: "rfgMmAzQe-YrvoZaMtTzaw",
+            statistics: {
+                enabled: true,
+                cookieLessTracking: true,
+                documentTracking: {
+                    enabled: true,
+                    documentCls: "monsido_download",
+                    documentIgnoreCls: "monsido_ignore_download",
+                    documentExt: [],
+                },
+            },
+            heatmap: {
+                enabled: true,
+            },
+            pageCorrect: {
+                enabled: true,
+            },
+        };
+        window._monsidoConsentManagerConfig = window._monsidoConsentManagerConfig || {
+            token: "rfgMmAzQe-YrvoZaMtTzaw",
+            privacyRegulation: ["gdpr"],
+            settings: {
+                manualStartup: false,
+                hideOnAccepted: false,
+                perCategoryConsent: true,
+                explicitRejectOption: false,
+                hasOverlay: false,
+            },
+            i18n: {
+                languages: ["en_US"],
+                defaultLanguage: "en_US"
+            },
+            theme: {
+                buttonColor: "#1E7ABE",
+                buttonTextColor: "#ffffff",
+                iconPictureUrl: "cookie_bite",
+                iconShape: "circle",
+                position: "bottom-left",
+            },
+            links: {
+                cookiePolicyUrl: "https://www.aliss.org/privacy-policy/",
+                linkToCookieOverview: "https://www.aliss.org/cookies/",
+                optOutUrl: "",
+            },
+        };
+    </script>
+    <script type="text/javascript" async src="https://app-script.monsido.com/v2/monsido-script.js"></script>
+    <script type="text/javascript" src="https://monsido-consent.com/v1/mcm.js"></script>
+    <script type="text/javascript"
+            src="https://www.browsealoud.com/plus/scripts/3.1.0/ba.js"
+            crossorigin="anonymous"
+            integrity="sha256-VCrJcQdV3IbbIVjmUyF7DnCqBbWD1BcZ/1sda2KWeFc= sha384-k2OQFn+wNFrKjU9HiaHAcHlEvLbfsVfvOnpmKBGWVBrpmGaIleDNHnnCJO4z2Y2H sha512-gxDfysgvGhVPSHDTieJ/8AlcIEjFbF3MdUgZZL2M5GXXDdIXCcX0CpH7Dh6jsHLOLOjRzTFdXASWZtxO+eMgyQ==">
+    </script>
+</body>
+</html>

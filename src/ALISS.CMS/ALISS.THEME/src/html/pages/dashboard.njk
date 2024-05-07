@@ -1,0 +1,185 @@
+{% extends "layout.njk" %}
+
+{# Global variables #}
+  {# 
+    Access to atom, molecule and organism paths.
+  #}
+  {% import "../partials/include/globalVariables.njk" as GV %}
+  {% from "../partials/" + GV.organisms + "components/master.njk" import master_component as master_component %}
+{# Global variables #}
+
+{# Page variables #}
+  {# 
+    Page meta data:
+    If specified, this will populate meta tags for page SEO.
+  #}
+    {% set page_Meta_Title = '' %}
+    {% set page_Meta_Description = '' %}
+    {% set page_Meta_Keywords = '' %}
+  {# 
+    Page styles:
+    Utilise Atoms, Molecules and Organisms to create templates.
+  #}
+  {% set page_Styles = false %}
+  {# 
+    Page body ID & class:
+    If specified, this id and or class will be applied to the body tag.
+  #}
+    {% set page_Body_ID = 'aliss-signup-page' %}
+    {% set page_Body_Class = 'aliss-signup-page' %}
+  {# 
+    Page ID & class:
+    If specified, this class will be applied to top level parent tag of this page, containing all of the componets within the page contents.
+  #}
+  {% set page_ID = '' %}
+  {% set page_Class = '' %}
+  {# 
+    Page title:
+    The page title to populate the H1 tag for this page.
+  #}
+  {% set page_Title = 'About ALISS' %}
+  {# 
+    Page hero:
+    Set to true if you wish for this page to use a hero image
+  #}
+  {% set page_Hero = true %}
+{# Page variables #}
+
+{# 
+  Component calls:
+  Utilise Atoms, Molecules and Organisms to populate templates.
+#}
+
+{% set primarycontents = [
+  GV.content + 'about-us'
+] %}
+
+{% set secondarycontents = [
+  GV.organisms + 'aliss/can-cant-component',
+  GV.organisms + 'contact/contact-component'
+] %}
+
+{% block body %}
+  {% if page_Styles == true %}
+    <style>
+      /* page specific styles */
+    </style>
+  {% endif %}
+  <main {% if page_ID %}id="{{ page_ID }}"{% endif %} {% if page_Class %}class="{{ page_Class }}"{% endif %}>
+    <section>
+      <div class="aliss-grid">
+        <div class="aliss-content__wrap">
+
+              <div class="aliss-content__header">
+                <h1 class="no-margin">{{ page_Title }}</h1>
+                <p class="aliss-content__header__subtitle">Your last search: <a href="#">G78 2RJ</a>
+                <ul class="aliss-icon-list hide-print">
+                  <li class="aliss-icon-list__item aliss-icon-list__item--edit">
+                    <a id="" href="/" title="Click here to...." target="_self" class="classes">
+                      Edit Account Details
+                    </a>
+                  </li>
+                </ul>
+                <h2>My Collections</h2>
+              </div>
+
+              <div class="aliss-content__primary">
+                
+
+                <!-- Default Collect -->
+                <!-- Cannot delete -->
+                <div class="aliss-organism aliss-collection__item">
+                    <div class="aliss-typography">
+                      <h3><a href="#">My Saved Services</a></h3>
+                      <p>XX Services</p>
+                    </div>
+                    <ul class="aliss-icon-list hide-print">
+                      <li class="aliss-icon-list__item aliss-icon-list__item--email">
+                        <a href="mailto:test@tactuum.com">
+                          Email collection
+                        </a>
+                      </li>
+                    </ul>
+                </div>
+
+                {% for i in range(0, 10) -%}
+                <div class="aliss-organism aliss-collection__item">
+                    <div class="aliss-typography">
+                      <h3><a href="#">Collection Name {{i}}</a></h3>
+                      <p>15 Services</p>
+                    </div>
+                    <ul class="aliss-icon-list hide-print">
+                      <li class="aliss-icon-list__item aliss-icon-list__item--email">
+                        <a href="mailto:test@tactuum.com">
+                          Email collection
+                        </a>
+                      </li>
+                      <li class="aliss-icon-list__item aliss-icon-list__item--trash red">
+                        <a href="#">
+                          Remove collection
+                        </a>
+                      </li>
+                    </ul>
+                </div>
+                {%- endfor %}
+
+                <div class="aliss-pagination-component">
+								<div class="aliss-pagination-component__wrapper">
+									<div class="aliss-pagination-component__wrapper__item">
+										<p>Showing page <span>x</span> of <span>xx</span></p>
+									</div>
+									<div class="aliss-pagination-component__wrapper__item hide-print">
+										<nav>
+											<ol>
+													<li>
+														<a id="" href="/search/index?page=@previous_page&postcode=@Model.Postcode@url" title="Click here to view the previous page of your search results." target="_self" class="aliss-pagination-previous">
+															Prev
+														</a>
+													</li>
+														<li>
+															<a id="aliss-pagination-active-page" href="/search/index?page=@i&postcode=@Model.Postcode@url" title="Click here to view page @i of your search results." target="_self" class="js-pagination-previous-page">
+																1
+															</a>
+														</li>
+                            <li>
+															<a id="aliss-pagination-active-page" href="/search/index?page=@i&postcode=@Model.Postcode@url" title="Click here to view page @i of your search results." target="_self" class="js-pagination-active-page">
+																2
+															</a>
+														</li>
+														<li>
+															<a id="aliss-pagination-active-page" href="/search/index?page=@i&postcode=@Model.Postcode@url" title="Click here to view page @i of your search results." target="_self" class="js-pagination-next-page">
+																3
+															</a>
+														</li>
+                          <li>
+														<a id="" href="/search/index?page=@next_page&postcode=@Model.Postcode@url" title="Click here to view the previous page of your search results." target="_self" class="aliss-pagination-next">
+															Next
+														</a>
+													</li>
+											</ol>
+										</nav>
+									</div>
+								</div>
+							</div>
+
+              </div>
+
+              <div class="aliss-content__secondary hide-print">
+                    <div class="aliss-organism">
+                        <h4 class="no-margin">Create a new collection</h4>
+                        <form class="aliss-search-form " action="/" _lpchecked="1">
+                            <p>What is the name and purpose of your new collection?</p>
+                            <div class="aliss-form__group" data-form="add-collection">
+                                <label class="aliss-form__label" for="add-collection">Name of collection </label>
+                                <input class="aliss-form__input" type="text" id="add-collection">
+                            </div>
+                            <button class="btn btn--primary" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

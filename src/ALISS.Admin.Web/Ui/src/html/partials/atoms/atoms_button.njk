@@ -1,0 +1,12 @@
+{% macro hyperlink(id, path, title, target, class, modifierClasses, text) %}
+  {# Component compilation #}
+  {% if target === "_self" %}
+    {% set title_helper = '.' %}
+  {% elseif target === "_blank" %}
+    {% set title_helper = ' - (This will open in a new window).' %}
+  {% endif %}
+  {# Component compilation #}
+  <button id="{{id}}" href="{{path}}" title="{{title}}{{title_helper}}" target="{{target}}" class="tact-atom-a a-{{class}} {{modifierClasses}}">
+    {{text | safe }}
+  </a>
+{% endmacro %}

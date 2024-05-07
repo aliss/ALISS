@@ -1,0 +1,520 @@
+/** @format */
+
+[type="text"],
+[type="password"],
+[type="search"],
+[type="email"],
+[type="tel"],
+[type="url"],
+[type="number"],
+[type^="date"],
+[type="month"],
+[type="week"],
+[type="time"],
+textarea,
+select,
+[type="checkbox"],
+[type="radio"] {
+	padding: rem-calc(9 15);
+	border-radius: 0;
+	line-height: 1.4;
+	border: rem-calc(1) solid $black;
+}
+
+.ql-toolbar {
+	border: rem-calc(1) solid $black !important;
+	border-style: solid solid none solid !important;
+}
+
+.ql-container {
+	border: rem-calc(1) solid $black !important;
+}
+
+// [type="submit"],
+// [type="reset"],
+// [type="button"] {
+//   @include button-base;
+// }
+
+form {
+	label {
+		span {
+			font-weight: bold;
+			color: map-get($brand, aliss-dark-blue);
+		}
+	}
+	label,
+	[type='text'],
+	[type='password'],
+	[type='search'],
+	[type='email'],
+	[type='tel'],
+	[type='url'],
+	textarea,
+	select {
+		width: 100%;
+		max-width: 100%;
+
+		 &:focus {
+			 border-radius: 0;
+		 }
+	}
+}
+
+.aliss-component-search-filter {
+	legend {
+		font-weight: bold;
+		margin: rem-calc(0 0 15);
+	}
+	div {
+		position: relative;
+	}
+	&__radio {
+		div {
+			position: relative;
+		}
+		&__item {
+			clear: left;
+			display: block;
+			margin: rem-calc(0 0 8);
+			min-height: rem-calc(40);
+			padding: rem-calc(0 0 0 40);
+			position: relative;
+			&:first-of-type {
+				margin: rem-calc(10 0 0);
+			}
+			&__label {
+				font-weight: 400;
+				display: block;
+				margin: rem-calc(0 0 4);
+				&:before {
+				}
+			}
+			&__input {
+				cursor: pointer;
+				height: rem-calc(20);
+				left: 0;
+				margin: 0;
+				background: $white;
+				border-radius: 50%;
+				position: absolute;
+				top: rem-calc(7);
+				width: rem-calc(20);
+				z-index: 1;
+				-webkit-appearance: none;
+				
+				&::after {
+					content: '';
+					background: $white;
+					border-radius: 50%;
+					width: rem-calc(10);
+					height: rem-calc(10);
+					position: absolute;
+					top: rem-calc(5);
+					left: rem-calc(5);
+				}
+			}
+		}
+	}
+	label {
+		cursor: pointer;
+		display: block;
+		&:not(.aliss-component-search-filter__radio__item__label) {
+			font-weight: bold;
+		}
+	}
+	input {
+		&:not(.aliss-component-search-filter__radio__item__input) {
+			margin: rem-calc(20 0 0);
+		}
+		&--text {
+			display: block;
+			height: rem-calc(45);
+			padding: rem-calc(5);
+			width: 100%;
+		}
+	}
+	select {
+		margin: rem-calc(20 0 0);
+	}
+	[type='radio'] {
+		&:checked {
+			&:after {
+				background: map-get($brand, aliss-dark-blue);
+			}
+		}
+	}
+	fieldset {
+		margin: rem-calc(0 0 30);
+	}
+	button {
+		position: absolute;
+		height: 100%;
+		top: 0;
+		right: 0;
+		width: max-content;
+	}
+	[type='text'],
+	[type='password'],
+	[type='search'],
+	[type='email'],
+	[type='tel'],
+	[type='tel'],
+	select {
+		display: block;
+		height: rem-calc(45);
+		padding: rem-calc(5);
+		width: 100%;
+	}
+}
+
+.aliss-form {
+	display: block; 
+	margin: rem-calc(-10 0 -20 0);
+
+	&__summary {
+		min-height: auto;
+		resize: none;
+	}
+
+	&__fieldset {
+		background: map-get($brand, aliss-light-gray);
+		padding: rem-calc(15);
+		margin-bottom: rem-calc(20);
+	}
+
+	&__actions {		
+		background: map-get($brand, aliss-light-gray);
+		padding: rem-calc(15);
+		margin-bottom: rem-calc(20);
+
+		.btn {
+			&:last-child {
+				margin-left: rem-calc(10);
+			}
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+	}
+
+	&__input {
+		&--filter {
+			margin-top: rem-calc(15);
+		}
+	}
+
+	&__legend {
+		clip: rect(0 0 0 0); 
+		clip-path: inset(50%);
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		white-space: nowrap; 
+		width: 1px;
+	}
+
+	&__step-title-container {
+		position: relative;
+		display: block;
+		&__skip-btn {
+			position: absolute;
+			right: 0px;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
+
+	&__rte {
+		p:first-of-type {
+			margin-top: 0px;
+		}
+	}
+
+	&__label {
+		font-weight: bold;
+		margin-bottom: rem-calc(5);
+		display: inline-block;
+		position: relative;
+
+		.fas {
+			color: map-get($brand, aliss-dark-blue);
+			cursor: help;
+		}
+
+		&--search { 
+			text-indent: -9999px;
+			position: absolute;
+			left: -9999px;
+		}
+	}
+
+	&__date-label {
+		margin: rem-calc(-10);
+	}
+
+	&__group {
+		margin-bottom: rem-calc(15);
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		&--error {
+			color: map-get($brand, aliss-light-red);
+
+			input,
+			textarea,
+			select {
+				border-color: map-get($brand, aliss-light-red);
+			}
+
+			.ql-container,
+			.ql-toolbar {
+				border-color: map-get($brand, aliss-light-red) !important;
+			}
+		}
+
+		&--search {
+			display: flex;
+			flex: 1 0 50%;
+		}
+
+		
+		.notesfield {
+			display: none;
+			@media print {
+				display: none;
+			}
+		}
+	}
+
+	&__file {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		column-gap: rem-calc(10);
+	}
+	
+	&__collections {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: no-wrap;
+		column-gap: rem-calc(0);
+	}
+
+	&__collections-btn {
+		width: 154px !important;
+	}
+
+	&__select {
+		max-height: rem-calc(44);
+		padding: rem-calc(8 15 12 15);
+		line-height: 1.2;
+	}
+
+	&__search {		
+		border: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+		align-content: stretch;
+	}
+
+	&__file-display {
+		padding: .625rem .9375rem;
+		border-radius: 0;
+		border: .0625rem solid #000;
+		line-height: 1.2;
+		flex-grow: 1;
+	}
+
+	&__one-column {
+		width: 100%;
+		column-gap: rem-calc(20);
+		padding: rem-calc(0 10);
+		justify-content: space-evenly;
+		
+		.aliss-form__group {
+			flex: 0 0 100%;
+		}
+	}
+
+	&__spacer {
+		width: rem-calc(200);
+	}
+
+	&__two-column {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		column-gap: rem-calc(20);
+		padding: rem-calc(0 10);
+		justify-content: space-evenly;
+		
+		.aliss-form__group {
+			flex: 0 0 50%;
+		}
+	}
+
+	&__three-column {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		column-gap: rem-calc(20);
+		padding: rem-calc(0 10);
+		justify-content: space-evenly;
+		
+		.aliss-form__group {
+			flex: 0 0 33.3333%;
+		}
+	}
+
+	&__file-btn {
+		line-height: 1.4;
+	}
+
+	&__icon {
+		padding: rem-calc(11 15);
+		font-family: "Sofia Pro","FontAwesome";
+	}
+
+	&__checkbox,
+	&__radio {
+		position: relative;
+		padding: rem-calc(0 0 0 35);
+
+		.aliss-form__input {
+			position: absolute;
+			cursor: pointer;
+			top: rem-calc(8);
+			left: 0;
+			width: rem-calc(20);
+			height: rem-calc(20);
+			border: 2px solid $black;
+			outline-color: $black;
+		}
+	}
+}
+
+.aliss-data-input-form {
+	.aliss-tabs {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 16px;
+		padding: 8px;
+		background-color: #ededed;
+
+		input {
+			// position: absolute;
+			position: fixed;
+    		opacity: 0;
+		}
+
+		input:checked + label {
+			background-color: #fff;
+			font-weight: 600;
+		}
+
+		label {
+			display: block;
+			padding: 4px;
+			text-align: center;
+			cursor: pointer;
+		}
+		
+		.regions-only {
+			cursor: not-allowed;
+		}
+
+		&--hide {
+			display: none;
+		}
+	}
+
+	&__fieldset {
+		background: none;
+		padding: 0;
+		margin-bottom: rem-calc(20);
+	}
+.aliss-form {
+	&__step-title-container {
+		position: relative;
+		display: block;
+		&__skip-btn {
+			position: absolute;
+			right: 0px;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
+
+	&__selections {
+		padding: 16px;
+		background-color: #ededed;
+	}
+}
+
+
+	&__label-container {
+		position: relative;
+		padding-left: rem-calc(40);
+		margin-bottom: rem-calc(8);
+		&--icon {
+			position: absolute;
+			left: 0;
+			border: rem-calc(1) solid #e6e6e6;
+			border-radius: 33%;
+			background: $white;
+			padding: 4px 8px;
+	
+		}
+	}
+
+	&__label {
+		margin-bottom: 16px;
+	}
+
+	.ql-editor.ql-blank {
+		padding-bottom: rem-calc(32);
+	}
+
+	.ql-editor.ql-blank::before {
+		font-family: 'sofia-pro';
+		font-size: initial;
+		font-style: inherit;
+		// position: inherit;
+	}
+
+	&__checkbox,
+	&__radio {
+		position: relative;
+		padding-left: 44px;
+		// margin-bottom: 16px;
+
+		.aliss-form__input {
+			position: absolute;
+			cursor: pointer;
+			top: rem-calc(0);
+			left: 0;
+			width: rem-calc(44);
+			height: rem-calc(44);
+			border: 2px solid $black;
+			outline-color: $black;
+		}
+
+	}
+	&__checkbox-label,
+	&__radio-label {
+		display: inline-block;
+		margin-bottom: 0;
+		padding: 8px 15px 5px;
+		cursor: pointer;
+		touch-action: manipulation;
+	}
+}
+
+.notesfield {
+	display: none;
+	@media print {
+		display: none;
+	}
+}

@@ -1,0 +1,65 @@
+@model ALISS.Business.ViewModels.AccessibilityFeature.EditTopLevelAccessibilityFeatureViewModel
+@{
+	ViewBag.Title = Model.AccessibilityFeatureId == 0 ? "Add Accessibility Feature" : "Edit Accessibility Feature";
+	string availableForClass = "";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	string validationMessage = Html.ValidationMessageFor(m => m.AvailableFor).ToHtmlString();
+	availableForClass = !string.IsNullOrWhiteSpace(validationMessage) ? "aliss-form__group--error" : "";
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("AddTopLevelAccessibilityFeature", "AccessibilityFeature", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new community group</legend>
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSDisabledTextBox(m => m.Slug)
+		@Html.ALISSTextArea(m => m.PromptQuestions, "Provide a list of prompt questions/points to be considered")
+		@Html.ALISSDropDown(m => m.Icon)
+		@Html.HiddenFor(h => h.Icon)
+		@Html.ALISSTextBox(m => m.DisplayOrder)
+
+		<div class="aliss-form__group @availableForClass">
+			<label class="aliss-form__label">What type of services is this accessibility feature available for?</label>
+			<div class="aliss-form__radio">
+				<label>@Html.RadioButtonFor(m => m.AvailableFor, "Physical", new { @class = "aliss-form__input" }) <span>Physical</span></label>
+			</div>
+			<div class="aliss-form__radio">
+				<label>@Html.RadioButtonFor(m => m.AvailableFor, "Virtual", new { @class = "aliss-form__input" }) <span>Virtual</span></label>
+			</div>
+			<div class="aliss-form__radio">
+				<label>@Html.RadioButtonFor(m => m.AvailableFor, "Both", new { @class = "aliss-form__input" }) <span>Both</span></label>
+			</div>
+		</div>
+
+		@Html.HiddenFor(m => m.AccessibilityFeatureId)
+		@Html.HiddenFor(m => m.Slug)
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		<button id="save-accessibility-feature-changes" type="submit" class="btn btn--primary">Save</button>
+		@Html.ActionLink("Cancel", "Index", "AccessibilityFeature", null, new { @class = "btn btn--primary" })
+	</div>
+}
+
+@section sidemenu {
+	@if (Model.AccessibilityFeatureId > 0)
+	{
+		<div class="aliss-sidemenu">
+			<h2>Actions</h2>
+			<div class="aliss-component-master__links">
+				<ul class="aliss-icon-list">
+					<li class="aliss-icon-list__item">
+						<i aria-hidden="true" class="aliss-icon-list__icon fa fa-trash"></i>
+						@Html.ActionLink("Delete Accessibility Feature", "DeleteAccessibilityFeature", "AccessibilityFeature", new { id = Model.AccessibilityFeatureId }, null)
+					</li>
+				</ul>
+			</div>
+		</div>
+	}
+}

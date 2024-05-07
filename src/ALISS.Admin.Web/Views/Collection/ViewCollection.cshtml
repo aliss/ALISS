@@ -1,0 +1,245 @@
+﻿@model ALISS.Business.ViewModels.Collection.CollectionViewModel
+@{
+    ViewBag.Title = Model.Name;
+    int page = int.Parse(Request.Params["page"] ?? "1");
+    double pageCount = Math.Ceiling((double)Model.TotalCount / 10);
+}
+
+
+@foreach (var service in Model.Services)
+{
+    <div class="aliss-organism aliss-collection__item">
+        <div class="aliss-typography">
+            <h3 class="d-inline-block">
+                <a href="@($"{ViewBag.PublicUrl}services/{service.ServiceId}")">@service.Name</a>
+            </h3>
+            @if (service.IsClaimed || service.OrganisationIsClaimed)
+            {
+                <span class="aliss-claimed-status aliss-claimed-status--claimed">Claimed</span>
+            }
+            @if (service.CanEdit)
+            {
+                <span class="d-block mb--32">
+                    <i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputSummary", new { id = service.ServiceId }, new { @class = "" })
+                </span>
+            }
+            <p>
+                by: <a href="@($"{ViewBag.PublicUrl}organisations/{service.OrganisationId}")">@service.OrganisationName</a>
+                @if (service.OrganisationIsClaimed)
+                {
+                    <span class="aliss-claimed-status aliss-claimed-status--claimed">Claimed</span>
+                }
+                @if (service.CanEditOrganisation)
+                {
+                    <span class="d-block mb--32">
+                        <i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputOrganisationSummary", new { id = service.OrganisationId }, new { @class = "" })
+                    </span>
+                }
+            </p>
+            <div class="show-print">
+                @Html.Raw(service.Description)
+            </div>
+            <p>Last Reviewed: @service.LastUpdated.ToString("dd/MM/yyyy")</p>
+        </div>
+        <!-- First Location Not Part Of Accoridon -->
+        @if (service.Locations.Count() > 0)
+        {
+            <ul class="aliss-icon-list">
+                <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                    <a href="https://maps.google.com?daddr=@service.Locations.First().Item2" title="(This will open in a new window)." target="_blank">
+                        @if (!String.IsNullOrEmpty(service.Locations.First().Item1))
+                        {<span class="show-print">@service.Locations.First().Item1 - </span>}
+                        @service.Locations.First().Item2
+                        <span class="sr-only"> (This opens in a new window)</span>
+                    </a>
+                </li>
+            </ul>
+        }
+        <!-- For Rest of Locations -->
+        @if (service.Locations.Count() > 1 || service.ServiceAreas.Count() > 0)
+        {
+            <div class="aliss-locations">
+                @if (service.Locations.Count() > 1)
+                {
+                    <div class="aliss-accordion__header">
+                        <button class="aliss-accordion__trigger" data-accordion-trigger="service-locations">
+                            <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                            <span class="hide">Toggle Accordion for @service.Name locations</span>
+                        </button>
+                        <span class="aliss-accordion__label">More locations</span>
+                    </div>
+                    <div class="aliss-accordion__content" id="service-locations">
+                        <div class="aliss-accordion__inner">
+                            <ul class="aliss-icon-list margin-bottom-2">
+                                @foreach (Tuple<string, string> location in service.Locations)
+                                {
+                                    if (location != service.Locations.First())
+                                    {
+                                        <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                                            <a href="https://maps.google.com?daddr=@location.Item2" title="(This will open in a new window)." target="_blank">
+                                                @if (!String.IsNullOrEmpty(location.Item1))
+                                                {<span class="show-print">@location.Item1 - </span>}
+                                                @location.Item2<span class="sr-only"> (This opens in a new window)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+                @if (service.ServiceAreas.Count() > 0)
+                {
+                    <div class="aliss-accordion__header">
+                        <button class="aliss-accordion__trigger" data-accordion-trigger="service-areas">
+                            <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                            <span class="hide">Toggle Accordion for @service.Name areas</span>
+                        </button>
+                        <span class="aliss-accordion__label">Service Areas</span>
+                    </div>
+                    <div class="aliss-accordion__content" id="service-areas">
+                        <div class="aliss-accordion__inner">
+                            <ul class="aliss-icon-list">
+                                @foreach (string item in service.ServiceAreas)
+                                {
+                                    <li class="aliss-icon-list__item aliss-icon-list__item--map">
+                                        @item
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        <ul class="aliss-icon-list aliss-icon-list--thirds hide-print">
+            @if (!string.IsNullOrWhiteSpace(service.Url))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--website">
+                    <a href="@service.Url" target="_blank" title="This will open in a new window">
+                        <span class="hide">Go to @service.Name </span>Website
+                    </a>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(service.Phone))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--telephone">
+                    <a href="tel:@service.Phone" title="Click here to call this organisation">
+                        <span class="hide">Phone </span>@service.Phone
+                    </a>
+                </li>
+            }
+            <li class="aliss-icon-list__item aliss-icon-list__item--trash red">
+                <a href="/Collection/DeleteService?collectionId=@Model.CollectionId&serviceId=@service.ServiceId">
+                    Remove service
+                </a>
+            </li>
+        </ul>
+        <ul class="aliss-icon-list show-print">
+            @if (!string.IsNullOrWhiteSpace(service.Url))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--website">
+                    <a href="@service.Url" target="_blank" title="This will open in a new window">
+                        @service.Url
+                    </a>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(service.Phone))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--telephone">
+                    <a href="tel:@service.Phone" title="Click here to call this organisation">
+                        <span class="hide">Phone </span>@service.Phone
+                    </a>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(service.Email))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--email">
+                    <a>
+                        @service.Email
+                    </a>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(service.Twitter))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--twitter">
+                    <a>
+                        @service.Twitter
+                    </a>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(service.Facebook))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--facebook">
+                    <a>
+                        @service.Facebook
+                    </a>
+                </li>
+            }
+            @if (!string.IsNullOrWhiteSpace(service.Instagram))
+            {
+                <li class="aliss-icon-list__item aliss-icon-list__item--instagram">
+                    <a>
+                        @service.Instagram
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+}
+
+
+@*
+    // Replace with Pagination Component
+*@
+<div class="aliss-pagination-component">
+    <div class="aliss-pagination-component__wrapper">
+        <div class="aliss-pagination-component__wrapper__item">
+            <p>Showing page <span>@page</span> of <span>@pageCount</span></p>
+        </div>
+        <div class="aliss-pagination-component__wrapper__item hide-print">
+            <nav>
+                <ol>
+                    @if (page > 1)
+                    {
+                        <li>
+                            <a href="/Collection/ViewCollection/@Model.CollectionId?page=@(page - 1)" class="aliss-pagination-previous">Previous</a>
+                        </li>
+                    }
+                    @if (page < pageCount)
+                    {
+                        <li>
+                            <a href="/Collection/ViewCollection/@Model.CollectionId?page=@(page + 1)" class="aliss-pagination-next">
+                                Next
+                            </a>
+                        </li>
+                    }
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+@section sidemenu {
+    <div class="aliss-sidemenu">
+        <h2>Actions</h2>
+        <div class="aliss-component-master__links">
+            <ul class="aliss-icon-list">
+                <li class="aliss-icon-list__item">
+                    <i aria-hidden="true" class="aliss-icon-list__icon fa fa-envelope"></i>
+                    <a href="/Collection/EmailCollection/@Model.CollectionId">Email collection</a>
+                </li>
+                <li class="aliss-icon-list__item">
+                    <i aria-hidden="true" class="aliss-icon-list__icon fa fa-print"></i>
+                    <a href="javascript:window.print();">Print collection</a>
+                </li>
+                <li class="aliss-icon-list__item red">
+                    <i aria-hidden="true" class="aliss-icon-list__icon red fa fa-trash"></i>
+                    <a href="/Collection/DeleteCollection/@Model.CollectionId">Delete collection</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+}

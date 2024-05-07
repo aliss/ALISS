@@ -1,0 +1,297 @@
+﻿@using ALISS.CMS.Extensions
+@using ALISS.ApiServices.ViewModels.Organisation
+@model OrganisationModel
+@{
+	Layout = "~/Views/Master.cshtml";
+
+	var locations = 2;
+	var services = 2;
+
+	int serviceIndex = 0;
+	int locationsIndex = 0;
+}
+
+@if (Model == null)
+{
+	<main>
+		<section>
+			<div class="aliss-grid">
+				<div class="aliss-content__wrap">
+					<div class="aliss-content__header">
+						<h1>Page Not Found</h1>
+					</div>
+					<div class="aliss-content__primary">
+						<div class="aliss-rte aliss-typography">
+							<p>The organisation you requested was not found, please try again.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+}
+else
+{
+	<main>
+		<section>
+			<div class="aliss-grid">
+				@Html.Partial("ClaimsDisclaimer")
+				<div class="aliss-content__wrap">
+					<div class="aliss-content__header">
+						<h1>@Model.name</h1>
+						@if (ViewBag.Logo != null && ViewBag.Logo.ToString() != "0")
+						{
+							<img alt="@Model.name Logo" class="aliss-img__downloaded" src="@ViewBag.Logo" />
+						}
+					</div>
+
+					<div class="aliss-content__primary">
+						@if (Model.services == null || Model.services.Count() == 0)
+						{
+							<div class="aliss-organism aliss-component-master aliss-content-spacer aliss-component-master--red">
+								<div class="aliss-component-master__contents">
+									<h2>
+										Notice: No published services have been added to this organisation
+									</h2>
+									@*<p>
+											To add a service use the button below.
+										</p>*@
+								</div>
+								@*<div class="aliss-component-master__contents aliss-component-master__contents--claim-organisation">
+										<div class="aliss-component-master__buttons">
+											<a href="@ViewBag.AddServiceLink" class="btn btn btn--warning hide-print">
+												Add a service
+											</a>
+										</div>
+									</div>*@
+							</div>
+						}
+
+						<div class="aliss-rte aliss-typography">
+							@if (!string.IsNullOrWhiteSpace(Model.description_formatted))
+							{
+								<p>
+									@Html.Raw(Model.description_formatted)
+								</p>
+							}
+						</div>
+
+						<div class="aliss-component-master aliss-component-descriptive-blocks">
+							<div class="aliss-organism aliss-component-master aliss-content-spacer">
+								<div class="aliss-component-master__contents">
+									<h2>
+										Last reviewed:
+									</h2>
+									<p>
+										@if (Model.last_edited == null)
+										{
+											@Model.CreatedOn.ToString("dd/MM/yyyy")
+										}
+										else
+										{
+											@Model.last_edited.ToString("dd/MM/yyyy")
+										}
+									</p>
+								</div>
+							</div>
+							@if (Model.is_claimed)
+							{
+								<div class="aliss-organism aliss-component-master aliss-content-spacer">
+									<div class="aliss-component-master__contents">
+										<h2>
+											Claim status:
+										</h2>
+										<p>
+											<span title="This is a claimed service" class="aliss-claimed-status aliss-claimed-status--claimed"><span class="sr-only">This is a </span>Claimed<span class="sr-only"> organisation</span></span>
+										</p>
+									</div>
+								</div>
+							}
+						</div>
+						@if (Model.locations.Count() > 0)
+						{
+							<div id="aliss-component-map" class="aliss-component-map" data-id="@Model.id"
+								 @if (Model.locations.Count() > 0) { int markerCount = 0; @: data-map-markers='{
+								    @:"markers" : [
+									    foreach (var marker in Model.locations)
+									 {
+										 markerCount++;
+										 var markers = markerCount == Model.locations.Count() ? "}" : "},";
+										    @:{
+											    @:"name": "@marker.name",
+											    @:"address": "@marker.formatted_address",
+											    @:"longitude": @marker.longitude,
+											    @:"latitude": @marker.latitude
+										    @markers
+									 }
+								    @:]}'
+								 }>
+							</div>
+							<div id="aliss-component-map-error" class="aliss-organism aliss-component-master aliss-content-spacer aliss-component-master--red js-component-error hide-print">
+								<div class="aliss-component-master__contents">
+									<h2>
+										Notice: This has been an error loading the map.
+									</h2>
+									<p id="aliss-component-map-error-contents"></p>
+								</div>
+							</div>
+						}
+
+						@if (Model.locations.Count() > 0)
+						{
+							<div class="aliss-component-location aliss-content-spacer">
+								<div class="accordion">
+									<div class="aliss-accordion__header aliss-accordion__header--spaced">
+										<strong>Addresses:</strong>
+										<button class="aliss-accordion__trigger" data-accordion-trigger="more-locations">
+											View all (@Model.locations.Count())
+											<span class="sr-only"> addresses for @Model.name</span>
+										</button>
+									</div>
+
+                                    <div class="aliss-accordion__content" id="more-locations">
+                                        <p>Navigate to each location using the following links below</p>
+                                        <ul class="aliss-icon-list">
+                                            @foreach (var item in Model.locations)
+                                            {
+                                                <li class="aliss-icon-list__item aliss-icon-list__item--location">
+                                                    <a id="aliss-service-location-@item.id" href="https://maps.google.com?daddr=@item.formatted_address" target="_blank" class="">
+                                                        @item.formatted_address<span class="sr-only">This will open in a new window</span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+								</div>
+							</div>
+						}
+
+						@if (Model.services != null)
+						{
+							<br />
+							<h2>Services</h2>
+							foreach (var (index, service) in Model.services.OrderBy(n => n.name).Select((member, i) => (i, member)))
+							{
+								<div class="aliss-organism aliss-component-master aliss-content-spacer">
+									<div class="aliss-component-master__contents">
+										<h3>
+											<a id="aliss-search-reults-service-link-@service.id" href="/services/@service.id" class="aliss-component-master__contents__primary-link hide-print">
+												@service.name
+											</a>
+										</h3>
+										@if (service.is_claimed || Model.is_claimed)
+										{
+											<span title="This is a claimed service" class="aliss-claimed-status aliss-claimed-status--claimed"><span class="sr-only">This is a </span>Claimed<span class="sr-only"> service</span></span>
+										}
+										@if (service.service_areas != null && service.service_areas.Count() > 0)
+										{
+											<div class="accordion aliss-component-master__locations">
+												<div class="accordion">
+													<div class="aliss-accordion__header aliss-accordion__header--spaced">
+														<strong>Regions:</strong>
+														<button class="aliss-accordion__trigger" data-accordion-trigger="more-services-@index">View all (@service.service_areas.Count())</button>
+													</div>
+
+													<div class="aliss-accordion__content" id="more-services-@index">
+														<ul class="aliss-icon-list">
+															@foreach (ServiceArea item in service.service_areas)
+															{
+																<li class="aliss-icon-list__item aliss-icon-list__item--map">
+																	@item.name
+																</li>
+															}
+														</ul>
+													</div>
+												</div>
+											</div>
+										}
+										<p>
+											@if (!String.IsNullOrEmpty(service.summary))
+											{
+												@Html.Raw(service.summary)
+											}
+											else if (service.description.Length >= 210)
+											{
+												string shortDesc = HtmlExtensions.HtmlSubstring(service.description, 200);
+												@Html.Raw(shortDesc)
+											}
+											else
+											{
+												@Html.Raw(service.description)
+											}
+										</p>
+									</div>
+									@if (!string.IsNullOrEmpty(service.url) || !string.IsNullOrEmpty(service.referral_url) || !string.IsNullOrEmpty(service.phone) || !string.IsNullOrEmpty(service.email))
+									{
+										<div class="aliss-component-master__links">
+											<ul class="aliss-icon-list aliss-icon-list--50-50">
+												@if (!string.IsNullOrWhiteSpace(service.url))
+												{
+													<li class="aliss-icon-list__item aliss-icon-list__item--website hide-print">
+														<a id="aliss-org-website-@service.id" href="@service.url" target="_blank" title="This will open in a new window">
+															Visit the website<span class="sr-only">This will open in a new window</span>
+														</a>
+													</li>
+													<li class="aliss-icon-list__item aliss-icon-list__item--website show-print">
+														<span>@service.url</span>
+														<br />
+													</li>
+												}
+												@if (!string.IsNullOrEmpty(service.referral_url))
+												{
+													<li class="aliss-icon-list__item aliss-icon-list__item--referral hide-print">
+														<a id="aliss-org-referral-@service.id" href="@service.referral_url" target="_blank" title="This will open in a new window">
+															Referral Information
+														</a>
+													</li>
+													<li class="aliss-icon-list__item aliss-icon-list__item--referral show-print">
+														<span>@service.referral_url</span>
+														<br />
+													</li>
+												}
+												@if (!string.IsNullOrWhiteSpace(service.phone))
+												{
+													<li class="aliss-icon-list__item aliss-icon-list__item--telephone">
+														<a id="aliss-org-phone-@service.id" href="tel:@service.phone" target="_blank" title="Click here to call this service">
+															@service.phone<span class="sr-only">Click here to call this service</span>
+														</a>
+													</li>
+												}
+												@if (!string.IsNullOrWhiteSpace(service.email))
+												{
+													<li class="aliss-icon-list__item aliss-icon-list__item--email">
+														<a id="aliss-org-email-@service.id" href="mailto:@service.email" target="_blank" title="This will open your default email client">
+															@service.email<span class="sr-only">This will open your default email client</span>
+														</a>
+													</li>
+												}
+											</ul>
+										</div>
+									}
+								</div>
+							}
+						}
+					</div>
+
+					<div class="aliss-content__secondary">
+						@Html.Partial("OrganisationContactInfo")
+
+						@Html.Partial("OrganisationActions")
+
+						@Html.Partial("OrganisationClaim")
+
+						@Html.Partial("OrganisationImproveThis")
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+}
+
+@section Metadata
+{
+	@if (Model != null)
+	{
+		@Html.Metadata(Model)
+	}
+}

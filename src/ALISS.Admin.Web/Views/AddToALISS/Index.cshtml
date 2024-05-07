@@ -1,0 +1,81 @@
+
+@{
+	ViewBag.Title = "Add to ALISS";
+	ALISS.Business.ViewModels.DataInput.ContinueAddingViewModel unfinishedServices = ViewBag.ContinueAdding as ALISS.Business.ViewModels.DataInput.ContinueAddingViewModel;
+}
+<section class="content">
+	<div class="aliss-grid aliss-grid__data-input">
+		<div class="aliss-content__wrap aliss-content__wrap--data-input">
+			<div class="aliss-content__primary">
+				<div class="data-input-container__panel--main">
+					@if ((bool)ViewBag.ShowWelcome)
+					{
+						<div class="mb--48">
+							<h1 mt--0 mb--0>Welcome</h1>
+							<p>Please fill out the following form to add a support service, resource, or activity to ALISS.</p>
+
+							<a href="/AddToALISS/Organisation" class="btn btn--primary mb--24" title="Add to ALISS">Start the form</a>
+							<hr class="content__divider" />
+						</div>
+					}
+
+					@if (unfinishedServices.UnsubmittedServices.Count > 0)
+					{
+						<div class="aliss-accordion-container mb--24">
+							<div class="aliss-content-accordion__header">
+								<button class="aliss-content-accordion__trigger aliss-accordion__trigger--active" type="button" data-accordion-trigger="pickUpWhereYouLeftOff">
+									Pick up where you left off
+									<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+									<span class="hide">Toggle Accordion Content</span>
+								</button>
+							</div>
+							<div class="aliss-content-accordion__content aliss-accordion__content--active" id="pickUpWhereYouLeftOff">
+								<div class="progress__panel__container">
+									@Html.Partial("_DataInputContinueAdding", unfinishedServices)
+								</div>
+							</div>
+						</div>
+					}
+
+					<div class="aliss-accordion-container mb--24">
+						<div class="aliss-content-accordion__header">
+							<button class="aliss-content-accordion__trigger @(unfinishedServices.UnsubmittedServices.Count == 0 ? "aliss-accordion__trigger--active" : "" )" type="button" data-accordion-trigger="howDoesItWork">
+								How does it work?
+								<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+								<span class="hide">Toggle Accordion Content</span>
+							</button>
+						</div>
+						<div class="aliss-content-accordion__content @(unfinishedServices.UnsubmittedServices.Count == 0 ? "aliss-accordion__content--active" : "" )" id="howDoesItWork">
+							<div>
+								<p>The form includes the following steps:</p>
+								<ul>
+									<li>Organisation Details</li>
+									<li>Service Details</li>
+									<li>Where</li>
+									<li>Categories</li>
+									<li>Who (optional)</li>
+									<li>Accessibility (optional)</li>
+									<li>Media (optional)</li>
+									<li>Summary</li>
+								</ul>
+
+								<p>You will have a chance to edit your information prior to submitting the form for approval.</p>
+								<p>Please have this information to hand if applicable to your service:</p>
+								<ul>
+									<li>Web address</li>
+									<li>Phone number</li>
+									<li>Email address</li>
+									<li>Social media links</li>
+									<li>Location address</li>
+									<li>Service images or videos</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			@Html.Partial("_Guidance")
+		</div>
+	</div>
+</section>
+

@@ -1,0 +1,61 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@{
+	bool serviceSubmitted = Model.ServiceSubmitted;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted ?? false;
+}
+<fieldset class="aliss-form__fieldset no-padding">
+	<legend class="aliss-form__legend">Accessibility</legend>
+
+	@if (serviceSubmitted || organisationSubmitted)
+	{
+		<h2>5. Accessibility</h2>
+	}
+	else
+	{
+		<h2>6. Accessibility</h2>
+	}
+
+	<div class="mb--48">
+		@if (Model.SelectedAccessibilityFeatureLocationObjects.Count != 0)
+		{
+			foreach (var location in Model.SelectedAccessibilityFeatureLocationObjects)
+			{
+				<div class="mb--24">
+					<label class="aliss-form__label">@location.Title</label>
+					@if (location.accessibilityFeatures.Count > 0)
+					{
+						foreach (var accessibilityFeature in location.accessibilityFeatures)
+						{
+							<div class="mb--24">
+								<div class="aliss-data-input-form__label-container">
+									<span class="aliss-data-input-form__label-container--icon">
+										<i aria-hidden="true" class="@accessibilityFeature.AccessibilityFeature.Icon"></i>
+									</span>
+									<div class="pl--8">
+										<label>@accessibilityFeature.AccessibilityFeature.Name</label>
+										@if (!string.IsNullOrWhiteSpace(accessibilityFeature.AdditionalInfo))
+										{
+											<div>Additional Info:</div>
+											<div>@Html.Raw(accessibilityFeature.AdditionalInfo.Replace(Environment.NewLine, "<br/>"))</div>
+										}
+									</div>
+								</div>
+							</div>
+						}
+					}
+					else
+					{
+						<span>No information provided</span>
+					}
+				</div>
+			}
+		}
+		else
+		{
+			<span>No information provided</span>
+		}
+	</div>
+
+	@Html.ActionLink("Edit Information", "Index", "DataInputAccessibility", new { id = Model.ServiceId, summaryType = Model.SummaryType }, new { @class = "btn btn--primary" })
+	<hr class="content__divider mt--24" />
+</fieldset>

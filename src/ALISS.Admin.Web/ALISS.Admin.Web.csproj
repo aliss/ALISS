@@ -1,0 +1,790 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CF4BA367-97D2-4B32-9FA8-E0D9FC2CF5F3}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ALISS.Admin.Web</RootNamespace>
+    <AssemblyName>ALISS.Admin.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44305</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>4.3</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.17.1.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.0.17.1\lib\net472\AngleSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="AngleSharp.Css, Version=0.17.0.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.Css.0.17.0\lib\net472\AngleSharp.Css.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizer, Version=8.0.0.0, Culture=neutral, PublicKeyToken=61c49a1a9e79cc28, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlSanitizer.8.0.645\lib\net461\HtmlSanitizer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizer, Version=8.0.0.0, Culture=neutral, PublicKeyToken=61c49a1a9e79cc28, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlSanitizer.8.0.645\lib\net461\HtmlSanitizer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Mvc.Honeypot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mvc.Honeypot.1.0\lib\Mvc.Honeypot.dll</HintPath>
+    </Reference>
+    <Reference Include="reCAPTCHA.MVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\reCAPTCH.MVC.1.0.1\lib\net45\reCAPTCHA.MVC.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.7.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.6.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.4.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.4.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ControllerAPI\ClaimController.cs" />
+    <Compile Include="ControllerAPI\CollectionController.cs" />
+    <Compile Include="ControllerAPI\ImprovementController.cs" />
+    <Compile Include="ControllerAPI\LoginController.cs" />
+    <Compile Include="ControllerAPI\OrganisationController.cs" />
+    <Compile Include="ControllerAPI\MediaGalleryController.cs" />
+    <Compile Include="ControllerAPI\ReviewController.cs" />
+    <Compile Include="ControllerAPI\ServiceController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AddToALISSController.cs" />
+    <Compile Include="Controllers\ALISSBaseController.cs" />
+    <Compile Include="Controllers\AccessibilityFeatureController.cs" />
+    <Compile Include="Controllers\BulkEmailController.cs" />
+    <Compile Include="Controllers\CommunityGroupController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputAccessabilityController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputBaseController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputCancelController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputConfirmationController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputMediaController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputOrganisationSummaryController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputServiceController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputSummaryController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputCategoriesController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputWhereController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputOrganisationController.cs" />
+    <Compile Include="Controllers\DataInputControllers\DataInputWhoController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\ServiceClaimController.cs" />
+    <Compile Include="Controllers\ClaimController.cs" />
+    <Compile Include="Controllers\CollectionController.cs" />
+    <Compile Include="Controllers\ElasticController.cs" />
+    <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImprovementController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrganisationController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ServiceAreaController.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
+    <Compile Include="Controllers\ServiceReviewSummaryController.cs" />
+    <Compile Include="Controllers\ServiceReviewsController.cs" />
+    <Compile Include="Controllers\ServiceSuggestionsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\GenericHelpers.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\FooterModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\ALISS.Admin.Web.dll" />
+    <Content Include="bin\ALISS.Admin.Web.pdb" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="favicon.png" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Images\email_logo.png" />
+    <Content Include="Media\pqtjrwgu\promo-img.png" />
+    <Content Include="robots.txt" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Media\Web.config" />
+    <Content Include="Media\q4afg2ai\aliss-data-standards.pdf" />
+    <Content Include="Media\q4afg2ai\ALISSPrivacy.pdf" />
+    <Content Include="Media\q4afg2ai\alisstermsandconditions.pdf" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\tac-allnce-aliss-app-liv-admin-dev - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\tac-allnce-aliss-app-liv-admin-stg - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\UpdateSlug.js" />
+    <Content Include="Ui\dist\about.html" />
+    <Content Include="Ui\dist\add-a-new-organisation.html" />
+    <Content Include="Ui\dist\categories.html" />
+    <Content Include="Ui\dist\content-hero.html" />
+    <Content Include="Ui\dist\content.html" />
+    <Content Include="Ui\dist\css\site.css" />
+    <Content Include="Ui\dist\css\site.min.css" />
+    <Content Include="Ui\dist\fonts\Avenir-Book.svg" />
+    <Content Include="Ui\dist\fonts\Avenir-Heavy.svg" />
+    <Content Include="Ui\dist\fonts\Avenir-Light.svg" />
+    <Content Include="Ui\dist\fonts\Avenir-Medium.svg" />
+    <Content Include="Ui\dist\form.html" />
+    <Content Include="Ui\dist\formerror.html" />
+    <Content Include="Ui\dist\homepage.html" />
+    <Content Include="Ui\dist\img\aliss-bg.png" />
+    <Content Include="Ui\dist\img\aliss-logo-print.png" />
+    <Content Include="Ui\dist\img\aliss-logo.png" />
+    <Content Include="Ui\dist\img\aliss-logo_500x500.png" />
+    <Content Include="Ui\dist\img\banner.jpg" />
+    <Content Include="Ui\dist\img\dummy-banner.png" />
+    <Content Include="Ui\dist\img\email-logo.png" />
+    <Content Include="Ui\dist\img\favicon.png" />
+    <Content Include="Ui\dist\img\icon\facebook.svg" />
+    <Content Include="Ui\dist\img\icon\instagram.svg" />
+    <Content Include="Ui\dist\img\icon\tiktok.svg" />
+    <Content Include="Ui\dist\img\icon\twitter.svg" />
+    <Content Include="Ui\dist\img\icon\whatsapp.svg" />
+    <Content Include="Ui\dist\img\icon\youtube.svg" />
+    <Content Include="Ui\dist\img\promo-img.png" />
+    <Content Include="Ui\dist\index.html" />
+    <Content Include="Ui\dist\js\site.js" />
+    <Content Include="Ui\dist\js\site.min.js" />
+    <Content Include="Ui\dist\organisation.html" />
+    <Content Include="Ui\dist\search.html" />
+    <Content Include="Ui\dist\signup.html" />
+    <Content Include="Ui\gulp-tasks\browserSync.js" />
+    <Content Include="Ui\gulp-tasks\copy.js" />
+    <Content Include="Ui\gulp-tasks\lint.js" />
+    <Content Include="Ui\gulp-tasks\nunjucks.js" />
+    <Content Include="Ui\gulp-tasks\printError.js" />
+    <Content Include="Ui\gulp-tasks\scss.js" />
+    <Content Include="Ui\gulp-tasks\typescript.js" />
+    <Content Include="Ui\gulp-tasks\watchFiles.js" />
+    <Content Include="Ui\GulpConfig.js" />
+    <Content Include="Ui\Gulpfile.js" />
+    <Content Include="Ui\src\fonts\Avenir-Book.svg" />
+    <Content Include="Ui\src\fonts\Avenir-Heavy.svg" />
+    <Content Include="Ui\src\fonts\Avenir-Light.svg" />
+    <Content Include="Ui\src\fonts\Avenir-Medium.svg" />
+    <Content Include="Ui\src\html\partials\atoms\README.txt" />
+    <Content Include="Ui\src\html\partials\molecules\README.txt" />
+    <Content Include="Ui\src\img\aliss-bg.png" />
+    <Content Include="Ui\src\img\aliss-logo.png" />
+    <Content Include="Ui\src\img\dummy-banner.png" />
+    <Content Include="Ui\src\img\favicon.png" />
+    <Content Include="Ui\src\img\icon\facebook.svg" />
+    <Content Include="Ui\src\img\icon\instagram.svg" />
+    <Content Include="Ui\src\img\icon\tiktok.svg" />
+    <Content Include="Ui\src\img\icon\twitter.svg" />
+    <Content Include="Ui\src\img\icon\whatsapp.svg" />
+    <Content Include="Ui\src\img\icon\youtube.svg" />
+    <Content Include="Ui\src\ts\js\thirdparty\select.js" />
+    <Content Include="Ui\tsconfig.json" />
+    <Content Include="Views\DataInputWhere\Index.cshtml" />
+    <Content Include="Views\Email\ImprovementEmail.cshtml" />
+    <Content Include="Views\Shared\_ErrorMessage.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Ui\src\fonts\Avenir-Book.eot" />
+    <Content Include="Ui\src\fonts\Avenir-Book.ttf" />
+    <Content Include="Ui\src\fonts\Avenir-Book.woff" />
+    <Content Include="Ui\src\fonts\Avenir-Book.woff2" />
+    <Content Include="Ui\src\fonts\Avenir-Heavy.eot" />
+    <Content Include="Ui\src\fonts\Avenir-Heavy.ttf" />
+    <Content Include="Ui\src\fonts\Avenir-Heavy.woff" />
+    <Content Include="Ui\src\fonts\Avenir-Heavy.woff2" />
+    <Content Include="Ui\src\fonts\Avenir-Light.eot" />
+    <Content Include="Ui\src\fonts\Avenir-Light.ttf" />
+    <Content Include="Ui\src\fonts\Avenir-Light.woff" />
+    <Content Include="Ui\src\fonts\Avenir-Light.woff2" />
+    <Content Include="Ui\src\fonts\Avenir-Medium.eot" />
+    <Content Include="Ui\src\fonts\Avenir-Medium.ttf" />
+    <Content Include="Ui\src\fonts\Avenir-Medium.woff" />
+    <Content Include="Ui\src\fonts\Avenir-Medium.woff2" />
+    <Content Include="Ui\src\html\data\data.json" />
+    <Content Include="Ui\src\html\pages\about.njk" />
+    <Content Include="Ui\src\html\pages\add-a-new-organisation.njk" />
+    <Content Include="Ui\src\html\pages\content-hero.njk" />
+    <Content Include="Ui\src\html\pages\content.njk" />
+    <Content Include="Ui\src\html\pages\homepage.njk" />
+    <Content Include="Ui\src\html\pages\index.njk" />
+    <Content Include="Ui\src\html\pages\organisation.njk" />
+    <Content Include="Ui\src\html\pages\search.njk" />
+    <Content Include="Ui\src\html\pages\signup.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_a.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_button.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_h1.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_h2.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_h3.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_h4.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_h5.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_h6.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_img.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_input.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_label.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_ol.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_p.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_span.njk" />
+    <Content Include="Ui\src\html\partials\atoms\atoms_ul.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\about-us.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\content.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\organisation--associated-services.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\organisation.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\search-results--organisation.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\search-results--service.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\search\search-component--home.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\search\search-component--search-results-page.njk" />
+    <Content Include="Ui\src\html\partials\dummy-content-snippets\signup\why-sign-up.njk" />
+    <Content Include="Ui\src\html\partials\framework\aliss-library.njk" />
+    <Content Include="Ui\src\html\partials\include\css.njk" />
+    <Content Include="Ui\src\html\partials\include\globalVariables.njk" />
+    <Content Include="Ui\src\html\partials\include\header.njk" />
+    <Content Include="Ui\src\html\partials\include\js.njk" />
+    <Content Include="Ui\src\html\partials\include\partial-includes.njk" />
+    <Content Include="Ui\src\html\partials\molecules\accordion\macro.njk" />
+    <Content Include="Ui\src\html\partials\molecules\breadcrumbs\macro.njk" />
+    <Content Include="Ui\src\html\partials\molecules\descriptive-block\macro.njk" />
+    <Content Include="Ui\src\html\partials\molecules\descriptive-icon\macro.njk" />
+    <Content Include="Ui\src\html\partials\molecules\dummy.njk" />
+    <Content Include="Ui\src\html\partials\molecules\navigation\macro.njk" />
+    <Content Include="Ui\src\html\partials\molecules\search-components\search-components--homepage\search-block--homepage.njk" />
+    <Content Include="Ui\src\html\partials\organisms\actions\editorial-actions-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\aliss\can-cant-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\aliss\publishing-on-aliss-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\components\master.njk" />
+    <Content Include="Ui\src\html\partials\organisms\contact\contact-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\feedback\improve-this-listing-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\feedback\was-this-info-helpful-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\maps-and-locations\macro.njk" />
+    <Content Include="Ui\src\html\partials\organisms\organisation\cant-find-your-organisation-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\organisation\organisation-no-service-warning-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\organisation\organisation-representation-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\organisation\page-head.njk" />
+    <Content Include="Ui\src\html\partials\organisms\search\search-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\search\search-filters-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\service-areas\macro.njk" />
+    <Content Include="Ui\src\html\partials\organisms\service\page-head.njk" />
+    <Content Include="Ui\src\html\partials\organisms\signup\signup-component.njk" />
+    <Content Include="Ui\src\html\partials\organisms\site-header.njk" />
+    <Content Include="Ui\src\html\partials\organisms\site-menu.njk" />
+    <Content Include="Ui\src\html\partials\organisms\spacer\macro.njk" />
+    <Content Include="Ui\src\html\templates\layout.njk" />
+    <Content Include="Ui\src\scss\accessibility\accessibility.scss" />
+    <Content Include="Ui\src\scss\animations\site-header.scss" />
+    <Content Include="Ui\src\scss\atoms\a.scss\button.scss" />
+    <Content Include="Ui\src\scss\atoms\a.scss\hide.scss" />
+    <Content Include="Ui\src\scss\atoms\a.scss\links.scss" />
+    <Content Include="Ui\src\scss\compatability\chrome.scss" />
+    <Content Include="Ui\src\scss\compatability\firefox.scss" />
+    <Content Include="Ui\src\scss\compatability\ie.scss" />
+    <Content Include="Ui\src\scss\compatability\safari.scss" />
+    <Content Include="Ui\src\scss\forms\forms.scss" />
+    <Content Include="Ui\src\scss\organisms\action-blocks\action-block.scss" />
+    <Content Include="Ui\src\scss\organisms\aliss\can-cant-component.scss" />
+    <Content Include="Ui\src\scss\organisms\aliss\contact-component.scss" />
+    <Content Include="Ui\src\scss\organisms\aliss\descriptive-blocks-component.scss" />
+    <Content Include="Ui\src\scss\organisms\component.scss" />
+    <Content Include="Ui\src\scss\organisms\components\master.scss" />
+    <Content Include="Ui\src\scss\organisms\maps-and-locations\master.scss" />
+    <Content Include="Ui\src\scss\organisms\organisation\no-service-notice-component.scss" />
+    <Content Include="Ui\src\scss\organisms\pagination\master.scss" />
+    <Content Include="Ui\src\scss\organisms\search\search-component.scss" />
+    <Content Include="Ui\src\scss\organisms\search\search-filter.scss" />
+    <Content Include="Ui\src\scss\organisms\search\search-results-item-component.scss" />
+    <Content Include="Ui\src\scss\organisms\signup\signup-component.scss" />
+    <Content Include="Ui\src\scss\organisms\site-breadcrumb.scss" />
+    <Content Include="Ui\src\scss\organisms\site-footer.scss" />
+    <Content Include="Ui\src\scss\organisms\site-header.scss" />
+    <Content Include="Ui\src\scss\organisms\site-main.scss" />
+    <Content Include="Ui\src\scss\reset\global.scss" />
+    <Content Include="Ui\src\scss\site.scss" />
+    <Content Include="Ui\src\scss\templates\homepage.scss" />
+    <Content Include="Ui\src\scss\util\accordion.scss" />
+    <Content Include="Ui\src\scss\util\fonts.scss" />
+    <Content Include="Ui\src\scss\util\functions.scss" />
+    <Content Include="Ui\src\scss\util\grid.scss" />
+    <Content Include="Ui\src\scss\util\mixins.scss" />
+    <Content Include="Ui\src\scss\util\popover.scss" />
+    <Content Include="Ui\src\scss\util\tooltip.scss" />
+    <Content Include="Ui\src\scss\util\variables.scss" />
+    <Content Include="Ui\.babelrc" />
+    <Content Include="Ui\.eslintignore" />
+    <Content Include="Ui\.eslintrc" />
+    <Content Include="Ui\.gitignore" />
+    <Content Include="Ui\package-lock.json" />
+    <Content Include="Ui\package.json" />
+    <Content Include="Views\Shared\_Heading.cshtml" />
+    <Content Include="Views\Shared\_Navigation.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Organisation\Index.cshtml" />
+    <Content Include="Views\Category\AddTopLevelCategory.cshtml" />
+    <Content Include="Views\Category\AddLowerLevelCategory.cshtml" />
+    <Content Include="Views\ServiceArea\Index.cshtml" />
+    <Content Include="Views\ServiceArea\EditServiceArea.cshtml" />
+    <Content Include="Views\ServiceArea\AddServiceArea.cshtml" />
+    <Content Include="Views\Organisation\AddOrganisation.cshtml" />
+    <Content Include="Views\Organisation\EditOrganisation.cshtml" />
+    <Content Include="Views\Shared\_OrganisationMenu.cshtml" />
+    <Content Include="Views\Organisation\ListLocations.cshtml" />
+    <Content Include="Views\Organisation\AddLocation.cshtml" />
+    <Content Include="Views\Shared\_LayoutLoggedOut.cshtml" />
+    <Content Include="Views\Organisation\ListServices.cshtml" />
+    <Content Include="Views\Shared\_Breadcrumb.cshtml" />
+    <Content Include="Views\Organisation\AddService.cshtml" />
+    <Content Include="Views\Organisation\EditLocation.cshtml" />
+    <Content Include="Ui\dist\fonts\Avenir-Book.eot" />
+    <Content Include="Ui\dist\fonts\Avenir-Book.ttf" />
+    <Content Include="Ui\dist\fonts\Avenir-Book.woff" />
+    <Content Include="Ui\dist\fonts\Avenir-Book.woff2" />
+    <Content Include="Ui\dist\fonts\Avenir-Heavy.eot" />
+    <Content Include="Ui\dist\fonts\Avenir-Heavy.ttf" />
+    <Content Include="Ui\dist\fonts\Avenir-Heavy.woff" />
+    <Content Include="Ui\dist\fonts\Avenir-Heavy.woff2" />
+    <Content Include="Ui\dist\fonts\Avenir-Light.eot" />
+    <Content Include="Ui\dist\fonts\Avenir-Light.ttf" />
+    <Content Include="Ui\dist\fonts\Avenir-Light.woff" />
+    <Content Include="Ui\dist\fonts\Avenir-Light.woff2" />
+    <Content Include="Ui\dist\fonts\Avenir-Medium.eot" />
+    <Content Include="Ui\dist\fonts\Avenir-Medium.ttf" />
+    <Content Include="Ui\dist\fonts\Avenir-Medium.woff" />
+    <Content Include="Ui\dist\fonts\Avenir-Medium.woff2" />
+    <Content Include="Views\Shared\_SuccessMessage.cshtml" />
+    <Content Include="Views\Organisation\EditService.cshtml" />
+    <Content Include="Views\Shared\_WarningMessage.cshtml" />
+    <Content Include="Views\Organisation\DeleteService.cshtml" />
+    <Content Include="Views\Organisation\DeleteLocation.cshtml" />
+    <Content Include="Views\Category\DeleteCategory.cshtml" />
+    <Content Include="Views\EmailTemplates\WelcomeEmail.cshtml" />
+    <Content Include="Views\ServiceArea\DeleteServiceArea.cshtml" />
+    <Content Include="Views\User\index.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
+    <Content Include="Views\Claim\Index.cshtml" />
+    <Content Include="Views\Claim\EditClaim.cshtml" />
+    <Content Include="Views\Organisation\DeleteOrganisation.cshtml" />
+    <Content Include="Views\Report\ActivityReport.cshtml" />
+    <Content Include="Views\Service\Index.cshtml" />
+    <Content Include="Views\Improvement\Index.cshtml" />
+    <Content Include="Views\Improvement\ViewImprovement.cshtml" />
+    <Content Include="Views\EmailTemplates\PasswordReset.cshtml" />
+    <Content Include="Views\EmailTemplates\GenericSystemEmail.cshtml" />
+    <Content Include="Views\Elastic\Index.cshtml" />
+    <Content Include="Views\EmailTemplates\ShareService.cshtml" />
+    <Content Include="Views\EmailTemplates\ShareCollection.cshtml" />
+    <Content Include="Views\Shared\_PDFTemplate.cshtml" />
+    <Content Include="Views\Shared\_PDFTemplate_two.cshtml" />
+    <Content Include="Views\EmailTemplates\ClaimDenied.cshtml" />
+    <Content Include="Views\EmailTemplates\NewOrganisation.cshtml" />
+    <Content Include="Views\EmailTemplates\OrganisationPublished.cshtml" />
+    <Content Include="Views\EmailTemplates\ClaimApproved.cshtml" />
+    <Content Include="Views\User\DeleteUser.cshtml" />
+    <Content Include="Views\Organisation\AllOrganisations.cshtml" />
+    <Content Include="Views\Collection\Index.cshtml" />
+    <Content Include="Views\Collection\ViewCollection.cshtml" />
+    <Content Include="Views\Organisation\AddServiceOrganisation.cshtml" />
+    <Content Include="Views\Collection\EmailCollection.cshtml" />
+    <Content Include="Views\Service\AllServices.cshtml" />
+    <Content Include="Views\EmailTemplates\OrganisationPending.cshtml" />
+    <Content Include="Views\EmailTemplates\OrganisationApproved.cshtml" />
+    <Content Include="Views\EmailTemplates\ClaimSubmitted.cshtml" />
+    <Content Include="Views\Organisation\ListOrganisationClaimants.cshtml" />
+    <Content Include="Views\Claim\MyClaims.cshtml" />
+    <Content Include="Views\ServiceClaim\EditClaim.cshtml" />
+    <Content Include="Views\ServiceClaim\Index.cshtml" />
+    <Content Include="Views\ServiceClaim\MyClaims.cshtml" />
+    <Content Include="Views\Organisation\ListServiceClaimants.cshtml" />
+    <Content Include="Views\EmailTemplates\ClaimPending.cshtml" />
+    <Content Include="Views\Organisation\MakeLeadServiceClaimant.cshtml" />
+    <Content Include="Views\EmailTemplates\LeadClaimantChange.cshtml" />
+    <Content Include="Views\Organisation\MakeLeadOrganisationClaimant.cshtml" />
+    <Content Include="Views\AddToALISS\Index.cshtml" />
+    <Content Include="Views\DataInputOrganisation\Index.cshtml" />
+    <Content Include="Views\Shared\_DataInputProgress.cshtml" />
+    <Content Include="Views\Shared\_DataInputNavigation.cshtml" />
+    <Content Include="Views\DataInputService\Index.cshtml" />
+    <Content Include="Views\DataInputCategories\Index.cshtml" />
+    <Content Include="Views\DataInputSummary\Index.cshtml" />
+    <Content Include="Views\DataInputConfirmation\Index.cshtml" />
+    <Content Include="Views\CommunityGroup\Index.cshtml" />
+    <Content Include="Views\CommunityGroup\DeleteCommunityGroup.cshtml" />
+    <Content Include="Views\CommunityGroup\AddTopLevelCommunityGroup.cshtml" />
+    <Content Include="Views\CommunityGroup\AddLowerLevelCommunityGroup.cshtml" />
+    <Content Include="Views\Shared\_DataInputContinueAdding.cshtml" />
+    <Content Include="Views\DataInputWho\Index.cshtml" />
+    <Content Include="Views\AccessibilityFeature\AddTopLevelAccessibilityFeature.cshtml" />
+    <Content Include="Views\AccessibilityFeature\DeleteAccessibilityFeature.cshtml" />
+    <Content Include="Views\AccessibilityFeature\Index.cshtml" />
+    <Content Include="Views\DataInputAccessibility\Index.cshtml" />
+    <Content Include="Views\DataInputMedia\Index.cshtml" />
+    <Content Include="Ui\src\scss\organisms\print.scss" />
+    <Content Include="Views\EmailTemplates\ServicePublished.cshtml" />
+    <Content Include="Views\EmailTemplates\ServiceUnpublished.cshtml" />
+    <Content Include="Views\DataInputCancel\Index.cshtml" />
+    <Content Include="Views\DataInputOrganisationSummary\Index.cshtml" />
+    <Content Include="Views\EmailTemplates\NewMedia.cshtml" />
+    <Content Include="Views\EmailTemplates\MediaApproved.cshtml" />
+    <Content Include="Views\Shared\_DataInputSkip.cshtml" />
+    <Content Include="Views\Shared\_OrganisationSummaryMenu.cshtml" />
+    <Content Include="Views\Shared\_ServiceSummaryMenu.cshtml" />
+    <Content Include="Views\BulkEmail\EmailAllUsers.cshtml" />
+    <Content Include="Views\BulkEmail\EmailAllEditors.cshtml" />
+    <Content Include="Views\BulkEmail\EmailAllClaimants.cshtml" />
+    <Content Include="Views\EmailTemplates\CustomEmail.cshtml" />
+    <Content Include="Views\Shared\_ClaimantsMenu.cshtml" />
+    <Content Include="Views\Shared\_ClaimsDisclaimer.cshtml" />
+    <Content Include="Views\Shared\_Monsido.cshtml" />
+    <Content Include="Views\Shared\DataInputSummary\OrganisationSummary.cshtml" />
+    <Content Include="Views\Shared\DataInputSummary\ServiceSummary.cshtml" />
+    <Content Include="Views\Shared\DataInputSummary\WhereSummary.cshtml" />
+    <Content Include="Views\Shared\DataInputSummary\CategoriesSummary.cshtml" />
+    <Content Include="Views\Shared\DataInputSummary\WhoSummary.cshtml" />
+    <Content Include="Views\Shared\DataInputSummary\AccessibilitySummary.cshtml" />
+    <Content Include="Views\Shared\DataInputSummary\MediaSummary.cshtml" />
+    <Content Include="Views\ServiceReviewSummary\Index.cshtml" />
+    <Content Include="Views\Shared\_ReviewNavigation.cshtml" />
+    <Content Include="Views\DataInputAccessibility\_LocationAccessibilityFeatures.cshtml" />
+    <Content Include="Views\EmailTemplates\InformationReview\InformationReview1.cshtml" />
+    <Content Include="Views\EmailTemplates\InformationReview\InformationReview3.cshtml" />
+    <Content Include="Views\EmailTemplates\InformationReview\InformationReview2.cshtml" />
+    <Content Include="Views\ServiceReviews\Index.cshtml" />
+    <Content Include="Views\ServiceReviews\Deprioritised.cshtml" />
+    <Content Include="Views\Shared\_Guidance.cshtml" />
+    <Content Include="Views\EmailTemplates\InformationReview\InformationReview2Manager.cshtml" />
+    <Content Include="Views\ServiceSuggestions\Index.cshtml" />
+    <Content Include="Views\EmailTemplates\SuggestedServiceApproved.cshtml" />
+    <Content Include="Views\EmailTemplates\SuggestedServiceSubmitted.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Media\xeehsffa\" />
+    <Folder Include="Views\Export\" />
+    <Folder Include="Views\Lookups\" />
+    <Folder Include="Views\Review\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ALISS.API\ALISS.API.csproj">
+      <Project>{a1ad4a63-db4f-4aa9-a64f-35d9659ce0fc}</Project>
+      <Name>ALISS.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ALISS.Business\ALISS.Business.csproj">
+      <Project>{E86D6DE5-615C-482F-9FA8-5528E0C26CB9}</Project>
+      <Name>ALISS.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ALISS.Models\ALISS.Models.csproj">
+      <Project>{A5FEF261-88CE-41EE-AB1F-1EEBA168D5CE}</Project>
+      <Name>ALISS.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tactuum.Core\Tactuum.Core.csproj">
+      <Project>{1c9131ca-b1ce-4d15-9a44-56b213748f31}</Project>
+      <Name>Tactuum.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\accordion\accordion.component.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\accordion\accordion.options.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\forms\forms.component.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\forms\forms.upload.component.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\index.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\popover\popover.component.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\positioner\index.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\positioner\positioner.options.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\positioner\positioner.service.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\positioner\positioner.template.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\search\search.component.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\controls\tooltip\tooltip.component.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\enums\index.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\helpers\index.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\core\index.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\site.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\site\index.ts" />
+    <TypeScriptCompile Include="Ui\src\ts\site\new-component\new-component.component.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>17234</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44305/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

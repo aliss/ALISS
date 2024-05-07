@@ -1,0 +1,28 @@
+.aliss-selected {
+    margin-top: rem-calc(15);
+
+    &__item {
+        padding: rem-calc(8);
+        padding-left: rem-calc(30);
+        position: relative;
+        background: $white;
+        display: inline-block;
+        border: rem-calc(1) solid map-get($brand, aliss-dark-gray);
+        border-radius: rem-calc(3);
+        margin-right: rem-calc(5);
+        margin-bottom: rem-calc(5);
+    }
+
+    &__remove {
+        position: absolute;
+        z-index: 1;
+        left: rem-calc(8);
+        top: rem-calc(10);
+        color: map-get($brand, aliss-dark-red);
+        cursor: pointer;
+
+        i {
+            pointer-events: none;
+        }
+    }
+}

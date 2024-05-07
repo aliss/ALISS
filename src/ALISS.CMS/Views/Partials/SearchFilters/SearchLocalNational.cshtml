@@ -1,0 +1,29 @@
+﻿@model ALISS.ApiServices.ViewModels.Search.SearchViewModel
+@{
+	bool isActive = !string.IsNullOrWhiteSpace(Model.LocationType);
+}
+<fieldset id="loc-nat-filter" class="aliss-form__group aliss-form__group--radio aliss-form__group--no-margin" data-form="search-loc-nat">
+	<div class="aliss-accordion-container">
+		<div class="aliss-content-accordion__filter-header">
+			<button id="aliss-accordion-filter-by-local-national-btn" class="aliss-content-accordion__trigger aliss-accordion__trigger--active @(isActive ? "" : "")" type="button" data-accordion-trigger="filterByLocalNational">
+				Coverage
+				<i class="fas fa-chevron-circle-down" aria-hidden="true"></i>
+				<span class="sr-only">Click here to toggle the visibility of the coverage filter section</span>
+			</button>
+		</div>
+		<div class="aliss-content-accordion__content pt--8 aliss-accordion__content--active @(isActive ? "" : "")" id="filterByLocalNational" aria-hidden="true">
+			<div class="aliss-form__radio">
+				<label for="LocationType1">Show me all services</label>
+				<input onclick="document.getElementById('distance-filter').style.display = 'block';" class="aliss-form__input  service-search-filter-radio" type="radio" name="LocationType" id="LocationType1" value="" @(string.IsNullOrWhiteSpace(Model.LocationType) ? "checked" : "")>
+			</div>
+			<div class="aliss-form__radio">
+				<label for="LocationType2">Show me services that operate locally</label>
+				<input onclick="document.getElementById('distance-filter').style.display = 'block';" class="aliss-form__input  service-search-filter-radio" type="radio" name="LocationType" id="LocationType2" value="local" @(Model.LocationType == "local" ? "checked" : "")>
+			</div>
+			<div class="aliss-form__radio">
+				<label for="LocationType3">Show me services that operate nationally</label>
+				<input onclick="document.getElementById('distance-filter').style.display = 'none';" class="aliss-form__input  service-search-filter-radio" type="radio" name="LocationType" id="LocationType3" value="national" @(Model.LocationType == "national" ? "checked" : "")>
+			</div>
+		</div>
+	</div>
+</fieldset>

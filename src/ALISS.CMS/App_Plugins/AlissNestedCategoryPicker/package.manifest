@@ -1,0 +1,25 @@
+﻿{
+	"propertyEditors": [
+		{
+			"name": "ALISS Nested Category Picker",
+			"alias": "aliss.nested.category.picker",
+			"editor": {
+				"view": "/app_plugins/AlissNestedCategoryPicker/editor.html",
+				"valueType": "JSON"
+			},
+			"prevalues": {
+				"fields": [
+					{
+						"label": "Maximum number of items",
+						"description": "Only allow this number of items to be added",
+						"key": "maxItems",
+						"view": "number"
+					}
+				]
+			}
+		}
+	],
+	"javascript": [
+		"~/App_Plugins/AlissNestedCategoryPicker/editor.controller.js"
+	]
+}

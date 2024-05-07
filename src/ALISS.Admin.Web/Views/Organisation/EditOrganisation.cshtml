@@ -1,0 +1,95 @@
+@model ALISS.Business.ViewModels.Organisation.EditOrganisationViewModel
+@{
+	ViewBag.Title = "Edit Organisation";
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+@using (Html.BeginForm("EditOrganisation", "Organisation", FormMethod.Post, new { @class = "aliss-form", enctype = "multipart/form-data", onsubmit = "handleSubmit()" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Add a new organisation</legend>
+		<p>
+			<i class="fa fa-info-circle" aria-hidden="true"></i> You can add your organisation logo at the bottom of this form.
+		</p>
+		@Html.ALISSTextBox(m => m.Name)
+		@Html.ALISSRTEditor(m => m.Description, "Please enter a minimum of 50 characters and a maximum of 1000 characters, including spaces and punctuation.", 1000)
+		<p><i class="fa fa-info-circle" aria-hidden="true"></i> Please do not include any sensitive personal information (including information about your physical and/or mental health).  If you do include such personal information then it will be publicly accessible via ALISS.  Please note that entries on ALISS are not reviewed and any such personal information will remain on the entry, unless and until you remove it.</p>
+
+		<div class="aliss-form__two-column">
+			@Html.ALISSTextBox(m => m.PhoneNumber)
+			@Html.ALISSTextBox(m => m.Email)
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.Url)
+			@if (!string.IsNullOrWhiteSpace(Model.Url) && Uri.IsWellFormedUriString(Model.Url, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.Url">Test Web Address <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.Facebook)
+			@if (!string.IsNullOrWhiteSpace(Model.Facebook) && Uri.IsWellFormedUriString(Model.Facebook, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.Facebook">Test Facebook <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.Twitter)
+			@if (!string.IsNullOrWhiteSpace(Model.Twitter) && Uri.IsWellFormedUriString(Model.Twitter, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.Twitter">Test Twitter <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+		<div class="mb--24">
+			@Html.ALISSTextBox(m => m.Instagram)
+			@if (!string.IsNullOrWhiteSpace(Model.Instagram) && Uri.IsWellFormedUriString(Model.Instagram, UriKind.Absolute))
+			{
+				<a target="_blank" href="@Model.Instagram">Test Instagram <i class="fas fa-external-link-alt"></i></a>
+			}
+		</div>
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="example-upload">
+				Logo
+				<i class="fas fa-info-circle" aria-hidden="true" data-tip="Organisation Logo"></i>
+			</label>
+			<span>Please note - logos must be either JPG, JPEG or PNG files no larger than 1024Kb in size with minimum dimensions of 80 pixels by 80 pixels.</span>
+			<br /><br />
+			<div class="aliss-form__file">
+				<button class="aliss-form__file-btn btn btn--primary">Choose File</button>
+				<input class="aliss-form__file-input" type="file" name="Logo" id="Logo" hidden />
+				<div class="aliss-form__file-display"></div>
+			</div>
+		</div>
+
+		@if (Model.Logo != null && Model.Logo != "0")
+		{
+			<div class="aliss-form__group">
+				<label class="aliss-form__label" for="ExistingLogo">
+					Existing Logo
+				</label>
+				<img class="aliss-img__downloaded" src="@Model.Logo" />
+			</div>
+		}
+
+		@Html.HiddenFor(m => m.OrganisationId)
+		@Html.HiddenFor(m => m.Logo)
+		@Html.HiddenFor(m => m.Slug)
+		@Html.HiddenFor(m => m.ReturnUrl)
+		<input type="hidden" id="SlugDisplay" value="" />
+	</fieldset>
+
+	<div class="aliss-form__actions">
+		<button type="submit" class="btn btn--primary" onclick="window.monsido_functions.trackEvent('Organisation', 'Save Button', 'Edit Organisation on ALISS', 1);">Save</button>
+		@Html.ActionLink("Cancel", "Index", "Organisation", null, new { @class = "btn btn--primary" })
+	</div>
+}
+
+@section sidemenu {
+	@Html.Partial("_OrganisationMenu")
+}

@@ -1,0 +1,156 @@
+﻿@model ALISS.Business.ViewModels.DataInput.SummaryViewModel
+@using ALISS.Business.Enums;
+@{
+	bool serviceSubmitted = Model.ServiceSubmitted;
+	bool organisationSubmitted = ViewBag.OrganisationSubmitted ?? false;
+}
+
+<fieldset class="aliss-form__fieldset no-padding">
+	<legend class="aliss-form__legend">Media</legend>
+	@if (Model.SummaryType == DataInputSummaryTypeEnum.Organisation)
+	{
+		<h2>2. Media</h2>
+
+		<div class="mb--48">
+			<label class="aliss-form__label">Organisation Logo</label>
+			@if (!string.IsNullOrEmpty(Model.OrganisationLogo))
+			{
+				<div class="aliss-form__group">
+					<img class="aliss-img__downloaded" src="@Model.OrganisationLogo" />
+				</div>
+			}
+			else
+			{
+				<span>No logo provided</span>
+			}
+		</div>
+
+		@Html.ActionLink("Edit Information", "Index", "DataInputMedia", new { id = Model.OrganisationId, summaryType = DataInputSummaryTypeEnum.Organisation }, new { @class = "btn btn--primary" })
+	}
+	else
+	{
+		if (serviceSubmitted || organisationSubmitted)
+		{
+			<h2>6. Media</h2>
+		}
+		else
+		{
+			<h2>7. Media</h2>
+
+			<div class="mb--48">
+				<label class="aliss-form__label">Organisation Logo</label>
+				@if (!string.IsNullOrEmpty(Model.OrganisationLogo))
+				{
+					<div class="aliss-form__group">
+						<img class="aliss-img__downloaded" src="@Model.OrganisationLogo" />
+					</div>
+				}
+				else
+				{
+					<span>No logo provided</span>
+				}
+			</div>
+		}
+
+		<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceLogo").ToString()) && !Html.ValidationMessage("ServiceLogo").ToString().Contains("\"></span>")
+                      ? "aliss-form__group--error mb--24"
+                      : "mb--24")">
+			<label class="aliss-form__label">Service Logo</label>
+			@if (!string.IsNullOrEmpty(Model.ServiceLogo))
+			{
+				<div class="aliss-form__group">
+					<img class="aliss-img__downloaded" src="@Model.ServiceLogo" />
+				</div>
+			}
+			else
+			{
+				<span>No logo provided</span>
+			}
+		</div>
+
+		<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage1").ToString()) && !Html.ValidationMessage("ServiceImage1").ToString().Contains("\"></span>") ||
+                      !String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage1AltText").ToString()) && !Html.ValidationMessage("ServiceImage1AltText").ToString().Contains("\"></span>") ||
+                      !String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage1Caption").ToString()) && !Html.ValidationMessage("ServiceImage1Caption").ToString().Contains("\"></span>")
+                        ? "aliss-form__group--error mb--48"
+                        : "mb--48")">
+			<label class="aliss-form__label">Service Gallery Image 1</label>
+			@if (!string.IsNullOrEmpty(Model.ServiceImage1))
+			{
+				<div class="aliss-form__group">
+					<img class="aliss-img__downloaded" src="@Model.ServiceImage1" />
+				</div>
+				<label class="aliss-form__label">Service Gallery Image 1 Alt Text</label>
+				<span>@Model.ServiceImage1AltText</span>
+				<label class="aliss-form__label">Service Gallery Image 1 Caption</label>
+				<span>@Model.ServiceImage1Caption</span>
+			}
+			else
+			{
+				<span>No Image provided</span>
+			}
+		</div>
+
+		<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage2").ToString()) && !Html.ValidationMessage("ServiceImage2").ToString().Contains("\"></span>") ||
+                      !String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage2AltText").ToString()) && !Html.ValidationMessage("ServiceImage2AltText").ToString().Contains("\"></span>") ||
+                      !String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage2Caption").ToString()) && !Html.ValidationMessage("ServiceImage2Caption").ToString().Contains("\"></span>")
+                        ? "aliss-form__group--error mb--48"
+                        : "mb--48")">
+			<label class="aliss-form__label">Service Gallery Image 2</label>
+			@if (!string.IsNullOrEmpty(Model.ServiceImage2))
+			{
+				<div class="aliss-form__group">
+					<img class="aliss-img__downloaded" src="@Model.ServiceImage2" />
+				</div>
+				<label class="aliss-form__label">Service Gallery Image 2 Alt Text</label>
+				<span>@Model.ServiceImage2AltText</span>
+				<label class="aliss-form__label">Service Gallery Image 2 Caption</label>
+				<span>@Model.ServiceImage2Caption</span>
+			}
+			else
+			{
+				<span>No Image provided</span>
+			}
+		</div>
+
+		<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage3").ToString()) && !Html.ValidationMessage("ServiceImage3").ToString().Contains("\"></span>") ||
+                      !String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage3AltText").ToString()) && !Html.ValidationMessage("ServiceImage3AltText").ToString().Contains("\"></span>") ||
+                      !String.IsNullOrEmpty(Html.ValidationMessage("ServiceImage3Caption").ToString()) && !Html.ValidationMessage("ServiceImage3Caption").ToString().Contains("\"></span>")
+                        ? "aliss-form__group--error mb--48"
+                        : "mb--48")">
+			<label class="aliss-form__label">Service Gallery Image 3</label>
+			@if (!string.IsNullOrEmpty(Model.ServiceImage3))
+			{
+				<div class="aliss-form__group">
+					<img class="aliss-img__downloaded" src="@Model.ServiceImage3" />
+				</div>
+				<label class="aliss-form__label">Service Gallery Image 3 Alt Text</label>
+				<span>@Model.ServiceImage3AltText</span>
+				<label class="aliss-form__label">Service Gallery Image 3 Caption</label>
+				<span>@Model.ServiceImage3Caption</span>
+			}
+			else
+			{
+				<span>No Image provided</span>
+			}
+		</div>
+
+		<div class="@(!String.IsNullOrEmpty(Html.ValidationMessage("ServiceVideo").ToString()) && !Html.ValidationMessage("ServiceVideo").ToString().Contains("\"></span>")
+					  ? "aliss-form__group--error mb--24"
+					  : "mb--24")">
+			<label class="aliss-form__label">Service Gallery Video</label>
+			@if (!string.IsNullOrEmpty(Model.ServiceVideo))
+			{
+				<div class="aliss-form__group">
+					<a href="@Model.ServiceVideo">@Model.ServiceVideo</a>
+				</div>
+			}
+			else
+			{
+				<span>No Video provided</span>
+			}
+		</div>
+
+		@Html.ActionLink("Edit Information", "Index", "DataInputMedia", new { id = Model.ServiceId, summaryType = Model.SummaryType }, new { @class = "btn btn--primary" })
+	}
+	<hr class="content__divider mt--24" />
+</fieldset>

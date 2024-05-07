@@ -1,0 +1,81 @@
+﻿@using ALISS.CMS.Extensions
+@using Umbraco.Web.PublishedModels
+@using ALISS.ApiServices.ViewModels.Service
+@using ALISS.ApiServices.ViewModels.Search
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<IPublishedContent>
+@{
+	Layout = null;
+	Response.ContentType = "text/xml";
+}
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://www.google.com/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+	@RenderSiteMapUrlEntry(Model)
+	@RenderServiceListingPage()
+	@RenderOrganisationListingPage()
+	@RenderSiteMapUrlEntriesForChildren(Model)
+</urlset>
+
+@helper RenderSiteMapUrlEntry(IPublishedContent node)
+{
+	<url>
+		<loc>@EnsureUrlStartsWithDomain(node.Url(null, UrlMode.Absolute))</loc>
+		<lastmod>@(string.Format("{0:s}+00:00", node.UpdateDate))</lastmod>
+	</url>
+}
+
+@helper RenderServiceListingPage()
+{
+	<url>
+		<loc>@EnsureUrlStartsWithDomain("/servicelisting")</loc>
+	</url>
+}
+
+@helper RenderOrganisationListingPage()
+{
+	<url>
+		<loc>@EnsureUrlStartsWithDomain("/organisationlisting")</loc>
+	</url>
+}
+
+@helper RenderSiteMapUrlEntriesForChildren(IPublishedContent parentPage)
+{
+	List<string> docTypesToExclude = new List<string>();
+	docTypesToExclude.Add(ListPanelFolder.ModelTypeAlias);
+	docTypesToExclude.Add(DtListPanel.ModelTypeAlias);
+	docTypesToExclude.Add(DtConfiguration.ModelTypeAlias);
+
+	IEnumerable<IPublishedContent> children = parentPage.Children.Where(x => !x.Value<bool>("hideFromSiteMap"));
+	foreach (IPublishedContent page in children)
+	{
+		if (!docTypesToExclude.Contains(page.ContentType.Alias))
+		{
+			@RenderSiteMapUrlEntry(page)
+		}
+
+		bool hideChildrenFromSitemap = page.ContentType.Alias == DtConfiguration.ModelTypeAlias || page.Value<bool>("hideChildrenFromSitemap");
+
+		if (page.Children.Any() && !hideChildrenFromSitemap)
+		{
+			@RenderSiteMapUrlEntriesForChildren(page)
+		}
+	}
+}
+
+@functions {
+	private static string EnsureUrlStartsWithDomain(string url)
+	{
+		string tempUrl = "";
+		string actualUrlPrefix = $"{HttpContext.Current.Request.Url.Scheme}://{HttpContext.Current.Request.Url.Authority}";
+
+		if (url.StartsWith("http"))
+		{
+			tempUrl = url;
+		}
+		else
+		{
+			tempUrl = actualUrlPrefix + url.Replace("//", "/");
+		}
+
+		return tempUrl.TrimEnd("/");
+	}
+}

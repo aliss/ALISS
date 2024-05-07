@@ -1,0 +1,54 @@
+/** @format */
+
+.aliss-organism-search {
+	&__block {
+		background: $white;
+		h1 {
+			font-size: rem-calc(28);
+			line-height: rem-calc(35);
+			@include media('>=desktop') {
+				font-size: rem-calc(40);
+				line-height: rem-calc(49);
+			}
+		}
+		h1,
+		p {
+			text-align: center;
+			span {
+				color: map-get($brand, aliss-dark-blue);
+			}
+		}
+		label {
+			font-weight: bold;
+		}
+		form {
+			legend {
+				margin: rem-calc(0 0 15);
+			}
+			label {
+				display: block;
+				margin: rem-calc(-10 0 15);
+			}
+			input {
+				display: block;
+				height: rem-calc(45);
+				padding: rem-calc(5);
+				width: 100%;
+			}
+			fieldset {
+				background: map-get($brand, aliss-dark-gray);
+				padding: rem-calc(20);
+				div {
+					position: relative;
+				}
+			}
+			button {
+				position: absolute;
+				height: 100%;
+				top: 0;
+				right: 0;
+				width: max-content;
+			}
+		}
+	}
+}

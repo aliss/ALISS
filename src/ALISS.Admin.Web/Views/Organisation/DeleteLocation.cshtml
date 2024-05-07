@@ -1,0 +1,56 @@
+﻿@model ALISS.Business.ViewModels.Location.DeleteLocationViewModel
+@using System.Configuration
+@{
+	ViewBag.Title = "Delete Location: " + Model.LocationName;
+}
+
+@if (Model.CanDelete == false)
+{
+	@Html.Partial("_WarningMessage")
+
+	if (Model.RelatedServices.Count > 0)
+	{
+		<p>The services that have this location as their primary location are:</p>
+		<ul>
+			@foreach (var service in Model.RelatedServices)
+			{
+				<li>@Html.ActionLink(service.ServiceName, "Index", "DataInputSummary", new { id = service.ServiceId }, null)</li>
+			}
+		</ul>
+		<div class="aliss-warning">
+			<p>If you simply want to remove this location from a service, please go to that service and remove it.</p>
+		</div>
+	}
+
+	@Html.ActionLink("Back", "ListLocations", "Organisation", new { id = Model.OrganisationId }, new { @class = "btn btn--primary" })
+}
+else
+{
+	<div class="aliss-warning">
+		<p>Are you sure you want to delete this location?</p>
+	</div>
+
+	if (Model.RelatedServices.Count > 0)
+	{
+		<p>The services that will be affected by you deleting this location are:</p>
+		<ul>
+			@foreach (var service in Model.RelatedServices)
+			{
+				<li>@Html.ActionLink(service.ServiceName, "Index", "DataInputSummary", new { id = service.ServiceId }, null)</li>
+			}
+		</ul>
+		<div class="aliss-warning">
+			<p>If you simply want to remove this location from a service, please go to that service and remove it.</p>
+		</div>
+	}
+
+	using (Html.BeginForm("DeleteLocationConfirm", "Organisation", FormMethod.Post))
+	{
+		@Html.AntiForgeryToken()
+		@Html.Hidden("id", Model.LocationId)
+		<div class="aliss-form__actions">
+			<button type="submit" class="btn btn--primary">Delete</button>
+			@Html.ActionLink("Cancel", "ListLocations", "Organisation", new { id = Model.OrganisationId }, new { @class = "btn btn--primary" })
+		</div>
+	}
+}

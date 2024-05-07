@@ -1,0 +1,228 @@
+﻿@using ALISS.CMS.Extensions
+@using Umbraco.Web.PublishedModels
+@using ALISS.ApiServices.ViewModels.Organisation
+@using ALISS.ApiServices.ViewModels.Search
+@using System.Configuration
+@inherits Umbraco.Web.Mvc.UmbracoViewPage<DtOrganisations>
+@{
+	Layout = "~/Views/Master.cshtml";
+	OrganisationSearchViewModel searchResults = ViewBag.OrganisationSearchViewModel;
+
+	int pageSize = Model.PageSize;
+	double pageCount = Math.Ceiling((double)searchResults.SearchModel.count / pageSize);
+
+	string url = "";
+
+	if (!string.IsNullOrWhiteSpace(searchResults.SearchTerm))
+	{
+		url += "&searchTerm=" + searchResults.SearchTerm;
+	}
+	string searchTitle = string.IsNullOrWhiteSpace(searchResults.SearchTerm)
+		? "Viewing all organisations"
+		: $"Viewing results for '{searchResults.SearchTerm}'";
+
+	string addOrganisationUrl = $"{ConfigurationManager.AppSettings["Settings:AdminBaseUrl"]}{ConfigurationManager.AppSettings["Settings:DataInputAddOrganisationUrl"]}";
+}
+
+<main>
+	<section>
+		<div class="aliss-grid">
+			@Html.Partial("ClaimsDisclaimer")
+
+			<div class="aliss-content__wrap">
+				<div class="aliss-content__header">
+					<h1>@Model.Title</h1>
+				</div>
+				<div class="aliss-content__secondary-top-level hide-print">
+					<div class="aliss-organism accordion">
+						<div id="search-organisations-toggle-btn" class="aliss-accordion__header">
+							<button id="search-organisations-toggle" class="aliss-accordion__trigger @(searchResults.SearchModel.count > 0 ? "" : "aliss-accordion__trigger--active")" data-accordion-trigger="search-organisations-accordion">
+								<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+								<span class="sr-only">Click here to toggle the search filters</span>
+							</button>
+							<span class="aliss-form__label">Search organisations</span>
+						</div>
+						<div class="aliss-accordion__content @(searchResults.SearchModel.count > 0 ? "" : "aliss-accordion__content--active")" id="search-organisations-accordion">
+							@Html.Partial("SearchOrganisations", Model, new ViewDataDictionary { { "SearchType", "organisation" } })
+						</div>
+					</div>
+
+					<div class="aliss-organism accordion">
+						<div id="add-to-aliss-toggle-btn" class="aliss-accordion__header">
+							<button id="add-to-aliss-toggle" class="aliss-accordion__trigger" data-accordion-trigger="add-to-aliss-accordion">
+								<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+								<span class="sr-only">Click here to toggle the actions panel</span>
+							</button>
+							<span class="aliss-form__label">Can't find what you're looking for?</span>
+						</div>
+						<div class="aliss-accordion__content aliss-accordion__content--active" id="add-to-aliss-accordion">
+							<div class="aliss-content-spacer">
+								<h3>Can't find what you're looking for?</h3>
+								<p>Use the button below to start the process of adding to ALISS.</p>
+								<a title="Use this button to navigate to the 'Add to ALISS' page (This will open in a new window)."
+								   href="@addOrganisationUrl"
+								   target="_blank"
+								   class="btn btn--primary"
+								   onclick="window.monsido_functions.trackEvent('Organisation', 'Add To ALISS Button', 'Navigate to Admin site Add to ALISS ', 1);">
+									Add to ALISS
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="aliss-content__primary aliss-content__primary__full-width">
+					@if (searchResults.SearchModel.count > 0)
+					{
+						foreach (OrganisationModel organisation in searchResults.SearchModel.data)
+						{
+							<div class="aliss-organism aliss-component-master aliss-content-spacer">
+								<div class="aliss-component-master__contents">
+									<h2 class="d-inline-block">
+										<a href="/organisations/@organisation.slug" class="aliss-component-master__contents__primary-link hide-print">
+											@organisation.name
+										</a>
+									</h2>
+									@if (organisation.is_claimed)
+									{
+										<span title="This is a claimed organisation." class="aliss-claimed-status aliss-claimed-status--claimed"><span class="sr-only">This is a </span>Claimed<span class="sr-only"> organisation</span></span>
+									}
+
+									@if (!string.IsNullOrWhiteSpace(organisation.description))
+									{
+										<p>
+											@if (organisation.description.Length >= 210)
+											{
+												string shortDesc = HtmlExtensions.HtmlSubstring(organisation.description, 200);
+												@Html.Raw(shortDesc)
+											}
+											else
+											{
+												@Html.Raw(organisation.description)
+											}
+										</p>
+									}
+								</div>
+
+								@if (!string.IsNullOrEmpty(organisation.url) || !string.IsNullOrEmpty(organisation.phone) || !string.IsNullOrEmpty(organisation.email))
+								{
+									<div class="aliss-component-master__links">
+										<ul class="aliss-icon-list aliss-icon-list--50-50">
+											@if (!string.IsNullOrEmpty(organisation.url))
+											{
+												<li class="aliss-icon-list__item aliss-icon-list__item--website hide-print">
+													<a title="This will open in a new window" href="@organisation.url" target="_blank">
+														Visit the website <span class="sr-only"> for @organisation.name, this opens in a new window</span>
+														<span class="sr-only">This will open in a new window</span>
+													</a>
+												</li>
+												<li class="aliss-icon-list__item aliss-icon-list__item--website show-print">
+													<span>@organisation.url</span>
+												</li>
+											}
+
+											@if (!string.IsNullOrEmpty(organisation.phone))
+											{
+												<li class="aliss-icon-list__item aliss-icon-list__item--telephone">
+													<a title="Click here to call this organisation" href="tel:@organisation.phone" target="_blank">
+														@organisation.phone
+														<span class="sr-only"> - @organisation.name</span>
+													</a>
+												</li>
+											}
+
+											@if (!string.IsNullOrEmpty(organisation.email))
+											{
+												<li class="aliss-icon-list__item aliss-icon-list__item--email">
+													<a title="This will open your default email client" href="mailto:@organisation.email" target="_blank">
+														<span class="sr-only">contact @organisation.name by email at - </span>@organisation.email
+													</a>
+												</li>
+											}
+										</ul>
+									</div>
+								}
+							</div>
+						}
+
+						@Html.Partial("PageNavigation", searchResults, new ViewDataDictionary { { "url", url } })
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+@section Metadata
+{
+	@Html.Metadata(Model as IPublishedContent)
+}
+
+<script nonce="dtOrganisations">
+	"use strict";
+
+	var addToAlissToggleContainer = document.getElementById("add-to-aliss-toggle-btn");
+	var addToAlissToggle = document.getElementById("add-to-aliss-toggle");
+	var addToAlissAccordion = document.getElementById("add-to-aliss-accordion");
+
+	var searchOrganisationsToggleConatiner = document.getElementById("search-organisations-toggle-btn");
+	var searchOrganisationsToggle = document.getElementById("search-organisations-toggle");
+	var searchOrganisationsAccordion = document.getElementById("search-organisations-accordion");
+
+	var windowWidthOnLoad;
+
+	window.addEventListener('load', function (e) {
+		windowWidthOnLoad = window.innerWidth;
+	}, true);
+
+	function updateLayout() {
+		if (window.innerWidth <= 768) {
+			addToAlissToggleContainer.classList.remove("hide");
+			addToAlissToggle.classList.remove("aliss-accordion__trigger--active");
+			searchOrganisationsToggleConatiner.classList.remove("hide");
+			addToAlissAccordion.classList.remove("aliss-accordion__content--active");
+			searchOrganisationsAccordion.classList.remove("aliss-accordion__content--mt-0");
+			addToAlissAccordion.classList.remove("aliss-accordion__content--mt-0");
+		} else {
+			addToAlissToggleContainer.classList.add("hide");
+			searchOrganisationsToggleConatiner.classList.add("hide");
+			searchOrganisationsAccordion.classList.add("aliss-accordion__content--active");
+			addToAlissAccordion.classList.add("aliss-accordion__content--active");
+			searchOrganisationsAccordion.classList.add("aliss-accordion__content--mt-0");
+			addToAlissAccordion.classList.add("aliss-accordion__content--mt-0");
+		}
+	}
+
+	window.addEventListener('load', function (event) {
+		updateLayout();
+	}, true);
+	window.addEventListener('resize', function (event) {
+		if (windowWidthOnLoad != window.innerWidth) {
+			windowWidthOnLoad = window.innerWidth;
+			updateLayout();
+		}
+	}, true);
+</script>
+
+@section scripts
+{
+	<script nonce="pageSize">
+		var pageSize = @pageSize;
+	</script>
+	@{
+		bool enableMonsidoTracking = ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"] != null
+			? ConfigurationManager.AppSettings["Settings:EnableMonsidoTracking"].ToString().ToLower() == "true"
+			: false;
+
+		if (enableMonsidoTracking)
+		{
+			<script nonce="monsido">
+				window.addEventListener('mon-script-loaded', () => {
+					const urlSearchParams = new URLSearchParams(window.location.search); const params = Object.fromEntries(urlSearchParams.entries());
+					if (params.searchterm) {
+						window.monsido_functions.trackSearch(params.searchterm);
+					}
+				});
+			</script>
+		}
+	}
+}

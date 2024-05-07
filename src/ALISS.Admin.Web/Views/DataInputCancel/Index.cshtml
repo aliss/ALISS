@@ -1,0 +1,67 @@
+﻿@model ALISS.Business.ViewModels.DataInput.CancelApplicationViewModel
+@{
+	ViewBag.Title = "Cancel Form: " + Model.ServiceName;
+	int previousStep = Model.PreviousStep;
+}
+
+@if (ViewBag.Error != null && (bool)ViewBag.Error == true)
+{
+	@Html.Partial("_ErrorMessage")
+	<br />
+}
+
+<div class="aliss-warning">
+	<p>Are you sure you want to cancel your application? No information will be saved once you cancel.</p>
+</div>
+
+@using (Html.BeginForm("Index", "DataInputCancel", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	@Html.HiddenFor(s => s.ServiceId)
+	@Html.HiddenFor(s => s.ServiceName)
+	@Html.HiddenFor(s => s.OrganisationId)
+
+	<div class="aliss-form__actions">
+		@if (previousStep != (int)ALISS.Business.Enums.DataInputStepsEnum.OrganisationTestStep || previousStep != (int)ALISS.Business.Enums.DataInputStepsEnum.ServiceTestStep || previousStep != 0)
+		{
+			<button type="submit" class="btn btn--primary">Cancel the Form</button>
+		}
+		else
+		{
+			@Html.ActionLink("Cancel the Form", "Index", "AddToALISS");
+		}
+
+		@if (previousStep == (int)ALISS.Business.Enums.DataInputStepsEnum.OrganisationTestStep)
+		{
+			@Html.ActionLink("Continue the Form", "Index", "DataInputOrganisation", new { id = Model.OrganisationId }, new { @class = "btn btn--primary" })
+		}
+		else if (previousStep == (int)ALISS.Business.Enums.DataInputStepsEnum.ServiceTestStep)
+		{
+			@Html.ActionLink("Continue the Form", "Index", "DataInputService", new { id = Model.ServiceId }, new { @class = "btn btn--primary" })
+		}
+		else if (previousStep == (int)ALISS.Business.Enums.DataInputStepsEnum.WhereTestStep)
+		{
+			@Html.ActionLink("Continue the Form", "Index", "DataInputWhere", new { id = Model.ServiceId }, new { @class = "btn btn--primary" })
+		}
+		else if (previousStep == (int)ALISS.Business.Enums.DataInputStepsEnum.CategoriesTestStep)
+		{
+			@Html.ActionLink("Continue the Form", "Index", "DataInputCategories", new { id = Model.ServiceId }, new { @class = "btn btn--primary" })
+		}
+		else if (previousStep == (int)ALISS.Business.Enums.DataInputStepsEnum.WhoTestStep)
+		{
+			@Html.ActionLink("Continue the Form", "Index", "DataInputWho", new { id = Model.ServiceId }, new { @class = "btn btn--primary" })
+		}
+		else if (previousStep == (int)ALISS.Business.Enums.DataInputStepsEnum.AccessibilityTestStep)
+		{
+			@Html.ActionLink("Continue the Form", "Index", "DataInputAccessibility", new { id = Model.ServiceId }, new { @class = "btn btn--primary" })
+		}
+		else if (previousStep == (int)ALISS.Business.Enums.DataInputStepsEnum.MediaTestStep)
+		{
+			@Html.ActionLink("Continue the Form", "Index", "DataInputMedia", new { id = Model.ServiceId, summaryType = ALISS.Business.Enums.DataInputSummaryTypeEnum.NotSubmitted }, new { @class = "btn btn--primary" })
+		}
+		else if (previousStep == (int)ALISS.Business.Enums.DataInputStepsEnum.SummaryTestStep)
+		{
+			@Html.ActionLink("Continue the Form", "Index", "DataInputSummary", new { id = Model.ServiceId }, new { @class = "btn btn--primary" })
+		}
+	</div>
+}

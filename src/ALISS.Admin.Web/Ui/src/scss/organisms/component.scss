@@ -1,0 +1,7 @@
+.aliss-organism {
+  @include aliss-component();
+
+  &.aliss-collection__item {
+    margin-bottom: rem-calc(16);
+  }
+}

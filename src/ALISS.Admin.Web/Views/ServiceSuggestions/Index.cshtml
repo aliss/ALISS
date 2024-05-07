@@ -1,0 +1,160 @@
+﻿@model ALISS.Business.ViewModels.Service.ServiceListingViewModel
+@using System.Configuration
+@{
+    ViewBag.Title = "Service Suggestions";
+    string sortIcon = (int)ViewBag.Descending == 1 ? "fa fa-sort-desc" : "fa fa-sort-asc";
+    string unpublished = Model.Unpublished ? "true" : "false";
+    bool isAdmin = ViewBag.IsAdmin;
+}
+
+<div class="aliss-search">
+    <div class="aliss-search__filter">
+        @using (Html.BeginForm("Index", "ServiceSuggestions", FormMethod.Get, new { @class = "aliss-form__group aliss-form__group--search" }))
+        {
+            <label class="aliss-form__label aliss-form__label--search" for="SearchBox">
+                Search
+            </label>
+            <input id="SearchBox" name="searchTerm" class="aliss-form__search" type="text" value="@Model.SearchTerm" />
+            <button class="btn btn--primary" type="submit">Search</button>
+            if (!String.IsNullOrEmpty(Model.SearchTerm))
+            {
+                <div class="aliss-search__clear">
+                    @Html.ActionLink("Clear Search", "Index", "Service", null, new { @class = "btn btn--primary" })
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="aliss-pagination-component">
+    <div class="aliss-pagination-component__wrapper">
+        <div class="aliss-pagination-component__wrapper__item">
+            <p>Total Results: <span>@Model.TotalResults</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="aliss-table-container">
+    <table class="aliss-table">
+        <thead class="aliss-table__head">
+            <tr class="aliss-table__row aliss-table__row--head">
+                <th class="aliss-table__header" scope="col">
+                    @if (ViewBag.OrderBy.ToLower() == "servicename")
+                    {
+                        <a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=servicename&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Service Name</a>
+                        <span class="@sortIcon"></span>
+                    }
+                    else
+                    {
+                        <a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=servicename&descending=0")">Service Name</a>
+                    }
+                </th>
+                <th class="aliss-table__header" scope="col">
+                    @if (ViewBag.OrderBy.ToLower() == "organisationname")
+                    {
+                        <a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=organisationname&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Organisation Name</a>
+                        <span class="@sortIcon"></span>
+                    }
+                    else
+                    {
+                        <a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=organisationname&descending=0")">Organisation Name</a>
+                    }
+                </th>
+                <th class="aliss-table__header" scope="col">Created By</th>
+                <th class="aliss-table__header" scope="col">
+                    @if (ViewBag.OrderBy.ToLower() == "createdon")
+                    {
+                        <a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=createdon&descending={((int)ViewBag.Descending == 1 ? 0 : 1)}")">Created On</a>
+                        <span class="@sortIcon"></span>
+                    }
+                    else
+                    {
+                        <a href="@($"?searchTerm={ViewBag.SearchTerm}&unpublished={unpublished}&orderBy=createdon&descending=1")">Created On</a>
+                    }
+                </th>
+            </tr>
+        </thead>
+
+        @foreach (var service in Model.Services)
+        {
+            <tbody class="aliss-table__body">
+                <tr class="aliss-table__row aliss-table__row--body">
+                    <td class="aliss-table__cell">
+                        @if (service.Published)
+                        {
+                            <a href="@($"{ViewBag.PublicURL}services/{service.ServiceId}")">@service.Name</a>
+                            <span class="d-block mt--16">
+                                <i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputSummary", new { id = service.ServiceId }, new { @class = "" })
+                            </span>
+
+                        }
+                        else
+                        {
+                            @service.Name
+                            <span class="d-block mt--16">
+                                <i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputSummary", new { id = service.ServiceId }, new { @class = "" })
+                            </span>
+                        }
+                    </td>
+
+                    <td class="aliss-table__cell">
+                        @if (service.OrganisationPublished)
+                        {
+                            <a href="@($"{ViewBag.PublicURL}organisations/{service.OrganisationId}")">@service.OrganisationName</a>
+                            <span class="d-block mt--16">
+                                <i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputOrganisationSummary", new { id = service.OrganisationId }, new { @class = "" })
+                            </span>
+                        }
+                        else
+                        {
+                            @service.OrganisationName
+                            <span class="d-block mt--16">
+                                <i class="fa fa-pencil-square-o"></i> @Html.ActionLink("Edit", "Index", "DataInputOrganisationSummary", new { id = service.OrganisationId }, new { @class = "" })
+                            </span>
+                        }
+                    </td>
+                    <td class="aliss-table__cell">
+                        @if (isAdmin)
+                        {
+                            <a href="/User/EditUser/@service.CreatedUserId">@service.CreatedUserEmail</a>
+                        }
+                        else
+                        {
+                            @service.CreatedUserEmail
+                        }
+                    </td>
+                    <td class="aliss-table__cell">@($"{service.CreatedOn:dd/MM/yyyy}")</td>
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>
+
+<div class="aliss-pagination-component">
+    <div class="aliss-pagination-component__wrapper">
+        <div class="aliss-pagination-component__wrapper__item">
+            <p>Showing page <span>@Model.Page</span> of <span>@Model.TotalPages</span></p>
+        </div>
+        @if (Model.TotalPages > 1)
+        {
+            <div class="aliss-pagination-component__wrapper__item">
+                <nav>
+                    <ol>
+                        @if (Model.Page > 1)
+                        {
+                            <li>
+                                <a href="/ServiceSuggestions?searchTerm=@Model.SearchTerm&page=@(Model.Page - 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-previous">Previous</a>
+                            </li>
+                        }
+                        @if (Model.Page < Model.TotalPages)
+                        {
+                            <li>
+                                <a href="/ServiceSuggestions?searchTerm=@Model.SearchTerm&page=@(Model.Page + 1)&orderby=@(ViewBag.OrderBy)&descending=@(ViewBag.Descending)" class="aliss-pagination-next">Next</a>
+                            </li>
+                        }
+                    </ol>
+                </nav>
+            </div>
+        }
+    </div>
+</div>

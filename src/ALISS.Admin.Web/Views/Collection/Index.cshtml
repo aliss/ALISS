@@ -1,0 +1,89 @@
+﻿@model ALISS.Business.ViewModels.Collection.CollectionListingViewModel
+@{
+	ViewBag.Title = "My Collections";
+	double pageCount = Math.Ceiling((double)Model.TotalCount / 10);
+}
+
+@using (Html.BeginForm("AddCollection", "Collection", FormMethod.Post, new { @class = "aliss-form" }))
+{
+	@Html.AntiForgeryToken()
+	<fieldset class="aliss-form__fieldset">
+		<legend class="aliss-form__legend">Creation of new Collection</legend>
+		<div class="aliss-form__group">
+			<label class="aliss-form__label" for="collection">Create new collection</label>
+			<div class="aliss-form__collections">
+				<input class="aliss-form__input" id="Name" name="Name" type="text" placeholder="Name of collection" autocomplete="off">
+				<button class="btn btn--primary aliss-form__collections-btn" type="submit">Add Collection</button>
+			</div>
+		</div>
+	</fieldset>
+}
+
+<div class="aliss-table-container">
+	<table class="aliss-table">
+		<thead class="aliss-table__head">
+			<tr class="aliss-table__row aliss-table__row--head">
+				<th class="aliss-table__header" scope="col">Name of collection</th>
+				<th class="aliss-table__header" scope="col" width="15%">Number of services</th>
+				<th class="aliss-table__header" scope="col">Actions</th>
+			</tr>
+		</thead>
+		<tbody class="aliss-table__body">
+			@foreach (var collection in Model.Collections)
+			{
+				<tr class="aliss-table__row aliss-table__row--body">
+					<td class="aliss-table__cell"><a href="/Collection/ViewCollection/@collection.CollectionId">@collection.Name</a></td>
+					<td class="aliss-table__cell">@collection.ServiceCount</td>
+					<td class="aliss-table__cell">
+						<ul class="aliss-icon-list aliss-icon-list--inline">
+							<li class="aliss-icon-list__item aliss-icon-list__item--email">
+								<a href="/Collection/EmailCollection/@collection.CollectionId">
+									Email <span class="hide">@collection.Name</span> collection
+								</a>
+							</li>
+							@if (collection.CanDelete)
+							{
+								<li class="aliss-icon-list__item aliss-icon-list__item--trash red">
+									<a href="/Collection/DeleteCollection/@collection.CollectionId">
+										Delete <span class="hide">@collection.Name</span> collection
+									</a>
+								</li>
+							}
+						</ul>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@*
+	// Replace with Pagination Component
+*@
+<div class="aliss-pagination-component">
+	<div class="aliss-pagination-component__wrapper">
+		<div class="aliss-pagination-component__wrapper__item">
+			<p>Showing page <span>@Model.Page</span> of <span>@pageCount</span></p>
+		</div>
+		<div class="aliss-pagination-component__wrapper__item">
+			<nav>
+				<ol>
+					@if (Model.Page > 1)
+					{
+						<li>
+							<a href="/Collection/Index?page=@(Model.Page - 1)" class="aliss-pagination-previous">Previous</a>
+						</li>
+					}
+					@if (Model.Page < pageCount)
+					{
+						<li>
+							<a href="/Collection/Index?page=@(Model.Page + 1)" class="aliss-pagination-next">
+								Next
+							</a>
+						</li>
+					}
+				</ol>
+			</nav>
+		</div>
+	</div>
+</div>

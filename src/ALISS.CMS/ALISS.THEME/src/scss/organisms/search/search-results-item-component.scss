@@ -1,0 +1,56 @@
+/** @format */
+
+.aliss-component-master-item {
+	position: relative;
+	a {
+		text-decoration: none;
+	}
+	&__contents {
+		p {
+			&:not(:last-of-type) {
+				margin: rem-calc(0 0 5);
+			}
+			margin: rem-calc(0);
+		}
+		&__primary-link {
+			display: inline-block;
+			margin: rem-calc(20 0 0);
+			@include aliss-a-hover();
+		}
+		&--claim-organisation {
+			margin: rem-calc(20 0 0);
+			h3,
+			p {
+				margin: rem-calc(0 0 20);
+			}
+		}
+		&--claim-service {
+			margin: rem-calc(20 0 0);
+			h3,
+			p {
+				margin: rem-calc(0 0 20);
+			}
+		}
+	}
+	&__links {
+		margin: rem-calc(20 0 0);
+		ul {
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			@include media('>=tablet') {
+				flex-direction: row;
+			}
+			li {
+				flex: 0 1 auto;
+				@include media('<=tablet') {
+					width: 100%;
+				}
+				@include media('>tablet') {
+					width: 49%;
+				}
+			}
+		}
+	}
+}
