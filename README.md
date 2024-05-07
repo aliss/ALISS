@@ -1,6 +1,6 @@
 # ALISS
 
-> ALISS - A Local Information System for Scotland and Connecting you to your Community
+> ALISS (A Local Information System for Scotland) is a service to help you find help and support close to you when you need it most.
 
 ## JS Plugin
 
