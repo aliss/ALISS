@@ -54,10 +54,10 @@ These steps assume that you have the above packages installed.
 15. Build the entire solution
 16. Open the Umbraco backoffice by browsing to `http://cms.aliss.local/umbraco` Username: `admin@admin.com` Password: `1234567890` (please change this)
 17. Customise the content and configuration as you desire
-18. Browse to the admin site at `http://admin.aliss.local` Username: `admin@admin.com` Password: `1234567890` (please change this)
+18. Browse to the admin site at `http://admin.aliss.local` Username: `admin` Password: `Changem3` (please change this)
 19. Go to the `Accessibility Features`, `What`, `Who`, and `Service Areas` pages under `Lookups` in the navigation
 20. In each of these pages, edit and save (no need to make a change) one item from each page, which will build the corresponding index (you can add and change these as you see fit)
-21. Go to the `ElasticSearch Management` page and rebuild the Organisation and Services indexes
+21. Go to the `ElasticSearch Management` page and rebuild the Organisation and Services indexes (this will generate empty indexes)
 22. Test the API is working by browsing to `http://api.aliss.local/swagger`
 23. Go to the public site at `http://cms.aliss.local`
 
